@@ -181,7 +181,7 @@ export class ProfileHead extends Component {
             <div>
                 <Parallax strength={500} className="profile__parallax" bgStyle={{ position: 'relative' }}>
                     <Background>
-                        <ImgCover width='100%' height='510px' borderRadius='2px' fileName={this.props.banner || '13e1fc2f-0484-42ef-a61f-75f4b5b20a37.jpeg'} />
+                        <ImgCover width='100%' height='510px' borderRadius='2px' fileName={this.props.banner || "a955488e-4a78-4bfb-8e8d-e0eb345386cd.jpeg"} />
                     </Background>
 
                 </Parallax>

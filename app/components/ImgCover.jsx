@@ -153,6 +153,7 @@ export class ImgCover extends Component {
             <div>Image has not loaded</div>
           </div>
         </div>
+         <img onLoad={this.handleLoadImage} src={this.props.avatarURL[fileName] || ''} style={{ display: 'none'}} />
       </div>
     )
   }
