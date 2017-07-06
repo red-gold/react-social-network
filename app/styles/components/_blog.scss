@@ -1,0 +1,11 @@
+.blog{
+  margin: 0 auto;
+  width: 90%;
+}
+
+.blog__right-list{
+     
+        @media (min-width: 993px) {
+          margin-left: 2%;
+        }
+}

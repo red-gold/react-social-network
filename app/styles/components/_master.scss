@@ -1,0 +1,39 @@
+.master__progress {
+  position: fixed;
+  top: 0;
+  top: 56px;
+  z-index: 1501;
+  width: 100%;
+}
+
+.master__loading {
+  position: fixed;
+  top: 67px;
+  z-index: 1501;
+  width: 100%;
+  justify-content: center;
+  div.title {
+    color: rgb(255, 255, 255);
+    font-size: 11px;
+    text-align: center;
+    font-weight: 500;
+    white-space: nowrap;
+    -webkit-flex-shrink: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #db4437;
+    padding: 7px;
+    border-radius: 40px;
+  }
+}
+
+.master__message {
+  position: fixed;
+  top: 5;
+  left: 0;
+  text-align: center;
+  z-index: 1001;
+  width: 100%;
+}

@@ -1,0 +1,11 @@
+.home__main{
+  background-color: #eeeeee;
+  transition: margin-left .4s;
+
+  @media screen and (max-width: 750px){
+      margin-left: 0!important;
+      margin-right: 0!important;
+    
+  }
+
+}

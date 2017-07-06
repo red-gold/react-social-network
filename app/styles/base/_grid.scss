@@ -1,0 +1,143 @@
+
+.grid {
+  display: flex;
+  flex-flow: row; 
+  flex-wrap: wrap;
+}
+
+
+$gutter: 1em;
+.grid__gutters {
+  margin-left: -$gutter;
+  .grid-cell {
+    padding-left: $gutter;
+  }
+    
+}
+
+/* Justify per row*/
+.grid__right {
+  justify-content: flex-end;
+}
+.grid__left{
+  justify-content: flex-start;
+}
+.grid__center {
+  justify-content: center;
+}
+.grid__space-around{
+  justify-content: space-around;
+}
+
+ 
+/* Alignment per row */
+.grid__top {
+  align-items: flex-start;
+}
+.grid__bottom {
+  align-items: flex-end;
+}
+.grid__center {
+  align-items: center;
+}
+
+/* Alignment per cell */
+.grid-cell__top {
+  align-self: flex-start;
+}
+.grid-cell__bottom {
+  align-self: flex-end;
+}
+.grid-cell__center {
+  align-self: center;
+}
+
+
+.grid__fit > .grid-cell {
+  flex: 1;
+}
+.grid__full > .grid-cell {
+  flex: 0 0 100%;
+}
+
+
+@media (min-width:400px) {
+  .grid__cols-2 > .grid-cell,
+  .grid__cols-3 > .grid-cell,
+  .grid__cols-4 > .grid-cell,
+  .grid__cols-6 > .grid-cell,
+  .grid__cols-12 > .grid-cell{
+    flex: 1;  
+  }
+
+  .grid__1of2 > .grid-cell {
+    flex: 1;
+  }
+  .grid__1of6 > .grid-cell {
+    flex: 0 0 16.6666%;
+  }
+  .grid__1of4 > .grid-cell {
+    flex: 0 0 calc(48.6666% - 1em);
+  }
+  .grid__1of3 > .grid-cell {
+    flex: 0 0 30%;
+  }
+
+}
+
+
+@media (min-width:600px) {
+  .grid__cols-2 > .grid-cell,
+  .grid__cols-3 > .grid-cell,
+  .grid__cols-4 > .grid-cell,
+  .grid__cols-6 > .grid-cell,
+  .grid__cols-12 > .grid-cell{
+    flex: 1;  
+  }
+
+  .grid__1of2 > .grid-cell {
+    flex: 1;
+  }
+  .grid__1of6 > .grid-cell {
+    flex: 0 0 16.6666%;
+  }
+  .grid__1of4 > .grid-cell {
+    flex: 0 0 calc(48.6666% - 1em);
+  }
+  .grid__1of3 > .grid-cell {
+    flex: 0 0 30%;
+  }
+
+}
+
+@media (min-width:1000px) {
+  .grid__cols-2 > .grid-cell,
+  .grid__cols-3 > .grid-cell,
+  .grid__cols-4 > .grid-cell,
+  .grid__cols-6 > .grid-cell,
+  .grid__cols-12 > .grid-cell{
+    flex: 1;  
+  }
+
+  .grid__1of2 > .grid-cell {
+    flex: 0 0 50%;
+     flex-grow: 1;
+  }
+  .grid__1of6 > .grid-cell {
+    flex: 0 0 16.6666%;
+  }
+  .grid__1of4 > .grid-cell {
+    flex: 0 0 calc(24.33333% - 1em);
+            flex-grow: 1;
+  }
+  .grid__1of3 > .grid-cell {
+    flex: 0 0 30%;
+  }
+
+}
+
+
+@mixin justify-flex($pos){
+    display: flex;
+    justify-content: $pos;
+}

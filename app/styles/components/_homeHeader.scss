@@ -1,0 +1,134 @@
+.homeHeader__page {
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding-left: 24px;
+  margin-left: 24px;
+  line-height: 32px;
+  font-weight: 500;
+  font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  -webkit-font-smoothing: antialiased;
+  color: white;
+}
+
+.homeHeader__right {
+  padding-left: 30px;
+  padding-right: 30px;
+  position: relative;
+  margin-left: -24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.homeHeader__left {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.homeHeader__notify {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #ff1717;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  height: 20px;
+  cursor: pointer;
+  width: 21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  div.title {
+    color: white;
+    font-size: 10px;
+    font-weight: 100;
+    white-space: nowrap;
+    -webkit-flex-shrink: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.homeHeader__notify-menu {
+  background-color: #eee !important;
+  background: #e5e5e5 !important;
+  border: 1px solid #ccc !important;
+  color: #000 !important;
+  min-width: 376px !important;
+  width: 376px !important;
+  height: 380px !important;
+  display: block !important;
+  outline: none !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .2) !important;
+  div.container {
+    padding: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    div.title {
+      display: flex;
+      justify-content: center;
+      color: rgba(102, 102, 102, 0.57);
+      font-size: 26px;
+      font-weight: 500;
+      width: 100%;
+    }
+    div.content {
+      width: 100%;
+      height: 100%;
+      padding: 10px 0px;
+      div.item {
+        width: 100%;
+        height: 68px;
+        background-color: white;
+        margin-bottom: 10px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        display: flex;
+        padding: 10px;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+        div.avatar {}
+        div.info {
+          margin-left: 10px;
+          height: 100%;
+          width: 100%;
+          overflow: hidden;
+          div.user-name {
+            color: rgba(0, 0, 0, 0.77);
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+            -webkit-flex-shrink: 1;
+            flex-shrink: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          div.description {
+            color: rgba(0, 0, 0, 0.54);
+            font-size: 14px;
+            font-weight: 200;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+        div.close {
+          position: absolute;
+          right: 17px;
+          top: 3px;
+          height: 10px;
+          width: 10px;
+        }
+      }
+    }
+  }
+}
