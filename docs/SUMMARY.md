@@ -5,11 +5,11 @@
 
 ## Layers
 
-* [App](app.md)
-  * [Components](components.md)
-  * [API](api.md)
-  * [Actions](actions.md)
-  * [Reducers](reducers.md)
-  * [Store](store.md)
-  * [Constants](constants.md)
-  * [Tests](tests.md)
+* [App](layers/app.md)
+  * [Components](layers/components.md)
+  * [API](layers/api.md)
+  * [Actions](layers/actions.md)
+  * [Reducers](layers/reducers.md)
+  * [Store](layers/store.md)
+  * [Constants](layers/constants.md)
+  * [Tests](layers/tests.md)
