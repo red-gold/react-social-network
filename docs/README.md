@@ -3,10 +3,16 @@ The React Social Network is an open source project relying on [React](https://fa
 
 Since I started building this project I've planned to have a back end for this project so I haven't focused on performance until I build the back end and move some data procedure from end to back end. Therefore I need to change data structure and actions for [Redux](http://redux.js.org/).
 
- ## DEMO
+## DEMO
+
   [Green Open Social](http://greensocial.herokuapp.com)
 
- ## Features
+## Document
+
+  [React Social Document](qolzam.gitbooks.io/react-social-network)
+
+## Features
+
   * [React](https://facebook.github.io/react/docs/hello-world.html) A javascript library for building user interfaces.
   * [Redux](http://redux.js.org/) is a predictable state container for JavaScript apps.
   * [Material-UI](http://www.material-ui.com/#/) A Set of React Components that Implement Google's Material Design.
@@ -18,7 +24,8 @@ Since I started building this project I've planned to have a back end for this p
   * [Sass](http://sass-lang.com/) CSS with superpowers. Sass boasts more features and abilities than any other CSS extension language out there.
   * [Webpack](https://webpack.js.org/) for bundling code
 
-## In my todo list :
+## In my todo list:
+
   * Documentation
   * Testing
   * Security issues
@@ -32,10 +39,12 @@ Since I started building this project I've planned to have a back end for this p
     ...
 
 
- # Prerequisites
+# Prerequisites
+
  Install [NodeJs](https://nodejs.org/en/)
 
- # Installing
+# Installing
+
  1. Installing all nodejs modules:
   `npm install`
  2. Rub webpack to build bundle file
@@ -57,7 +66,8 @@ Since I started building this project I've planned to have a back end for this p
 
   - For example you should add `HOST_URL=http://localhost:3000` in `config/development.env` for development environment  and then add `HOST_URL=http://hostname.com` in `config/production.env` for production environment
 
- # Warning
+# Warning
+
  - If you're using Windows you should install all node-gyp dependencies with following commands:
 
 `$ npm install --global --production windows-build-tools`
@@ -66,8 +76,11 @@ and then install the package
 `$ npm install --global node-gyp`
 
  # Authors
+
   - Amir Movahedi
 
- #License
+# License
+
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
 # react-social-network
