@@ -11,7 +11,7 @@ Since I started building this project I've planned to have a back end for this p
   * [Redux](http://redux.js.org/) is a predictable state container for JavaScript apps.
   * [Material-UI](http://www.material-ui.com/#/) A Set of React Components that Implement Google's Material Design.
   * [react-redux](https://github.com/reactjs/react-redux) Official React bindings for Redux.
-  * [Firebase](https://firebase.google.com/) Firebase products like Analytics, Realtime Database, Messaging, and Crash Reporting let you move quickly and focus on your users.
+  * [Firebase](https://firebase.google.com/) products like Analytics, Realtime Database, Messaging, and Crash Reporting let you move quickly and focus on your users.
   * [redux-thunk](https://github.com/gaearon/redux-thunk) Redux Thunk middleware allows you to write action creators that return a function instead of an action. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met. The inner function receives the store methods dispatch and getState as parameters.
   * [Express](https://expressjs.com/) Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
   * [React Router V4](https://github.com/ReactTraining/react-router) for routing website location
