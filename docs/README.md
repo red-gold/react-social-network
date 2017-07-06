@@ -3,10 +3,10 @@ The React Social Network is an open source project relying on [React](https://fa
 
 Since I started building this project I've planned to have a back end for this project so I haven't focused on performance until I build the back end and move some data procedure from end to back end. Therefore I need to change data structure and actions for [Redux](http://redux.js.org/).
 
- ##DEMO
+ ## DEMO
   [Green Open Social](http://greensocial.herokuapp.com)
 
- ##Features
+ ## Features
   * [React](https://facebook.github.io/react/docs/hello-world.html) A javascript library for building user interfaces.
   * [Redux](http://redux.js.org/) is a predictable state container for JavaScript apps.
   * [Material-UI](http://www.material-ui.com/#/) A Set of React Components that Implement Google's Material Design.
@@ -32,7 +32,7 @@ Since I started building this project I've planned to have a back end for this p
     ...
 
 
- #Prerequisites
+ # Prerequisites
  Install [NodeJs](https://nodejs.org/en/)
 
  # Installing
@@ -57,7 +57,7 @@ Since I started building this project I've planned to have a back end for this p
 
   - For example you should add `HOST_URL=http://localhost:3000` in `config/development.env` for development environment  and then add `HOST_URL=http://hostname.com` in `config/production.env` for production environment
 
- #Warning
+ # Warning
  - If you're using Windows you should install all node-gyp dependencies with following commands:
 
 `$ npm install --global --production windows-build-tools`
@@ -65,7 +65,7 @@ and then install the package
 
 `$ npm install --global node-gyp`
 
- #Authors
+ # Authors
   - Amir Movahedi
 
  #License
