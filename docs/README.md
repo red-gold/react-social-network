@@ -9,7 +9,7 @@ Since I started building this project I've planned to have a back end for this p
 
 ## Document
 
-  [React Social Document](qolzam.gitbooks.io/react-social-network)
+  [React Social Network Document](qolzam.gitbooks.io/react-social-network)
 
 ## Features
 
