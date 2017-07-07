@@ -24,7 +24,7 @@ Since I started building this project I've planned to have a back end for this p
   * [Sass](http://sass-lang.com/) CSS with superpowers. Sass boasts more features and abilities than any other CSS extension language out there.
   * [Webpack](https://webpack.js.org/) for bundling code
 
-## In my todo list:
+## In my todo list
 
   * Documentation
   * Testing
@@ -54,17 +54,15 @@ Since I started building this project I've planned to have a back end for this p
  4. Configure firebase:
     - Get [firebase config](https://firebase.google.com/docs/web/setup)
     - Create a folder in root folder `react-blog` set the name `config` => `>react-blog\config`
-    - Create two files in `>react-blog\config` set their name `development.env` and `test.env` => `>react-blog\config\development.env` and `>react-blog\config\test.env`
+    - Create three files in `>react-blog\config` set their name `development.env` , `test.env` and `production.env` => `>react-blog\config\development.env` and `>react-blog\config\test.env`
     - Inside the files, you should write some keys of firebase configuration (each file is depend on the environment you work in `NODE_ENV`. If you set `NODE_ENV=development` your project will use from `development.env` to config firebase but if you set it `NODE_ENV=test` it will use `test.env` in test environment):
 
-      > API_KEY=<API_KEY> <br/>
-      > AUTH_DOMAIN=<PROJECT_ID>.firebaseapp.com<br/>
-      > DATABASE_URL=https://<DATABASE_NAME>.firebaseio.com<br/>
-      > PROJECT_ID=<PROJECT_ID><br/>
-      > STORAGE_BUCKET=<BUCKET>.appspot.com<br/>
-      > MESSAGING_SENDER_ID=<SENDER_ID>HOST_URL<br/>
-
-  - For example you should add `HOST_URL=http://localhost:3000` in `config/development.env` for development environment  and then add `HOST_URL=http://hostname.com` in `config/production.env` for production environment
+      > API_KEY=[API_KEY] <br/>
+      > AUTH_DOMAIN=[PROJECT_ID].firebaseapp.com<br/>
+      > DATABASE_URL=https://[DATABASE_NAME].firebaseio.com<br/>
+      > PROJECT_ID=[PROJECT_ID]<br/>
+      > STORAGE_BUCKET=[BUCKET].appspot.com<br/>
+      > MESSAGING_SENDER_ID=[SENDER_ID]HOST_URL<br/>
 
 # Warning
 
