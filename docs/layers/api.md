@@ -1,3 +1,3 @@
 # API
 
-> Looks like we need to write this part.
+Is a decoupled layer of interfaces to data and/or functionality of one or more components.
