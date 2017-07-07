@@ -1,3 +1,3 @@
 # Components
 
-> Looks like we need to write this part.
+This layer is include [React components](https://facebook.github.io/react/docs/react-component.html) that let you split the UI into independent, reusable pieces, and think about each piece in isolation.
