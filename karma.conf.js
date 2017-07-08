@@ -3,6 +3,7 @@ var webpackConfig = require('./webpack.config.js');
 module.exports = function (config) {
   config.set({
     browsers: ['Chrome'],
+    browserNoActivityTimeout: 100000,
     singleRun: true,
     frameworks: ['mocha'],
     files: [

@@ -22,6 +22,7 @@ export var authorizeReducer = (state = defaultState, action) =>{
   switch (action.type) {
     case types.LOGIN:
       return{
+        ...state,
         uid: action.uid,
         authed: true,
         guest:false
