@@ -1,4 +1,15 @@
- # React Social Network
+<!-- Logo -->
+<p align="center">
+  <a href="https://github.com/Qolzam/react-social-network">
+    <img height="128" width="128" src="https://github.com/Qolzam/react-social-network/master/docs/app/logo.png">
+  </a>
+</p>
+
+<!-- Name -->
+<h1 align="center">
+  <a href="https://github.com/Qolzam/react-social-network/">React Social Network</a>
+</h1>
+
 The React Social Network is an open source project relying on [React](https://facebook.github.io/react/docs/hello-world.html) a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network.
 
 Since I started building this project I've planned to have a back end for this project so I haven't focused on performance until I build the back end and move some data procedure from end to back end. Therefore I need to change data structure and actions for [Redux](http://redux.js.org/).
