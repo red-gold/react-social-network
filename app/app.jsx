@@ -15,19 +15,14 @@ import { ConnectedRouter } from 'react-router-redux'
 import Master from 'Master'
 
 // - Impport actions
-import * as authorizeActions from 'authorizeActions'
-import * as globalActions from 'globalActions'
-import * as userActions from 'userActions'
 
 // Set default data
 store.subscribe(() => {
-  var state = store.getState();
-
-});
+})
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin();
+injectTapEventPlugin()
 
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
@@ -35,22 +30,22 @@ injectTapEventPlugin();
 const muiTheme = getMuiTheme({
 
 
-});
+})
 
 
 
 // App css
-require('applicationStyles');
+require('applicationStyles')
 const supportsHistory = 'pushState' in window.history
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-        <Master />
-      </MuiThemeProvider>
+	<Provider store={store}>
+		<ConnectedRouter history={history}>
+			<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+				<Master />
+			</MuiThemeProvider>
 
-    </ConnectedRouter>
-  </Provider>,
-  document.getElementById('app')
-);
+		</ConnectedRouter>
+	</Provider>,
+	document.getElementById('app')
+)
