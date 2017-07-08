@@ -41,7 +41,7 @@ When adding new features or modifying existing code, please attempt to include t
 
 ### Branch Structure
 
-All stable releases are tagged ([view tags](https://github.com/Qolzam/react-social-nework/tags)). At any given time, `master` represents the latest development version of the library.
+All stable releases are tagged ([view tags](https://github.com/Qolzam/react-social-network/tags)). At any given time, `master` represents the latest development version of the library.
 
 #### `master` is unsafe
 
