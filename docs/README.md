@@ -27,7 +27,7 @@ I recommend that you get to know React before using React Social Network. React 
 
 ## Document
 
-  Use [Documentation](https://qolzam.gitbooks.io/react-social-network/) to findout more details about this project.
+  Use [Documentation](https://qolzam.gitbooks.io/react-social-network/) to find out more details about this project.
 
 ## Features
 
