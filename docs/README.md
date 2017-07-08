@@ -93,7 +93,7 @@ and then install the package
 
 ## Contribute
 
-[React Social Network](http://greensocial.herokuapp.com/) has made by love. I planed to build a back-end for this project and improve the perfomance as I process all procedures on the fron-end side. If you'd like to help,
+[React Social Network](http://greensocial.herokuapp.com/) has been made by love. I planed to build a back-end for this project and improve the perfomance as I process all procedures on the fron-end side. If you'd like to help,
 check out the [document](https://qolzam.gitbooks.io/react-social-network/).
 I'd greatly appreciate any [contribution](https://github.com/Qolzam/react-social-network/blob/master/CONTRIBUTING.md)
 you make. :)
