@@ -3,6 +3,9 @@ The React Social Network is an open source project relying on [React](https://fa
 
 Since I started building this project I've planned to have a back end for this project so I haven't focused on performance until I build the back end and move some data procedure from end to back end. Therefore I need to change data structure and actions for [Redux](http://redux.js.org/).
 
+This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md).
+By participating, you are expected to uphold this code. Please report unacceptable behavior to amir.gholzam@live.com.
+
 ## DEMO
 
   [Green Open Social](http://greensocial.herokuapp.com)
