@@ -19,7 +19,7 @@ For code issues please include:
 * A code example or link to a repo, gist or running site.
 
 For visual or layout problems, images or animated gifs can help explain your issue.
-It's even better with a live reproduction test case. Have a look at the [`ISSUE_TEMPLATE.md`](https://raw.githubusercontent.com/Qolzam/react-socail-network/master/.github/ISSUE_TEMPLATE.md) file for a live playground example.
+It's even better with a live reproduction test case. Have a look at the [`ISSUE_TEMPLATE.md`](https://github.com/Qolzam/react-social-network/blob/master/.github/ISSUE_TEMPLATE.md) file for a live playground example.
 
 ### Issue Guidelines
 
