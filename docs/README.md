@@ -19,9 +19,15 @@ By participating, you are expected to uphold this code. Please report unacceptab
 
   [Green Open Social](http://greensocial.herokuapp.com)
 
+## Required Knowledge
+
+I recommend that you get to know React before using React Social Network. React Social Network has built by React components, so understanding how React fits into web development is important.
+
+(If you're not familiar with the concept of Single Page Applications (SPAs), head over to the [here](https://www.codeschool.com/beginners-guide-to-web-development/single-page-applications) for a quick introduction before you read on.
+
 ## Document
 
-  [React Social Network Document](https://qolzam.gitbooks.io/react-social-network/)
+  Use [Documentation](https://qolzam.gitbooks.io/react-social-network/) to findout more details about this project.
 
 ## Features
 
@@ -84,6 +90,13 @@ By participating, you are expected to uphold this code. Please report unacceptab
 and then install the package
 
 `$ npm install --global node-gyp`
+
+## Contribute
+
+[React Social Network](http://greensocial.herokuapp.com/) has made by love. I planed to build a back-end for this project and improve the perfomance as I process all procedures on the fron-end side. If you'd like to help,
+check out the [document](https://qolzam.gitbooks.io/react-social-network/).
+I'd greatly appreciate any [contribution](https://github.com/Qolzam/react-social-network/blob/master/CONTRIBUTING.md)
+you make. :)
 
  # Authors
 
