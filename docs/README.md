@@ -1,13 +1,13 @@
 <!-- Logo -->
 <p align="center">
   <a href="https://github.com/Qolzam/react-social-network">
-    <img height="128" width="128" src="https://github.com/Qolzam/react-social-network/master/docs/app/logo.png">
+    <img height="128" width="128" src="https://github.com/Qolzam/react-social-network/blob/master/docs/app/logo.png">
   </a>
 </p>
 
 <!-- Name -->
 <h1 align="center">
-  <a href="https://github.com/Qolzam/react-social-network/">React Social Network</a>
+  <a href="https://github.com/Qolzam/react-social-network">React Social Network</a>
 </h1>
 
 The React Social Network is an open source project relying on [React](https://facebook.github.io/react/docs/hello-world.html) a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network.
