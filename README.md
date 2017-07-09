@@ -63,7 +63,10 @@ I recommend that you get to know React before using React Social Network. React 
 
 # Installing
 
-> You need to configure firbase first before starting other steps. We are using firebase storage to store files, firebase database to store user information and firebase authorization to authorize user with email and password.
+ 1. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
+ 2. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
+
+  > You need to configure firbase first before starting other steps. We are using firebase storage to store files, firebase database to store user information and firebase authorization to authorize user with email and password.
  1. Configure firebase:
     - Get [firebase config](https://firebase.google.com/docs/web/setup)
     - Create a folder in root folder `react-blog` set the name `config` => `>react-blog\config`
