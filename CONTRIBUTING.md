@@ -63,7 +63,6 @@ git remote add upstream git@github.com:Qolzam/react-social-network.git
 git checkout master
 git pull upstream master
 git checkout -b my-topic-branch
-npm update
 ```
 
 ### Testing the documentation site
