@@ -69,8 +69,8 @@ I recommend that you get to know React before using React Social Network. React 
   > You need to configure firbase first before starting other steps. We are using firebase storage to store files, firebase database to store user information and firebase authorization to authorize user with email and password.
  3. Configure firebase:
     - Get [firebase config](https://firebase.google.com/docs/web/setup)
-    - Create a folder in root folder `react-blog` set the name `config` => `>react-blog\config`
-    - Create three files in `>react-blog\config` set their name `development.env` , `test.env` and `production.env` => `>react-blog\config\development.env` and `>react-blog\config\test.env`
+    - Create a folder in root folder `react-social-network` set the name `config` => `>react-social-network\config`
+    - Create three files in `>react-social-network\config` set their name `development.env` , `test.env` and `production.env` => `>react-social-network\config\development.env` and `>react-social-network\config\test.env`
     - Inside the files, you should write some keys of firebase configuration (each file is depend on the environment you work in `NODE_ENV`. If you set `NODE_ENV=development` your project will use from [development.env](https://github.com/Qolzam/react-social-network/blob/master/docs/app/configure/development.env) to config firebase but if you set it `NODE_ENV=test` it will use `test.env` in test environment):
 
       > API_KEY=[API_KEY] <br/>
