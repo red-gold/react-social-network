@@ -63,8 +63,11 @@ I recommend that you get to know React before using React Social Network. React 
 
 # Installing
 
-> You need to configure firbase first before starting other steps. We are using firebase storage to store files, firebase database to store user information and firebase authorization to authorize user with email and password.
- 1. Configure firebase:
+ 1. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
+ 2. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
+
+  > You need to configure firbase first before starting other steps. We are using firebase storage to store files, firebase database to store user information and firebase authorization to authorize user with email and password.
+ 3. Configure firebase:
     - Get [firebase config](https://firebase.google.com/docs/web/setup)
     - Create a folder in root folder `react-blog` set the name `config` => `>react-blog\config`
     - Create three files in `>react-blog\config` set their name `development.env` , `test.env` and `production.env` => `>react-blog\config\development.env` and `>react-blog\config\test.env`
@@ -77,13 +80,13 @@ I recommend that you get to know React before using React Social Network. React 
       > STORAGE_BUCKET=[BUCKET].appspot.com<br/>
       > MESSAGING_SENDER_ID=[SENDER_ID]HOST_URL<br/>
 
-  2. [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
+ 4. [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
     - In the Firebase console, open the Auth section.
     - On the Sign in method tab, enable the Email/password sign-in method and click Save.
 
- 3. Installing all nodejs modules:
+ 5. Installing all nodejs modules:
   `npm install`
- 4. Rub webpack to build bundle file
+ 6. Rub webpack to build bundle file
   `webpack`
  5. Running server:
   `node server.js`
