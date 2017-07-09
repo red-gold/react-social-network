@@ -151,10 +151,10 @@ export const dbUploadImage = (file, fileName) => {
  * @param {string} fileName 
  */
 export const dbDownloadImage = (fileName) => {
-  if (fileName == 'noImage')
-    return
-  return (dispatch, getState) => {
 
+  return (dispatch, getState) => {
+    if (fileName == 'noImage')
+      return {}
     if (getState().imageGallery.imageURLList[fileName] && fileName !== '')
       return
 
