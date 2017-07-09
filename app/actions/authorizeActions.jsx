@@ -51,7 +51,8 @@ export var dbSignup = (user) => {
     dispatch(globalActions.showNotificationRequest())
     return firebaseAuth().createUserWithEmailAndPassword(user.email, user.password).then((signupResult) => {
       firebaseRef.child(`users/${signupResult.uid}/info`).set({
-        ...user
+        ...user,
+        avatar:'noImage'
       }).then((result) => {
 
         dispatch(globalActions.showNotificationSuccess())

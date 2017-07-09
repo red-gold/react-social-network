@@ -1,5 +1,5 @@
 // - Import react components
-import {firebaseRef} from 'app/firebase/'
+import { firebaseRef } from 'app/firebase/'
 
 // - Import action types
 import * as types from 'actionTypes'
@@ -24,8 +24,14 @@ export const dbGetUserInfo = () => {
 
       return userInfoRef.once('value').then((snapshot) => {
         var userInfo = snapshot.val() || {};
-        dispatch(addUserInfo(uid,userInfo))
-      },error => console.log(error));
+        dispatch(addUserInfo(uid, {
+          avatar: userInfo.avatar,
+          email: userInfo.email,
+          fullName: userInfo.fullName,
+          banner: userInfo.banner,
+          tagLine: userInfo.tagLine
+        }))
+      }, error => console.log(error));
 
     }
   }
@@ -35,24 +41,30 @@ export const dbGetUserInfo = () => {
  *  Get user info from database
  * @param {string} uid 
  */
-export const dbGetUserInfoByUserId = (uid,sw) => {
+export const dbGetUserInfoByUserId = (uid, sw) => {
   return (dispatch, getState) => {
     if (uid) {
       var userInfoRef = firebaseRef.child(`users/${uid}/info`);
 
       return userInfoRef.once('value').then((snapshot) => {
         var userInfo = snapshot.val() || {};
-        dispatch(addUserInfo(uid,userInfo))
+        dispatch(addUserInfo(uid, {
+          avatar: userInfo.avatar,
+          email: userInfo.email,
+          fullName: userInfo.fullName,
+          banner: userInfo.banner,
+          tagLine: userInfo.tagLine
+        }))
         switch (sw) {
           case 'header':
-        dispatch(globalActions.setHeaderTitle(userInfo.fullName))
-            
+            dispatch(globalActions.setHeaderTitle(userInfo.fullName))
+
             break;
-        
+
           default:
             break;
         }
-      },error => console.log(error));
+      }, error => console.log(error));
 
     }
   }
@@ -63,30 +75,30 @@ export const dbGetUserInfoByUserId = (uid,sw) => {
  * @param {object} newInfo 
  */
 export const dbUpdateUserInfo = (newInfo) => {
-    return (dispatch,getState) => {
+  return (dispatch, getState) => {
 
-  // Get current user id
+    // Get current user id
     var uid = getState().authorize.uid
 
     // Write the new data simultaneously in the list
     let updates = {};
     let info = getState().user.info[uid]
     let updatedInfo = {
-          avatar: newInfo.avatar || info.avatar || '',
-          banner:newInfo.banner || info.banner || '',
-          email: newInfo.email || info.email || '',
-          fullName: newInfo.fullName || info.fullName || '',
-          tagLine: newInfo.tagLine || info.tagLine || ''
+      avatar: newInfo.avatar || info.avatar || '',
+      banner: newInfo.banner || info.banner || '',
+      email: newInfo.email || info.email || '',
+      fullName: newInfo.fullName || info.fullName || '',
+      tagLine: newInfo.tagLine || info.tagLine || ''
     }
     updates[`users/${uid}/info`] = updatedInfo
     return firebaseRef.update(updates).then((result) => {
-    
-      dispatch(updateUserInfo(uid,updatedInfo))
+
+      dispatch(updateUserInfo(uid, updatedInfo))
       dispatch(closeEditProfile())
     }, (error) => {
       dispatch(globalActions.showErrorMessage(error.message))
     })
-    }
+  }
 
 }
 
@@ -100,16 +112,22 @@ export const dbGetPeopleInfo = () => {
       return peopleRef.once('value').then((snapshot) => {
         let people = snapshot.val() || {};
 
-         let parsedPeople = {};
-         Object.keys(people).forEach((userId) => {
-          if(userId !== uid){
-           parsedPeople[userId]={
-            ...people[userId].info
-           }}
+        let parsedPeople = {};
+        Object.keys(people).forEach((userId) => {
+          if (userId !== uid) {
+            let userInfo = people[userId].info
+            parsedPeople[userId] = {
+              avatar: userInfo.avatar,
+              email: userInfo.email,
+              fullName: userInfo.fullName,
+              banner: userInfo.banner,
+              tagLine: userInfo.tagLine
+            }
+          }
 
-         })
+        })
         dispatch(addPeopleInfo(parsedPeople))
-      },error => console.log(error));
+      }, error => console.log(error));
 
     }
   }
@@ -123,10 +141,10 @@ export const dbGetPeopleInfo = () => {
  * @param {string} uid is the user identifier
  * @param {object} info is the information about user
  */
-export const addUserInfo = (uid,info) => {
-  return{
+export const addUserInfo = (uid, info) => {
+  return {
     type: types.ADD_USER_INFO,
-    payload: {uid,info}
+    payload: { uid, info }
   }
 }
 
@@ -135,7 +153,7 @@ export const addUserInfo = (uid,info) => {
  * @param {[object]} infoList is the lst of information about users
  */
 export const addPeopleInfo = (infoList) => {
-  return{
+  return {
     type: types.ADD_PEOPLE_INFO,
     payload: infoList
   }
@@ -146,11 +164,11 @@ export const addPeopleInfo = (infoList) => {
  * @param {string} uid is the user identifier
  * @param {object} info is the information about user
  */
-  export const updateUserInfo = (uid,info) => {
-    return{
-      type: types.UPDATE_USER_INFO,
-      payload: {uid,info}
-    }
+export const updateUserInfo = (uid, info) => {
+  return {
+    type: types.UPDATE_USER_INFO,
+    payload: { uid, info }
+  }
 }
 
 /**
@@ -158,7 +176,7 @@ export const addPeopleInfo = (infoList) => {
  * @param {object} info 
  */
 export const userInfo = (info) => {
-  return{
+  return {
     type: types.USER_INFO,
     info
   }
@@ -175,7 +193,7 @@ export const clearAllData = () => {
  * Open edit profile
  */
 export const openEditProfile = () => {
-  return{
+  return {
     type: types.OPEN_EDIT_PROFILE
   }
 
@@ -185,7 +203,7 @@ export const openEditProfile = () => {
  * Close edit profile
  */
 export const closeEditProfile = () => {
-  return{
+  return {
     type: types.CLOSE_EDIT_PROFILE
   }
 
