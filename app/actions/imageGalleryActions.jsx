@@ -125,7 +125,7 @@ export const dbUploadImage = (file, fileName) => {
 
     // Upload file
     var task = storegeFile.put(file)
-      dispatch(globalActions.showTopLoading())      
+    dispatch(globalActions.showTopLoading())
 
     // Upload storage bar
     task.on('state_changed', (snapshot) => {
@@ -135,13 +135,13 @@ export const dbUploadImage = (file, fileName) => {
 
     }, (error) => {
       dispatch(globalActions.showErrorMessage(error.code))
-      dispatch(globalActions.hideTopLoading())      
-      
+      dispatch(globalActions.hideTopLoading())
+
     }, (complete) => {
       dispatch(globalActions.progressChange(100, false))
       dispatch(dbSaveImage(fileName))
-      dispatch(globalActions.hideTopLoading())      
-      
+      dispatch(globalActions.hideTopLoading())
+
     })
   }
 }
@@ -151,12 +151,14 @@ export const dbUploadImage = (file, fileName) => {
  * @param {string} fileName 
  */
 export const dbDownloadImage = (fileName) => {
+  if (fileName == 'noImage')
+    return
   return (dispatch, getState) => {
 
     if (getState().imageGallery.imageURLList[fileName] && fileName !== '')
       return
-    
-    if(getState().imageGallery.imageRequests.indexOf(fileName) > -1)
+
+    if (getState().imageGallery.imageRequests.indexOf(fileName) > -1)
       return
     dispatch(sendImageRequest(fileName))
 
@@ -166,7 +168,7 @@ export const dbDownloadImage = (fileName) => {
     // Get the download URL
     starsRef.getDownloadURL().then((url) => {
       // Insert url into an <img> tag to "download"
-       if (!getState().imageGallery.imageURLList[fileName] || fileName === '')
+      if (!getState().imageGallery.imageURLList[fileName] || fileName === '')
         dispatch(setImageURL(fileName, url))
     }).catch((error) => {
 
