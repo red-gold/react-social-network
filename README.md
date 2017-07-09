@@ -77,7 +77,7 @@ I recommend that you get to know React before using React Social Network. React 
       > STORAGE_BUCKET=[BUCKET].appspot.com<br/>
       > MESSAGING_SENDER_ID=[SENDER_ID]HOST_URL<br/>
 
-  2. [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
+ 2. [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
     - In the Firebase console, open the Auth section.
     - On the Sign in method tab, enable the Email/password sign-in method and click Save.
 
