@@ -63,6 +63,8 @@ I recommend that you get to know React before using React Social Network. React 
 
 # Installing
 
+[![Build social network in 5 minutes](https://img.youtube.com/vi/E12PNKKjzqA/0.jpg)](https://www.youtube.com/watch?v=E12PNKKjzqA)
+
  1. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
  2. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
 
