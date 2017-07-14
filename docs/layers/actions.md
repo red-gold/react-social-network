@@ -6,6 +6,7 @@ This layer is responsible for implementing actions for entities. [Actions](http:
 
 We provide some actions to authorize a user. The authorize actions include singup, login, logout and update password for a user.
 
+#### Functions
 ```jsx
 dbLogin = (email, password) => {}
 ```
