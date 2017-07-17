@@ -17,3 +17,11 @@ getFollowingUsers = (circles) => {}
 ```
 
 Get the user who are in circles. `circles` is the paramater that we get users from.
+
+## FileAPI.jsx
+
+A set of functions for working with files.
+
+## PostAPI.jsx
+
+A set of functions for working with user posts.
