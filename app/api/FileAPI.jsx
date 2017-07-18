@@ -67,24 +67,6 @@ const constraintImage = (file,fileName, maxWidth, maxHeight) => {
     }
 }
 
-// - Delete file from storage
-const deleteFile = (folderName, fileName, callBackSuccess, callBackError) => {
-
-  // Create a reference to the file to delete
-  var desertRef = storageRef.child(`${folderName}/${filename}`);
-
-  // Delete the file
-  desertRef.delete().then(function () {
-    // File deleted successfully
-    callBackSuccess()
-    console.log('File has been deleted successfully');
-  }).catch(function (error) {
-    // Uh-oh, an error occurred!
-    callBackError(error)
-    console.log(error);
-  });
-
-}
 
 /**
  * Convert data URL to blob
@@ -115,73 +97,10 @@ const dataURLToBlob = (dataURL) => {
     return new Blob([uInt8Array], {type: contentType})
 }
 
-// - Upload file
-const uploadFile = (file, folderName, fileName, progressCallBack, errorCallBack, completeCallBack) => {
-
-  // Create a storage refrence
-  var storegeFile = storageRef.child(folderName + '/' + fileName)
-
-  // Upload file
-  var task = storegeFile.put(file)
-
-  // Upload storage bar
-  task.on('state_changed', (snapshot) => {
-    var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-    progressCallBack(percentage)
-    // Set uploader progress value
-
-  }, (error) => {
-    errorCallBack(error)
-  }, (complete) => {
-    completeCallBack(complete)
-  })
-}
-
-const downloadFile = (folderName, fileName, callBack) => {
-  // Create a reference to the file we want to download
-  var starsRef = storageRef.child(`${folderName}/${fileName}`);
-
-
-  // Get the download URL
-  starsRef.getDownloadURL().then((url) => {
-    // Insert url into an <img> tag to "download"
-    callBack(url)
-  }).catch((error) => {
-
-    // A full list of error codes is available at
-    // https://firebase.google.com/docs/storage/web/handle-errors
-    switch (error.code) {
-      case 'storage/object_not_found':
-        // File doesn't exist
-        console.log('storage/object_not_found');
-        break;
-
-      case 'storage/unauthorized':
-        // User doesn't have permission to access the object
-        console.log('storage/unauthorized');
-        break;
-
-      case 'storage/canceled':
-        // User canceled the upload
-        console.log('storage/canceled');
-        break;
-
-      case 'storage/unknown':
-        // Unknown error occurred, inspect the server response
-        console.log('storage/unknown');
-        break;
-    }
-  });
-
-}
-
 
 
 export default {
-  downloadFile,
-  uploadFile,
   dataURLToBlob,
-  deleteFile,
   convertImageToCanvas,
   getExtension,
   constraintImage

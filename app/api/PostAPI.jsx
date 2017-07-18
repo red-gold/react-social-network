@@ -16,7 +16,7 @@ export const getContentTags = (content) => {
   return newTags
 }
 
-export const sortObjectsDate = function (objects) {
+export const sortObjectsDate = (objects) => {
     var sortedObjects = objects;
 
      // Sort posts with creation date
