@@ -90,7 +90,7 @@ export var dbAddFollowingUser = (cid, userFollowing) => {
 
 
 /**
- * Add a user in a circle
+ * Delete a user from a circle
  * @param {string} cid is circle identifier 
  * @param {string} followingId following user identifier
  */

@@ -7,12 +7,10 @@ import {createLogger} from 'redux-logger';
 
 // - Import reducers
 import {imageGalleryReducer} from 'imageGalleryReducer'
-import {imageUploaderReducer} from 'imageUploaderReducer'
 import {postReducer} from 'postReducer'
 import {commentReducer} from 'commentReducer'
 import {voteReducer} from 'voteReducer'
 import {authorizeReducer} from 'authorizeReducer'
-import {fileReducer} from 'fileReducer'
 import {globalReducer} from 'globalReducer'
 import {userReducer} from 'userReducer'
 import {circleReducer} from 'circleReducer'
@@ -28,14 +26,12 @@ const logger = createLogger()
 // - Reducers
 var reducer = redux.combineReducers({
   imageGallery: imageGalleryReducer,
-  imageUploader: imageUploaderReducer,
   post: postReducer,
   circle: circleReducer,
   comment: commentReducer,
   vote: voteReducer,
   authorize: authorizeReducer,
   router: routerReducer,
-  file: fileReducer,
   user: userReducer,
   notify:notifyReducer,
   global: globalReducer
