@@ -65,7 +65,7 @@ git pull upstream master
 git checkout -b my-topic-branch
 ```
 
-### Testing the documentation site
+### Testing & documentation site
 
 The documentation site is built with [GitBook](https://www.gitbook.com/book/qolzam/react-social-network/details), so you just need to edit `*.md` files. You can easily edit whole documentation files form `docs` folder.
 
