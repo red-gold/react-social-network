@@ -68,7 +68,7 @@ export const globalReducer = (state = defaultState, action) => {
     case types.SHOW_NORMAL_MESSAGE_GLOBAL:
       return {
         ...state,
-        message: action.payload.message,
+        message: action.payload,
         messageOpen: true
       }
     case types.SHOW_SEND_REQUEST_MESSAGE_GLOBAL:
