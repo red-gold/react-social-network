@@ -15,7 +15,7 @@ The React Social Network is an open source project relying on [React](https://fa
 
 <p align="center">
   <a href="http://greensocial.herokuapp.com/">
-    <img height="128" width="128" src="https://raw.githubusercontent.com/Qolzam/react-social-network/master/docs/app/multi-device.png">
+    <img src="https://raw.githubusercontent.com/Qolzam/react-social-network/master/docs/app/multi-device.png">
   </a>
 </p>
 
