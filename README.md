@@ -13,6 +13,12 @@
 
 The React Social Network is an open source project relying on [React](https://facebook.github.io/react/docs/hello-world.html) a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network.
 
+<p align="center">
+  <a href="http://greensocial.herokuapp.com/">
+    <img src="https://raw.githubusercontent.com/Qolzam/react-social-network/master/docs/app/multi-device.png">
+  </a>
+</p>
+
 Since I started building this project I've planned to have a back end for this project so I haven't focused on performance until I build the back end and move some data procedure from end to back end. Therefore I need to change data structure and actions for [Redux](http://redux.js.org/).
 
 >You should consult the [CHANGELOG](https://github.com/Qolzam/react-social-network/blob/master/CHANGELOG.md) and related issues for more information
