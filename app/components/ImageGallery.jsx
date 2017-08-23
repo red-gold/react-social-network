@@ -112,9 +112,6 @@ export class ImageGallery extends Component {
 
   imageList = () => {
 
-    console.log('====================================');
-    console.log(this.props.images);
-    console.log('====================================');
   return  this.props.images.map((image, index) => {
 
       return (<GridTile

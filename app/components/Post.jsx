@@ -290,8 +290,6 @@ static propTypes = {
    * @param  {event} evt  is the event passed by click on read more
    */
   handleReadMore(evt) {
-
-
     this.setState({
       readMoreState: !this.state.readMoreState
 
