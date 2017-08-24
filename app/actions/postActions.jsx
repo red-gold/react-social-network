@@ -85,6 +85,7 @@ export var dbAddPost = (newPost,callBack) => {
             tags: newPost.tags || [],
             commentCounter: 0,
             image: newPost.image || '',
+            imageFullPath: newPost.imageFullPath || '',
             video:'',
             disableComments: newPost.disableComments ? newPost.disableComments : false,
             disableSharing: newPost.disableSharing ? newPost.disableSharing : false,

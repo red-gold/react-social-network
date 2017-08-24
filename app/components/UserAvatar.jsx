@@ -51,46 +51,21 @@ export class ImgCover extends Component {
     }
 
     // Binding functions to `this`
-    this.getImageURL = this.getImageURL.bind(this)
 
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { fileName, avatarURL } = this.props
-    if (fileName && !avatarURL[fileName]) {
-      if (this.props.imageRequests.indexOf(fileName) > -1)
-        return
-      this.getImageURL()
-    }
-  }
 
-  getImageURL = () => {
-    let { fileName } = this.props
-    if (fileName && fileName !== '') {
-      if (this.props.imageRequests.indexOf(fileName) > -1)
-        return
-      this.props.getImage(fileName)
 
-    }
-  }
-
-  componentWillMount() {
-    let { fileName } = this.props
-    
-    if (this.props.imageRequests.indexOf(fileName) > -1)
-      return
-    this.getImageURL()
-  }
 
   /**
    * Reneder component DOM
    * @return {react element} return the DOM which rendered by component
    */
   render() {
-    let { fileName, style, size, onTouchTap, avatarURL } = this.props
+    let { fileName, style, size, onTouchTap } = this.props
 
     return (
-      <Avatar src={avatarURL[fileName] || ''} size={size || 36} style={style} onTouchTap={onTouchTap} />
+      <Avatar src={fileName || ''} size={size || 36} style={style} onTouchTap={onTouchTap} />
 
     )
   }
@@ -106,8 +81,6 @@ export class ImgCover extends Component {
  */
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getImage: (name) => dispatch(imageGalleryActions.dbDownloadImage(name))
-
   }
 }
 

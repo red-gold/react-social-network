@@ -60,7 +60,6 @@ export class ImgCover extends Component {
     }
 
     // Binding functions to `this`
-    this.getImageURL = this.getImageURL.bind(this)
     this.handleLoadImage = this.handleLoadImage.bind(this)
   }
 
@@ -73,29 +72,6 @@ export class ImgCover extends Component {
     this.setState({
       isImageLoaded: true
     })
-  }
-
-  /**
-   * Get image url if it is not exist on redux store
-   * 
-   * @memberof Img
-   */
-  getImageURL = () => {
-    let { fileName } = this.props
-    if (fileName && fileName !== '') {
-      if (this.props.imageRequests.indexOf(fileName) > -1)
-        return
-      this.props.getImage(fileName)
-
-    }
-  }
-
-  componentWillMount() {
-    let { fileName } = this.props
-
-    if (this.props.imageRequests.indexOf(fileName) > -1)
-      return
-    this.getImageURL()
   }
 
   /**
@@ -112,7 +88,7 @@ export class ImgCover extends Component {
      */
     const styles = {
       cover: {
-        backgroundImage: 'url(' + (this.props.avatarURL[fileName] || '#') + ')',
+        backgroundImage: 'url(' + (fileName || '') + ')',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
@@ -153,7 +129,7 @@ export class ImgCover extends Component {
             <div>Image has not loaded</div>
           </div>
         </div>
-         <img onLoad={this.handleLoadImage} src={this.props.avatarURL[fileName] || ''} style={{ display: 'none'}} />
+         <img onLoad={this.handleLoadImage} src={fileName || ''} style={{ display: 'none'}} />
       </div>
     )
   }
@@ -169,8 +145,6 @@ export class ImgCover extends Component {
  */
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getImage: (name) => dispatch(imageGalleryActions.dbDownloadImage(name))
-
   }
 }
 

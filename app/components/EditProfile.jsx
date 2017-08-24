@@ -153,6 +153,9 @@ export class EditProfile extends Component {
     * Set banner image url
     */
     handleRequestSetBanner = (url) => {
+        console.log('==========Banner==================');
+        console.log(url);
+        console.log('====================================');
         this.setState({
             banner: url
         })
@@ -433,8 +436,7 @@ export class EditProfile extends Component {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         update: (info) => dispatch(userActions.dbUpdateUserInfo(info)),
-        onRequestClose: () => dispatch(userActions.closeEditProfile()),
-        getImage: (name) => dispatch(imageGalleryActions.dbDownloadImage(name))
+        onRequestClose: () => dispatch(userActions.closeEditProfile())
 
     }
 }

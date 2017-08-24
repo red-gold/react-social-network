@@ -62,17 +62,18 @@ export const downloadForImageGallery = () => {
 /* _____________ CRUD Database_____________ */
 
 /**
- * Save image in the server
- * @param  {string} imageName is the name of image
+ * Save image URL in the server
+ * @param  {string} imageURL is the URL of image
  */
-export const dbSaveImage = (imageName) => {
+export const dbSaveImage = (imageURL,imageFullPath) => {
   return (dispatch, getState) => {
 
     var uid = getState().authorize.uid
     var image = {
       creationDate: moment().unix(),
       deletationDate: '',
-      name: imageName,
+      URL: imageURL,
+      fullPath:imageFullPath,
       ownerUserId: uid,
       lastEditDate: '',
       deleted: false
@@ -93,7 +94,7 @@ export const dbSaveImage = (imageName) => {
  * Delete an image from database
  * @param  {string} id of image
  */
-export const dbDeleteImage = (id) => {
+export const dbDeleteImage = (fullPath) => {
   return (dispatch, getState) => {
 
     // Get current user id
@@ -101,11 +102,11 @@ export const dbDeleteImage = (id) => {
 
     // Write the new data simultaneously in the list
     var updates = {};
-    updates[`userFiles/${uid}/files/images/${id}`] = null;
+    updates[`userFiles/${uid}/files/${fullPath}`] = null;
 
     return firebaseRef.update(updates).then((result) => {
-      dispatch(deleteImage(id))
-      console.log('image removed: ', id);
+      dispatch(deleteImage(fullPath))
+      console.log('image removed: ', fullPath);
     }, (error) => {
       console.log(error);
     });

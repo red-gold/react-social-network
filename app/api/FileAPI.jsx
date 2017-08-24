@@ -20,6 +20,41 @@ const convertImageToCanvas = (image) => {
 }
 
 /**
+ * Upload image on the server
+ * @param {file} file 
+ * @param {string} fileName 
+ */
+const uploadImage = (file, fileName, progress) => {
+    
+        return new Promise((resolve, reject) => {
+            // Create a storage refrence
+            var storegeFile = storageRef.child(`images/${fileName}`)
+    
+            // Upload file
+            var task = storegeFile.put(file)
+            task.then((result) => {
+                resolve(result)
+            }).catch((error) => {
+                reject(error)
+            })
+    
+            // Upload storage bar
+            task.on('state_changed', (snapshot) => {
+                var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                progress(percentage, true)
+            }, (error) => {
+                console.log('========== Upload Image ============')
+                console.log(error)
+                console.log('====================================')
+    
+            }, (complete) => {
+                progress(100, false)
+            })
+        })
+    
+    }
+
+/**
  * Constraint image size
  * @param {file} file 
  * @param {number} maxWidth 
@@ -103,6 +138,7 @@ export default {
   dataURLToBlob,
   convertImageToCanvas,
   getExtension,
-  constraintImage
+  constraintImage,
+  uploadImage
 
 }

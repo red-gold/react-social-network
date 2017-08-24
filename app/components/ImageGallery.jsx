@@ -17,7 +17,6 @@ import uuid from 'uuid'
 
 // - Import actions
 import * as imageGalleryActions from 'imageGalleryActions'
-import * as fileActions from 'fileActions'
 import * as globalActions from 'globalActions'
 
 // - Import app components
@@ -59,8 +58,8 @@ export class ImageGallery extends Component {
    * @param  {event} evt  passed by on click event on add image
    * @param  {string} name is the name of the image
    */
-  handleSetImage = (evt, name) => {
-    this.props.set(name)
+  handleSetImage = (evt, URL,fullPath) => {
+    this.props.set(URL,fullPath)
     this.close()
   }
 
@@ -69,8 +68,8 @@ export class ImageGallery extends Component {
    * @param  {event} evt  passed by on click event on delete image
    * @param  {integer} id is the image identifier which selected to delete
    */
-  handleDeleteImage = (evt, id) => {
-    this.props.deleteImage(id)
+  handleDeleteImage = (evt, fullPath) => {
+    this.props.deleteImage(fullPath)
   }
 
   componentDidMount() {
@@ -87,9 +86,20 @@ export class ImageGallery extends Component {
    * @memberof ImageGallery
    */
   handleSendResizedImage = (event) => {
-    const { resizedImage, fileName } = event.detail
-    this.props.saveImage(resizedImage, fileName)
 
+    const { resizedImage, fileName } = event.detail
+    const {saveImageGallery} = this.props
+    
+    FileAPI.uploadImage(resizedImage, fileName, (percent, status) => {
+      console.log('============= Upload progress ===============');
+      console.log(percent);
+      console.log('====================================');
+    }).then((result) => {
+
+      /* Add image to image gallery */
+      saveImageGallery(result.downloadURL,result.metadata.fullPath)
+
+    })
   }
 
   /**
@@ -116,9 +126,9 @@ export class ImageGallery extends Component {
 
       return (<GridTile
         key={image.id}
-        title={<SvgDelete hoverColor={grey200} color="white" color="white" style={{ marginLeft: "5px", cursor: "pointer" }} onClick={evt => this.handleDeleteImage(evt, image.id)} />}
+        title={<SvgDelete hoverColor={grey200} color="white" color="white" style={{ marginLeft: "5px", cursor: "pointer" }} onClick={evt => this.handleDeleteImage(evt, image.fullPath)} />}
         subtitle={<span></span>}
-        actionIcon={<SvgAddImage hoverColor={grey200} color="white" style={{ marginRight: "5px", cursor: "pointer" }} onClick={evt => this.handleSetImage(evt, image.name)} />}
+        actionIcon={<SvgAddImage hoverColor={grey200} color="white" style={{ marginRight: "5px", cursor: "pointer" }} onClick={evt => this.handleSetImage(evt, image.URL,image.fullPath)} />}
       >
         <div>
           <div style={{ overflowY: "hidden", overflowX: "auto" }}>
@@ -126,7 +136,7 @@ export class ImageGallery extends Component {
               <div style={{ display: "block" }}>
                 <div style={{ display: "block", marginRight: "8px", transition: "transform .25s" }}>
                   <li style={{ width: "100%", margin: 0, verticalAlign: "bottom", position: "static", display: "inline-block" }}>
-                    <Img fileName={image.name} style={{ width: "100%", height: "auto" }} />
+                    <Img fileName={image.URL} style={{ width: "100%", height: "auto" }} />
 
                   </li>
                 </div>
@@ -214,12 +224,8 @@ export class ImageGallery extends Component {
  */
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    saveImage: (file, fileName) => {
-      dispatch(imageGalleryActions.dbUploadImage(file, fileName))
-    },
-    deleteImage: (id) => {
-      dispatch(imageGalleryActions.dbDeleteImage(id))
-    }
+    saveImageGallery: (imageURL,imageFullPath) => dispatch(imageGalleryActions.dbSaveImage(imageURL,imageFullPath)),
+    deleteImage: (fullPath) => dispatch(imageGalleryActions.dbDeleteImage(fullPath))
 
   }
 }

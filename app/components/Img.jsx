@@ -43,7 +43,6 @@ export class Img extends Component {
     }
 
     // Binding functions to `this`
-    this.getImageURL = this.getImageURL.bind(this)
     this.handleLoadImage = this.handleLoadImage.bind(this)
 
   }
@@ -57,29 +56,6 @@ export class Img extends Component {
     this.setState({
       isImageLoaded: true
     })
-  }
-
-  /**
-   * Get image url if it is not exist on redux store
-   * 
-   * @memberof Img
-   */
-  getImageURL = () => {
-    let { fileName } = this.props
-    if (fileName && fileName !== '') {
-      if (this.props.imageRequests.indexOf(fileName) > -1)
-        return
-      this.props.getImage(fileName)
-
-    }
-  }
-
-  componentWillMount() {
-    let { fileName } = this.props
-
-    if (this.props.imageRequests.indexOf(fileName) > -1)
-      return
-    this.getImageURL()
   }
 
   /**
@@ -114,7 +90,7 @@ export class Img extends Component {
     let { isImageLoaded } = this.state
     return (
       <div>
-        <img onLoad={this.handleLoadImage} src={this.props.avatarURL[fileName] || ''} style={isImageLoaded ? style : { display: 'none' }} />
+        <img onLoad={this.handleLoadImage} src={fileName || ''} style={isImageLoaded ? style : { display: 'none' }} />
         <div style={{ backgroundColor: 'blue' }} style={isImageLoaded ? { display: 'none' } : styles.loding}>
           <div style={styles.loadingContent}>
             <SvgImage style={styles.loadingImage} />
@@ -136,8 +112,7 @@ export class Img extends Component {
  */
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getImage: (name) => dispatch(imageGalleryActions.dbDownloadImage(name))
-
+   
   }
 }
 

@@ -82,9 +82,13 @@ export class PostWrite extends Component {
        */
       postText: this.props.edit ? this.props.text : '',
       /**
-       * The image of the post
+       * The URL image of the post
        */
       image: this.props.edit ? this.props.image : '',
+      /**
+       * The path identifier of image on the server
+       */
+      imageFullPath: this.props.edit ? this.props.imageFullPath : '',
       /**
        * If it's true gallery will be open
        */
@@ -116,31 +120,31 @@ export class PostWrite extends Component {
 
   }
 
-/**
- * Toggle comments of the post to disable/enable 
- * 
- * 
- * @memberof PostWrite
- */
-handleToggleComments = () => {
-  this.setState({
-    disableComments: !this.state.disableComments,
+  /**
+   * Toggle comments of the post to disable/enable 
+   * 
+   * 
+   * @memberof PostWrite
+   */
+  handleToggleComments = () => {
+    this.setState({
+      disableComments: !this.state.disableComments,
       disabledPost: false
-  })
-}
+    })
+  }
 
-/**
- * Toggle sharing of the post to disable/enable
- * 
- * 
- * @memberof PostWrite
- */
-handleToggleSharing = () => {
-  this.setState({
-    disableSharing: !this.state.disableSharing,
+  /**
+   * Toggle sharing of the post to disable/enable
+   * 
+   * 
+   * @memberof PostWrite
+   */
+  handleToggleSharing = () => {
+    this.setState({
+      disableSharing: !this.state.disableSharing,
       disabledPost: false
-  })
-}
+    })
+  }
 
   /**
    * Romove the image of post
@@ -151,6 +155,7 @@ handleToggleSharing = () => {
   handleRemoveImage = () => {
     this.setState({
       image: '',
+      imageFullPath: '',
       disabledPost: false
     })
   }
@@ -161,52 +166,71 @@ handleToggleSharing = () => {
    */
   handlePost = (evt) => {
 
-    var image = this.state.image
-    var tags = PostAPI.getContentTags(this.state.postText)
+    const {
+      image,
+      imageFullPath,
+      disableComments,
+      disableSharing,
+      postText } = this.state
+
+    const {
+      id,
+      avatar,
+      name,
+      edit,
+      onRequestClose,
+      post,
+      update } = this.props
+
+    var tags = PostAPI.getContentTags(postText)
 
     // In edit status we should fire update if not we should fire post function
-    if (!this.props.edit) {
+    if (!edit) {
       if (image !== '') {
-        this.props.post({
-          body: this.state.postText,
+        post({
+          body: postText,
           tags: tags,
           image: image,
-          avatar: this.props.avatar,
-          name: this.props.name,
-          disableComments: this.state.disableComments,
-          disableSharing: this.state.disableSharing
-        }, this.props.onRequestClose)
+          imageFullPath: imageFullPath,
+          avatar: avatar,
+          name: name,
+          disableComments: disableComments,
+          disableSharing: disableSharing
+        }, onRequestClose)
       }
       else {
-        this.props.post({
-          body: this.state.postText,
+        post({
+          body: postText,
           tags: tags,
-          avatar: this.props.avatar,
-          name: this.props.name,
-          disableComments: this.state.disableComments,
-          disableSharing: this.state.disableSharing
-        }, this.props.onRequestClose)
+          avatar: avatar,
+          name: name,
+          disableComments: disableComments,
+          disableSharing: disableSharing
+        }, onRequestClose)
       }
     }
+
     // In edit status we pass post to update functions
     else {
-      this.props.update({
-        id: this.props.id,
-        body: this.state.postText,
+      update({
+        id: id,
+        body: postText,
         tags: tags,
         image: image,
-        disableComments: this.state.disableComments,
-        disableSharing: this.state.disableSharing
-      }, this.props.onRequestClose)
+        imageFullPath: imageFullPath,
+        disableComments: disableComments,
+        disableSharing: disableSharing
+      }, onRequestClose)
     }
   }
 
   /**
    * Set post image url
    */
-  onRequestSetImage = (url) => {
+  onRequestSetImage = (url, fullPath) => {
     this.setState({
       image: url,
+      imageFullPath: fullPath,
       disabledPost: false
     })
   }
@@ -252,32 +276,32 @@ handleToggleSharing = () => {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.open){
+    if (!nextProps.open) {
       this.setState({
-      /**
-       * Post text
-       */
-      postText: this.props.edit ? this.props.text : '',
-      /**
-       * The image of the post
-       */
-      image: this.props.edit ? this.props.image : '',
-      /**
-       * If it's true gallery will be open
-       */
-      galleryOpen: false,
-      /**
-       * If it's true post button will be disabled
-       */
-      disabledPost: true,
-      /**
-       * If it's true comment will be disabled on post 
-       */
-      disableComments: this.props.edit ? this.props.disableComments : false,
-      /**
-       * If it's true share will be disabled on post 
-       */
-      disableSharing: this.props.edit ? this.props.disableSharing : false,
+        /**
+         * Post text
+         */
+        postText: this.props.edit ? this.props.text : '',
+        /**
+         * The image of the post
+         */
+        image: this.props.edit ? this.props.image : '',
+        /**
+         * If it's true gallery will be open
+         */
+        galleryOpen: false,
+        /**
+         * If it's true post button will be disabled
+         */
+        disabledPost: true,
+        /**
+         * If it's true comment will be disabled on post 
+         */
+        disableComments: this.props.edit ? this.props.disableComments : false,
+        /**
+         * If it's true share will be disabled on post 
+         */
+        disableSharing: this.props.edit ? this.props.disableSharing : false,
 
       })
     }
@@ -364,7 +388,7 @@ handleToggleSharing = () => {
       <div style={this.props.style}>
         {this.props.children}
         <Dialog
-          id= {this.props.id || 0}
+          id={this.props.id || 0}
           actions={writeActions}
           modal={false}
           open={this.props.open}
@@ -397,7 +421,7 @@ handleToggleSharing = () => {
                 hintStyle={{ fontWeight: 200, fontSize: "14px" }}
                 textareaStyle={{ fontWeight: 200, fontSize: "14px" }}
                 style={{ margin: "0 16px", flexShrink: 0, width: "initial", flexGrow: 1 }}
-                
+
               />
 
               {(this.state.image && this.state.image !== '')
@@ -462,7 +486,7 @@ handleToggleSharing = () => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     post: (post, callBack) => dispatch(postActions.dbAddImagePost(post, callBack)),
-    update: (post,callBack) => dispatch(postActions.dbUpdatePost(post, callBack))
+    update: (post, callBack) => dispatch(postActions.dbUpdatePost(post, callBack))
   }
 }
 
