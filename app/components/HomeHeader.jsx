@@ -231,6 +231,7 @@ export class HomeHeader extends Component {
             {/* User avatar*/}
             <UserAvatar
               onTouchTap={this.handleAvatarTouchTap}
+              fullName={this.props.fullName}
               fileName={this.props.avatar}
               size={32}
               style={styles.avatarStyle}
@@ -276,6 +277,7 @@ const mapStateToProps = (state, ownProps) => {
   : 0
   return {
     avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
+    fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : '',
     title: state.global.headerTitle,
     notifyCount
   }

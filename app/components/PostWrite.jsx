@@ -329,7 +329,7 @@ export class PostWrite extends Component {
         <MenuItem onClick={this.handleToggleSharing} style={{ fontSize: "14px" }}>{!this.state.disableSharing ? 'Disable sharing' : 'Enable sharing'}</MenuItem>
       </IconMenu>
     )
-    var postAvatar = <UserAvatar fileName={this.props.avatar} style={{ top: "8px" }} size={40} />
+    var postAvatar = <UserAvatar fullName={this.props.name} fileName={this.props.avatar} style={{ top: "8px" }} size={40} />
 
     var author = (
       <div>

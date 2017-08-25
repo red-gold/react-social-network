@@ -101,7 +101,7 @@ export class NotifyItem extends Component {
                             goTo(`/${notifierUserId}`)
                         }}
                     >
-                        <UserAvatar fileName={avatar} />
+                        <UserAvatar fullName={fullName} fileName={avatar} />
                     </NavLink>
                 </div>
                 <div className='info'>

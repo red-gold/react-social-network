@@ -142,9 +142,10 @@ static propTypes = {
         const {userInfo} = this.props
 
         const commentAvatar = userInfo && userInfo[comment.userId] ? userInfo[comment.userId].avatar || '' : ''
+        const commentFullName = userInfo && userInfo[comment.userId] ? userInfo[comment.userId].fullName || '' : ''
         
         return (<ListItem key={index} style={{ height: "60px", position: "", zIndex: "" }} innerDivStyle={{ padding: "6px 16px 16px 72px" }}
-          leftAvatar={<UserAvatar fileName={commentAvatar} style={{ top: "8px" }} size={36} />}
+          leftAvatar={<UserAvatar fullName={commentFullName} fileName={commentAvatar} style={{ top: "8px" }} size={36} />}
           secondaryText={<div style={{ height: "" }}>
             <span style={{
               fontSize: "13px",
@@ -209,7 +210,7 @@ static propTypes = {
         <Paper zDepth={0} className="animate2-top10" style={{ position: "relative", overflowY: "auto", padding: "12px 16px", display: (this.props.open ? "block" : "none") }}>
 
           <div style={{ display: "flex" }}>
-            <UserAvatar fileName={this.props.avatar} style={{ flex: "none", margin: "4px 0px" }} size={36} />
+            <UserAvatar fullName={this.props.fullName} fileName={this.props.avatar} style={{ flex: "none", margin: "4px 0px" }} size={36} />
             <div style={{ outline: "none", marginLeft: "16px", flex: "auto", flexGrow: 1 }}>
               <TextField
                 value={this.state.commentText}
@@ -261,6 +262,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     comments: state.comment.postComments[ownProps.postId],
     avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar || '' : '',
+    fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName || '' : '',
     userInfo: state.user.info 
 
   }

@@ -181,7 +181,8 @@ export class ProfileHead extends Component {
             <div>
                 <Parallax strength={500} className="profile__parallax" bgStyle={{ position: 'relative' }}>
                     <Background>
-                        <ImgCover width='100%' height='510px' borderRadius='2px' fileName={this.props.banner || "a955488e-4a78-4bfb-8e8d-e0eb345386cd.jpeg"} />
+                        <ImgCover width='100%' height='510px' borderRadius='2px' 
+                        fileName={this.props.banner || "https://firebasestorage.googleapis.com/v0/b/open-social-33d92.appspot.com/o/images%2F751145a1-9488-46fd-a97e-04018665a6d3.JPG?alt=media&token=1a1d5e21-5101-450e-9054-ea4a20e06c57"} />
                     </Background>
 
                 </Parallax>
@@ -192,7 +193,7 @@ export class ProfileHead extends Component {
                     />
                     <div className='left'>
                         {/* User avatar*/}
-                        <div style={{ display: 'flex', justifyContent: 'center' }}><UserAvatar fileName={this.props.avatar} size={60} style={styles.avatar} /></div>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}><UserAvatar fullName={this.props.fullName} fileName={this.props.avatar} size={60} style={styles.avatar} /></div>
                         <div className='info'>
                             <div className='fullName'>
                                 {this.props.fullName}

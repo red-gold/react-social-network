@@ -145,7 +145,7 @@ export class Circle extends Component {
           style={{backgroundColor: '#e2e2e2'}}
             value={2}
             primaryText={fullName}
-            leftAvatar={<UserAvatar fileName={avatar}/>}
+            leftAvatar={<UserAvatar fullName={fullName} fileName={avatar}/>}
             onClick={()=> this.props.goTo(`/${key}`)}
           />)
         

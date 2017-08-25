@@ -208,7 +208,7 @@ export class Blog extends Component {
 
                     <ListItem
                       primaryText={<span style={{ color: grey400, cursor: "text" }}> What's new with you? </span>}
-                      leftAvatar={<UserAvatar fileName={this.props.avatar} size={36} />}
+                      leftAvatar={<UserAvatar fullName={this.props.fullName} fileName={this.props.avatar} size={36} />}
                       rightIcon={<SvgCamera />}
                       style={{ padding: "7px 0px", fontWeight: "200" }}
                       onTouchTap={this.handleOpenPostWrite}
@@ -263,7 +263,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
-
+    fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : ''
   }
 }
 

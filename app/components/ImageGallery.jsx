@@ -68,8 +68,8 @@ export class ImageGallery extends Component {
    * @param  {event} evt  passed by on click event on delete image
    * @param  {integer} id is the image identifier which selected to delete
    */
-  handleDeleteImage = (evt, fullPath) => {
-    this.props.deleteImage(fullPath)
+  handleDeleteImage = (evt, id) => {
+    this.props.deleteImage(id)
   }
 
   componentDidMount() {
@@ -88,12 +88,10 @@ export class ImageGallery extends Component {
   handleSendResizedImage = (event) => {
 
     const { resizedImage, fileName } = event.detail
-    const {saveImageGallery} = this.props
-    
+    const {saveImageGallery, progressChange} = this.props
+
     FileAPI.uploadImage(resizedImage, fileName, (percent, status) => {
-      console.log('============= Upload progress ===============');
-      console.log(percent);
-      console.log('====================================');
+      progressChange(percent,status)
     }).then((result) => {
 
       /* Add image to image gallery */
@@ -126,7 +124,7 @@ export class ImageGallery extends Component {
 
       return (<GridTile
         key={image.id}
-        title={<SvgDelete hoverColor={grey200} color="white" color="white" style={{ marginLeft: "5px", cursor: "pointer" }} onClick={evt => this.handleDeleteImage(evt, image.fullPath)} />}
+        title={<SvgDelete hoverColor={grey200} color="white" color="white" style={{ marginLeft: "5px", cursor: "pointer" }} onClick={evt => this.handleDeleteImage(evt, image.id)} />}
         subtitle={<span></span>}
         actionIcon={<SvgAddImage hoverColor={grey200} color="white" style={{ marginRight: "5px", cursor: "pointer" }} onClick={evt => this.handleSetImage(evt, image.URL,image.fullPath)} />}
       >
@@ -225,7 +223,8 @@ export class ImageGallery extends Component {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     saveImageGallery: (imageURL,imageFullPath) => dispatch(imageGalleryActions.dbSaveImage(imageURL,imageFullPath)),
-    deleteImage: (fullPath) => dispatch(imageGalleryActions.dbDeleteImage(fullPath))
+    deleteImage: (id) => dispatch(imageGalleryActions.dbDeleteImage(id)),
+    progressChange : (percent,status) => dispatch(globalActions.progressChange(percent, status))
 
   }
 }

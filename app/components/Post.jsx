@@ -349,14 +349,14 @@ static propTypes = {
       </IconMenu>
     )
 
-    const {ownerUserId,setHomeTitle, goTo, ownerDisplayName,creationDate, avatar, isPostOwner,image, body} = this.props
+    const {ownerUserId,setHomeTitle, goTo, ownerDisplayName,creationDate, avatar, fullName, isPostOwner,image, body} = this.props
     // Define variables
     return (
       <Card>
         <CardHeader
           title={<NavLink to={`/${ownerUserId}`}>{ownerDisplayName}</NavLink>}
           subtitle={moment.unix(creationDate).fromNow() + " | public"}
-          avatar={<NavLink to={`/${ownerUserId}`}><UserAvatar fileName={avatar} size={36} /></NavLink>}
+          avatar={<NavLink to={`/${ownerUserId}`}><UserAvatar fullName={fullName} fileName={avatar} size={36} /></NavLink>}
         >
          {isPostOwner ? ( <div style={styles.rightIconMenu}><RightIconMenu /></div>) : ''}
         </CardHeader>
@@ -482,6 +482,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     avatar: state.user.info && state.user.info[ownProps.ownerUserId] ? state.user.info[ownProps.ownerUserId].avatar || '' : '',
+    fullName: state.user.info && state.user.info[ownProps.ownerUserId] ? state.user.info[ownProps.ownerUserId].fullName || '' : '',
     commentCount: state.comment.postComments[ownProps.id] ? Object.keys(state.comment.postComments[ownProps.id]).length : 0,
     voteCount: state.vote.postVotes[ownProps.id] ? Object.keys(state.vote.postVotes[ownProps.id]).length : 0,
     userVoteStatus: votes && Object.keys(votes).filter((key) => votes[key].userId === state.authorize.uid)[0] ? true : false,

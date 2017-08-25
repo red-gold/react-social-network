@@ -94,7 +94,7 @@ export const dbSaveImage = (imageURL,imageFullPath) => {
  * Delete an image from database
  * @param  {string} id of image
  */
-export const dbDeleteImage = (fullPath) => {
+export const dbDeleteImage = (id) => {
   return (dispatch, getState) => {
 
     // Get current user id
@@ -102,11 +102,11 @@ export const dbDeleteImage = (fullPath) => {
 
     // Write the new data simultaneously in the list
     var updates = {};
-    updates[`userFiles/${uid}/files/${fullPath}`] = null;
+    updates[`userFiles/${uid}/files/images/${id}`] = null;
 
     return firebaseRef.update(updates).then((result) => {
-      dispatch(deleteImage(fullPath))
-      console.log('image removed: ', fullPath);
+      dispatch(deleteImage(id))
+      console.log('image removed: ', id);
     }, (error) => {
       console.log(error);
     });

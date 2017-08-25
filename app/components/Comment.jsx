@@ -255,7 +255,7 @@ export class Comment extends Component {
       <div className="animate-top" style={styles.comment} key={comment.id}>
         <Paper zDepth={0} className="animate2-top10" style={{ position: "relative", padding: "", display: (!this.state.display ? "block" : "none") }}>
           <div style={{ marginLeft: "0px", padding: "16px 56px 0px 72px", position: "relative" }}>
-            <NavLink to={`/${userId}`}><UserAvatar fileName={this.props.avatar} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", position: "absolute", top: "8px", left: "16px" }} size={36} /></NavLink>
+            <NavLink to={`/${userId}`}><UserAvatar fullName={this.props.fullName} fileName={this.props.avatar} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", position: "absolute", top: "8px", left: "16px" }} size={36} /></NavLink>
            <NavLink to={`/${userId}`}> <Author /></NavLink>
             {(!this.props.isCommentOwner && !this.props.isPostOwner && this.props.disableComments )? '' : (<RightIconMenu />)}
             <div style={{ outline: "none", marginLeft: "16px", flex: "auto", flexGrow: 1 }}>
@@ -300,11 +300,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const mapStateToProps = (state, ownProps) => {
   const {uid} = state.authorize
   const avatar = state.user.info && state.user.info[ownProps.comment.userId] ? state.user.info[ownProps.comment.userId].avatar || '' : ''
+  const fullName = state.user.info && state.user.info[ownProps.comment.userId] ? state.user.info[ownProps.comment.userId].fullName || '' : ''
   return {
     uid: uid,
     isCommentOwner: (uid === ownProps.comment.userId),
     info: state.user.info,
-    avatar
+    avatar,
+    fullName
     
 
   }

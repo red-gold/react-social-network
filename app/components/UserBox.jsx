@@ -200,6 +200,7 @@ export class UserBox extends Component {
                 }}>
                     <div onClick={() => this.props.goTo(`/${this.props.userId}`)} style={{cursor:'pointer'}}>
                         <UserAvatar
+                            fullName={this.props.fullName}
                             fileName={this.props.avatar}
                             size={90}
                         />
@@ -285,7 +286,8 @@ const mapStateToProps = (state, ownProps) => {
         userBelongCircles: userBelongCircles || [],
         belongCirclesCount: userBelongCircles.length || 0,
         firstBelongCircle: userBelongCircles ? (circles ? circles[userBelongCircles[0]] : {}) : {},
-        avatar: state.user.info && state.user.info[ownProps.userId] ? state.user.info[ownProps.userId].avatar || '' : ''
+        avatar: state.user.info && state.user.info[ownProps.userId] ? state.user.info[ownProps.userId].avatar || '' : '',
+        fullName: state.user.info && state.user.info[ownProps.userId] ? state.user.info[ownProps.userId].fullName || '' : ''
     }
 }
 

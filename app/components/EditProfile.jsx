@@ -88,7 +88,7 @@ export class EditProfile extends Component {
             /**
              * User banner address
              */
-            banner: this.props.banner || '',
+            banner: this.props.banner || 'https://firebasestorage.googleapis.com/v0/b/open-social-33d92.appspot.com/o/images%2F751145a1-9488-46fd-a97e-04018665a6d3.JPG?alt=media&token=1a1d5e21-5101-450e-9054-ea4a20e06c57',
             /**
              * User avatar address
              */
@@ -348,7 +348,7 @@ export class EditProfile extends Component {
                                     <SvgCamera style={{ fill: 'rgba(255, 255, 255, 0.88)', transform: 'translate(6px, 6px)' }} />
 
                                 </div>
-                                <UserAvatar fileName={this.state.avatar} size={90} style={styles.avatar} />
+                                <UserAvatar fullName={(this.props.info ? this.props.info.fullName : '')} fileName={this.state.avatar} size={90} style={styles.avatar} />
                             </div>
                             <div className='info'>
                                 <div className='fullName'>

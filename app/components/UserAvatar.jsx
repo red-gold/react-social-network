@@ -16,7 +16,7 @@ import * as imageGalleryActions from 'imageGalleryActions'
 /**
  * Create component class
  */
-export class ImgCover extends Component {
+export class UserAvatar extends Component {
 
   static propTypes = {
 
@@ -24,6 +24,10 @@ export class ImgCover extends Component {
      * Use for getting url address from server
      */
     fileName: PropTypes.string.isRequired,
+    /**
+     * User full name
+     */
+    fullName: PropTypes.string.isRequired,
     /**
      * Avatar style
      */
@@ -62,11 +66,14 @@ export class ImgCover extends Component {
    * @return {react element} return the DOM which rendered by component
    */
   render() {
-    let { fileName, style, size, onTouchTap } = this.props
+    let { fileName, fullName, style, size, onTouchTap } = this.props
 
     return (
-      <Avatar src={fileName || ''} size={size || 36} style={style} onTouchTap={onTouchTap} />
-
+      <div style={{display: 'inherit'}}>
+       {(fileName && fileName !== '' && fileName !== 'noImage' ) 
+       ? ( <Avatar backgroundColor='#ffffff' src={fileName} size={size || 36} style={style} onTouchTap={onTouchTap} />)
+        : (<Avatar backgroundColor='#00bcd4' size={size || 36} style={style} onTouchTap={onTouchTap}>{fullName.slice(0, 1)}</Avatar>) }
+      </div>
     )
   }
 }
@@ -99,4 +106,4 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(ImgCover)
+export default connect(mapStateToProps, mapDispatchToProps)(UserAvatar)
