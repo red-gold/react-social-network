@@ -12,7 +12,8 @@ import FlatButton from 'material-ui/FlatButton'
 import *  as authorizeActions from 'authorizeActions'
 import * as globalActions from 'globalActions'
 
-
+// - Import app API
+import StringAPI from 'StringAPI'
 
 
 // - Create Signup componet class
@@ -93,47 +94,61 @@ export class Signup extends Component {
    */
   handleForm = () => {
 
+   const {fullNameInput, emailInput, passwordInput, confirmInput} = this.state
+   const {register} = this.props
+
     var error = false
-     if (this.state.fullNameInput === '') {
+    
+     // Validate full name
+     let fullNameCheck = fullNameInput.trim().toLowerCase()
+
+     if (fullNameCheck.indexOf('test') > -1
+      || fullNameCheck.indexOf('demo') > -1
+      || fullNameCheck.indexOf('asd') > -1
+      || fullNameCheck.length < 4) {
+      this.setState({
+        fullNameInputError: 'Please enter a valid name.'
+      })
+      error = true
+    }
+
+     /* Validate email*/
+     if (!StringAPI.isValidEmail(emailInput)) {
+      this.setState({
+        emailInputError: 'Please enter a valid email.'
+      })
+      error = true
+
+    }
+    
+    /* Check password */
+     if (passwordInput === '') {
        this.setState({
-         fullNameInputError: 'This field is required'
-       })
-       error = true
-     }
-     if (this.state.emailInput === '') {
-       this.setState({
-         emailInputError: 'This field is required'
+         passwordInputError: 'This field is required.'
        })
        error = true
 
      }
-     if (this.state.passwordInput === '') {
+     if (confirmInput === '') {
        this.setState({
-         passwordInputError: 'This field is required'
+         confirmInputError: 'This field is required.'
        })
        error = true
 
      }
-     if (this.state.confirmInput === '') {
+     else if(confirmInput !== passwordInput){
        this.setState({
-         confirmInputError: 'This field is required'
-       })
-       error = true
-
-     }
-     else if(this.state.confirmInput !== this.state.passwordInput){
-       this.setState({
-         passwordInputError: 'This field sould be equal to confirm password',
-         confirmInputError: 'This field sould be equal to password'
+         passwordInputError: 'This field sould be equal to confirm password.',
+         confirmInputError: 'This field sould be equal to password.'
        })
        error = true
 
      }
      if (!error) {
-       this.props.register({
-          email: this.state.emailInput,
-          password: this.state.passwordInput,
-          fullName: this.state.fullNameInput
+       register({
+          email: emailInput,
+          password: passwordInput,
+          fullName: fullNameInput
         })
      }
 
@@ -147,7 +162,6 @@ export class Signup extends Component {
     const paperStyle = {
   minHeight: 500,
   width: 450,
-  margin: 20,
   textAlign: 'center',
   display: 'block',
   margin: "auto"

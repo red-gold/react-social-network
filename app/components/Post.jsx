@@ -320,6 +320,9 @@ static propTypes = {
         fontSize: '12px',
         marginRight: '6px'
       },
+      postBody:{
+        wordWrap: "break-word"
+      },
       dialog: {
         width: '',
         maxWidth: '530px',
@@ -366,7 +369,7 @@ static propTypes = {
           </CardMedia>) : ''}
 
 
-        <CardText>
+        <CardText style={styles.postBody}>
           {reactStringReplace(body,/#(\w+)/g, (match, i) => (
           <NavLink 
           style={{color:'green'}} 
