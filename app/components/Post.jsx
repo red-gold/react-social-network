@@ -6,6 +6,10 @@ import { push } from 'react-router-redux'
 import PropTypes from 'prop-types'
 import moment from 'moment'
 import { createAction as action } from 'redux-actions'
+import Linkify from 'react-linkify'
+
+
+// - Material UI
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import SvgShare from 'material-ui/svg-icons/social/share'
@@ -370,21 +374,24 @@ static propTypes = {
 
 
         <CardText style={styles.postBody}>
-          {reactStringReplace(body,/#(\w+)/g, (match, i) => (
-          <NavLink 
-          style={{color:'green'}} 
-          key={match + i} 
-          to={`/tag/${match}`}
-          onClick ={evt => {
-            evt.preventDefault()
-            goTo(`/tag/${match}`)
-            setHomeTitle(`#${match}`)
-            }}
-          >
-          #{match}
-          </NavLink>
+          <Linkify properties={{target: '_blank', style: {color: 'blue'}}}>
+            {reactStringReplace(body,/#(\w+)/g, (match, i) => (
+            <NavLink 
+            style={{color:'green'}} 
+            key={match + i} 
+            to={`/tag/${match}`}
+            onClick ={evt => {
+              evt.preventDefault()
+              goTo(`/tag/${match}`)
+              setHomeTitle(`#${match}`)
+              }}
+            >
+            #{match}
+            
+            </NavLink>
 
-        ))}
+          ))}
+          </Linkify>
         </CardText>
         <CardActions>
           <div style={{ margin: "16px 8px", display: 'flex', justifyContent: 'space-between' }}>
