@@ -5,6 +5,10 @@ import { NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { createAction as action } from 'redux-actions'
 import moment from 'moment'
+import Linkify from 'react-linkify'
+
+
+// - Import material UI libraries
 import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Paper from 'material-ui/Paper'
@@ -260,7 +264,9 @@ export class Comment extends Component {
             {(!this.props.isCommentOwner && !this.props.isPostOwner && this.props.disableComments )? '' : (<RightIconMenu />)}
             <div style={{ outline: "none", marginLeft: "16px", flex: "auto", flexGrow: 1 }}>
               <textarea ref={this.textareaRef} className="animate2-top10" style={{ fontWeight: 100, fontSize: "14px", border: "none", width: "100%", outline: "none", resize: "none", display: (this.props.comment.editorStatus ? 'block' : 'none') }} onChange={this.handleOnChange} value={this.state.text}></textarea>
+              <Linkify properties={{target: '_blank', style: {color: 'blue'}}}>
               <div ref={this.divCommentRef} className="animate2-top10" style={{ fontWeight: 100, fontSize: "14px", height: "100%", border: "none", width: "100%", outline: "none", resize: "none", display: (!this.props.comment.editorStatus ? 'block' : 'none') }}>{this.state.text}</div>
+              </Linkify>
             </div>
           </div>
           <div style={{ display: (this.props.comment.editorStatus ? "flex" : "none"), flexDirection: "row-reverse" }}>
