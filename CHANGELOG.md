@@ -1,5 +1,21 @@
 # Change Log
 
+## [Unreleased](https://github.com/Qolzam/react-social-network/tree/HEAD)
+
+[Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.2...HEAD)
+
+**Implemented enhancements:**
+
+- Upgrade to react version 16 [\#14](https://github.com/Qolzam/react-social-network/issues/14)
+
+## [v0.2](https://github.com/Qolzam/react-social-network/tree/v0.2) (2017-10-06)
+[Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.1...v0.2)
+
+**Merged pull requests:**
+
+- Update CONTRIBUTING.md [\#2](https://github.com/Qolzam/react-social-network/pull/2) ([sinaamini92](https://github.com/sinaamini92))
+- Add a Gitter chat badge to README.md [\#1](https://github.com/Qolzam/react-social-network/pull/1) ([gitter-badger](https://github.com/gitter-badger))
+
 ## [v0.1](https://github.com/Qolzam/react-social-network/tree/v0.1) (2017-07-08)
 
 
