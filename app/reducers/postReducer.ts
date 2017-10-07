@@ -2,34 +2,58 @@
 var uuid = require('uuid');
 import moment from 'moment'
 import _ from 'lodash'
+import {Reducer, Action} from "redux";
+
 
 // - Import action types
-import * as types from 'actionTypes'
+import { postActionType } from "constants/postActionType";
 
 /* ---------------- */
 
 
+// - Import react components
+
 /**
- * Default State
+ * Default post state
+ * 
+ * @export
+ * @interface IPostState
  */
-var defaultState = {
-  userPosts: {},
-  loaded: false
+export interface IPostState  {
+  userPosts: any,
+  loaded: boolean
 }
 
+/**
+ * 
+ * 
+ * @export
+ * @interface postState
+ */
+export interface IPostAction  {
+  payload: any,
+  type: postActionType
+
+}
+
+export class defaultPostState implements IPostState{
+  userPosts: any = {};
+  loaded: boolean = false;
+
+}
 
 /**
  * Post reducer
  * @param {object} state 
  * @param {object} action 
  */
-export var postReducer = (state = defaultState, action) => {
+export var postReducer = (state : IPostState = new defaultPostState(), action : IPostAction) => {
   const { payload } = action
   switch (action.type) {
-    case types.CLEAR_ALL_DATA_POST:
-      return defaultState
+    case postActionType.CLEAR_ALL_DATA_POST:
+      return new defaultPostState()
 
-    case types.ADD_IMAGE_POST:
+    case postActionType.ADD_IMAGE_POST:
       return {
         ...state,
         userPosts: {
@@ -41,7 +65,7 @@ export var postReducer = (state = defaultState, action) => {
         }
       }
 
-    case types.ADD_POST:
+    case postActionType.ADD_POST:
       return {
         ...state,
         userPosts: {
@@ -53,7 +77,7 @@ export var postReducer = (state = defaultState, action) => {
         }
       }
 
-    case types.UPDATE_POST:
+    case postActionType.UPDATE_POST:
       return {
         ...state,
         userPosts: {
@@ -68,7 +92,7 @@ export var postReducer = (state = defaultState, action) => {
         }
       }
 
-    case types.DELETE_POST:
+    case postActionType.DELETE_POST:
       let filteredPosts = {}
       Object.keys(state.userPosts[payload.uid]).map((key) => {
         if (key !== payload.id) {
@@ -84,7 +108,7 @@ export var postReducer = (state = defaultState, action) => {
           }
         }
       }
-    case types.ADD_LIST_POST:
+    case postActionType.ADD_LIST_POST:
       return {
         ...state,
         userPosts: {

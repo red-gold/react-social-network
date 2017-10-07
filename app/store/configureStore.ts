@@ -50,3 +50,4 @@ var store : redux.Store<{}>  = redux.createStore(reducer, initialState, redux.co
 ))
 
 export default store
+

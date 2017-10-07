@@ -82,10 +82,11 @@ module.exports = {
       app: 'app',
       components: 'app/components',
       reducers: 'app/reducers',
+      constants: 'app/constants',
       db: 'app/db',
       store: 'app/store',
       applicationStyles: 'app/styles/app.scss',
-      actions: 'app/actions/actions.jsx',
+      actions: 'app/actions',
       actionTypes: 'app/constants/actionTypes.jsx',
       configureStore: 'app/store/configureStore.jsx'
 
