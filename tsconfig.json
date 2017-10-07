@@ -1,0 +1,26 @@
+{
+
+    "compilerOptions": {
+    "module": "es6", // use ES2015 modules
+    "target": "es6", // compile to ES2015 (Babel will do the rest)
+    "allowSyntheticDefaultImports": true, // see below
+    "baseUrl": "./app", // enables you to import relative to this folder
+    "paths": {
+      "angular2/*": ["../path/to/angular2/*"],
+      "local/*": ["../path/to/local/modules/*"]
+    },
+    "sourceMap": true, // make TypeScript generate sourcemaps
+    "outDir": "public", // output directory to build to (irrelevant because we use Webpack most of the time)
+    "jsx": "preserve", // enable JSX mode, but "preserve" tells TypeScript to not transform it (we'll use Babel)
+    "strict": true,
+    "moduleResolution": "node",
+    "allowJs": true
+    
+  },
+  "include":[
+    "app/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

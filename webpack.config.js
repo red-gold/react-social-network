@@ -13,9 +13,14 @@ try {
 
 }
 
+var babelOptions = {
+  plugins: ['transform-decorators-legacy'],
+  presets: ['react', 'env', 'stage-0']
+};
+
 module.exports = {
   entry: [
-    './app/app.jsx'
+    './app/app.tsx'
   ],
   externals: {
     jquery: 'jQuery'
@@ -75,57 +80,77 @@ module.exports = {
     ],
     alias: {
       app: 'app',
+      components: 'app/components',
+      db: 'app/db',
+      store: 'app/store',
       applicationStyles: 'app/styles/app.scss',
       actions: 'app/actions/actions.jsx',
       actionTypes: 'app/constants/actionTypes.jsx',
       configureStore: 'app/store/configureStore.jsx'
 
     },
-    extensions: [' ', '.scss', '.js', '.jsx']
+    extensions: [' ', '.scss', ".ts", ".tsx", ".js", ".json", '.jsx']
   },
   module: {
-    rules: [{
-      test: /\.jsx$/,
-      exclude: /(node_modules|bower_components)/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          plugins: ['transform-decorators-legacy'],
-          presets: ['react', 'env', 'stage-0']
+    rules: [
+      {
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: babelOptions
+          },
+          {
+            loader: 'ts-loader',
+            options: { transpileOnly: true }
+          }
+        ]
+      },
+      {
+        enforce: "pre",
+        test: /\.js$/,
+        loader: "source-map-loader"
+      },
+      {
+        test: /\.jsx$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: babelOptions
         }
+      },
+      {
+        test: /\.scss$/,
+        use: [{
+          loader: "style-loader"
+        }, {
+          loader: "css-loader"
+        }, {
+          loader: "sass-loader",
+          options: {
+            includePaths: [
+
+            ]
+          }
+        }]
+      },
+      {
+        test: /\.css$/,
+        use: [{
+          loader: "style-loader"
+        }, {
+          loader: "css-loader"
+
+        }]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader'
+      }, {
+        test: /\.(jpe?g|png|webp|gif|cur)$/,
+        loader: 'file-loader?name=/images/[name].[ext]'
       }
-    },
-    {
-      test: /\.scss$/,
-      use: [{
-        loader: "style-loader"
-      }, {
-        loader: "css-loader"
-      }, {
-        loader: "sass-loader",
-        options: {
-          includePaths: [
-
-          ]
-        }
-      }]
-    },
-    {
-      test: /\.css$/,
-      use: [{
-        loader: "style-loader"
-      }, {
-        loader: "css-loader"
-
-      }]
-    },
-    {
-      test: /\.(woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'url-loader'
-    }, {
-      test: /\.(jpe?g|png|webp|gif|cur)$/,
-      loader: 'file-loader?name=/images/[name].[ext]'
-    }
 
 
     ]

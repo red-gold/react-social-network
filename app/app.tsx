@@ -8,11 +8,11 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import { Provider } from 'react-redux'
-import store, { history } from 'configureStore'
+import store, { history } from 'store/configureStore'
 import { ConnectedRouter } from 'react-router-redux'
 
 // - Import app components
-import Master from 'Master'
+import Master from 'components/Master'
 
 // - Impport actions
 
@@ -44,7 +44,6 @@ ReactDOM.render(
 			<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
 				<Master />
 			</MuiThemeProvider>
-
 		</ConnectedRouter>
 	</Provider>,
 	document.getElementById('app')
