@@ -1,13 +1,5 @@
 # Change Log
 
-## [Unreleased](https://github.com/Qolzam/react-social-network/tree/HEAD)
-
-[Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.2...HEAD)
-
-**Implemented enhancements:**
-
-- Upgrade to react version 16 [\#14](https://github.com/Qolzam/react-social-network/issues/14)
-
 ## [v0.2](https://github.com/Qolzam/react-social-network/tree/v0.2) (2017-10-06)
 [Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.1...v0.2)
 

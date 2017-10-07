@@ -81,6 +81,7 @@ module.exports = {
     alias: {
       app: 'app',
       components: 'app/components',
+      reducers: 'app/reducers',
       db: 'app/db',
       store: 'app/store',
       applicationStyles: 'app/styles/app.scss',
