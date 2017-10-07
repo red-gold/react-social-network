@@ -83,6 +83,7 @@ module.exports = {
       components: 'app/components',
       reducers: 'app/reducers',
       constants: 'app/constants',
+      api: 'app/api',
       db: 'app/db',
       store: 'app/store',
       applicationStyles: 'app/styles/app.scss',

@@ -2,46 +2,49 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
-import { firebaseAuth, firebaseRef } from 'app/firebase/'
+import { firebaseAuth, firebaseRef } from 'app/firebase'
 import { push } from 'react-router-redux'
 import Snackbar from 'material-ui/Snackbar';
 import LinearProgress from 'material-ui/LinearProgress'
 
 
 // - Import components
-import Home from 'Home'
-import Signup from 'Signup'
-import Login from 'Login'
-import Settings from 'Settings'
-
-import MasterLoading from 'MasterLoading'
+import Home from 'components/Home'
+import Signup from 'components/Signup'
+import Login from 'components/Login'
+import Settings from 'components/Settings'
+import MasterLoading from 'components/MasterLoading'
+import { IMasterProps } from "./IMasterProps";
+import { IMasterState } from "./IMasterState";
 
 
 // - Import API
-import { PrivateRoute, PublicRoute } from 'AuthRouterAPI'
+import { PrivateRoute, PublicRoute } from 'api/AuthRouterAPI'
 
 
 // - Import actions
-import * as authorizeActions from 'authorizeActions'
-import * as imageGalleryActions from 'imageGalleryActions'
-import * as postActions from 'postActions'
-import * as commentActions from 'commentActions'
-import * as voteActions from 'voteActions'
-import * as userActions from 'userActions'
-import * as globalActions from 'globalActions'
-import * as circleActions from 'circleActions'
-import * as notifyActions from 'notifyActions'
+import * as authorizeActions from 'actions/authorizeActions'
+import * as imageGalleryActions from 'actions/imageGalleryActions'
+import * as postActions from 'actions/postActions'
+import * as commentActions from 'actions/commentActions'
+import * as voteActions from 'actions/voteActions'
+import * as userActions from 'actions/userActions'
+import * as globalActions from 'actions/globalActions'
+import * as circleActions from 'actions/circleActions'
+import * as notifyActions from 'actions/notifyActions'
 
 
 /* ------------------------------------ */
 
 
+
+
 // - Create Master component class
-export class Master extends Component {
+export class Master extends Component<IMasterProps,IMasterState>{
 
   static isPrivate = true
   // Constructor
-  constructor(props) {
+  constructor(props : IMasterProps) {
     super(props);
     this.state = {
       loading: true,
@@ -57,21 +60,21 @@ export class Master extends Component {
   }
 
   // Handle click on message
-  handleMessage = (evt) => {
+  handleMessage = (evt: any) => {
     this.props.closeMessage()
   }
 
   // Handle loading
-  handleLoading = (status) => {
+  handleLoading = (status: boolean) => {
     this.setState({
       loading: status,
       authed: false
     })
   }
 
-  componentWillMount = () => {
+   componentWillMount (){
 
-    firebaseAuth().onAuthStateChanged((user) => {
+    firebaseAuth().onAuthStateChanged((user:any) => {
 
       if (user) {
         this.props.login(user)
@@ -108,7 +111,7 @@ export class Master extends Component {
    * 
    * @memberof Master
    */
-  render() {
+  public render() {
 
     const {progress, global} = this.props
 
@@ -154,7 +157,7 @@ export class Master extends Component {
 }
 
 // - Map dispatch to props
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch : any, ownProps : any) => {
 
   return {
     loadData: () => {
@@ -177,7 +180,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(circleActions.clearAllCircles())
       
     },
-    login: (user) => {
+    login: (user : any) => {
       dispatch(authorizeActions.login(user.uid))
     },
     logout: () => {
@@ -203,8 +206,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
  * Map state to props
  * @param {object} state
  */
-const mapStateToProps = ({authorize, global, user, post, comment, imageGallery , vote, notify,circle  }) => {
-  
+const mapStateToProps = (state : any) => {
+  const {authorize, global, user, post, comment, imageGallery , vote, notify,circle  } = state;
   return {
     guest: authorize.guest,
     uid: authorize.uid,
@@ -216,4 +219,4 @@ const mapStateToProps = ({authorize, global, user, post, comment, imageGallery ,
 
 }
 // - Connect commponent to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Master))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Master as any))

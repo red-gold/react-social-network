@@ -8,6 +8,8 @@ import Dialog from 'material-ui/Dialog'
 // - Create MasterLoading component class
 export default class MasterLoading extends Component {
 
+  
+
   // Constructor
   constructor(props) {
     super(props);
