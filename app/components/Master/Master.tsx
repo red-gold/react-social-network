@@ -111,7 +111,7 @@ export class Master extends Component<IMasterProps,IMasterState>{
    * 
    * @memberof Master
    */
-  public render() {
+  public render() : React.ReactElement<{}> {
 
     const {progress, global} = this.props
 
@@ -129,7 +129,7 @@ export class Master extends Component<IMasterProps,IMasterState>{
         {(!this.state.loading && (this.props.loaded || this.props.guest))
         ?(<Switch>
           <Route path="/signup" component={Signup} />
-          <Route path="/settings" component={Settings} />
+          <Route path="/settings" component={Settings}  />
           <Route path="/login" render={() => {
             console.log('this.props.authed: ', this.props.authed, "this.props: ", this.props)
             return (
