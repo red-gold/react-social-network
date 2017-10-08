@@ -8,7 +8,7 @@ import firebase, { firebaseRef } from '../firebase';
 import moment from 'moment';
 
 // - Import action types
-import { postActionType } from 'constants/postActionType';
+import { PostActionType } from 'constants/postActionType';
 
 // - Import actions
 import * as globalActions from 'actions/globalActions';
@@ -278,7 +278,7 @@ export const dbGetPostsByUserId = (uid: string) => {
  */
 export const addPost = (uid: string, post: any) => {
   return {
-    type: postActionType.ADD_POST,
+    type: PostActionType.ADD_POST,
     payload: { uid, post }
   }
 }
@@ -290,7 +290,7 @@ export const addPost = (uid: string, post: any) => {
  */
 export const updatePost = (uid: string, post: any) => {
   return {
-    type: postActionType.UPDATE_POST,
+    type: PostActionType.UPDATE_POST,
     payload: { uid, post }
   }
 }
@@ -302,7 +302,7 @@ export const updatePost = (uid: string, post: any) => {
  */
 export const deletePost = (uid: string, id: string) => {
   return {
-    type: postActionType.DELETE_POST,
+    type: PostActionType.DELETE_POST,
     payload: { uid, id }
   }
 }
@@ -315,7 +315,7 @@ export const deletePost = (uid: string, id: string) => {
  */
 export const addPosts = (uid: string, posts: any) => {
   return {
-    type: postActionType.ADD_LIST_POST,
+    type: PostActionType.ADD_LIST_POST,
     payload: { uid, posts }
   }
 }
@@ -325,7 +325,7 @@ export const addPosts = (uid: string, posts: any) => {
  */
 export const clearAllData = () => {
   return {
-    type: postActionType.CLEAR_ALL_DATA_POST
+    type: PostActionType.CLEAR_ALL_DATA_POST
   }
 }
 
@@ -335,7 +335,7 @@ export const clearAllData = () => {
  */
 export const addImagePost = (uid: string, post: any) => {
   return {
-    type: postActionType.ADD_IMAGE_POST,
+    type: PostActionType.ADD_IMAGE_POST,
     payload: { uid, post }
   }
 

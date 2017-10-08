@@ -72,7 +72,10 @@ module.exports = {
       path.resolve(__dirname, './app/api'),
       path.resolve(__dirname, './app/constants'),
       path.resolve(__dirname, './app/actions'),
-      path.resolve(__dirname, './app/reducers')
+      path.resolve(__dirname, './app/reducers'),
+      path.resolve(__dirname, './app/services'),
+      path.resolve(__dirname, './app/factories'),
+      path.resolve(__dirname, './app/domain')
 
 
 
@@ -83,6 +86,10 @@ module.exports = {
       components: 'app/components',
       reducers: 'app/reducers',
       constants: 'app/constants',
+      services: 'app/services',
+      factories: 'app/factories',
+      firebaseServices: 'app/firebaseServices',
+      domain: 'app/domain',
       api: 'app/api',
       db: 'app/db',
       store: 'app/store',

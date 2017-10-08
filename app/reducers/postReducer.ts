@@ -6,7 +6,7 @@ import {Reducer, Action} from "redux";
 
 
 // - Import action types
-import { postActionType } from "constants/postActionType";
+import { PostActionType } from "constants/postActionType";
 
 /* ---------------- */
 
@@ -28,15 +28,22 @@ export interface IPostState  {
  * 
  * 
  * @export
- * @interface postState
+ * @interface IPostAction
  */
 export interface IPostAction  {
   payload: any,
-  type: postActionType
+  type: PostActionType
 
 }
 
-export class defaultPostState implements IPostState{
+/**
+ * Default post reducer state
+ * 
+ * @export
+ * @class DefaultPostState
+ * @implements {IPostState}
+ */
+export class DefaultPostState implements IPostState{
   userPosts: any = {};
   loaded: boolean = false;
 
@@ -47,13 +54,13 @@ export class defaultPostState implements IPostState{
  * @param {object} state 
  * @param {object} action 
  */
-export var postReducer = (state : IPostState = new defaultPostState(), action : IPostAction) => {
-  const { payload } = action
+export var postReducer = (state : IPostState = new DefaultPostState(), action : IPostAction) => {
+  const { payload } = action;
   switch (action.type) {
-    case postActionType.CLEAR_ALL_DATA_POST:
-      return new defaultPostState()
+    case PostActionType.CLEAR_ALL_DATA_POST:
+      return new DefaultPostState()
 
-    case postActionType.ADD_IMAGE_POST:
+    case PostActionType.ADD_IMAGE_POST:
       return {
         ...state,
         userPosts: {
@@ -65,7 +72,7 @@ export var postReducer = (state : IPostState = new defaultPostState(), action : 
         }
       }
 
-    case postActionType.ADD_POST:
+    case PostActionType.ADD_POST:
       return {
         ...state,
         userPosts: {
@@ -77,7 +84,7 @@ export var postReducer = (state : IPostState = new defaultPostState(), action : 
         }
       }
 
-    case postActionType.UPDATE_POST:
+    case PostActionType.UPDATE_POST:
       return {
         ...state,
         userPosts: {
@@ -92,7 +99,7 @@ export var postReducer = (state : IPostState = new defaultPostState(), action : 
         }
       }
 
-    case postActionType.DELETE_POST:
+    case PostActionType.DELETE_POST:
       let filteredPosts = {}
       Object.keys(state.userPosts[payload.uid]).map((key) => {
         if (key !== payload.id) {
@@ -108,7 +115,7 @@ export var postReducer = (state : IPostState = new defaultPostState(), action : 
           }
         }
       }
-    case postActionType.ADD_LIST_POST:
+    case PostActionType.ADD_LIST_POST:
       return {
         ...state,
         userPosts: {
