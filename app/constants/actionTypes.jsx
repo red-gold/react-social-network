@@ -9,19 +9,12 @@ export const CLEAR_ALL_DATA_POST = 'CLEAR_ALL_DATA_POST'
 
 
 /* image gallery actions */
-export const OPEN_IMAGE_GALLERY = 'OPEN_IMAGE_GALLERY'
 export const ADD_IMAGE_GALLERY = 'ADD_IMAGE_GALLERY'
 export const ADD_IMAGE_LIST_GALLERY = 'ADD_IMAGES_LIST_GALLERY'
-export const IMAGE_SELECT_GALLERY = 'IMAGE_SELECT_GALLERY'
-export const CLEARS_SELECT_IMAGE_GALLERY = 'CLEARS_SELECT_IMAGE_GALLERY'
 export const CLEAT_ALL_DATA_IMAGE_GALLERY = 'CLEAT_ALL_DATA_IMAGE_GALLERY'
 export const DELETE_IMAGE = 'DELETE_IMAGE'
 export const SET_IMAGE_URL = 'SET_IMAGE_URL'
 export const SEND_IMAGE_REQUEST = 'SEND_IMAGE_REQUEST'
-
-/* image uploader actions */
-export const OPEN_IMAGE_UPLOADER = 'OPEN_IMAGE_UPLOADER'
-export const OPEN_IMAGE_EDITOR = 'OPEN_IMAGE_EDITOR'
 
 /* comment actions */
 export const ADD_COMMENT = 'ADD_COMMENT'
@@ -73,13 +66,6 @@ export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
 export const SIGNUP = 'SIGNUP'
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
-
-/* file actions */
-export const UPLOAD_FILE = 'UPLOAD_FILE'
-export const UPLOAD_FILE_ERROR = 'UPLOAD_FILE_ERROR'
-export const UPLOAD_FILE_COMPLETE = 'UPLOAD_FILE_COMPLETE'
-export const DOWNLOAD_FILE = 'DOWNLOAD_FILE'
-
 
 /* global actions */
 export const PROGRESS_CHANGE = 'PROGRESS_CHANGE'

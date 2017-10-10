@@ -1,5 +1,5 @@
-
  export enum PostActionType {
+
     ADD_IMAGE_POST = "ADD_IMAGE_POST",
     ADD_VIDEO_POST = "ADD_VIDEO_POST",
     ADD_POST = "ADD_POST",

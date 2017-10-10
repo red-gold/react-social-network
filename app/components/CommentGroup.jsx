@@ -243,10 +243,9 @@ static propTypes = {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     send: (text, postId, callBack) => {
-      dispatch(commentActions.dbAddComment({
+      dispatch(commentActions.dbAddComment(ownProps.ownerPostUserId,{
         postId: postId,
-        text: text,
-        ownerPostUserId:ownProps.ownerPostUserId
+        text: text
       }, callBack))
     }
   }

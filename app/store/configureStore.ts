@@ -6,15 +6,19 @@ import createHistory from 'history/createBrowserHistory'
 import {createLogger} from 'redux-logger';
 
 // - Import reducers
-import {imageGalleryReducer} from 'reducers/imageGalleryReducer'
-import {postReducer} from 'reducers/postReducer'
-import {commentReducer} from 'reducers/commentReducer'
-import {voteReducer} from 'reducers/voteReducer'
-import {authorizeReducer} from 'reducers/authorizeReducer'
-import {globalReducer} from 'reducers/globalReducer'
-import {userReducer} from 'reducers/userReducer'
-import {circleReducer} from 'reducers/circleReducer'
-import {notifyReducer} from 'reducers/notifyReducer'
+import {
+  imageGalleryReducer,
+  postReducer, 
+  commentReducer, 
+  voteReducer,
+  authorizeReducer,
+  globalReducer,
+  userReducer,
+  circleReducer,
+  notificationReducer
+} from 'reducers';
+
+declare const window: any;
 
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory()
@@ -33,7 +37,7 @@ let reducer = redux.combineReducers({
   authorize: authorizeReducer,
   router: routerReducer,
   user: userReducer,
-  notify:notifyReducer,
+  notify:notificationReducer,
   global: globalReducer
 })
 

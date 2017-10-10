@@ -1,5 +1,5 @@
-export enum AuthorizeActionType
-{
+export enum AuthorizeActionType {
+    
     LOGIN = 'LOGIN',
     LOGOUT = 'LOGOUT',
     SIGNUP = 'SIGNUP',

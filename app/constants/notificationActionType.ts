@@ -1,0 +1,9 @@
+export enum NotificationActionType {
+
+    ADD_NOTIFY = 'ADD_NOTIFY',
+    ADD_NOTIFY_LIST = 'ADD_NOTIFY_LIST',
+    DELETE_NOTIFY = 'DELETE_NOTIFY',
+    SEEN_NOTIFY = 'SEEN_NOTIFY',
+    CLEAR_ALL_DATA_NOTIFY = 'CLEAR_ALL_DATA_NOTIFY'
+    
+}

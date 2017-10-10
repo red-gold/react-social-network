@@ -1,13 +1,30 @@
 import { BaseDomain } from "domain/common";
 
-class User extends BaseDomain {
+export class User extends BaseDomain {
+    
+    /**
+     * Full name of user
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    public fullName: string;
+
+    /**
+     * User avatar address
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    public avatar: string; 
+
     /**
      * Email of the user
      * 
      * @type {string}
      * @memberof User
      */
-    public email: string;
+    public email?: string | null;
 
     /**
      * Password of the user
@@ -15,7 +32,7 @@ class User extends BaseDomain {
      * @type {string}
      * @memberof User
      */
-    public password: string;
+    public password?: string | null;
 
     /**
      * User identifier
@@ -23,8 +40,14 @@ class User extends BaseDomain {
      * @type {string}
      * @memberof User
      */
-    public userId: string;
+    public userId?: string | null;
+    
+    /**
+     * User creation date
+     * 
+     * @type {number}
+     * @memberof User
+     */
+    public creationDate: number;
     
 }
-
-export default User;

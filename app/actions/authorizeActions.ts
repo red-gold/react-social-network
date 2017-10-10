@@ -58,8 +58,8 @@ import * as globalActions from 'actions/globalActions';
   }
 
   /**
-   * Register user in database
-   * @param {object} user 
+   * 
+   * @param user for registering
    */
   export const dbSignup = (user: User) => {
     return (dispatch: any, getState: any) => {
@@ -128,8 +128,8 @@ import * as globalActions from 'actions/globalActions';
   }
 
   /**
-   *  Register user
-   * @param {object} user 
+   * User registeration call
+   * @param user  for registering
    */
   export const signup = (user: User) => {
     return {

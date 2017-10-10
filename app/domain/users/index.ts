@@ -1,5 +1,7 @@
-import User from './user';
+import {User} from './user';
+import {Profile} from './profile';
 
 export {
-    User
+    User,
+    Profile
 }

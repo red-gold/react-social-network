@@ -64,7 +64,7 @@ export class CommentWrite extends Component {
 const mapDispatchToProps = (dispatch,ownProps) => {
   return{
     send: (text,postId,callBack) => {
-      dispatch(commentActions.dbAddComment({
+      dispatch(commentActions.dbAddComment(null,{
               postId: postId,
               text: text
            },callBack))
