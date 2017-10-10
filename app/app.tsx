@@ -14,11 +14,12 @@ import { ConnectedRouter } from 'react-router-redux'
 // - Import app components
 import Master from 'components/Master'
 
-// - Impport actions
+declare const window: any
+declare const document: any
 
 // Set default data
-store.subscribe(() => {
-})
+// tslint:disable-next-line:no-empty
+store.subscribe(() => {})
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -29,13 +30,10 @@ injectTapEventPlugin()
 // More on Colors: http://www.material-ui.com/#/customization/colors
 const muiTheme = getMuiTheme({
 
-
 })
 
-
-
 // App css
-require('applicationStyles')
+import 'applicationStyles'
 const supportsHistory = 'pushState' in window.history
 
 ReactDOM.render(
