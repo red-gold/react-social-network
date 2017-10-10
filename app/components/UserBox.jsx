@@ -118,7 +118,7 @@ export class UserBox extends Component {
      */
     handleTouchTap = (evt) => {
         // This prevents ghost click.
-        event.preventDefault()
+        evt.preventDefault()
 
         this.setState({
             open: true,
