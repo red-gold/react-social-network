@@ -1,8 +1,8 @@
 // - Import react components
-import { firebaseRef, firebaseAuth } from 'app/firebase/';
+import { firebaseRef, firebaseAuth } from 'app/firebase/'
 
-import { SocialError } from "domain/common";
-import { IImageGalleryService } from 'services/imageGallery';
+import { SocialError } from 'domain/common'
+import { IImageGalleryService } from 'services/imageGallery'
 
 /**
  * Firbase image gallery service

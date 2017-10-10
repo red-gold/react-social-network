@@ -1,8 +1,8 @@
 // - Import react components
-import { firebaseRef, firebaseAuth } from 'app/firebase/';
+import { firebaseRef, firebaseAuth } from 'app/firebase/'
 
-import { SocialError } from "domain/common";
-import { INotificationService } from 'services/notifications';
+import { SocialError } from 'domain/common'
+import { INotificationService } from 'services/notifications'
 
 /**
  * Firbase notification service

@@ -6,8 +6,8 @@ import {Route, Redirect} from 'react-router-dom'
 import * as AuthAPI from 'AuthAPI'
 
 
-export var PrivateRoute = ({component: Component, ...rest}) => {
-  console.log('is auth ; ', AuthAPI.isAuthorized());
+export let PrivateRoute = ({component: Component, ...rest}) => {
+  console.log('is auth  ', AuthAPI.isAuthorized())
   return (
     <Route
       {...rest}
@@ -18,7 +18,7 @@ export var PrivateRoute = ({component: Component, ...rest}) => {
   )
 }
 
-export var PublicRoute = ({component: Component,...rest}) => {
+export let PublicRoute = ({component: Component,...rest}) => {
   return (
     <Route
       {...rest}

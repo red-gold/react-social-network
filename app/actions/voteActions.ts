@@ -5,13 +5,13 @@ import { firebaseRef } from 'app/firebase/'
 import {VoteActionType} from 'constants/voteActionType'
 
 // - Import domain
-import { Vote } from "domain/votes";
+import { Vote } from 'domain/votes'
 
 // - Import actions
 import * as globalActions from 'actions/globalActions'
 import * as notifyActions from 'actions/notifyActions'
 
-declare const console: any;
+declare const console: any
 /* _____________ CRUD DB _____________ */
 
 /**
@@ -22,8 +22,8 @@ declare const console: any;
 export const dbAddVote = (postId: string,ownerPostUserId: string) => {
   return (dispatch: any, getState: Function) => {
 
-    let uid: string = getState().authorize.uid;
-    var vote: Vote = {
+    let uid: string = getState().authorize.uid
+    let vote: Vote = {
       postId: postId,
       creationDate: moment().unix(),
       userDisplayName: getState().user.info[uid].fullName,
@@ -31,7 +31,7 @@ export const dbAddVote = (postId: string,ownerPostUserId: string) => {
       userId: uid
     }
 
-    var voteRef = firebaseRef.child(`postVotes/${postId}`).push(vote)
+    let voteRef = firebaseRef.child(`postVotes/${postId}`).push(vote)
     return voteRef.then(() => {
       dispatch(addVote(
         {
@@ -60,10 +60,10 @@ export const dbGetVotes = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let votesRef: any = firebaseRef.child(`postVotes`);
+      let votesRef: any = firebaseRef.child(`postVotes`)
 
       return votesRef.on('value',(snapshot: any) => {
-        let postVotes: {[postId:string]: {[voteId: string]: Vote}} = snapshot.val() || {};
+        let postVotes: {[postId:string]: {[voteId: string]: Vote}} = snapshot.val() || {}
         dispatch(addVoteList(postVotes))
       })
       
@@ -81,15 +81,15 @@ export const dbDeleteVote = (postId: string) => {
   return (dispatch: any, getState: Function) => {
 
     // Get current user id
-    let uid: string = getState().authorize.uid;
+    let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    var updates: any = {};
+    let updates: any = {}
     let votes: {[voteId: string]: Vote} = getState().vote.postVotes[postId]
     let id: string = Object.keys(votes).filter((key)=> votes[key].userId === uid)[0]
 
   
-    updates[`postVotes/${postId}/${id}`] = null;
+    updates[`postVotes/${postId}/${id}`] = null
 
     return firebaseRef.update(updates).then((result) => {
       dispatch(deleteVote(id, postId))

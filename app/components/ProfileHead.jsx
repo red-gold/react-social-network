@@ -91,7 +91,7 @@ export class ProfileHead extends Component {
     handleResize = (evt) => {
 
         // Set initial state
-        var width = window.innerWidth
+        let width = window.innerWidth
 
         if (width > 900) {
             this.setState({

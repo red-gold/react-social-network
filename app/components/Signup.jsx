@@ -24,7 +24,7 @@ export class Signup extends Component {
    * @param  {object} props is an object properties of component
    */
   constructor(props){
-    super(props);
+    super(props)
 
     this.state = {
       fullNameInput: '',
@@ -82,7 +82,7 @@ export class Signup extends Component {
       this.setState({
         checkInputError: ''
       })
-       break;
+       break
      default:
 
 
@@ -97,7 +97,7 @@ export class Signup extends Component {
    const {fullNameInput, emailInput, passwordInput, confirmInput} = this.state
    const {register} = this.props
 
-    var error = false
+    let error = false
     
      // Validate full name
      let fullNameCheck = fullNameInput.trim().toLowerCase()
@@ -165,7 +165,7 @@ export class Signup extends Component {
   textAlign: 'center',
   display: 'block',
   margin: "auto"
-};
+}
 
     return (
 

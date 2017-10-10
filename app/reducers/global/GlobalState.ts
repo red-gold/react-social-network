@@ -17,8 +17,8 @@ export class GlobalState {
        * @memberof IGlobalState
        */
       progress: {
-        percent: number;
-        visible: Boolean;
+        percent: number
+        visible: Boolean
       } = {
         percent : 0,
         visible : false
@@ -30,7 +30,7 @@ export class GlobalState {
        * @type {Boolean}
        * @memberof IGlobalState
        */
-      loadingStatus: Boolean = true;
+      loadingStatus: Boolean = true
     
       /**
        * If user date is loaded {true} or not {false}
@@ -38,7 +38,7 @@ export class GlobalState {
        * @type {Boolean}
        * @memberof IGlobalState
        */
-      defaultLoadDataStatus: Boolean = false;
+      defaultLoadDataStatus: Boolean = false
     
       /**
        * If message popup is open {true} or not {false}
@@ -46,7 +46,7 @@ export class GlobalState {
        * @type {Boolean}
        * @memberof IGlobalState
        */
-      messageOpen: Boolean = false;
+      messageOpen: Boolean = false
     
       /**
        * The text of popup global message
@@ -54,7 +54,7 @@ export class GlobalState {
        * @type {string}
        * @memberof IGlobalState
        */
-      message: string = '';
+      message: string = ''
     
       /**
        * Window size
@@ -62,7 +62,7 @@ export class GlobalState {
        * @type {number}
        * @memberof IGlobalState
        */
-      windowWidth: number = 0;
+      windowWidth: number = 0
     
       /**
        * Window height
@@ -70,7 +70,7 @@ export class GlobalState {
        * @type {number}
        * @memberof IGlobalState
        */
-      windowHeight: number = 0;
+      windowHeight: number = 0
     
       /**
        * The text of website header
@@ -78,7 +78,7 @@ export class GlobalState {
        * @type {string}
        * @memberof IGlobalState
        */
-      headerTitle: string = '';
+      headerTitle: string = ''
     
       /**
        * Top loading is visible {true} or not {false}
@@ -86,7 +86,7 @@ export class GlobalState {
        * @type {Boolean}
        * @memberof IGlobalState
        */
-      showTopLoading: Boolean = false;
+      showTopLoading: Boolean = false
     
       /**
        * Top loading message queue
@@ -94,7 +94,7 @@ export class GlobalState {
        * @type {number}
        * @memberof IGlobalState
        */
-      topLoadingQueue: number = 0;
+      topLoadingQueue: number = 0
     
       /**
        * Temp date storage
@@ -102,6 +102,6 @@ export class GlobalState {
        * @type {*}
        * @memberof IGlobalState
        */
-      temp: any = {};
+      temp: any = {}
     }
     

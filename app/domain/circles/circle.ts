@@ -1,5 +1,5 @@
-import { BaseDomain } from "domain/common";
-import { User } from "domain/users";
+import { BaseDomain } from 'domain/common'
+import { User } from 'domain/users'
 
 export class Circle extends BaseDomain {
     
@@ -9,7 +9,7 @@ export class Circle extends BaseDomain {
      * @type {string}
      * @memberof User
      */
-    public id?: string | null;
+    public id?: string | null
 
     /**
      * Circle creation date time
@@ -17,7 +17,7 @@ export class Circle extends BaseDomain {
      * @type {Date}
      * @memberof Circle
      */
-    public creationDate?: number;
+    public creationDate?: number
 
     /**
      * Circle owner identifier
@@ -25,7 +25,7 @@ export class Circle extends BaseDomain {
      * @type {string}
      * @memberof Circle
      */
-    public ownerId?: string | null;
+    public ownerId?: string | null
 
     /**
      * Circle name
@@ -33,7 +33,7 @@ export class Circle extends BaseDomain {
      * @type {string}
      * @memberof User
      */
-    public name: string;
+    public name: string
 
     /**
      * The users in a circle
@@ -41,7 +41,7 @@ export class Circle extends BaseDomain {
      * @type {string}
      * @memberof User
      */
-    public users: {[userId:string]: User};
+    public users: {[userId:string]: User}
 
    
     

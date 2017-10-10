@@ -1,5 +1,5 @@
-import { User } from "domain/users";
-import { LoginUser, RegisterUserResult } from "domain/authorize";
+import { User } from 'domain/users'
+import { LoginUser, RegisterUserResult } from 'domain/authorize'
 
 
 
@@ -18,7 +18,7 @@ export interface IAuthorizeService {
      * @returns {Promise<void>}
      * @memberof IAuthorizeService
      */
-    login: (email: string, password: string) => Promise<LoginUser>;
+    login: (email: string, password: string) => Promise<LoginUser>
 
     /**
     * Logs out the user
@@ -26,16 +26,16 @@ export interface IAuthorizeService {
     * @returns {Promise<void>}
     * @memberof IAuthorizeService
     */
-    logout: () => Promise<void>;
+    logout: () => Promise<void>
 
     /**
      * @returns {Promise<void>}
      */
-    updatePassword: (newPassword: string) => Promise<void>;
+    updatePassword: (newPassword: string) => Promise<void>
 
     /**
      * @returns {Promise<void>}
      */
-    registerUser: (user: User) => Promise<RegisterUserResult>;
+    registerUser: (user: User) => Promise<RegisterUserResult>
 
 }

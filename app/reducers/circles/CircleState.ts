@@ -1,4 +1,4 @@
-import { Circle } from "domain/circles";
+import { Circle } from 'domain/circles'
 
 /**
  * Circle state 
@@ -14,7 +14,7 @@ export class CircleState  {
      * @type {({[userId: string]: {[circleId: string]: Circle}} | null)}
      * @memberof CircleState
      */
-    userCircles: {[userId: string]: {[circleId: string]: Circle}} = {};
+    userCircles: {[userId: string]: {[circleId: string]: Circle}} = {}
 
     /**
      * If user circles are loaded {true} or not {false}
@@ -22,5 +22,5 @@ export class CircleState  {
      * @type {Boolean}
      * @memberof CircleState
      */
-    loaded: Boolean = false;
+    loaded: Boolean = false
   }

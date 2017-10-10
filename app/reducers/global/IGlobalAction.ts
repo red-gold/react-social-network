@@ -1,4 +1,4 @@
-import { GlobalActionType } from 'constants/globalActionType';
+import { GlobalActionType } from 'constants/globalActionType'
 
 /**
  *  Global action interface

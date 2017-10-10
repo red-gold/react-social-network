@@ -1,4 +1,4 @@
-import { BaseDomain } from "domain/common";
+import { BaseDomain } from 'domain/common'
 
 export class Post extends BaseDomain {
 
@@ -8,7 +8,7 @@ export class Post extends BaseDomain {
      * @type {string}
      * @memberof Post
      */
-    public id?: string | null;
+    public id?: string | null
 
     /**
      * The identifier of post type
@@ -16,7 +16,7 @@ export class Post extends BaseDomain {
      * @type {number}
      * @memberof Post
      */
-    public postTypeId: number;
+    public postTypeId: number
 
     /**
      * The post creation date
@@ -24,7 +24,7 @@ export class Post extends BaseDomain {
      * @type {number}
      * @memberof Post
      */
-    public creationDate:number;
+    public creationDate:number
 
     /**
      * The post delete date
@@ -32,7 +32,7 @@ export class Post extends BaseDomain {
      * @type {number}
      * @memberof Post
      */
-    public deleteDate: number;
+    public deleteDate: number
 
     /**
      * The score of post
@@ -40,7 +40,7 @@ export class Post extends BaseDomain {
      * @type {number}
      * @memberof Post
      */
-    public score: number;
+    public score: number
 
     /**
      * Post view count
@@ -48,7 +48,7 @@ export class Post extends BaseDomain {
      * @type {number}
      * @memberof Post
      */
-    public viewCount: number;
+    public viewCount: number
 
     /**
      * The text of post
@@ -56,7 +56,7 @@ export class Post extends BaseDomain {
      * @type {string}
      * @memberof Post
      */
-    public body: string;
+    public body: string
 
     /**
      * The identifier of post owner
@@ -64,7 +64,7 @@ export class Post extends BaseDomain {
      * @type {string}
      * @memberof Post
      */
-    public ownerUserId: string;
+    public ownerUserId: string
 
     /**
      * Full name of post owner
@@ -72,7 +72,7 @@ export class Post extends BaseDomain {
      * @type {string}
      * @memberof Post
      */
-    public ownerDisplayName: string;
+    public ownerDisplayName: string
 
     /**
      * Avatar address of post owner
@@ -80,7 +80,7 @@ export class Post extends BaseDomain {
      * @type {string}
      * @memberof Post
      */
-    public ownerAvatar: string;
+    public ownerAvatar: string
 
     /**
      * Last post edit date
@@ -88,7 +88,7 @@ export class Post extends BaseDomain {
      * @type {number}
      * @memberof Post
      */
-    public lastEditDate: number;
+    public lastEditDate: number
 
     /**
      * Post tags
@@ -96,7 +96,7 @@ export class Post extends BaseDomain {
      * @type {string[]}
      * @memberof Post
      */
-    public tags: string[];
+    public tags: string[]
 
     /**
      * Numeber of comment on the post
@@ -104,7 +104,7 @@ export class Post extends BaseDomain {
      * @type {number}
      * @memberof Post
      */
-    public commentCounter: number;
+    public commentCounter: number
 
     /**
      * The address of image on the post
@@ -112,7 +112,7 @@ export class Post extends BaseDomain {
      * @type {string}
      * @memberof Post
      */
-    public image: string;
+    public image: string
 
     /**
      * Post image full path
@@ -120,7 +120,7 @@ export class Post extends BaseDomain {
      * @type {string}
      * @memberof Post
      */
-    public imageFullPath: string;
+    public imageFullPath: string
 
     /**
      * The adress of video on the post
@@ -128,7 +128,7 @@ export class Post extends BaseDomain {
      * @type {string}
      * @memberof Post
      */
-    public video: string;
+    public video: string
 
     /**
      * If writing comment is disabled {true} or not {false}
@@ -136,7 +136,7 @@ export class Post extends BaseDomain {
      * @type {Boolean}
      * @memberof Post
      */
-    public disableComments: Boolean;
+    public disableComments: Boolean
 
     /**
      * If sharing post is disabled {true} or not {false}
@@ -144,7 +144,7 @@ export class Post extends BaseDomain {
      * @type {Boolean}
      * @memberof Post
      */
-    public disableSharing: Boolean;
+    public disableSharing: Boolean
 
     /**
      * If the post is deleted {true} or not false
@@ -152,7 +152,7 @@ export class Post extends BaseDomain {
      * @type {Boolean}
      * @memberof Post
      */
-    public deleted: Boolean;
+    public deleted: Boolean
    
     
 }

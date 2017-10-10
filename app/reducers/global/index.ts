@@ -1,3 +1,3 @@
-import { globalReducer } from "./globalReducer";
+import { globalReducer } from './globalReducer'
 
-export {globalReducer};
+export {globalReducer}

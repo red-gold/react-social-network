@@ -5,9 +5,9 @@ import PropTypes from 'prop-types'
 import {push} from 'react-router-redux'
 import Paper from 'material-ui/Paper'
 import FlatButton from 'material-ui/FlatButton'
-import RaisedButton from 'material-ui/RaisedButton';
-import Popover, { PopoverAnimationVertical } from 'material-ui/Popover';
-import Menu from 'material-ui/Menu';
+import RaisedButton from 'material-ui/RaisedButton'
+import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
+import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
 import TextField from 'material-ui/TextField'
@@ -118,7 +118,7 @@ export class UserBox extends Component {
      */
     handleTouchTap = (evt) => {
         // This prevents ghost click.
-        event.preventDefault();
+        event.preventDefault()
 
         this.setState({
             open: true,

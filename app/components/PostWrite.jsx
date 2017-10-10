@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { List, ListItem } from 'material-ui/List'
 import Paper from 'material-ui/Paper'
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import { grey400, grey800, darkBlack, lightBlack } from 'material-ui/styles/colors'
 import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
@@ -182,7 +182,7 @@ export class PostWrite extends Component {
       post,
       update } = this.props
 
-    var tags = PostAPI.getContentTags(postText)
+    let tags = PostAPI.getContentTags(postText)
 
     // In edit status we should fire update if not we should fire post function
     if (!edit) {
@@ -329,9 +329,9 @@ export class PostWrite extends Component {
         <MenuItem onClick={this.handleToggleSharing} style={{ fontSize: "14px" }}>{!this.state.disableSharing ? 'Disable sharing' : 'Enable sharing'}</MenuItem>
       </IconMenu>
     )
-    var postAvatar = <UserAvatar fullName={this.props.name} fileName={this.props.avatar} style={{ top: "8px" }} size={40} />
+    let postAvatar = <UserAvatar fullName={this.props.name} fileName={this.props.avatar} style={{ top: "8px" }} size={40} />
 
-    var author = (
+    let author = (
       <div>
         <span style={{
           fontSize: "14px",

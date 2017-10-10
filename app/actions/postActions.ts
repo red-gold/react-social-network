@@ -1,35 +1,29 @@
 // - Import react components
-import { Action } from "redux";
+import { Action } from 'redux'
 
 // - Import firebase component
-import firebase, { firebaseRef } from '../firebase';
+import firebase, { firebaseRef } from '../firebase'
 
 // - Import domain
-import { Post } from "domain/posts";
+import { Post } from 'domain/posts'
 
 // - Import utility components
-import moment from 'moment';
+import moment from 'moment'
 
 // - Import action types
-import { PostActionType } from 'constants/postActionType';
+import { PostActionType } from 'constants/postActionType'
 
 // - Import actions
-import * as globalActions from 'actions/globalActions';
-
-declare const console: any;
-
-
-
-
+import * as globalActions from 'actions/globalActions'
 
 /* _____________ CRUD DB _____________ */
 
 /**
  * Add a normal post
- * @param {any} newPost 
- * @param {Function} callBack 
+ * @param {any} newPost
+ * @param {Function} callBack
  */
-export var dbAddPost = (newPost: any, callBack: Function) => {
+export let dbAddPost = (newPost: any, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
 
     let uid: string = getState().authorize.uid
@@ -47,13 +41,12 @@ export var dbAddPost = (newPost: any, callBack: Function) => {
       tags: newPost.tags || [],
       commentCounter: 0,
       image: '',
-      imageFullPath:'',
+      imageFullPath: '',
       video: '',
       disableComments: newPost.disableComments,
       disableSharing: newPost.disableSharing,
       deleted: false
     }
-
 
     let postRef: any = firebaseRef.child(`userPosts/${uid}/posts`).push(post)
     return postRef.then(() => {
@@ -66,11 +59,10 @@ export var dbAddPost = (newPost: any, callBack: Function) => {
   }
 }
 
-
 /**
  * Add a post with image
- * @param {object} newPost 
- * @param {function} callBack 
+ * @param {object} newPost
+ * @param {function} callBack
  */
 export const dbAddImagePost = (newPost: any, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
@@ -99,8 +91,7 @@ export const dbAddImagePost = (newPost: any, callBack: Function) => {
       deleted: false
     }
 
-
-    let postRef : any = firebaseRef.child(`userPosts/${uid}/posts`).push(post)
+    let postRef: any = firebaseRef.child(`userPosts/${uid}/posts`).push(post)
     return postRef.then(() => {
       dispatch(addPost(uid, {
         ...post,
@@ -116,12 +107,12 @@ export const dbAddImagePost = (newPost: any, callBack: Function) => {
 
 /**
  * Update a post from database
- * @param  {object} newPost 
+ * @param  {object} newPost
  * @param {func} callBack //TODO: anti pattern should change to parent state or move state to redux
  */
 export const dbUpdatePost = (newPost: any, callBack: Function) => {
   console.log(newPost)
-  return (dispatch : any, getState: Function) => {
+  return (dispatch: any, getState: Function) => {
 
     dispatch(globalActions.showTopLoading())
 
@@ -129,7 +120,7 @@ export const dbUpdatePost = (newPost: any, callBack: Function) => {
     let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    let updates: any = {};
+    let updates: any = {}
     let post: Post = getState().post.userPosts[uid][newPost.id]
     let updatedPost: Post = {
       postTypeId: post.postTypeId,
@@ -172,16 +163,16 @@ export const dbUpdatePost = (newPost: any, callBack: Function) => {
  * @param  {string} id is post identifier
  */
 export const dbDeletePost = (id: string) => {
-  return (dispatch:any, getState:Function) => {
+  return (dispatch: any, getState: Function) => {
 
     dispatch(globalActions.showTopLoading())
 
     // Get current user id
-    let uid : string = getState().authorize.uid
+    let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    let updates : any= {};
-    updates[`userPosts/${uid}/posts/${id}`] = null;
+    let updates: any = {}
+    updates[`userPosts/${uid}/posts/${id}`] = null
 
     return firebaseRef.update(updates).then((result) => {
       dispatch(deletePost(uid, id))
@@ -190,7 +181,7 @@ export const dbDeletePost = (id: string) => {
     }, (error) => {
       dispatch(globalActions.showErrorMessage(error.message))
       dispatch(globalActions.hideTopLoading())
-    });
+    })
   }
 
 }
@@ -199,23 +190,23 @@ export const dbDeletePost = (id: string) => {
  * Get all user posts from data base
  */
 export const dbGetPosts = () => {
-  return (dispatch:any, getState:any) => {
+  return (dispatch: any, getState: any) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let postsRef: any = firebaseRef.child(`userPosts/${uid}/posts`);
+      let postsRef: any = firebaseRef.child(`userPosts/${uid}/posts`)
 
       return postsRef.once('value').then((snapshot: any) => {
-        var posts: any = snapshot.val() || {};
-        var parsedPosts : {[postId: string]: Post} = {};
+        let posts: any = snapshot.val() || {}
+        let parsedPosts: { [postId: string]: Post } = {}
         Object.keys(posts).forEach((postId) => {
           parsedPosts[postId] = {
             id: postId,
             ...posts[postId]
-          };
-        });
+          }
+        })
 
-        dispatch(addPosts(uid, parsedPosts));
-      });
+        dispatch(addPosts(uid, parsedPosts))
+      })
 
     }
   }
@@ -226,19 +217,19 @@ export const dbGetPosts = () => {
  * @param uid post owner identifier
  * @param postId post identifier
  */
-export const dbGetPostById = (uid:string, postId:string) => {
+export const dbGetPostById = (uid: string, postId: string) => {
   return (dispatch: any, getState: Function) => {
     if (uid) {
-      let postsRef: any = firebaseRef.child(`userPosts/${uid}/posts/${postId}`);
+      let postsRef: any = firebaseRef.child(`userPosts/${uid}/posts/${postId}`)
 
       return postsRef.once('value').then((snapshot: any) => {
-        const newPost = snapshot.val() || {};
+        const newPost = snapshot.val() || {}
         const post = {
           id: postId,
           ...newPost
         }
-        dispatch(addPost(uid, post));
-      });
+        dispatch(addPost(uid, post))
+      })
 
     }
   }
@@ -253,29 +244,24 @@ export const dbGetPostsByUserId = (uid: string) => {
   return (dispatch: any, getState: Function) => {
 
     if (uid) {
-      let postsRef: any = firebaseRef.child(`userPosts/${uid}/posts`);
+      let postsRef: any = firebaseRef.child(`userPosts/${uid}/posts`)
 
       return postsRef.once('value').then((snapshot: any) => {
-        let posts: any = snapshot.val() || {};
-        let parsedPosts: {[postId: string]: Post} = {};
+        let posts: any = snapshot.val() || {}
+        let parsedPosts: { [postId: string]: Post } = {}
         Object.keys(posts).forEach((postId) => {
           parsedPosts[postId] = {
             id: postId,
             ...posts[postId]
-          };
-        });
+          }
+        })
 
-        dispatch(addPosts(uid, parsedPosts));
-      });
+        dispatch(addPosts(uid, parsedPosts))
+      })
 
     }
   }
 }
-
-
-
-
-
 
 /* _____________ CRUD State _____________ */
 
@@ -294,7 +280,7 @@ export const addPost = (uid: string, post: Post) => {
 /**
  * Update a post
  * @param {string} uid is user identifier
- * @param {Post} post 
+ * @param {Post} post
  */
 export const updatePost = (uid: string, post: Post) => {
   return {
@@ -315,13 +301,12 @@ export const deletePost = (uid: string, id: string) => {
   }
 }
 
-
 /**
  * Add a list of post
  * @param {string} uid 
  * @param {[object]} posts 
  */
-export const addPosts = (uid: string, posts: {[postId: string]: Post}) => {
+export const addPosts = (uid: string, posts: { [postId: string]: Post }) => {
   return {
     type: PostActionType.ADD_LIST_POST,
     payload: { uid, posts }
@@ -339,7 +324,7 @@ export const clearAllData = () => {
 
 /**
  * Add a post with image
- * @param {object} post 
+ * @param {object} post
  */
 export const addImagePost = (uid: string, post: any) => {
   return {
@@ -348,4 +333,3 @@ export const addImagePost = (uid: string, post: any) => {
   }
 
 }
-

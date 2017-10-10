@@ -2,8 +2,8 @@
 import firebase, { firebaseRef } from 'app/firebase/'
 
 // - Import domain
-import { User } from "domain/users";
-import { Circle, UserFollower } from "domain/circles";
+import { User } from 'domain/users'
+import { Circle, UserFollower } from 'domain/circles'
 
 // - Import utility components
 import moment from 'moment'
@@ -29,7 +29,7 @@ import * as notifyActions from 'actions/notifyActions'
  * Add a circle
  * @param {string} circleName 
  */
-export var dbAddCircle = (circleName: string) => {
+export let dbAddCircle = (circleName: string) => {
   return (dispatch: any, getState: Function) => {
 
     let uid: string = getState().authorize.uid
@@ -41,7 +41,7 @@ export var dbAddCircle = (circleName: string) => {
 
     let circleRef = firebaseRef.child(`userCircles/${uid}/circles`).push(circle)
     return circleRef.then(() => {
-      circle.id = circleRef.key;
+      circle.id = circleRef.key
       circle.ownerId = uid
       dispatch(addCircle(circle))
 
@@ -55,11 +55,11 @@ export var dbAddCircle = (circleName: string) => {
  * @param {string} cid is circle identifier 
  * @param {User} userFollowing is the user for following
  */
-export var dbAddFollowingUser = (cid: string, userFollowing: User) => {
+export let dbAddFollowingUser = (cid: string, userFollowing: User) => {
   return (dispatch: any, getState: Function) => {
 
-    let uid: string = getState().authorize.uid;
-    let user: User = getState().user.info[uid];
+    let uid: string = getState().authorize.uid
+    let user: User = getState().user.info[uid]
 
     let userCircle: User = {
       creationDate: moment().unix(),
@@ -99,7 +99,7 @@ export var dbAddFollowingUser = (cid: string, userFollowing: User) => {
  * @param {string} cid is circle identifier 
  * @param {string} followingId following user identifier
  */
-export var dbDeleteFollowingUser = (cid: string, followingId: string) => {
+export let dbDeleteFollowingUser = (cid: string, followingId: string) => {
   return (dispatch: any, getState:Function) => {
 
     let uid: string = getState().authorize.uid
@@ -154,14 +154,14 @@ export const dbDeleteCircle = (id: string) => {
     let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    let updates: any = {};
-    updates[`userCircles/${uid}/circles/${id}`] = null;
+    let updates: any = {}
+    updates[`userCircles/${uid}/circles/${id}`] = null
 
     return firebaseRef.update(updates).then((result) => {
       dispatch(deleteCircle(uid, id))
     }, (error) => {
       dispatch(globalActions.showErrorMessage(error.message))
-    });
+    })
   }
 
 }
@@ -173,16 +173,16 @@ export const dbGetCircles = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let circlesRef: any = firebaseRef.child(`userCircles/${uid}/circles`);
+      let circlesRef: any = firebaseRef.child(`userCircles/${uid}/circles`)
 
       return circlesRef.once('value').then((snapshot: any) => {
-        var circles: any = snapshot.val() || {};
-        var parsedCircles: { [circleId: string]: Circle } = {};
+        let circles: any = snapshot.val() || {}
+        let parsedCircles: { [circleId: string]: Circle } = {}
         Object.keys(circles).forEach((circleId) => {
           if (circleId !== '-Followers' && circles[circleId].users) {
             Object.keys(circles[circleId].users).filter((v, i, a) => a.indexOf(v) === i).forEach((userId) => {
               dispatch(postActions.dbGetPostsByUserId(userId))
-              dispatch(userActions.dbGetUserInfoByUserId(userId, ""))
+              dispatch(userActions.dbGetUserInfoByUserId(userId, ''))
             })
           }
           parsedCircles[circleId] = {
@@ -191,8 +191,8 @@ export const dbGetCircles = () => {
           }
         })
 
-        dispatch(addCircles(uid, parsedCircles));
-      });
+        dispatch(addCircles(uid, parsedCircles))
+      })
 
     }
   }
@@ -207,18 +207,18 @@ export const dbGetCirclesByUserId = (uid: string) => {
   return (dispatch: any, getState: Function) => {
 
     if (uid) {
-      let circlesRef = firebaseRef.child(`userCircles/${uid}/circles`);
+      let circlesRef = firebaseRef.child(`userCircles/${uid}/circles`)
 
       return circlesRef.once('value').then((snapshot) => {
-        var circles = snapshot.val() || {};
-        var parsedCircles: { [circleId: string]: Circle } = {};
+        let circles = snapshot.val() || {}
+        let parsedCircles: { [circleId: string]: Circle } = {}
         Object.keys(circles).forEach((circleId) => {
           parsedCircles[circleId] = {
             id: circleId,
             ...circles[circleId]
           }
         })
-        dispatch(addCircles(uid, parsedCircles));
+        dispatch(addCircles(uid, parsedCircles))
       })
 
     }

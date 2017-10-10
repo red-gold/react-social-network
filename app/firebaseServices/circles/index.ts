@@ -1,4 +1,4 @@
-import { AuthorizeService } from "./CircleService";
+import { AuthorizeService } from './CircleService'
 
 export {
     AuthorizeService

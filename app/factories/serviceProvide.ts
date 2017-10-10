@@ -1,14 +1,14 @@
 //#region Interfaces
 
-import { IServiceProvider } from "factories";
-import { IAuthorizeService } from "services/authorize";
+import { IServiceProvider } from 'factories'
+import { IAuthorizeService } from 'services/authorize'
 
 //#endregion
 
 //#region Service implemented classes
 
     // - Firebase services
-    import { AuthorizeService } from "firebaseServices/authorize";
+    import { AuthorizeService } from 'firebaseServices/authorize'
 
 //#endregion
 
@@ -20,7 +20,7 @@ export class ServiceProvide implements IServiceProvider {
      * @memberof ServiceProvide
      */
     createAuthorizeService: () => IAuthorizeService = () => {
-        return new AuthorizeService();
+        return new AuthorizeService()
     }
     
 }

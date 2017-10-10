@@ -1,14 +1,14 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var TestUtils = require('react-dom/test-utils');
-var expect = require('expect');
-var $ = require('jquery');
+let React = require('react')
+let ReactDOM = require('react-dom')
+let TestUtils = require('react-dom/test-utils')
+let expect = require('expect')
+let $ = require('jquery')
 
-var {Signup} = require('Signup');
+let {Signup} = require('Signup')
 
 describe('Signup', () => {
   it('should exist', () => {
-    expect(Signup).toExist();
+    expect(Signup).toExist()
   })
 
 })

@@ -8,8 +8,8 @@ export const detectTags = (content,character) => {
 
 }
 export const getContentTags = (content) => {
-  var newTags = []
-  var tags =  detectTags(content,'#')
+  let newTags = []
+  let tags =  detectTags(content,'#')
   tags.forEach((tag)=>{
     newTags.push(tag.slice(1))
   })
@@ -17,13 +17,13 @@ export const getContentTags = (content) => {
 }
 
 export const sortObjectsDate = (objects) => {
-    var sortedObjects = objects;
+    let sortedObjects = objects
 
      // Sort posts with creation date
      sortedObjects.sort((a, b) => {
       return  parseInt(b.creationDate) - parseInt(a.creationDate)
 
-    });
+    })
 
-    return sortedObjects;
+    return sortedObjects
   }

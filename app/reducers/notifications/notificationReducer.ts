@@ -3,13 +3,13 @@ import moment from 'moment'
 import _ from 'lodash'
 
 // - Import domain
-import { Notification } from "domain/notifications";
+import { Notification } from 'domain/notifications'
 
 // - Import action types
 import {NotificationActionType} from 'constants/notificationActionType'
 
-import { NotificationState } from "./NotificationState";
-import { INotificationAction } from "./INotificationAction";
+import { NotificationState } from './NotificationState'
+import { INotificationAction } from './INotificationAction'
 
 
 /**
@@ -17,8 +17,8 @@ import { INotificationAction } from "./INotificationAction";
  * @param {object} state 
  * @param {object} action 
  */
-export var notificationReducer = (state: NotificationState = new NotificationState(), action: INotificationAction) => {
-  var { payload } = action
+export let notificationReducer = (state: NotificationState = new NotificationState(), action: INotificationAction) => {
+  let { payload } = action
   switch (action.type) {
 
     /* _____________ CRUD _____________ */
@@ -48,7 +48,7 @@ export var notificationReducer = (state: NotificationState = new NotificationSta
       }
  
     case NotificationActionType.DELETE_NOTIFY:
-      var parsedNotifies = {}
+      let parsedNotifies = {}
       Object.keys(state.userNotifies!).map((id) => {
         if (id !== payload) {
           _.merge(parsedNotifies, { [id]: { ...state.userNotifies![id] } })
@@ -68,7 +68,7 @@ export var notificationReducer = (state: NotificationState = new NotificationSta
 
 
     default:
-      return state;
+      return state
 
   }
 

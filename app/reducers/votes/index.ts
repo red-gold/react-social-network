@@ -1,3 +1,3 @@
-import { voteReducer } from "./voteReducer";
+import { voteReducer } from './voteReducer'
 
-export {voteReducer};
+export {voteReducer}

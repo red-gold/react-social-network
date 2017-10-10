@@ -3,16 +3,14 @@ import moment from 'moment'
 import { firebaseRef } from 'app/firebase/'
 
 // - Import domain
-import { Comment } from "domain/comments";
+import { Comment } from 'domain/comments'
 
 // - Import action types
-import {CommentActionType} from 'constants/commentActionType'
+import { CommentActionType } from 'constants/commentActionType'
 
 // - Import actions
 import * as globalActions from 'actions/globalActions'
 import * as notifyActions from 'actions/notifyActions'
-
-
 
 /* _____________ CRUD DB _____________ */
 
@@ -38,20 +36,22 @@ export const dbAddComment = (ownerPostUserId: string,newComment: Comment, callBa
       postId: newComment.postId,
       text: newComment.text
     }
-    
+
     let commentRef: any = firebaseRef.child(`postComments/${newComment.postId}`).push(comment)
     return commentRef.then(() => {
       dispatch(addComment(newComment))
       callBack()
       dispatch(globalActions.hideTopLoading())
 
-      if (ownerPostUserId && ownerPostUserId !== uid)
+      if (ownerPostUserId && ownerPostUserId !== uid) {
         dispatch(notifyActions.dbAddNotify(
           {
             description: 'Add comment on your post.',
             url: `/${ownerPostUserId}/posts/${newComment.postId}`,
-            notifyRecieverUserId: ownerPostUserId, notifierUserId: uid
+            notifyRecieverUserId: ownerPostUserId, notifierUserId: uid,
+            isSeen: false
           }))
+      }
 
     }, (error: any) => {
       dispatch(globalActions.showErrorMessage(error.message))
@@ -69,10 +69,10 @@ export const dbGetComments = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let commentsRef: any = firebaseRef.child(`postComments`);
+      let commentsRef: any = firebaseRef.child(`postComments`)
 
       return commentsRef.on('value', (snapshot: any) => {
-        let comments: {[postId: string]: {[commentId: string] : Comment}} = snapshot!.val() || {};
+        let comments: {[postId: string]: {[commentId: string]: Comment}} = snapshot!.val() || {}
         dispatch(addCommentList(comments))
 
       })
@@ -92,12 +92,11 @@ export const dbUpdateComment = (id: string, postId: string, text: string) => {
 
     dispatch(globalActions.showTopLoading())
 
-
     // Get current user id
     let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    let updates: any = {};
+    let updates: any = {}
     let comment: Comment = getState().comment.postComments[postId][id]
     updates[`postComments/${postId}/${id}`] = {
       postId: postId,
@@ -131,13 +130,12 @@ export const dbDeleteComment = (id: string, postId: string) => {
 
     dispatch(globalActions.showTopLoading())
 
-
     // Get current user id
     let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    let updates: any = {};
-    updates[`postComments/${postId}/${id}`] = null;
+    let updates: any = {}
+    updates[`postComments/${postId}/${id}`] = null
 
     return firebaseRef.update(updates).then((result) => {
       dispatch(deleteComment(id, postId))
@@ -154,12 +152,11 @@ export const dbDeleteComment = (id: string, postId: string) => {
 
 /* _____________ CRUD State _____________ */
 
-
 /**
- * Add comment 
- * @param {Comment} data  
+ * Add comment
+ * @param {Comment} data
  */
-export const addComment = (comment:Comment) => {
+export const addComment = (comment: Comment) => {
 
   return {
     type: CommentActionType.ADD_COMMENT,
@@ -168,7 +165,7 @@ export const addComment = (comment:Comment) => {
 }
 
 /**
- * 
+ *
  * @param id comment identifier
  * @param postId post identefier which comment belong to
  * @param text the new text for comment
@@ -185,15 +182,13 @@ export const updateComment = ( id: string, postId: string, text: string) => {
  * Add comment list
  * @param {[postId: string]: {[commentId: string] : Comment}} postComments an array of comments
  */
-export const addCommentList = (postComments: {[postId: string]: {[commentId: string] : Comment}}) => {
+export const addCommentList = (postComments: {[postId: string]: {[commentId: string]: Comment}}) => {
 
   return {
     type: CommentActionType.ADD_COMMENT_LIST,
     payload: postComments
   }
 }
-
-
 
 /**
  * Delete a comment
@@ -229,4 +224,3 @@ export const closeCommentEditor = (comment: Comment) => {
     payload: comment
   }
 }
-

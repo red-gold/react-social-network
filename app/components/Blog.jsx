@@ -1,6 +1,6 @@
 // - Import react components
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
@@ -120,8 +120,8 @@ export class Blog extends Component {
     }
     else {
 
-      var postBack = { oddPostList: [], evenPostList: [] }
-      var parsedPosts = []
+      let postBack = { oddPostList: [], evenPostList: [] }
+      let parsedPosts = []
       Object.keys(posts).forEach((postId) => {
         if(tag){
           let regex = new RegExp("#" + tag,'g')
@@ -142,7 +142,7 @@ export class Blog extends Component {
       }
       sortedPosts.forEach((post, index) => {
 
-        var newPost = (
+        let newPost = (
           <div key={post.id}>
 
             {index > 1 || (!postBack.divided && index > 0) ? <div style={{ height: "16px" }}></div> : ''}

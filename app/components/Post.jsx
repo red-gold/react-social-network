@@ -297,7 +297,7 @@ static propTypes = {
     this.setState({
       readMoreState: !this.state.readMoreState
 
-    });
+    })
   }
   componentDidMount() {
 

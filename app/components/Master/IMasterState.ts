@@ -13,12 +13,12 @@ export interface IMasterState {
       * @type {Boolean}
       * @memberof IMasterState
       */
-      authed:Boolean;
+      authed:Boolean
       /**
        * It's true if all default data loaded from database
        * 
        * @type {Boolean}
        * @memberof IMasterState
        */
-      dataLoaded:Boolean;
+      dataLoaded:Boolean
   }

@@ -153,9 +153,9 @@ export class EditProfile extends Component {
     * Set banner image url
     */
     handleRequestSetBanner = (url) => {
-        console.log('==========Banner==================');
-        console.log(url);
-        console.log('====================================');
+        console.log('==========Banner==================')
+        console.log(url)
+        console.log('====================================')
         this.setState({
             banner: url
         })
@@ -226,7 +226,7 @@ export class EditProfile extends Component {
     handleResize = (evt) => {
 
         // Set initial state
-        var width = window.innerWidth
+        let width = window.innerWidth
 
         if (width > 900) {
             this.setState({

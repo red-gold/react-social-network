@@ -8,7 +8,7 @@ import {CommentActionType} from 'constants/commentActionType'
  * @interface ICommentAction
  */
 export interface ICommentAction  {
-    payload: any;
-    type: CommentActionType;
+    payload: any
+    type: CommentActionType
   
   }

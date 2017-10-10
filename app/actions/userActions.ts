@@ -2,7 +2,7 @@
 import { firebaseRef } from 'app/firebase/'
 
 // - Import domain
-import { Profile } from "domain/users";
+import { Profile } from 'domain/users'
 
 // - Import action types
 import {UserActionType} from 'constants/userActionType'
@@ -11,7 +11,7 @@ import {UserActionType} from 'constants/userActionType'
 import *  as globalActions from 'actions/globalActions'
 import * as userActions from 'actions/userActions'
 
-declare const console: any;
+declare const console: any
 
 /* _____________ CRUD DB _____________ */
 
@@ -23,10 +23,10 @@ export const dbGetUserInfo = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let userProfileRef: any = firebaseRef.child(`users/${uid}/info`);
+      let userProfileRef: any = firebaseRef.child(`users/${uid}/info`)
 
       return userProfileRef.once('value').then((snapshot: any) => {
-        let userProfile: Profile = snapshot.val() || {};
+        let userProfile: Profile = snapshot.val() || {}
         
         dispatch(addUserInfo(uid, {
           avatar: userProfile.avatar,
@@ -35,7 +35,7 @@ export const dbGetUserInfo = () => {
           banner: userProfile.banner,
           tagLine: userProfile.tagLine
         }))
-      }, (error: any) => console.log(error));
+      }, (error: any) => console.log(error))
 
     }
   }
@@ -49,10 +49,10 @@ export const dbGetUserInfo = () => {
 export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
   return (dispatch: any, getState: Function) => {
     if (uid) {
-      let userProfileRef: any = firebaseRef.child(`users/${uid}/info`);
+      let userProfileRef: any = firebaseRef.child(`users/${uid}/info`)
 
       return userProfileRef.once('value').then((snapshot: any) => {
-        let userProfile = snapshot.val() || {};
+        let userProfile = snapshot.val() || {}
         dispatch(addUserInfo(uid, {
           avatar: userProfile.avatar,
           email: userProfile.email,
@@ -64,12 +64,12 @@ export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
           case 'header':
             dispatch(globalActions.setHeaderTitle(userProfile.fullName))
 
-            break;
+            break
 
           default:
-            break;
+            break
         }
-      }, (error: any) => console.log(error));
+      }, (error: any) => console.log(error))
 
     }
   }
@@ -86,7 +86,7 @@ export const dbUpdateUserInfo = (newProfile: Profile) => {
     let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    let updates: any = {};
+    let updates: any = {}
     let profile = getState().user.info[uid]
     let updateProfie: Profile = {
       avatar: newProfile.avatar || profile.avatar || '',
@@ -112,12 +112,12 @@ export const dbGetPeopleInfo = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let peopleRef: any = firebaseRef.child(`users`);
+      let peopleRef: any = firebaseRef.child(`users`)
 
       return peopleRef.once('value').then((snapshot: any) => {
-        let people = snapshot.val() || {};
+        let people = snapshot.val() || {}
 
-        let parsedPeople: {[userId: string]: Profile} = {};
+        let parsedPeople: {[userId: string]: Profile} = {}
         Object.keys(people).forEach((userId) => {
           if (userId !== uid) {
             let userInfo = people[userId].info
@@ -132,7 +132,7 @@ export const dbGetPeopleInfo = () => {
 
         })
         dispatch(addPeopleInfo(parsedPeople))
-      }, (error: any) => console.log(error));
+      }, (error: any) => console.log(error))
 
     }
   }

@@ -1,4 +1,4 @@
-import { NotificationService } from "./NotificationService";
+import { NotificationService } from './NotificationService'
 
 export {
     NotificationService

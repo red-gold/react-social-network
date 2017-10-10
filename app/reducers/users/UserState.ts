@@ -1,4 +1,4 @@
-import { User,Profile } from "domain/users";
+import { User,Profile } from 'domain/users'
 
 /**
  * User state 
@@ -13,7 +13,7 @@ export class UserState  {
      * @type {({[userId: string]: Profile} | null)}
      * @memberof UserState
      */
-    info: {[userId: string]: Profile} = {};
+    info: {[userId: string]: Profile} = {}
 
     /**
      * If users profile are loaded
@@ -21,7 +21,7 @@ export class UserState  {
      * @type {Boolean}
      * @memberof UserState
      */
-    loaded: Boolean = false;
+    loaded: Boolean = false
 
     /**
      * If edit profile is open {true} or not {false}
@@ -29,5 +29,5 @@ export class UserState  {
      * @type {Boolean}
      * @memberof UserState
      */
-    openEditProfile: Boolean = false;
+    openEditProfile: Boolean = false
   }

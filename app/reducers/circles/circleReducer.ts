@@ -3,14 +3,14 @@ import moment from 'moment'
 import _ from 'lodash'
 
 // - Import domain
-import { User } from "domain/users";
-import { Circle } from "domain/circles";
+import { User } from 'domain/users'
+import { Circle } from 'domain/circles'
 
 // - Import action types
 import {CircleActionType} from 'constants/circleActionType'
 
-import { CircleState } from "./CircleState";
-import { ICircleAction } from "./ICircleAction";
+import { CircleState } from './CircleState'
+import { ICircleAction } from './ICircleAction'
 
 
 
@@ -19,11 +19,11 @@ import { ICircleAction } from "./ICircleAction";
  * @param state 
  * @param action 
  */
-export var circleReducer = (state: CircleState = new CircleState(), action: ICircleAction) => {
+export let circleReducer = (state: CircleState = new CircleState(), action: ICircleAction) => {
   const { payload } = action
   switch (action.type) {
     case CircleActionType.CLEAR_ALL_CIRCLES:
-      return new CircleState();
+      return new CircleState()
 
     case CircleActionType.ADD_CIRCLE:
       return {
@@ -156,7 +156,7 @@ export var circleReducer = (state: CircleState = new CircleState(), action: ICir
       }
 
     default:
-      return state;
+      return state
 
   }
 }

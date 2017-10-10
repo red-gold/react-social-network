@@ -1,16 +1,16 @@
 // - Import firebase components
-import {firebaseAuth, firebaseRef} from 'app/firebase/';
-import store from 'store/configureStore';
+import {firebaseAuth, firebaseRef} from 'app/firebase/'
+import store from 'store/configureStore'
 
 // - Check user if is authorized
-export var isAuthorized = () => {
-  var state = store.getState();
-  return state.authorize.authed;
+export let isAuthorized = () => {
+  let state = store.getState()
+  return state.authorize.authed
 
-};
+}
 
-export var isAdmin = () =>{
+export let isAdmin = () =>{
 
-return true;
+return true
 
-};
+}

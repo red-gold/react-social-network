@@ -1,6 +1,6 @@
 // - Import react components
 import React, { Component } from 'react'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { List, ListItem } from 'material-ui/List'
 
@@ -57,17 +57,17 @@ export class CommentList extends Component {
    * @return {DOM} list of comments' DOM
    */
   commentList = () => {
-    var comments = this.props.comments
+    let comments = this.props.comments
     if (comments) {
 
 
-      var parsedComments = [];
+      let parsedComments = []
       Object.keys(comments).forEach((commentId) => {
         parsedComments.push({
           id: commentId,
           ...comments[commentId]
-        });
-      });
+        })
+      })
       let sortedComments = PostAPI.sortObjectsDate(parsedComments)
       
       return sortedComments.map((comment, index, array) => {

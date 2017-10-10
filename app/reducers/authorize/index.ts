@@ -1,3 +1,3 @@
-import { authorizeReducer } from "./authorizeReducer";
+import { authorizeReducer } from './authorizeReducer'
 
-export {authorizeReducer};
+export {authorizeReducer}

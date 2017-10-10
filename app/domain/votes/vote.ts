@@ -1,4 +1,4 @@
-import { BaseDomain } from "domain/common";
+import { BaseDomain } from 'domain/common'
 
 export class Vote extends BaseDomain {
     
@@ -8,7 +8,7 @@ export class Vote extends BaseDomain {
      * @type {string}
      * @memberof Vote
      */
-    public id?: string | null;
+    public id?: string | null
 
     /**
      * Post identifire which vote on
@@ -16,7 +16,7 @@ export class Vote extends BaseDomain {
      * @type {string}
      * @memberof Vote
      */
-   public postId: string;
+   public postId: string
 
    /**
     * Vote date 
@@ -24,7 +24,7 @@ export class Vote extends BaseDomain {
     * @type {number}
     * @memberof Vote
     */
-   public creationDate: number;
+   public creationDate: number
 
    /**
     * Voter full name
@@ -32,7 +32,7 @@ export class Vote extends BaseDomain {
     * @type {string}
     * @memberof Vote
     */
-   public userDisplayName: string;
+   public userDisplayName: string
 
    /**
     * Avatar of voter
@@ -40,7 +40,7 @@ export class Vote extends BaseDomain {
     * @type {string}
     * @memberof Vote
     */
-   public userAvatar: string;
+   public userAvatar: string
 
    /**
     * Voter identifier
@@ -48,6 +48,6 @@ export class Vote extends BaseDomain {
     * @type {string}
     * @memberof Vote
     */
-   public userId: string;
+   public userId: string
     
 }

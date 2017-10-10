@@ -1,4 +1,4 @@
-import { ICommonService } from "./ICommonService";
+import { ICommonService } from './ICommonService'
 
 export {
     ICommonService

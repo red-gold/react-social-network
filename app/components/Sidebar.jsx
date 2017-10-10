@@ -16,8 +16,8 @@ import * as authorizeActions from 'authorizeActions'
 import * as globalActions from 'globalActions'
 
 // - Feilds
-const color = 'teal';
-const colorKey = 'blue';
+const color = 'teal'
+const colorKey = 'blue'
 const sizeCondition = (width) => (width >= 750)
 
 
@@ -124,12 +124,12 @@ export class Sidebar extends Component {
           this.setState({
             auto: true
           })
-          break;
+          break
         case 'overlay':
           this.setState({
             shouldBeClosed: true
           })
-          break;
+          break
         default:
 
       }
@@ -159,7 +159,7 @@ export class Sidebar extends Component {
   handleResize = (evt) => {
 
     // Set initial state
-    var width = window.innerWidth
+    let width = window.innerWidth
 
     if (sizeCondition(width)) {
 
@@ -202,7 +202,7 @@ export class Sidebar extends Component {
    * Handle logout user
    */
   handleLogout = () => {
-    var { dispatch } = this.props
+    let { dispatch } = this.props
     dispatch(authorizeActions.dbLogout())
 
   }
@@ -215,7 +215,7 @@ export class Sidebar extends Component {
   handleKeyUp = (evt) => {
     if (this.state.overlayOpen) {
       if (this.state.open && keycode(event) === 'esc') {
-        this.open(false);
+        this.open(false)
       }
     }
   }

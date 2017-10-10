@@ -6,7 +6,7 @@ import { GridList, GridTile } from 'material-ui/GridList'
 import IconButton from 'material-ui/IconButton'
 import Subheader from 'material-ui/Subheader'
 import StarBorder from 'material-ui/svg-icons/toggle/star-border'
-import FloatingActionButton from 'material-ui/FloatingActionButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 import SvgUpload from 'material-ui/svg-icons/file/cloud-upload'
 import SvgAddImage from 'material-ui/svg-icons/image/add-a-photo'
 import SvgDelete from 'material-ui/svg-icons/action/delete'
@@ -43,7 +43,7 @@ export class ImageGallery extends Component {
    * @param  {object} props is an object properties of component
    */
   constructor(props) {
-    super(props);
+    super(props)
 
     // Binding function to `this`
     this.close = this.close.bind(this)
@@ -106,7 +106,7 @@ export class ImageGallery extends Component {
   onFileChange = (evt) => {
 
     const extension = FileAPI.getExtension(evt.target.files[0].name)
-    var fileName = (`${uuid()}.${extension}`)
+    let fileName = (`${uuid()}.${extension}`)
     let image = FileAPI.constraintImage(evt.target.files[0], fileName)
 
   }

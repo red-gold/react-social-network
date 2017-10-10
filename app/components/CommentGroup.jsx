@@ -120,17 +120,17 @@ static propTypes = {
    * @return {DOM} list of comments' DOM
    */
   commentList = () => {
-    var comments = this.props.comments
+    let comments = this.props.comments
     if (comments) {
 
 
-      var parsedComments = [];
+      let parsedComments = []
       Object.keys(comments).slice(0, 3).forEach((commentId) => {
         parsedComments.push({
           id: commentId,
           ...comments[commentId]
-        });
-      });
+        })
+      })
       if (parsedComments.length === 2) {
         parsedComments.push(parsedComments[0])
       }
@@ -230,7 +230,7 @@ static propTypes = {
         </Paper>
         </div>): ''}
       </div>
-    );
+    )
   }
 }
 

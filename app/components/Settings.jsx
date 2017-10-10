@@ -26,7 +26,7 @@ export class Settings extends Component {
    * @param  {object} props is an object properties of component
    */
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       passwordInput: '',
@@ -46,12 +46,12 @@ export class Settings extends Component {
    * @param  {event} evt is an event of inputs of element on change
    */
   handleInputChange = (evt) => {
-    const target = evt.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
+    const target = evt.target
+    const value = target.type === 'checkbox' ? target.checked : target.value
+    const name = target.name
     this.setState({
       [name]: value
-    });
+    })
 
 
     switch (name) {
@@ -66,7 +66,7 @@ export class Settings extends Component {
           passwordInputError: ''
         })
 
-        break;
+        break
       default:
 
     }
@@ -77,7 +77,7 @@ export class Settings extends Component {
    */
   handleForm = () => {
 
-    var error = false
+    let error = false
     if (this.state.passwordInput === '') {
       this.setState({
         passwordInputError: 'This field is required'
@@ -122,7 +122,7 @@ export class Settings extends Component {
       textAlign: 'center',
       display: 'block',
       margin: "auto"
-    };
+    }
     return (
       <div>
 

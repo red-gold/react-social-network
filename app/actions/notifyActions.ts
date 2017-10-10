@@ -3,7 +3,7 @@ import moment from 'moment'
 import { firebaseRef } from 'app/firebase/'
 
 // - Import domain
-import { Notification } from "domain/notifications";
+import { Notification } from 'domain/notifications'
 
 // - Import action types
 import {NotificationActionType} from 'constants/notificationActionType'
@@ -47,10 +47,10 @@ export const dbGetNotifies = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let notifiesRef: any = firebaseRef.child(`userNotifies/${uid}`);
+      let notifiesRef: any = firebaseRef.child(`userNotifies/${uid}`)
 
       return notifiesRef.on('value', (snapshot: any) => {
-        let notifies: {[notifyId: string]: Notification} = snapshot.val() || {};
+        let notifies: {[notifyId: string]: Notification} = snapshot.val() || {}
 
         Object.keys(notifies).forEach((key => {
           if (!getState().user.info[notifies[key].notifierUserId]) {
@@ -74,11 +74,11 @@ export const dbDeleteNotify = (id: string) => {
   return (dispatch: any, getState: Function) => {
 
     // Get current user id
-    var uid: string = getState().authorize.uid
+    let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    var updates: any = {};
-    updates[`userNotifies/${uid}/${id}`] = null;
+    let updates: any = {}
+    updates[`userNotifies/${uid}/${id}`] = null
 
     return firebaseRef.update(updates).then((result) => {
       dispatch(deleteNotify(id))
@@ -101,7 +101,7 @@ export const dbSeenNotify = (id: string) => {
     let notify: Notification = getState().notify.userNotifies[id]
     
     
-    let updates: any = {};
+    let updates: any = {}
     updates[`userNotifies/${uid}/${id}`] = {
       description: notify.description,
       url: notify.url,

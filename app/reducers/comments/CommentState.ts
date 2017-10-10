@@ -1,5 +1,5 @@
 
-import { Comment } from "domain/comments";
+import { Comment } from 'domain/comments'
 
 /**
  * Comment state 
@@ -15,7 +15,7 @@ export class CommentState  {
      * @type {({[postId: string]: {[commentId: string]: Comment}} | null)}
      * @memberof CommentState
      */
-    postComments: {[postId: string]: {[commentId: string]: Comment}} = {};
+    postComments: {[postId: string]: {[commentId: string]: Comment}} = {}
 
     /**
      * If the comments are loaded {true} or not {false}
@@ -23,5 +23,5 @@ export class CommentState  {
      * @type {Boolean}
      * @memberof CommentState
      */
-    loaded: Boolean = false;
+    loaded: Boolean = false
   }

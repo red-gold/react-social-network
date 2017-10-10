@@ -1,14 +1,14 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var TestUtils = require('react-dom/test-utils');
-var expect = require('expect');
-var $ = require('jquery');
+let React = require('react')
+let ReactDOM = require('react-dom')
+let TestUtils = require('react-dom/test-utils')
+let expect = require('expect')
+let $ = require('jquery')
 
-var {ImgCover} = require('ImgCover');
+let {ImgCover} = require('ImgCover')
 
 describe('ImgCover', () => {
   it('should exist', () => {
-    expect(ImgCover).toExist();
+    expect(ImgCover).toExist()
   })
 
 })

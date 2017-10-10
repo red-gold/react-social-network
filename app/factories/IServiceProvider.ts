@@ -5,6 +5,6 @@ export interface IServiceProvider{
      * 
      * @memberof IServiceProvider
      */
-    createAuthorizeService : () => IAuthorizeService;
+    createAuthorizeService : () => IAuthorizeService
 
 }

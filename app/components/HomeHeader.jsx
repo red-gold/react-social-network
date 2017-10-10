@@ -90,12 +90,12 @@ export class HomeHeader extends Component {
    */
   handleNotifyTouchTap = (event) => {
     // This prevents ghost click.
-    event.preventDefault();
+    event.preventDefault()
 
     this.setState({
       openNotifyMenu: true,
       anchorEl: event.currentTarget,
-    });
+    })
   }
 
   /**
@@ -106,12 +106,12 @@ export class HomeHeader extends Component {
    */
   handleAvatarTouchTap = (event) => {
     // This prevents ghost click.
-    event.preventDefault();
+    event.preventDefault()
 
     this.setState({
       openAvatarMenu: true,
       anchorEl: event.currentTarget,
-    });
+    })
   }
 
   /**
@@ -133,8 +133,8 @@ export class HomeHeader extends Component {
   handleRequestClose = () => {
     this.setState({
       openAvatarMenu: false,
-    });
-  };
+    })
+  }
 
 
   /**
@@ -144,7 +144,7 @@ export class HomeHeader extends Component {
   handleResize = (evt) => {
 
     // Set initial state
-    var width = window.innerWidth
+    let width = window.innerWidth
 
     if (width >= 600 && !this.state.showTitle) {
       this.setState({
@@ -171,7 +171,7 @@ export class HomeHeader extends Component {
     /**
      * Styles
      */
-    var styles = {
+    let styles = {
       toolbarStyle: {
         backgroundColor: "",
         transition: "all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms",

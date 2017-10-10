@@ -1,4 +1,4 @@
-import { ICircleService } from "./ICircleService";
+import { ICircleService } from './ICircleService'
 
 export {
     ICircleService

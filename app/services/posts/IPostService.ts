@@ -1,4 +1,4 @@
-import { User } from "domain/users";
+import { User } from 'domain/users'
 
 
 

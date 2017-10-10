@@ -53,15 +53,15 @@ export class People extends Component {
       case undefined:
       case '':
         this.props.setHeaderTitle('People')
-        break;
+        break
       case 'circles':
         this.props.setHeaderTitle('Circles')
-        break;
+        break
       case 'followers':
         this.props.setHeaderTitle('Followers')
-        break;
+        break
       default:
-        break;
+        break
     }
 
   }
@@ -98,15 +98,15 @@ export class People extends Component {
       case undefined:
       case '':
         tabIndex = 0
-        break;
+        break
       case 'circles':
         tabIndex = 1
-        break;
+        break
       case 'followers':
         tabIndex = 2
-        break;
+        break
       default:
-        break;
+        break
     }
     return (
       <div style={styles.people}>

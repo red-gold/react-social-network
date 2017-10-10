@@ -84,10 +84,10 @@ export const setHeaderTitleOpt = (callerKey: string,payload: any) => {
       case 'profile':
         const userName = getState().user.info && getState().user.info[payload] ? getState().user.info[payload].fullName : ''
         dispatch(setHeaderTitle(userName))
-        break;
+        break
     
       default:
-        break;
+        break
     }
 
   }

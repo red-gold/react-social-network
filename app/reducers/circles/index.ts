@@ -1,3 +1,3 @@
-import { circleReducer } from "./circleReducer";
+import { circleReducer } from './circleReducer'
 
-export {circleReducer};
+export {circleReducer}

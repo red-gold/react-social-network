@@ -12,7 +12,7 @@ export class AuthorizeState  {
      * @type {number}
      * @memberof AuthorizeState
      */
-    uid: number = 0;
+    uid: number = 0
 
     /**
      * If user is authed {true} or not {false}
@@ -20,7 +20,7 @@ export class AuthorizeState  {
      * @type {Boolean}
      * @memberof AuthorizeState
      */
-    authed: Boolean = false;
+    authed: Boolean = false
 
     /**
      * If user password is updated {true} or not {false}
@@ -28,7 +28,7 @@ export class AuthorizeState  {
      * @type {Boolean}
      * @memberof AuthorizeState
      */
-    updatePassword: Boolean = false;
+    updatePassword: Boolean = false
 
     /**
      * If the user is guest {true} or not {false}
@@ -36,5 +36,5 @@ export class AuthorizeState  {
      * @type {Boolean}
      * @memberof AuthorizeState
      */
-    guest: Boolean = false;
+    guest: Boolean = false
   }

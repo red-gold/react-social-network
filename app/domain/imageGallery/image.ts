@@ -1,4 +1,4 @@
-import { BaseDomain } from "domain/common";
+import { BaseDomain } from 'domain/common'
 
 export class Image extends BaseDomain {
 
@@ -8,7 +8,7 @@ export class Image extends BaseDomain {
      * @type {string}
      * @memberof Image
      */
-    public id?: string | null;
+    public id?: string | null
 
     /**
      * Image creation date
@@ -16,7 +16,7 @@ export class Image extends BaseDomain {
      * @type {number}
      * @memberof Image
      */
-   public creationDate: number;
+   public creationDate: number
 
    /**
     * Image delete date
@@ -24,7 +24,7 @@ export class Image extends BaseDomain {
     * @type {string}
     * @memberof Image
     */
-   public deleteDate: string;
+   public deleteDate: string
 
    /**
     * Image URL address
@@ -32,7 +32,7 @@ export class Image extends BaseDomain {
     * @type {string}
     * @memberof Image
     */
-   public URL: string;
+   public URL: string
 
    /**
     * Image folder name with image name {folderName/imageName}
@@ -40,7 +40,7 @@ export class Image extends BaseDomain {
     * @type {string}
     * @memberof Image
     */
-   public fullPath: string;
+   public fullPath: string
 
    /**
     * Image owner identifier
@@ -48,7 +48,7 @@ export class Image extends BaseDomain {
     * @type {string}
     * @memberof Image
     */
-   public ownerUserId: string;
+   public ownerUserId: string
 
    /**
     * Last edit date
@@ -56,7 +56,7 @@ export class Image extends BaseDomain {
     * @type {number}
     * @memberof Image
     */
-   public lastEditDate: number;
+   public lastEditDate: number
 
    /**
     * If the image was deleted {true} or not {false}
@@ -64,6 +64,6 @@ export class Image extends BaseDomain {
     * @type {Boolean}
     * @memberof Image
     */
-   public deleted: Boolean;
+   public deleted: Boolean
     
 }

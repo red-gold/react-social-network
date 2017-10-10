@@ -3,10 +3,10 @@ import moment from 'moment'
 import { firebaseRef, firebaseAuth, storageRef } from 'app/firebase/'
 
 // - Import domain
-import { Image } from "domain/imageGallery";
+import { Image } from 'domain/imageGallery'
 
 // - Import action types
-import {ImageGalleryActionType} from 'constants/imageGalleryActionType'
+import { ImageGalleryActionType } from 'constants/imageGalleryActionType'
 
 // - Import actions
 import * as globalActions from 'actions/globalActions'
@@ -16,8 +16,6 @@ import FileAPI from 'api/FileAPI'
 
 /* _____________ UI Actions _____________ */
 
-declare const console: any;
-
 /**
  * Download images for image gallery
  */
@@ -25,18 +23,18 @@ export const downloadForImageGallery = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let imagesRef: any = firebaseRef.child(`userFiles/${uid}/files/images`);
+      let imagesRef: any = firebaseRef.child(`userFiles/${uid}/files/images`)
 
       return imagesRef.once('value').then((snapshot: any) => {
-        var images = snapshot.val() || {};
-        var parsedImages: Image[] = []
+        let images = snapshot.val() || {}
+        let parsedImages: Image[] = []
         Object.keys(images).forEach((imageId) => {
           parsedImages.push({
             id: imageId,
             ...images[imageId]
           })
         })
-        dispatch(addImageList(parsedImages));
+        dispatch(addImageList(parsedImages))
       })
 
     }
@@ -55,17 +53,17 @@ export const dbSaveImage = (imageURL: string,imageFullPath: string) => {
   return (dispatch: any, getState: Function) => {
 
     let uid: string = getState().authorize.uid
-    var image: Image = {
+    let image: Image = {
       creationDate: moment().unix(),
       deleteDate: '',
       URL: imageURL,
-      fullPath:imageFullPath,
+      fullPath: imageFullPath,
       ownerUserId: uid,
       lastEditDate: 0,
       deleted: false
     }
 
-    var imageRef = firebaseRef.child(`userFiles/${uid}/files/images`).push(image)
+    let imageRef = firebaseRef.child(`userFiles/${uid}/files/images`).push(image)
     return imageRef.then(() => {
       dispatch(addImage({
         ...image,
@@ -84,26 +82,26 @@ export const dbDeleteImage = (id: string) => {
   return (dispatch: any, getState: Function) => {
 
     // Get current user id
-    let uid: string = getState().authorize.uid;
+    let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    var updates: any = {};
-    updates[`userFiles/${uid}/files/images/${id}`] = null;
+    let updates: any = {}
+    updates[`userFiles/${uid}/files/images/${id}`] = null
 
     return firebaseRef.update(updates).then((result) => {
       dispatch(deleteImage(id))
-      console.log('image removed: ', id);
+      console.log('image removed: ', id)
     }, (error) => {
-      console.log(error);
-    });
+      console.log(error)
+    })
   }
 
 }
 
 /**
  * Upload image on the server
- * @param {file} file 
- * @param {string} fileName 
+ * @param {file} file
+ * @param {string} fileName
  */
 export const dbUploadImage = (file: any, fileName: string) => {
   return (dispatch: any, getState: Function) => {
@@ -116,48 +114,49 @@ export const dbUploadImage = (file: any, fileName: string) => {
 
     // Upload storage bar
     task.on('state_changed', (snapshot: any) => {
-      var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
       dispatch(globalActions.progressChange(percentage, true))
-
 
     }, (error: any) => {
       dispatch(globalActions.showErrorMessage(error.code))
       dispatch(globalActions.hideTopLoading())
 
-    }, (complete?: any ) =>  {
+    }, (complete?: any ) => {
       dispatch(globalActions.progressChange(100, false))
       dispatch(dbSaveImage(fileName,''))
       dispatch(globalActions.hideTopLoading())
-        
+
     })
   }
 }
 
 /**
  * Download image from server
- * @param {string} fileName 
+ * @param {string} fileName
  */
 export const dbDownloadImage = (fileName: string) => {
 
   return (dispatch: any, getState: Function) => {
-    if (fileName == 'noImage')
+    if (fileName === 'noImage') {
       return {}
-    if (getState().imageGallery.imageURLList[fileName] && fileName !== '')
+    }
+    if (getState().imageGallery.imageURLList[fileName] && fileName !== '') {
       return
-
-    if (getState().imageGallery.imageRequests.indexOf(fileName) > -1)
+    }
+    if (getState().imageGallery.imageRequests.indexOf(fileName) > -1){
       return
+    }
     dispatch(sendImageRequest(fileName))
 
-    // Create a reference to the file we want to download    
-    let starsRef: any = storageRef.child(`images/${fileName}`);
+    // Create a reference to the file we want to download
+    let starsRef: any = storageRef.child(`images/${fileName}`)
 
     // Get the download URL
     starsRef.getDownloadURL().then((url: string) => {
-      // Insert url into an <img> tag to "download"
+      // Insert url into an <img> tag to 'download'
       if (!getState().imageGallery.imageURLList[fileName] || fileName === '')
         dispatch(setImageURL(fileName, url))
-    }).catch((error:any) => {
+    }).catch((error: any) => {
 
       // A full list of error codes is available at
       // https://firebase.google.com/docs/storage/web/handle-errors
@@ -165,24 +164,24 @@ export const dbDownloadImage = (fileName: string) => {
         case 'storage/object_not_found':
           // File doesn't exist
           dispatch(globalActions.showErrorMessage('storage/object_not_found'))
-          break;
+          break
 
         case 'storage/unauthorized':
           // User doesn't have permission to access the object
           dispatch(globalActions.showErrorMessage('storage/unauthorized'))
-          break;
+          break
 
         case 'storage/canceled':
           // User canceled the upload
           dispatch(globalActions.showErrorMessage('storage/canceled'))
-          break;
+          break
 
         case 'storage/unknown':
           // Unknown error occurred, inspect the server response
           dispatch(globalActions.showErrorMessage('storage/unknown'))
-          break;
+          break
       }
-    });
+    })
   }
 }
 

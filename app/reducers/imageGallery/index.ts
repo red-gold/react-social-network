@@ -1,3 +1,3 @@
-import { imageGalleryReducer } from "./imageGalleryReducer";
+import { imageGalleryReducer } from './imageGalleryReducer'
 
-export {imageGalleryReducer};
+export {imageGalleryReducer}

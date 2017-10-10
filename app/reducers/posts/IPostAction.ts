@@ -1,4 +1,4 @@
-import { PostActionType } from "constants/postActionType";
+import { PostActionType } from 'constants/postActionType'
 
 /**
  * Post action interface

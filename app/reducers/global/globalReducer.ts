@@ -1,9 +1,9 @@
 // - Import action types
-import { GlobalActionType } from 'constants/globalActionType';
+import { GlobalActionType } from 'constants/globalActionType'
 
 
-import { GlobalState } from "./GlobalState";
-import { IGlobalAction } from "./IGlobalAction";
+import { GlobalState } from './GlobalState'
+import { IGlobalAction } from './IGlobalAction'
 
 
 /**
@@ -48,13 +48,13 @@ export const globalReducer = (state: GlobalState = new GlobalState(), action: IG
     case GlobalActionType.SHOW_SEND_REQUEST_MESSAGE_GLOBAL:
       return {
         ...state,
-        message: "Request has been sent",
+        message: 'Request has been sent',
         messageOpen: true
       }
     case GlobalActionType.SHOW_REQUEST_SUCCESS_MESSAGE_GLOBAL:
       return {
         ...state,
-        message: "Your request has processed successfuly",
+        message: 'Your request has processed successfuly',
         messageOpen: true
       }
     case GlobalActionType.HIDE_MESSAGE_GLOBAL:

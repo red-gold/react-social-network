@@ -12,7 +12,7 @@ export default class MasterLoading extends Component {
 
   // Constructor
   constructor(props) {
-    super(props);
+    super(props)
 
 
     // Binding functions to `this`
@@ -49,7 +49,7 @@ export default class MasterLoading extends Component {
 
 
 
-    );
+    )
   }
 
 }

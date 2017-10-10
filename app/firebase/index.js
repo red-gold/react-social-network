@@ -1,7 +1,7 @@
-import firebase from 'firebase';
+import firebase from 'firebase'
 
 try {
-  var config = {
+  let config = {
     apiKey: process.env.API_KEY,
     authDomain: process.env.AUTH_DOMAIN,
     databaseURL: process.env.DATABASE_URL,
@@ -10,17 +10,17 @@ try {
     messagingSenderId: process.env.MESSAGING_SENDER_ID
   }
 
-  firebase.initializeApp(config);
+  firebase.initializeApp(config)
 } catch (e) {
 
 }
 
 // - Storage reference
-export var storageRef = firebase.storage().ref()
+export let storageRef = firebase.storage().ref()
 
 // - Database authorize
-export var firebaseAuth = firebase.auth
-export var firebaseRef = firebase.database().ref()
+export let firebaseAuth = firebase.auth
+export let firebaseRef = firebase.database().ref()
 
 // - Firebase default
-export default firebase;
+export default firebase

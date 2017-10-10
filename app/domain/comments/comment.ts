@@ -1,4 +1,4 @@
-import { BaseDomain } from "domain/common";
+import { BaseDomain } from 'domain/common'
 
 export class Comment extends BaseDomain {
     
@@ -8,7 +8,7 @@ export class Comment extends BaseDomain {
      * @type {string}
      * @memberof Comment
      */
-    public postId: string;
+    public postId: string
 
     /**
      * Comment text 
@@ -16,7 +16,7 @@ export class Comment extends BaseDomain {
      * @type {string}
      * @memberof Comment
      */
-    public text: string;
+    public text: string
 
     /**
      * Comment score
@@ -24,7 +24,7 @@ export class Comment extends BaseDomain {
      * @type {number}
      * @memberof Comment
      */
-    public score: number;
+    public score: number
 
     /**
      * Comment creation date 
@@ -32,7 +32,7 @@ export class Comment extends BaseDomain {
      * @type {number}
      * @memberof Comment
      */
-    public creationDate:number;
+    public creationDate:number
 
     /**
      * Comment owner full name
@@ -40,7 +40,7 @@ export class Comment extends BaseDomain {
      * @type {string}
      * @memberof Comment
      */
-    public userDisplayName: string;
+    public userDisplayName: string
 
     /**
      * Comment owner avater address
@@ -48,7 +48,7 @@ export class Comment extends BaseDomain {
      * @type {string}
      * @memberof Comment
      */
-    public userAvatar: string;
+    public userAvatar: string
 
     /**
      * Comment owner identifier
@@ -56,6 +56,6 @@ export class Comment extends BaseDomain {
      * @type {string}
      * @memberof Comment
      */
-    public userId: string;
+    public userId: string
     
 }

@@ -1,9 +1,9 @@
 export class SocialError{
     
     constructor(code: string, description: string){
-        this._code = code;
-        this._description = description;
-        this._isError = true;
+        this._code = code
+        this._description = description
+        this._isError = true
     }
 
     /**
@@ -12,9 +12,9 @@ export class SocialError{
      * @type {string}
      * @memberof SocialError
      */
-    private _code : string;
+    private _code : string
     public get code() : string {
-        return this._code;
+        return this._code
     }
 
     /**
@@ -24,9 +24,9 @@ export class SocialError{
      * @memberof SocialError
      */
     
-    private _description : string;
+    private _description : string
     public get description() : string {
-        return this._description;
+        return this._description
     }
     
 
@@ -37,9 +37,9 @@ export class SocialError{
      * @memberof SocialError
      */
     
-    private _isError : Boolean;
+    private _isError : Boolean
     public get isError() : Boolean {
-        return this._isError;
+        return this._isError
     }
     
 }

@@ -2,21 +2,21 @@
 import _ from 'lodash'
 
 // - Import domain
-import { User } from "domain/users";
-import { Image } from "domain/imageGallery";
+import { User } from 'domain/users'
+import { Image } from 'domain/imageGallery'
 
 // - Import image gallery action types
 import {ImageGalleryActionType} from 'constants/imageGalleryActionType'
 
 
-import { IImageGalleryAction } from "./IImageGalleryAction";
-import { ImageGalleryState } from "./ImageGalleryState";
+import { IImageGalleryAction } from './IImageGalleryAction'
+import { ImageGalleryState } from './ImageGalleryState'
 
 
 /**
  *  Image gallery reducer
  */
-export var imageGalleryReducer = (state: ImageGalleryState = new ImageGalleryState(), action: IImageGalleryAction) => {
+export let imageGalleryReducer = (state: ImageGalleryState = new ImageGalleryState(), action: IImageGalleryAction) => {
   const { payload } = action
 
   switch (action.type) {
@@ -66,6 +66,6 @@ export var imageGalleryReducer = (state: ImageGalleryState = new ImageGallerySta
 
 
     default:
-      return state;
+      return state
   }
 }

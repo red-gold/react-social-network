@@ -1,11 +1,11 @@
 // - Import react components
-import {Reducer, Action} from "redux";
+import {Reducer, Action} from 'redux'
 
 // - Import action types
 import {AuthorizeActionType} from 'constants/authorizeActionType'
 
-import { IAuthorizeAction } from "./IAuthorizeAction";
-import { AuthorizeState } from "./AuthorizeState";
+import { IAuthorizeAction } from './IAuthorizeAction'
+import { AuthorizeState } from './AuthorizeState'
 
 
 
@@ -14,8 +14,8 @@ import { AuthorizeState } from "./AuthorizeState";
  * @param {object} state 
  * @param {object} action 
  */
-export var authorizeReducer = (state : AuthorizeState = new AuthorizeState(), action: IAuthorizeAction) =>{
-  const { payload } = action;
+export let authorizeReducer = (state : AuthorizeState = new AuthorizeState(), action: IAuthorizeAction) =>{
+  const { payload } = action
   switch (action.type) {
     case AuthorizeActionType.LOGIN:
       return{

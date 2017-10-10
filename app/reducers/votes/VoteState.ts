@@ -1,4 +1,4 @@
-import { Vote } from "domain/votes";
+import { Vote } from 'domain/votes'
 
 /**
  * Vote state 
@@ -14,7 +14,7 @@ export class VoteState  {
      * @type {({[postId: string]: {[voteId: string]: Vote}} | null)}
      * @memberof VoteState
      */
-    postVotes: {[postId: string]: {[voteId: string]: Vote}} | null = null;
+    postVotes: {[postId: string]: {[voteId: string]: Vote}} | null = null
 
     /**
      * If posts vote are loaded {true} or not {false}
@@ -22,5 +22,5 @@ export class VoteState  {
      * @type {Boolean}
      * @memberof VoteState
      */
-    loaded: Boolean = false;
+    loaded: Boolean = false
   }

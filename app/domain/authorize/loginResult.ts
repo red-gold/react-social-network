@@ -1,11 +1,11 @@
-import { BaseDomain } from "domain/common";
+import { BaseDomain } from 'domain/common'
 
 export class LoginUser extends BaseDomain{
 
     constructor(uid: string){
-        super();
+        super()
 
-        this._uid = uid;
+        this._uid = uid
     }
     
     /**
@@ -15,9 +15,9 @@ export class LoginUser extends BaseDomain{
      * @memberof LoginUser
      */
     
-    private _uid : string;
+    private _uid : string
     public get uid() : string {
-        return this._uid;
+        return this._uid
     }
 
     

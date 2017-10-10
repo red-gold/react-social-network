@@ -1,4 +1,4 @@
-import { Notification } from "domain/notifications";
+import { Notification } from 'domain/notifications'
 
 /**
  * Notification state
@@ -14,7 +14,7 @@ export class NotificationState  {
      * @type {({[userId: string]: {[notificationId: string]: Notification}} | null)}
      * @memberof NotificationState
      */
-    userNotifies: {[userId: string]: {[notificationId: string]: Notification}} = {};
+    userNotifies: {[userId: string]: {[notificationId: string]: Notification}} = {}
 
     /**
      * If user notifications are loaded {true} or not {false}
@@ -22,5 +22,5 @@ export class NotificationState  {
      * @type {Boolean}
      * @memberof NotificationState
      */
-    loaded: Boolean = false;
+    loaded: Boolean = false
   }

@@ -11,21 +11,21 @@ import * as commentActions from 'commentActions'
 // - Define variable
 const buttonStyle = {
   marginTop: '5px'
-};
+}
 
 // - Create CommentWrite component class
 export class CommentWrite extends Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       inputValue:''
     }
 
     // Binding functions to `this`
-    this.handleRef = this.handleRef.bind(this);
-    this.focus = this.focus.bind(this);
-    this.handleAddComment = this.handleAddComment.bind(this);
+    this.handleRef = this.handleRef.bind(this)
+    this.focus = this.focus.bind(this)
+    this.handleAddComment = this.handleAddComment.bind(this)
     this.handleOnChange = this.handleOnChange.bind(this)
 
   }
@@ -56,7 +56,7 @@ export class CommentWrite extends Component {
         <Button basic style={buttonStyle} onClick={this.handleAddComment} color='teal'>Add Comment</Button>
 
       </div>
-    );
+    )
   }
 }
 

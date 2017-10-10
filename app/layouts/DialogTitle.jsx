@@ -63,7 +63,7 @@ export default class DialogTitle extends Component {
       contain: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: "space-between"
+        justifyContent: 'space-between'
       },
       title: {
         color: 'rgba(0,0,0,0.87)',

@@ -1,4 +1,4 @@
-import { BaseDomain } from "domain/common";
+import { BaseDomain } from 'domain/common'
 
 export class Profile extends BaseDomain {
     
@@ -8,7 +8,7 @@ export class Profile extends BaseDomain {
      * @type {string}
      * @memberof Profile
      */
-   public avatar: string;
+   public avatar: string
 
    /**
     * User email
@@ -16,7 +16,7 @@ export class Profile extends BaseDomain {
     * @type {string}
     * @memberof Profile
     */
-   public email: string;
+   public email: string
 
    /**
     * User full name
@@ -24,7 +24,7 @@ export class Profile extends BaseDomain {
     * @type {string}
     * @memberof Profile
     */
-   public fullName: string;
+   public fullName: string
 
    /**
     * The banner address of user profile
@@ -32,7 +32,7 @@ export class Profile extends BaseDomain {
     * @type {string}
     * @memberof Profile
     */
-   public banner: string;
+   public banner: string
 
    /**
     * User tag line
@@ -40,6 +40,6 @@ export class Profile extends BaseDomain {
     * @type {string}
     * @memberof Profile
     */
-   public tagLine: string;
+   public tagLine: string
     
 }

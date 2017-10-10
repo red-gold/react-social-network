@@ -1,4 +1,4 @@
-import { BaseDomain } from "domain/common";
+import { BaseDomain } from 'domain/common'
 
 export class UserFollower extends BaseDomain {
     
@@ -9,7 +9,7 @@ export class UserFollower extends BaseDomain {
      * @type {Date}
      * @memberof Circle
      */
-    public creationDate?: number;
+    public creationDate?: number
 
     /**
      * User full name
@@ -17,7 +17,7 @@ export class UserFollower extends BaseDomain {
      * @type {string}
      * @memberof UserFollower
      */
-    public fullName: string;
+    public fullName: string
 
     /**
      * Avatar URL address
@@ -25,7 +25,7 @@ export class UserFollower extends BaseDomain {
      * @type {string}
      * @memberof UserFollower
      */
-    public avatar: string;
+    public avatar: string
 
     /**
      * If following user approved {true} or not {false}
@@ -33,7 +33,7 @@ export class UserFollower extends BaseDomain {
      * @type {Boolean}
      * @memberof UserFollower
      */
-    public approved: Boolean;
+    public approved: Boolean
 
    
     

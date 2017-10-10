@@ -1,3 +1,3 @@
-import { userReducer } from "./userReducer";
+import { userReducer } from './userReducer'
 
-export {userReducer};
+export {userReducer}

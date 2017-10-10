@@ -1,4 +1,4 @@
-import { IVoteService } from "./IVoteService";
+import { IVoteService } from './IVoteService'
 
 export {
     IVoteService

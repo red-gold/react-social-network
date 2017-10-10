@@ -9,7 +9,7 @@ import {AuthorizeActionType} from 'constants/authorizeActionType'
  * @interface IAuthorizeAction
  */
 export interface IAuthorizeAction  {
-    payload: any;
-    type: AuthorizeActionType;
+    payload: any
+    type: AuthorizeActionType
   
   }

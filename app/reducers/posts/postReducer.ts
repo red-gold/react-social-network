@@ -1,15 +1,15 @@
 // - Import react components
 import moment from 'moment'
 import _ from 'lodash'
-import {Reducer, Action} from "redux";
+import {Reducer, Action} from 'redux'
 
 
 // - Import action types
-import { PostActionType } from "constants/postActionType";
+import { PostActionType } from 'constants/postActionType'
 
 
-import { PostState } from "./PostState";
-import { IPostAction } from "./IPostAction";
+import { PostState } from './PostState'
+import { IPostAction } from './IPostAction'
 
 
 /**
@@ -17,8 +17,8 @@ import { IPostAction } from "./IPostAction";
  * @param {object} state 
  * @param {object} action 
  */
-export var postReducer = (state : PostState = new PostState(), action : IPostAction) => {
-  const { payload } = action;
+export let postReducer = (state : PostState = new PostState(), action : IPostAction) => {
+  const { payload } = action
   switch (action.type) {
     case PostActionType.CLEAR_ALL_DATA_POST:
       return new PostState()
@@ -93,7 +93,7 @@ export var postReducer = (state : PostState = new PostState(), action : IPostAct
       }
 
     default:
-      return state;
+      return state
 
   }
 }

@@ -3,23 +3,23 @@ import moment from 'moment'
 import _ from 'lodash'
 
 // - Import domain
-import { User } from "domain/users";
-import { Comment } from "domain/comments";
+import { User } from 'domain/users'
+import { Comment } from 'domain/comments'
 
 // - Import action types
 import {CommentActionType} from 'constants/commentActionType'
 
 
-import { CommentState } from "./CommentState";
-import { ICommentAction } from "./ICommentAction";
+import { CommentState } from './CommentState'
+import { ICommentAction } from './ICommentAction'
 
 /**
  * Comment reducer
  * @param state 
  * @param action 
  */
-export var commentReducer = (state: CommentState = new CommentState(), action: ICommentAction) => {
-  var { payload } = action
+export let commentReducer = (state: CommentState = new CommentState(), action: ICommentAction) => {
+  let { payload } = action
   switch (action.type) {
 
     /* _____________ CRUD _____________ */
@@ -62,7 +62,7 @@ export var commentReducer = (state: CommentState = new CommentState(), action: I
         }
       }
     case CommentActionType.DELETE_COMMENT:
-      var parsedComments = {}
+      let parsedComments = {}
       if (!state.postComments![payload.postId]) {
         return state
       }
@@ -111,11 +111,11 @@ export var commentReducer = (state: CommentState = new CommentState(), action: I
       }
 
     case CommentActionType.CLEAR_ALL_DATA_COMMENT:
-      return new CommentState();
+      return new CommentState()
 
 
     default:
-      return state;
+      return state
 
   }
 

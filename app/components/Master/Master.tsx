@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Route, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
 import { firebaseAuth, firebaseRef } from 'app/firebase'
 import { push } from 'react-router-redux'
-import Snackbar from 'material-ui/Snackbar';
+import Snackbar from 'material-ui/Snackbar'
 import LinearProgress from 'material-ui/LinearProgress'
 
 
@@ -14,8 +14,8 @@ import Signup from 'components/Signup'
 import Login from 'components/Login'
 import Settings from 'components/Settings'
 import MasterLoading from 'components/MasterLoading'
-import { IMasterProps } from "./IMasterProps";
-import { IMasterState } from "./IMasterState";
+import { IMasterProps } from "./IMasterProps"
+import { IMasterState } from "./IMasterState"
 
 
 // - Import API
@@ -45,12 +45,12 @@ export class Master extends Component<IMasterProps,IMasterState>{
   static isPrivate = true
   // Constructor
   constructor(props : IMasterProps) {
-    super(props);
+    super(props)
     this.state = {
       loading: true,
       authed: false,
       dataLoaded: false
-    };
+    }
 
     // Binding functions to `this`
     this.handleLoading = this.handleLoading.bind(this)
@@ -207,7 +207,7 @@ const mapDispatchToProps = (dispatch : any, ownProps : any) => {
  * @param {object} state
  */
 const mapStateToProps = (state : any) => {
-  const {authorize, global, user, post, comment, imageGallery , vote, notify,circle  } = state;
+  const {authorize, global, user, post, comment, imageGallery , vote, notify,circle  } = state
   return {
     guest: authorize.guest,
     uid: authorize.uid,

@@ -1,5 +1,5 @@
-import {User} from './user';
-import {Profile} from './profile';
+import {User} from './user'
+import {Profile} from './profile'
 
 export {
     User,

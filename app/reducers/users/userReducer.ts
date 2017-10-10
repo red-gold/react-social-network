@@ -2,15 +2,15 @@
 import {UserActionType} from 'constants/userActionType'
 
 // - Import domain 
-import { User,Profile } from "domain/users";
+import { User,Profile } from 'domain/users'
 
-import { UserState } from "./UserState";
-import { IUserAction } from "./IUserAction";
+import { UserState } from './UserState'
+import { IUserAction } from './IUserAction'
 
 /**
  * User reducer
  */
-export var userReducer = (state: UserState = new UserState(), action: IUserAction) => {
+export let userReducer = (state: UserState = new UserState(), action: IUserAction) => {
   const { payload } = action
   switch (action.type) {
     case UserActionType.USER_INFO:
@@ -57,7 +57,7 @@ export var userReducer = (state: UserState = new UserState(), action: IUserActio
     
 
     case UserActionType.CLEAR_ALL_DATA_USER:
-      return new UserState();
+      return new UserState()
 
     case UserActionType.CLOSE_EDIT_PROFILE:
       return {
@@ -73,6 +73,6 @@ export var userReducer = (state: UserState = new UserState(), action: IUserActio
 
 
     default:
-      return state;
+      return state
   }
 }

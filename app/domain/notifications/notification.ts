@@ -1,4 +1,4 @@
-import { BaseDomain } from "domain/common";
+import { BaseDomain } from 'domain/common'
 
 export class Notification extends BaseDomain {
     
@@ -8,7 +8,7 @@ export class Notification extends BaseDomain {
      * @type {string}
      * @memberof Notification
      */
-    public description: string;
+    public description: string
     
     /**
      * The URL which notification refer to
@@ -16,7 +16,7 @@ export class Notification extends BaseDomain {
      * @type {string}
      * @memberof Notification
      */
-    public url: string;
+    public url: string
 
     /**
      * The identifier of the user who makes the notification
@@ -24,7 +24,7 @@ export class Notification extends BaseDomain {
      * @type {string}
      * @memberof Notification
      */
-    public notifierUserId: string;
+    public notifierUserId: string
 
     /**
      * The identifier of the user who receive the notification
@@ -32,7 +32,7 @@ export class Notification extends BaseDomain {
      * @type {string}
      * @memberof Notification
      */
-    public notifyRecieverUserId: string;
+    public notifyRecieverUserId: string
 
     /**
      * If the notification is seen {true} or not {false}
@@ -40,6 +40,6 @@ export class Notification extends BaseDomain {
      * @type {Boolean}
      * @memberof Notification
      */
-    public isSeen: Boolean;
+    public isSeen: Boolean
     
 }

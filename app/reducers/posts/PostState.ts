@@ -13,7 +13,7 @@ export class PostState  {
      * @type {*}
      * @memberof PostState
      */
-    userPosts: any = {};
+    userPosts: any = {}
 
     /**
      * If user posts are loaded {true} or not {false}
@@ -21,5 +21,5 @@ export class PostState  {
      * @type {Boolean}
      * @memberof PostState
      */
-    loaded: Boolean = false;
+    loaded: Boolean = false
   }

@@ -1,4 +1,4 @@
-import { Image } from "domain/imageGallery";
+import { Image } from 'domain/imageGallery'
 
 /**
  * ImageGallery state
@@ -14,7 +14,7 @@ export class ImageGalleryState  {
        * @type {Boolean}
        * @memberof ImageGalleryState
        */
-      status: Boolean = false;
+      status: Boolean = false
 
       /**
        * The list of image
@@ -22,7 +22,7 @@ export class ImageGalleryState  {
        * @type {(Image[] | null)}
        * @memberof ImageGalleryState
        */
-      images: Image[] = [];
+      images: Image[] = []
 
       /**
        * Selected image name
@@ -30,7 +30,7 @@ export class ImageGalleryState  {
        * @type {string}
        * @memberof ImageGalleryState
        */
-      selectImage: string = '';
+      selectImage: string = ''
 
       /**
        * Selected image address
@@ -38,7 +38,7 @@ export class ImageGalleryState  {
        * @type {string}
        * @memberof ImageGalleryState
        */
-      selectURL: string = '';
+      selectURL: string = ''
 
       /**
        * If image gallery is loaded {true} or not false
@@ -46,7 +46,7 @@ export class ImageGalleryState  {
        * @type {Boolean}
        * @memberof ImageGalleryState
        */
-      loaded: Boolean = false;
+      loaded: Boolean = false
 
       /**
        * Images address list
@@ -54,7 +54,7 @@ export class ImageGalleryState  {
        * @type {*}
        * @memberof ImageGalleryState
        */
-      imageURLList: any = {};
+      imageURLList: any = {}
 
       /**
        * Store image requested
@@ -62,6 +62,6 @@ export class ImageGalleryState  {
        * @type {*}
        * @memberof ImageGalleryState
        */
-      imageRequests: any = {};
+      imageRequests: any = {}
     
     }

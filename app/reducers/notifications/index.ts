@@ -1,3 +1,3 @@
-import { notificationReducer } from "./notificationReducer";
+import { notificationReducer } from './notificationReducer'
 
-export {notificationReducer};
+export {notificationReducer}

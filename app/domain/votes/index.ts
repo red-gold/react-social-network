@@ -1,4 +1,4 @@
-import {Vote} from './vote';
+import {Vote} from './vote'
 
 export {
     Vote

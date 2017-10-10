@@ -1,3 +1,3 @@
-import { commentReducer } from "./commentReducer";
+import { commentReducer } from './commentReducer'
 
-export {commentReducer};
+export {commentReducer}

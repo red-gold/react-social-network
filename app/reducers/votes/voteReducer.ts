@@ -6,11 +6,11 @@ import _ from 'lodash'
 import {VoteActionType} from 'constants/voteActionType'
 
 // Import domain
-import { Vote } from "domain/votes";
+import { Vote } from 'domain/votes'
 
 
-import { VoteState } from "./VoteState";
-import { IVoteAction } from "./IVoteAction";
+import { VoteState } from './VoteState'
+import { IVoteAction } from './IVoteAction'
 
 
 /**
@@ -18,8 +18,8 @@ import { IVoteAction } from "./IVoteAction";
  * @param {object} state 
  * @param {object} action 
  */
-export var voteReducer = (state: VoteState = new VoteState(), action: IVoteAction) => {
-  var { payload } = action
+export let voteReducer = (state: VoteState = new VoteState(), action: IVoteAction) => {
+  let { payload } = action
   switch (action.type) {
 
     /* _____________ CRUD _____________ */
@@ -47,7 +47,7 @@ export var voteReducer = (state: VoteState = new VoteState(), action: IVoteActio
       }
       
     case VoteActionType.DELETE_VOTE:
-      var parsedVotes = {}
+      let parsedVotes = {}
       if (state.postVotes![payload.postId])
       Object.keys(state.postVotes![payload.postId]).map((id) => {
         if (id !== payload.id) {
@@ -67,11 +67,11 @@ export var voteReducer = (state: VoteState = new VoteState(), action: IVoteActio
 
 
     case VoteActionType.CLEAR_ALL_DATA_VOTE:
-      return new VoteState();
+      return new VoteState()
 
 
     default:
-      return state;
+      return state
 
   }
 
