@@ -7,20 +7,17 @@ import { push } from 'react-router-redux'
 import Snackbar from 'material-ui/Snackbar'
 import LinearProgress from 'material-ui/LinearProgress'
 
-
 // - Import components
 import Home from 'components/Home'
 import Signup from 'components/Signup'
 import Login from 'components/Login'
 import Settings from 'components/Settings'
 import MasterLoading from 'components/MasterLoading'
-import { IMasterProps } from "./IMasterProps"
-import { IMasterState } from "./IMasterState"
-
+import { IMasterProps } from './IMasterProps'
+import { IMasterState } from './IMasterState'
 
 // - Import API
 import { PrivateRoute, PublicRoute } from 'api/AuthRouterAPI'
-
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
@@ -33,18 +30,14 @@ import * as globalActions from 'actions/globalActions'
 import * as circleActions from 'actions/circleActions'
 import * as notifyActions from 'actions/notifyActions'
 
-
 /* ------------------------------------ */
 
-
-
-
 // - Create Master component class
-export class Master extends Component<IMasterProps,IMasterState>{
+export class Master extends Component<IMasterProps,IMasterState> {
 
   static isPrivate = true
   // Constructor
-  constructor(props : IMasterProps) {
+  constructor (props: IMasterProps) {
     super(props)
     this.state = {
       loading: true,
@@ -55,7 +48,6 @@ export class Master extends Component<IMasterProps,IMasterState>{
     // Binding functions to `this`
     this.handleLoading = this.handleLoading.bind(this)
     this.handleMessage = this.handleMessage.bind(this)
-
 
   }
 
@@ -72,16 +64,21 @@ export class Master extends Component<IMasterProps,IMasterState>{
     })
   }
 
-   componentWillMount (){
+  componentDidCatch (error: any, info: any) {
+    console.log('====================================')
+    console.log(error, info)
+    console.log('====================================')
+  }
 
-    firebaseAuth().onAuthStateChanged((user:any) => {
+  componentWillMount () {
+
+    firebaseAuth().onAuthStateChanged((user: any) => {
 
       if (user) {
         this.props.login(user)
         this.setState({
           loading: false
         })
-      
         if (!this.props.global.defaultLoadDataStatus) {
           this.props.clearData()
           this.props.loadData()
@@ -102,44 +99,42 @@ export class Master extends Component<IMasterProps,IMasterState>{
 
   }
 
-
-
   /**
    * Render app DOM component
-   * 
-   * @returns 
-   * 
+   *
+   * @returns
+   *
    * @memberof Master
    */
-  public render() : React.ReactElement<{}> {
+  public render (): React.ReactElement<{}> {
 
     const {progress, global} = this.props
 
     return (
-      <div id="master">
+      <div id='master'>
 
  <div className='master__progress' style={{display: (progress.visible ? 'block' : 'none' )}}>
-            <LinearProgress mode="determinate" value={progress.percent} />
+            <LinearProgress mode='determinate' value={progress.percent} />
             </div>
   <div className='master__loading animate-fading2' style={{display: ( global.showTopLoading ? 'flex' : 'none' )}}>
-   <div className='title'>  Loading ... </div>
+   <div className='title'>Loading ... </div>
     </div>
         <MasterLoading activeLoading={this.state.loading || !(this.props.loaded || this.props.guest)} handleLoading={this.handleLoading} />
 
         {(!this.state.loading && (this.props.loaded || this.props.guest))
-        ?(<Switch>
-          <Route path="/signup" component={Signup} />
-          <Route path="/settings" component={Settings}  />
-          <Route path="/login" render={() => {
-            console.log('this.props.authed: ', this.props.authed, "this.props: ", this.props)
+        ? (<Switch>
+          <Route path='/signup' component={Signup} />
+          <Route path='/settings' component={Settings} />
+          <Route path='/login' render={() => {
+            console.log('this.props.authed: ', this.props.authed, 'this.props: ', this.props)
             return (
               this.props.authed
-                ? <Redirect to="/" />
+                ? <Redirect to='/' />
                 : <Login />
             )
           }
           } />
-            <Route render={() =><Home uid={this.props.uid}/>} />
+            <Route render={() => <Home uid={this.props.uid}/>} />
 
         </Switch>) : ''
         }
@@ -157,7 +152,7 @@ export class Master extends Component<IMasterProps,IMasterState>{
 }
 
 // - Map dispatch to props
-const mapDispatchToProps = (dispatch : any, ownProps : any) => {
+const mapDispatchToProps = (dispatch: any, ownProps: any) => {
 
   return {
     loadData: () => {
@@ -178,9 +173,9 @@ const mapDispatchToProps = (dispatch : any, ownProps : any) => {
       dispatch(voteActions.clearAllvotes())
       dispatch(notifyActions.clearAllNotifications())
       dispatch(circleActions.clearAllCircles())
-      
+
     },
-    login: (user : any) => {
+    login: (user: any) => {
       dispatch(authorizeActions.login(user.uid))
     },
     logout: () => {
@@ -206,8 +201,8 @@ const mapDispatchToProps = (dispatch : any, ownProps : any) => {
  * Map state to props
  * @param {object} state
  */
-const mapStateToProps = (state : any) => {
-  const {authorize, global, user, post, comment, imageGallery , vote, notify,circle  } = state
+const mapStateToProps = (state: any) => {
+  const {authorize, global, user, post, comment, imageGallery , vote, notify,circle } = state
   return {
     guest: authorize.guest,
     uid: authorize.uid,
