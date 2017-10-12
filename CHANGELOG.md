@@ -1,5 +1,27 @@
 # Change Log
 
+## [v0.3.1](https://github.com/Qolzam/react-social-network/tree/v0.3.1) (2017-10-12)
+[Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.3...v0.3.1)
+
+**Fixed bugs:**
+
+- Can't see followers [\#19](https://github.com/Qolzam/react-social-network/issues/19)
+
+**Closed issues:**
+
+- Tslinting? [\#16](https://github.com/Qolzam/react-social-network/issues/16)
+
+**Merged pull requests:**
+
+- Minor typo [\#18](https://github.com/Qolzam/react-social-network/pull/18) ([QuantumInformation](https://github.com/QuantumInformation))
+
+## [v0.3](https://github.com/Qolzam/react-social-network/tree/v0.3) (2017-10-06)
+[Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.2...v0.3)
+
+**Implemented enhancements:**
+
+- Upgrade to react version 16 [\#14](https://github.com/Qolzam/react-social-network/issues/14)
+
 ## [v0.2](https://github.com/Qolzam/react-social-network/tree/v0.2) (2017-10-06)
 [Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.1...v0.2)
 
