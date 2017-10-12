@@ -20,6 +20,7 @@ The React Social Network is an open source project relying on [React](https://fa
 </p>
 
 Since I started building this project I've planned to have a back end for this project so I haven't focused on performance until I build the back end and move some data procedure from end to back end. Therefore I need to change data structure and actions for [Redux](http://redux.js.org/).
+For those who prefer writing code by typescript, now React Social Network support both javascript and typescript language.
 
 >You should consult the [CHANGELOG](https://github.com/Qolzam/react-social-network/blob/master/CHANGELOG.md) and related issues for more information
 
@@ -42,6 +43,7 @@ I recommend that you get to know React before using React Social Network. React 
 
 ## Features
 
+  * [TypeScript](https://www.typescriptlang.org/) TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
   * [React](https://facebook.github.io/react/docs/hello-world.html) A javascript library for building user interfaces.
   * [Redux](http://redux.js.org/) is a predictable state container for JavaScript apps.
   * [Material-UI](http://www.material-ui.com/#/) A Set of React Components that Implement Google's Material Design.
