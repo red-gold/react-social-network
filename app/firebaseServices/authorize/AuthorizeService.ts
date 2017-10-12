@@ -30,10 +30,10 @@ export class AuthorizeService implements IAuthorizeService {
                   resolve(new LoginUser(result.uid))
                 })
                 .catch((error: any) => {
-                    reject(new SocialError(error.code, error.message))
+                  reject(new SocialError(error.code, error.message))
                 })
-        })
-    }
+    })
+  }
 
     /**
      * Logs out the user
@@ -41,19 +41,19 @@ export class AuthorizeService implements IAuthorizeService {
      * @returns {Promise<void>}
      * @memberof IAuthorizeService
      */
-    public logout: () => Promise<void> = () => {
-        return new Promise<void>((resolve, reject) => {
-            firebaseAuth()
+  public logout: () => Promise<void> = () => {
+    return new Promise<void>((resolve, reject) => {
+      firebaseAuth()
                 .signOut()
                 .then((result) => {
-                    resolve()
+                  resolve()
                 })
                 .catch((error: any) => {
 
-                    reject(new SocialError(error.code, error.message))
+                  reject(new SocialError(error.code, error.message))
                 })
-        })
-    }
+    })
+  }
 
    /**
     * Register a user
@@ -61,24 +61,24 @@ export class AuthorizeService implements IAuthorizeService {
     * @returns {Promise<void>}
     * @memberof IAuthorizeService
     */
-    public registerUser: (user: User) => Promise<RegisterUserResult> = (user) => {
-        return new Promise<RegisterUserResult>((resolve, reject) => {
-            firebaseAuth()
+  public registerUser: (user: User) => Promise<RegisterUserResult> = (user) => {
+    return new Promise<RegisterUserResult>((resolve, reject) => {
+      firebaseAuth()
                 .createUserWithEmailAndPassword(user.email as string, user.password as string)
                 .then((signupResult) => {
-                    firebaseRef.child(`users/${signupResult.uid}/info`)
+                  firebaseRef.child(`users/${signupResult.uid}/info`)
                         .set({
-                            ...user,
+                          ...user,
                           avatar: 'noImage'
                         })
                         .then((result) => {
-                            resolve(new RegisterUserResult(signupResult.uid))
+                          resolve(new RegisterUserResult(signupResult.uid))
                         })
                         .catch((error: any) => reject(new SocialError(error.name, error.message)))
                 })
                 .catch((error: any) => reject(new SocialError(error.code, error.message)))
-        })
-    }
+    })
+  }
 
    /**
     * Update user password
@@ -87,25 +87,20 @@ export class AuthorizeService implements IAuthorizeService {
     * @memberof IAuthorizeService
     */
   public updatePassword: (newPassword: string) => Promise<void> = (newPassword) => {
-    console.log('====================================')
-    console.log('update password')
-    console.log('====================================')
-    return new Promise<void>((resolve, reject) => {
-          let user = firebaseAuth().currentUser
-          console.log('====================================')
-          console.log(user)
-          console.log('====================================')
-          if (user) {
-              user.updatePassword(newPassword).then(() => {
-                    // Update successful.
-                  resolve()
-                }).catch((error: any) => {
-                    // An error happened.
-                  reject(new SocialError(error.code, error.message))
-                })
-            }
 
+    return new Promise<void>((resolve, reject) => {
+      let user = firebaseAuth().currentUser
+      if (user) {
+        user.updatePassword(newPassword).then(() => {
+                    // Update successful.
+          resolve()
+        }).catch((error: any) => {
+                    // An error happened.
+          reject(new SocialError(error.code, error.message))
         })
+      }
+
+    })
   }
 
 }

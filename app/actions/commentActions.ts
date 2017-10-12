@@ -1,9 +1,9 @@
 // - Import react components
 import moment from 'moment'
-import { firebaseRef } from 'app/firebase/'
 
 // - Import domain
 import { Comment } from 'domain/comments'
+import { SocialError } from 'domain/common'
 
 // - Import action types
 import { CommentActionType } from 'constants/commentActionType'
@@ -11,6 +11,12 @@ import { CommentActionType } from 'constants/commentActionType'
 // - Import actions
 import * as globalActions from 'actions/globalActions'
 import * as notifyActions from 'actions/notifyActions'
+
+import { IServiceProvider, ServiceProvide } from 'factories'
+import { ICommentService } from 'services/comments'
+
+const serviceProvider: IServiceProvider = new ServiceProvide()
+const commentService: ICommentService = serviceProvider.createCommentService()
 
 /* _____________ CRUD DB _____________ */
 
@@ -37,28 +43,27 @@ export const dbAddComment = (ownerPostUserId: string,newComment: Comment, callBa
       text: newComment.text
     }
 
-    let commentRef: any = firebaseRef.child(`postComments/${newComment.postId}`).push(comment)
-    return commentRef.then(() => {
-      dispatch(addComment(newComment))
-      callBack()
-      dispatch(globalActions.hideTopLoading())
+    return commentService.addComment(newComment.postId,comment)
+      .then((commentKey: string) => {
+        dispatch(addComment({id: commentKey! ,...comment}))
+        callBack()
+        dispatch(globalActions.hideTopLoading())
 
-      if (ownerPostUserId && ownerPostUserId !== uid) {
-        dispatch(notifyActions.dbAddNotify(
-          {
-            description: 'Add comment on your post.',
-            url: `/${ownerPostUserId}/posts/${newComment.postId}`,
-            notifyRecieverUserId: ownerPostUserId, notifierUserId: uid,
-            isSeen: false
-          }))
-      }
+        if (ownerPostUserId && ownerPostUserId !== uid) {
+          dispatch(notifyActions.dbAddNotification(
+            {
+              description: 'Add comment on your post.',
+              url: `/${ownerPostUserId}/posts/${comment.postId}`,
+              notifyRecieverUserId: ownerPostUserId, notifierUserId: uid,
+              isSeen: false
+            }))
+        }
 
-    }, (error: any) => {
-      dispatch(globalActions.showErrorMessage(error.message))
-      dispatch(globalActions.hideTopLoading())
+      }, (error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.hideTopLoading())
 
-    })
-
+      })
   }
 }
 
@@ -69,14 +74,14 @@ export const dbGetComments = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let commentsRef: any = firebaseRef.child(`postComments`)
 
-      return commentsRef.on('value', (snapshot: any) => {
-        let comments: {[postId: string]: {[commentId: string]: Comment}} = snapshot!.val() || {}
+      return commentService.getComments()
+      .then((comments: {[postId: string]: {[commentId: string]: Comment}}) => {
         dispatch(addCommentList(comments))
-
       })
-
+      .catch((error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+      })
     }
   }
 }
@@ -96,9 +101,8 @@ export const dbUpdateComment = (id: string, postId: string, text: string) => {
     let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    let updates: any = {}
     let comment: Comment = getState().comment.postComments[postId][id]
-    updates[`postComments/${postId}/${id}`] = {
+    let updatedComment: Comment = {
       postId: postId,
       score: comment.score,
       text: text,
@@ -107,15 +111,17 @@ export const dbUpdateComment = (id: string, postId: string, text: string) => {
       userAvatar: comment.userAvatar,
       userId: uid
     }
-    return firebaseRef.update(updates).then((result) => {
-      dispatch(updateComment( id, postId, text))
-      dispatch(globalActions.hideTopLoading())
 
-    }, (error) => {
-      dispatch(globalActions.showErrorMessage(error.message))
-      dispatch(globalActions.hideTopLoading())
+    return commentService.updateComment(uid,postId,updatedComment)
+      .then(() => {
+        dispatch(updateComment( id, postId, text))
+        dispatch(globalActions.hideTopLoading())
 
-    })
+      }, (error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.hideTopLoading())
+
+      })
   }
 
 }
@@ -128,24 +134,28 @@ export const dbUpdateComment = (id: string, postId: string, text: string) => {
 export const dbDeleteComment = (id: string, postId: string) => {
   return (dispatch: any, getState: Function) => {
 
+    if (id === undefined || id === null) {
+      dispatch(globalActions.showErrorMessage('comment id can not be null or undefined'))
+    }
+
+    console.log('====================================')
+    console.log(id,postId)
+    console.log('====================================')
     dispatch(globalActions.showTopLoading())
 
     // Get current user id
     let uid: string = getState().authorize.uid
 
-    // Write the new data simultaneously in the list
-    let updates: any = {}
-    updates[`postComments/${postId}/${id}`] = null
+    return commentService.deleteComment(id,postId)
+      .then(() => {
+        dispatch(deleteComment(id, postId))
+        dispatch(globalActions.hideTopLoading())
 
-    return firebaseRef.update(updates).then((result) => {
-      dispatch(deleteComment(id, postId))
-      dispatch(globalActions.hideTopLoading())
+      }, (error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.hideTopLoading())
 
-    }, (error) => {
-      dispatch(globalActions.showErrorMessage(error.message))
-      dispatch(globalActions.hideTopLoading())
-
-    })
+      })
   }
 
 }

@@ -1,61 +1,69 @@
 import { BaseDomain } from 'domain/common'
 
 export class Comment extends BaseDomain {
-    
+
     /**
-     * Post identifier that comment belong to
-     * 
+     * Comment identifier
+     *
      * @type {string}
      * @memberof Comment
      */
-    public postId: string
+  public id?: string | null
 
-    /**
-     * Comment text 
-     * 
-     * @type {string}
-     * @memberof Comment
-     */
-    public text: string
+  /**
+   * Post identifier that comment belong to
+   *
+   * @type {string}
+   * @memberof Comment
+   */
+  public postId: string
 
-    /**
-     * Comment score
-     * 
-     * @type {number}
-     * @memberof Comment
-     */
-    public score: number
+  /**
+   * Comment text
+   *
+   * @type {string}
+   * @memberof Comment
+   */
+  public text: string
 
-    /**
-     * Comment creation date 
-     * 
-     * @type {number}
-     * @memberof Comment
-     */
-    public creationDate:number
+  /**
+   * Comment score
+   *
+   * @type {number}
+   * @memberof Comment
+   */
+  public score: number
 
-    /**
-     * Comment owner full name
-     * 
-     * @type {string}
-     * @memberof Comment
-     */
-    public userDisplayName: string
+  /**
+   * Comment creation date
+   *
+   * @type {number}
+   * @memberof Comment
+   */
+  public creationDate: number
 
-    /**
-     * Comment owner avater address
-     * 
-     * @type {string}
-     * @memberof Comment
-     */
-    public userAvatar: string
+  /**
+   * Comment owner full name
+   *
+   * @type {string}
+   * @memberof Comment
+   */
+  public userDisplayName: string
 
-    /**
-     * Comment owner identifier
-     * 
-     * @type {string}
-     * @memberof Comment
-     */
-    public userId: string
-    
+  /**
+   * Comment owner avater address
+   *
+   * @type {string}
+   * @memberof Comment
+   */
+  public userAvatar: string
+
+  /**
+   * Comment owner identifier
+   *
+   * @type {string}
+   * @memberof Comment
+   */
+  public userId: string
+
 }

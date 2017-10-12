@@ -1,5 +1,5 @@
-import { AuthorizeService } from './CircleService'
+import { CircleService } from './CircleService'
 
 export {
-    AuthorizeService
+    CircleService
 }

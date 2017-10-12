@@ -1,17 +1,22 @@
 // - Import react components
 import moment from 'moment'
-import { firebaseRef } from 'app/firebase/'
 
 // - Import domain
 import { Notification } from 'domain/notifications'
+import { SocialError } from 'domain/common'
 
 // - Import action types
-import {NotificationActionType} from 'constants/notificationActionType'
+import { NotificationActionType } from 'constants/notificationActionType'
 
 // - Import actions
 import * as globalActions from 'actions/globalActions'
 import * as userActions from 'actions/userActions'
 
+import { IServiceProvider, ServiceProvide } from 'factories'
+import { INotificationService } from 'services/notifications'
+
+const serviceProvider: IServiceProvider = new ServiceProvide()
+const notificationService: INotificationService = serviceProvider.createNotificationService()
 
 /* _____________ CRUD DB _____________ */
 
@@ -19,7 +24,7 @@ import * as userActions from 'actions/userActions'
  *  Add notificaition to database
  * @param  {object} newNotify user notificaition
  */
-export const dbAddNotify = (newNotify: Notification) => {
+export const dbAddNotification = (newNotify: Notification) => {
   return (dispatch: any, getState: Function) => {
 
     let uid: string = getState().authorize.uid
@@ -32,10 +37,11 @@ export const dbAddNotify = (newNotify: Notification) => {
       notifyRecieverUserId: newNotify.notifyRecieverUserId
     }
 
-    let notifyRef: any = firebaseRef.child(`userNotifies/${newNotify.notifyRecieverUserId}`).push(notify)
-    return notifyRef.then(() => {
-      dispatch(addNotify())
-    }, (error: any) => dispatch(globalActions.showErrorMessage(error.message)))
+    return notificationService.addNotification(notify)
+      .then(() => {
+        dispatch(addNotify())
+      })
+      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
 
   }
 }
@@ -43,84 +49,74 @@ export const dbAddNotify = (newNotify: Notification) => {
 /**
  * Get all notificaitions from database
  */
-export const dbGetNotifies = () => {
+export const dbGetNotifications = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let notifiesRef: any = firebaseRef.child(`userNotifies/${uid}`)
 
-      return notifiesRef.on('value', (snapshot: any) => {
-        let notifies: {[notifyId: string]: Notification} = snapshot.val() || {}
-
-        Object.keys(notifies).forEach((key => {
-          if (!getState().user.info[notifies[key].notifierUserId]) {
-            dispatch(userActions.dbGetUserInfoByUserId(notifies[key].notifierUserId,''))
-
-          }
-        }))
-        dispatch(addNotifyList(notifies))
-      })
-
+      return notificationService.getNotifications(uid)
+        .then((notifies: { [notifyId: string]: Notification }) => {
+          Object.keys(notifies).forEach((key => {
+            if (!getState().user.info[notifies[key].notifierUserId]) {
+              dispatch(userActions.dbGetUserInfoByUserId(notifies[key].notifierUserId,''))
+            }
+          }))
+          dispatch(addNotifyList(notifies))
+        })
     }
   }
 }
-
 
 /**
  * Delete a notificaition from database
  * @param  {string} id of notificaition
  */
-export const dbDeleteNotify = (id: string) => {
+export const dbDeleteNotification = (id: string) => {
   return (dispatch: any, getState: Function) => {
 
     // Get current user id
     let uid: string = getState().authorize.uid
 
-    // Write the new data simultaneously in the list
-    let updates: any = {}
-    updates[`userNotifies/${uid}/${id}`] = null
-
-    return firebaseRef.update(updates).then((result) => {
+    return notificationService.deleteNotification(id,uid).then(() => {
       dispatch(deleteNotify(id))
-    }, (error) => dispatch(globalActions.showErrorMessage(error.message)))
+    })
+    .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
   }
 
 }
-
-
 
 /**
  * Make seen a notificaition from database
  * @param  {string} id of notificaition
  */
-export const dbSeenNotify = (id: string) => {
+export const dbSeenNotification = (id: string) => {
   return (dispatch: any, getState: Function) => {
 
     // Get current user id
     let uid: string = getState().authorize.uid
     let notify: Notification = getState().notify.userNotifies[id]
-    
-    
-    let updates: any = {}
-    updates[`userNotifies/${uid}/${id}`] = {
+
+    let updatedNotification: Notification = {
       description: notify.description,
       url: notify.url,
       notifierUserId: notify.notifierUserId,
+      notifyRecieverUserId: uid,
       isSeen: true
     }
 
-    return firebaseRef.update(updates).then((result) => {
+    return notificationService.setSeenNotification(id,uid,updatedNotification)
+    .then(() => {
       dispatch(seenNotify(id))
-    }, (error) => dispatch(globalActions.showErrorMessage(error.message)))
+    })
+    .catch((error) => dispatch(globalActions.showErrorMessage(error.message)))
   }
 
 }
 
 /* _____________ CRUD State _____________ */
 
-
 /**
- * Add notificaition 
+ * Add notificaition
  */
 export const addNotify = () => {
 
@@ -140,7 +136,6 @@ export const addNotifyList = (userNotifies: {[notifyId: string]: Notification}) 
     payload: userNotifies
   }
 }
-
 
 /**
  * Delete a notificaition
@@ -168,5 +163,3 @@ export const clearAllNotifications = () => {
     type: NotificationActionType.CLEAR_ALL_DATA_NOTIFY
   }
 }
-
-

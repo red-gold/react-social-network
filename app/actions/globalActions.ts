@@ -1,5 +1,5 @@
 // - Import image gallery action types
-import {GlobalActionType} from 'constants/globalActionType'
+import { GlobalActionType } from 'constants/globalActionType'
 
 // - Import actions
 import * as postActions from 'actions/postActions'
@@ -8,8 +8,8 @@ import * as userActions from 'actions/userActions'
 
 /**
  * Progress change
- * @param {string} percent 
- * @param {boolean} visible 
+ * @param {string} percent
+ * @param {boolean} visible
  */
 export const progressChange = (percent: number, visible: Boolean) => {
   return {
@@ -38,16 +38,15 @@ export const defaultDataDisable = () => {
   }
 }
 
-
 // - Show notification of request
-export const showNotificationRequest = () =>  {
+export const showNotificationRequest = () => {
   return{
     type: GlobalActionType.SHOW_SEND_REQUEST_MESSAGE_GLOBAL
   }
 }
 
 // - Show notification of success
-export const showNotificationSuccess = () =>  {
+export const showNotificationSuccess = () => {
   return{
     type: GlobalActionType.SHOW_REQUEST_SUCCESS_MESSAGE_GLOBAL
   }
@@ -65,9 +64,9 @@ export const hideMessage = () => {
 
 /**
  * Show error message
- * @param {string} message 
+ * @param {string} message
  */
-export const showErrorMessage = (message: string) => { 
+export const showErrorMessage = (message: string) => {
   return {
     type: GlobalActionType.SHOW_ERROR_MESSAGE_GLOBAL,
     payload: message
@@ -85,7 +84,6 @@ export const setHeaderTitleOpt = (callerKey: string,payload: any) => {
         const userName = getState().user.info && getState().user.info[payload] ? getState().user.info[payload].fullName : ''
         dispatch(setHeaderTitle(userName))
         break
-    
       default:
         break
     }
@@ -145,9 +143,6 @@ export const hideTopLoading = () => {
 
 }
 
-
-
-
 /**
  * Store temp data
  */
@@ -159,11 +154,10 @@ export const temp = (data: string) => {
 
 }
 
-
-
 // - Load data for guest
 export const loadDataGuest = () => {
+  // tslint:disable-next-line:no-empty
   return (dispatch: any,getState: Function) => {
- }
+  }
 
 }

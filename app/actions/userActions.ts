@@ -1,20 +1,23 @@
 // - Import react components
-import { firebaseRef } from 'app/firebase/'
 
 // - Import domain
 import { Profile } from 'domain/users'
+import { SocialError } from 'domain/common'
 
 // - Import action types
-import {UserActionType} from 'constants/userActionType'
+import { UserActionType } from 'constants/userActionType'
 
-// - Import actions 
-import *  as globalActions from 'actions/globalActions'
+// - Import actions
+import * as globalActions from 'actions/globalActions'
 import * as userActions from 'actions/userActions'
 
-declare const console: any
+import { IServiceProvider, ServiceProvide } from 'factories'
+import { IUserService } from 'services/users'
+
+const serviceProvider: IServiceProvider = new ServiceProvide()
+const userService: IUserService = serviceProvider.createUserService()
 
 /* _____________ CRUD DB _____________ */
-
 
 /**
  * Get user info from database
@@ -23,11 +26,8 @@ export const dbGetUserInfo = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let userProfileRef: any = firebaseRef.child(`users/${uid}/info`)
 
-      return userProfileRef.once('value').then((snapshot: any) => {
-        let userProfile: Profile = snapshot.val() || {}
-        
+      return userService.getUserProfile(uid).then((userProfile: Profile) => {
         dispatch(addUserInfo(uid, {
           avatar: userProfile.avatar,
           email: userProfile.email,
@@ -35,7 +35,8 @@ export const dbGetUserInfo = () => {
           banner: userProfile.banner,
           tagLine: userProfile.tagLine
         }))
-      }, (error: any) => console.log(error))
+      })
+      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
 
     }
   }
@@ -43,16 +44,15 @@ export const dbGetUserInfo = () => {
 
 /**
  *  Get user info from database
- * @param {string} uid 
- * @param {string} callerKey 
+ * @param {string} uid
+ * @param {string} callerKey
  */
 export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
   return (dispatch: any, getState: Function) => {
     if (uid) {
-      let userProfileRef: any = firebaseRef.child(`users/${uid}/info`)
 
-      return userProfileRef.once('value').then((snapshot: any) => {
-        let userProfile = snapshot.val() || {}
+      return userService.getUserProfile(uid).then((userProfile: Profile) => {
+
         dispatch(addUserInfo(uid, {
           avatar: userProfile.avatar,
           email: userProfile.email,
@@ -60,6 +60,7 @@ export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
           banner: userProfile.banner,
           tagLine: userProfile.tagLine
         }))
+
         switch (callerKey) {
           case 'header':
             dispatch(globalActions.setHeaderTitle(userProfile.fullName))
@@ -69,7 +70,8 @@ export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
           default:
             break
         }
-      }, (error: any) => console.log(error))
+      })
+      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
 
     }
   }
@@ -77,7 +79,7 @@ export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
 
 /**
  * Updata user information
- * @param {object} newInfo 
+ * @param {object} newInfo
  */
 export const dbUpdateUserInfo = (newProfile: Profile) => {
   return (dispatch: any, getState: Function) => {
@@ -85,24 +87,22 @@ export const dbUpdateUserInfo = (newProfile: Profile) => {
     // Get current user id
     let uid: string = getState().authorize.uid
 
-    // Write the new data simultaneously in the list
-    let updates: any = {}
-    let profile = getState().user.info[uid]
-    let updateProfie: Profile = {
+    let profile: Profile = getState().user.info[uid]
+    let updatedProfie: Profile = {
       avatar: newProfile.avatar || profile.avatar || '',
       banner: newProfile.banner || profile.banner || 'https://firebasestorage.googleapis.com/v0/b/open-social-33d92.appspot.com/o/images%2F751145a1-9488-46fd-a97e-04018665a6d3.JPG?alt=media&token=1a1d5e21-5101-450e-9054-ea4a20e06c57',
       email: newProfile.email || profile.email || '',
       fullName: newProfile.fullName || profile.fullName || '',
       tagLine: newProfile.tagLine || profile.tagLine || ''
     }
-    updates[`users/${uid}/info`] = updateProfie
-    return firebaseRef.update(updates).then((result) => {
 
-      dispatch(updateUserInfo(uid, updateProfie))
+    return userService.updateUserProfile(uid,updatedProfie).then(() => {
+
+      dispatch(updateUserInfo(uid, updatedProfie))
       dispatch(closeEditProfile())
-    }, (error) => {
-      dispatch(globalActions.showErrorMessage(error.message))
     })
+    .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+
   }
 
 }
@@ -112,34 +112,17 @@ export const dbGetPeopleInfo = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let peopleRef: any = firebaseRef.child(`users`)
-
-      return peopleRef.once('value').then((snapshot: any) => {
-        let people = snapshot.val() || {}
-
-        let parsedPeople: {[userId: string]: Profile} = {}
-        Object.keys(people).forEach((userId) => {
-          if (userId !== uid) {
-            let userInfo = people[userId].info
-            parsedPeople[userId] = {
-              avatar: userInfo.avatar,
-              email: userInfo.email,
-              fullName: userInfo.fullName,
-              banner: userInfo.banner,
-              tagLine: userInfo.tagLine
-            }
-          }
-
-        })
-        dispatch(addPeopleInfo(parsedPeople))
-      }, (error: any) => console.log(error))
+      return userService.getUsersProfile(uid)
+      .then((usersProfile: {[userId: string]: Profile}) => {
+        dispatch(addPeopleInfo(usersProfile))
+      })
+      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
 
     }
   }
 }
 
 /* _____________ CRUD State _____________ */
-
 
 /**
  * Add user information
@@ -178,7 +161,7 @@ export const updateUserInfo = (uid: string, info: Profile) => {
 
 /**
  *  User info
- * @param {Profile} info 
+ * @param {Profile} info
  */
 export const userInfo = (info: Profile) => {
   return {
@@ -192,7 +175,6 @@ export const clearAllData = () => {
     type: UserActionType.CLEAR_ALL_DATA_USER
   }
 }
-
 
 /**
  * Open edit profile

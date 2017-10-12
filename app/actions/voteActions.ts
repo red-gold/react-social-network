@@ -1,8 +1,7 @@
 import moment from 'moment'
-import { firebaseRef } from 'app/firebase/'
 
 // - Import action types
-import {VoteActionType} from 'constants/voteActionType'
+import { VoteActionType } from 'constants/voteActionType'
 
 // - Import domain
 import { Vote } from 'domain/votes'
@@ -11,7 +10,12 @@ import { Vote } from 'domain/votes'
 import * as globalActions from 'actions/globalActions'
 import * as notifyActions from 'actions/notifyActions'
 
-declare const console: any
+import { IServiceProvider, ServiceProvide } from 'factories'
+import { IVoteService } from 'services/votes'
+
+const serviceProvider: IServiceProvider = new ServiceProvide()
+const voteService: IVoteService = serviceProvider.createVoteService()
+
 /* _____________ CRUD DB _____________ */
 
 /**
@@ -31,24 +35,24 @@ export const dbAddVote = (postId: string,ownerPostUserId: string) => {
       userId: uid
     }
 
-    let voteRef = firebaseRef.child(`postVotes/${postId}`).push(vote)
-    return voteRef.then(() => {
+    return voteService.addVote(vote).then((voteKey: string) => {
       dispatch(addVote(
         {
           ...vote,
-          postId: postId,
-          id: voteRef.key
+          id: voteKey
         }))
-        if(uid !== ownerPostUserId)
-        dispatch(notifyActions.dbAddNotify(
-        {
-        description:'Vote on your post.',
-        url:`/${ownerPostUserId}/posts/${postId}`,
-        notifyRecieverUserId:ownerPostUserId,notifierUserId:uid,
-        isSeen:false
-      }))
-     
-    }, (error) =>  dispatch(globalActions.showErrorMessage(error.message)))
+      if (uid !== ownerPostUserId) {
+        dispatch(notifyActions.dbAddNotification(
+          {
+            description: 'Vote on your post.',
+            url: `/${ownerPostUserId}/posts/${postId}`,
+            notifyRecieverUserId: ownerPostUserId,notifierUserId:uid,
+            isSeen: false
+          }))
+      }
+
+    })
+    .catch((error) => dispatch(globalActions.showErrorMessage(error.message)))
 
   }
 }
@@ -60,17 +64,16 @@ export const dbGetVotes = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let votesRef: any = firebaseRef.child(`postVotes`)
 
-      return votesRef.on('value',(snapshot: any) => {
-        let postVotes: {[postId:string]: {[voteId: string]: Vote}} = snapshot.val() || {}
+      return voteService
+      .getVotes()
+      .then((postVotes: { [postId: string]: { [voteId: string]: Vote } }) => {
         dispatch(addVoteList(postVotes))
       })
-      
+
     }
   }
 }
-
 
 /**
  * Delete a vote from database
@@ -83,25 +86,19 @@ export const dbDeleteVote = (postId: string) => {
     // Get current user id
     let uid: string = getState().authorize.uid
 
-    // Write the new data simultaneously in the list
-    let updates: any = {}
     let votes: {[voteId: string]: Vote} = getState().vote.postVotes[postId]
-    let id: string = Object.keys(votes).filter((key)=> votes[key].userId === uid)[0]
+    let id: string = Object.keys(votes).filter((key) => votes[key].userId === uid)[0]
 
-  
-    updates[`postVotes/${postId}/${id}`] = null
-
-    return firebaseRef.update(updates).then((result) => {
+    return voteService.deleteVote(id,postId).then(() => {
       dispatch(deleteVote(id, postId))
     })
     .catch((error: any) => dispatch(globalActions.showErrorMessage(error.message)))
   }
-
 }
 
 /**
  * Add a vote
- * @param {Vote} vote 
+ * @param {Vote} vote
  */
 export const addVote = (vote: Vote) => {
   return { type: VoteActionType.ADD_VOTE, payload: vote }
@@ -122,7 +119,7 @@ export const deleteVote = (id: string, postId: string) => {
  * Ad a list of vote
  * @param {[postId:string]: {[voteId: string]: Vote}} votes a list of vote 
  */
-export const addVoteList = (votes: {[postId:string]: {[voteId: string]: Vote}}) => {
+export const addVoteList = (votes: {[postId: string]: {[voteId: string]: Vote}}) => {
   return { type: VoteActionType.ADD_VOTE_LIST, payload: votes }
 
 }

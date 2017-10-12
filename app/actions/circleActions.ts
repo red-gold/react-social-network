@@ -1,9 +1,7 @@
-// - Import firebase component
-import firebase, { firebaseRef } from 'app/firebase/'
-
 // - Import domain
 import { User } from 'domain/users'
 import { Circle, UserFollower } from 'domain/circles'
+import { SocialError } from 'domain/common'
 
 // - Import utility components
 import moment from 'moment'
@@ -11,23 +9,23 @@ import moment from 'moment'
 // - Import action types
 import { CircleActionType } from 'constants/circleActionType'
 
-
 // - Import actions
 import * as globalActions from 'actions/globalActions'
 import * as postActions from 'actions/postActions'
 import * as userActions from 'actions/userActions'
 import * as notifyActions from 'actions/notifyActions'
 
+import { IServiceProvider,ServiceProvide } from 'factories'
+import { ICircleService } from 'services/circles'
 
-
-
+const serviceProvider: IServiceProvider = new ServiceProvide()
+const circleService: ICircleService = serviceProvider.createCircleService()
 
 /* _____________ CRUD DB _____________ */
 
-
 /**
  * Add a circle
- * @param {string} circleName 
+ * @param {string} circleName
  */
 export let dbAddCircle = (circleName: string) => {
   return (dispatch: any, getState: Function) => {
@@ -38,21 +36,19 @@ export let dbAddCircle = (circleName: string) => {
       name: circleName,
       users: {}
     }
-
-    let circleRef = firebaseRef.child(`userCircles/${uid}/circles`).push(circle)
-    return circleRef.then(() => {
-      circle.id = circleRef.key
+    return circleService.addCircle(uid,circle).then((circleKey: string) => {
+      circle.id = circleKey
       circle.ownerId = uid
       dispatch(addCircle(circle))
 
-    }, (error) => dispatch(globalActions.showErrorMessage(error.message)))
+    }, (error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
 
   }
 }
 
 /**
  * Add a user in a circle
- * @param {string} cid is circle identifier 
+ * @param {string} cid is circle identifier
  * @param {User} userFollowing is the user for following
  */
 export let dbAddFollowingUser = (cid: string, userFollowing: User) => {
@@ -72,46 +68,42 @@ export let dbAddFollowingUser = (cid: string, userFollowing: User) => {
       avatar: user.avatar || '',
       approved: false
     }
-    let updates: any = {}
-    updates[`userCircles/${uid}/circles/${cid}/users/${userFollowing.userId}`] = userCircle
-    updates[`userCircles/${userFollowing.userId}/circles/-Followers/users/${uid}`] = userFollower
-    return firebaseRef.update(updates).then((result) => {
-      dispatch(addFollowingUser(uid, cid, userFollowing.userId as string, { ...userCircle } as User))
 
-      dispatch(notifyActions.dbAddNotify(
-        {
-          description: `${user.fullName} follow you.`,
-          url: `/${uid}`,
-          notifyRecieverUserId: userFollowing.userId as string,
-           notifierUserId: uid,
-          isSeen:false
-        }))
+    return circleService.addFollowingUser(uid,cid,userCircle,userFollower,userFollowing.userId as string)
+      .then(() => {
+        dispatch(addFollowingUser(uid, cid, userFollowing.userId as string, { ...userCircle } as User))
 
-    }, (error) => {
-      dispatch(globalActions.showErrorMessage(error.message))
-    })
+        dispatch(notifyActions.dbAddNotification(
+          {
+            description: `${user.fullName} follow you.`,
+            url: `/${uid}`,
+            notifyRecieverUserId: userFollowing.userId as string,
+            notifierUserId: uid,
+            isSeen: false
+          }))
+
+      }, (error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+      })
   }
 }
 
-
 /**
  * Delete a user from a circle
- * @param {string} cid is circle identifier 
- * @param {string} followingId following user identifier
+ * @param {string} cid is circle identifier
+ * @param {string} userFollowingId following user identifier
  */
-export let dbDeleteFollowingUser = (cid: string, followingId: string) => {
-  return (dispatch: any, getState:Function) => {
+export let dbDeleteFollowingUser = (cid: string, userFollowingId: string) => {
+  return (dispatch: any, getState: Function) => {
 
     let uid: string = getState().authorize.uid
 
-    let updates: any = {}
-    updates[`userCircles/${uid}/circles/${cid}/users/${followingId}`] = null
-    updates[`userCircles/${followingId}/circles/-Followers/users/${uid}`] = null
-    return firebaseRef.update(updates).then((result) => {
-      dispatch(deleteFollowingUser(uid, cid, followingId))
-    }, (error) => {
-      dispatch(globalActions.showErrorMessage(error.message))
-    })
+    return circleService.deleteFollowingUser(uid,cid,userFollowingId)
+      .then(() => {
+        dispatch(deleteFollowingUser(uid, cid, userFollowingId))
+      }, (error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+      })
   }
 }
 
@@ -126,22 +118,20 @@ export const dbUpdateCircle = (newCircle: Circle) => {
     let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    let updates: any = {}
     let circle: Circle = getState().circle.userCircles[uid][newCircle.id!]
-    let updatedCircle : Circle = {
+    let updatedCircle: Circle = {
       name: newCircle.name || circle.name,
       users: newCircle.users ? newCircle.users : (circle.users || [])
     }
-    updates[`userCircles/${uid}/circles/${newCircle.id}`] = updatedCircle
-    return firebaseRef.update(updates).then(() => {
-      dispatch(updateCircle(uid,{ id: newCircle.id, ...updatedCircle }))
-    }, (error) => {
-      dispatch(globalActions.showErrorMessage(error.message))
-    })
+    return circleService.updateCircle(uid,newCircle.id!,circle)
+      .then(() => {
+        dispatch(updateCircle(uid,{ id: newCircle.id, ...updatedCircle }))
+      }, (error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+      })
   }
 
 }
-
 
 /**
  * Delete a circle from database
@@ -153,15 +143,12 @@ export const dbDeleteCircle = (id: string) => {
     // Get current user id
     let uid: string = getState().authorize.uid
 
-    // Write the new data simultaneously in the list
-    let updates: any = {}
-    updates[`userCircles/${uid}/circles/${id}`] = null
-
-    return firebaseRef.update(updates).then((result) => {
-      dispatch(deleteCircle(uid, id))
-    }, (error) => {
-      dispatch(globalActions.showErrorMessage(error.message))
-    })
+    return circleService.deleteCircle(uid,id)
+      .then(() => {
+        dispatch(deleteCircle(uid, id))
+      }, (error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+      })
   }
 
 }
@@ -173,31 +160,27 @@ export const dbGetCircles = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let circlesRef: any = firebaseRef.child(`userCircles/${uid}/circles`)
 
-      return circlesRef.once('value').then((snapshot: any) => {
-        let circles: any = snapshot.val() || {}
-        let parsedCircles: { [circleId: string]: Circle } = {}
-        Object.keys(circles).forEach((circleId) => {
-          if (circleId !== '-Followers' && circles[circleId].users) {
-            Object.keys(circles[circleId].users).filter((v, i, a) => a.indexOf(v) === i).forEach((userId) => {
-              dispatch(postActions.dbGetPostsByUserId(userId))
-              dispatch(userActions.dbGetUserInfoByUserId(userId, ''))
-            })
-          }
-          parsedCircles[circleId] = {
-            id: circleId,
-            ...circles[circleId]
-          }
+      return circleService.getCircles(uid)
+        .then((circles: { [circleId: string]: Circle }) => {
+          Object.keys(circles).forEach((circleId) => {
+            if (circleId !== '-Followers' && circles[circleId].users) {
+              Object.keys(circles[circleId].users).filter((v, i, a) => a.indexOf(v) === i).forEach((userId) => {
+                dispatch(postActions.dbGetPostsByUserId(userId))
+                dispatch(userActions.dbGetUserInfoByUserId(userId, ''))
+              })
+            }
+          })
+
+          dispatch(addCircles(uid, circles))
         })
-
-        dispatch(addCircles(uid, parsedCircles))
-      })
+        .catch((error: SocialError) => {
+          dispatch(globalActions.showErrorMessage(error.message))
+        })
 
     }
   }
 }
-
 
 /**
  * Get all user circles from data base by user id
@@ -207,35 +190,23 @@ export const dbGetCirclesByUserId = (uid: string) => {
   return (dispatch: any, getState: Function) => {
 
     if (uid) {
-      let circlesRef = firebaseRef.child(`userCircles/${uid}/circles`)
-
-      return circlesRef.once('value').then((snapshot) => {
-        let circles = snapshot.val() || {}
-        let parsedCircles: { [circleId: string]: Circle } = {}
-        Object.keys(circles).forEach((circleId) => {
-          parsedCircles[circleId] = {
-            id: circleId,
-            ...circles[circleId]
-          }
-        })
-        dispatch(addCircles(uid, parsedCircles))
-      })
-
+      return circleService.getCircles(uid)
+          .then((circles: { [circleId: string]: Circle }) => {
+            dispatch(addCircles(uid, circles))
+          })
+          .catch((error: SocialError) => {
+            dispatch(globalActions.showErrorMessage(error.message))
+          })
     }
   }
 }
-
-
-
-
-
 
 /* _____________ CRUD State _____________ */
 
 /**
  * Add a normal circle
  * @param {string} uid is user identifier
- * @param {Circle} circle 
+ * @param {Circle} circle
  */
 export const addCircle = (circle: Circle) => {
   return {
@@ -247,7 +218,7 @@ export const addCircle = (circle: Circle) => {
 /**
  * Update a circle
  * @param {string} uid is user identifier
- * @param {Circle} circle 
+ * @param {Circle} circle
  */
 export const updateCircle = (uid: string, circle: Circle) => {
   return {
@@ -268,11 +239,10 @@ export const deleteCircle = (uid: string, id: string) => {
   }
 }
 
-
 /**
  * Add a list of circle
- * @param {string} uid 
- * @param {circleId: string]: Circle} circles 
+ * @param {string} uid
+ * @param {circleId: string]: Circle} circles
  */
 export const addCircles = (uid: string, circles: { [circleId: string]: Circle }) => {
   return {
@@ -289,7 +259,6 @@ export const clearAllCircles = () => {
     type: CircleActionType.CLEAR_ALL_CIRCLES
   }
 }
-
 
 /**
  * Open circle settings

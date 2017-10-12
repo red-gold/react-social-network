@@ -1,3 +1,4 @@
+/// <reference types="@types/material-ui" />
 // - Import react components
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
@@ -33,7 +34,7 @@ import * as notifyActions from 'actions/notifyActions'
 /* ------------------------------------ */
 
 // - Create Master component class
-export class Master extends Component<IMasterProps,IMasterState> {
+export class Master extends Component<IMasterProps, IMasterState> {
 
   static isPrivate = true
   // Constructor
@@ -108,44 +109,43 @@ export class Master extends Component<IMasterProps,IMasterState> {
    */
   public render (): React.ReactElement<{}> {
 
-    const {progress, global} = this.props
+    const { progress, global } = this.props
 
     return (
       <div id='master'>
 
- <div className='master__progress' style={{display: (progress.visible ? 'block' : 'none' )}}>
-            <LinearProgress mode='determinate' value={progress.percent} />
-            </div>
-  <div className='master__loading animate-fading2' style={{display: ( global.showTopLoading ? 'flex' : 'none' )}}>
-   <div className='title'>Loading ... </div>
-    </div>
+        <div className='master__progress' style={{ display: (progress.visible ? 'block' : 'none') }}>
+          <LinearProgress mode='determinate' value={progress.percent} />
+        </div>
+        <div className='master__loading animate-fading2' style={{ display: (global.showTopLoading ? 'flex' : 'none') }}>
+          <div className='title'>Loading ... </div>
+        </div>
         <MasterLoading activeLoading={this.state.loading || !(this.props.loaded || this.props.guest)} handleLoading={this.handleLoading} />
 
         {(!this.state.loading && (this.props.loaded || this.props.guest))
-        ? (<Switch>
-          <Route path='/signup' component={Signup} />
-          <Route path='/settings' component={Settings} />
-          <Route path='/login' render={() => {
-            console.log('this.props.authed: ', this.props.authed, 'this.props: ', this.props)
-            return (
-              this.props.authed
-                ? <Redirect to='/' />
-                : <Login />
-            )
-          }
-          } />
-            <Route render={() => <Home uid={this.props.uid}/>} />
+          ? (<Switch>
+            <Route path='/signup' component={Signup} />
+            <Route path='/settings' component={Settings} />
+            <Route path='/login' render={() => {
+              console.log('this.props.authed: ', this.props.authed, 'this.props: ', this.props)
+              return (
+                this.props.authed
+                  ? <Redirect to='/' />
+                  : <Login />
+              )
+            }
+            } />
+            <Route render={() => <Home uid={this.props.uid} />} />
 
-        </Switch>) : ''
+          </Switch>) : ''
         }
         <Snackbar
           open={this.props.global.messageOpen}
           message={this.props.global.message}
           autoHideDuration={4000}
-          style={{left: '1%', transform: 'none'}}
+          style={{ left: '1%', transform: 'none' }}
         />
       </div>
-
 
     )
   }
@@ -157,11 +157,11 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   return {
     loadData: () => {
       dispatch(commentActions.dbGetComments())
-      dispatch(imageGalleryActions.downloadForImageGallery())
+      dispatch(imageGalleryActions.dbGetImageGallery())
       dispatch(postActions.dbGetPosts())
       dispatch(userActions.dbGetUserInfo())
       dispatch(voteActions.dbGetVotes())
-      dispatch(notifyActions.dbGetNotifies())
+      dispatch(notifyActions.dbGetNotifications())
       dispatch(circleActions.dbGetCircles())
 
     },
@@ -202,7 +202,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
  * @param {object} state
  */
 const mapStateToProps = (state: any) => {
-  const {authorize, global, user, post, comment, imageGallery , vote, notify,circle } = state
+  const { authorize, global, user, post, comment, imageGallery, vote, notify, circle } = state
   return {
     guest: authorize.guest,
     uid: authorize.uid,

@@ -1,5 +1,4 @@
 // - Import react components
-import { firebaseRef, firebaseAuth } from 'app/firebase/'
 import moment from 'moment'
 import { push } from 'react-router-redux'
 
@@ -12,8 +11,7 @@ import { AuthorizeActionType } from 'constants/authorizeActionType'
 
 // - Import services
 import { IAuthorizeService } from 'services/authorize'
-import { IServiceProvider } from 'factories'
-import { ServiceProvide } from 'factories'
+import { IServiceProvider, ServiceProvide } from 'factories'
 
 const serviceProvider: IServiceProvider = new ServiceProvide()
 const authorizeService: IAuthorizeService = serviceProvider.createAuthorizeService()

@@ -1,9 +1,9 @@
 // - Import react componetns
 import moment from 'moment'
-import { firebaseRef, firebaseAuth, storageRef } from 'app/firebase/'
 
 // - Import domain
 import { Image } from 'domain/imageGallery'
+import { SocialError } from 'domain/common'
 
 // - Import action types
 import { ImageGalleryActionType } from 'constants/imageGalleryActionType'
@@ -14,29 +14,29 @@ import * as globalActions from 'actions/globalActions'
 // - Import app API
 import FileAPI from 'api/FileAPI'
 
+import { IServiceProvider, ServiceProvide } from 'factories'
+import { IImageGalleryService } from 'services/imageGallery'
+
+const serviceProvider: IServiceProvider = new ServiceProvide()
+const imageGalleryService: IImageGalleryService = serviceProvider.createImageGalleryService()
+
 /* _____________ UI Actions _____________ */
 
 /**
  * Download images for image gallery
  */
-export const downloadForImageGallery = () => {
+export const dbGetImageGallery = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      let imagesRef: any = firebaseRef.child(`userFiles/${uid}/files/images`)
 
-      return imagesRef.once('value').then((snapshot: any) => {
-        let images = snapshot.val() || {}
-        let parsedImages: Image[] = []
-        Object.keys(images).forEach((imageId) => {
-          parsedImages.push({
-            id: imageId,
-            ...images[imageId]
-          })
+      return imageGalleryService.getImageGallery(uid)
+        .then((images: Image[]) => {
+          dispatch(addImageList(images))
         })
-        dispatch(addImageList(parsedImages))
-      })
-
+        .catch((error: SocialError) => {
+          dispatch(globalActions.showErrorMessage(error.message))
+        })
     }
   }
 
@@ -62,15 +62,16 @@ export const dbSaveImage = (imageURL: string,imageFullPath: string) => {
       lastEditDate: 0,
       deleted: false
     }
-
-    let imageRef = firebaseRef.child(`userFiles/${uid}/files/images`).push(image)
-    return imageRef.then(() => {
-      dispatch(addImage({
-        ...image,
-        id: imageRef.key
-      }))
-    })
-
+    return imageGalleryService.saveImage(uid,image)
+      .then((imageKey: string) => {
+        dispatch(addImage({
+          ...image,
+          id: imageKey
+        }))
+      })
+      .catch((error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+      })
   }
 }
 
@@ -84,16 +85,13 @@ export const dbDeleteImage = (id: string) => {
     // Get current user id
     let uid: string = getState().authorize.uid
 
-    // Write the new data simultaneously in the list
-    let updates: any = {}
-    updates[`userFiles/${uid}/files/images/${id}`] = null
-
-    return firebaseRef.update(updates).then((result) => {
-      dispatch(deleteImage(id))
-      console.log('image removed: ', id)
-    }, (error) => {
-      console.log(error)
-    })
+    return imageGalleryService.deleteImage(uid,id)
+      .then(() => {
+        dispatch(deleteImage(id))
+      })
+      .catch((error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+      })
   }
 
 }
@@ -105,27 +103,19 @@ export const dbDeleteImage = (id: string) => {
  */
 export const dbUploadImage = (file: any, fileName: string) => {
   return (dispatch: any, getState: Function) => {
-    // Create a storage refrence
-    let storegeFile: any = storageRef.child(`images/${fileName}`)
 
-    // Upload file
-    let task: any = storegeFile.put(file)
-    dispatch(globalActions.showTopLoading())
-
-    // Upload storage bar
-    task.on('state_changed', (snapshot: any) => {
-      let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    return imageGalleryService
+    .uploadImage(file,fileName, (percentage: number) => {
       dispatch(globalActions.progressChange(percentage, true))
-
-    }, (error: any) => {
-      dispatch(globalActions.showErrorMessage(error.code))
-      dispatch(globalActions.hideTopLoading())
-
-    }, (complete?: any ) => {
+    })
+    .then(() => {
       dispatch(globalActions.progressChange(100, false))
       dispatch(dbSaveImage(fileName,''))
       dispatch(globalActions.hideTopLoading())
-
+    })
+    .catch((error: SocialError) => {
+      dispatch(globalActions.showErrorMessage(error.code))
+      dispatch(globalActions.hideTopLoading())
     })
   }
 }
@@ -143,44 +133,20 @@ export const dbDownloadImage = (fileName: string) => {
     if (getState().imageGallery.imageURLList[fileName] && fileName !== '') {
       return
     }
-    if (getState().imageGallery.imageRequests.indexOf(fileName) > -1){
+    if (getState().imageGallery.imageRequests.indexOf(fileName) > -1) {
       return
     }
     dispatch(sendImageRequest(fileName))
 
-    // Create a reference to the file we want to download
-    let starsRef: any = storageRef.child(`images/${fileName}`)
-
-    // Get the download URL
-    starsRef.getDownloadURL().then((url: string) => {
+    return imageGalleryService.downloadImage(fileName)
+      .then((url: string) => {
       // Insert url into an <img> tag to 'download'
-      if (!getState().imageGallery.imageURLList[fileName] || fileName === '')
-        dispatch(setImageURL(fileName, url))
-    }).catch((error: any) => {
-
-      // A full list of error codes is available at
-      // https://firebase.google.com/docs/storage/web/handle-errors
-      switch (error.code) {
-        case 'storage/object_not_found':
-          // File doesn't exist
-          dispatch(globalActions.showErrorMessage('storage/object_not_found'))
-          break
-
-        case 'storage/unauthorized':
-          // User doesn't have permission to access the object
-          dispatch(globalActions.showErrorMessage('storage/unauthorized'))
-          break
-
-        case 'storage/canceled':
-          // User canceled the upload
-          dispatch(globalActions.showErrorMessage('storage/canceled'))
-          break
-
-        case 'storage/unknown':
-          // Unknown error occurred, inspect the server response
-          dispatch(globalActions.showErrorMessage('storage/unknown'))
-          break
-      }
+        if (!getState().imageGallery.imageURLList[fileName] || fileName === '') {
+          dispatch(setImageURL(fileName, url))
+        }
+      })
+    .catch((error: SocialError) => {
+      dispatch(globalActions.showErrorMessage(error.message))
     })
   }
 }

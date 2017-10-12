@@ -7,16 +7,15 @@ import { User } from 'domain/users'
 import { Comment } from 'domain/comments'
 
 // - Import action types
-import {CommentActionType} from 'constants/commentActionType'
-
+import { CommentActionType } from 'constants/commentActionType'
 
 import { CommentState } from './CommentState'
 import { ICommentAction } from './ICommentAction'
 
 /**
  * Comment reducer
- * @param state 
- * @param action 
+ * @param state
+ * @param action
  */
 export let commentReducer = (state: CommentState = new CommentState(), action: ICommentAction) => {
   let { payload } = action
@@ -31,7 +30,7 @@ export let commentReducer = (state: CommentState = new CommentState(), action: I
           [payload.postId]: {
             ...state.postComments![payload.postId],
             [payload.id]: {
-              ...payload.comment,
+              ...payload,
               editorStatus: false
             }
           }
@@ -44,7 +43,7 @@ export let commentReducer = (state: CommentState = new CommentState(), action: I
         postComments: {
           ...payload
         },
-        loaded:true
+        loaded: true
       }
     case CommentActionType.UPDATE_COMMENT:
       return {
@@ -112,12 +111,9 @@ export let commentReducer = (state: CommentState = new CommentState(), action: I
 
     case CommentActionType.CLEAR_ALL_DATA_COMMENT:
       return new CommentState()
-
-
     default:
       return state
 
   }
-
 
 }
