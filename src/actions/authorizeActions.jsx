@@ -1,5 +1,5 @@
 // - Import react components
-import {firebaseRef, firebaseAuth} from 'app/firebase/'
+import {firebaseRef, firebaseAuth} from 'src/firebase/'
 import moment from 'moment'
 import {push} from 'react-router-redux'
 

@@ -1,5 +1,5 @@
 // - Import firebase components
-import {firebaseAuth, firebaseRef} from 'app/firebase/';
+import {firebaseAuth, firebaseRef} from 'src/firebase/';
 import store from 'store/configureStore';
 
 // - Check user if is authorized

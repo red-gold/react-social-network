@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 var expect = require('expect')
 
-import firebase, {firebaseRef} from 'app/firebase'
+import firebase, {firebaseRef} from 'src/firebase'
 var authorizeActions = require('authorizeActions')
 import * as types from 'actionTypes'
 

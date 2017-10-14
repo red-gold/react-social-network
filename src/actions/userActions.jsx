@@ -1,5 +1,5 @@
 // - Import react components
-import { firebaseRef } from 'app/firebase/'
+import { firebaseRef } from 'src/firebase/'
 
 // - Import action types
 import * as types from 'actionTypes'

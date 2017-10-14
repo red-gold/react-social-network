@@ -1,5 +1,5 @@
 // - Import firebase component
-import firebase, { firebaseRef } from 'app/firebase/'
+import firebase, { firebaseRef } from 'src/firebase/'
 
 // - Import utility components
 import moment from 'moment'

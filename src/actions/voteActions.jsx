@@ -1,7 +1,7 @@
 // - Import react components
 import {createAction as action} from 'redux-actions'
 import moment from 'moment'
-import { firebaseRef } from 'app/firebase/'
+import { firebaseRef } from 'src/firebase/'
 
 // - Import action types
 import * as types from 'actionTypes'

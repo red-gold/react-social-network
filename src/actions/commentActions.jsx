@@ -1,6 +1,6 @@
 // - Import react components
 import moment from 'moment'
-import { firebaseRef } from 'app/firebase/'
+import { firebaseRef } from 'src/firebase/'
 
 // - Import action types
 import * as types from 'actionTypes'

@@ -1,6 +1,6 @@
 // - Import react componetns
 import moment from 'moment'
-import { firebaseRef, firebaseAuth, storageRef } from 'app/firebase/'
+import { firebaseRef, firebaseAuth, storageRef } from 'src/firebase/'
 
 
 // - Import action types
