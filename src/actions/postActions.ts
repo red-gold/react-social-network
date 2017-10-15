@@ -1,17 +1,16 @@
 // - Import react components
-import { Action } from "redux";
 
 // - Import firebase component
-import firebase, { firebaseRef } from '../firebase';
+import { firebaseRef } from '../firebase';
 
 // - Import utility components
 import moment from 'moment';
 
 // - Import action types
-import { postActionType } from 'constants/postActionType';
+import { postActionType } from '../constants/postActionType';
 
 // - Import actions
-import * as globalActions from 'actions/globalActions';
+import * as globalActions from '../actions/globalActions';
 
 
 
@@ -213,6 +212,7 @@ export const dbGetPosts = () => {
       });
 
     }
+    return;
   }
 }
 
@@ -234,6 +234,8 @@ export const dbGetPostById = (uid:string, postId:string) => {
       });
 
     }
+
+    return;
   }
 }
 
@@ -261,6 +263,7 @@ export const dbGetPostsByUserId = (uid: string) => {
       });
 
     }
+    return;
   }
 }
 

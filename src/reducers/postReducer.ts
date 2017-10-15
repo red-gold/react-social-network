@@ -1,12 +1,8 @@
 // - Import react components
-var uuid = require('uuid');
-import moment from 'moment'
-import _ from 'lodash'
-import {Reducer, Action} from "redux";
-
+import * as _ from 'lodash';
 
 // - Import action types
-import { postActionType } from "constants/postActionType";
+import { postActionType } from '../constants/postActionType';
 
 /* ---------------- */
 
@@ -63,7 +59,7 @@ export var postReducer = (state : IPostState = new defaultPostState(), action : 
             [payload.post.id]: { ...payload.post }
           }
         }
-      }
+      };
 
     case postActionType.ADD_POST:
       return {
@@ -98,6 +94,7 @@ export var postReducer = (state : IPostState = new defaultPostState(), action : 
         if (key !== payload.id) {
           return _.merge(filteredPosts, { [key]: { ...state.userPosts[payload.uid][key] } })
         }
+        return;
       })
       return {
         ...state,
@@ -126,4 +123,4 @@ export var postReducer = (state : IPostState = new defaultPostState(), action : 
       return state;
 
   }
-}
+};

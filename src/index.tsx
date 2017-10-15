@@ -2,17 +2,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import { cyan500 } from 'material-ui/styles/colors'
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 
 import { Provider } from 'react-redux'
-import store, { history } from 'store/configureStore'
+import store, { history } from './store/configureStore'
 import { ConnectedRouter } from 'react-router-redux'
 
 // - Import app components
-import Master from 'components/Master'
+import Master from './components/Master'
 
 // - Impport actions
 
@@ -27,17 +26,15 @@ injectTapEventPlugin()
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
 // More on Colors: http://www.material-ui.com/#/customization/colors
-const muiTheme = getMuiTheme({
+// const muiTheme = getMuiTheme({
 
 
-})
+// })
 
 
 
 // App css
-require('applicationStyles')
-const supportsHistory = 'pushState' in window.history
-
+import './styles/app.scss';
 ReactDOM.render(
 	<Provider store={store}>
 		<ConnectedRouter history={history}>

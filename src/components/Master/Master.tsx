@@ -1,37 +1,32 @@
 // - Import react components
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Route, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
-import { firebaseAuth, firebaseRef } from 'app/firebase'
-import { push } from 'react-router-redux'
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
+import { firebaseAuth } from '../../firebase'
 import Snackbar from 'material-ui/Snackbar';
 import LinearProgress from 'material-ui/LinearProgress'
 
 
 // - Import components
-import Home from 'components/Home'
-import Signup from 'components/Signup'
-import Login from 'components/Login'
-import Settings from 'components/Settings'
-import MasterLoading from 'components/MasterLoading'
-import { IMasterProps } from "./IMasterProps";
-import { IMasterState } from "./IMasterState";
-
-
-// - Import API
-import { PrivateRoute, PublicRoute } from 'api/AuthRouterAPI'
+import Home from '../../components/Home'
+import Signup from '../../components/Signup'
+import Login from '../../components/Login'
+import Settings from '../../components/Settings'
+import MasterLoading from '../../components/MasterLoading'
+import { IMasterProps } from './IMasterProps';
+import { IMasterState } from './IMasterState';
 
 
 // - Import actions
-import * as authorizeActions from 'actions/authorizeActions'
-import * as imageGalleryActions from 'actions/imageGalleryActions'
-import * as postActions from 'actions/postActions'
-import * as commentActions from 'actions/commentActions'
-import * as voteActions from 'actions/voteActions'
-import * as userActions from 'actions/userActions'
-import * as globalActions from 'actions/globalActions'
-import * as circleActions from 'actions/circleActions'
-import * as notifyActions from 'actions/notifyActions'
+import * as authorizeActions from '../../actions/authorizeActions'
+import * as imageGalleryActions from '../../actions/imageGalleryActions'
+import * as postActions from '../../actions/postActions'
+import * as commentActions from '../../actions/commentActions'
+import * as voteActions from '../../actions/voteActions'
+import * as userActions from '../../actions/userActions'
+import * as globalActions from '../../actions/globalActions'
+import * as circleActions from '../../actions/circleActions'
+import * as notifyActions from '../../actions/notifyActions'
 
 
 /* ------------------------------------ */
@@ -85,7 +80,7 @@ export class Master extends Component<IMasterProps,IMasterState>{
         if (!this.props.global.defaultLoadDataStatus) {
           this.props.clearData()
           this.props.loadData()
-          this.props.defaultDataEnable()
+          this.props.defaultDataEnable();
         }
       } else {
         this.props.logout()
@@ -98,7 +93,7 @@ export class Master extends Component<IMasterProps,IMasterState>{
         }
         this.props.loadDataGuest()
       }
-    })
+    });
 
   }
 
@@ -113,25 +108,26 @@ export class Master extends Component<IMasterProps,IMasterState>{
    */
   public render() {
 
-    const {progress, global} = this.props
+    const {progress, global} = this.props;
 
     return (
       <div id="master">
 
- <div className='master__progress' style={{display: (progress.visible ? 'block' : 'none' )}}>
+ <div className="master__progress" style={{display: (progress.visible ? 'block' : 'none' )}}>
             <LinearProgress mode="determinate" value={progress.percent} />
             </div>
-  <div className='master__loading animate-fading2' style={{display: ( global.showTopLoading ? 'flex' : 'none' )}}>
-   <div className='title'>  Loading ... </div>
+  <div className="master__loading animate-fading2" style={{display: ( global.showTopLoading ? 'flex' : 'none' )}}>
+   <div className="title">  Loading ... </div>
     </div>
-        <MasterLoading activeLoading={this.state.loading || !(this.props.loaded || this.props.guest)} handleLoading={this.handleLoading} />
+        <MasterLoading 
+        activeLoading={this.state.loading || !(this.props.loaded || this.props.guest)} handleLoading={this.handleLoading} />
 
         {(!this.state.loading && (this.props.loaded || this.props.guest))
         ?(<Switch>
           <Route path="/signup" component={Signup} />
           <Route path="/settings" component={Settings} />
           <Route path="/login" render={() => {
-            console.log('this.props.authed: ', this.props.authed, "this.props: ", this.props)
+            console.log('this.props.authed: ', this.props.authed, 'this.props: ', this.props)
             return (
               this.props.authed
                 ? <Redirect to="/" />
@@ -152,7 +148,7 @@ export class Master extends Component<IMasterProps,IMasterState>{
       </div>
 
 
-    )
+    );
   }
 }
 
@@ -200,7 +196,7 @@ const mapDispatchToProps = (dispatch : any, ownProps : any) => {
     }
   }
 
-}
+};
 
 /**
  * Map state to props
@@ -214,9 +210,10 @@ const mapStateToProps = (state : any) => {
     authed: authorize.authed,
     progress: global.progress,
     global: global,
-    loaded: user.loaded && post.loaded && comment.loaded && imageGallery.loaded && vote.loaded && notify.loaded && circle.loaded
+    loaded: user.loaded && post.loaded 
+    && comment.loaded && imageGallery.loaded && vote.loaded && notify.loaded && circle.loaded
   }
 
-}
+};
 // - Connect commponent to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Master as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Master as any));
