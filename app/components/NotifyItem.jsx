@@ -134,8 +134,8 @@ export class NotifyItem extends Component {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         goTo: (url) => dispatch(push(url)),
-        seenNotify: (id) => dispatch(notifyActions.dbSeenNotify(id)),
-        deleteNotiy: (id) => dispatch(notifyActions.dbDeleteNotify(id))
+        seenNotify: (id) => dispatch(notifyActions.dbSeenNotification(id)),
+        deleteNotiy: (id) => dispatch(notifyActions.dbDeleteNotification(id))
     }
 }
 
