@@ -50,10 +50,10 @@ export class UserService implements IUserService {
         usersProfileRef.once('value').then((snapshot: any) => {
           let usersProfile: any = snapshot.val() || {}
           let parsedusersProfile: {[userId: string]: Profile} = {}
-          Object.keys(usersProfile).forEach((userId) => {
-            if (userId !== userId) {
-              let userInfo = usersProfile[userId].info
-              parsedusersProfile[userId] = {
+          Object.keys(usersProfile).forEach((userKey) => {
+            if (userId !== userKey) {
+              let userInfo = usersProfile[userKey].info
+              parsedusersProfile[userKey] = {
                 avatar: userInfo.avatar,
                 email: userInfo.email,
                 fullName: userInfo.fullName,

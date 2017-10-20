@@ -15,8 +15,8 @@ import 'babel-core/register'
 import 'babel-polyfill'
 
 // - Import app components
-// import Master from 'components/Master'
-import { App } from 'components/AWS'
+import Master from 'components/Master'
+// import { App } from 'components/AWS'
 
 // Set default data
 // tslint:disable-next-line:no-empty
@@ -41,8 +41,8 @@ ReactDOM.render(
 	<Provider store={store}>
 		<ConnectedRouter history={history}>
 			<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-				{/* <Master /> */}
-				<App />
+				<Master />
+				{/* <App /> */}
 			</MuiThemeProvider>
 		</ConnectedRouter>
 	</Provider>,

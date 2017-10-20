@@ -11,8 +11,7 @@
       "app/*" : ["*"],
       "domain/*" : ["domain/*"],
       "factories/*" : ["factories/*"],
-      "services/*" : ["services/*"],
-      "firebaseServices/*" : ["firebaseServices/*"]
+      "firebase/*" : ["firebase/*"]
     },
     "sourceMap": true, // make TypeScript generate sourcemaps
     "outDir": "public", // output directory to build to (irrelevant because we use Webpack most of the time)

@@ -16,15 +16,15 @@ import { IVoteService } from 'services/votes'
 //#region Service implemented classes
 
 // - Firebase services
-import { AuthorizeService } from 'firebase/firebaseServices/authorize'
-import { CircleService } from 'firebase/firebaseServices/circles'
-import { CommentService } from 'firebase/firebaseServices/comments'
-import { CommonService } from 'firebase/firebaseServices/common'
-import { ImageGalleryService } from 'firebase/firebaseServices/imageGallery'
-import { NotificationService } from 'firebase/firebaseServices/notifications'
-import { PostService } from 'firebase/firebaseServices/posts'
-import { UserService } from 'firebase/firebaseServices/users'
-import { VoteService } from 'firebase/firebaseServices/votes'
+import { AuthorizeService } from 'firebase/services/authorize'
+import { CircleService } from 'firebase/services/circles'
+import { CommentService } from 'firebase/services/comments'
+import { CommonService } from 'firebase/services/common'
+import { ImageGalleryService } from 'firebase/services/imageGallery'
+import { NotificationService } from 'firebase/services/notifications'
+import { PostService } from 'firebase/services/posts'
+import { UserService } from 'firebase/services/users'
+import { VoteService } from 'firebase/services/votes'
 
 //#endregion
 
@@ -110,6 +110,5 @@ export class ServiceProvide implements IServiceProvider {
   createVoteService: () => IVoteService = () => {
     return new VoteService()
   }
-
 
 }
