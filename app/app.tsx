@@ -11,11 +11,12 @@ import { Provider } from 'react-redux'
 import store, { history } from 'store/configureStore'
 import { ConnectedRouter } from 'react-router-redux'
 
-// - Import app components
-import Master from 'components/Master'
+import 'babel-core/register'
+import 'babel-polyfill'
 
-declare const window: any
-declare const document: any
+// - Import app components
+// import Master from 'components/Master'
+import { App } from 'components/AWS'
 
 // Set default data
 // tslint:disable-next-line:no-empty
@@ -40,7 +41,8 @@ ReactDOM.render(
 	<Provider store={store}>
 		<ConnectedRouter history={history}>
 			<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-				<Master />
+				{/* <Master /> */}
+				<App />
 			</MuiThemeProvider>
 		</ConnectedRouter>
 	</Provider>,

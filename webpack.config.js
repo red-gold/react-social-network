@@ -2,7 +2,6 @@ var webpack = require('webpack');
 var path = require('path');
 var envFile = require('node-env-file');
 
-
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 console.log(process.env.NODE_ENV);
@@ -15,7 +14,7 @@ try {
 
 var babelOptions = {
   plugins: ['transform-decorators-legacy'],
-  presets: ['react', 'env', 'stage-0']
+  presets: ['babel-polyfill','react', 'env', 'stage-0']
 };
 
 module.exports = {
@@ -123,7 +122,7 @@ module.exports = {
         loader: "source-map-loader"
       },
       {
-        test: /\.jsx$/,
+        test: /\.js(x?)$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',

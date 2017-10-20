@@ -16,15 +16,15 @@ import { IVoteService } from 'services/votes'
 //#region Service implemented classes
 
 // - Firebase services
-import { AuthorizeService } from 'firebaseServices/authorize'
-import { CircleService } from 'firebaseServices/circles'
-import { CommentService } from 'firebaseServices/comments'
-import { CommonService } from 'firebaseServices/common'
-import { ImageGalleryService } from 'firebaseServices/imageGallery'
-import { NotificationService } from 'firebaseServices/notifications'
-import { PostService } from 'firebaseServices/posts'
-import { UserService } from 'firebaseServices/users'
-import { VoteService } from 'firebaseServices/votes'
+import { AuthorizeService } from 'firebase/firebaseServices/authorize'
+import { CircleService } from 'firebase/firebaseServices/circles'
+import { CommentService } from 'firebase/firebaseServices/comments'
+import { CommonService } from 'firebase/firebaseServices/common'
+import { ImageGalleryService } from 'firebase/firebaseServices/imageGallery'
+import { NotificationService } from 'firebase/firebaseServices/notifications'
+import { PostService } from 'firebase/firebaseServices/posts'
+import { UserService } from 'firebase/firebaseServices/users'
+import { VoteService } from 'firebase/firebaseServices/votes'
 
 //#endregion
 
