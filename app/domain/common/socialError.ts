@@ -5,7 +5,6 @@ export class SocialError {
      * @type {string}
      * @memberof SocialError
      */
-  private _code: string
   public get code (): string {
     return this._code
   }
@@ -16,8 +15,6 @@ export class SocialError {
      * @type {string}
      * @memberof SocialError
      */
-
-  private _message: string
   public get message (): string {
     return this._message
   }
@@ -34,9 +31,7 @@ export class SocialError {
     return this._isError
   }
 
-  constructor (code: string, message: string) {
-    this._code = code
-    this._message = message
+  constructor (private _code: string, private _message: string) {
     this._isError = true
   }
 

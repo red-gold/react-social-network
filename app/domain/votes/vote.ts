@@ -1,53 +1,53 @@
 import { BaseDomain } from 'domain/common'
 
 export class Vote extends BaseDomain {
-    
+
     /**
      * Vote identifier
-     * 
+     *
      * @type {string}
      * @memberof Vote
      */
-    public id?: string | null
+  public id?: string | null
 
     /**
      * Post identifire which vote on
-     * 
+     *
      * @type {string}
      * @memberof Vote
      */
-   public postId: string
+  public postId: string
 
    /**
-    * Vote date 
-    * 
+    * Vote date
+    *
     * @type {number}
     * @memberof Vote
     */
-   public creationDate: number
+  public creationDate: number
 
    /**
     * Voter full name
-    * 
+    *
     * @type {string}
     * @memberof Vote
     */
-   public userDisplayName: string
+  public userDisplayName: string
 
    /**
     * Avatar of voter
-    * 
+    *
     * @type {string}
     * @memberof Vote
     */
-   public userAvatar: string
+  public userAvatar: string
 
    /**
     * Voter identifier
-    * 
+    *
     * @type {string}
     * @memberof Vote
     */
-   public userId: string
-    
+  public userId: string
+
 }
