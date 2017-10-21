@@ -24,7 +24,6 @@ import Img from 'Img'
 import UserAvatar from 'UserAvatar'
 
 // - Import API
-import * as AuthAPI from 'AuthAPI'
 import * as PostAPI from 'PostAPI'
 
 // - Import actions

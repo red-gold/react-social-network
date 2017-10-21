@@ -9,7 +9,6 @@ import keycode from 'keycode'
 
 
 // - Import API
-import * as AuthAPI from 'AuthAPI'
 
 // - Import actions
 import * as authorizeActions from 'authorizeActions'

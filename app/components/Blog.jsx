@@ -18,7 +18,6 @@ import PostWrite from 'PostWrite'
 import UserAvatar from 'UserAvatar'
 
 // - Import API
-import * as AuthAPI from 'AuthAPI'
 import * as PostAPI from 'PostAPI'
 
 // - Import actions
