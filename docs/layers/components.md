@@ -9,7 +9,7 @@ To add a new page in Home.jsx (with side-bar and top-bar) :
 - In components/Home.jsx
 - Inside the  <Switch> tag
 
-```javascript
+```jsx
 <SidebarMain>
             <Switch>
             {/* Add your <Route/> here! */}
