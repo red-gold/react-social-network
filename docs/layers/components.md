@@ -7,7 +7,7 @@ This layer include [React components](https://facebook.github.io/react/docs/reac
 To add a new page in Home.jsx (with side-bar and top-bar) :
 
 - In components/Home.jsx
-- Inside the  <Switch> tag
+- Inside the [Switch] tag
 
 ```jsx
 <SidebarMain>
@@ -17,7 +17,7 @@ To add a new page in Home.jsx (with side-bar and top-bar) :
 </SidebarMain>
 ```
 
-- Add your component route between <Switch> tag to load in home page
+- Add your component route between [Switch] tag to load in home page
 
 ```javascript
 <Route path="/route-name" component={ComponentName} />
@@ -26,7 +26,7 @@ To add a new page in Home.jsx (with side-bar and top-bar) :
 To add a new item for menu bar
 
 - In components/Home.jsx
-- Inside the <Menu> tag
+- Inside the [Menu] tag
 
 ```javascript
    <SidebarContent>
@@ -36,7 +36,7 @@ To add a new item for menu bar
     </SidebarContent>
 ```
 
-- Add your component NavLink between <Menu> tag
+- Add your component NavLink between [Menu] tag
 
 ```javascript
 <NavLink to='/route-name'>
@@ -45,12 +45,12 @@ To add a new item for menu bar
 </NavLink>
 ```
 
-*Note: You can choose your icon for <SvgIcon /> from [material-ui icons](http://www.material-ui.com/#/components/svg-icon)*
+*Note: You can choose your icon for [SvgIcon] from [material-ui icons](http://www.material-ui.com/#/components/svg-icon)*
 
 To add your page in Master page (without side-bar menu and top-bar)
 
 - In components/Master/Master.tsx
-- Add your <Route /> tag between <Switch /> tag
+- Add your [Route] tag between [Switch] tag
 
 ```javascript
 <Switch>
