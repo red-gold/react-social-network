@@ -21,15 +21,17 @@ import { IMasterState } from './IMasterState'
 import { PrivateRoute, PublicRoute } from 'api/AuthRouterAPI'
 
 // - Import actions
-import * as authorizeActions from 'actions/authorizeActions'
-import * as imageGalleryActions from 'actions/imageGalleryActions'
-import * as postActions from 'actions/postActions'
-import * as commentActions from 'actions/commentActions'
-import * as voteActions from 'actions/voteActions'
-import * as userActions from 'actions/userActions'
-import * as globalActions from 'actions/globalActions'
-import * as circleActions from 'actions/circleActions'
-import * as notifyActions from 'actions/notifyActions'
+import {
+  authorizeActions,
+  imageGalleryActions,
+  postActions,
+  commentActions,
+  voteActions,
+  userActions,
+  globalActions,
+  circleActions,
+  notifyActions
+} from 'actions'
 
 /* ------------------------------------ */
 
