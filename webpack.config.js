@@ -87,7 +87,7 @@ module.exports = {
       constants: 'app/constants',
       services: 'app/services',
       factories: 'app/factories',
-      'firebase/services': 'app/firebase/services',
+      'firebaseClient/services': 'app/firebaseClient/services',
       domain: 'app/domain',
       api: 'app/api',
       db: 'app/db',

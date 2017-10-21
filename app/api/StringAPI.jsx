@@ -1,5 +1,5 @@
 // - Import react component
-import { storageRef } from 'app/firebase/'
+import { storageRef } from 'app/firebaseClient/'
 
 //- Import actions
 

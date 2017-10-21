@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
-import { firebaseAuth, firebaseRef } from 'app/firebase'
+import { firebaseAuth, firebaseRef } from 'app/firebaseClient'
 import { push } from 'react-router-redux'
 import Snackbar from 'material-ui/Snackbar'
 import LinearProgress from 'material-ui/LinearProgress'

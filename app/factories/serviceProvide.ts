@@ -16,15 +16,17 @@ import { IVoteService } from 'services/votes'
 //#region Service implemented classes
 
 // - Firebase services
-import { AuthorizeService } from 'firebase/services/authorize'
-import { CircleService } from 'firebase/services/circles'
-import { CommentService } from 'firebase/services/comments'
-import { CommonService } from 'firebase/services/common'
-import { ImageGalleryService } from 'firebase/services/imageGallery'
-import { NotificationService } from 'firebase/services/notifications'
-import { PostService } from 'firebase/services/posts'
-import { UserService } from 'firebase/services/users'
-import { VoteService } from 'firebase/services/votes'
+import {
+  AuthorizeService,
+  CircleService,
+  CommentService,
+  CommonService,
+  ImageGalleryService,
+  NotificationService,
+  PostService,
+  UserService,
+  VoteService
+} from 'firebaseClient/services'
 
 //#endregion
 
