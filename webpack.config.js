@@ -19,7 +19,7 @@ var babelOptions = {
 
 module.exports = {
   entry: [
-    './app/app.tsx'
+    './src/index.tsx'
   ],
   externals: {
     jquery: 'jQuery'
@@ -65,37 +65,22 @@ module.exports = {
 
     modules: [
       __dirname,
-      path.resolve(__dirname, 'node_modules'),
-      path.resolve(__dirname, './app/components'),
-      path.resolve(__dirname, './app/layouts'),
-      path.resolve(__dirname, './app/api'),
-      path.resolve(__dirname, './app/constants'),
-      path.resolve(__dirname, './app/actions'),
-      path.resolve(__dirname, './app/reducers'),
-      path.resolve(__dirname, './app/services'),
-      path.resolve(__dirname, './app/factories'),
-      path.resolve(__dirname, './app/domain')
-
-
-
-
+      path.resolve(__dirname, 'node_modules')
     ],
     alias: {
-      app: 'app',
-      components: 'app/components',
-      reducers: 'app/reducers',
-      constants: 'app/constants',
-      services: 'app/services',
-      factories: 'app/factories',
-      'firebaseClient/services': 'app/firebaseClient/services',
-      domain: 'app/domain',
-      api: 'app/api',
-      db: 'app/db',
-      store: 'app/store',
-      applicationStyles: 'app/styles/app.scss',
-      actions: 'app/actions',
-      actionTypes: 'app/constants/actionTypes.jsx',
-      configureStore: 'app/store/configureStore.jsx'
+      src: 'src',
+      components: 'src/components',
+      reducers: 'src/reducers',
+      constants: 'src/constants',
+      core: 'src/core',
+      data: 'src/data',
+      api: 'src/api',
+      layouts: 'src/layouts',
+      models: 'src/models',
+      store: 'src/store',
+      applicationStyles: 'src/styles/app.scss',
+      actions: 'src/actions',
+      actionTypes: 'src/constants/actionTypes.jsx'
 
     },
     extensions: [' ', '.scss', ".ts", ".tsx", ".js", ".json", '.jsx']

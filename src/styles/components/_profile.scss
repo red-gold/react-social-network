@@ -1,0 +1,127 @@
+.profile__parallax {
+    height: 455px;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+}
+
+.profile__title {
+    color: rgba(0, 0, 0, 0.54);
+    font-size: 16px;
+    font-weight: 500;
+    margin: 32px 0 0;
+    white-space: nowrap;
+    -webkit-flex-shrink: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile__head-info {
+    justify-content: space-between;
+    position: relative;
+    box-sizing: border-box;
+    height: 108px;
+    margin-top: -108px;
+    padding: 24px;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .46));
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, .46));
+    display: flex;
+    div.left {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        div.info {
+            display: flex;
+            text-align: left;
+            margin-left: 24px;
+            flex-direction: column;
+            div.fullName {
+                font-size: 30px;
+                font-weight: 500;
+                color: #fff;
+            }
+            div.tagLine {
+                background: rgba(255, 255, 255, 0.2);
+                color: #eae9e9;
+                padding: 4px;
+                border-radius: 2px;
+            }
+            div.followers {
+                color: #fff;
+                margin-top: 8px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                word-break: break-all;
+                font-size: 14px;
+            }
+        }
+    }
+    div.right {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+//------ Profile header in small size -------
+.profile__head-info-s {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    box-sizing: border-box;
+    height: 241px;
+    margin-top: -45px;
+    padding: 0 24px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    div.left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        div.profile__avatar {
+            @include justify-flex(center)
+        }
+        div.info {
+            display: flex;
+            text-align: left;
+            margin-top: 24px;
+            flex-direction: column;
+            div.fullName {
+                font-size: 30px;
+                font-weight: 500;
+                color: #191818;
+                @include justify-flex(center)
+                
+            }
+            div.followers {
+                color: #383838;
+                margin-top: 8px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                word-break: break-all;
+                font-size: 14px;
+                @include justify-flex(center)                
+            }
+        }
+    }
+    div.right {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 24px;
+    }
+}
+
+.profile__edit{
+      margin-top: -60px;
+          height: 171px;
+    @extend .profile__head-info-s
+  
+}

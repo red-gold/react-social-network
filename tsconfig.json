@@ -6,12 +6,16 @@
     "lib": ["es6","dom"],
     "types": ["reflect-metadata"],
     "allowSyntheticDefaultImports": true, // see below
-    "baseUrl": "./app/", // enables you to import relative to this folder
+    "baseUrl": "./src/", // enables you to import relative to this folder
     "paths": {
-      "app/*" : ["*"],
-      "domain/*" : ["domain/*"],
-      "factories/*" : ["factories/*"],
-      "firebase/*" : ["firebase/*"]
+      "src/*" : ["*"],
+      "core/*" : ["core/*"],
+      "data/*" : ["data/*"],
+      "components/*" : ["components/*"],
+      "store/*" : ["store/*"],
+      "api/*" : ["api/*"],
+      "layouts/*" : ["layouts/*"],
+      "models/*" : ["models/*"]
     },
     "sourceMap": true, // make TypeScript generate sourcemaps
     "outDir": "public", // output directory to build to (irrelevant because we use Webpack most of the time)
@@ -24,7 +28,7 @@
     
   },
   "include":[
-    "app/**/*"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules"

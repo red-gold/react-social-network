@@ -2,3 +2,5 @@ node_modules/
 public/bundle.js
 config/
 .vscode/
+src/data/awsClient
+src/components/AWS.tsx
