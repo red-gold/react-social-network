@@ -7,6 +7,7 @@ import { NotificationService } from './notifications'
 import { PostService } from './posts'
 import { UserService } from './users'
 import { VoteService } from './votes'
+import { StorageService } from './files'
 
 export {
   AuthorizeService,
@@ -17,5 +18,7 @@ export {
   NotificationService,
   PostService,
   UserService,
-  VoteService
+  VoteService,
+  StorageService
+
 }

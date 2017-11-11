@@ -1,6 +1,3 @@
-// - Import react component
-import { storageRef } from 'data/firebaseClient'
-
 // - Import actions
 
 const isValidEmail = (email: string) => {

@@ -1,3 +1,4 @@
+import { IStorageService } from 'core/services/files'
 // - Import react componetns
 import moment from 'moment'
 
@@ -16,9 +17,11 @@ import FileAPI from 'api/FileAPI'
 
 import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { IImageGalleryService } from 'core/services/imageGallery'
+import { FileResult } from 'models/files/fileResult'
 
 const serviceProvider: IServiceProvider = new ServiceProvide()
 const imageGalleryService: IImageGalleryService = serviceProvider.createImageGalleryService()
+const storageService: IStorageService = serviceProvider.createStorageService()
 
 /* _____________ UI Actions _____________ */
 
@@ -101,16 +104,16 @@ export const dbDeleteImage = (id: string) => {
  * @param {file} file
  * @param {string} fileName
  */
-export const dbUploadImage = (file: any, fileName: string) => {
+export const dbUploadImage = (image: any, imageName: string) => {
   return (dispatch: any, getState: Function) => {
 
     return imageGalleryService
-    .uploadImage(file,fileName, (percentage: number) => {
+    .uploadImage(image,imageName, (percentage: number) => {
       dispatch(globalActions.progressChange(percentage, true))
     })
-    .then(() => {
+    .then((result: FileResult) => {
       dispatch(globalActions.progressChange(100, false))
-      dispatch(dbSaveImage(fileName,''))
+      dispatch(dbSaveImage(result.fileURL,result.fileFullPath))
       dispatch(globalActions.hideTopLoading())
     })
     .catch((error: SocialError) => {

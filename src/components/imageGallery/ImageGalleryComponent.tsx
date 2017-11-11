@@ -124,16 +124,8 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
   handleSendResizedImage = (event: any) => {
 
     const { resizedImage, fileName } = event.detail
-    const {saveImageGallery, progressChange} = this.props
-
-    FileAPI.uploadImage(resizedImage, fileName, (percent: number, status: boolean) => {
-      progressChange!(percent,status)
-    }).then((result) => {
-
-      /* Add image to image gallery */
-      saveImageGallery!(result.downloadURL,result.metadata.fullPath)
-
-    })
+    const {uploadImage} = this.props
+    uploadImage(resizedImage,fileName)
   }
 
   /**
@@ -231,7 +223,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IImageGalleryComponentProps) => {
   return {
-    saveImageGallery: (imageURL: string,imageFullPath: string) => dispatch(imageGalleryActions.dbSaveImage(imageURL,imageFullPath)),
+    uploadImage: (image: any, imageName: string) => dispatch(imageGalleryActions.dbUploadImage(image,imageName)),
     deleteImage: (id: string) => dispatch(imageGalleryActions.dbDeleteImage(id)),
     progressChange : (percent: number,status: boolean) => dispatch(globalActions.progressChange(percent, status))
 

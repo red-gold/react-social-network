@@ -8,7 +8,7 @@ export interface IImageGalleryComponentProps {
    * @type {(URL: string,fullPath: string)}
    * @memberof IImageGalleryComponentProps
    */
-  set?: (URL: string,fullPath: string) => void
+  set: (URL: string,fullPath: string) => void
 
   /**
    * Delete an image
@@ -18,25 +18,18 @@ export interface IImageGalleryComponentProps {
   deleteImage?: (imageId: string) => void
 
   /**
-   * Save image in image gallery
+   * Upload image to the server
    *
    * @memberof IImageGalleryComponentProps
    */
-  saveImageGallery?: (URL: string,fullPath: string) => void
-
-  /**
-   * Change progress state
-   *
-   * @memberof IImageGalleryComponentProps
-   */
-  progressChange?: (percentage: number, status: boolean) => void
+  uploadImage?: (image: any, imageName: string) => any
 
   /**
    * Close image gallery
    *
    * @memberof IImageGalleryComponentProps
    */
-  close?: () => void
+  close: () => void
 
   /**
    * List of image in image gallery

@@ -27,6 +27,7 @@ import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import IconMenu from 'material-ui/IconMenu'
+
 import reactStringReplace from 'react-string-replace'
 
 // - Import app components

@@ -1,9 +1,12 @@
+import { FileResult } from 'models/files/fileResult'
 // - Import react components
 import { firebaseRef, firebaseAuth, storageRef } from 'data/firebaseClient'
 
 import { SocialError } from 'core/domain/common'
 import { IImageGalleryService } from 'core/services/imageGallery'
 import { Image } from 'core/domain/imageGallery'
+import { IStorageService } from 'core/services/files'
+import { IServiceProvider, ServiceProvide } from 'core/factories'
 
 /**
  * Firbase image gallery service
@@ -13,6 +16,14 @@ import { Image } from 'core/domain/imageGallery'
  * @implements {IImageGalleryService}
  */
 export class ImageGalleryService implements IImageGalleryService {
+
+  private readonly storageService: IStorageService
+  private readonly serviceProvider: IServiceProvider
+
+  constructor () {
+    this.serviceProvider = new ServiceProvide()
+    this.storageService = this.serviceProvider.createStorageService()
+  }
 
   public getImageGallery: (userId: string)
     => Promise<Image[]> = (userId) => {
@@ -69,24 +80,15 @@ export class ImageGalleryService implements IImageGalleryService {
       })
     }
 
-  public uploadImage: (file: any, fileName: string, progressCallback: Function)
-    => Promise<void> = (file, fileName, progressCallback) => {
-      return new Promise<void>((resolve,reject) => {
-
-        let storegeFile = storageRef.child(`images/${fileName}`)
-
-            // Upload file
-        let task = storegeFile.put(file)
-
-            // Upload storage bar
-        task.on('state_changed', (snapshot: any) => {
-          let percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          progressCallback(percentage)
-
-        }, (error: any) => {
+  public uploadImage: (image: any, imageName: string, progressCallback: (percentage: number, status: boolean) => void)
+    => Promise<FileResult> = (image, imageName, progressCallback) => {
+      return new Promise<FileResult>((resolve,reject) => {
+        this.storageService.uploadFile(image,imageName,progressCallback)
+        .then((result: FileResult) => {
+          resolve(result)
+        })
+        .catch((error: any) => {
           reject(new SocialError(error.code, error.message))
-        }, () => {
-          resolve()
         })
       })
     }

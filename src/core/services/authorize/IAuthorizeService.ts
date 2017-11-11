@@ -35,4 +35,10 @@ export interface IAuthorizeService {
      */
   registerUser: (user: User) => Promise<RegisterUserResult>
 
+  /**
+   * On user authorization changed event
+   *
+   * @memberof IAuthorizeService
+   */
+  onAuthStateChanged: (callBack: (user: User) => void)
 }

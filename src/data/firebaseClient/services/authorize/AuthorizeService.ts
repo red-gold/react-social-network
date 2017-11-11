@@ -103,4 +103,13 @@ export class AuthorizeService implements IAuthorizeService {
     })
   }
 
+  /**
+   * On user authorization changed event
+   *
+   * @memberof IAuthorizeService
+   */
+  onAuthStateChanged: (callBack: (user: User) => void) => any = (callBack) => {
+    firebaseAuth().onAuthStateChanged(callBack)
+  }
+
 }

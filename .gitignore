@@ -4,3 +4,5 @@ config/
 .vscode/
 src/data/awsClient
 src/components/AWS.tsx
+.firebaserc
+firebase.json

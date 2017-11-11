@@ -1,12 +1,15 @@
-import { IAuthorizeService } from 'services/authorize/IAuthorizeService'
-import { ICircleService } from 'services/circles'
-import { ICommentService } from 'core/services/comments'
-import { ICommonService } from 'services/common'
-import { IImageGalleryService } from 'services/imageGallery'
-import { INotificationService } from 'services/notifications'
-import { IPostService } from 'services/posts'
-import { IUserService } from 'services/users'
-import { IVoteService } from 'services/votes'
+import {
+  IAuthorizeService,
+  ICircleService,
+  ICommentService,
+  ICommonService,
+  IImageGalleryService,
+  INotificationService,
+  IPostService,
+  IUserService,
+  IVoteService,
+  IStorageService
+} from 'core/services'
 
 export interface IServiceProvider {
 
@@ -72,5 +75,12 @@ export interface IServiceProvider {
    * @memberof ServiceProvide
    */
   createVoteService: () => IVoteService
+
+  /**
+   * Create instant for Vote Service
+   *
+   * @memberof ServiceProvide
+   */
+  createStorageService: () => IStorageService
 
 }

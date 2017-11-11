@@ -17,7 +17,7 @@ export class PostService implements IPostService {
   public addPost: (userId: string, post: Post)
     => Promise<string> = (userId, post) => {
       return new Promise<string>((resolve,reject) => {
-        let postRef: any = firebaseRef.child(`userPosts/${userId}/posts`).push(post)
+        let postRef: any = firebaseRef.child(`users/${userId}/posts`).push(post)
         postRef.then(() => {
           resolve(postRef.key)
         })
@@ -31,7 +31,7 @@ export class PostService implements IPostService {
     => Promise<void> = (userId, postId, post) => {
       return new Promise<void>((resolve,reject) => {
         let updates: any = {}
-        updates[`userPosts/${userId}/posts/${postId}`] = post
+        updates[`users/${userId}/posts/${postId}`] = post
         firebaseRef.update(updates).then(() => {
           resolve()
         })
@@ -45,7 +45,7 @@ export class PostService implements IPostService {
     => Promise<void> = (userId, postId) => {
       return new Promise<void>((resolve,reject) => {
         let updates: any = {}
-        updates[`userPosts/${userId}/posts/${postId}`] = null
+        updates[`users/${userId}/posts/${postId}`] = null
         firebaseRef.update(updates).then(() => {
           resolve()
         })
@@ -59,7 +59,7 @@ export class PostService implements IPostService {
     => Promise<{ [postId: string]: Post }> = (userId) => {
       return new Promise<{ [postId: string]: Post }>((resolve,reject) => {
 
-        let postsRef: any = firebaseRef.child(`userPosts/${userId}/posts`)
+        let postsRef: any = firebaseRef.child(`users/${userId}/posts`)
         postsRef.once('value').then((snapshot: any) => {
           let posts: any = snapshot.val() || {}
           let parsedPosts: { [postId: string]: Post } = {}
@@ -82,7 +82,7 @@ export class PostService implements IPostService {
     => Promise<Post> = (userId, postId) => {
       return new Promise<Post>((resolve,reject) => {
 
-        let postsRef: any = firebaseRef.child(`userPosts/${userId}/posts/${postId}`)
+        let postsRef: any = firebaseRef.child(`users/${userId}/posts/${postId}`)
 
         postsRef.once('value').then((snapshot: any) => {
           let newPost = snapshot.val() || {}

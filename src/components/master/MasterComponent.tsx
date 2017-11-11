@@ -3,7 +3,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
-import { firebaseAuth, firebaseRef } from 'data/firebaseClient'
 import { push } from 'react-router-redux'
 import Snackbar from 'material-ui/Snackbar'
 import LinearProgress from 'material-ui/LinearProgress'
@@ -16,6 +15,8 @@ import Setting from 'components/setting'
 import MasterLoading from 'components/masterLoading'
 import { IMasterComponentProps } from './IMasterComponentProps'
 import { IMasterComponentState } from './IMasterComponentState'
+import { ServiceProvide, IServiceProvider } from 'core/factories'
+import { IAuthorizeService } from 'core/services/authorize'
 
 // - Import actions
 import {
@@ -36,9 +37,15 @@ import {
 export class MasterComponent extends Component<IMasterComponentProps, IMasterComponentState> {
 
   static isPrivate = true
+
+  private readonly _serviceProvider: IServiceProvider
+  private readonly _authourizeService: IAuthorizeService
   // Constructor
   constructor (props: IMasterComponentProps) {
     super(props)
+
+    this._serviceProvider = new ServiceProvide()
+    this._authourizeService = this._serviceProvider.createAuthorizeService()
     this.state = {
       loading: true,
       authed: false,
@@ -73,7 +80,7 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
 
   componentWillMount () {
 
-    firebaseAuth().onAuthStateChanged((user: any) => {
+    this._authourizeService.onAuthStateChanged((user: any) => {
 
       if (user) {
         this.props.login(user)

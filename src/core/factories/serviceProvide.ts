@@ -10,7 +10,8 @@ import {
   INotificationService,
   IPostService,
   IUserService,
-  IVoteService
+  IVoteService,
+  IStorageService
 } from 'core/services'
 
 //#endregion
@@ -27,7 +28,8 @@ import {
   NotificationService,
   PostService,
   UserService,
-  VoteService
+  VoteService,
+  StorageService
 } from 'data/firebaseClient/services'
 
 //#endregion
@@ -113,6 +115,15 @@ export class ServiceProvide implements IServiceProvider {
    */
   createVoteService: () => IVoteService = () => {
     return new VoteService()
+  }
+
+  /**
+   * Create instant for Vote Service
+   *
+   * @memberof ServiceProvide
+   */
+  createStorageService: () => IStorageService = () => {
+    return new StorageService()
   }
 
 }
