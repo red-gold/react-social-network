@@ -107,6 +107,28 @@ export const dbUpdatePassword = (newPassword: string) => {
   }
 }
 
+ /**
+  * Reset user's password
+  * @param {string} newPassword
+  */
+export const dbResetPassword = (email: string) => {
+  return (dispatch: any, getState: any) => {
+    dispatch(globalActions.showNotificationRequest())
+
+    return authorizeService.resetPassword(email).then(() => {
+
+       // Reset password successful.
+      dispatch(globalActions.showNotificationSuccess())
+      dispatch(push('/login'))
+    })
+      .catch((error: SocialError) => {
+        // An error happened.
+        dispatch(globalActions.showErrorMessage(error.code))
+
+      })
+  }
+}
+
   /* _____________ CRUD State _____________ */
 
   /**

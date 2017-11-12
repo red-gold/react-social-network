@@ -193,7 +193,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
        fontSize: '24px',
        fontWeight: 400,
        lineHeight: '32px',
-       margin: 0}}>Sign up</h2>
+       margin: 0}} className='zoomOutLCorner animated'>Sign up</h2>
          </div>
 
      <TextField

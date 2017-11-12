@@ -1,5 +1,5 @@
 node_modules/
-public/bundle.js
+public/bundle*.js
 config/
 .vscode/
 src/data/awsClient

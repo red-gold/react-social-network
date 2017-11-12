@@ -11,6 +11,7 @@ import LinearProgress from 'material-ui/LinearProgress'
 import Home from 'components/home'
 import Signup from 'components/signup'
 import Login from 'components/login'
+import ResetPassword from 'components/resetPassword'
 import Setting from 'components/setting'
 import MasterLoading from 'components/masterLoading'
 import { IMasterComponentProps } from './IMasterComponentProps'
@@ -133,6 +134,7 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
           ? (<Switch>
             <Route path='/signup' component={Signup} />
             <Route path='/settings' component={Setting} />
+            <Route path='/resetPassword' component={ResetPassword} />
             <Route path='/login' render={() => {
               console.log('this.props.authed: ', this.props.authed, 'this.props: ', this.props)
               return (

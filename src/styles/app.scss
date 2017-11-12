@@ -1,8 +1,7 @@
 @import "base/variables";
 @import 'base/grid';
 @import 'base/animate';
-
-
+@import 'base/icon';
 // Component styles
 @import 'components/global';
 @import 'components/master';
@@ -20,4 +19,3 @@
 @import 'components/signup';
 @import 'components/masterLoading';
 @import 'components/settings';
-

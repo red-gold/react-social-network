@@ -108,8 +108,25 @@ export class AuthorizeService implements IAuthorizeService {
    *
    * @memberof IAuthorizeService
    */
-  onAuthStateChanged: (callBack: (user: User) => void) => any = (callBack) => {
+  public onAuthStateChanged: (callBack: (user: User) => void) => any = (callBack) => {
     firebaseAuth().onAuthStateChanged(callBack)
   }
 
+  /**
+   * Reset user password
+   *
+   * @memberof AuthorizeService
+   */
+  public resetPassword: (email: string) => Promise<void> = (email) => {
+    return new Promise<void>((resolve,reject) => {
+      let auth = firebaseAuth()
+
+      auth.sendPasswordResetEmail(email).then(function () {
+        resolve()
+      }).catch((error: any) => {
+        // An error happened.
+        reject(new SocialError(error.code, error.message))
+      })
+    })
+  }
 }

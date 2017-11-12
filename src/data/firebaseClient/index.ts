@@ -12,6 +12,7 @@ try {
     messagingSenderId: process.env.MESSAGING_SENDER_ID
   }
 
+  console.log(firebase)
   firebase.initializeApp(config)
 } catch (error) {
   console.log('=========Firebase initializer==============')

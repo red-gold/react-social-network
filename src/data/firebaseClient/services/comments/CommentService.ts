@@ -35,12 +35,12 @@ export class CommentService implements ICommentService {
       })
     }
 
-  public updateComment: (userId: string, postId: string, comment: Comment)
-    => Promise<void> = (userId, postId, comment) => {
+  public updateComment: (commentId: string, postId: string, comment: Comment)
+    => Promise<void> = (commentId, postId, comment) => {
       return new Promise<void>((resolve,reject) => {
 
         let updates: any = {}
-        updates[`postComments/${postId}/${userId}`] = comment
+        updates[`postComments/${postId}/${commentId}`] = comment
         firebaseRef.update(updates)
         .then(() => {
           resolve()

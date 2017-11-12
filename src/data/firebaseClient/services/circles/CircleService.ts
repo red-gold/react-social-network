@@ -18,7 +18,7 @@ export class CircleService implements ICircleService {
   public addCircle: (userId: string, circle: Circle)
     => Promise<string> = (userId, circle) => {
       return new Promise<string>((resolve,reject) => {
-        let circleRef = firebaseRef.child(`userCircles/${userId}/circles`).push(circle)
+        let circleRef = firebaseRef.child(`users/${userId}/circles`).push(circle)
         circleRef.then(() => {
           resolve(circleRef.key as string)
         })
@@ -35,8 +35,8 @@ export class CircleService implements ICircleService {
       return new Promise<void>((resolve,reject) => {
 
         let updates: any = {}
-        updates[`userCircles/${userId}/circles/${circleId}/users/${userFollowingId}`] = userCircle
-        updates[`userCircles/${userFollowingId}/circles/-Followers/users/${userId}`] = userFollower
+        updates[`users/${userId}/circles/${circleId}/users/${userFollowingId}`] = userCircle
+        updates[`users/${userFollowingId}/circles/-Followers/users/${userId}`] = userFollower
 
         firebaseRef.update(updates).then(() => {
           resolve()
@@ -52,8 +52,8 @@ export class CircleService implements ICircleService {
       return new Promise<void>((resolve,reject) => {
 
         let updates: any = {}
-        updates[`userCircles/${userId}/circles/${circleId}/users/${userFollowingId}`] = null
-        updates[`userCircles/${userFollowingId}/circles/-Followers/users/${userId}`] = null
+        updates[`users/${userId}/circles/${circleId}/users/${userFollowingId}`] = null
+        updates[`users/${userFollowingId}/circles/-Followers/users/${userId}`] = null
 
         firebaseRef.update(updates).then(() => {
           resolve()
@@ -69,7 +69,7 @@ export class CircleService implements ICircleService {
       return new Promise<void>((resolve,reject) => {
 
         let updates: any = {}
-        updates[`userCircles/${userId}/circles/${circleId}`] = circle
+        updates[`users/${userId}/circles/${circleId}`] = circle
         firebaseRef.update(updates).then(() => {
           resolve()
         })
@@ -85,7 +85,7 @@ export class CircleService implements ICircleService {
       return new Promise<void>((resolve,reject) => {
 
         let updates: any = {}
-        updates[`userCircles/${userId}/circles/${circleId}`] = null
+        updates[`users/${userId}/circles/${circleId}`] = null
         firebaseRef.update(updates).then(() => {
           resolve()
         })
@@ -97,7 +97,7 @@ export class CircleService implements ICircleService {
     }
   public getCircles: (userId: string) => Promise<{ [circleId: string]: Circle }> = (userId) => {
     return new Promise<{ [circleId: string]: Circle }>((resolve,reject) => {
-      let circlesRef: any = firebaseRef.child(`userCircles/${userId}/circles`)
+      let circlesRef: any = firebaseRef.child(`users/${userId}/circles`)
 
       circlesRef.once('value').then((snapshot: any) => {
         let circles: any = snapshot.val() || {}

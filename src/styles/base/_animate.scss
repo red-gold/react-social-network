@@ -165,3 +165,32 @@
     }
 }
 
+.animated {
+    animation-duration: .5s;
+    animation-fill-mode: both;
+}
+
+.animated.infinite {
+    animation-iteration-count: infinite;
+}
+
+.animated.hinge {
+    animation-duration: 2s;
+}
+
+@keyframes zoomOutUp {
+    40% {
+        opacity: 1;
+        transform: scale3d(1, 1, 1) translate3d(0, 0px, 0);
+        animation-timing-function: cubic-bezier(0.550, 0.055, 0.675, 0.190);
+    }
+    to {
+        transform: scale3d(.8, .8, .8) translate3d(-80px, -40px, 0);
+        transform-origin: center bottom;
+        animation-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1);
+    }
+}
+
+.zoomOutLCorner {
+    animation-name: zoomOutUp;
+}

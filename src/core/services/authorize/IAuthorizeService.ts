@@ -40,5 +40,12 @@ export interface IAuthorizeService {
    *
    * @memberof IAuthorizeService
    */
-  onAuthStateChanged: (callBack: (user: User) => void)
+  onAuthStateChanged: (callBack: (user: User) => void) => void
+
+  /**
+   * Reset user password
+   *
+   * @memberof IAuthorizeService
+   */
+  resetPassword: (email: string) => Promise<void>
 }

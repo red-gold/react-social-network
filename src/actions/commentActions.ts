@@ -107,7 +107,7 @@ export const dbUpdateComment = (id: string, postId: string, text: string) => {
       userId: uid
     }
 
-    return commentService.updateComment(uid,postId,updatedComment)
+    return commentService.updateComment(id,postId,updatedComment)
       .then(() => {
         dispatch(updateComment( id, postId, text))
         dispatch(globalActions.hideTopLoading())

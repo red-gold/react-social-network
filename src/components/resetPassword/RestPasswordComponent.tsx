@@ -7,51 +7,34 @@ import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
-import FontIcon from 'material-ui/FontIcon'
-import Divider from 'material-ui/Divider'
-import ActionAndroid from 'material-ui/svg-icons/action/android'
+import { firebaseRef, firebaseAuth } from 'data/firebaseClient'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
-import { ILoginComponentProps } from './ILoginComponentProps'
-import { ILoginComponentState } from './ILoginComponentState'
+import { IRestPasswordComponentProps } from './IRestPasswordComponentProps'
+import { IRestPasswordComponentState } from './IRestPasswordComponentState'
 
-// - Create Login component class
-export class LoginComponent extends Component<ILoginComponentProps,ILoginComponentState> {
-
-  styles = {
-    singinOptions: {
-      paddingBottom: 10
-    },
-    divider: {
-      marginBottom: 10,
-      marginTop: 15
-    },
-    restPassword: {
-      lineHeight: 6,
-      fontWeight: 100,
-      fontSize: 'small'
-    },
-    restPasswordLink: {
-      color: '#0095ff'
-    }
-  }
+/**
+ * Create component class
+ *
+ * @export
+ * @class RestPasswordComponent
+ * @extends {Component}
+ */
+export class RestPasswordComponent extends Component<IRestPasswordComponentProps,IRestPasswordComponentState> {
 
   /**
    * Component constructor
    * @param  {object} props is an object properties of component
    */
-  constructor (props: ILoginComponentProps) {
+  constructor (props: IRestPasswordComponentProps) {
     super(props)
 
     this.state = {
       emailInput: '',
-      emailInputError: '',
-      passwordInput: '',
-      passwordInputError: '',
-      confirmInputError: ''
-    }
+      emailInputError: ''
 
+    }
     // Binding function to `this`
     this.handleForm = this.handleForm.bind(this)
 
@@ -69,22 +52,6 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
       [name]: value
     })
 
-    switch (name) {
-      case 'emailInput':
-        this.setState({
-          emailInputError: ''
-        })
-        break
-      case 'passwordInput':
-        this.setState({
-          confirmInputError: '',
-          passwordInputError: ''
-        })
-
-        break
-      default:
-
-    }
   }
 
   /**
@@ -97,24 +64,11 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
       this.setState({
         emailInputError: 'This field is required'
       })
-      error = true
 
-    }
-    if (this.state.passwordInput === '') {
-      this.setState({
-        passwordInputError: 'This field is required'
-      })
-      error = true
-
+      return
     }
 
-    if (!error) {
-      this.props.login!(
-        this.state.emailInput,
-        this.state.passwordInput
-      )
-    }
-
+    this.props.resetPassword(this.state.emailInput)
   }
 
   /**
@@ -131,7 +85,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
       margin: 'auto'
     }
     return (
-      <form>
+      <div>
 
         <h1 style={{
           textAlign: 'center',
@@ -158,21 +112,9 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
                   fontWeight: 400,
                   lineHeight: '32px',
                   margin: 0
-                }} className='zoomOutLCorner animated'>Sign in</h2>
+                }} className='zoomOutLCorner animated'>Reset Password</h2>
               </div>
-              <div style={this.styles.singinOptions}>
-              <FlatButton
-                icon={<div className='icon-fb icon'></div>}
-              />
-              <FlatButton
-                icon={<div className='icon-google icon'></div>}
-              />
-              <FlatButton
-                icon={<div className='icon-github icon'></div>}
-              />
 
-              </div>
-              <Divider style={this.styles.divider} />
               <TextField
                 onChange={this.handleInputChange}
                 errorText={this.state.emailInputError}
@@ -180,32 +122,22 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
                 floatingLabelStyle={{ fontSize: '15px' }}
                 floatingLabelText='Email'
                 type='email'
-                tabIndex={1}
-              /><br />
-              <TextField
-                onChange={this.handleInputChange}
-                errorText={this.state.passwordInputError}
-                name='passwordInput'
-                floatingLabelStyle={{ fontSize: '15px' }}
-                floatingLabelText='Password'
-                type='password'
-                tabIndex={2}
               /><br />
               <br />
               <br />
-              <div className='login__button-box'>
+              <div className='settings__button-box'>
                 <div>
-                  <FlatButton label='Create an account' onClick={this.props.signupPage} tabIndex={4} />
+                  <FlatButton label='Back' onClick={this.props.loginPage} />
                 </div>
-                <div >
-                  <RaisedButton label='Login' primary={true} onClick={this.handleForm} tabIndex={3} />
+                <div>
+                  <RaisedButton label='Reset password' primary={true} onClick={this.handleForm} />
                 </div>
               </div>
-                <span style={this.styles.restPassword as any}>Have you forgot your password? <NavLink to='/resetPassword' style={this.styles.restPasswordLink}>reset your password</NavLink></span>
+
             </div>
           </Paper>
         </div>
-      </form>
+      </div>
     )
   }
 }
@@ -216,14 +148,12 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapDispatchToProps = (dispatch: any, ownProps: ILoginComponentProps) => {
+const mapDispatchToProps = (dispatch: Function, ownProps: IRestPasswordComponentProps) => {
   return {
-    login: (email: string, password: string) => {
-      dispatch(authorizeActions.dbLogin(email, password))
+    loginPage: () => {
+      dispatch(push('/login'))
     },
-    signupPage: () => {
-      dispatch(push('/signup'))
-    }
+    resetPassword: (emailAddress: string) => dispatch(authorizeActions.dbResetPassword(emailAddress))
   }
 }
 
@@ -233,11 +163,11 @@ const mapDispatchToProps = (dispatch: any, ownProps: ILoginComponentProps) => {
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: ILoginComponentProps) => {
+const mapStateToProps = (state: any, ownProps: IRestPasswordComponentProps) => {
   return {
 
   }
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginComponent as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RestPasswordComponent as any))
