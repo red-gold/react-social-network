@@ -20,7 +20,8 @@ export let authorizeReducer = (state: AuthorizeState = new AuthorizeState(), act
         ...state,
         uid: payload.uid,
         authed: true,
-        guest: false
+        guest: false,
+        isVerifide: payload.isVerifide
       }
     case AuthorizeActionType.LOGOUT:
       return{

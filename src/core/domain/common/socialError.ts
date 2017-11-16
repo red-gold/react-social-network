@@ -1,4 +1,10 @@
-export class SocialError {
+export class SocialError extends Error {
+  private _isError: Boolean
+
+  constructor (private _code: string, private _message: string) {
+    super(_message)
+    this._isError = true
+  }
     /**
      * Error code
      *
@@ -26,13 +32,8 @@ export class SocialError {
      * @memberof SocialError
      */
 
-  private _isError: Boolean
   public get isError (): Boolean {
     return this._isError
-  }
-
-  constructor (private _code: string, private _message: string) {
-    this._isError = true
   }
 
 }

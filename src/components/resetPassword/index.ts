@@ -1,2 +1,2 @@
-import RestPasswordComponent from './RestPasswordComponent'
-export default RestPasswordComponent
+import ResetPasswordComponent from './ResetPasswordComponent'
+export default ResetPasswordComponent

@@ -28,7 +28,18 @@ import People from 'components/people'
 import CircleAPI from 'api/CircleAPI'
 
 // - Import actions
-import * as globalActions from 'actions/globalActions'
+// - Import actions
+import {
+  authorizeActions,
+  imageGalleryActions,
+  postActions,
+  commentActions,
+  voteActions,
+  userActions,
+  globalActions,
+  circleActions,
+  notifyActions
+} from 'actions'
 
 import { IHomeComponentProps } from './IHomeComponentProps'
 import { IHomeComponentState } from './IHomeComponentState'
@@ -93,6 +104,24 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
     })
   }
 
+  componentWillMount () {
+
+    const {global, clearData, loadData, authed, defaultDataEnable, isVerifide, goTo } = this.props
+    if (!authed) {
+      goTo!('/login')
+      return
+    }
+    if (!isVerifide) {
+      goTo!('/emailVerification')
+
+    } else if (!global.defaultLoadDataStatus) {
+
+      clearData!()
+      loadData!()
+      defaultDataEnable!()
+    }
+  }
+
   /**
    * Render DOM component
    *
@@ -101,7 +130,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
    * @memberof Home
    */
   render () {
-
+    const {loaded} = this.props
     return (
       <div id='home'>
         <HomeHeader sidebar={this.state.sidebarOpen} sidebarStatus={this.state.sidebarStatus} />
@@ -123,7 +152,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
           </SidebarContent>
 
           <SidebarMain>
-            <Switch>
+            {loaded ? (<Switch>
               <Route path='/people/:tab?' render={() => {
                 return (
                   this.props.authed
@@ -150,7 +179,8 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
                     : <Redirect to='/login' />
                 )
               }} />
-            </Switch>
+            </Switch>)
+            : ''}
           </SidebarMain>
         </Sidebar>
 
@@ -160,16 +190,40 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
   }
 }
 
-/**
- * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
- */
+// - Map dispatch to props
 const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
-  return {
 
+  return {
+    loadData: () => {
+      dispatch(commentActions.dbGetComments())
+      dispatch(imageGalleryActions.dbGetImageGallery())
+      dispatch(postActions.dbGetPosts())
+      dispatch(userActions.dbGetUserInfo())
+      dispatch(voteActions.dbGetVotes())
+      dispatch(notifyActions.dbGetNotifications())
+      dispatch(circleActions.dbGetCircles())
+
+    },
+    clearData: () => {
+      dispatch(imageGalleryActions.clearAllData())
+      dispatch(postActions.clearAllData())
+      dispatch(userActions.clearAllData())
+      dispatch(commentActions.clearAllData())
+      dispatch(voteActions.clearAllvotes())
+      dispatch(notifyActions.clearAllNotifications())
+      dispatch(circleActions.clearAllCircles())
+      dispatch(globalActions.clearTemp())
+
+    },
+    defaultDataDisable: () => {
+      dispatch(globalActions.defaultDataDisable())
+    },
+    defaultDataEnable: () => {
+      dispatch(globalActions.defaultDataEnable())
+    },
+    goTo: (url: string) => dispatch(push(url))
   }
+
 }
 
 /**
@@ -179,20 +233,24 @@ const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IHomeComponentProps) => {
-  const { uid } = state.authorize
+  const { authorize, global, user, post, comment, imageGallery, vote, notify, circle } = state
+  const { uid } = authorize
   let mergedPosts = {}
-  const circles = state.circle ? (state.circle.userCircles[uid] || {}) : {}
+  const circles = circle ? (circle.userCircles[uid] || {}) : {}
   const followingUsers = CircleAPI.getFollowingUsers(circles)
-  const posts = state.post.userPosts ? state.post.userPosts[state.authorize.uid] : {}
+  const posts = post.userPosts ? post.userPosts[authorize.uid] : {}
   Object.keys(followingUsers).forEach((userId) => {
-    let newPosts = state.post.userPosts ? state.post.userPosts[userId] : {}
+    let newPosts = post.userPosts ? post.userPosts[userId] : {}
     _.merge(mergedPosts,newPosts)
   })
   _.merge(mergedPosts,posts)
   return {
-    authed: state.authorize.authed,
-    mainStyle: state.global.sidebarMainStyle,
-    mergedPosts
+    authed: authorize.authed,
+    isVerifide: authorize.isVerifide,
+    mainStyle: global.sidebarMainStyle,
+    mergedPosts,
+    global,
+    loaded: user.loaded && post.loaded && comment.loaded && imageGallery.loaded && vote.loaded && notify.loaded && circle.loaded
   }
 }
 

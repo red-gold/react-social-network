@@ -21,4 +21,12 @@ export interface IMasterComponentState {
        * @memberof IMasterState
        */
   dataLoaded: boolean
+
+  /**
+   * If user verifide it's email {true} or not {false}
+   *
+   * @type {boolean}
+   * @memberof IMasterComponentState
+   */
+  isVerifide: boolean
 }

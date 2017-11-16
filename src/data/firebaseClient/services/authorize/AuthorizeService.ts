@@ -27,7 +27,7 @@ export class AuthorizeService implements IAuthorizeService {
       firebaseAuth()
                 .signInWithEmailAndPassword(email, password)
                 .then((result) => {
-                  resolve(new LoginUser(result.uid))
+                  resolve(new LoginUser(result.uid, result.emailVerified))
                 })
                 .catch((error: any) => {
                   reject(new SocialError(error.code, error.message))
@@ -108,8 +108,18 @@ export class AuthorizeService implements IAuthorizeService {
    *
    * @memberof IAuthorizeService
    */
-  public onAuthStateChanged: (callBack: (user: User) => void) => any = (callBack) => {
-    firebaseAuth().onAuthStateChanged(callBack)
+  public onAuthStateChanged: (callBack: (isVerifide: boolean, user: User) => void) => any = (callBack) => {
+    firebaseAuth().onAuthStateChanged( (user: any) => {
+      let isVerifide = false
+      if (user) {
+        if (user.emailVerified) {
+          isVerifide = true
+        } else {
+          isVerifide = false
+        }
+      }
+      callBack(isVerifide,user)
+    })
   }
 
   /**
@@ -127,6 +137,25 @@ export class AuthorizeService implements IAuthorizeService {
         // An error happened.
         reject(new SocialError(error.code, error.message))
       })
+    })
+  }
+
+  public sendEmailVerification: () => Promise<void> = () => {
+    return new Promise<void>((resolve,reject) => {
+      let auth = firebaseAuth()
+      const user = auth.currentUser
+
+      if (user) {
+        user.sendEmailVerification().then(() => {
+          resolve()
+        }).catch((error: any) => {
+          // An error happened.
+          reject(new SocialError(error.code, error.message))
+        })
+      } else {
+        reject(new SocialError('nullException', 'User was null'));
+      }
+
     })
   }
 }

@@ -1,11 +1,11 @@
 
-export interface IRestPasswordComponentState {
+export interface IResetPasswordComponentState {
 
   /**
    * Email input value
    *
    * @type {string}
-   * @memberof IRestPasswordComponentState
+   * @memberof IResetPasswordComponentState
    */
   emailInput: string
 
@@ -13,7 +13,7 @@ export interface IRestPasswordComponentState {
    * Email input error text
    *
    * @type {string}
-   * @memberof IRestPasswordComponentState
+   * @memberof IResetPasswordComponentState
    */
   emailInputError: string
 

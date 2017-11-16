@@ -11,6 +11,14 @@ export interface IHomeComponentProps {
   authed?: boolean
 
   /**
+   * If user email is verifide {true} or not {false}
+   *
+   * @type {boolean}
+   * @memberof IHomeComponentProps
+   */
+  isVerifide?: boolean
+
+  /**
    * User identifier
    *
    * @type {string}
@@ -25,4 +33,59 @@ export interface IHomeComponentProps {
    * @memberof IHomeComponentProps
    */
   mergedPosts?: {[postId: string]: Post}
+
+  /**
+   * Global state
+   *
+   * @type {*}
+   * @memberof IMasterProps
+   */
+  global?: any
+
+  /**
+   * Clear user date from store
+   *
+   * @type {Function}
+   * @memberof IMasterProps
+   */
+  clearData?: Function
+
+    /**
+     * Set flag {true} which all user data has loaded
+     *
+     * @type {Function}
+     * @memberof IMasterProps
+     */
+  defaultDataEnable?: Function
+    /**
+     * Load user data into store
+     *
+     * @type {Function}
+     * @memberof IMasterProps
+     */
+  loadData?: Function
+
+    /**
+     * Set flag {false} which user data has not loaded
+     *
+     * @type {Function}
+     * @memberof IMasterProps
+     */
+  defaultDataDisable?: Function
+
+  /**
+   * Redirect to [url]
+   *
+   * @memberof IHomeComponentProps
+   */
+  goTo?: (url: string) => any
+
+  /**
+   * If all requierment data loaded {true} or not {false}
+   *
+   * @type {boolean}
+   * @memberof IHomeComponentProps
+   */
+  loaded?: boolean
+
 }

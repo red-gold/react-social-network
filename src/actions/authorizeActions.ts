@@ -34,7 +34,7 @@ export const dbLogin = (email: string, password: string) => {
     dispatch(globalActions.showNotificationRequest())
     return authorizeService.login(email, password).then((result) => {
       dispatch(globalActions.showNotificationSuccess())
-      dispatch(login(result.uid))
+      dispatch(login(result.uid,result.emailVerified))
       dispatch(push('/'))
     }, (error: SocialError) => dispatch(globalActions.showErrorMessage(error.code)))
   }
@@ -71,7 +71,8 @@ export const dbSignup = (user: UserRegisterModel) => {
         userId: result.uid,
         ...user
       }))
-      dispatch(push('/'))
+      dispatch(dbSendEmailVerfication())
+      dispatch(push('/emailVerification'))
     })
       .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.code)))
   }
@@ -129,16 +130,36 @@ export const dbResetPassword = (email: string) => {
   }
 }
 
+ /**
+  * Send email verification
+  */
+export const dbSendEmailVerfication = () => {
+  return (dispatch: any, getState: any) => {
+    dispatch(globalActions.showNotificationRequest())
+
+    return authorizeService.sendEmailVerification().then(() => {
+         // Send email verification successful.
+      dispatch(globalActions.showNotificationSuccess())
+      dispatch(push('/'))
+    })
+        .catch((error: SocialError) => {
+          // An error happened.
+          dispatch(globalActions.showErrorMessage(error.code))
+
+        })
+  }
+}
+
   /* _____________ CRUD State _____________ */
 
   /**
    * Loing user
    * @param {string} uids
    */
-export const login = (uid: string) => {
+export const login = (uid: string, isVerifide: boolean) => {
   return {
     type: AuthorizeActionType.LOGIN,
-    payload: { authed: true, uid }
+    payload: { authed: true, isVerifide, uid }
   }
 }
 

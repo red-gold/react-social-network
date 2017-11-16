@@ -10,6 +10,7 @@ import LinearProgress from 'material-ui/LinearProgress'
 // - Import components
 import Home from 'components/home'
 import Signup from 'components/signup'
+import EmailVerification from 'components/emailVerification'
 import Login from 'components/login'
 import ResetPassword from 'components/resetPassword'
 import Setting from 'components/setting'
@@ -50,7 +51,8 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
     this.state = {
       loading: true,
       authed: false,
-      dataLoaded: false
+      dataLoaded: false,
+      isVerifide: false
     }
 
     // Binding functions to `this`
@@ -81,28 +83,26 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
 
   componentWillMount () {
 
-    this._authourizeService.onAuthStateChanged((user: any) => {
-
+    this._authourizeService.onAuthStateChanged((isVerifide: boolean, user: any) => {
+      const {global, clearData, loadDataGuest, defaultDataDisable, defaultDataEnable, login, logout } = this.props
       if (user) {
-        this.props.login(user)
+        login(user.uid,isVerifide)
         this.setState({
-          loading: false
+          loading: false,
+          isVerifide: true
         })
-        if (!this.props.global.defaultLoadDataStatus) {
-          this.props.clearData()
-          this.props.loadData()
-          this.props.defaultDataEnable()
-        }
+
       } else {
-        this.props.logout()
+        logout()
         this.setState({
-          loading: false
+          loading: false,
+          isVerifide: false
         })
-        if (this.props.global.defaultLoadDataStatus) {
-          this.props.defaultDataDisable()
-          this.props.clearData()
+        if (global.defaultLoadDataStatus) {
+          defaultDataDisable()
+          clearData()
         }
-        this.props.loadDataGuest()
+        loadDataGuest()
       }
     })
 
@@ -117,7 +117,8 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
    */
   public render (): React.ReactElement<{}> {
 
-    const { progress, global } = this.props
+    const { progress, global, loaded, guest } = this.props
+    const { loading, isVerifide } = this.state
 
     return (
       <div id='master'>
@@ -128,25 +129,25 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
         <div className='master__loading animate-fading2' style={{ display: (global.showTopLoading ? 'flex' : 'none') }}>
           <div className='title'>Loading ... </div>
         </div>
-        <MasterLoading activeLoading={this.state.loading || !(this.props.loaded || this.props.guest)} handleLoading={this.handleLoading} />
+        <MasterLoading activeLoading={loading} handleLoading={this.handleLoading} />
 
-        {(!this.state.loading && (this.props.loaded || this.props.guest))
-          ? (<Switch>
-            <Route path='/signup' component={Signup} />
-            <Route path='/settings' component={Setting} />
-            <Route path='/resetPassword' component={ResetPassword} />
-            <Route path='/login' render={() => {
-              console.log('this.props.authed: ', this.props.authed, 'this.props: ', this.props)
-              return (
-                this.props.authed
-                  ? <Redirect to='/' />
-                  : <Login />
-              )
-            }
-            } />
-            <Route render={() => <Home uid={this.props.uid} />} />
+        {(!loading) ? (<Switch>
+                    <Route path='/signup' component={Signup} />
+                    <Route path='/emailVerification' component={EmailVerification} />
+                    <Route path='/settings' component={Setting} />
+                    <Route path='/resetPassword' component={ResetPassword} />
+                    <Route path='/login' render={() => {
+                      return (
+                        this.props.authed
+                          ? <Redirect to='/' />
+                          : <Login />
+                      )
+                    }
+                    } />
+                    <Route render={() => <Home uid={this.props.uid} />} />
 
-          </Switch>) : ''
+                  </Switch>)
+          : ''
         }
         <Snackbar
           open={this.props.global.messageOpen}
@@ -164,16 +165,6 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
 const mapDispatchToProps = (dispatch: any, ownProps: IMasterComponentProps) => {
 
   return {
-    loadData: () => {
-      dispatch(commentActions.dbGetComments())
-      dispatch(imageGalleryActions.dbGetImageGallery())
-      dispatch(postActions.dbGetPosts())
-      dispatch(userActions.dbGetUserInfo())
-      dispatch(voteActions.dbGetVotes())
-      dispatch(notifyActions.dbGetNotifications())
-      dispatch(circleActions.dbGetCircles())
-
-    },
     clearData: () => {
       dispatch(imageGalleryActions.clearAllData())
       dispatch(postActions.clearAllData())
@@ -185,8 +176,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: IMasterComponentProps) => {
       dispatch(globalActions.clearTemp())
 
     },
-    login: (user: any) => {
-      dispatch(authorizeActions.login(user.uid))
+    login: (userId: string, isVerifide: boolean) => {
+      dispatch(authorizeActions.login(userId, isVerifide))
     },
     logout: () => {
       dispatch(authorizeActions.logout())
@@ -218,8 +209,7 @@ const mapStateToProps = (state: any) => {
     uid: authorize.uid,
     authed: authorize.authed,
     progress: global.progress,
-    global: global,
-    loaded: user.loaded && post.loaded && comment.loaded && imageGallery.loaded && vote.loaded && notify.loaded && circle.loaded
+    global: global
   }
 
 }

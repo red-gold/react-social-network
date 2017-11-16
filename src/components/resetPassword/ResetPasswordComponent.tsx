@@ -11,23 +11,23 @@ import { firebaseRef, firebaseAuth } from 'data/firebaseClient'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
-import { IRestPasswordComponentProps } from './IRestPasswordComponentProps'
-import { IRestPasswordComponentState } from './IRestPasswordComponentState'
+import { IResetPasswordComponentProps } from './IResetPasswordComponentProps'
+import { IResetPasswordComponentState } from './IResetPasswordComponentState'
 
 /**
  * Create component class
  *
  * @export
- * @class RestPasswordComponent
+ * @class ResetPasswordComponent
  * @extends {Component}
  */
-export class RestPasswordComponent extends Component<IRestPasswordComponentProps,IRestPasswordComponentState> {
+export class ResetPasswordComponent extends Component<IResetPasswordComponentProps,IResetPasswordComponentState> {
 
   /**
    * Component constructor
    * @param  {object} props is an object properties of component
    */
-  constructor (props: IRestPasswordComponentProps) {
+  constructor (props: IResetPasswordComponentProps) {
     super(props)
 
     this.state = {
@@ -68,7 +68,7 @@ export class RestPasswordComponent extends Component<IRestPasswordComponentProps
       return
     }
 
-    this.props.resetPassword(this.state.emailInput)
+    this.props.resetPassword!(this.state.emailInput)
   }
 
   /**
@@ -148,7 +148,7 @@ export class RestPasswordComponent extends Component<IRestPasswordComponentProps
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapDispatchToProps = (dispatch: Function, ownProps: IRestPasswordComponentProps) => {
+const mapDispatchToProps = (dispatch: Function, ownProps: IResetPasswordComponentProps) => {
   return {
     loginPage: () => {
       dispatch(push('/login'))
@@ -163,11 +163,11 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IRestPasswordComponent
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IRestPasswordComponentProps) => {
+const mapStateToProps = (state: any, ownProps: IResetPasswordComponentProps) => {
   return {
 
   }
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RestPasswordComponent as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ResetPasswordComponent as any))
