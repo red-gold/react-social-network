@@ -15,6 +15,8 @@ import ActionAndroid from 'material-ui/svg-icons/action/android'
 import * as authorizeActions from 'actions/authorizeActions'
 import { ILoginComponentProps } from './ILoginComponentProps'
 import { ILoginComponentState } from './ILoginComponentState'
+import { firebaseAuth } from 'data/firebaseClient'
+import { OAuthType } from 'core/domain/authorize'
 
 // - Create Login component class
 export class LoginComponent extends Component<ILoginComponentProps,ILoginComponentState> {
@@ -130,6 +132,8 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
       display: 'block',
       margin: 'auto'
     }
+
+    const {loginWithOAuth} = this.props
     return (
       <form>
 
@@ -163,12 +167,16 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
               <div style={this.styles.singinOptions}>
               <FlatButton
                 icon={<div className='icon-fb icon'></div>}
-              />
+                onClick={() => loginWithOAuth(OAuthType.FACEBOOK)}
+                />
               <FlatButton
                 icon={<div className='icon-google icon'></div>}
-              />
+                onClick={() => loginWithOAuth(OAuthType.GOOGLE)}
+                />
               <FlatButton
                 icon={<div className='icon-github icon'></div>}
+                onClick={() => loginWithOAuth(OAuthType.GITHUB)}
+
               />
 
               </div>
@@ -221,6 +229,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: ILoginComponentProps) => {
     login: (email: string, password: string) => {
       dispatch(authorizeActions.dbLogin(email, password))
     },
+    loginWithOAuth: (type: OAuthType) => dispatch(authorizeActions.dbLoginWithOAuth(type)),
     signupPage: () => {
       dispatch(push('/signup'))
     }

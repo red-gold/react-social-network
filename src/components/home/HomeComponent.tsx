@@ -111,7 +111,8 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
       goTo!('/login')
       return
     }
-    if (!isVerifide) {
+    // if (!isVerifide) {
+    if (false) {
       goTo!('/emailVerification')
 
     } else if (!global.defaultLoadDataStatus) {

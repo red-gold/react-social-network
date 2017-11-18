@@ -1,11 +1,13 @@
+
 // - Import react components
 import { firebaseRef, firebaseAuth } from 'data/firebaseClient'
 
 import { IAuthorizeService } from 'core/services/authorize'
-import { User } from 'core/domain/users'
+import { User, UserProvider } from 'core/domain/users'
 import { LoginUser, RegisterUserResult } from 'core/domain/authorize'
 import { SocialError } from 'core/domain/common'
 
+import { OAuthType } from 'core/domain/authorize/oauthType'
 /**
  * Firbase authorize service
  *
@@ -66,15 +68,8 @@ export class AuthorizeService implements IAuthorizeService {
       firebaseAuth()
                 .createUserWithEmailAndPassword(user.email as string, user.password as string)
                 .then((signupResult) => {
-                  firebaseRef.child(`users/${signupResult.uid}/info`)
-                        .set({
-                          ...user,
-                          avatar: 'noImage'
-                        })
-                        .then((result) => {
-                          resolve(new RegisterUserResult(signupResult.uid))
-                        })
-                        .catch((error: any) => reject(new SocialError(error.name, error.message)))
+                  const {uid, email, displayName, photoURL} = signupResult
+                  this.storeUserInformation(uid,email,displayName,photoURL).then(resolve)
                 })
                 .catch((error: any) => reject(new SocialError(error.code, error.message)))
     })
@@ -140,6 +135,11 @@ export class AuthorizeService implements IAuthorizeService {
     })
   }
 
+  /**
+   * Send verfication email to user email
+   *
+   * @memberof AuthorizeService
+   */
   public sendEmailVerification: () => Promise<void> = () => {
     return new Promise<void>((resolve,reject) => {
       let auth = firebaseAuth()
@@ -153,9 +153,109 @@ export class AuthorizeService implements IAuthorizeService {
           reject(new SocialError(error.code, error.message))
         })
       } else {
-        reject(new SocialError('nullException', 'User was null'));
+        reject(new SocialError('authorizeService/nullException', 'User was null!'))
       }
 
+    })
+  }
+
+  public loginWithOAuth: (type: OAuthType) => Promise<LoginUser> = (type) => {
+    return new Promise<LoginUser>((resolve,reject) => {
+
+      let provider: any
+
+      switch (type) {
+        case OAuthType.GITHUB:
+          provider = new firebaseAuth.GithubAuthProvider()
+          break
+        case OAuthType.FACEBOOK:
+          provider = new firebaseAuth.FacebookAuthProvider()
+          break
+        case OAuthType.GOOGLE:
+          provider = new firebaseAuth.GoogleAuthProvider()
+          break
+        default:
+          throw new SocialError('authorizeService/loginWithOAuth','None of OAuth type is matched!')
+      }
+      firebaseAuth().signInWithPopup(provider).then((result) => {
+        // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+        let token = result.credential.accessToken
+        // The signed-in user info.
+        const {user} = result
+        const {credential} = result
+        const {uid, displayName, email, photoURL} = user
+        const {accessToken, provider, providerId} = credential
+
+        this.storeUserProviderData(uid,email,displayName,photoURL,providerId,provider,accessToken)
+        // this.storeUserInformation(uid,email,displayName,photoURL).then(resolve)
+        resolve(new LoginUser(user.uid,true,providerId,displayName,email,photoURL))
+
+      }).catch(function (error: any) {
+        // Handle Errors here.
+        let errorCode = error.code
+        let errorMessage = error.message
+        // The email of the user's account used.
+        let email = error.email
+        // The firebase.auth.AuthCredential type that was used.
+        let credential = error.credential
+
+      })
+
+    })
+  }
+
+  /**
+   * Store user information
+   *
+   * @private
+   * @memberof AuthorizeService
+   */
+  private storeUserInformation = (userId: string, email: string, fullName: string, avatar?: string) => {
+    return new Promise<RegisterUserResult>((resolve,reject) => {
+      firebaseRef.child(`users/${userId}/info`)
+      .set({
+        userId,
+        avatar,
+        email,
+        fullName
+      })
+      .then((result) => {
+        resolve(new RegisterUserResult(userId))
+      })
+      .catch((error: any) => reject(new SocialError(error.name, error.message)))
+    })
+  }
+
+  /**
+   * Store user provider information
+   *
+   * @private
+   * @memberof AuthorizeService
+   */
+  private storeUserProviderData = (
+    userId: string,
+    email: string,
+    fullName: string,
+    avatar: string,
+    providerId: string,
+    provider: string,
+    accessToken: string
+  ) => {
+    return new Promise<RegisterUserResult>((resolve,reject) => {
+      firebaseRef.child(`users/${userId}/providerInfo`)
+      .set(new UserProvider(
+        userId,
+        email,
+        fullName,
+        avatar,
+        providerId,
+        provider,
+        accessToken
+      ))
+      .then((result) => {
+        resolve(new RegisterUserResult(userId))
+      })
+      .catch((error: any) => reject(new SocialError(error.name, error.message)))
     })
   }
 }

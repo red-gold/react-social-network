@@ -1,0 +1,11 @@
+{
+    "plugins": [
+        "react-hot-loader/babel",
+        "transform-decorators-legacy"
+    ],
+    "presets": [
+        "babel-polyfill", ["env", { "modules": false }],
+        "react",
+        "stage-0"
+    ]
+}

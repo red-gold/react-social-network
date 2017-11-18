@@ -1,6 +1,7 @@
 // Import external components refrence
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import { cyan500 } from 'material-ui/styles/colors'
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
@@ -20,7 +21,7 @@ import Master from 'components/master'
 
 // Set default data
 // tslint:disable-next-line:no-empty
-store.subscribe(() => {})
+store.subscribe(() => { })
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -37,14 +38,35 @@ const muiTheme = getMuiTheme({
 import 'applicationStyles'
 const supportsHistory = 'pushState' in window.history
 
-ReactDOM.render(
-	<Provider store={store}>
-		<ConnectedRouter history={history}>
-			<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-				<Master />
-				{/* <App /> */}
-			</MuiThemeProvider>
-		</ConnectedRouter>
-	</Provider>,
-	document.getElementById('app')
-)
+// ReactDOM.render(
+// 	<Provider store={store}>
+// 		<ConnectedRouter history={history}>
+// 			<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+// 				<Master />
+// 			</MuiThemeProvider>
+// 		</ConnectedRouter>
+// 	</Provider>,
+// 	document.getElementById('app')
+// )
+const render = (Component: any) => {
+	 ReactDOM.render(
+		<AppContainer warnings={false}>
+			<Provider store={store}>
+				<ConnectedRouter history={history}>
+					<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+						<Component />
+					</MuiThemeProvider>
+				</ConnectedRouter>
+			</Provider>
+
+		</AppContainer>,
+		document.getElementById('app')
+	)
+}
+
+render(Master)
+
+// Webpack Hot Module Replacement API
+if (module.hot) {
+  module.hot.accept('components/master', () => { render(Master) })
+}

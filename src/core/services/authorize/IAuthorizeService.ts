@@ -1,5 +1,5 @@
 import { User } from 'core/domain/users'
-import { LoginUser, RegisterUserResult } from 'core/domain/authorize'
+import { LoginUser, RegisterUserResult, OAuthType } from 'core/domain/authorize'
 
 /**
  * Authentication service interface
@@ -55,4 +55,11 @@ export interface IAuthorizeService {
    * @memberof IAuthorizeService
    */
   sendEmailVerification: () => Promise<void>
+
+  /**
+   * Login user by OAuth authentication
+   *
+   * @memberof IAuthorizeService
+   */
+  loginWithOAuth: (type: OAuthType) => Promise<LoginUser>
 }

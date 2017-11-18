@@ -11,14 +11,10 @@ try {
 } catch (e) {
 
 }
-
-var babelOptions = {
-    plugins: ['transform-decorators-legacy'],
-    presets: ['babel-polyfill', 'react', 'env', 'stage-0']
-};
-
 module.exports = {
     entry: [
+        'react-hot-loader/patch',
+        'webpack-hot-middleware/client',
         './src/index.tsx'
     ],
     externals: {
@@ -44,6 +40,7 @@ module.exports = {
             }
         })
     ] : [
+        new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -58,6 +55,7 @@ module.exports = {
         })
     ],
     output: {
+        publicPath: '/',
         path: path.resolve(__dirname, './public'),
         filename: 'bundle-v0.1.js',
 
@@ -91,8 +89,7 @@ module.exports = {
                 test: /\.ts(x?)$/,
                 exclude: /node_modules/,
                 use: [{
-                        loader: 'babel-loader',
-                        options: babelOptions
+                        loader: 'babel-loader'
                     },
                     {
                         loader: 'ts-loader',
@@ -109,8 +106,7 @@ module.exports = {
                 test: /\.js(x?)$/,
                 exclude: /(node_modules|bower_components)/,
                 use: {
-                    loader: 'babel-loader',
-                    options: babelOptions
+                    loader: 'babel-loader'
                 }
             },
             {

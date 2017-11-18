@@ -27,9 +27,13 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
     message: {
       fontWeight: 100
     },
-    sendButton: {
+    buttons: {
       marginTop: 60
+    },
+    homeButton: {
+      marginRight: 10 
     }
+
   }
 
   /**
@@ -89,8 +93,11 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
               <p style={this.styles.message as any}>
                   An verificiation email has been already sent to you. Please check your inbox. If you couldn't see the emai, please resend email verification.
                 </p>
-                <div style={this.styles.sendButton}>
+                <div style={this.styles.buttons}>
+                  <RaisedButton style={this.styles.homeButton} label='Home' primary={true} onClick={() => this.props.homePage()} />
                   <RaisedButton label='Send Email Verification' primary={true} onClick={() => this.props.sendEmailVerification()} />
+                </div>
+                <div>
                 </div>
 
             </div>
@@ -109,8 +116,8 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
  */
 const mapDispatchToProps = (dispatch: Function, ownProps: IEmailVerificationComponentProps) => {
   return {
-    loginPage: () => {
-      dispatch(push('/login'))
+    homePage: () => {
+      dispatch(push('/'))
     },
     sendEmailVerification: () => dispatch(authorizeActions.dbSendEmailVerfication())
   }

@@ -77,7 +77,6 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
   componentDidCatch (error: any, info: any) {
     console.log('===========Catched by React componentDidCatch==============')
     console.log(error, info)
-    alert({error, info})
     console.log('====================================')
   }
 

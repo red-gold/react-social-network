@@ -1,3 +1,4 @@
+import { OAuthType } from 'core/domain/authorize'
 export interface ILoginComponentProps {
 
   /**
@@ -6,6 +7,13 @@ export interface ILoginComponentProps {
    * @memberof ILoginComponentProps
    */
   login?: (email: string , password: string) => any
+
+  /**
+   * Login user with OAuth
+   *
+   * @memberof ILoginComponentProps
+   */
+  loginWithOAuth: (type: OAuthType) => any
 
   /**
    * Redirect to signup page

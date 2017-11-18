@@ -6,6 +6,7 @@ import { push } from 'react-router-redux'
 // -Import domain
 import { User } from 'core/domain/users'
 import { SocialError } from 'core/domain/common'
+import { OAuthType, LoginUser } from 'core/domain/authorize'
 
 import { UserRegisterModel } from 'models/users/userRegisterModel'
 
@@ -147,6 +148,27 @@ export const dbSendEmailVerfication = () => {
           dispatch(globalActions.showErrorMessage(error.code))
 
         })
+  }
+}
+
+ /**
+  * Login user with OAuth
+  */
+export const dbLoginWithOAuth = (type: OAuthType) => {
+  return (dispatch: any, getState: any) => {
+    dispatch(globalActions.showNotificationRequest())
+
+    return authorizeService.loginWithOAuth(type).then((result: LoginUser) => {
+           // Send email verification successful.
+      dispatch(globalActions.showNotificationSuccess())
+      dispatch(login(result.uid, true))
+      dispatch(push('/'))
+    })
+      .catch((error: SocialError) => {
+        // An error happened.
+        dispatch(globalActions.showErrorMessage(error.code))
+
+      })
   }
 }
 
