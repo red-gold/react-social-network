@@ -24,11 +24,11 @@ export class UserAvatarComponent extends Component<IUserAvatarComponentProps,IUs
     /**
      * Use for getting url address from server
      */
-    fileName: PropTypes.string.isRequired,
+    fileName: PropTypes.string,
     /**
      * User full name
      */
-    fullName: PropTypes.string.isRequired,
+    fullName: PropTypes.string,
     /**
      * Avatar style
      */
@@ -70,7 +70,7 @@ export class UserAvatarComponent extends Component<IUserAvatarComponentProps,IUs
       <div style={{display: 'inherit'}}>
        {(fileName && fileName !== '' && fileName !== 'noImage' )
        ? ( <Avatar backgroundColor='#ffffff' src={fileName} size={size || 36} style={style} onTouchTap={onTouchTap} />)
-        : (<Avatar backgroundColor='#00bcd4' size={size || 36} style={style} onTouchTap={onTouchTap}>{fullName.slice(0, 1)}</Avatar>) }
+        : (<Avatar backgroundColor='#00bcd4' size={size || 36} style={style} onTouchTap={onTouchTap}>{fullName ? fullName.slice(0, 1) : ''}</Avatar>) }
       </div>
     )
   }

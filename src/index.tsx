@@ -12,9 +12,6 @@ import { Provider } from 'react-redux'
 import store, { history } from 'store/configureStore'
 import { ConnectedRouter } from 'react-router-redux'
 
-import 'babel-core/register'
-import 'babel-polyfill'
-
 // - Import app components
 import Master from 'components/master'
 // import { App } from 'components/AWS'
@@ -23,9 +20,10 @@ import Master from 'components/master'
 // tslint:disable-next-line:no-empty
 store.subscribe(() => { })
 
+
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
-injectTapEventPlugin()
+try { injectTapEventPlugin() } catch (e) { }
 
 // This replaces the textColor value on the palette
 // and then update the keys for each component that depends on it.
@@ -37,17 +35,6 @@ const muiTheme = getMuiTheme({
 // App css
 import 'applicationStyles'
 const supportsHistory = 'pushState' in window.history
-
-// ReactDOM.render(
-// 	<Provider store={store}>
-// 		<ConnectedRouter history={history}>
-// 			<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-// 				<Master />
-// 			</MuiThemeProvider>
-// 		</ConnectedRouter>
-// 	</Provider>,
-// 	document.getElementById('app')
-// )
 const render = (Component: any) => {
 	 ReactDOM.render(
 		<AppContainer warnings={false}>
@@ -68,5 +55,5 @@ render(Master)
 
 // Webpack Hot Module Replacement API
 if (module.hot) {
-  module.hot.accept('components/master', () => { render(Master) })
+  module.hot.accept()
 }

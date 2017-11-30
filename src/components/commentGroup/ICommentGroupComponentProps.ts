@@ -11,6 +11,14 @@ export interface ICommentGroupComponentProps {
   comments?: {[commentId: string]: Comment}
 
   /**
+   * Commnets show on slide preview
+   *
+   * @type {{[commentId: string]: Comment}}
+   * @memberof ICommentGroupComponentProps
+   */
+  commentSlides?: {[commentId: string]: Comment}
+
+  /**
    * The post identifier which comment belong to
    *
    * @type {string}

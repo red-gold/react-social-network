@@ -1,5 +1,5 @@
 // - Import react components
-import { firebaseRef, firebaseAuth } from 'data/firebaseClient'
+import { firebaseRef, firebaseAuth, db } from 'data/firebaseClient'
 
 import { SocialError } from 'core/domain/common'
 import { ICircleService } from 'core/services/circles'
@@ -18,13 +18,11 @@ export class CircleService implements ICircleService {
   public addCircle: (userId: string, circle: Circle)
     => Promise<string> = (userId, circle) => {
       return new Promise<string>((resolve,reject) => {
+
         let circleRef = firebaseRef.child(`users/${userId}/circles`).push(circle)
         circleRef.then(() => {
           resolve(circleRef.key as string)
         })
-      .catch((error: any) => {
-        reject(new SocialError(error.code, error.message))
-      })
 
       })
 

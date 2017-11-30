@@ -30,7 +30,7 @@ export const defaultDataEnable = () => {
 
 /**
  * Default data loaded status will be false
- * @param {boolean} status 
+ * @param {boolean} status
  */
 export const defaultDataDisable = () => {
   return{
@@ -56,6 +56,7 @@ export const showNotificationSuccess = () => {
  * Hide global message
  */
 export const hideMessage = () => {
+  hideTopLoading()
   return{
     type: GlobalActionType.HIDE_MESSAGE_GLOBAL
   }

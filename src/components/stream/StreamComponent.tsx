@@ -161,23 +161,7 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
           <div key={post.id}>
 
             {index > 1 || (!postBack.divided && index > 0) ? <div style={{ height: '16px' }}></div> : ''}
-            <PostComponent
-              body={post.body}
-              commentCounter={post.commentCounter}
-              creationDate={post.creationDate}
-              id={post.id}
-              image={post.image}
-              lastEditDate={post.lastEditDate}
-              ownerDisplayName={post.ownerDisplayName}
-              ownerUserId={post.ownerUserId}
-              ownerAvatar={post.ownerAvatar}
-              postTypeId={post.postTypeId}
-              score={post.score}
-              tags={post.tags}
-              video={post.video}
-              disableComments={post.disableComments}
-              disableSharing={post.disableSharing}
-              viewCount={posts.viewCount} />
+            <PostComponent post={post} />
 
           </div>
         )

@@ -40,86 +40,13 @@ import UserAvatar from 'components/userAvatar'
 // - Import actions
 import * as voteActions from 'actions/voteActions'
 import * as postActions from 'actions/postActions'
+import * as commentActions from 'actions/commentActions'
 import * as globalActions from 'actions/globalActions'
 import { IPostComponentProps } from './IPostComponentProps'
 import { IPostComponentState } from './IPostComponentState'
 
 // - Create component class
 export class PostComponent extends Component<IPostComponentProps,IPostComponentState> {
-
-  static propTypes = {
-
-      /**
-       * The context of a post
-       */
-    body: PropTypes.string,
-      /**
-       * The number of comment on a post
-       */
-    commentCounter: PropTypes.number,
-      /**
-       * Creation post date
-       */
-    creationDate: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-      /**
-       * Post identifier
-       */
-    id: PropTypes.string,
-      /**
-       * Post image address
-       */
-    image: PropTypes.string,
-      /**
-       * The last time date when post has was edited
-       */
-    lastEditDate: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
-      /**
-       * The name of the user who created the post
-       */
-    ownerDisplayName: PropTypes.string,
-      /**
-       * The identifier of the user who created the post
-       */
-    ownerUserId: PropTypes.string,
-      /**
-       * The avatar address of the user who created the post
-       */
-    ownerAvatar: PropTypes.string,
-      /**
-       * If post is only [0]text, [1]whith picture, ...
-       */
-    postTypeId: PropTypes.number,
-      /**
-       * The number votes on a post
-       */
-    score: PropTypes.number,
-      /**
-       * Array of tags on a post
-       */
-    tags: PropTypes.array,
-      /**
-       * The video address of a post
-       */
-    video: PropTypes.string,
-      /**
-       * If it's true comment will be disabled on a post
-       */
-    disableComments: PropTypes.bool,
-      /**
-       * If it's true sharing will be disabled on a post
-       */
-    disableSharing: PropTypes.bool,
-      /**
-       * The number of users who has visited the post
-       */
-    viewCount: PropTypes.number
-  }
 
   styles = {
     counter: {
@@ -155,11 +82,12 @@ export class PostComponent extends Component<IPostComponentProps,IPostComponentS
    */
   constructor (props: IPostComponentProps) {
     super(props)
+    const {post} = props
     this.state = {
       /**
        * Post text
        */
-      text: this.props.body,
+      text: post.body!,
       /**
        * It's true if whole the text post is visible
        */
@@ -175,11 +103,11 @@ export class PostComponent extends Component<IPostComponentProps,IPostComponentS
       /**
        * If it's true comment will be disabled on post
        */
-      disableComments: this.props.disableComments,
+      disableComments: post.disableComments!,
       /**
        * If it's true share will be disabled on post
        */
-      disableSharing: this.props.disableSharing,
+      disableSharing: post.disableSharing!,
       /**
        * Title of share post
        */
@@ -212,6 +140,11 @@ export class PostComponent extends Component<IPostComponentProps,IPostComponentS
    * @param  {event} evt passed by clicking on comment slide show
    */
   handleOpenComments = () => {
+    const { getPostComments, commentList, post} = this.props
+    const {id, ownerUserId} = post
+    if (!commentList) {
+      getPostComments(ownerUserId!, id!)
+    }
     this.setState({
       openComments: !this.state.openComments
     })
@@ -248,7 +181,8 @@ export class PostComponent extends Component<IPostComponentProps,IPostComponentS
    * @memberof Post
    */
   handleDelete = () => {
-    this.props.delete!(this.props.id)
+    const {post} = this.props
+    this.props.delete!(post.id!)
   }
 
   /**
@@ -297,7 +231,7 @@ export class PostComponent extends Component<IPostComponentProps,IPostComponentS
    * @memberof Post
    */
   handleVote = () => {
-    if (this.props.userVoteStatus) {
+    if (this.props.currentUserVote) {
       this.props.unvote!()
     } else {
       this.props.vote!()
@@ -330,23 +264,24 @@ export class PostComponent extends Component<IPostComponentProps,IPostComponentS
    * @return {react element} return the DOM which rendered by component
    */
   render () {
+    const {post ,setHomeTitle, goTo, fullName, isPostOwner, commentList, avatar} = this.props
 
     const RightIconMenu = () => (
       <IconMenu iconButtonElement={IconButtonElement} style={{ display: 'block', position: 'absolute', top: '0px', right: '4px' }}>
         <MenuItem primaryText='Edit' onClick={this.handleOpenPostWrite} />
         <MenuItem primaryText='Delete' onClick={this.handleDelete} />
-       <MenuItem primaryText={this.props.disableComments ? 'Enable comments' : 'Disable comments'} onClick={() => this.props.toggleDisableComments!(!this.props.disableComments)} />
-       <MenuItem primaryText={this.props.disableSharing ? 'Enable sharing' : 'Disable sharing'} onClick={() => this.props.toggleSharingComments!(!this.props.disableSharing)} />
+       <MenuItem primaryText={post.disableComments ? 'Enable comments' : 'Disable comments'} onClick={() => this.props.toggleDisableComments!(!post.disableComments)} />
+       <MenuItem primaryText={post.disableSharing ? 'Enable sharing' : 'Disable sharing'} onClick={() => this.props.toggleSharingComments!(!post.disableSharing)} />
       </IconMenu>
     )
 
-    const {ownerUserId,setHomeTitle, goTo, ownerDisplayName,creationDate, avatar, fullName, isPostOwner,image, body} = this.props
+    const {ownerUserId, ownerDisplayName, creationDate, image, body} = post
     // Define variables
     return (
       <Card>
         <CardHeader
           title={<NavLink to={`/${ownerUserId}`}>{ownerDisplayName}</NavLink>}
-          subtitle={moment.unix(creationDate).fromNow() + ' | public'}
+          subtitle={moment.unix(creationDate!).fromNow() + ' | public'}
           avatar={<NavLink to={`/${ownerUserId}`}><UserAvatar fullName={fullName!} fileName={avatar!} size={36} /></NavLink>}
         >
          {isPostOwner ? ( <div style={this.styles.rightIconMenu as any}><RightIconMenu /></div>) : ''}
@@ -384,25 +319,25 @@ export class PostComponent extends Component<IPostComponentProps,IPostComponentS
               <Checkbox
                                 checkedIcon={<SvgFavorite style={{fill: '#4CAF50'}}/>}
                                 uncheckedIcon={<SvgFavoriteBorder style={{fill: '#757575'}} />}
-                                defaultChecked={this.props.userVoteStatus}
+                                checked={this.props.currentUserVote}
                                 style={{transform: 'translate(6px, 6px)'}}
                             />
                 </div>
               <div style={this.styles.counter}> {this.props.voteCount! > 0 ? this.props.voteCount : ''} </div>
             </div>
             <div style={{ display: 'flex' }}>
-              {!this.props.disableComments ? (<div style={{display: 'inherit'}}><FloatingActionButton onClick={this.handleOpenComments} style={{ margin: '0 8px' }} backgroundColor={grey200} iconStyle={{ color: grey600, fill: grey600, height: '36px', width: '36px' }} zDepth={1} secondary={false}>
+              {!post.disableComments ? (<div style={{display: 'inherit'}}><FloatingActionButton onClick={this.handleOpenComments} style={{ margin: '0 8px' }} backgroundColor={grey200} iconStyle={{ color: grey600, fill: grey600, height: '36px', width: '36px' }} zDepth={1} secondary={false}>
                 <SvgComment viewBox='0 -9 24 34' style={{ height: '30px', width: '30px' }} /> 3
             </FloatingActionButton>
-              <div style={this.styles.counter}>{this.props.commentCount! > 0 ? this.props.commentCount : ''} </div></div>) : ''}
-              {!this.props.disableSharing ? (<FloatingActionButton onClick={this.handleOpenShare} style={{ margin: '0 8px' }} backgroundColor={grey200} iconStyle={{ color: grey600, fill: grey600, height: '36px', width: '36px' }} zDepth={1} secondary={false}>
+              <div style={this.styles.counter}>{post.commentCounter! > 0 ? post.commentCounter : ''} </div></div>) : ''}
+              {!post.disableSharing ? (<FloatingActionButton onClick={this.handleOpenShare} style={{ margin: '0 8px' }} backgroundColor={grey200} iconStyle={{ color: grey600, fill: grey600, height: '36px', width: '36px' }} zDepth={1} secondary={false}>
                 <SvgShare viewBox='0 -9 24 34' style={{ height: '30px', width: '30px' }} />
               </FloatingActionButton>) : ''}
             </div>
           </div>
         </CardActions>
 
-        <CommentGroup open={this.state.openComments} ownerPostUserId={this.props.ownerUserId} onToggleRequest={this.handleOpenComments} isPostOwner={this.props.isPostOwner!} disableComments={this.props.disableComments} postId={this.props.id} />
+        <CommentGroup open={this.state.openComments} comments={commentList} ownerPostUserId={post.ownerUserId!} onToggleRequest={this.handleOpenComments} isPostOwner={this.props.isPostOwner!} disableComments={post.disableComments!} postId={post.id!} />
 
         {/* Copy link dialog*/}
         <Dialog
@@ -421,7 +356,7 @@ export class PostComponent extends Component<IPostComponentProps,IPostComponentS
                 <MenuItem primaryText='Copy Link' leftIcon={<SvgLink />} onClick={this.handleCopyLink} />
               </Menu>
             </Paper>)
-            : <TextField fullWidth={true} id='text-field-default' defaultValue={`${location.origin}/${this.props.ownerUserId}/posts/${this.props.id}`} />
+            : <TextField fullWidth={true} id='text-field-default' defaultValue={`${location.origin}/${post.ownerUserId}/posts/${post.id}`} />
           }
         </Dialog>
 
@@ -429,11 +364,7 @@ export class PostComponent extends Component<IPostComponentProps,IPostComponentS
         open={this.state.openPostWrite}
         onRequestClose={this.handleClosePostWrite}
         edit={true}
-        text= {this.props.body}
-        image= {this.props.image ? this.props.image : ''}
-        id= {this.props.id}
-        disableComments= {this.props.disableComments}
-        disableSharing= {this.props.disableSharing}
+        postModel= {post}
         />
 
       </Card>
@@ -449,14 +380,22 @@ export class PostComponent extends Component<IPostComponentProps,IPostComponentS
  * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IPostComponentProps) => {
+  const {post} = ownProps
   return {
-    vote: () => dispatch(voteActions.dbAddVote(ownProps.id,ownProps.ownerUserId)),
-    unvote: () => dispatch(voteActions.dbDeleteVote(ownProps.id)) ,
+    vote: () => dispatch(voteActions.dbAddVote(post.id!,post.ownerUserId!)),
+    unvote: () => dispatch(voteActions.dbDeleteVote(post.id!, post.ownerUserId!)) ,
     delete: (id: string) => dispatch(postActions.dbDeletePost(id)),
-    toggleDisableComments: (status: boolean) => dispatch(postActions.dbUpdatePost({id: ownProps.id, disableComments: status}, (x: any) => x)),
-    toggleSharingComments: (status: boolean) => dispatch(postActions.dbUpdatePost({id: ownProps.id, disableSharing: status},(x: any) => x)),
+    toggleDisableComments: (status: boolean) => {
+      post.disableComments = status
+      dispatch(postActions.dbUpdatePost(post, (x: any) => x))
+    },
+    toggleSharingComments: (status: boolean) => {
+      post.disableSharing = status
+      dispatch(postActions.dbUpdatePost({id: post.id!, disableSharing: status},(x: any) => x))
+    },
     goTo: (url: string) => dispatch(push(url)),
-    setHomeTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title || ''))
+    setHomeTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title || '')),
+    getPostComments: (ownerUserId: string, postId: string) => dispatch(commentActions.dbGetComments(ownerUserId,postId))
 
   }
 }
@@ -468,17 +407,20 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPostComponentProps) => {
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IPostComponentProps) => {
-  const {uid} = state.authorize
-  let votes = state.vote.postVotes[ownProps.id]
-  const post = (state.post.userPosts[uid] ? Object.keys(state.post.userPosts[uid]).filter((key) => { return ownProps.id === key }).length : 0)
+  const {post, vote, authorize, comment} = state
+  const {uid} = authorize
+  let currentUserVote = post.votes ? post.votes[uid] : false
+  const postModel = post.userPosts[ownProps.post.ownerUserId!][ownProps.post.id!]
+  const postOwner = (post.userPosts[uid] ? Object.keys(post.userPosts[uid]).filter((key) => { return ownProps.post.id === key }).length : 0)
+  const commentList: { [commentId: string]: Comment } = comment.postComments[ownProps.post.id!]
 
   return {
-    avatar: state.user.info && state.user.info[ownProps.ownerUserId] ? state.user.info[ownProps.ownerUserId].avatar || '' : '',
-    fullName: state.user.info && state.user.info[ownProps.ownerUserId] ? state.user.info[ownProps.ownerUserId].fullName || '' : '',
-    commentCount: state.comment.postComments[ownProps.id] ? Object.keys(state.comment.postComments[ownProps.id]).length : 0,
-    voteCount: state.vote.postVotes[ownProps.id] ? Object.keys(state.vote.postVotes[ownProps.id]).length : 0,
-    userVoteStatus: votes && Object.keys(votes).filter((key) => votes[key].userId === state.authorize.uid)[0] ? true : false,
-    isPostOwner: post > 0
+    commentList,
+    avatar: state.user.info && state.user.info[ownProps.post.ownerUserId!] ? state.user.info[ownProps.post.ownerUserId!].avatar || '' : '',
+    fullName: state.user.info && state.user.info[ownProps.post.ownerUserId!] ? state.user.info[ownProps.post.ownerUserId!].fullName || '' : '',
+    voteCount: postModel.score,
+    currentUserVote,
+    isPostOwner: postOwner > 0
   }
 }
 

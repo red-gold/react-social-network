@@ -9,5 +9,5 @@ import { User, Profile } from 'core/domain/users'
 export interface IUserService {
   getUserProfile: (userId: string) => Promise<Profile>
   updateUserProfile: (userId: string, profile: Profile) => Promise<void>
-  getUsersProfile: (userId: string) => Promise<{[userId: string]: Profile}>
+  getUsersProfile: (userId: string, lastKey?: string, numberOfItems?: number) => Promise<{[userId: string]: Profile}>
 }

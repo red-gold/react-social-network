@@ -1,7 +1,4 @@
-declare const process: any
-
 import firebase from 'firebase'
-
 try {
   let config = {
     apiKey: process.env.API_KEY,
@@ -12,7 +9,6 @@ try {
     messagingSenderId: process.env.MESSAGING_SENDER_ID
   }
 
-  console.log(firebase)
   firebase.initializeApp(config)
 } catch (error) {
   console.log('=========Firebase initializer==============')

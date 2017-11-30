@@ -3,6 +3,7 @@ import { Action } from 'redux'
 
 // - Import domain
 import { Post } from 'core/domain/posts'
+import { Comment } from 'core/domain/comments'
 import { SocialError } from 'core/domain/common'
 
 // - Import utility components
@@ -27,7 +28,7 @@ const postService: IPostService = serviceProvider.createPostService()
  * @param {any} newPost
  * @param {Function} callBack
  */
-export let dbAddPost = (newPost: any, callBack: Function) => {
+export let dbAddPost = (newPost: Post, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
 
     let uid: string = getState().authorize.uid
@@ -39,11 +40,13 @@ export let dbAddPost = (newPost: any, callBack: Function) => {
       viewCount: 0,
       body: newPost.body,
       ownerUserId: uid,
-      ownerDisplayName: newPost.name,
-      ownerAvatar: newPost.avatar,
+      ownerDisplayName: newPost.ownerDisplayName,
+      ownerAvatar: newPost.ownerAvatar,
       lastEditDate: 0,
       tags: newPost.tags || [],
       commentCounter: 0,
+      comments: {},
+      votes: {},
       image: '',
       imageFullPath: '',
       video: '',
@@ -52,14 +55,14 @@ export let dbAddPost = (newPost: any, callBack: Function) => {
       deleted: false
     }
 
-    return postService.addPost(uid,post).then((postKey: string) => {
+    return postService.addPost(post).then((postKey: string) => {
       dispatch(addPost(uid, {
         ...post,
         id: postKey
       }))
       callBack()
     })
-    .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
   }
 }
 
@@ -95,7 +98,7 @@ export const dbAddImagePost = (newPost: Post, callBack: Function) => {
       deleted: false
     }
 
-    return postService.addPost(uid,post).then((postKey: string) => {
+    return postService.addPost(post).then((postKey: string) => {
       dispatch(addPost(uid, {
         ...post,
         id: postKey
@@ -104,7 +107,7 @@ export const dbAddImagePost = (newPost: Post, callBack: Function) => {
       dispatch(globalActions.hideTopLoading())
 
     })
-    .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
 
   }
 
@@ -115,51 +118,25 @@ export const dbAddImagePost = (newPost: Post, callBack: Function) => {
  * @param  {object} newPost
  * @param {func} callBack //TODO: anti pattern should change to parent state or move state to redux
  */
-export const dbUpdatePost = (newPost: Post, callBack: Function) => {
-  console.log(newPost)
+export const dbUpdatePost = (updatedPost: Post, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
 
     dispatch(globalActions.showTopLoading())
-
     // Get current user id
     let uid: string = getState().authorize.uid
 
-    // Write the new data simultaneously in the list
-    let updates: any = {}
-    let post: Post = getState().post.userPosts[uid][newPost.id!]
-    let updatedPost: Post = {
-      postTypeId: post.postTypeId,
-      creationDate: post.creationDate,
-      deleteDate: 0,
-      score: post.score,
-      viewCount: post.viewCount,
-      body: newPost.body ? newPost.body : post.body || '',
-      ownerUserId: uid,
-      ownerDisplayName: post.ownerDisplayName,
-      ownerAvatar: post.ownerAvatar,
-      lastEditDate: moment().unix(),
-      tags: newPost.tags ? newPost.tags : (post.tags || []),
-      commentCounter: post.commentCounter,
-      image: newPost.image ? newPost.image : post.image,
-      imageFullPath: newPost.imageFullPath!,
-      video: '',
-      disableComments: newPost.disableComments !== undefined ? newPost.disableComments : (post.disableComments ? post.disableComments : false),
-      disableSharing: newPost.disableSharing !== undefined ? newPost.disableSharing : (post.disableSharing ? post.disableSharing : false),
-      deleted: false
-    }
+    return postService.updatePost(updatedPost).then(() => {
 
-    return postService.updatePost(uid,newPost.id,updatedPost).then(() => {
-
-      dispatch(updatePost(uid, { id: newPost.id, ...updatedPost }))
+      dispatch(updatePost(uid, { ...updatedPost }))
       callBack()
       dispatch(globalActions.hideTopLoading())
 
     })
-    .catch((error: SocialError) => {
-      dispatch(globalActions.showErrorMessage(error.message))
-      dispatch(globalActions.hideTopLoading())
+      .catch((error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.hideTopLoading())
 
-    })
+      })
   }
 
 }
@@ -176,15 +153,15 @@ export const dbDeletePost = (id: string) => {
     // Get current user id
     let uid: string = getState().authorize.uid
 
-    return postService.deletePost(uid,id).then(() => {
+    return postService.deletePost(id).then(() => {
       dispatch(deletePost(uid, id))
       dispatch(globalActions.hideTopLoading())
 
     })
-    .catch((error: SocialError) => {
-      dispatch(globalActions.showErrorMessage(error.message))
-      dispatch(globalActions.hideTopLoading())
-    })
+      .catch((error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.hideTopLoading())
+      })
   }
 
 }
@@ -200,9 +177,9 @@ export const dbGetPosts = () => {
       return postService.getPosts(uid).then((posts: { [postId: string]: Post }) => {
         dispatch(addPosts(uid, posts))
       })
-      .catch((error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
-      })
+        .catch((error: SocialError) => {
+          dispatch(globalActions.showErrorMessage(error.message))
+        })
 
     }
   }
@@ -217,12 +194,12 @@ export const dbGetPostById = (uid: string, postId: string) => {
   return (dispatch: any, getState: Function) => {
     if (uid) {
 
-      return postService.getPostById(uid,postId).then((post: Post) => {
+      return postService.getPostById(postId).then((post: Post) => {
         dispatch(addPost(uid, post))
       })
-      .catch((error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
-      })
+        .catch((error: SocialError) => {
+          dispatch(globalActions.showErrorMessage(error.message))
+        })
 
     }
   }
@@ -233,7 +210,7 @@ export const dbGetPostById = (uid: string, postId: string) => {
  * @param uid posts owner identifier
  */
 export const dbGetPostsByUserId = (uid: string) => {
-  return (dispatch: any, getState: Function) => {
+  return (dispatch: Function, getState: Function) => {
 
     if (uid) {
       return postService.getPosts(uid).then((posts: { [postId: string]: Post }) => {

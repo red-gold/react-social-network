@@ -1,74 +1,23 @@
+import { Comment } from 'core/domain/comments'
+import { Post } from 'core/domain/posts/post'
+
 export interface IPostComponentProps {
 
-    /**
-     * The context of a post
-     */
-  body: string
-      /**
-       * The number of comment on a post
-       */
-  commentCounter: number
-      /**
-       * Creation post date
-       */
-  creationDate: number
-      /**
-       * Post identifier
-       */
-  id: string
-      /**
-       * Post image address
-       */
-  image: string
-      /**
-       * The last time date when post has was edited
-       */
-  lastEditDate: number
-      /**
-       * The name of the user who created the post
-       */
-  ownerDisplayName: string
-      /**
-       * The identifier of the user who created the post
-       */
-  ownerUserId: string
-    /**
-     * The avatar address of the user who created the post
-     * //TODO: User avatar should be as an attribute and [avatar] should be deleted
-     */
-  ownerAvatar: string
   /**
-   * The avatar address of the user who created the post
+   * Post object
+   *
+   * @type {Post}
+   * @memberof IPostComponentProps
    */
-  avatar?: string
-      /**
-       * If post is only [0]text, [1]whith picture, ...
-       */
-  postTypeId: string
-      /**
-       * The number votes on a post
-       */
-  score: number
-      /**
-       * Array of tags on a post
-       */
-  tags: string[]
-      /**
-       * The video address of a post
-       */
-  video: string
-      /**
-       * If it's true comment will be disabled on a post
-       */
-  disableComments: boolean
-      /**
-       * If it's true sharing will be disabled on a post
-       */
-  disableSharing: boolean
-      /**
-       * The number of users who has visited the post
-       */
-  viewCount: boolean
+  post: Post
+
+  /**
+   * Owner's post avatar
+   *
+   * @type {string}
+   * @memberof IPostComponentProps
+   */
+  avatar: string
 
   /**
    * User full name
@@ -77,14 +26,6 @@ export interface IPostComponentProps {
    * @memberof IPostComponentProps
    */
   fullName?: string
-
-  /**
-   * Number of comments on the post
-   *
-   * @type {number}
-   * @memberof IPostComponentProps
-   */
-  commentCount?: number
 
   /**
    * Number of vote on a post
@@ -100,7 +41,7 @@ export interface IPostComponentProps {
    * @type {boolean}
    * @memberof IPostComponentProps
    */
-  userVoteStatus?: boolean
+  currentUserVote?: boolean
 
   /**
    * Current user is the owner of the post {true} or not {false}
@@ -158,4 +99,19 @@ export interface IPostComponentProps {
    * @memberof IPostComponentProps
    */
   setHomeTitle?: (title: string) => any
+
+  /**
+   * Get the comments of a post
+   *
+   * @memberof IPostComponentProps
+   */
+  getPostComments: (ownerUserId: string, postId: string) => any
+
+  /**
+   * Commnets
+   *
+   * @type {{[commentId: string]: Comment}}
+   * @memberof ICommentGroupComponentProps
+   */
+  commentList?: {[commentId: string]: Comment}
 }

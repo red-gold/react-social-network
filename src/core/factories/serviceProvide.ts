@@ -30,7 +30,7 @@ import {
   UserService,
   VoteService,
   StorageService
-} from 'data/firebaseClient/services'
+} from 'data/firestoreClient/services'
 
 //#endregion
 

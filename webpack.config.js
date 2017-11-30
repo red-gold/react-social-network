@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var envFile = require('node-env-file');
+var OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -41,6 +42,7 @@ module.exports = {
         })
     ] : [
         new webpack.HotModuleReplacementPlugin(),
+        new OpenBrowserPlugin({ url: `http://localhost:${process.env.PORT}` }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify(process.env.NODE_ENV),
@@ -50,14 +52,15 @@ module.exports = {
                 STORAGE_BUCKET: JSON.stringify(process.env.STORAGE_BUCKET),
                 PROJECT_ID: JSON.stringify(process.env.PROJECT_ID),
                 MESSAGING_SENDER_ID: JSON.stringify(process.env.MESSAGING_SENDER_ID),
-                HOST_URL: JSON.stringify(process.env.HOST_URL)
+                HOST_URL: JSON.stringify(process.env.HOST_URL),
+                PORT: JSON.stringify(process.env.PORT)
             }
         })
     ],
     output: {
         publicPath: '/',
         path: path.resolve(__dirname, './public'),
-        filename: 'bundle-v0.1.js',
+        filename: 'bundle-v0.3.js',
 
     },
     resolve: {
@@ -75,6 +78,7 @@ module.exports = {
             data: 'src/data',
             api: 'src/api',
             layouts: 'src/layouts',
+            routes: 'src/routes',
             models: 'src/models',
             store: 'src/store',
             applicationStyles: 'src/styles/app.scss',

@@ -28,7 +28,7 @@ export class AuthorizeState {
    * @type {Boolean}
    * @memberof AuthorizeState
    */
-  isVerfide: Boolean = false
+  isVerifide: Boolean = false
 
     /**
      * If user password is updated {true} or not {false}

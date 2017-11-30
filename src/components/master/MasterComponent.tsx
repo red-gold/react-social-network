@@ -8,13 +8,9 @@ import Snackbar from 'material-ui/Snackbar'
 import LinearProgress from 'material-ui/LinearProgress'
 
 // - Import components
-import Home from 'components/home'
-import Signup from 'components/signup'
-import EmailVerification from 'components/emailVerification'
-import Login from 'components/login'
-import ResetPassword from 'components/resetPassword'
-import Setting from 'components/setting'
+
 import MasterLoading from 'components/masterLoading'
+import MasterRouter from 'routes/MasterRouter'
 import { IMasterComponentProps } from './IMasterComponentProps'
 import { IMasterComponentState } from './IMasterComponentState'
 import { ServiceProvide, IServiceProvider } from 'core/factories'
@@ -80,7 +76,7 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
     console.log('====================================')
   }
 
-  componentWillMount () {
+  componentDidMount () {
 
     this._authourizeService.onAuthStateChanged((isVerifide: boolean, user: any) => {
       const {global, clearData, loadDataGuest, defaultDataDisable, defaultDataEnable, login, logout } = this.props
@@ -114,9 +110,9 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
    *
    * @memberof Master
    */
-  public render (): React.ReactElement<{}> {
+  public render () {
 
-    const { progress, global, loaded, guest } = this.props
+    const { progress, global, loaded, guest, uid } = this.props
     const { loading, isVerifide } = this.state
 
     return (
@@ -129,25 +125,7 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
           <div className='title'>Loading ... </div>
         </div>
         <MasterLoading activeLoading={loading} handleLoading={this.handleLoading} />
-
-        {(!loading) ? (<Switch>
-                    <Route path='/signup' component={Signup} />
-                    <Route path='/emailVerification' component={EmailVerification} />
-                    <Route path='/settings' component={Setting} />
-                    <Route path='/resetPassword' component={ResetPassword} />
-                    <Route path='/login' render={() => {
-                      return (
-                        this.props.authed
-                          ? <Redirect to='/' />
-                          : <Login />
-                      )
-                    }
-                    } />
-                    <Route render={() => <Home uid={this.props.uid} />} />
-
-                  </Switch>)
-          : ''
-        }
+      <MasterRouter enabled={!loading} data={{uid}} />
         <Snackbar
           open={this.props.global.messageOpen}
           message={this.props.global.message}

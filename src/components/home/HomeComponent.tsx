@@ -1,4 +1,5 @@
 // - Import react components
+import { HomeRouter } from 'routes'
 import React, { Component } from 'react'
 import _ from 'lodash'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
@@ -111,8 +112,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
       goTo!('/login')
       return
     }
-    // if (!isVerifide) {
-    if (false) {
+    if (!isVerifide) {
       goTo!('/emailVerification')
 
     } else if (!global.defaultLoadDataStatus) {
@@ -131,7 +131,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
    * @memberof Home
    */
   render () {
-    const {loaded} = this.props
+    const {loaded, authed, mergedPosts} = this.props
     return (
       <div id='home'>
         <HomeHeader sidebar={this.state.sidebarOpen} sidebarStatus={this.state.sidebarStatus} />
@@ -153,35 +153,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
           </SidebarContent>
 
           <SidebarMain>
-            {loaded ? (<Switch>
-              <Route path='/people/:tab?' render={() => {
-                return (
-                  this.props.authed
-                    ? <People />
-                    : <Redirect to='/login' />
-                )
-              }} />
-              <Route path='/tag/:tag' render={({match}) => {
-
-                return (
-                  this.props.authed
-                    ? <div className='blog'><StreamComponent displayWriting={false} homeTitle={`#${match.params.tag}`} posts={this.props.mergedPosts} /></div>
-                    : <Redirect to='/login' />
-                )
-              }} />
-              <Route path='/:userId/posts/:postId/:tag?' component={PostPage} />
-              <Route path='/:userId' component={Profile} />
-
-              <Route path='/' render={() => {
-
-                return (
-                  this.props.authed
-                    ? <div className='blog'><StreamComponent homeTitle='Home' posts={this.props.mergedPosts} displayWriting={true} /></div>
-                    : <Redirect to='/login' />
-                )
-              }} />
-            </Switch>)
-            : ''}
+            <HomeRouter enabled={loaded!} data={{mergedPosts}} />
           </SidebarMain>
         </Sidebar>
 
@@ -196,11 +168,9 @@ const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
 
   return {
     loadData: () => {
-      dispatch(commentActions.dbGetComments())
       dispatch(imageGalleryActions.dbGetImageGallery())
       dispatch(postActions.dbGetPosts())
       dispatch(userActions.dbGetUserInfo())
-      dispatch(voteActions.dbGetVotes())
       dispatch(notifyActions.dbGetNotifications())
       dispatch(circleActions.dbGetCircles())
 
@@ -209,8 +179,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
       dispatch(imageGalleryActions.clearAllData())
       dispatch(postActions.clearAllData())
       dispatch(userActions.clearAllData())
-      dispatch(commentActions.clearAllData())
-      dispatch(voteActions.clearAllvotes())
       dispatch(notifyActions.clearAllNotifications())
       dispatch(circleActions.clearAllCircles())
       dispatch(globalActions.clearTemp())
@@ -234,7 +202,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IHomeComponentProps) => {
-  const { authorize, global, user, post, comment, imageGallery, vote, notify, circle } = state
+  const { authorize, global, user, post, imageGallery, notify, circle } = state
   const { uid } = authorize
   let mergedPosts = {}
   const circles = circle ? (circle.userCircles[uid] || {}) : {}
@@ -251,7 +219,7 @@ const mapStateToProps = (state: any, ownProps: IHomeComponentProps) => {
     mainStyle: global.sidebarMainStyle,
     mergedPosts,
     global,
-    loaded: user.loaded && post.loaded && comment.loaded && imageGallery.loaded && vote.loaded && notify.loaded && circle.loaded
+    loaded: user.loaded && post.loaded && imageGallery.loaded && notify.loaded && circle.loaded
   }
 }
 

@@ -13,7 +13,7 @@ export interface ILoginComponentProps {
    *
    * @memberof ILoginComponentProps
    */
-  loginWithOAuth: (type: OAuthType) => any
+  loginWithOAuth?: (type: OAuthType) => any
 
   /**
    * Redirect to signup page

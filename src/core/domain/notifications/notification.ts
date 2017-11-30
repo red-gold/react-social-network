@@ -2,6 +2,14 @@ import { BaseDomain } from 'core/domain/common'
 
 export class Notification extends BaseDomain {
 
+  /**
+   * Notification identifier
+   *
+   * @type {string}
+   * @memberof Notification
+   */
+  public id?: string
+
     /**
      * Description of notification
      *

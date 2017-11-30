@@ -1,5 +1,5 @@
 import { BaseDomain } from 'core/domain/common'
-
+import { Comment } from 'core/domain/comments'
 export class Post extends BaseDomain {
 
     /**
@@ -42,6 +42,14 @@ export class Post extends BaseDomain {
      */
   public score?: number
 
+  /**
+   * List of voter identifier
+   *
+   * @type {{[voterId: string]: boolean}}
+   * @memberof Post
+   */
+  votes?: {[voterId: string]: boolean}
+
     /**
      * Post view count
      *
@@ -49,6 +57,14 @@ export class Post extends BaseDomain {
      * @memberof Post
      */
   public viewCount?: number
+
+  /**
+   * Store three last comments to show in slide preview comment
+   *
+   * @type {{[commentId: string]: Comment}}
+   * @memberof Post
+   */
+  comments?: {[commentId: string]: Comment}
 
     /**
      * The text of post
@@ -136,7 +152,7 @@ export class Post extends BaseDomain {
      * @type {Boolean}
      * @memberof Post
      */
-  public disableComments?: Boolean
+  public disableComments?: boolean
 
     /**
      * If sharing post is disabled {true} or not {false}
@@ -144,7 +160,7 @@ export class Post extends BaseDomain {
      * @type {Boolean}
      * @memberof Post
      */
-  public disableSharing?: Boolean
+  public disableSharing?: boolean
 
     /**
      * If the post is deleted {true} or not false
@@ -152,6 +168,6 @@ export class Post extends BaseDomain {
      * @type {Boolean}
      * @memberof Post
      */
-  public deleted?: Boolean
+  public deleted?: boolean
 
 }

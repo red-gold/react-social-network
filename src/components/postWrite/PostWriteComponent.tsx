@@ -34,37 +34,6 @@ import { Post } from 'core/domain/posts'
 // - Create PostWrite component class
 export class PostWriteComponent extends Component<IPostWriteComponentProps,IPostWriteComponentState> {
 
-  static propTypes = {
-    /**
-     * If it's true post writing page will be open
-     */
-    open: PropTypes.bool,
-    /**
-     * Recieve request close function
-     */
-    onRequestClose: PropTypes.func,
-    /**
-     * Post write style
-     */
-    style: PropTypes.object,
-    /**
-     * If it's true, post will be in edit view
-     */
-    edit: PropTypes.bool.isRequired,
-    /**
-     * The text of post in editing state
-     */
-    text: PropTypes.string,
-    /**
-     * The image of post in editing state
-     */
-    image: PropTypes.string,
-    /**
-     * If post state is editing this id sould be filled with post identifier
-     */
-    id: PropTypes.string
-
-  }
   /**
    * Component constructor
    * @param  {object} props is an object properties of component
@@ -72,6 +41,8 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
   constructor (props: IPostWriteComponentProps) {
 
     super(props)
+
+    const {postModel} = props
 
     // Default state
     this.state = {
@@ -86,7 +57,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
       /**
        * The path identifier of image on the server
        */
-      imageFullPath: this.props.edit ? this.props.imageFullPath! : '',
+      imageFullPath: this.props.edit ? (postModel.imageFullPath ? postModel.imageFullPath! : '' ) : '',
       /**
        * If it's true gallery will be open
        */
@@ -98,11 +69,11 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
       /**
        * If it's true comment will be disabled on post
        */
-      disableComments: this.props.edit ? this.props.disableComments! : false,
+      disableComments: this.props.edit ? postModel.disableComments! : false,
       /**
        * If it's true share will be disabled on post
        */
-      disableSharing: this.props.edit ? this.props.disableSharing! : false
+      disableSharing: this.props.edit ? postModel.disableSharing! : false
 
     }
 
@@ -154,7 +125,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
     this.setState({
       image: '',
       imageFullPath: '',
-      disabledPost: false
+      disabledPost: this.state.postText.trim() === ''
     })
   }
 
@@ -163,7 +134,6 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
    * @param  {event} evt passed by clicking on the post button
    */
   handlePost = () => {
-
     const {
       image,
       imageFullPath,
@@ -172,13 +142,21 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
       postText } = this.state
 
     const {
-      id,
-      avatar,
-      name,
-      edit,
-      onRequestClose,
-      post,
-      update } = this.props
+        id,
+        ownerAvatar,
+        ownerDisplayName,
+        edit,
+        onRequestClose,
+        post,
+        update,
+        postModel
+      } = this.props
+    if (image === '' && postText.trim() === '') {
+      this.setState({
+        disabledPost: false
+      })
+      return
+    }
 
     let tags = PostAPI.getContentTags(postText!)
 
@@ -190,8 +168,8 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
           tags: tags,
           image: image,
           imageFullPath: imageFullPath,
-          ownerAvatar: avatar,
-          ownerDisplayName: name,
+          ownerAvatar: ownerAvatar,
+          ownerDisplayName: ownerDisplayName,
           disableComments: disableComments,
           disableSharing: disableSharing,
           postTypeId: 1,
@@ -202,8 +180,8 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
         post!({
           body: postText,
           tags: tags,
-          ownerAvatar: avatar,
-          ownerDisplayName: name,
+          ownerAvatar: ownerAvatar,
+          ownerDisplayName: ownerDisplayName,
           disableComments: disableComments,
           disableSharing: disableSharing,
           postTypeId: 0,
@@ -212,15 +190,14 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
         }, onRequestClose)
       }
     } else { // In edit status we pass post to update functions
-      update!({
-        id: id,
-        body: postText,
-        tags: tags,
-        image: image,
-        imageFullPath: imageFullPath,
-        disableComments: disableComments,
-        disableSharing: disableSharing
-      }, onRequestClose)
+      postModel.body = postText
+      postModel.tags = tags
+      postModel.image = image
+      postModel.imageFullPath = imageFullPath
+      postModel.disableComments = disableComments
+      postModel.disableSharing = disableSharing
+
+      update!(postModel, onRequestClose)
     }
   }
 
@@ -276,6 +253,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
 
   componentWillReceiveProps (nextProps: IPostWriteComponentProps) {
     if (!nextProps.open) {
+      const {postModel} = this.props
       this.setState({
         /**
          * Post text
@@ -296,11 +274,11 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
         /**
          * If it's true comment will be disabled on post
          */
-        disableComments: this.props.edit ? this.props.disableComments! : false,
+        disableComments: this.props.edit ? postModel.disableComments! : false,
         /**
          * If it's true share will be disabled on post
          */
-        disableSharing: this.props.edit ? this.props.disableSharing! : false
+        disableSharing: this.props.edit ? postModel.disableSharing! : false
 
       })
     }
@@ -328,7 +306,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
         <MenuItem onClick={this.handleToggleSharing} style={{ fontSize: '14px' }}>{!this.state.disableSharing ? 'Disable sharing' : 'Enable sharing'}</MenuItem>
       </IconMenu>
     )
-    let postAvatar = <UserAvatarComponent fullName={this.props.name!} fileName={this.props.avatar!} style={{ top: '8px' }} size={40} />
+    let postAvatar = <UserAvatarComponent fullName={this.props.ownerDisplayName!} fileName={this.props.ownerAvatar!} style={{ top: '8px' }} size={40} />
 
     let author = (
       <div>
@@ -341,7 +319,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
           overflow: 'hidden',
           paddingLeft: '50px',
           lineHeight: '25px'
-        }}>{this.props.name}</span><span style={{
+        }}>{this.props.ownerDisplayName}</span><span style={{
           fontWeight: 100,
           fontSize: '10px'
         }}> | Public</span>

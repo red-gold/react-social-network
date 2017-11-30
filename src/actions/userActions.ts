@@ -1,5 +1,5 @@
 // - Import react components
-
+import _ from 'lodash'
 // - Import domain
 import { Profile } from 'core/domain/users'
 import { SocialError } from 'core/domain/common'
@@ -26,14 +26,14 @@ export const dbGetUserInfo = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-
       return userService.getUserProfile(uid).then((userProfile: Profile) => {
         dispatch(addUserInfo(uid, {
           avatar: userProfile.avatar,
           email: userProfile.email,
           fullName: userProfile.fullName,
           banner: userProfile.banner,
-          tagLine: userProfile.tagLine
+          tagLine: userProfile.tagLine,
+          creationDate: userProfile.creationDate
         }))
       })
       .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
@@ -63,7 +63,8 @@ export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
           email: userProfile.email,
           fullName: userProfile.fullName,
           banner: userProfile.banner,
-          tagLine: userProfile.tagLine
+          tagLine: userProfile.tagLine,
+          creationDate: userProfile.creationDate
         }))
 
         switch (callerKey) {
@@ -97,7 +98,8 @@ export const dbUpdateUserInfo = (newProfile: Profile) => {
       banner: newProfile.banner || profile.banner || 'https://firebasestorage.googleapis.com/v0/b/open-social-33d92.appspot.com/o/images%2F751145a1-9488-46fd-a97e-04018665a6d3.JPG?alt=media&token=1a1d5e21-5101-450e-9054-ea4a20e06c57',
       email: newProfile.email || profile.email || '',
       fullName: newProfile.fullName || profile.fullName || '',
-      tagLine: newProfile.tagLine || profile.tagLine || ''
+      tagLine: newProfile.tagLine || profile.tagLine || '',
+      creationDate: newProfile.creationDate
     }
 
     return userService.updateUserProfile(uid,updatedProfie).then(() => {
@@ -112,11 +114,13 @@ export const dbUpdateUserInfo = (newProfile: Profile) => {
 }
 
 // - Get people info from database
-export const dbGetPeopleInfo = () => {
+export const dbGetPeopleInfo = (page?: number) => {
   return (dispatch: any, getState: Function) => {
-    let uid: string = getState().authorize.uid
+    const {authorize, user} = getState()
+    let uid: string = authorize.uid
     if (uid) {
-      return userService.getUsersProfile(uid)
+      const lastKey = ''
+      return userService.getUsersProfile(uid, lastKey)
       .then((usersProfile: {[userId: string]: Profile}) => {
         dispatch(addPeopleInfo(usersProfile))
       })

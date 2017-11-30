@@ -8,9 +8,9 @@ import { Post } from 'core/domain/posts'
  * @interface IPostService
  */
 export interface IPostService {
-  addPost: (userId: string, post: Post) => Promise<string>
-  updatePost: (userId: string, postId: string, post: Post) => Promise<void>
-  deletePost: (userId: string,postId: string) => Promise<void>
+  addPost: (post: Post) => Promise<string>
+  updatePost: (post: Post) => Promise<void>
+  deletePost: (postId: string) => Promise<void>
   getPosts: (userId: string) => Promise<{ [postId: string]: Post }>
-  getPostById: (userId: string, postId: string) => Promise<Post>
+  getPostById: (postId: string) => Promise<Post>
 }

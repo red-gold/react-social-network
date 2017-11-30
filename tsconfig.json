@@ -1,36 +1,37 @@
 {
 
     "compilerOptions": {
-    "module": "es6", 
-    "target": "es6", 
-    "lib": ["es6","dom"],
-    "types": ["reflect-metadata"],
-    "allowSyntheticDefaultImports": true, // see below
-    "baseUrl": "./src/", // enables you to import relative to this folder
-    "paths": {
-      "src/*" : ["*"],
-      "core/*" : ["core/*"],
-      "data/*" : ["data/*"],
-      "components/*" : ["components/*"],
-      "store/*" : ["store/*"],
-      "api/*" : ["api/*"],
-      "layouts/*" : ["layouts/*"],
-      "models/*" : ["models/*"]
+        "module": "es6",
+        "target": "es6",
+        "lib": ["es6", "dom"],
+        "types": ["reflect-metadata"],
+        "allowSyntheticDefaultImports": true, // see below
+        "baseUrl": "./src/", // enables you to import relative to this folder
+        "paths": {
+            "src/*": ["*"],
+            "core/*": ["core/*"],
+            "routes/*": ["routes/*"],
+            "data/*": ["data/*"],
+            "components/*": ["components/*"],
+            "store/*": ["store/*"],
+            "api/*": ["api/*"],
+            "layouts/*": ["layouts/*"],
+            "models/*": ["models/*"]
+        },
+        "sourceMap": true, // make TypeScript generate sourcemaps
+        "outDir": "public", // output directory to build to (irrelevant because we use Webpack most of the time)
+        "jsx": "preserve", // enable JSX mode, but "preserve" tells TypeScript to not transform it (we'll use Babel)
+        "strict": true,
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "allowJs": true
+
     },
-    "sourceMap": true, // make TypeScript generate sourcemaps
-    "outDir": "public", // output directory to build to (irrelevant because we use Webpack most of the time)
-    "jsx": "preserve", // enable JSX mode, but "preserve" tells TypeScript to not transform it (we'll use Babel)
-    "strict": true,
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "allowJs": true
-    
-  },
-  "include":[
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

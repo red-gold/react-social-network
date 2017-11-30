@@ -7,7 +7,8 @@ import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 import Divider from 'material-ui/Divider'
 import { ListItem } from 'material-ui/List'
-import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors'
+import { grey400, darkBlack, lightBlack, tealA400 } from 'material-ui/styles/colors'
+import LinearProgress from 'material-ui/LinearProgress'
 
 // - Import actions
 import * as commentActions from 'actions/commentActions'
@@ -65,6 +66,10 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
     },
     writeCommentTextField: {
       width: '100%'
+    },
+    progressbar: {
+      height: '1.5px',
+      backgroundColor: 'rgb(245, 243, 243)'
     }
   }
 
@@ -133,7 +138,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
    * @return {DOM} list of comments' DOM
    */
   commentList = () => {
-    let comments = this.props.comments
+    let comments = this.props.commentSlides
     if (comments) {
 
       let parsedComments: Comment[] = []
@@ -178,11 +183,8 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
           </div>}
           secondaryTextLines={2}
         />
-
         )
-
       })
-
     }
   }
 
@@ -191,9 +193,41 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
    * @return {react element} return the DOM which rendered by component
    */
   render () {
+    const {comments} = this.props
+
+    /**
+     * Comment list box
+     */
+    const commentWriteBox = (<div>
+      <Divider />
+      <Paper zDepth={0} className='animate2-top10' style={{ position: 'relative', overflowY: 'auto', padding: '12px 16px', display: (this.props.open ? 'block' : 'none') }}>
+
+        <div style={{ display: 'flex' }}>
+          <UserAvatarComponent fullName={this.props.fullName!} fileName={this.props.avatar!} style={{ flex: 'none', margin: '4px 0px' }} size={36} />
+          <div style={{ outline: 'none', marginLeft: '16px', flex: 'auto', flexGrow: 1 }}>
+            <TextField
+              value={this.state.commentText}
+              onChange={this.handleOnChange}
+              hintText='Add a comment...'
+              underlineShow={false}
+              multiLine={true}
+              rows={1}
+              hintStyle={{ fontWeight: 100, fontSize: '14px' }}
+              rowsMax={4}
+              textareaStyle={{ fontWeight: 100, fontSize: '14px' }}
+              style={this.styles.writeCommentTextField}
+            />
+          </div>
+        </div>
+        <FlatButton primary={true} disabled={this.state.postDisable} label='Post' style={{ float: 'right', clear: 'both', zIndex: 5, margin: '0px 5px 5px 0px', fontWeight: 400 }} onClick={this.handlePostComment} />
+      </Paper>
+      </div>)
+    /**
+     * Return Elements
+     */
     return (
       <div>
-        <div style={this.props.comments && Object.keys(this.props.comments).length > 0 ? { display: 'block' } : { display: 'none' }}>
+        <div style={this.props.commentSlides && Object.keys(this.props.commentSlides).length > 0 ? { display: 'block' } : { display: 'none' }}>
           <Divider />
           <Paper zDepth={0} className='animate-top' style={!this.props.open ? { display: 'block' } : { display: 'none' }}>
 
@@ -206,37 +240,22 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
               </div>
             </div>
           </Paper>
-          {(this.props.comments && Object.keys(this.props.comments).length > 0)
-            ? (<Paper zDepth={0} style={this.props.open ? { display: 'block', padding: '0px 0px' } : { display: 'none', padding: '12px 16px' }}>
-              <CommentListComponent comments={this.props.comments} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments}/>
-
-            </Paper>) : ''}
+          {
+            !comments
+              ? this.props.open ? <LinearProgress style={this.styles.progressbar} mode='indeterminate' color={tealA400} /> : ''
+              : (Object.keys(comments).length > 0
+                    ? (<Paper zDepth={0} style={this.props.open ? { display: 'block', padding: '0px 0px' } : { display: 'none', padding: '12px 16px' }}>
+                     <CommentListComponent comments={comments} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments}/>
+                     </Paper>)
+                     : '')
+          }
 
         </div>
-        {!this.props.disableComments ? (<div>
-        <Divider />
-        <Paper zDepth={0} className='animate2-top10' style={{ position: 'relative', overflowY: 'auto', padding: '12px 16px', display: (this.props.open ? 'block' : 'none') }}>
-
-          <div style={{ display: 'flex' }}>
-            <UserAvatarComponent fullName={this.props.fullName!} fileName={this.props.avatar!} style={{ flex: 'none', margin: '4px 0px' }} size={36} />
-            <div style={{ outline: 'none', marginLeft: '16px', flex: 'auto', flexGrow: 1 }}>
-              <TextField
-                value={this.state.commentText}
-                onChange={this.handleOnChange}
-                hintText='Add a comment...'
-                underlineShow={false}
-                multiLine={true}
-                rows={1}
-                hintStyle={{ fontWeight: 100, fontSize: '14px' }}
-                rowsMax={4}
-                textareaStyle={{ fontWeight: 100, fontSize: '14px' }}
-                style={this.styles.writeCommentTextField}
-              />
-            </div>
-          </div>
-          <FlatButton primary={true} disabled={this.state.postDisable} label='Post' style={{ float: 'right', clear: 'both', zIndex: 5, margin: '0px 5px 5px 0px', fontWeight: 400 }} onClick={this.handlePostComment} />
-        </Paper>
-        </div>) : ''}
+        {
+          !this.props.disableComments
+          ? commentWriteBox
+          : ''
+        }
       </div>
     )
   }
@@ -266,11 +285,15 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentGroupComponentProps
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: ICommentGroupComponentProps) => {
+  const {post, user, authorize} = state
+  const {ownerPostUserId, postId} = ownProps
+  const commentSlides = post.userPosts[ownerPostUserId] && post.userPosts[ownerPostUserId][postId] ? post.userPosts[ownerPostUserId][postId].comments : {}
+
   return {
-    comments: state.comment.postComments[ownProps.postId],
-    avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar || '' : '',
-    fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName || '' : '',
-    userInfo: state.user.info
+    commentSlides,
+    avatar: user.info && user.info[state.authorize.uid] ? user.info[authorize.uid].avatar || '' : '',
+    fullName: user.info && user.info[state.authorize.uid] ? user.info[authorize.uid].fullName || '' : '',
+    userInfo: user.info
 
   }
 }

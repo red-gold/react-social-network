@@ -3,6 +3,7 @@ import moment from 'moment'
 
 // - Import domain
 import { Comment } from 'core/domain/comments'
+import { Post } from 'core/domain/posts'
 import { SocialError } from 'core/domain/common'
 
 // - Import action types
@@ -11,6 +12,7 @@ import { CommentActionType } from 'constants/commentActionType'
 // - Import actions
 import * as globalActions from 'actions/globalActions'
 import * as notifyActions from 'actions/notifyActions'
+import * as postActions from 'actions/postActions'
 
 import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { ICommentService } from 'core/services/comments'
@@ -43,7 +45,7 @@ export const dbAddComment = (ownerPostUserId: string | null,newComment: Comment,
       text: newComment.text
     }
 
-    return commentService.addComment(newComment.postId,comment)
+    return commentService.addComment(comment)
       .then((commentKey: string) => {
         dispatch(addComment({id: commentKey! ,...comment}))
         callBack()
@@ -70,12 +72,42 @@ export const dbAddComment = (ownerPostUserId: string | null,newComment: Comment,
 /**
  * Get all comments from database
  */
-export const dbGetComments = () => {
+export const dbGetComments = (ownerUserId: string, postId: string) => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      return commentService.getComments((comments: {[postId: string]: {[commentId: string]: Comment}}) => {
+      return commentService.getComments(postId, (comments: {[postId: string]: {[commentId: string]: Comment}}) => {
+
+        /**
+         * Workout getting the number of post's comment and getting three last comments
+         */
         dispatch(addCommentList(comments))
+        let commentsCount: number
+        const state = getState()
+        const post: Post = state.post.userPosts[ownerUserId][postId]
+        if (!post) {
+          return
+        }
+
+        if (comments && Object.keys(comments).length > 0) {
+          commentsCount = Object.keys(comments).length
+          let sortedObjects = comments as any
+          // Sort posts with creation date
+          sortedObjects.sort((a: any, b: any) => {
+            return parseInt(b.creationDate, 10) - parseInt(a.creationDate, 10)
+          })
+          if (!post.comments) {
+            post.comments = {}
+          }
+          Object.keys(sortedObjects).slice(0, 3).forEach((commentId) => {
+            post.comments![commentId] = {
+              id: commentId,
+              ...sortedObjects[commentId]
+            }
+          })
+
+          dispatch(postActions.updatePost(post.ownerUserId!,post))
+        }
       })
     }
   }
@@ -107,7 +139,7 @@ export const dbUpdateComment = (id: string, postId: string, text: string) => {
       userId: uid
     }
 
-    return commentService.updateComment(id,postId,updatedComment)
+    return commentService.updateComment(updatedComment)
       .then(() => {
         dispatch(updateComment( id, postId, text))
         dispatch(globalActions.hideTopLoading())
@@ -118,7 +150,6 @@ export const dbUpdateComment = (id: string, postId: string, text: string) => {
 
       })
   }
-
 }
 
 /**

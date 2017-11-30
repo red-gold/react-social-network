@@ -10,9 +10,9 @@ import { Comment } from 'core/domain/comments'
  */
 export interface ICommentService {
 
-  addComment: (postId: string, comment: Comment) => Promise<string>
-  getComments: (callback: (resultComments: { [postId: string]: { [commentId: string]: Comment } }) => void) => void
-  updateComment: (commentId: string, postId: string, comment: Comment) => Promise<void>
+  addComment: (comment: Comment) => Promise<string>
+  getComments: (postId: string, callback: (resultComments: { [postId: string]: { [commentId: string]: Comment } }) => void) => void
+  updateComment: (comment: Comment) => Promise<void>
   deleteComment: (commentId: string, postId: string) => Promise<void>
 
 }

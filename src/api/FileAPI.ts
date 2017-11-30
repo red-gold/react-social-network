@@ -1,5 +1,3 @@
-// - Import react component
-import { storageRef } from 'data/firebaseClient'
 
 // - Interface declaration
 interface FileReaderEventTarget extends EventTarget {
@@ -25,41 +23,6 @@ const convertImageToCanvas = (image: HTMLImageElement | HTMLCanvasElement | HTML
   canvas.getContext('2d')!.drawImage(image, 0, 0)
 
   return canvas
-}
-
-/**
- * Upload image on the server
- * @param {file} file
- * @param {string} fileName
- */
-const uploadImage = (file: any, fileName: string, progress: (percentage: number, status: boolean) => void) => {
-
-  return new Promise<any>((resolve, reject) => {
-            // Create a storage refrence
-    let storegeFile = storageRef.child(`images/${fileName}`)
-
-    // Upload file
-    let task = storegeFile.put(file)
-    task.then((result) => {
-      resolve(result)
-    }).catch((error) => {
-      reject(error)
-    })
-
-            // Upload storage bar
-    task.on('state_changed', (snapshot: any) => {
-      let percentage: number = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      progress(percentage, true)
-    }, (error) => {
-      console.log('========== Upload Image ============')
-      console.log(error)
-      console.log('====================================')
-
-    }, () => {
-      progress(100, false)
-    })
-  })
-
 }
 
 /**
@@ -141,7 +104,6 @@ export default {
   dataURLToBlob,
   convertImageToCanvas,
   getExtension,
-  constraintImage,
-  uploadImage
+  constraintImage
 
 }

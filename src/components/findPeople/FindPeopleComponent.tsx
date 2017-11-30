@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Paper from 'material-ui/Paper'
+import InfiniteScroll from 'react-infinite-scroller'
 
 // - Import app components
 import UserBoxList from 'components/userBoxList'
@@ -39,6 +40,12 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
 
   }
 
+  loadItems (page: number) {
+    console.log('------------------------')
+    console.log(page)
+    console.log('------------------------')
+  }
+
   componentWillMount () {
     this.props.loadPeople!()
   }
@@ -63,9 +70,18 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
         right: 0
       }
     }
+    const loader = <div className='loader'>Loading ...</div>
 
     return (
             <div>
+                <InfiniteScroll
+                pageStart={0}
+                loadMore={this.loadItems.bind(this)}
+                hasMore={false}
+                loader={loader}>
+
+                <div className='tracks'>
+
                 {this.props.peopleInfo && Object.keys(this.props.peopleInfo).length !== 0 ? (<div>
                 <div className='profile__title'>
                     Suggestions for you
@@ -75,6 +91,8 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
                 </div>) : (<div className='g__title-center'>
                 Nothing to show! :(
                </div>)}
+                </div>
+            </InfiniteScroll>
             </div>
     )
   }

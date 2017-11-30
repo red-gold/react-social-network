@@ -1,5 +1,6 @@
 // - Import react components
 import { firebaseRef, firebaseAuth } from 'data/firebaseClient'
+import moment from 'moment'
 
 import { SocialError } from 'core/domain/common'
 import { Profile, UserProvider } from 'core/domain/users'
@@ -13,6 +14,7 @@ import { IUserService } from 'core/services/users'
  * @implements {IUserService}
  */
 export class UserService implements IUserService {
+
   public getUserProfile: (userId: string)
     => Promise<Profile> = (userId) => {
       return new Promise<Profile>((resolve, reject) => {
@@ -23,7 +25,7 @@ export class UserService implements IUserService {
           if (Object.keys(userProfile).length === 0 && userProfile.constructor === Object) {
             this.getUserProviderData(userId).then((providerData: UserProvider) => {
               const {avatar,fullName, email} = providerData
-              const userProfile = new Profile(avatar,fullName,'','',email)
+              const userProfile = new Profile(avatar,fullName,'','', moment().unix(),email)
               resolve(userProfile)
               this.updateUserProfile(userId,userProfile)
             })
@@ -52,10 +54,16 @@ export class UserService implements IUserService {
           })
       })
     }
-  public getUsersProfile: (userId: string)
-    => Promise<{ [userId: string]: Profile }> = (userId) => {
+  public getUsersProfile: (userId: string, page?: number, lastKey?: string)
+    => Promise<{ [userId: string]: Profile }> = (userId, page, lastKey) => {
       return new Promise<{ [userId: string]: Profile }>((resolve, reject) => {
-        let usersProfileRef: any = firebaseRef.child(`users`)
+        let usersProfileRef: any
+        if (page) {
+          const numberOfItems = (page * 12) + 12
+          usersProfileRef = firebaseRef.child(`users`).orderByKey().startAt(lastKey!).limitToFirst(numberOfItems)
+        } else {
+          usersProfileRef = firebaseRef.child(`users`).orderByKey()
+        }
 
         usersProfileRef.once('value').then((snapshot: any) => {
           let usersProfile: any = snapshot.val() || {}

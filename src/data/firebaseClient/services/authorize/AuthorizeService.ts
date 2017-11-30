@@ -1,3 +1,6 @@
+import moment from 'moment'
+
+import { Profile } from 'core/domain/users'
 
 // - Import react components
 import { firebaseRef, firebaseAuth } from 'data/firebaseClient'
@@ -68,8 +71,8 @@ export class AuthorizeService implements IAuthorizeService {
       firebaseAuth()
                 .createUserWithEmailAndPassword(user.email as string, user.password as string)
                 .then((signupResult) => {
-                  const {uid, email, displayName, photoURL} = signupResult
-                  this.storeUserInformation(uid,email,displayName,photoURL).then(resolve)
+                  const {uid, email} = signupResult
+                  this.storeUserInformation(uid,email,user.fullName,'').then(resolve)
                 })
                 .catch((error: any) => reject(new SocialError(error.code, error.message)))
     })
@@ -107,7 +110,7 @@ export class AuthorizeService implements IAuthorizeService {
     firebaseAuth().onAuthStateChanged( (user: any) => {
       let isVerifide = false
       if (user) {
-        if (user.emailVerified) {
+        if (user.emailVerified || user.providerData[0].providerId.trim() !== 'password') {
           isVerifide = true
         } else {
           isVerifide = false
@@ -210,15 +213,17 @@ export class AuthorizeService implements IAuthorizeService {
    * @private
    * @memberof AuthorizeService
    */
-  private storeUserInformation = (userId: string, email: string, fullName: string, avatar?: string) => {
+  private storeUserInformation = (userId: string, email: string, fullName: string, avatar: string) => {
     return new Promise<RegisterUserResult>((resolve,reject) => {
       firebaseRef.child(`users/${userId}/info`)
-      .set({
-        userId,
+      .set(new Profile(
         avatar,
-        email,
-        fullName
-      })
+        fullName,
+        '',
+        '',
+        moment().unix(),
+        email
+      ))
       .then((result) => {
         resolve(new RegisterUserResult(userId))
       })

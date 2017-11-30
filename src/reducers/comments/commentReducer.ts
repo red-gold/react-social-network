@@ -61,10 +61,10 @@ export let commentReducer = (state: CommentState = new CommentState(), action: I
         }
       }
     case CommentActionType.DELETE_COMMENT:
-      let parsedComments = {}
       if (!state.postComments![payload.postId]) {
         return state
       }
+      let parsedComments = {}
       Object.keys(state.postComments![payload.postId]).map((id) => {
         if (id !== payload.id) {
           _.merge(parsedComments, { [id]: { ...state.postComments![payload.postId][id] } })

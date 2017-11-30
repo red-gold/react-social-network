@@ -45,39 +45,17 @@ export interface IPostWriteComponentProps {
    * @type {string}
    * @memberof IPostWriteComponentProps
    */
-  avatar?: string
+  ownerAvatar?: string
 
   /**
-   * User name
-   *
-   * @type {string}
-   * @memberof IPostWriteComponentProps
+   * The post owner name
    */
-  name?: string
+  ownerDisplayName: string
 
   /**
-   * Post image full path
-   *
-   * @type {string}
-   * @memberof IPostWriteComponentProps
+   * Post model
    */
-  imageFullPath?: string
-
-  /**
-   * Comment on the post is disabled {true} or not {false}
-   *
-   * @type {boolean}
-   * @memberof IPostWriteComponentProps
-   */
-  disableComments?: boolean
-
-  /**
-   * Sharing on a post is disabled {true} or not {false}
-   *
-   * @type {boolean}
-   * @memberof IPostWriteComponentProps
-   */
-  disableSharing?: boolean
+  postModel: Post
 
   /**
    * Save a post
