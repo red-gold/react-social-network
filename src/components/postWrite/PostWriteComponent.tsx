@@ -476,8 +476,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPostWriteComponentProps) =
 const mapStateToProps = (state: any, ownProps: IPostWriteComponentProps) => {
   return {
     postImageState: state.imageGallery.status,
-    avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
-    name: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : ''
+    ownerAvatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
+    ownerDisplayName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : ''
   }
 }
 
