@@ -1,4 +1,3 @@
-import { UserFollower } from './userFollower'
 import { BaseDomain } from 'core/domain/common'
 
 export class Circle extends BaseDomain {
@@ -35,12 +34,9 @@ export class Circle extends BaseDomain {
      */
   public name: string
 
-    /**
-     * The users in a circle
-     *
-     * @type {string}
-     * @memberof User
-     */
-  public users: {[userId: string]: UserFollower}
+  /**
+   * Whether circle setting is open
+   */
+  public openCircleSettings?: boolean
 
 }

@@ -8,6 +8,7 @@ import { List } from 'material-ui/List'
 import CircleComponent from 'components/circle'
 import { IYourCirclesComponentProps } from './IYourCirclesComponentProps'
 import { IYourCirclesComponentState } from './IYourCirclesComponentState'
+import { Circle } from 'core/domain/circles';
 
 // - Import API
 
@@ -97,10 +98,12 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IYourCirclesComponentP
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IYourCirclesComponentProps) => {
+  const {circle, authorize, server} = state
   const { uid } = state.authorize
+  const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
   return {
     uid,
-    circles: state.circle ? state.circle.userCircles[uid] : {}
+    circles
 
   }
 }

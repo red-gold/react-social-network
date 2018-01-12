@@ -29,7 +29,14 @@ export class HomeRouter extends Component<IRouterProps, any> {
             <Route path='/:userId/posts/:postId/:tag?' component={PostPage} />
             <Route path='/:userId' component={Profile} />
             <PrivateRoute path='/' component={(
-            <div className='blog'><StreamComponent homeTitle='Home' posts={data.mergedPosts} displayWriting={true} /></div>
+            <div className='blog'>
+            <StreamComponent
+            homeTitle='Home'
+            posts={data.mergedPosts}
+            loadStream={data.loadDataStream}
+            hasMorePosts={data.hasMorePosts}
+            displayWriting={true} />
+            </div>
             )} />
           </Switch>)
           : ''

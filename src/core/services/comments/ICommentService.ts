@@ -13,6 +13,6 @@ export interface ICommentService {
   addComment: (comment: Comment) => Promise<string>
   getComments: (postId: string, callback: (resultComments: { [postId: string]: { [commentId: string]: Comment } }) => void) => void
   updateComment: (comment: Comment) => Promise<void>
-  deleteComment: (commentId: string, postId: string) => Promise<void>
+  deleteComment: (commentId: string) => Promise<void>
 
 }

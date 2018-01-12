@@ -47,7 +47,7 @@ export interface ICommentComponentProps {
    *
    * @memberof ICommentComponentProps
    */
-  update: (id?: string | null, postId?: string, comment?: string | null) => any
+  update: (comment: Comment) => any
 
   /**
    * Delete comment

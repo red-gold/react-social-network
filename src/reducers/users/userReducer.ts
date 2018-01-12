@@ -1,7 +1,7 @@
 // - Import action types
-import {UserActionType} from 'constants/userActionType'
+import { UserActionType } from 'constants/userActionType'
 
-// - Import domain 
+// - Import domain
 import { User,Profile } from 'core/domain/users'
 
 import { UserState } from './UserState'
@@ -42,8 +42,8 @@ export let userReducer = (state: UserState = new UserState(), action: IUserActio
           ...payload
         }
       }
-  
-    case UserActionType.UPDATE_USER_INFO: 
+
+    case UserActionType.UPDATE_USER_INFO:
       return {
         ...state,
         info: {
@@ -54,7 +54,6 @@ export let userReducer = (state: UserState = new UserState(), action: IUserActio
           }
         }
       }
-    
 
     case UserActionType.CLEAR_ALL_DATA_USER:
       return new UserState()
@@ -70,7 +69,42 @@ export let userReducer = (state: UserState = new UserState(), action: IUserActio
         ...state,
         openEditProfile: true
       }
+      case UserActionType.HAS_MORE_DATA_PEOPLE:
+      return {
+        ...state,
+        people: {
+          ...state.people,
+          hasMoreData: true
+        }
 
+      }
+    case UserActionType.NOT_MORE_DATA_PEOPLE:
+      return {
+        ...state,
+        people: {
+          ...state.people,
+          hasMoreData: false
+        }
+
+      }
+
+    case UserActionType.REQUEST_PAGE_PEOPLE:
+      return {
+        ...state,
+        people: {
+          ...state.people,
+          lastPageRequest: payload.page
+        }
+      }
+
+    case UserActionType.LAST_USER_PEOPLE:
+      return {
+        ...state,
+        people: {
+          ...state.people,
+          lastUserId: payload.lastUserId
+        }
+      }
 
     default:
       return state

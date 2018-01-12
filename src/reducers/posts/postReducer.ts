@@ -1,23 +1,22 @@
 // - Import react components
 import moment from 'moment'
 import _ from 'lodash'
-import {Reducer, Action} from 'redux'
-
+import { Reducer, Action } from 'redux'
 
 // - Import action types
 import { PostActionType } from 'constants/postActionType'
 
-
 import { PostState } from './PostState'
 import { IPostAction } from './IPostAction'
-
+import { Post } from 'core/domain/posts/post'
+import CommonAPI from 'api/CommonAPI'
 
 /**
  * Post reducer
- * @param {object} state 
- * @param {object} action 
+ * @param {object} state
+ * @param {object} action
  */
-export let postReducer = (state : PostState = new PostState(), action : IPostAction) => {
+export let postReducer = (state: PostState = new PostState(), action: IPostAction) => {
   const { payload } = action
   switch (action.type) {
     case PostActionType.CLEAR_ALL_DATA_POST:
@@ -27,7 +26,7 @@ export let postReducer = (state : PostState = new PostState(), action : IPostAct
       return {
         ...state,
         userPosts: {
-          ...state.userPosts,          
+          ...state.userPosts,
           [payload.uid]: {
             ...state.userPosts[payload.uid],
             [payload.post.id]: { ...payload.post }
@@ -39,7 +38,7 @@ export let postReducer = (state : PostState = new PostState(), action : IPostAct
       return {
         ...state,
         userPosts: {
-          ...state.userPosts,          
+          ...state.userPosts,
           [payload.uid]: {
             ...state.userPosts[payload.uid],
             [payload.post.id]: { ...payload.post }
@@ -48,15 +47,17 @@ export let postReducer = (state : PostState = new PostState(), action : IPostAct
       }
 
     case PostActionType.UPDATE_POST:
+      const post: Post = payload.post
       return {
         ...state,
         userPosts: {
-          ...state.userPosts,          
-          [payload.uid]: {
-            ...state.userPosts[payload.uid],
+          ...state.userPosts,
+          [post.ownerUserId!]: {
+            ...state.userPosts[post.ownerUserId!],
             [payload.post.id]: {
-              ...state.userPosts[payload.uid][payload.post.id],
-              ...payload.post 
+              ...payload.post,
+              comments: post.comments,
+              votes: post.votes
             }
           }
         }
@@ -72,26 +73,95 @@ export let postReducer = (state : PostState = new PostState(), action : IPostAct
       return {
         ...state,
         userPosts: {
-          ...state.userPosts,          
+          ...state.userPosts,
           [payload.uid]: {
             ...filteredPosts
           }
         }
       }
     case PostActionType.ADD_LIST_POST:
+      const newUserPosts = payload.userPosts as { [userId: string]: { [postId: string]: Post } }
+      const mergedObject = _.merge(state.userPosts, newUserPosts)
       return {
         ...state,
         userPosts: {
-          ...state.userPosts,
-          [payload.uid]: {
-            ...state.userPosts[payload.uid],
-            ...payload.posts
-          }
+          ...mergedObject
         },
-        loaded:true
+        loaded: true
+
+      }
+    case PostActionType.HAS_MORE_DATA_STREAM:
+      return {
+        ...state,
+        stream: {
+          ...state.stream,
+          hasMoreData: true
+        }
+
+      }
+    case PostActionType.NOT_MORE_DATA_STREAM:
+      return {
+        ...state,
+        stream: {
+          ...state.stream,
+          hasMoreData: false
+        }
 
       }
 
+    case PostActionType.REQUEST_PAGE_STREAM:
+      return {
+        ...state,
+        stream: {
+          ...state.stream,
+          lastPageRequest: payload.page
+        }
+      }
+
+    case PostActionType.LAST_POST_STREAM:
+      return {
+        ...state,
+        stream: {
+          ...state.stream,
+          lastPostId: payload.lastPostId
+        }
+      }
+    case PostActionType.HAS_MORE_DATA_PROFILE:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          hasMoreData: true
+        }
+
+      }
+    case PostActionType.NOT_MORE_DATA_PROFILE:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          hasMoreData: false
+        }
+
+      }
+
+    case PostActionType.REQUEST_PAGE_PROFILE:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          lastPageRequest: payload.page
+        }
+      }
+
+    case PostActionType.LAST_POST_PROFILE:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          lastPostId: payload.lastPostId
+        }
+      }
     default:
       return state
 

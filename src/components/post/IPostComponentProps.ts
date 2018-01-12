@@ -17,7 +17,7 @@ export interface IPostComponentProps {
    * @type {string}
    * @memberof IPostComponentProps
    */
-  avatar: string
+  avatar?: string
 
   /**
    * User full name
@@ -105,7 +105,7 @@ export interface IPostComponentProps {
    *
    * @memberof IPostComponentProps
    */
-  getPostComments: (ownerUserId: string, postId: string) => any
+  getPostComments?: (ownerUserId: string, postId: string) => any
 
   /**
    * Commnets

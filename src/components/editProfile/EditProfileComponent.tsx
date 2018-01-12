@@ -227,7 +227,8 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
         fullName: fullNameInput,
         tagLine: tagLineInput,
         avatar: avatar,
-        banner: banner
+        banner: banner,
+        creationDate: this.props.info!.creationDate
       })
     }
   }

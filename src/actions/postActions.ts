@@ -15,11 +15,14 @@ import { PostActionType } from 'constants/postActionType'
 // - Import actions
 import * as globalActions from 'actions/globalActions'
 
-import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { IPostService } from 'core/services/posts'
+import { SocialProviderTypes } from 'core/socialProviderTypes'
+import { provider } from '../socialEngine'
 
-const serviceProvider: IServiceProvider = new ServiceProvide()
-const postService: IPostService = serviceProvider.createPostService()
+/**
+ * Get service providers
+ */
+const postService: IPostService = provider.get<IPostService>(SocialProviderTypes.PostService)
 
 /* _____________ CRUD DB _____________ */
 
@@ -127,7 +130,7 @@ export const dbUpdatePost = (updatedPost: Post, callBack: Function) => {
 
     return postService.updatePost(updatedPost).then(() => {
 
-      dispatch(updatePost(uid, { ...updatedPost }))
+      dispatch(updatePost(updatedPost))
       callBack()
       dispatch(globalActions.hideTopLoading())
 
@@ -169,13 +172,88 @@ export const dbDeletePost = (id: string) => {
 /**
  * Get all user posts from data base
  */
-export const dbGetPosts = () => {
+export const dbGetPosts = (page: number = 0, limit: number = 10) => {
   return (dispatch: any, getState: Function) => {
-    let uid: string = getState().authorize.uid
-    if (uid) {
+    const state = getState()
+    const {stream} = state.post
+    const lastPageRequest = stream.lastPageRequest
+    const lastPostId = stream.lastPostId
+    const hasMoreData = stream.hasMoreData
 
-      return postService.getPosts(uid).then((posts: { [postId: string]: Post }) => {
-        dispatch(addPosts(uid, posts))
+    let uid: string = state.authorize.uid
+    if (uid && lastPageRequest !== page) {
+      return postService.getPosts(uid, lastPostId, page, limit).then((result) => {
+        if (!result.posts || !(result.posts.length > 0)) {
+          return dispatch(notMoreDataStream())
+        }
+
+        // Store last post Id
+        dispatch(lastPostStream(result.newLastPostId))
+
+        let parsedData: { [userId: string]: {[postId: string]: Post} } = {}
+        result.posts.forEach((post) => {
+          const postId = Object.keys(post)[0]
+          const postData = post[postId]
+          const ownerId = postData.ownerUserId!
+          parsedData = {
+            ...parsedData,
+            [ownerId]: {
+              ...parsedData[ownerId],
+              [postId]: {
+                ...postData
+              }
+            }
+          }
+        })
+        dispatch(addPosts(parsedData))
+      })
+        .catch((error: SocialError) => {
+          dispatch(globalActions.showErrorMessage(error.message))
+        })
+
+    }
+  }
+}
+
+/**
+ * Get all user posts from data base
+ */
+export const dbGetPostsByUserId = (page: number = 0, limit: number = 10) => {
+  return (dispatch: any, getState: Function) => {
+    const state = getState()
+    const {profile} = state.post
+    const lastPageRequest = profile.lastPageRequest
+    const lastPostId = profile.lastPostId
+    const hasMoreData = profile.hasMoreData
+
+    let uid: string = state.authorize.uid
+
+    if (uid && lastPageRequest !== page) {
+
+      return postService.getPostsByUserId(uid, lastPostId, page, limit).then((result) => {
+
+        if (!result.posts || !(result.posts.length > 0)) {
+          return dispatch(notMoreDataProfile())
+        }
+        // Store last post Id
+        dispatch(lastPostProfile(result.newLastPostId))
+
+        let parsedData: { [userId: string]: {[postId: string]: Post} } = {}
+        result.posts.forEach((post) => {
+          const postId = Object.keys(post)[0]
+          const postData = post[postId]
+          const ownerId = postData.ownerUserId!
+          parsedData = {
+            ...parsedData,
+            [ownerId]: {
+              ...parsedData[ownerId],
+              [postId]: {
+                ...postData
+              }
+            }
+          }
+        })
+        dispatch(addPosts(parsedData))
       })
         .catch((error: SocialError) => {
           dispatch(globalActions.showErrorMessage(error.message))
@@ -205,22 +283,6 @@ export const dbGetPostById = (uid: string, postId: string) => {
   }
 }
 
-/**
- * Get all user posts from data base by user id
- * @param uid posts owner identifier
- */
-export const dbGetPostsByUserId = (uid: string) => {
-  return (dispatch: Function, getState: Function) => {
-
-    if (uid) {
-      return postService.getPosts(uid).then((posts: { [postId: string]: Post }) => {
-        dispatch(addPosts(uid, posts))
-      })
-
-    }
-  }
-}
-
 /* _____________ CRUD State _____________ */
 
 /**
@@ -240,10 +302,10 @@ export const addPost = (uid: string, post: Post) => {
  * @param {string} uid is user identifier
  * @param {Post} post
  */
-export const updatePost = (uid: string, post: Post) => {
+export const updatePost = (post: Post) => {
   return {
     type: PostActionType.UPDATE_POST,
-    payload: { uid, post }
+    payload: { post }
   }
 }
 
@@ -264,10 +326,10 @@ export const deletePost = (uid: string, id: string) => {
  * @param {string} uid
  * @param {[object]} posts
  */
-export const addPosts = (uid: string, posts: { [postId: string]: Post }) => {
+export const addPosts = (userPosts: { [userId: string]: {[postId: string]: Post} }) => {
   return {
     type: PostActionType.ADD_LIST_POST,
-    payload: { uid, posts }
+    payload: { userPosts }
   }
 }
 
@@ -282,12 +344,96 @@ export const clearAllData = () => {
 
 /**
  * Add a post with image
- * @param {object} post
  */
 export const addImagePost = (uid: string, post: any) => {
   return {
     type: PostActionType.ADD_IMAGE_POST,
     payload: { uid, post }
+  }
+
+}
+
+/**
+ * Set stream has more data to show
+ */
+export const hasMoreDataStream = () => {
+  return {
+    type: PostActionType.HAS_MORE_DATA_STREAM
+  }
+
+}
+
+/**
+ * Set stream has not data any more to show
+ */
+export const notMoreDataStream = () => {
+  return {
+    type: PostActionType.NOT_MORE_DATA_STREAM
+  }
+
+}
+
+/**
+ * Set last page request of stream
+ */
+export const requestPageStream = (page: number) => {
+  return {
+    type: PostActionType.REQUEST_PAGE_STREAM,
+    payload: { page}
+  }
+
+}
+
+/**
+ * Set last post identification of stream
+ */
+export const lastPostStream = (lastPostId: string) => {
+  return {
+    type: PostActionType.LAST_POST_STREAM,
+    payload: { lastPostId}
+  }
+
+}
+
+
+/**
+ * Set profile posts has more data to show
+ */
+export const hasMoreDataProfile = () => {
+  return {
+    type: PostActionType.HAS_MORE_DATA_PROFILE
+  }
+
+}
+
+/**
+ * Set profile posts has not data any more to show
+ */
+export const notMoreDataProfile = () => {
+  return {
+    type: PostActionType.NOT_MORE_DATA_PROFILE
+  }
+
+}
+
+/**
+ * Set last page request of profile posts
+ */
+export const requestPageProfile = (page: number) => {
+  return {
+    type: PostActionType.REQUEST_PAGE_PROFILE,
+    payload: { page}
+  }
+
+}
+
+/**
+ * Set last post identification of profile posts
+ */
+export const lastPostProfile = (lastPostId: string) => {
+  return {
+    type: PostActionType.LAST_POST_PROFILE,
+    payload: { lastPostId}
   }
 
 }

@@ -1,5 +1,6 @@
 // - Import react components
 import moment from 'moment'
+import _ from 'lodash'
 
 // - Import domain
 import { Comment } from 'core/domain/comments'
@@ -14,11 +15,14 @@ import * as globalActions from 'actions/globalActions'
 import * as notifyActions from 'actions/notifyActions'
 import * as postActions from 'actions/postActions'
 
-import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { ICommentService } from 'core/services/comments'
+import { SocialProviderTypes } from 'core/socialProviderTypes'
+import { provider } from '../socialEngine'
 
-const serviceProvider: IServiceProvider = new ServiceProvide()
-const commentService: ICommentService = serviceProvider.createCommentService()
+/**
+ * Get service providers
+ */
+const commentService: ICommentService = provider.get<ICommentService>(SocialProviderTypes.CommentService)
 
 /* _____________ CRUD DB _____________ */
 
@@ -28,11 +32,12 @@ const commentService: ICommentService = serviceProvider.createCommentService()
  * @param  {object} newComment user comment
  * @param  {function} callBack  will be fired when server responsed
  */
-export const dbAddComment = (ownerPostUserId: string | null,newComment: Comment, callBack: Function) => {
+export const dbAddComment = (ownerPostUserId: string, newComment: Comment, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
 
     dispatch(globalActions.showTopLoading())
 
+    const state = getState()
     let uid: string = getState().authorize.uid
 
     let comment: Comment = {
@@ -74,8 +79,10 @@ export const dbAddComment = (ownerPostUserId: string | null,newComment: Comment,
  */
 export const dbGetComments = (ownerUserId: string, postId: string) => {
   return (dispatch: any, getState: Function) => {
+    const state = getState()
     let uid: string = getState().authorize.uid
     if (uid) {
+
       return commentService.getComments(postId, (comments: {[postId: string]: {[commentId: string]: Comment}}) => {
 
         /**
@@ -89,24 +96,21 @@ export const dbGetComments = (ownerUserId: string, postId: string) => {
           return
         }
 
-        if (comments && Object.keys(comments).length > 0) {
-          commentsCount = Object.keys(comments).length
-          let sortedObjects = comments as any
+        const desiredComments = comments[postId]
+        if (desiredComments && Object.keys(desiredComments).length > 0) {
+          commentsCount = Object.keys(desiredComments).length
+          let sortedObjects = desiredComments as any
           // Sort posts with creation date
-          sortedObjects.sort((a: any, b: any) => {
-            return parseInt(b.creationDate, 10) - parseInt(a.creationDate, 10)
-          })
-          if (!post.comments) {
-            post.comments = {}
-          }
-          Object.keys(sortedObjects).slice(0, 3).forEach((commentId) => {
-            post.comments![commentId] = {
-              id: commentId,
-              ...sortedObjects[commentId]
-            }
-          })
 
-          dispatch(postActions.updatePost(post.ownerUserId!,post))
+          const commentKeys = Object.keys(sortedObjects)
+          if (commentKeys.length > 1) {
+            sortedObjects = _.fromPairs(_.toPairs(sortedObjects)
+            .sort((a: any, b: any) => parseInt(b[1].creationDate,10) - parseInt(a[1].creationDate,10)).slice(0, 3))
+
+          }
+          post.comments = sortedObjects
+          post.commentCounter = commentsCount
+          dispatch(postActions.updatePost(post))
         }
       })
     }
@@ -119,29 +123,17 @@ export const dbGetComments = (ownerUserId: string, postId: string) => {
  * @param {string} postId is the identifier of the post which comment belong to
  * @param {string} text is the text of comment
  */
-export const dbUpdateComment = (id: string, postId: string, text: string) => {
+export const dbUpdateComment = (comment: Comment) => {
   return (dispatch: any, getState: Function) => {
-
+    delete comment.editorStatus
     dispatch(globalActions.showTopLoading())
 
     // Get current user id
     let uid: string = getState().authorize.uid
 
-    // Write the new data simultaneously in the list
-    let comment: Comment = getState().comment.postComments[postId][id]
-    let updatedComment: Comment = {
-      postId: postId,
-      score: comment.score,
-      text: text,
-      creationDate: comment.creationDate,
-      userDisplayName: comment.userDisplayName,
-      userAvatar: comment.userAvatar,
-      userId: uid
-    }
-
-    return commentService.updateComment(updatedComment)
+    return commentService.updateComment(comment)
       .then(() => {
-        dispatch(updateComment( id, postId, text))
+        dispatch(updateComment( comment))
         dispatch(globalActions.hideTopLoading())
 
       }, (error: SocialError) => {
@@ -168,7 +160,7 @@ export const dbDeleteComment = (id?: string | null, postId?: string) => {
     // Get current user id
     let uid: string = getState().authorize.uid
 
-    return commentService.deleteComment(id!,postId!)
+    return commentService.deleteComment(id!)
       .then(() => {
         dispatch(deleteComment(id!, postId!))
         dispatch(globalActions.hideTopLoading())
@@ -202,11 +194,11 @@ export const addComment = (comment: Comment) => {
  * @param postId post identefier which comment belong to
  * @param text the new text for comment
  */
-export const updateComment = ( id: string, postId: string, text: string) => {
+export const updateComment = ( comment: Comment) => {
 
   return {
     type: CommentActionType.UPDATE_COMMENT,
-    payload: {id, postId, text}
+    payload: { comment }
   }
 }
 

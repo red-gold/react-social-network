@@ -10,6 +10,7 @@ import UserBoxList from 'components/userBoxList'
 import CircleAPI from 'api/CircleAPI'
 import { IFollowingComponentProps } from './IFollowingComponentProps'
 import { IFollowingComponentState } from './IFollowingComponentState'
+import { Circle } from 'core/domain/circles';
 
 // - Import actions
 
@@ -80,9 +81,10 @@ const mapDispatchToProps = (dispatch: any,ownProp: IFollowingComponentProps) => 
    * @return {object}          props of component
    */
 const mapStateToProps = (state: any,ownProps: IFollowingComponentProps) => {
+  const {circle, authorize, server} = state
   const { uid } = state.authorize
-  const circles = state.circle ? state.circle.userCircles[uid] : {}
-  const followingUsers = CircleAPI.getFollowingUsers(circles)
+  const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
+  const followingUsers = circle ? circle.userTies : {}
   return {
     uid,
     circles,

@@ -10,5 +10,5 @@ import { Vote } from 'core/domain/votes'
 export interface IVoteService {
   addVote: (vote: Vote) => Promise<string>
   getVotes: (postId: string) => Promise<{[postId: string]: {[voteId: string]: Vote}}>
-  deleteVote: (vote: Vote) => Promise<void>
+  deleteVote: (userId: string, voteId: string) => Promise<void>
 }

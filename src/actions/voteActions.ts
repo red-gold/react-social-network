@@ -11,12 +11,15 @@ import * as globalActions from 'actions/globalActions'
 import * as notifyActions from 'actions/notifyActions'
 import * as postActions from 'actions/postActions'
 
-import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { IVoteService } from 'core/services/votes'
 import { Post } from 'core/domain/posts'
+import { SocialProviderTypes } from 'core/socialProviderTypes'
+import { provider } from '../socialEngine'
 
-const serviceProvider: IServiceProvider = new ServiceProvide()
-const voteService: IVoteService = serviceProvider.createVoteService()
+/**
+ * Get service providers
+ */
+const voteService: IVoteService = provider.get<IVoteService>(SocialProviderTypes.VoteService)
 
 /* _____________ CRUD DB _____________ */
 
@@ -40,7 +43,8 @@ export const dbAddVote = (postId: string,ownerPostUserId: string) => {
     const post: Post = state.post.userPosts[ownerPostUserId][postId]
 
     post.score! += 1
-    dispatch(postActions.updatePost(ownerPostUserId,post))
+    post.votes = { ...post.votes!, [uid]: true}
+    dispatch(postActions.updatePost(post))
 
     return voteService.addVote(vote).then((voteKey: string) => {
       if (uid !== ownerPostUserId) {
@@ -56,7 +60,8 @@ export const dbAddVote = (postId: string,ownerPostUserId: string) => {
     })
     .catch((error) => {
       post.score! -= 1
-      dispatch(postActions.updatePost(ownerPostUserId,post))
+      post.votes = { ...post.votes!, [uid]: false}
+      dispatch(postActions.updatePost(post))
       dispatch(globalActions.showErrorMessage(error.message))
     })
   }
@@ -99,17 +104,15 @@ export const dbDeleteVote = (postId: string, ownerPostUserId: string) => {
     const state = getState()
     // Get current user id
     let uid: string = state.authorize.uid
-
-    let votes: {[voteId: string]: Vote} = getState().vote.postVotes[postId]
-    let id: string = Object.keys(votes).filter((key) => votes[key].userId === uid)[0]
-    const vote = votes[id]
     const post: Post = state.post.userPosts[ownerPostUserId][postId]
     post.score! -= 1
-    dispatch(postActions.updatePost(ownerPostUserId,post))
-    return voteService.deleteVote(vote).then(x => x)
+    post.votes = { ...post.votes!, [uid]: false}
+    dispatch(postActions.updatePost(post))
+    return voteService.deleteVote(uid, postId).then(x => x)
     .catch((error: any) => {
       post.score! += 1
-      dispatch(postActions.updatePost(ownerPostUserId,post))
+      post.votes = { ...post.votes!, [uid]: true}
+      dispatch(postActions.updatePost(post))
       dispatch(globalActions.showErrorMessage(error.message))
     })
   }
@@ -129,8 +132,8 @@ export const addVote = (vote: Vote) => {
  * @param {string} id vote identifier
  * @param {string} postId post identifier which vote on
  */
-export const deleteVote = (id: string, postId: string) => {
-  return { type: VoteActionType.DELETE_VOTE, payload: {id, postId} }
+export const deleteVote = (userId: string, postId: string) => {
+  return { type: VoteActionType.DELETE_VOTE, payload: {userId, postId} }
 
 }
 

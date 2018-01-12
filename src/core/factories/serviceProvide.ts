@@ -1,6 +1,7 @@
 //#region Interfaces
 
 import { IServiceProvider } from 'core/factories'
+import { injectable } from 'inversify'
 import {
   IAuthorizeService,
   ICircleService,
@@ -33,7 +34,7 @@ import {
 } from 'data/firestoreClient/services'
 
 //#endregion
-
+@injectable()
 export class ServiceProvide implements IServiceProvider {
 
   /**

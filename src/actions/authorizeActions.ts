@@ -15,13 +15,16 @@ import { AuthorizeActionType } from 'constants/authorizeActionType'
 
 // - Import services
 import { IAuthorizeService } from 'core/services/authorize'
-import { IServiceProvider, ServiceProvide } from 'core/factories'
 
 // - Import actions
 import * as globalActions from 'actions/globalActions'
+import { provider } from '../socialEngine'
+import { SocialProviderTypes } from 'core/socialProviderTypes'
 
-const serviceProvider: IServiceProvider = new ServiceProvide()
-const authorizeService: IAuthorizeService = serviceProvider.createAuthorizeService()
+/**
+ * Get service providers
+ */
+const authorizeService: IAuthorizeService = provider.get<IAuthorizeService>(SocialProviderTypes.AuthorizeService)
 
   /* _____________ CRUD DB _____________ */
 

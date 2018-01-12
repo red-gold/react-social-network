@@ -12,11 +12,14 @@ import { NotificationActionType } from 'constants/notificationActionType'
 import * as globalActions from 'actions/globalActions'
 import * as userActions from 'actions/userActions'
 
-import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { INotificationService } from 'core/services/notifications'
+import { SocialProviderTypes } from 'core/socialProviderTypes'
+import { provider } from '../socialEngine'
 
-const serviceProvider: IServiceProvider = new ServiceProvide()
-const notificationService: INotificationService = serviceProvider.createNotificationService()
+/**
+ * Get service providers
+ */
+const notificationService: INotificationService = provider.get<INotificationService>(SocialProviderTypes.NotificationService)
 
 /* _____________ CRUD DB _____________ */
 

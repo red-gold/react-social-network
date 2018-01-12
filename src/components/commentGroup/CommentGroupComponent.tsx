@@ -1,6 +1,7 @@
 // - Import react components
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import _ from 'lodash'
 import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 import FlatButton from 'material-ui/FlatButton'
@@ -101,7 +102,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
   clearCommentWrite = () => {
     this.setState({
       commentText: '',
-      postDisable: false
+      postDisable: true
     })
   }
 
@@ -109,7 +110,10 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
    * Post comment
    */
   handlePostComment = () => {
+
     this.props.send!(this.state.commentText, this.props.postId, this.clearCommentWrite)
+
+    this.clearCommentWrite()
   }
 
   /**
@@ -140,9 +144,10 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
   commentList = () => {
     let comments = this.props.commentSlides
     if (comments) {
-
+      comments = _.fromPairs(_.toPairs(comments)
+      .sort((a: any, b: any) => parseInt(b[1].creationDate,10) - parseInt(a[1].creationDate,10)))
       let parsedComments: Comment[] = []
-      Object.keys(comments).slice(0, 3).forEach((commentId) => {
+      Object.keys(comments).forEach((commentId) => {
         parsedComments.push({
           id: commentId,
           ...comments![commentId]
@@ -222,6 +227,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
         <FlatButton primary={true} disabled={this.state.postDisable} label='Post' style={{ float: 'right', clear: 'both', zIndex: 5, margin: '0px 5px 5px 0px', fontWeight: 400 }} onClick={this.handlePostComment} />
       </Paper>
       </div>)
+
     /**
      * Return Elements
      */

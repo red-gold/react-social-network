@@ -1,4 +1,4 @@
-import { Circle } from 'core/domain/circles'
+import { Circle, UserTie } from 'core/domain/circles'
 
 /**
  * Circle state
@@ -8,18 +8,38 @@ import { Circle } from 'core/domain/circles'
  */
 export class CircleState {
     /**
-     * The list of Circles belong to users
+     * The list of users belong to users circle
      *
-     * @type {({[userId: string]: {[circleId: string]: Circle}} | null)}
      * @memberof CircleState
      */
-  userCircles: {[userId: string]: {[circleId: string]: Circle}} = {}
+  userTies: {[userId: string]: UserTie }= {}
+
+    /**
+     * The list of users belong to users circle
+     *
+     * @memberof CircleState
+     */
+  userTieds: {[userId: string]: UserTie }= {}
+
+  /**
+   * The list of circle of current user
+   */
+  circleList: {[circleId: string]: Circle}
+
+  /**
+   * Whether select circle box is open for the selected user
+   */
+  selectCircleStatus: {[userId: string]: boolean}
+
+  /**
+   * Whether following loading is shown for the selected user
+   */
+  followingLoadingStatus: {[userId: string]: boolean}
 
     /**
      * If user circles are loaded {true} or not {false}
      *
-     * @type {Boolean}
      * @memberof CircleState
      */
-  loaded: Boolean = false
+  loaded: boolean = false
 }

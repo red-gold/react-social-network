@@ -4,20 +4,18 @@ import _ from 'lodash'
 
 // - Import domain
 import { User } from 'core/domain/users'
-import { Circle } from 'core/domain/circles'
+import { Circle, UserTie } from 'core/domain/circles'
 
 // - Import action types
-import {CircleActionType} from 'constants/circleActionType'
+import { CircleActionType } from 'constants/circleActionType'
 
 import { CircleState } from './CircleState'
 import { ICircleAction } from './ICircleAction'
 
-
-
 /**
  * Circle reducer
- * @param state 
- * @param action 
+ * @param state
+ * @param action
  */
 export let circleReducer = (state: CircleState = new CircleState(), action: ICircleAction) => {
   const { payload } = action
@@ -28,11 +26,10 @@ export let circleReducer = (state: CircleState = new CircleState(), action: ICir
     case CircleActionType.ADD_CIRCLE:
       return {
         ...state,
-        userCircles: {
-          ...state.userCircles,
-          [payload.circle.ownerId]: {
-            ...state.userCircles![payload.circle.ownerId],
-            [payload.circle.id]: { ...payload.circle }
+        circleList: {
+          ...state.circleList,
+          [payload.circle.id]: {
+            ...payload.circle
           }
         }
       }
@@ -40,102 +37,125 @@ export let circleReducer = (state: CircleState = new CircleState(), action: ICir
     case CircleActionType.UPDATE_CIRCLE:
       return {
         ...state,
-        userCircles: {
-          ...state.userCircles,
-          [payload.uid]: {
-            ...state.userCircles![payload.uid],
-            [payload.circle.id]: { 
-              ...state.userCircles![payload.uid][payload.circle.id],
-              ...payload.circle,
-              openCircleSettings:false }
+        circleList: {
+          ...state.circleList,
+          [payload.circle.id]: {
+            ...payload.circle,
+            openCircleSettings: false
           }
         }
       }
 
     case CircleActionType.DELETE_CIRCLE:
-      let filteredCircles = {}
-      Object.keys(state.userCircles![payload.uid]).map((key) => {
-        if (key !== payload.id) {
-          return _.merge(filteredCircles, { [key]: { ...state.userCircles![payload.uid][key] } })
+      let filteredDeleteCircles = {}
+      Object.keys(state.circleList).map((key) => {
+        if (key !== payload.circleId) {
+          return _.merge(filteredDeleteCircles, { [key]: { ...state.circleList![key] } })
         }
       })
       return {
         ...state,
-        userCircles: {
-          ...state.userCircles,
-          [payload.uid]: {
-            ...filteredCircles
-          }
+        circleList: {
+          ...state.circleList,
+          ...filteredDeleteCircles
         }
       }
     case CircleActionType.ADD_LIST_CIRCLE:
       return {
         ...state,
-        userCircles: {
-          ...state.userCircles,
-          [payload.uid]: {
-            ...state.userCircles![payload.uid],
-            ...payload.circles
-          }
+        circleList: {
+          ...state.circleList,
+          ...payload.circleList
         },
-        loaded:true
-
+        loaded: true
       }
 
-      case CircleActionType.ADD_FOLLOWING_USER:
-       return {
+    case CircleActionType.ADD_FOLLOWING_USER:
+      return {
         ...state,
-        userCircles: {
-          ...state.userCircles,
-          [payload.uid]: {
-            ...state.userCircles![payload.uid],
-            [payload.cid]: {
-               ...state.userCircles![payload.uid][payload.cid],
-               users:{
-                 ...state.userCircles![payload.uid][payload.cid].users,
-                [payload.followingId]: {
-                  ...payload.userCircle
-                }
-               }
-             }
+        userTies: {
+          ...state.userTies,
+          [payload.userTie.user.userId]: {
+            ...payload.userTie
           }
         }
       }
 
-       case CircleActionType.DELETE_FOLLOWING_USER:
-        let filteredUserCircle = {}
-      Object.keys(state.userCircles![payload.uid][payload.cid].users).map((key) => {
-        if (key !== payload.followingId) {
-          return _.merge(filteredUserCircle, { [key]: { ...state.userCircles![payload.uid][payload.cid].users[key] } })
+    case CircleActionType.UPDATE_USER_TIE:
+      return {
+        ...state,
+        userTies: {
+          ...state.userTies,
+          [payload.userTie.user.userId]: {
+            ...payload.userTie
+          }
+        }
+      }
+
+    case CircleActionType.ADD_USER_TIE_LIST:
+      return {
+        ...state,
+        userTies: {
+          ...state.userTies,
+          ...payload.userTies
+        }
+      }
+
+    case CircleActionType.ADD_USER_TIED_LIST:
+      return {
+        ...state,
+        userTieds: {
+          ...state.userTieds,
+          ...payload.userTieds
+        }
+      }
+
+    case CircleActionType.DELETE_USER_FROM_CIRCLE:
+      let filteredCircles: string[] = []
+      Object.keys(state.userTies[payload.userId].circleIdList!).forEach((circleId) => {
+        if (circleId !== payload.circleId) {
+          filteredCircles.push(circleId)
         }
       })
-       return {
+      return {
         ...state,
-        userCircles: {
-          ...state.userCircles,
-          [payload.uid]: {
-            ...state.userCircles![payload.uid],
-            [payload.cid]: {
-               ...state.userCircles![payload.uid][payload.cid],
-               users:{
-                ...filteredUserCircle
-               }
-             }
+        userTies: {
+          ...state.userTies,
+          [payload.userTie.user.userId]: {
+            ...payload.userTie,
+            circleIdList: filteredCircles
           }
         }
       }
-    
-        case CircleActionType.CLOSE_CIRCLE_SETTINGS:
-         return {
+
+    case CircleActionType.DELETE_FOLLOWING_USER:
+      let filteredUserTies: {[userId: string]: UserTie } = {}
+
+      Object.keys(state.userTies).forEach((userId) => {
+        if (userId !== payload.userId) {
+          return _.merge(filteredUserTies, { [userId]: { ...state.userTies[userId] } })
+        }
+      })
+      return {
         ...state,
-        userCircles: {
-          ...state.userCircles,
-          [payload.uid]: {
-            ...state.userCircles![payload.uid],
-            [payload.id]: {
-               ...state.userCircles![payload.uid][payload.id],
-               openCircleSettings: false
-             }
+        userTies: {
+          ...state.userTies,
+          ...filteredUserTies
+        }
+      }
+
+/**
+ * User interface stuffs
+ */
+
+    case CircleActionType.CLOSE_CIRCLE_SETTINGS:
+      return {
+        ...state,
+        circleList: {
+          ...state.circleList,
+          [payload.circleId]: {
+            ...state.circleList[payload.circleId],
+            openCircleSettings: false
           }
         }
       }
@@ -143,15 +163,48 @@ export let circleReducer = (state: CircleState = new CircleState(), action: ICir
     case CircleActionType.OPEN_CIRCLE_SETTINGS:
       return {
         ...state,
-        userCircles: {
-          ...state.userCircles,
-          [payload.uid]: {
-            ...state.userCircles![payload.uid],
-            [payload.id]: {
-               ...state.userCircles![payload.uid][payload.id],
-               openCircleSettings: true
-             }
+        circleList: {
+          ...state.circleList,
+          [payload.circleId]: {
+            ...state.circleList[payload.circleId],
+            openCircleSettings: true
           }
+        }
+      }
+
+    case CircleActionType.SHOW_SELECT_CIRCLE_BOX:
+      return {
+        ...state,
+        selectCircleStatus: {
+          ...state.selectCircleStatus,
+          [payload.userId]: true
+        }
+      }
+
+    case CircleActionType.HIDE_SELECT_CIRCLE_BOX:
+      return {
+        ...state,
+        selectCircleStatus: {
+          ...state.selectCircleStatus,
+          [payload.userId]: false
+        }
+      }
+
+    case CircleActionType.SHOW_FOLLOWING_USER_LOADING:
+      return {
+        ...state,
+        followingLoadingStatus: {
+          ...state.followingLoadingStatus,
+          [payload.userId]: true
+        }
+      }
+
+    case CircleActionType.HIDE_FOLLOWING_USER_LOADING:
+      return {
+        ...state,
+        followingLoadingStatus: {
+          ...state.followingLoadingStatus,
+          [payload.userId]: false
         }
       }
 

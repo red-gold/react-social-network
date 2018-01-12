@@ -4,6 +4,7 @@ import { firebaseRef, firebaseAuth, db } from 'data/firestoreClient'
 import { SocialError } from 'core/domain/common'
 import { Notification } from 'core/domain/notifications'
 import { INotificationService } from 'core/services/notifications'
+import { injectable } from 'inversify'
 
 /**
  * Firbase notification service
@@ -12,12 +13,13 @@ import { INotificationService } from 'core/services/notifications'
  * @class NotificationService
  * @implements {INotificationService}
  */
+@injectable()
 export class NotificationService implements INotificationService {
   public addNotification: (notification: Notification)
   => Promise<void> = (notification: Notification) => {
     return new Promise<void>((resolve,reject) => {
       db.doc(`users/${notification.notifyRecieverUserId}`).collection(`notifications`)
-      .add(notification)
+      .add({...notification})
       .then(() => {
         resolve()
       })
@@ -61,7 +63,7 @@ export class NotificationService implements INotificationService {
         const batch = db.batch()
         const notificationRef = db.doc(`users/${userId}/notifications/${notificationId}`)
 
-        batch.update(notificationRef,notification)
+        batch.update(notificationRef,{...notification})
         batch.commit().then(() => {
           resolve()
         })

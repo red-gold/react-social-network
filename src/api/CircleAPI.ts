@@ -1,4 +1,4 @@
-import { Circle, UserFollower } from 'core/domain/circles'
+import { Circle, UserTie } from 'core/domain/circles'
 
 /**
  * Get the circles' id which the specify users is in that circle
@@ -24,7 +24,7 @@ export const getUserBelongCircles = (circles: {[circleId: string]: Circle},follo
  * @param {object} circles
  */
 export const getFollowingUsers = (circles: {[circleId: string]: Circle}) => {
-  let followingUsers: {[userId: string]: UserFollower} = {}
+  let followingUsers: {[userId: string]: UserTie} = {}
   Object.keys(circles).forEach((cid) => {
     if (cid.trim() !== '-Followers' && circles[cid].users) {
       Object.keys(circles[cid].users).forEach((userId) => {

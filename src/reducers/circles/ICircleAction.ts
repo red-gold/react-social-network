@@ -1,14 +1,14 @@
 
-import {CircleActionType} from 'constants/circleActionType'
+import { CircleActionType } from 'constants/circleActionType'
 
 /**
  *  Circle action interface
- * 
+ *
  * @export
  * @interface ICircleAction
  */
-export interface ICircleAction  {
-    payload: any,
-    type: CircleActionType
-  
-  }
+export interface ICircleAction {
+  payload: any,
+  type: CircleActionType
+
+}

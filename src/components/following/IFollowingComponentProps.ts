@@ -1,6 +1,6 @@
-import { UserFollower } from 'core/domain/circles'
+import { UserTie } from 'core/domain/circles'
 
 export interface IFollowingComponentProps {
 
-  followingUsers?: {[userId: string]: UserFollower}
+  followingUsers?: {[userId: string]: UserTie}
 }

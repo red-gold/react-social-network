@@ -1,6 +1,6 @@
 // - Import domain
-import { User } from 'core/domain/users'
-import { Circle, UserFollower } from 'core/domain/circles'
+import { User, Profile } from 'core/domain/users'
+import { Circle, UserTie } from 'core/domain/circles'
 import { SocialError } from 'core/domain/common'
 
 // - Import utility components
@@ -15,11 +15,17 @@ import * as postActions from 'actions/postActions'
 import * as userActions from 'actions/userActions'
 import * as notifyActions from 'actions/notifyActions'
 
-import { IServiceProvider,ServiceProvide } from 'core/factories'
+import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { ICircleService } from 'core/services/circles'
+import { SocialProviderTypes } from 'core/socialProviderTypes'
+import { provider } from '../socialEngine'
+import { IUserTieService } from 'core/services/circles'
 
-const serviceProvider: IServiceProvider = new ServiceProvide()
-const circleService: ICircleService = serviceProvider.createCircleService()
+/**
+ * Get service providers
+ */
+const circleService: ICircleService = provider.get<ICircleService>(SocialProviderTypes.CircleService)
+const userTieService: IUserTieService = provider.get<IUserTieService>(SocialProviderTypes.UserTieService)
 
 /* _____________ CRUD DB _____________ */
 
@@ -33,10 +39,9 @@ export let dbAddCircle = (circleName: string) => {
     let uid: string = getState().authorize.uid
     let circle: Circle = {
       creationDate: moment().unix(),
-      name: circleName,
-      users: {}
+      name: circleName
     }
-    return circleService.addCircle(uid,circle).then((circleKey: string) => {
+    return circleService.addCircle(uid, circle).then((circleKey: string) => {
       circle.id = circleKey
       circle.ownerId = uid
       dispatch(addCircle(circle))
@@ -47,31 +52,29 @@ export let dbAddCircle = (circleName: string) => {
 }
 
 /**
- * Add a user in a circle
- * @param {string} cid is circle identifier
- * @param {User} userFollowing is the user for following
+ * Update user in circle/circles
  */
-export let dbAddFollowingUser = (cid: string, userFollowing: UserFollower) => {
+export let dbUpdateUserInCircles = (circleIdList: string[], userFollowing: UserTie) => {
   return (dispatch: any, getState: Function) => {
+    const state = getState()
+    let uid: string = state.authorize.uid
+    let user: User = { ...state.user.info[uid], userId: uid }
 
-    let uid: string = getState().authorize.uid
-    let user: User = getState().user.info[uid]
-
-    let userCircle: User = {
-      creationDate: moment().unix(),
-      fullName: userFollowing.fullName,
-      avatar: userFollowing.avatar || ''
-    }
-    let userFollower: UserFollower = {
-      creationDate: moment().unix(),
-      fullName: user.fullName,
-      avatar: user.avatar || '',
-      approved: false
-    }
-
-    return circleService.addFollowingUser(uid,cid,userCircle,userFollower,userFollowing.userId as string)
+    return userTieService.tieUseres(
+      { userId: user.userId!, fullName: user.fullName, avatar: user.avatar, approved: false },
+      { userId: userFollowing.userId!, fullName: userFollowing.fullName, avatar: userFollowing.avatar, approved: false },
+      circleIdList
+    )
       .then(() => {
-        dispatch(addFollowingUser(uid, cid, userFollowing.userId as string, { ...userCircle } as User))
+        dispatch(addFollowingUser(
+          new UserTie(
+            userFollowing.userId!,
+            moment().unix(),
+            userFollowing.fullName,
+            userFollowing.avatar,
+            false,
+            circleIdList
+        )))
 
         dispatch(notifyActions.dbAddNotification(
           {
@@ -89,18 +92,16 @@ export let dbAddFollowingUser = (cid: string, userFollowing: UserFollower) => {
 }
 
 /**
- * Delete a user from a circle
- * @param {string} cid is circle identifier
- * @param {string} userFollowingId following user identifier
+ * Delete following user
  */
-export let dbDeleteFollowingUser = (cid: string, userFollowingId: string) => {
+export let dbDeleteFollowingUser = (userFollowingId: string) => {
   return (dispatch: any, getState: Function) => {
 
     let uid: string = getState().authorize.uid
 
-    return circleService.deleteFollowingUser(uid,cid,userFollowingId)
+    return userTieService.removeUsersTie(uid, userFollowingId)
       .then(() => {
-        dispatch(deleteFollowingUser(uid, cid, userFollowingId))
+        dispatch(deleteFollowingUser(userFollowingId))
       }, (error: SocialError) => {
         dispatch(globalActions.showErrorMessage(error.message))
       })
@@ -109,7 +110,6 @@ export let dbDeleteFollowingUser = (cid: string, userFollowingId: string) => {
 
 /**
  * Update a circle from database
- * @param  {Circle} newCircle
  */
 export const dbUpdateCircle = (newCircle: Circle) => {
   return (dispatch: any, getState: Function) => {
@@ -118,14 +118,13 @@ export const dbUpdateCircle = (newCircle: Circle) => {
     let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    let circle: Circle = getState().circle.userCircles[uid][newCircle.id!]
+    let circle: Circle = getState().circle.userTies[uid][newCircle.id!]
     let updatedCircle: Circle = {
-      name: newCircle.name || circle.name,
-      users: newCircle.users ? newCircle.users : (circle.users || [])
+      name: newCircle.name || circle.name
     }
-    return circleService.updateCircle(uid,newCircle.id!,circle)
+    return circleService.updateCircle(uid, newCircle.id!, circle)
       .then(() => {
-        dispatch(updateCircle(uid,{ id: newCircle.id, ...updatedCircle }))
+        dispatch(updateCircle({ id: newCircle.id, ...updatedCircle }))
       }, (error: SocialError) => {
         dispatch(globalActions.showErrorMessage(error.message))
       })
@@ -135,17 +134,16 @@ export const dbUpdateCircle = (newCircle: Circle) => {
 
 /**
  * Delete a circle from database
- * @param  {string} id is circle identifier
  */
-export const dbDeleteCircle = (id: string) => {
+export const dbDeleteCircle = (circleId: string) => {
   return (dispatch: any, getState: Function) => {
 
     // Get current user id
     let uid: string = getState().authorize.uid
 
-    return circleService.deleteCircle(uid,id)
+    return circleService.deleteCircle(uid, circleId)
       .then(() => {
-        dispatch(deleteCircle(uid, id))
+        dispatch(deleteCircle(circleId))
       }, (error: SocialError) => {
         dispatch(globalActions.showErrorMessage(error.message))
       })
@@ -154,7 +152,7 @@ export const dbDeleteCircle = (id: string) => {
 }
 
 /**
- *  Get all user circles from data base
+ *  Get all circles from data base belong to current user
  */
 export const dbGetCircles = () => {
   return (dispatch: any, getState: Function) => {
@@ -163,21 +161,52 @@ export const dbGetCircles = () => {
 
       return circleService.getCircles(uid)
         .then((circles: { [circleId: string]: Circle }) => {
-          Object.keys(circles).forEach((circleId) => {
-            if (circleId !== '-Followers' && circles[circleId].users) {
-              Object.keys(circles[circleId].users).filter((v, i, a) => a.indexOf(v) === i).forEach((userId) => {
-                dispatch(postActions.dbGetPostsByUserId(userId))
-                dispatch(userActions.dbGetUserInfoByUserId(userId, ''))
-              })
-            }
-          })
-
-          dispatch(addCircles(uid, circles))
+          dispatch(addCircles(circles))
         })
         .catch((error: SocialError) => {
           dispatch(globalActions.showErrorMessage(error.message))
         })
 
+    }
+  }
+}
+
+/**
+ *  Get all user ties from data base
+ */
+export const dbGetUserTies = () => {
+  return (dispatch: any, getState: Function) => {
+    let uid: string = getState().authorize.uid
+    if (uid) {
+      userTieService.getUserTies(uid).then((result) => {
+
+        dispatch(userActions.addPeopleInfo(result as any))
+        dispatch(addUserTies(result))
+
+      })
+        .catch((error: SocialError) => {
+          dispatch(globalActions.showErrorMessage(error.message))
+        })
+    }
+  }
+}
+
+/**
+ *  Get all followers
+ */
+export const dbGetFollowers = () => {
+  return (dispatch: any, getState: Function) => {
+    let uid: string = getState().authorize.uid
+    if (uid) {
+      userTieService.getUserTies(uid).then((result) => {
+
+        dispatch(userActions.addPeopleInfo(result as any))
+        dispatch(addUserTies(result))
+
+      })
+        .catch((error: SocialError) => {
+          dispatch(globalActions.showErrorMessage(error.message))
+        })
     }
   }
 }
@@ -191,12 +220,12 @@ export const dbGetCirclesByUserId = (uid: string) => {
 
     if (uid) {
       return circleService.getCircles(uid)
-          .then((circles: { [circleId: string]: Circle }) => {
-            dispatch(addCircles(uid, circles))
-          })
-          .catch((error: SocialError) => {
-            dispatch(globalActions.showErrorMessage(error.message))
-          })
+        .then((circles: { [circleId: string]: Circle }) => {
+          dispatch(addCircles(circles))
+        })
+        .catch((error: SocialError) => {
+          dispatch(globalActions.showErrorMessage(error.message))
+        })
     }
   }
 }
@@ -204,9 +233,7 @@ export const dbGetCirclesByUserId = (uid: string) => {
 /* _____________ CRUD State _____________ */
 
 /**
- * Add a normal circle
- * @param {string} uid is user identifier
- * @param {Circle} circle
+ * Add a circle
  */
 export const addCircle = (circle: Circle) => {
   return {
@@ -217,37 +244,31 @@ export const addCircle = (circle: Circle) => {
 
 /**
  * Update a circle
- * @param {string} uid is user identifier
- * @param {Circle} circle
  */
-export const updateCircle = (uid: string, circle: Circle) => {
+export const updateCircle = (circle: Circle) => {
   return {
     type: CircleActionType.UPDATE_CIRCLE,
-    payload: { uid, circle }
+    payload: { circle }
   }
 }
 
 /**
  * Delete a circle
- * @param {string} uid is user identifier
- * @param {string} id is circle identifier
  */
-export const deleteCircle = (uid: string, id: string) => {
+export const deleteCircle = (circleId: string) => {
   return {
     type: CircleActionType.DELETE_CIRCLE,
-    payload: { uid, id }
+    payload: { circleId }
   }
 }
 
 /**
  * Add a list of circle
- * @param {string} uid
- * @param {circleId: string]: Circle} circles
  */
-export const addCircles = (uid: string, circles: { [circleId: string]: Circle }) => {
+export const addCircles = (circleList: {[circleId: string]: Circle}) => {
   return {
     type: CircleActionType.ADD_LIST_CIRCLE,
-    payload: { uid, circles }
+    payload: { circleList }
   }
 }
 
@@ -262,55 +283,126 @@ export const clearAllCircles = () => {
 
 /**
  * Open circle settings
- * @param uid user idenifier
- * @param id circle identifier
  */
-export const openCircleSettings = (uid: string, id: string) => {
+export const openCircleSettings = (circleId: string) => {
   return {
     type: CircleActionType.OPEN_CIRCLE_SETTINGS,
-    payload: { uid, id }
+    payload: { circleId }
   }
 
 }
 
 /**
  * Close open circle settings
- * @param uid user identifier
- * @param id circle identifier
  */
-export const closeCircleSettings = (uid: string, id: string) => {
+export const closeCircleSettings = (circleId: string) => {
   return {
     type: CircleActionType.CLOSE_CIRCLE_SETTINGS,
-    payload: { uid, id }
+    payload: { circleId }
   }
 
 }
 
 /**
- * Add following user in a circle
- * @param {string} uid user identifire who want to follow the following user
- * @param {string} cid circle identifier that following user should be added in
- * @param {string} followingId following user identifier
- * @param {User} userCircle information about following user
+ * Add following user
  */
-export const addFollowingUser = (uid: string, cid: string, followingId: string, userCircle: User) => {
+export const addFollowingUser = (userTie: UserTie) => {
   return {
     type: CircleActionType.ADD_FOLLOWING_USER,
-    payload: { uid, cid, followingId, userCircle }
+    payload: { userTie }
+  }
+}
+
+/**
+ * Update the user tie
+ */
+export const updateUserTie = (userTie: UserTie) => {
+  return {
+    type: CircleActionType.UPDATE_USER_TIE,
+    payload: { userTie }
+  }
+}
+
+/**
+ * Add user ties
+ */
+export const addUserTies = (userTies: {[userId: string]: UserTie }) => {
+  return {
+    type: CircleActionType.ADD_USER_TIE_LIST,
+    payload: { userTies }
+  }
+}
+
+/**
+ * Add users who send tie request for current user
+ */
+export const addUserTieds = (userTieds: {[userId: string]: UserTie }) => {
+  return {
+    type: CircleActionType.ADD_USER_TIED_LIST,
+    payload: { userTieds }
+  }
+}
+
+/**
+ * Delete the user from a circle
+ */
+export const deleteUserFromCircle = (userId: string, circleId: string) => {
+  return {
+    type: CircleActionType.DELETE_USER_FROM_CIRCLE,
+    payload: { userId, circleId }
+  }
+}
+
+/**
+ * Delete following user
+ */
+export const deleteFollowingUser = (userId: string) => {
+  return {
+    type: CircleActionType.DELETE_FOLLOWING_USER,
+    payload: { userId }
+  }
+}
+
+/**
+ * Show the box to select circle
+ */
+export const showSelectCircleBox = (userId: string) => {
+  return {
+    type: CircleActionType.SHOW_SELECT_CIRCLE_BOX,
+    payload: { userId }
   }
 
 }
 
 /**
- * Delete following user from a circle
- * @param {string} uid user identifire who want to follow the following user
- * @param {string} cid circle identifier that following user should be added in
- * @param {string} followingId following user identifier
+ * Hide the box to select circle
  */
-export const deleteFollowingUser = (uid: string, cid: string, followingId: string) => {
+export const hideSelectCircleBox = (userId: string) => {
   return {
-    type: CircleActionType.DELETE_FOLLOWING_USER,
-    payload: { uid, cid, followingId }
+    type: CircleActionType.HIDE_SELECT_CIRCLE_BOX,
+    payload: { userId }
+  }
+
+}
+
+/**
+ * Show loading on following user
+ */
+export const showFollowingUserLoading = (userId: string) => {
+  return {
+    type: CircleActionType.SHOW_FOLLOWING_USER_LOADING,
+    payload: { userId }
+  }
+
+}
+
+/**
+ * Hide loading on following user
+ */
+export const hideFollowingUserLoading = (userId: string) => {
+  return {
+    type: CircleActionType.HIDE_FOLLOWING_USER_LOADING,
+    payload: { userId }
   }
 
 }

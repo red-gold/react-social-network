@@ -7,6 +7,7 @@ import { IImageGalleryService } from 'core/services/imageGallery'
 import { Image } from 'core/domain/imageGallery'
 import { IStorageService } from 'core/services/files'
 import { IServiceProvider, ServiceProvide } from 'core/factories'
+import { injectable } from 'inversify'
 
 /**
  * Firbase image gallery service
@@ -15,6 +16,7 @@ import { IServiceProvider, ServiceProvide } from 'core/factories'
  * @class ImageGalleryService
  * @implements {IImageGalleryService}
  */
+@injectable()
 export class ImageGalleryService implements IImageGalleryService {
 
   private readonly storageService: IStorageService

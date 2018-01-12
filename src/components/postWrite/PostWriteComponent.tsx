@@ -49,15 +49,15 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
       /**
        * Post text
        */
-      postText: this.props.edit ? this.props.text! : '',
+      postText: this.props.edit && postModel ? (postModel.body ? postModel.body! : '' ) : '',
       /**
        * The URL image of the post
        */
-      image: this.props.edit ? this.props.image : '',
+      image: this.props.edit && postModel ? (postModel.image ? postModel.image! : '' ) : '',
       /**
        * The path identifier of image on the server
        */
-      imageFullPath: this.props.edit ? (postModel.imageFullPath ? postModel.imageFullPath! : '' ) : '',
+      imageFullPath: this.props.edit && postModel ? (postModel.imageFullPath ? postModel.imageFullPath! : '' ) : '',
       /**
        * If it's true gallery will be open
        */
@@ -69,11 +69,11 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
       /**
        * If it's true comment will be disabled on post
        */
-      disableComments: this.props.edit ? postModel.disableComments! : false,
+      disableComments: this.props.edit && postModel ? postModel.disableComments! : false,
       /**
        * If it's true share will be disabled on post
        */
-      disableSharing: this.props.edit ? postModel.disableSharing! : false
+      disableSharing: this.props.edit && postModel ? postModel.disableSharing! : false
 
     }
 
@@ -190,14 +190,14 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
         }, onRequestClose)
       }
     } else { // In edit status we pass post to update functions
-      postModel.body = postText
-      postModel.tags = tags
-      postModel.image = image
-      postModel.imageFullPath = imageFullPath
-      postModel.disableComments = disableComments
-      postModel.disableSharing = disableSharing
+      postModel!.body = postText
+      postModel!.tags = tags
+      postModel!.image = image
+      postModel!.imageFullPath = imageFullPath
+      postModel!.disableComments = disableComments
+      postModel!.disableSharing = disableSharing
 
-      update!(postModel, onRequestClose)
+      update!(postModel!, onRequestClose)
     }
   }
 
@@ -255,30 +255,34 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps,IPost
     if (!nextProps.open) {
       const {postModel} = this.props
       this.setState({
-        /**
-         * Post text
-         */
-        postText: this.props.edit ? this.props.text! : '',
-        /**
-         * The image of the post
-         */
-        image: this.props.edit ? this.props.image! : '',
-        /**
-         * If it's true gallery will be open
-         */
+      /**
+       * Post text
+       */
+        postText: this.props.edit && postModel ? (postModel.body ? postModel.body! : '' ) : '',
+      /**
+       * The URL image of the post
+       */
+        image: this.props.edit && postModel ? (postModel.image ? postModel.image! : '' ) : '',
+      /**
+       * The path identifier of image on the server
+       */
+        imageFullPath: this.props.edit && postModel ? (postModel.imageFullPath ? postModel.imageFullPath! : '' ) : '',
+      /**
+       * If it's true gallery will be open
+       */
         galleryOpen: false,
-        /**
-         * If it's true post button will be disabled
-         */
+      /**
+       * If it's true post button will be disabled
+       */
         disabledPost: true,
-        /**
-         * If it's true comment will be disabled on post
-         */
-        disableComments: this.props.edit ? postModel.disableComments! : false,
-        /**
-         * If it's true share will be disabled on post
-         */
-        disableSharing: this.props.edit ? postModel.disableSharing! : false
+      /**
+       * If it's true comment will be disabled on post
+       */
+        disableComments: this.props.edit && postModel ? postModel.disableComments! : false,
+      /**
+       * If it's true share will be disabled on post
+       */
+        disableSharing: this.props.edit && postModel ? postModel.disableSharing! : false
 
       })
     }

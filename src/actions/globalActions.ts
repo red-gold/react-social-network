@@ -68,6 +68,23 @@ export const hideMessage = () => {
  * @param {string} message
  */
 export const showErrorMessage = (message: string) => {
+  const appElement = document.getElementById('app')
+  const masterElement = document.getElementById('master')
+  const container = document.createElement('div')
+  const div = document.createElement('div')
+  div.innerHTML = message
+  container.style.position = '100000'
+  container.style.position = 'fixed'
+  container.style.backgroundColor = '#32c3e4b8'
+  container.style.width = '100%'
+  container.style.height = '100%'
+  container.style.display = 'flex'
+  container.style.alignItems = 'center'
+  container.style.alignItems = 'center'
+  container.style.flexDirection = 'row'
+  container.appendChild(div)
+
+  appElement!.insertBefore(container, masterElement)
   return {
     type: GlobalActionType.SHOW_ERROR_MESSAGE_GLOBAL,
     payload: message

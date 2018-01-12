@@ -87,7 +87,7 @@ export class PostComponent extends Component<IPostComponentProps,IPostComponentS
       /**
        * Post text
        */
-      text: post.body!,
+      text: post.body ? post.body : '',
       /**
        * It's true if whole the text post is visible
        */
@@ -409,7 +409,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPostComponentProps) => {
 const mapStateToProps = (state: any, ownProps: IPostComponentProps) => {
   const {post, vote, authorize, comment} = state
   const {uid} = authorize
-  let currentUserVote = post.votes ? post.votes[uid] : false
+  let currentUserVote = ownProps.post.votes ? ownProps.post.votes[uid] : false
   const postModel = post.userPosts[ownProps.post.ownerUserId!][ownProps.post.id!]
   const postOwner = (post.userPosts[uid] ? Object.keys(post.userPosts[uid]).filter((key) => { return ownProps.post.id === key }).length : 0)
   const commentList: { [commentId: string]: Comment } = comment.postComments[ownProps.post.id!]

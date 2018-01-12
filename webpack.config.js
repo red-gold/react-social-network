@@ -12,12 +12,16 @@ try {
 } catch (e) {
 
 }
+
+const devEntry = [
+    'react-hot-loader/patch',
+    'webpack-hot-middleware/client',
+    './src/index.tsx'
+];
+
+
 module.exports = {
-    entry: [
-        'react-hot-loader/patch',
-        'webpack-hot-middleware/client',
-        './src/index.tsx'
-    ],
+    entry: (process.env.NODE_ENV === 'production') ? ['./src/index.tsx'] : devEntry,
     externals: {
         jquery: 'jQuery'
     },
@@ -60,7 +64,7 @@ module.exports = {
     output: {
         publicPath: '/',
         path: path.resolve(__dirname, './public'),
-        filename: 'bundle-v0.3.js',
+        filename: 'bundle-v0.5.js',
 
     },
     resolve: {

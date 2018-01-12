@@ -46,15 +46,16 @@ export let commentReducer = (state: CommentState = new CommentState(), action: I
         loaded: true
       }
     case CommentActionType.UPDATE_COMMENT:
+      const {comment} = payload
       return {
         ...state,
         postComments: {
           ...state.postComments,
-          [payload.postId]: {
-            ...state.postComments![payload.postId],
-            [payload.id]: {
-              ...state.postComments![payload.postId][payload.id],
-              text: payload.text,
+          [comment.postId]: {
+            ...state.postComments![comment.postId],
+            [comment.id]: {
+              ...state.postComments![comment.postId][comment.id],
+              text: comment.text,
               editorStatus: false
             }
           }

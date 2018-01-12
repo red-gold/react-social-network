@@ -8,6 +8,7 @@ import UserBoxList from 'components/userBoxList'
 
 import { IFollowersComponentProps } from './IFollowersComponentProps'
 import { IFollowersComponentState } from './IFollowersComponentState'
+import { Circle } from 'core/domain/circles';
 
 // - Import API
 
@@ -79,10 +80,11 @@ const mapDispatchToProps = (dispatch: any,ownProps: IFollowersComponentProps) =>
    * @return {object}          props of component
    */
 const mapStateToProps = (state: any,ownProps: IFollowersComponentProps) => {
+  const {circle, authorize, server} = state
   const { uid } = state.authorize
-  const circles = state.circle ? state.circle.userCircles[uid] : {}
+  const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
   return{
-    followers: circles ? (circles['-Followers'] ? circles['-Followers'].users || {} : {}) : {}
+    followers: circles ? circles.userTieds : {}
   }
 }
 

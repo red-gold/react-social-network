@@ -1,6 +1,6 @@
 import { User } from 'core/domain/users'
 import { Circle } from 'core/domain/circles/circle'
-import { UserFollower } from 'core/domain/circles'
+import { UserTie } from 'core/domain/circles'
 
 export interface IUserBoxComponentProps {
 
@@ -18,7 +18,7 @@ export interface IUserBoxComponentProps {
    * @type {User}
    * @memberof IUserBoxComponentProps
    */
-  user: UserFollower
+  user: UserTie
 
     /**
      * Circles
@@ -35,6 +35,11 @@ export interface IUserBoxComponentProps {
      * @memberof IUserBoxComponentProps
      */
   userBelongCircles?: string[]
+
+  /**
+   * Whether current user followed this user
+   */
+  isFollowed: boolean
 
     /**
      * The number of circles
@@ -80,7 +85,7 @@ export interface IUserBoxComponentProps {
    *
    * @memberof IUserBoxComponentProps
    */
-  addFollowingUser?: (cid: string,user: UserFollower) => any
+  addFollowingUser?: (cid: string,user: UserTie) => any
 
   /**
    * Delete

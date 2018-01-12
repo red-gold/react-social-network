@@ -7,6 +7,7 @@ import InfiniteScroll from 'react-infinite-scroller'
 
 // - Import app components
 import UserBoxList from 'components/userBoxList'
+import LoadMoreProgressComponent from 'layouts/loadMoreProgress'
 
 // - Import API
 
@@ -20,10 +21,6 @@ import { IFindPeopleComponentState } from './IFindPeopleComponentState'
  */
 export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IFindPeopleComponentState> {
 
-  static propTypes = {
-
-  }
-
     /**
      * Component constructor
      * @param  {object} props is an object properties of component
@@ -36,49 +33,32 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
 
     }
 
-        // Binding functions to `this`
-
   }
 
-  loadItems (page: number) {
-    console.log('------------------------')
-    console.log(page)
-    console.log('------------------------')
+  /**
+   * Scroll loader
+   */
+  scrollLoad = (page: number) => {
+    const {loadPeople} = this.props
+    loadPeople!(page, 10)
   }
 
-  componentWillMount () {
-    this.props.loadPeople!()
-  }
     /**
      * Reneder component DOM
      * @return {react element} return the DOM which rendered by component
      */
   render () {
-
-    const styles = {
-      paper: {
-        height: 254,
-        width: 243,
-        margin: 10,
-        textAlign: 'center',
-        maxWidth: '257px'
-      },
-      followButton: {
-        position: 'absolute',
-        bottom: '8px',
-        left: 0,
-        right: 0
-      }
-    }
-    const loader = <div className='loader'>Loading ...</div>
+    const {hasMorePeople} = this.props
 
     return (
             <div>
                 <InfiniteScroll
                 pageStart={0}
-                loadMore={this.loadItems.bind(this)}
-                hasMore={false}
-                loader={loader}>
+                loadMore={this.scrollLoad}
+                hasMore={hasMorePeople}
+                useWindow={true}
+                loader={ <LoadMoreProgressComponent />}
+                >
 
                 <div className='tracks'>
 
@@ -106,7 +86,7 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IFindPeopleComponentProps) => {
   return {
-    loadPeople: () => dispatch(userActions.dbGetPeopleInfo())
+    loadPeople: (page: number, limit: number) => dispatch(userActions.dbGetPeopleInfo(page, limit))
   }
 }
 
@@ -117,8 +97,10 @@ const mapDispatchToProps = (dispatch: any, ownProps: IFindPeopleComponentProps) 
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IFindPeopleComponentProps) => {
+  const {people, info} = state.user
   return {
-    peopleInfo: state.user.info
+    peopleInfo: info,
+    hasMorePeople: people.hasMoreData
   }
 }
 

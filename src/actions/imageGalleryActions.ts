@@ -15,13 +15,16 @@ import * as globalActions from 'actions/globalActions'
 // - Import app API
 import FileAPI from 'api/FileAPI'
 
-import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { IImageGalleryService } from 'core/services/imageGallery'
 import { FileResult } from 'models/files/fileResult'
+import { SocialProviderTypes } from 'core/socialProviderTypes'
+import { provider } from '../socialEngine'
 
-const serviceProvider: IServiceProvider = new ServiceProvide()
-const imageGalleryService: IImageGalleryService = serviceProvider.createImageGalleryService()
-const storageService: IStorageService = serviceProvider.createStorageService()
+/**
+ * Get service providers
+ */
+const imageGalleryService: IImageGalleryService = provider.get<IImageGalleryService>(SocialProviderTypes.ImageGalleryService)
+const storageService: IStorageService = provider.get<IStorageService>(SocialProviderTypes.StorageService)
 
 /* _____________ UI Actions _____________ */
 

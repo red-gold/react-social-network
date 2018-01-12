@@ -1,7 +1,9 @@
 import { storageRef } from 'data/firestoreClient'
 import { IStorageService } from 'core/services/files'
 import { FileResult } from 'models/files/fileResult'
+import { injectable } from 'inversify'
 
+@injectable()
 export class StorageService implements IStorageService {
 
     /**

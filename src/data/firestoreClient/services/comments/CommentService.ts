@@ -5,6 +5,7 @@ import _ from 'lodash'
 import { SocialError } from 'core/domain/common'
 import { ICommentService } from 'core/services/comments'
 import { Comment } from 'core/domain/comments'
+import { injectable } from 'inversify'
 
 /**
  * Firbase comment service
@@ -13,42 +14,20 @@ import { Comment } from 'core/domain/comments'
  * @class CommentService
  * @implements {ICommentService}
  */
+@injectable()
 export class CommentService implements ICommentService {
+
+  /**
+   * Add comment
+   *
+   * @memberof CommentService
+   */
   public addComment: (comment: Comment)
     => Promise<string> = (comment) => {
       return new Promise<string>((resolve,reject) => {
-        const postRef = db.doc(`posts/${comment.postId}`)
-        let commentRef = postRef.collection('comments')
+        let commentRef = db.collection('comments')
         commentRef.add(comment).then((result) => {
           resolve(result.id)
-
-          /**
-           * Add comment counter and three comments' slide preview
-           */
-          db.runTransaction((transaction) => {
-            return transaction.get(postRef).then((postDoc) => {
-              if (postDoc.exists) {
-                const commentCount = postDoc.data().commentCounter + 1
-                transaction.update(postRef, { commentCounter: commentCount })
-                let comments = postDoc.data()
-                if (!comments) {
-                  comments = {}
-                }
-                if (commentCount < 4) {
-                  transaction.update(postRef, { comments: { ...comments, [result.id]: comment } })
-                } else {
-                  let sortedObjects = comments
-                       // Sort posts with creation date
-                  sortedObjects.sort((a: any, b: any) => {
-                    return parseInt(b.creationDate,10) - parseInt(a.creationDate,10)
-                  })
-                  const lastCommentId = Object.keys(sortedObjects)[2]
-                  comments[lastCommentId] = {... comment}
-                  transaction.update(postRef, { comments: { ...comments} })
-                }
-              }
-            })
-          })
         })
         .catch((error: any) => {
           reject(new SocialError(error.code,error.message))
@@ -56,9 +35,14 @@ export class CommentService implements ICommentService {
       })
     }
 
+  /**
+   * Get comments
+   *
+   * @memberof CommentService
+   */
   public getComments: (postId: string, callback: (resultComments: { [postId: string]: { [commentId: string]: Comment } }) => void)
     => void = (postId, callback) => {
-      let commentsRef = db.doc(`posts/${postId}`).collection(`comments`)
+      let commentsRef = db.collection(`comments`).where('postId', '==', postId)
       commentsRef.onSnapshot((snapshot) => {
         let parsedData: {[postId: string]: {[commentId: string]: Comment}} = {[postId]: {}}
         snapshot.forEach((result) => {
@@ -73,13 +57,18 @@ export class CommentService implements ICommentService {
       })
     }
 
+  /**
+   * Update comment
+   *
+   * @memberof CommentService
+   */
   public updateComment: (comment: Comment)
     => Promise<void> = (comment) => {
       return new Promise<void>((resolve,reject) => {
         const batch = db.batch()
-        const commentRef = db.doc(`posts/${comment.postId}/comments/${comment.id}`)
+        const commentRef = db.collection(`comments`).doc(comment.id!)
 
-        batch.update(commentRef, comment)
+        batch.update(commentRef, {...comment})
         batch.commit().then(() => {
           resolve()
         })
@@ -89,45 +78,25 @@ export class CommentService implements ICommentService {
       })
     }
 
-  public deleteComment: (commentId: string, postId: string)
-    => Promise<void> = (commentId, postId) => {
+  /**
+   * Delete comment
+   *
+   * @memberof CommentService
+   */
+  public deleteComment: (commentId: string)
+    => Promise<void> = (commentId) => {
       return new Promise<void>((resolve,reject) => {
-        const batch = db.batch()
-        const postRef = db.doc(`posts/${postId}`)
-        const commentRef = postRef.collection(`comments`).doc(commentId)
+        const commentCollectionRef = db.collection(`comments`)
+        const commentRef = commentCollectionRef.doc(commentId)
 
+        const batch = db.batch()
         batch.delete(commentRef)
         batch.commit().then(() => {
           resolve()
-
-          /**
-           * Delete comment counter and comments' slide preview
-           */
-          db.runTransaction((transaction) => {
-            return transaction.get(postRef).then((postDoc) => {
-              if (postDoc.exists) {
-                const commentCount = postDoc.data().commentCounter - 1
-                transaction.update(postRef, { commentCounter: commentCount })
-                if (commentCount > 3) {
-                  let comments = postDoc.data().comments
-                  if (!comments) {
-                    comments = {}
-                  }
-                  let parsedComments = {}
-                  Object.keys(postDoc.data().comments).map((id) => {
-                    if (id !== commentId) {
-                      _.merge(parsedComments, { [id]: { ...comments[id] } })
-                    }
-                  })
-                  transaction.update(postRef, { comments: { ...parsedComments}})
-                }
-              }
-            })
-          })
         })
-          .catch((error: any) => {
-            reject(new SocialError(error.code,error.message))
-          })
+        .catch((error: any) => {
+          reject(new SocialError(error.code,error.message))
+        })
       })
     }
 }

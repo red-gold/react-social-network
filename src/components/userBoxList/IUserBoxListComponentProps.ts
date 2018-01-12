@@ -1,5 +1,5 @@
 import { User } from 'core/domain/users'
-import { UserFollower } from 'core/domain/circles'
+import { UserTie } from 'core/domain/circles'
 
 export interface IUserBoxListComponentProps {
 
@@ -9,7 +9,7 @@ export interface IUserBoxListComponentProps {
      * @type {{[userId: string]: User}}
      * @memberof IUserBoxListComponentProps
      */
-  users: {[userId: string]: UserFollower}
+  users: {[userId: string]: UserTie}
 
     /**
      * User identifier

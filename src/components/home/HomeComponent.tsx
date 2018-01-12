@@ -106,7 +106,6 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
   }
 
   componentWillMount () {
-
     const {global, clearData, loadData, authed, defaultDataEnable, isVerifide, goTo } = this.props
     if (!authed) {
       goTo!('/login')
@@ -131,7 +130,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
    * @memberof Home
    */
   render () {
-    const {loaded, authed, mergedPosts} = this.props
+    const {loaded, authed, loadDataStream, mergedPosts, hasMorePosts} = this.props
     return (
       <div id='home'>
         <HomeHeader sidebar={this.state.sidebarOpen} sidebarStatus={this.state.sidebarStatus} />
@@ -153,7 +152,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
           </SidebarContent>
 
           <SidebarMain>
-            <HomeRouter enabled={loaded!} data={{mergedPosts}} />
+            <HomeRouter enabled={loaded!} data={{ mergedPosts, loadDataStream, hasMorePosts}} />
           </SidebarMain>
         </Sidebar>
 
@@ -167,12 +166,15 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
 const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
 
   return {
+    loadDataStream:
+    (page: number, limit: number) => dispatch(postActions.dbGetPosts(page,limit)),
     loadData: () => {
-      dispatch(imageGalleryActions.dbGetImageGallery())
       dispatch(postActions.dbGetPosts())
+      dispatch(imageGalleryActions.dbGetImageGallery())
       dispatch(userActions.dbGetUserInfo())
       dispatch(notifyActions.dbGetNotifications())
       dispatch(circleActions.dbGetCircles())
+      dispatch(circleActions.dbGetUserTies())
 
     },
     clearData: () => {
@@ -205,9 +207,10 @@ const mapStateToProps = (state: any, ownProps: IHomeComponentProps) => {
   const { authorize, global, user, post, imageGallery, notify, circle } = state
   const { uid } = authorize
   let mergedPosts = {}
-  const circles = circle ? (circle.userCircles[uid] || {}) : {}
-  const followingUsers = CircleAPI.getFollowingUsers(circles)
+  const circles = circle ? (circle.circleList || {}) : {}
+  const followingUsers = circle ? circle.userTies : {}
   const posts = post.userPosts ? post.userPosts[authorize.uid] : {}
+  const hasMorePosts = post.stream.hasMoreData
   Object.keys(followingUsers).forEach((userId) => {
     let newPosts = post.userPosts ? post.userPosts[userId] : {}
     _.merge(mergedPosts,newPosts)
@@ -219,9 +222,10 @@ const mapStateToProps = (state: any, ownProps: IHomeComponentProps) => {
     mainStyle: global.sidebarMainStyle,
     mergedPosts,
     global,
+    hasMorePosts,
     loaded: user.loaded && post.loaded && imageGallery.loaded && notify.loaded && circle.loaded
   }
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeComponent as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeComponent as any) as any)

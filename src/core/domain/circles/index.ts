@@ -1,7 +1,7 @@
-import {Circle} from './circle'
-import {UserFollower} from './userFollower'
+import { Circle } from './circle'
+import { UserTie } from './UserTie'
 
 export {
     Circle,
-    UserFollower
+    UserTie
 }

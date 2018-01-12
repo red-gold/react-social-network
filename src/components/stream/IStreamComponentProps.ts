@@ -67,11 +67,25 @@ export interface IStreamComponentProps {
   avatar?: string
 
   /**
+   * Load the data for stream
+   */
+  loadStream: (page: number, limit: number) => any
+
+  /**
+   * If there is more post {true} or not {false}
+   */
+  hasMorePosts: boolean
+
+  /**
    * Posts for stream
    *
    * @type {{[postId: string]: Post}}
    * @memberof IStreamComponentProps
    */
-  posts?: {[postId: string]: Post}
+  posts: {[postId: string]: Post}
 
+  /**
+   * Router match property
+   */
+  match: any
 }

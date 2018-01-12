@@ -7,7 +7,7 @@ export interface IFindPeopleComponentProps {
    *
    * @memberof IFindPeopleComponentProps
    */
-  loadPeople?: () => any
+  loadPeople?: (page: number, limit: number) => any
 
   /**
    * Users' profile
@@ -16,5 +16,10 @@ export interface IFindPeopleComponentProps {
    * @memberof IFindPeopleComponentProps
    */
   peopleInfo?: {[userId: string]: Profile}
+
+  /**
+   * If there are more people {true} or not {false}
+   */
+  hasMorePeople: boolean
 
 }

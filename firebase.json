@@ -1,9 +1,19 @@
 {
     "hosting": {
         "public": "public",
-        "rewrites": [{
-            "source": "**",
-            "destination": "/index.html"
-        }]
+        "rewrites": [
+            {
+                "source": "/bundle-v0.4.js",
+                "destination": "/bundle-v0.4.js"
+            },
+            {
+                "source": "/favicon.ico",
+                "destination": "/favicon.ico"
+            },
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
     }
 }

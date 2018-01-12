@@ -6,6 +6,8 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import Linkify from 'react-linkify'
 
+import { Comment } from 'core/domain/comments'
+
 // - Import material UI libraries
 import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
@@ -183,8 +185,10 @@ export class CommentComponent extends Component<ICommentComponentProps,ICommentC
    * @param  {event} evt is an event passed by clicking on post button
    */
   handleUpdateComment = (evt: any) => {
-
-    this.props.update(this.props.comment.id, this.props.comment.postId, this.state.text)
+    const {comment} = this.props
+    comment.editorStatus = undefined
+    comment.text = this.state.text
+    this.props.update(comment)
     this.setState({
       initialText: this.state.text
     })
@@ -302,13 +306,18 @@ export class CommentComponent extends Component<ICommentComponentProps,ICommentC
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapDispatchToProps = (dispatch: any, ownProps: any) => {
+const mapDispatchToProps = (dispatch: any, ownProps: ICommentComponentProps) => {
   return {
     delete: (id: string| null, postId: string) => dispatch(commentActions.dbDeleteComment(id, postId)),
-    update: (id: string, postId: string, comment: string) => dispatch(commentActions.dbUpdateComment(id, postId, comment)),
+    update: (comment: Comment) => {
+      console.log('====================================')
+      console.log(comment)
+      console.log('====================================')
+      dispatch(commentActions.dbUpdateComment(comment))
+    },
     openEditor: () => dispatch(commentActions.openCommentEditor({ id: ownProps.comment.id, postId: ownProps.comment.postId })),
     closeEditor: () => dispatch(commentActions.closeCommentEditor({ id: ownProps.comment.id, postId: ownProps.comment.postId })),
-    getUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(ownProps.comment.userId,''))
+    getUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(ownProps.comment.userId!,''))
   }
 }
 

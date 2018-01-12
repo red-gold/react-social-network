@@ -3,14 +3,6 @@ import { BaseDomain } from 'core/domain/common'
 export class Vote extends BaseDomain {
 
     /**
-     * Vote identifier
-     *
-     * @type {string}
-     * @memberof Vote
-     */
-  public id?: string | null
-
-    /**
      * Post identifire which vote on
      *
      * @type {string}

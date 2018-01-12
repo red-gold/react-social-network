@@ -1,4 +1,5 @@
 // - Import react components
+import { provider } from '../socialEngine'
 import _ from 'lodash'
 // - Import domain
 import { Profile } from 'core/domain/users'
@@ -11,11 +12,13 @@ import { UserActionType } from 'constants/userActionType'
 import * as globalActions from 'actions/globalActions'
 import * as userActions from 'actions/userActions'
 
-import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { IUserService } from 'core/services/users'
+import { SocialProviderTypes } from 'core/socialProviderTypes'
 
-const serviceProvider: IServiceProvider = new ServiceProvide()
-const userService: IUserService = serviceProvider.createUserService()
+/**
+ * Get service providers
+ */
+const userService: IUserService = provider.get<IUserService>(SocialProviderTypes.UserService)
 
 /* _____________ CRUD DB _____________ */
 
@@ -93,7 +96,7 @@ export const dbUpdateUserInfo = (newProfile: Profile) => {
     let uid: string = getState().authorize.uid
 
     let profile: Profile = getState().user.info[uid]
-    let updatedProfie: Profile = {
+    let updatedProfile: Profile = {
       avatar: newProfile.avatar || profile.avatar || '',
       banner: newProfile.banner || profile.banner || 'https://firebasestorage.googleapis.com/v0/b/open-social-33d92.appspot.com/o/images%2F751145a1-9488-46fd-a97e-04018665a6d3.JPG?alt=media&token=1a1d5e21-5101-450e-9054-ea4a20e06c57',
       email: newProfile.email || profile.email || '',
@@ -101,10 +104,9 @@ export const dbUpdateUserInfo = (newProfile: Profile) => {
       tagLine: newProfile.tagLine || profile.tagLine || '',
       creationDate: newProfile.creationDate
     }
+    return userService.updateUserProfile(uid,updatedProfile).then(() => {
 
-    return userService.updateUserProfile(uid,updatedProfie).then(() => {
-
-      dispatch(updateUserInfo(uid, updatedProfie))
+      dispatch(updateUserInfo(uid, updatedProfile))
       dispatch(closeEditProfile())
     })
     .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
@@ -114,17 +116,40 @@ export const dbUpdateUserInfo = (newProfile: Profile) => {
 }
 
 // - Get people info from database
-export const dbGetPeopleInfo = (page?: number) => {
+export const dbGetPeopleInfo = (page: number, limit: number) => {
   return (dispatch: any, getState: Function) => {
-    const {authorize, user} = getState()
-    let uid: string = authorize.uid
-    if (uid) {
-      const lastKey = ''
-      return userService.getUsersProfile(uid, lastKey)
-      .then((usersProfile: {[userId: string]: Profile}) => {
-        dispatch(addPeopleInfo(usersProfile))
+    const state = getState()
+    const {people} = state.user
+    const lastPageRequest = people.lastPageRequest
+    const lastUserId = people.lastUserId
+    const hasMoreData = people.hasMoreData
+
+    let uid: string = state.authorize.uid
+
+    if (uid && lastPageRequest !== page) {
+
+      return userService.getUsersProfile(uid, lastUserId, page, limit).then((result) => {
+
+        if (!result.users || !(result.users.length > 0)) {
+          return dispatch(notMoreDataPeople())
+        }
+        // Store last user Id
+        dispatch(lastUserPeople(result.newLastUserId))
+
+        let parsedData: {[userId: string]: Profile} = {}
+        result.users.forEach((post) => {
+          const userId = Object.keys(post)[0]
+          const postData = post[userId]
+          parsedData = {
+            ...parsedData,
+            [userId]: {
+              ...postData
+            }
+          }
+        })
+        dispatch(addPeopleInfo(parsedData))
       })
-      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+        .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
 
     }
   }
@@ -167,17 +192,6 @@ export const updateUserInfo = (uid: string, info: Profile) => {
   }
 }
 
-/**
- *  User info
- * @param {Profile} info
- */
-export const userInfo = (info: Profile) => {
-  return {
-    type: UserActionType.USER_INFO,
-    info
-  }
-}
-
 export const clearAllData = () => {
   return {
     type: UserActionType.CLEAR_ALL_DATA_USER
@@ -200,6 +214,48 @@ export const openEditProfile = () => {
 export const closeEditProfile = () => {
   return {
     type: UserActionType.CLOSE_EDIT_PROFILE
+  }
+
+}
+
+/**
+ * Set profile posts has more data to show
+ */
+export const hasMoreDataPeople = () => {
+  return {
+    type: UserActionType.HAS_MORE_DATA_PEOPLE
+  }
+
+}
+
+/**
+ * Set profile posts has not data any more to show
+ */
+export const notMoreDataPeople = () => {
+  return {
+    type: UserActionType.NOT_MORE_DATA_PEOPLE
+  }
+
+}
+
+/**
+ * Set last page request of profile posts
+ */
+export const requestPagePeople = (page: number) => {
+  return {
+    type: UserActionType.REQUEST_PAGE_PEOPLE,
+    payload: { page}
+  }
+
+}
+
+/**
+ * Set last user identification of find people page
+ */
+export const lastUserPeople = (lastUserId: string) => {
+  return {
+    type: UserActionType.LAST_USER_PEOPLE,
+    payload: { lastUserId}
   }
 
 }

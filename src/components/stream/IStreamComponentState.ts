@@ -1,3 +1,4 @@
+import { Post } from 'core/domain/posts'
 
 export interface IStreamComponentState {
 
@@ -34,7 +35,15 @@ export interface IStreamComponentState {
   divided: boolean
 
   /**
-   * The tile of top bar
+   * If there is more post to show
+   *
+   * @type {boolean}
+   * @memberof IStreamComponentState
+   */
+  hasMorePosts: boolean
+
+  /**
+   * The title of top bar
    *
    * @type {string}
    * @memberof IStreamComponentState

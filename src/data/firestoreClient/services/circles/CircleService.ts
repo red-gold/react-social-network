@@ -3,8 +3,9 @@ import { firebaseRef, firebaseAuth, db } from 'data/firestoreClient'
 
 import { SocialError } from 'core/domain/common'
 import { ICircleService } from 'core/services/circles'
-import { Circle, UserFollower } from 'core/domain/circles'
+import { Circle, UserTie } from 'core/domain/circles'
 import { User } from 'core/domain/users'
+import { injectable } from 'inversify'
 
 /**
  * Firbase circle service
@@ -13,12 +14,13 @@ import { User } from 'core/domain/users'
  * @class CircleService
  * @implements {ICircleService}
  */
+@injectable()
 export class CircleService implements ICircleService {
 
   public addCircle: (userId: string, circle: Circle)
     => Promise<string> = (userId, circle) => {
       return new Promise<string>((resolve,reject) => {
-        let circleRef = db.doc(`users/${userId}`).collection(`circles`).add(circle)
+        let circleRef = db.doc(`users/${userId}`).collection(`circles`).add({...circle})
         circleRef.then((result) => {
           resolve(result.id as string)
         })
@@ -27,43 +29,6 @@ export class CircleService implements ICircleService {
 
     }
 
-  public addFollowingUser: (userId: string, circleId: string, userCircle: User, userFollower: UserFollower, userFollowingId: string)
-    => Promise<void> = (userId, circleId, userCircle, userFollower, userFollowingId) => {
-      return new Promise<void>((resolve,reject) => {
-        const batch = db.batch()
-        const followerRef = db.doc(`users/${userId}/circles/${circleId}/users/${userFollowingId}`)
-        const followingRef = db.doc(`users/${userFollowingId}/circles/-Followers/users/${userId}`)
-
-        batch.update(followerRef, userCircle)
-        batch.update(followingRef, userFollower)
-        batch.commit().then(() => {
-          resolve()
-        })
-      .catch((error: any) => {
-        reject(new SocialError(error.code, error.message))
-      })
-
-      })
-    }
-  public deleteFollowingUser: (userId: string, circleId: string, userFollowingId: string)
-    => Promise<void> = (userId, circleId, userFollowingId) => {
-      return new Promise<void>((resolve,reject) => {
-
-        const batch = db.batch()
-        const followerRef = db.doc(`users/${userId}/circles/${circleId}/users/${userFollowingId}`)
-        const followingRef = db.doc(`users/${userFollowingId}/circles/-Followers/users/${userId}`)
-
-        batch.delete(followerRef)
-        batch.delete(followingRef)
-        batch.commit().then(() => {
-          resolve()
-        })
-        .catch((error: any) => {
-          reject(new SocialError(error.code, error.message))
-        })
-
-      })
-    }
   public updateCircle: (userId: string, circleId: string, circle: Circle)
     => Promise<void> = (userId, circleId, circle) => {
       return new Promise<void>((resolve,reject) => {
@@ -71,7 +36,7 @@ export class CircleService implements ICircleService {
         const batch = db.batch()
         const circleRef = db.doc(`users/${userId}/circles/${circleId}`)
 
-        batch.update(circleRef,circle)
+        batch.update(circleRef,{...circle})
         batch.commit().then(() => {
           resolve()
         })

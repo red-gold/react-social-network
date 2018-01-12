@@ -50,12 +50,12 @@ export interface IPostWriteComponentProps {
   /**
    * The post owner name
    */
-  ownerDisplayName: string
+  ownerDisplayName?: string
 
   /**
    * Post model
    */
-  postModel: Post
+  postModel?: Post
 
   /**
    * Save a post

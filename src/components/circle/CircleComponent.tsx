@@ -244,8 +244,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICircleComponentProps) => {
   return {
     deleteCircle: (id: string) => dispatch(circleActions.dbDeleteCircle(id)),
     updateCircle: (circle: Circle) => dispatch(circleActions.dbUpdateCircle(circle)),
-    closeCircleSettings: () => dispatch(circleActions.closeCircleSettings(uid, ownProps.id)),
-    openCircleSettings: () => dispatch(circleActions.openCircleSettings(uid, ownProps.id)),
+    closeCircleSettings: () => dispatch(circleActions.closeCircleSettings(ownProps.id)),
+    openCircleSettings: () => dispatch(circleActions.openCircleSettings(ownProps.id)),
     goTo: (url: string) => dispatch(push(url))
 
   }
@@ -258,9 +258,12 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICircleComponentProps) => {
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: ICircleComponentProps) => {
-  let { uid } = state.authorize
+  const {circle, authorize, server} = state
+  const { uid } = state.authorize
+  const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
+  const currentCircle = (circles ? circles[ownProps.id] : {}) as Circle
   return {
-    openSetting: state.circle ? (state.circle.userCircles[uid] ? (state.circle.userCircles[uid][ownProps.id].openCircleSettings || false) : false) : false,
+    openSetting: state.circle ? (currentCircle ? (currentCircle.openCircleSettings || false) : false) : false,
     userInfo: state.user.info
 
   }

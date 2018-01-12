@@ -1,12 +1,12 @@
-import { UserFollower } from 'core/domain/circles'
+import { UserTie } from 'core/domain/circles'
 
 export interface IFollowersComponentProps {
 
   /**
    * User followers info
    *
-   * @type {{[userId: string]: UserFollower}}
+   * @type {{[userId: string]: UserTie}}
    * @memberof IFindPeopleComponentProps
    */
-  followers?: {[userId: string]: UserFollower}
+  followers?: {[userId: string]: UserTie}
 }

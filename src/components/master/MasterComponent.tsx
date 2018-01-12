@@ -191,4 +191,4 @@ const mapStateToProps = (state: any) => {
 
 }
 // - Connect commponent to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MasterComponent as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MasterComponent as any) as any)

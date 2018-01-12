@@ -29,7 +29,6 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps,IHo
 
   styles = {
     toolbarStyle: {
-      backgroundColor: '',
       transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
       boxSizing: 'border-box',
       fontFamily: 'Roboto, sans-serif',
@@ -187,7 +186,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps,IHo
 
     return (
 
-      <Toolbar style={this.styles.toolbarStyle as any} className='g__greenBox'>
+      <Toolbar style={this.styles.toolbarStyle as any}>
         <EventListener
           target='window'
           onResize={this.handleResize}

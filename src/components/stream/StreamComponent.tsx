@@ -5,15 +5,18 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
-import { grey400, grey800, darkBlack, lightBlack } from 'material-ui/styles/colors'
+import { grey400, grey800, darkBlack, lightBlack,tealA400 } from 'material-ui/styles/colors'
+import CircularProgress from 'material-ui/CircularProgress'
 import SvgCamera from 'material-ui/svg-icons/image/photo-camera'
 import Paper from 'material-ui/Paper'
 import { List, ListItem } from 'material-ui/List'
+import InfiniteScroll from 'react-infinite-scroller'
 
 // - Import app components
 import PostComponent from 'components/post'
 import PostWriteComponent from 'components/postWrite'
 import UserAvatarComponent from 'components/userAvatar'
+import LoadMoreProgressComponent from 'layouts/loadMoreProgress'
 
 // - Import API
 import * as PostAPI from 'api/PostAPI'
@@ -23,6 +26,7 @@ import * as globalActions from 'actions/globalActions'
 
 import { IStreamComponentProps } from './IStreamComponentProps'
 import { IStreamComponentState } from './IStreamComponentState'
+import { Post } from 'core/domain/posts'
 
 // - Create StreamComponent component class
 export class StreamComponent extends Component<IStreamComponentProps,IStreamComponentState> {
@@ -82,7 +86,12 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
       /**
        * The title of home header
        */
-      homeTitle: props.homeTitle!
+      homeTitle: props.homeTitle!,
+
+      /**
+       * If there is more post to show {true} or not {false}
+       */
+      hasMorePosts: true
     }
 
     // Binding functions to `this`
@@ -115,13 +124,13 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
     })
   }
 
-  /**
-   * Create a list of posts
-   * @return {DOM} posts
-   */
+   /**
+    * Create a list of posts
+    * @return {DOM} posts
+    */
   postLoad = () => {
 
-    let { posts ,match }: any = this.props
+    let { posts ,match } = this.props
     let {tag} = match.params
     if (posts === undefined || !(Object.keys(posts).length > 0)) {
 
@@ -139,7 +148,7 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
       Object.keys(posts).forEach((postId) => {
         if (tag) {
           let regex = new RegExp('#' + tag,'g')
-          let postMatch = posts[postId].body.match(regex)
+          let postMatch = posts[postId].body!.match(regex)
           if (postMatch !== null) {
             parsedPosts.push({ ...posts[postId]})
           }
@@ -177,6 +186,14 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
 
   }
 
+  /**
+   * Scroll loader
+   */
+  scrollLoad = (page: number) => {
+    const {loadStream} = this.props
+    loadStream(page, 10)
+  }
+
   componentWillMount () {
     const {setHomeTitle} = this.props
     setHomeTitle!()
@@ -188,14 +205,18 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
    */
   render () {
 
-    let postList: any = this.postLoad()
-
-    const {tag, displayWriting } = this.props
+    const {tag, displayWriting, hasMorePosts } = this.props
+    const postList = this.postLoad() as {evenPostList: Post[], oddPostList: Post[], divided: boolean} | any
 
     return (
-      <div >
+      <InfiniteScroll
+      pageStart={0}
+      loadMore={this.scrollLoad}
+      hasMore={hasMorePosts}
+      useWindow={true}
+      loader={ <LoadMoreProgressComponent />}
+    >
         <div className='grid grid__gutters grid__1of2 grid__space-around animate-top'>
-
           <div className='grid-cell animate-top' style= {{maxWidth: '530px', minWidth: '280px'}}>
             {displayWriting && !tag
             ? (<PostWriteComponent open={this.state.openPostWrite} onRequestClose={this.handleClosePostWrite} edit={false} >
@@ -225,9 +246,10 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
               </div>
             </div>)
             : ''}
+
         </div>
 
-      </div>
+        </InfiniteScroll>
     )
   }
 }
@@ -254,6 +276,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IStreamComponentProps) => {
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IStreamComponentProps) => {
+  const {post} = state
   return {
     avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
     fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : ''
@@ -261,4 +284,4 @@ const mapStateToProps = (state: any, ownProps: IStreamComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StreamComponent as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StreamComponent as any) as any)

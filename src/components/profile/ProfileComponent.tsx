@@ -77,6 +77,7 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
         border: '2px solid rgb(255, 255, 255)'
       }
     }
+    const {loadPosts, hasMorePosts} = this.props
 
     return (
       <div style={styles.profile}>
@@ -91,7 +92,11 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
                </div>
           <div style={{ height: '24px' }}></div>
 
-          <StreamComponent posts={this.props.posts} displayWriting={false} />
+          <StreamComponent
+          posts={this.props.posts}
+          loadStream={loadPosts}
+          hasMorePosts={hasMorePosts}
+          displayWriting={false} />
         </div>)
         : (<div className='profile__title'>
                 Nothing shared
@@ -127,6 +132,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IProfileComponentProps) => 
 const mapStateToProps = (state: any, ownProps: IProfileComponentProps) => {
   const { userId } = ownProps.match.params
   const {uid} = state.authorize
+  const hasMorePosts = state.post.profile.hasMoreData
   return {
     avatar: state.user.info && state.user.info[userId] ? state.user.info[userId].avatar || '' : '',
     name: state.user.info && state.user.info[userId] ? state.user.info[userId].fullName || '' : '',
@@ -134,7 +140,8 @@ const mapStateToProps = (state: any, ownProps: IProfileComponentProps) => {
     tagLine: state.user.info && state.user.info[userId] ? state.user.info[userId].tagLine || '' : '',
     posts: state.post.userPosts ? state.post.userPosts[userId] : {},
     isAuthedUser: userId === uid,
-    userId
+    userId,
+    hasMorePosts
 
   }
 }

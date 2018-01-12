@@ -7,6 +7,7 @@ import { cyan500 } from 'material-ui/styles/colors'
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import 'reflect-metadata'
 
 import { Provider } from 'react-redux'
 import store, { history } from 'store/configureStore'
@@ -20,7 +21,6 @@ import Master from 'components/master'
 // tslint:disable-next-line:no-empty
 store.subscribe(() => { })
 
-
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 try { injectTapEventPlugin() } catch (e) { }
@@ -29,23 +29,42 @@ try { injectTapEventPlugin() } catch (e) { }
 // and then update the keys for each component that depends on it.
 // More on Colors: http://www.material-ui.com/#/customization/colors
 const muiTheme = getMuiTheme({
-
+  palette: {
+    primary1Color: 'rgb(199, 212, 0)'
+  },
+  // raisedButton: {
+  //   primaryColor: 'rgb(199, 212, 0)' // Raised button background color
+  // },
+  // flatButton: {
+  //   primaryTextColor: 'rgb(199, 212, 0)' // Flat button background color
+  // },
+  // tabs: {
+  //   backgroundColor: 'rgb(199, 212, 0)' // Tabs backgound color
+  // },
+  toolbar: {
+	  backgroundColor: '#6d9828' // Backgroung color of header in toolbar
+  }
 })
 
 // App css
 import 'applicationStyles'
+
+/**
+ * Execute startup functions
+ */
+import './socialEngine'
+
 const supportsHistory = 'pushState' in window.history
 const render = (Component: any) => {
 	 ReactDOM.render(
 		<AppContainer warnings={false}>
 			<Provider store={store}>
 				<ConnectedRouter history={history}>
-					<MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
+					<MuiThemeProvider muiTheme={muiTheme}>
 						<Component />
 					</MuiThemeProvider>
 				</ConnectedRouter>
 			</Provider>
-
 		</AppContainer>,
 		document.getElementById('app')
 	)

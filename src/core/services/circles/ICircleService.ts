@@ -1,5 +1,5 @@
 import { User } from 'core/domain/users'
-import { Circle, UserFollower } from 'core/domain/circles'
+import { Circle, UserTie } from 'core/domain/circles'
 
 /**
  * Circle service interface
@@ -10,8 +10,6 @@ import { Circle, UserFollower } from 'core/domain/circles'
 export interface ICircleService {
 
   addCircle: (userId: string, circle: Circle) => Promise<string>
-  addFollowingUser: (userId: string, circleId: string, userCircle: User, userFollower: UserFollower, userFollowingId: string) => Promise<void>
-  deleteFollowingUser: (userId: string, circleId: string,userFollowingId: string) => Promise<void>
   updateCircle: (userId: string, circleId: string, circle: Circle) => Promise<void>
   deleteCircle: (userId: string, circleId: string) => Promise<void>
   getCircles: (userId: string) => Promise<{ [circleId: string]: Circle }>

@@ -6,15 +6,15 @@
  */
 export class GlobalState {
 
-      /**
-       * Set percent of loading progress and visibility for Master component
-       *
-       * @type {{
-       *     percent: number,
-       *     visible: Boolean
-       *   }}
-       * @memberof IGlobalState
-       */
+  /**
+   * Set percent of loading progress and visibility for Master component
+   *
+   * @type {{
+   *     percent: number,
+   *     visible: Boolean
+   *   }}
+   * @memberof IGlobalState
+   */
   progress: {
     percent: number
     visible: Boolean

@@ -10,6 +10,7 @@ import { SocialError } from 'core/domain/common'
 
 import { OAuthType } from 'core/domain/authorize/oauthType'
 import moment from 'moment'
+import { injectable } from 'inversify'
 /**
  * Firbase authorize service
  *
@@ -17,6 +18,7 @@ import moment from 'moment'
  * @class AuthorizeService
  * @implements {IAuthorizeService}
  */
+@injectable()
 export class AuthorizeService implements IAuthorizeService {
 
     /**
@@ -215,6 +217,8 @@ export class AuthorizeService implements IAuthorizeService {
     return new Promise<RegisterUserResult>((resolve,reject) => {
       db.doc(`userInfo/${userId}`).set(
         {
+          id: userId,
+          state: 'active',
           avatar,
           fullName,
           creationDate: moment().unix(),

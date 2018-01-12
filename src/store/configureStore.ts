@@ -11,6 +11,7 @@ import {
   postReducer,
   commentReducer,
   voteReducer,
+  serverReducer,
   authorizeReducer,
   globalReducer,
   userReducer,
@@ -34,12 +35,13 @@ let reducer = redux.combineReducers({
   circle: circleReducer,
   comment: commentReducer,
   vote: voteReducer,
+  server: serverReducer,
   authorize: authorizeReducer,
   router: routerReducer,
   user: userReducer,
   notify: notificationReducer,
   global: globalReducer
-})
+} as any)
 
 // - initial state
 let initialState = {
@@ -47,7 +49,7 @@ let initialState = {
 }
 
 // - Config and create store of redux
-let store: redux.Store<{}> = redux.createStore(reducer, initialState, redux.compose(
+let store: redux.Store<any> = redux.createStore(reducer, initialState, redux.compose(
   redux.applyMiddleware(logger,thunk,middleware),
   (window as any).devToolsExtension ? (window as any).devToolsExtension() : (f: any) => f
 ))

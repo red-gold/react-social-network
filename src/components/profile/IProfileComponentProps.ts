@@ -79,4 +79,9 @@ export interface IProfileComponentProps {
    * @memberof IProfileComponentProps
    */
   loadUserInfo: () => any
+
+  /**
+   * If there is more posts to show in profile
+   */
+  hasMorePosts: boolean
 }

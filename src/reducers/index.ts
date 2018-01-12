@@ -7,8 +7,9 @@ import { notificationReducer } from './notifications'
 import { postReducer } from './posts'
 import { userReducer } from './users'
 import { voteReducer } from './votes'
+import { serverReducer } from './server'
 
-export{
+export {
     authorizeReducer,
     circleReducer,
     commentReducer,
@@ -17,5 +18,6 @@ export{
     notificationReducer,
     postReducer,
     userReducer,
-    voteReducer
+    voteReducer,
+    serverReducer
 }
