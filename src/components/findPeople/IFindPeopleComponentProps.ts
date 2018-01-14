@@ -20,6 +20,6 @@ export interface IFindPeopleComponentProps {
   /**
    * If there are more people {true} or not {false}
    */
-  hasMorePeople: boolean
+  hasMorePeople?: boolean
 
 }

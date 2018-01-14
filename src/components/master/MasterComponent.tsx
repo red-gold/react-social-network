@@ -10,6 +10,7 @@ import LinearProgress from 'material-ui/LinearProgress'
 // - Import components
 
 import MasterLoading from 'components/masterLoading'
+import SendFeedback from 'components/sendFeedback'
 import MasterRouter from 'routes/MasterRouter'
 import { IMasterComponentProps } from './IMasterComponentProps'
 import { IMasterComponentState } from './IMasterComponentState'
@@ -79,9 +80,20 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
   componentDidMount () {
 
     this._authourizeService.onAuthStateChanged((isVerifide: boolean, user: any) => {
-      const {global, clearData, loadDataGuest, defaultDataDisable, defaultDataEnable, login, logout } = this.props
+      const {
+        global,
+        clearData,
+        loadDataGuest,
+        defaultDataDisable,
+        defaultDataEnable,
+        login,
+        logout,
+        showMasterLoading,
+        hideMasterLoading
+      } = this.props
       if (user) {
         login(user.uid,isVerifide)
+        hideMasterLoading!()
         this.setState({
           loading: false,
           isVerifide: true
@@ -89,6 +101,7 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
 
       } else {
         logout()
+        hideMasterLoading!()
         this.setState({
           loading: false,
           isVerifide: false
@@ -117,14 +130,14 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
 
     return (
       <div id='master'>
-
+        <SendFeedback />
         <div className='master__progress' style={{ display: (progress.visible ? 'block' : 'none') }}>
           <LinearProgress mode='determinate' value={progress.percent} />
         </div>
         <div className='master__loading animate-fading2' style={{ display: (global.showTopLoading ? 'flex' : 'none') }}>
           <div className='title'>Loading ... </div>
         </div>
-        <MasterLoading activeLoading={loading} handleLoading={this.handleLoading} />
+        <MasterLoading activeLoading={global.showMasterLoading} handleLoading={this.handleLoading} />
       <MasterRouter enabled={!loading} data={{uid}} />
         <Snackbar
           open={this.props.global.messageOpen}
@@ -170,7 +183,9 @@ const mapDispatchToProps = (dispatch: any, ownProps: IMasterComponentProps) => {
     },
     loadDataGuest: () => {
       dispatch(globalActions.loadDataGuest())
-    }
+    },
+    showMasterLoading: () => dispatch(globalActions.showMasterLoading()),
+    hideMasterLoading: () => dispatch(globalActions.hideMasterLoading())
   }
 
 }

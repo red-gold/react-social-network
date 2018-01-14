@@ -6,101 +6,122 @@
  */
 export class GlobalState {
 
-  /**
-   * Set percent of loading progress and visibility for Master component
-   *
-   * @type {{
-   *     percent: number,
-   *     visible: Boolean
-   *   }}
-   * @memberof IGlobalState
-   */
+ /**
+  * Set percent of loading progress and visibility for Master component
+  *
+  * @type {{
+  *     percent: number,
+  *     visible: boolean
+  *   }}
+  * @memberof IGlobalState
+  */
   progress: {
     percent: number
-    visible: Boolean
+    visible: boolean
   } = {
     percent: 0,
     visible: false
   }
 
-      /**
-       * If loading is enabled {true} or not false
-       *
-       * @type {Boolean}
-       * @memberof IGlobalState
-       */
-  loadingStatus: Boolean = true
+ /**
+  * If loading is enabled {true} or not false
+  *
+  * @type {boolean}
+  * @memberof IGlobalState
+  */
+  loadingStatus: boolean = true
 
-      /**
-       * If user date is loaded {true} or not {false}
-       *
-       * @type {Boolean}
-       * @memberof IGlobalState
-       */
-  defaultLoadDataStatus: Boolean = false
+ /**
+  * Whether send feedback is diplayed
+  */
+  sendFeedbackStatus: boolean = false
 
-      /**
-       * If message popup is open {true} or not {false}
-       *
-       * @type {Boolean}
-       * @memberof IGlobalState
-       */
-  messageOpen: Boolean = false
+ /**
+  * If user date is loaded {true} or not {false}
+  *
+  * @type {boolean}
+  * @memberof IGlobalState
+  */
+  defaultLoadDataStatus: boolean = false
 
-      /**
-       * The text of popup global message
-       *
-       * @type {string}
-       * @memberof IGlobalState
-       */
+ /**
+  * If message popup is open {true} or not {false}
+  *
+  * @type {boolean}
+  * @memberof IGlobalState
+  */
+  messageOpen: boolean = false
+
+ /**
+  * The text of popup global message
+  *
+  * @type {string}
+  * @memberof IGlobalState
+  */
   message: string = ''
 
-      /**
-       * Window size
-       *
-       * @type {number}
-       * @memberof IGlobalState
-       */
+ /**
+  * Window size
+  *
+  * @type {number}
+  * @memberof IGlobalState
+  */
   windowWidth: number = 0
 
-      /**
-       * Window height
-       *
-       * @type {number}
-       * @memberof IGlobalState
-       */
+ /**
+  * Window height
+  *
+  * @type {number}
+  * @memberof IGlobalState
+  */
   windowHeight: number = 0
 
-      /**
-       * The text of website header
-       *
-       * @type {string}
-       * @memberof IGlobalState
-       */
+ /**
+  * The text of website header
+  *
+  * @type {string}
+  * @memberof IGlobalState
+  */
   headerTitle: string = ''
 
-      /**
-       * Top loading is visible {true} or not {false}
-       *
-       * @type {Boolean}
-       * @memberof IGlobalState
-       */
-  showTopLoading: Boolean = false
+ /**
+  * Top loading is visible {true} or not {false}
+  *
+  * @type {boolean}
+  * @memberof IGlobalState
+  */
+  showTopLoading: boolean = false
 
-      /**
-       * Top loading message queue
-       *
-       * @type {number}
-       * @memberof IGlobalState
-       */
+ /**
+  * Top loading message queue
+  *
+  * @type {number}
+  * @memberof IGlobalState
+  */
   topLoadingQueue: number = 0
 
-      /**
-       * Temp date storage
-       *
-       * @type {*}
-       * @memberof IGlobalState
-       */
+ /**
+  * Master loading is visible {true} or not {false}
+  *
+  * @type {boolean}
+  * @memberof IGlobalState
+  */
+  showMasterLoading: boolean = true
+
+ /**
+  * Master loading message queue
+  *
+  * @type {number}
+  * @memberof IGlobalState
+  */
+  masterLoadingQueue: number = 0
+
+ /**
+  * Temp date storage
+  *
+  * @type {*}
+  * @memberof IGlobalState
+  */
   temp: any = {
     caller: []
   }

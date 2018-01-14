@@ -29,7 +29,7 @@ import * as circleActions from 'actions/circleActions'
 
 import { ICircleComponentProps } from './ICircleComponentProps'
 import { ICircleComponentState } from './ICircleComponentState'
-import { Circle } from 'core/domain/circles'
+import { Circle, UserTie } from 'core/domain/circles'
 import { Profile } from 'core/domain/users/profile'
 
 /**
@@ -135,21 +135,21 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
   }
 
   userList = () => {
-    const { users } = this.props.circle
-    const { userInfo } = this.props
+    const { usersOfCircle } = this.props
     let usersParsed: any = []
 
-    if (users) {
-      Object.keys(users).forEach((key, index) => {
-        const { fullName } = users[key]
-        let avatar = userInfo && userInfo[key] ? userInfo[key].avatar || '' : ''
+    if (usersOfCircle) {
+      console.trace('usersOfCircle',usersOfCircle)
+      Object.keys(usersOfCircle).forEach((userId, index) => {
+        const { fullName } = usersOfCircle[userId]
+        let avatar = usersOfCircle && usersOfCircle[userId] ? usersOfCircle[userId].avatar || '' : ''
         usersParsed.push(<ListItem
-          key={`${this.props.id}.${key}`}
+          key={`${this.props.id}.${userId}`}
           style={this.styles.userListItem as any}
           value={2}
           primaryText={fullName}
-          leftAvatar={<UserAvatar fullName={fullName} fileName={avatar as any} />}
-          onClick={() => this.props.goTo!(`/${key}`)}
+          leftAvatar={<UserAvatar fullName={fullName!} fileName={avatar} />}
+          onClick={() => this.props.goTo!(`/${userId}`)}
         />)
 
       })
@@ -176,6 +176,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
    */
   render () {
 
+    const {circle} = this.props
     const circleTitle = (
       <div>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -203,7 +204,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           style={{ backgroundColor: '#fff', borderBottom: '1px solid rgba(0,0,0,0.12)', height: '72px', padding: '12px 0' }}
           primaryText={<span style={{ color: 'rgba(0,0,0,0.87)', fontSize: '16px', marginRight: '8px', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{this.props.circle.name}</span>}
           leftIcon={<SvgGroup style={{ width: '40px', height: '40px', transform: 'translate(0px, -9px)', fill: '#bdbdbd' }} />}
-          rightIconButton={this.rightIconMenu}
+          rightIconButton={!circle.isSystem ? this.rightIconMenu : null}
           initiallyOpen={false}
           onClick={this.handleToggleCircle}
           open={this.state.open}
@@ -259,10 +260,23 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICircleComponentProps) => {
  */
 const mapStateToProps = (state: any, ownProps: ICircleComponentProps) => {
   const {circle, authorize, server} = state
+  const {userTies} = circle
   const { uid } = state.authorize
   const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
   const currentCircle = (circles ? circles[ownProps.id] : {}) as Circle
+
+  let usersOfCircle: {[userId: string]: UserTie} = {}
+  Object.keys(userTies).forEach((userTieId) => {
+    const theUserTie = userTies[userTieId] as UserTie
+    if (theUserTie.circleIdList!.indexOf(ownProps.id) > -1) {
+      usersOfCircle = {
+        ...usersOfCircle,
+        [userTieId]: theUserTie
+      }
+    }
+  })
   return {
+    usersOfCircle,
     openSetting: state.circle ? (currentCircle ? (currentCircle.openCircleSettings || false) : false) : false,
     userInfo: state.user.info
 

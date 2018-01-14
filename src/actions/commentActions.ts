@@ -97,7 +97,7 @@ export const dbGetComments = (ownerUserId: string, postId: string) => {
         }
 
         const desiredComments = comments[postId]
-        if (desiredComments && Object.keys(desiredComments).length > 0) {
+        if (desiredComments) {
           commentsCount = Object.keys(desiredComments).length
           let sortedObjects = desiredComments as any
           // Sort posts with creation date

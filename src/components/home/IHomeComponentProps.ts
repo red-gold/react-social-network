@@ -98,4 +98,14 @@ export interface IHomeComponentProps {
    */
   loaded?: boolean
 
+  /**
+   * Show send feedback form
+   */
+  showSendFeedback: () => any
+
+  /**
+   * Hide send feedback form
+   */
+  hideSendFeedback: () => any
+
 }

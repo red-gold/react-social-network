@@ -1,6 +1,8 @@
 export enum ServerRequestType {
     CircleAddToCircle = 'CircleAddToCircle',
     CircleFollowUser = 'CircleFollowUser',
-    CircleCreateTieUser = 'CircleCreateTieUser'
+    CircleCreateTieUser = 'CircleCreateTieUser',
+    CircleDeleteFollowingUser = 'CircleDeleteFollowingUser',
+    CommonSendFeedback = 'CommonSendFeedback'
 
 }

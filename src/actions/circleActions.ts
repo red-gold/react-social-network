@@ -14,12 +14,17 @@ import * as globalActions from 'actions/globalActions'
 import * as postActions from 'actions/postActions'
 import * as userActions from 'actions/userActions'
 import * as notifyActions from 'actions/notifyActions'
+import * as serverActions from 'actions/serverActions'
 
 import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { ICircleService } from 'core/services/circles'
 import { SocialProviderTypes } from 'core/socialProviderTypes'
 import { provider } from '../socialEngine'
 import { IUserTieService } from 'core/services/circles'
+import StringAPI from 'api/StringAPI'
+import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
+import { ServerRequestType } from 'constants/serverRequestType'
+import { ServerRequestModel } from 'models/server/serverRequestModel'
 
 /**
  * Get service providers
@@ -39,7 +44,9 @@ export let dbAddCircle = (circleName: string) => {
     let uid: string = getState().authorize.uid
     let circle: Circle = {
       creationDate: moment().unix(),
-      name: circleName
+      name: circleName,
+      isSystem : false,
+      ownerId: uid
     }
     return circleService.addCircle(uid, circle).then((circleKey: string) => {
       circle.id = circleKey
@@ -52,6 +59,60 @@ export let dbAddCircle = (circleName: string) => {
 }
 
 /**
+ * Add referer user to the `Following` circle of current user
+ */
+export const dbFollowUser = (followingCircleId: string, userFollowing: UserTie) => {
+  return (dispatch: Function, getState: Function) => {
+    const state = getState()
+    let uid: string = state.authorize.uid
+    let user: User = { ...state.user.info[uid], userId: uid }
+
+    // Set server request status to {Sent} for following user
+    const followReqestModel = createFollowRequest(userFollowing.userId!)
+    dispatch(serverActions.sendRequest(followReqestModel))
+
+    // Call server API
+    return userTieService.tieUseres(
+      { userId: user.userId!, fullName: user.fullName, avatar: user.avatar, approved: false },
+      { userId: userFollowing.userId!, fullName: userFollowing.fullName, avatar: userFollowing.avatar, approved: false },
+      [followingCircleId]
+    )
+      .then(() => {
+        dispatch(addFollowingUser(
+          new UserTie(
+            userFollowing.userId!,
+            moment().unix(),
+            userFollowing.fullName,
+            userFollowing.avatar,
+            false,
+            [followingCircleId]
+        )))
+
+        // Set server request status to {OK} for following user
+        followReqestModel.status = ServerRequestStatusType.OK
+        dispatch(serverActions.sendRequest(followReqestModel))
+
+        // Send notification
+        dispatch(notifyActions.dbAddNotification(
+          {
+            description: `${user.fullName} follow you.`,
+            url: `/${uid}`,
+            notifyRecieverUserId: userFollowing.userId as string,
+            notifierUserId: uid,
+            isSeen: false
+          }))
+
+      }, (error: SocialError) => {
+        dispatch(globalActions.showErrorMessage(error.message))
+
+        // Set server request status to {Error} for following user
+        followReqestModel.status = ServerRequestStatusType.Error
+        dispatch(serverActions.sendRequest(followReqestModel))
+      })
+  }
+}
+
+/**
  * Update user in circle/circles
  */
 export let dbUpdateUserInCircles = (circleIdList: string[], userFollowing: UserTie) => {
@@ -60,7 +121,14 @@ export let dbUpdateUserInCircles = (circleIdList: string[], userFollowing: UserT
     let uid: string = state.authorize.uid
     let user: User = { ...state.user.info[uid], userId: uid }
 
-    return userTieService.tieUseres(
+    // Set server request status to {Sent}
+    const addToCircleRequest = createAddToCircleRequest(userFollowing.userId!)
+    dispatch(serverActions.sendRequest(addToCircleRequest))
+
+    dispatch(globalActions.showMasterLoading())
+
+    // Call server API
+    return userTieService.updateUsersTie(
       { userId: user.userId!, fullName: user.fullName, avatar: user.avatar, approved: false },
       { userId: userFollowing.userId!, fullName: userFollowing.fullName, avatar: userFollowing.avatar, approved: false },
       circleIdList
@@ -76,17 +144,23 @@ export let dbUpdateUserInCircles = (circleIdList: string[], userFollowing: UserT
             circleIdList
         )))
 
-        dispatch(notifyActions.dbAddNotification(
-          {
-            description: `${user.fullName} follow you.`,
-            url: `/${uid}`,
-            notifyRecieverUserId: userFollowing.userId as string,
-            notifierUserId: uid,
-            isSeen: false
-          }))
+        // Set server request status to {OK}
+        addToCircleRequest.status = ServerRequestStatusType.OK
+        dispatch(serverActions.sendRequest(addToCircleRequest))
+
+        dispatch(globalActions.hideMasterLoading())
+
+        // Close select circle box
+        dispatch(closeSelectCircleBox(userFollowing.userId!))
 
       }, (error: SocialError) => {
         dispatch(globalActions.showErrorMessage(error.message))
+
+        dispatch(globalActions.hideMasterLoading())
+
+        // Set server request status to {Error}
+        addToCircleRequest.status = ServerRequestStatusType.Error
+        dispatch(serverActions.sendRequest(addToCircleRequest))
       })
   }
 }
@@ -99,11 +173,36 @@ export let dbDeleteFollowingUser = (userFollowingId: string) => {
 
     let uid: string = getState().authorize.uid
 
+    // Set server request status to {Sent}
+    const deleteFollowingUserRequest = createdeleteFollowingUserRequest(userFollowingId)
+    dispatch(serverActions.sendRequest(deleteFollowingUserRequest))
+
+    dispatch(globalActions.showMasterLoading())
+
+    // Call server API
     return userTieService.removeUsersTie(uid, userFollowingId)
       .then(() => {
         dispatch(deleteFollowingUser(userFollowingId))
+
+        dispatch(globalActions.hideMasterLoading())
+
+        // Close select circle box
+        dispatch(closeSelectCircleBox(userFollowingId))
+
+        // Set server request status to {OK}
+        deleteFollowingUserRequest.status = ServerRequestStatusType.OK
+        dispatch(serverActions.sendRequest(deleteFollowingUserRequest))
       }, (error: SocialError) => {
         dispatch(globalActions.showErrorMessage(error.message))
+
+        dispatch(globalActions.hideMasterLoading())
+
+        // Close select circle box
+        dispatch(closeSelectCircleBox(userFollowingId))
+
+        // Set server request status to {Error}
+        deleteFollowingUserRequest.status = ServerRequestStatusType.Error
+        dispatch(serverActions.sendRequest(deleteFollowingUserRequest))
       })
   }
 }
@@ -120,7 +219,8 @@ export const dbUpdateCircle = (newCircle: Circle) => {
     // Write the new data simultaneously in the list
     let circle: Circle = getState().circle.userTies[uid][newCircle.id!]
     let updatedCircle: Circle = {
-      name: newCircle.name || circle.name
+      name: newCircle.name || circle.name,
+      isSystem : false
     }
     return circleService.updateCircle(uid, newCircle.id!, circle)
       .then(() => {
@@ -198,10 +298,10 @@ export const dbGetFollowers = () => {
   return (dispatch: any, getState: Function) => {
     let uid: string = getState().authorize.uid
     if (uid) {
-      userTieService.getUserTies(uid).then((result) => {
+      userTieService.getUserTieSender(uid).then((result) => {
 
         dispatch(userActions.addPeopleInfo(result as any))
-        dispatch(addUserTies(result))
+        dispatch(addUserTieds(result))
 
       })
         .catch((error: SocialError) => {
@@ -228,6 +328,45 @@ export const dbGetCirclesByUserId = (uid: string) => {
         })
     }
   }
+}
+
+/**
+ * Create follow user serevr request model
+ */
+const createFollowRequest = (userFollowingId: string) => {
+  const requestId = StringAPI.createServerRequestId(ServerRequestType.CircleFollowUser, userFollowingId)
+  return new ServerRequestModel(
+    ServerRequestType.CircleFollowUser,
+    requestId,
+    '',
+    ServerRequestStatusType.Sent
+    )
+}
+
+/**
+ * Create add referer user to circle serevr request model
+ */
+const createAddToCircleRequest = (userFollowingId: string) => {
+  const requestId = StringAPI.createServerRequestId(ServerRequestType.CircleAddToCircle, userFollowingId)
+  return new ServerRequestModel(
+    ServerRequestType.CircleAddToCircle,
+    requestId,
+    '',
+    ServerRequestStatusType.Sent
+    )
+}
+
+/**
+ * Create delete referer user serevr request model
+ */
+const createdeleteFollowingUserRequest = (userFollowingId: string) => {
+  const requestId = StringAPI.createServerRequestId(ServerRequestType.CircleDeleteFollowingUser, userFollowingId)
+  return new ServerRequestModel(
+    ServerRequestType.CircleDeleteFollowingUser,
+    requestId,
+    '',
+    ServerRequestStatusType.Sent
+    )
 }
 
 /* _____________ CRUD State _____________ */
@@ -392,6 +531,49 @@ export const showFollowingUserLoading = (userId: string) => {
   return {
     type: CircleActionType.SHOW_FOLLOWING_USER_LOADING,
     payload: { userId }
+  }
+
+}
+
+/**
+ * Set current user selected circles for referer user
+ */
+export const setSelectedCircles = (userId: string, circleList: string[]) => {
+  return {
+    type: CircleActionType.SET_SELECTED_CIRCLES_USER_BOX_COMPONENT,
+    payload: { userId, circleList }
+  }
+
+}
+
+/**
+ * Remove current user selected circles for referer user
+ */
+export const removeSelectedCircles = (userId: string) => {
+  return {
+    type: CircleActionType.REMOVE_SELECTED_CIRCLES_USER_BOX_COMPONENT,
+    payload: { userId }
+  }
+}
+
+/**
+ * Open select circle box
+ */
+export const openSelectCircleBox = (userId: string) => {
+  return {
+    type: CircleActionType.OPEN_SELECT_CIRCLES_USER_BOX_COMPONENT,
+    payload: { userId}
+  }
+
+}
+
+/**
+ * Close select circle box
+ */
+export const closeSelectCircleBox = (userId: string) => {
+  return {
+    type: CircleActionType.CLOSE_SELECT_CIRCLES_USER_BOX_COMPONENT,
+    payload: { userId}
   }
 
 }

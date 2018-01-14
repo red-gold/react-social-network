@@ -28,7 +28,7 @@ export let serverReducer = (state: ServerState = new ServerState(), action: ISer
         request: {
           ...state.request,
           [request.id]: {
-            request
+            ...request
           }
         }
       }

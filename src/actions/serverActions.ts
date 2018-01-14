@@ -15,7 +15,7 @@ import { SocialError } from 'core/domain/common/socialError'
  * @param {Request} request
  */
 export const sendRequest = (request: ServerRequestModel) => {
-  return { type: ServerActionType.ADD_REQUEST, payload: request }
+  return { type: ServerActionType.ADD_REQUEST, payload: {request} }
 
 }
 

@@ -75,9 +75,13 @@ export let circleReducer = (state: CircleState = new CircleState(), action: ICir
         ...state,
         userTies: {
           ...state.userTies,
-          [payload.userTie.user.userId]: {
+          [payload.userTie.userId]: {
             ...payload.userTie
           }
+        },
+        selectedCircles: {
+          ...state.selectedCircles,
+          [payload.userTie.userId]: payload.userTie.circleIdList
         }
       }
 
@@ -98,7 +102,8 @@ export let circleReducer = (state: CircleState = new CircleState(), action: ICir
         userTies: {
           ...state.userTies,
           ...payload.userTies
-        }
+        },
+        selectedCircles : getSelectedCircles(payload.userTies)
       }
 
     case CircleActionType.ADD_USER_TIED_LIST:
@@ -139,9 +144,9 @@ export let circleReducer = (state: CircleState = new CircleState(), action: ICir
       return {
         ...state,
         userTies: {
-          ...state.userTies,
           ...filteredUserTies
-        }
+        },
+        selectedCircles : getSelectedCircles(filteredUserTies)
       }
 
 /**
@@ -208,8 +213,65 @@ export let circleReducer = (state: CircleState = new CircleState(), action: ICir
         }
       }
 
+      /**
+       * User box component
+       */
+    case CircleActionType.SET_SELECTED_CIRCLES_USER_BOX_COMPONENT:
+      return {
+        ...state,
+        selectedCircles: {
+          ...state.selectedCircles,
+          [payload.userId]: payload.circleList
+        }
+      }
+      /**
+       * User box component
+       */
+    case CircleActionType.REMOVE_SELECTED_CIRCLES_USER_BOX_COMPONENT:
+      return {
+        ...state,
+        selectedCircles: {
+          ...state.selectedCircles,
+          [payload.userId]: []
+        }
+      }
+      /**
+       * User box component
+       */
+    case CircleActionType.OPEN_SELECT_CIRCLES_USER_BOX_COMPONENT:
+      return {
+        ...state,
+        openSelecteCircles: {
+          ...state.openSelecteCircles,
+          [payload.userId]: true
+        }
+      }
+    case CircleActionType.CLOSE_SELECT_CIRCLES_USER_BOX_COMPONENT:
+      return {
+        ...state,
+        openSelecteCircles: {
+          ...state.openSelecteCircles,
+          [payload.userId]: false
+        }
+      }
     default:
       return state
 
   }
+}
+
+/**
+ * Map user ties selected to selected circles
+ */
+const getSelectedCircles = (userTies: {[userId: string]: UserTie }) => {
+  let selectedCircles: {[userId: string]: string[]} = {}
+  Object.keys(userTies).forEach((userId: string) => {
+    const userTie = (userTies as {[userId: string]: UserTie })[userId]
+    selectedCircles = {
+      ...selectedCircles,
+      [userTie.userId!]: userTie.circleIdList!
+    }
+  })
+
+  return selectedCircles
 }

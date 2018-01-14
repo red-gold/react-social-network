@@ -1,4 +1,5 @@
 import { User } from 'core/domain/users'
+import { Feed } from 'core/domain/common';
 
 /**
  * Common service interface
@@ -8,4 +9,8 @@ import { User } from 'core/domain/users'
  */
 export interface ICommonService {
 
+  /**
+   * Post feedback
+   */
+  addFeed: (feed: Feed) => Promise<string>
 }

@@ -6,12 +6,13 @@
 </p>
 <!-- Name -->
 <h1 align="center">
-  <a href="https://github.com/Qolzam/react-social-network">React Social Network</a>
+  <a href="https://github.com/Qolzam/react-social-network">React Social Network </a>:rocket:<span style="font-variant-caps: petite-caps;font-size: 30px;font-weight: 100;"> Version NEXT! </span>:rocket:
 </h1>
 
 [![Gitter](https://badges.gitter.im/react-social-network/Lobby.svg)](https://gitter.im/react-social-network/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-The React Social Network is an open source project relying on [React](https://facebook.github.io/react/docs/hello-world.html) a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network.
+The React Social Network is an open source project relying on [React](https://facebook.github.io/react/docs/hello-world.html) a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network. 
+The structure of this project give the ability to devoloper to develop their project on thier own idea and environment.
 
 <p align="center">
   <a href="http://greensocial.herokuapp.com/">
@@ -27,9 +28,9 @@ For those who prefer writing code by typescript, now React Social Network suppor
 This project adheres to the Contributor Covenant [code of conduct](https://github.com/Qolzam/react-social-network/blob/master/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report unacceptable behavior to amir.gholzam@live.com.
 
-## DEMO
+## Example
 
-  [Green Open Social](http://greensocial.herokuapp.com)
+  [Love Open Social](https://love-social.firebaseapp.com)
 
 ## Required Knowledge
 
@@ -39,44 +40,37 @@ I recommend that you get to know React before using React Social Network. React 
 
 ## Document
 
-  Use [Documentation](https://qolzam.gitbooks.io/react-social-network/) to find out more details about this project.
-
-## Features
-
-  * [TypeScript](https://www.typescriptlang.org/) TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
-  * [React](https://facebook.github.io/react/docs/hello-world.html) A javascript library for building user interfaces.
-  * [Redux](http://redux.js.org/) is a predictable state container for JavaScript apps.
-  * [Material-UI](http://www.material-ui.com/#/) A Set of React Components that Implement Google's Material Design.
-  * [react-redux](https://github.com/reactjs/react-redux) Official React bindings for Redux.
-  * [Firebase](https://firebase.google.com/) products like Analytics, Realtime Database, Messaging, and Crash Reporting let you move quickly and focus on your users.
-  * [redux-thunk](https://github.com/gaearon/redux-thunk) Redux Thunk middleware allows you to write action creators that return a function instead of an action. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met. The inner function receives the store methods dispatch and getState as parameters.
-  * [Express](https://expressjs.com/) Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
-  * [React Router V4](https://github.com/ReactTraining/react-router) for routing website location
-  * [Sass](http://sass-lang.com/) CSS with superpowers. Sass boasts more features and abilities than any other CSS extension language out there.
-  * [Webpack](https://webpack.js.org/) for bundling code
-
-## In my todo list
-
-  * Documentation
-  * Testing
-  * Security issues
-  * Performance
-  * Add some features and solving bugs
-    * Sharing post in social itself and other socials
-    * Add link feature to post
-    * Add vido post
-    * Add image gallery post
-    * Search post and people
-    ...
+  Comming soon :) ...
 
 
-# Prerequisites
+## Road map
+ 1. Support Firebase/Firestore -> on developing
+ 2. Support AWS -> on developing
+ 3. Support Azure
+ 4. Support ASP.NET -> on developing
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+
+### Prerequisites
 
  Install [NodeJs](https://nodejs.org/en/)
+ 
+#### Note
 
-# Installing
+ - If you're using Windows you should install all node-gyp dependencies with following commands:
 
-[![Build social network in 5 minutes](https://img.youtube.com/vi/E12PNKKjzqA/0.jpg)](https://www.youtube.com/watch?v=E12PNKKjzqA)
+`$ npm install --global --production windows-build-tools`
+and then install the package
+
+`$ npm install --global node-gyp`
+
+
+### Installing
+ 
+## Install back-end server/serverless
+ Comming soon :) ...
 
  1. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
  2. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
@@ -101,31 +95,56 @@ I recommend that you get to know React before using React Social Network. React 
 
  5. Installing all nodejs modules:
   `npm install`
- 6. Rub webpack to build bundle file
-  `webpack`
- 5. Running server:
-  `node server.js`
+ 6. Go ahead ;)
+  `npm start`
 
-# Warning
 
- - If you're using Windows you should install all node-gyp dependencies with following commands:
 
-`$ npm install --global --production windows-build-tools`
-and then install the package
 
-`$ npm install --global node-gyp`
+## Deployment
+Follow [firebase instruction](https://firebase.google.com/docs/hosting/deploying)
+`firebase deploy`
 
-## Contribute
+## Built With
 
-[React Social Network](http://greensocial.herokuapp.com/) has been made by love. I planed to build a back-end for this project and improve the performance as I process all procedures on the front-end side. If you'd like to help,
+  * [TypeScript](https://www.typescriptlang.org/) TypeScript is a superset of JavaScript that compiles to clean JavaScript output.
+  * [JSX/TSX](https://jsx.github.io/) This project support both *.jsx and *.tsx files. JSX is a statically-typed, object-oriented programming language designed to run on modern web browsers. Being developed at DeNA as a research project, the language has following characteristics.
+  * [React](https://facebook.github.io/react/docs/hello-world.html) A javascript library for building user interfaces.
+  * [Redux](http://redux.js.org/) is a predictable state container for JavaScript apps.
+  * [Material-UI](http://www.material-ui.com/#/) A Set of React Components that Implement Google's Material Design.
+  * [react-redux](https://github.com/reactjs/react-redux) Official React bindings for Redux.
+  * [Firebase](https://firebase.google.com/) products like Analytics, Realtime Database, Messaging, and Crash Reporting let you move quickly and focus on your users.
+  * [redux-thunk](https://github.com/gaearon/redux-thunk) Redux Thunk middleware allows you to write action creators that return a function instead of an action. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met. The inner function receives the store methods dispatch and getState as parameters.
+  * [Express](https://expressjs.com/) Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
+  * [React Router V4](https://github.com/ReactTraining/react-router) for routing website location
+  * [Sass](http://sass-lang.com/) CSS with superpowers. Sass boasts more features and abilities than any other CSS extension language out there.
+  * [Webpack](https://webpack.js.org/) for bundling code
+
+## Contributing
+
+[React Social Network](https://love-social.firebaseapp.com) has been made by love. I planed to build a back-end for this project and improve the performance as I process all procedures on the front-end side. If you'd like to help,
 check out the [document](https://qolzam.gitbooks.io/react-social-network/).
 I'd greatly appreciate any [contribution](https://github.com/Qolzam/react-social-network/blob/master/CONTRIBUTING.md)
-you make. :)
 
- # Authors
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Qolzam/react-social-network/tags). 
+
+## Authors
 
   - Amir Movahedi
+  - See also the list of [contributors](https://github.com/Qolzam/react-social-network/contributors) who participated in this project.
 
-# License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/Qolzam/react-social-network/blob/master/LICENSE) file for details
+
+
+## Acknowledgments
+
+* React
+* Firebase
+* JavaScript
+* TypeScript
+
+

@@ -35,4 +35,14 @@
     background-image: icon(facebook, #4267b2);
 }
 
+.icon__svg {
+    padding: 10px;
+    display: block;
+    font-family: "Flaticon";
+    font-size: 64px;
+    line-height: 1;
+    transform: translate(-10px, -9px);
+
+}
+
 //   .icon-dashstroke   { background-image: icon(heart, red, black, 2, 'stroke-dasharray : 2px, 1px;'); }

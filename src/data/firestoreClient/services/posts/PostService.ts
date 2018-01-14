@@ -195,7 +195,7 @@ export class PostService implements IPostService {
       // a = current item in array
       // b = next item in array
       return b[bKey].creationDate! - a[aKey].creationDate!
-    });
+    })
     if (lastPostId && lastPostId !== '') {
       const lastPostIndex = sortedObjects.findIndex((arg) => {
         return Object.keys(arg)[0] === lastPostId

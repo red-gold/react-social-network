@@ -16,6 +16,12 @@ export interface IUserTieService {
     => Promise<void>
 
   /**
+   * Update users tie
+   */
+  updateUsersTie: (userTieSenderInfo: UserTie, userTieReceiveInfo: UserTie, circleIds: string[])
+  => Promise<void>
+
+  /**
    * Remove users' tie
    */
   removeUsersTie: (firstUserId: string, secondUserId: string)

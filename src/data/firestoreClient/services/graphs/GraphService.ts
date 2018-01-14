@@ -34,17 +34,19 @@ export class GraphService implements IGraphService {
     }
 
   /**
-   * Add graph
+   * Update graph
    */
   public updateGraph: (graph: Graph, collection: string)
   => Promise<string> = (graph, collection) => {
     return new Promise<string>((resolve,reject) => {
-
-      let graphRef = db.collection(`graphs:${collection}`).doc()
-      .set({...graph}).then((result) => {
-        resolve()
-      })
-      .catch((error: any) => {
+      const graphData = this.getGraphs(collection, graph.leftNode, graph.edgeType, graph.rightNode)
+      .then((result) => {
+        graph.nodeId = result[0].nodeId
+        let graphRef = db.collection(`graphs:${collection}`).doc(result[0].nodeId)
+        .set({...graph}).then((result) => {
+          resolve()
+        })
+      }).catch((error: any) => {
         reject(new SocialError(error.code,error.message))
       })
     })
@@ -114,19 +116,22 @@ export class GraphService implements IGraphService {
     => Promise<firebase.firestore.QuerySnapshot> = (collection, leftNode, edgeType, rightNode) => {
       return new Promise<firebase.firestore.QuerySnapshot>((resolve,reject) => {
         let graphsRef = db.collection(`graphs:${collection}`)
-        let query
-        if (leftNode) {
-          query = graphsRef.where('leftNode', '==', leftNode)
+
+        if (leftNode != null) {
+          graphsRef = graphsRef.where('leftNode', '==', leftNode)
         }
         if (rightNode && rightNode != null) {
-          query = graphsRef.where('rightNode', '==', rightNode)
+          console.trace('getGraphsQuery', {collection, leftNode, edgeType, rightNode})
+
+          graphsRef = graphsRef.where('rightNode', '==', rightNode)
         }
         if (edgeType) {
-          query = graphsRef.where('edgeType', '==', edgeType)
+          graphsRef = graphsRef.where('edgeType', '==', edgeType)
         }
 
-        if (query) {
-          query.get().then((result) => {
+        if (graphsRef) {
+          graphsRef.get().then((result) => {
+
             resolve(result)
           }).catch((error) => reject(error))
         } else {

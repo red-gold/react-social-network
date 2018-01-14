@@ -7,7 +7,7 @@ import CommonAPI from 'api/CommonAPI'
 /**
  * Developer tools
  */
-(window as any).logger = CommonAPI.logger
+console.trace = CommonAPI.logger
 
 /**
  * Initialize container

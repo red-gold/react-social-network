@@ -281,4 +281,4 @@ const mapStateToProps = (state: any,ownProps: ISignupComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(SignupComponent as any))
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(SignupComponent as any) as any)

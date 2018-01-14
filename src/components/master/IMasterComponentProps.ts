@@ -1,4 +1,4 @@
-import { User } from 'core/domain/users';
+import { User } from 'core/domain/users'
 export interface IMasterComponentProps {
     /**
      * Close gloal message
@@ -98,4 +98,15 @@ export interface IMasterComponentProps {
      * @memberof IMasterProps
      */
   uid: string
+
+  /**
+   * Show master loading
+   */
+  showMasterLoading?: () => any
+
+  /**
+   * Hide master loading
+   */
+  hideMasterLoading?: () => any
+
 }

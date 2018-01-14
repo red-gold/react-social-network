@@ -26,7 +26,6 @@ import PostPage from 'components/postPage'
 import People from 'components/people'
 
 // - Import API
-import CircleAPI from 'api/CircleAPI'
 
 // - Import actions
 // - Import actions
@@ -130,7 +129,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
    * @memberof Home
    */
   render () {
-    const {loaded, authed, loadDataStream, mergedPosts, hasMorePosts} = this.props
+    const {loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback} = this.props
     return (
       <div id='home'>
         <HomeHeader sidebar={this.state.sidebarOpen} sidebarStatus={this.state.sidebarStatus} />
@@ -147,7 +146,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
               <NavLink to='/people'><MenuItem primaryText='People' style={{ color: 'rgb(117, 117, 117)' }} leftIcon={<SvgPeople />} /></NavLink>
               <Divider />
               <NavLink to='/settings'><MenuItem primaryText='Settings' style={{ color: 'rgb(117, 117, 117)' }} leftIcon={<SvgSettings />} /></NavLink>
-              <NavLink to='#'><MenuItem primaryText='Send feedback' style={{ color: 'rgb(117, 117, 117)' }} leftIcon={<SvgFeedback />} /></NavLink>
+              <MenuItem primaryText='Send feedback' onClick={() => showSendFeedback()} style={{ color: 'rgb(117, 117, 117)' }} leftIcon={<SvgFeedback />} />
             </Menu>
           </SidebarContent>
 
@@ -175,6 +174,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
       dispatch(notifyActions.dbGetNotifications())
       dispatch(circleActions.dbGetCircles())
       dispatch(circleActions.dbGetUserTies())
+      dispatch(circleActions.dbGetFollowers())
 
     },
     clearData: () => {
@@ -192,7 +192,10 @@ const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
     defaultDataEnable: () => {
       dispatch(globalActions.defaultDataEnable())
     },
-    goTo: (url: string) => dispatch(push(url))
+    goTo: (url: string) => dispatch(push(url)),
+    showSendFeedback: () => dispatch(globalActions.showSendFeedback()),
+    hideSendFeedback: () => dispatch(globalActions.hideSendFeedback())
+
   }
 
 }
@@ -223,7 +226,7 @@ const mapStateToProps = (state: any, ownProps: IHomeComponentProps) => {
     mergedPosts,
     global,
     hasMorePosts,
-    loaded: user.loaded && post.loaded && imageGallery.loaded && notify.loaded && circle.loaded
+    loaded: user.loaded && imageGallery.loaded && notify.loaded && circle.loaded
   }
 }
 

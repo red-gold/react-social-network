@@ -83,8 +83,9 @@ const mapStateToProps = (state: any,ownProps: IFollowersComponentProps) => {
   const {circle, authorize, server} = state
   const { uid } = state.authorize
   const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
+  const followers = circle ? circle.userTieds : {}
   return{
-    followers: circles ? circles.userTieds : {}
+    followers
   }
 }
 

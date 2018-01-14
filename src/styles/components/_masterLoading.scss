@@ -2,11 +2,37 @@
     background-color: rgb(216, 216, 216);
 }
 
-.mLoading__content {
-    max-width: 338px !important;
-}
-
-.mLoading__context{
-    display: flex;
-    justify-content: space-around;
-}
+.mLoading__loading {
+    position: fixed;
+    z-index: 2001;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+  
+  /* Transparent Overlay */
+  .mLoading__loading:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.65);
+  }
+  
+  /* :not(:required) hides these rules from IE9 and below */
+  .mLoading__loading:not(:required) {
+    /* hide "mLoading__loading..." text */
+    font: 0/0 a;
+    color: transparent;
+    text-shadow: none;
+    background-color: transparent;
+    border: 0;
+  }

@@ -1,6 +1,6 @@
 import { Comment } from 'core/domain/comments'
 import { Profile } from 'core/domain/users'
-import { Circle } from 'core/domain/circles'
+import { Circle, UserTie } from 'core/domain/circles'
 
 export interface ICircleComponentProps {
 
@@ -45,12 +45,9 @@ export interface ICircleComponentProps {
   deleteCircle?: Function
 
   /**
-   * Users profile
-   *
-   * @type {{[userId: string]: Profile}}
-   * @memberof ICircleComponentProps
+   * Users of current circle
    */
-  userInfo?: {[userId: string]: Profile}
+  usersOfCircle?: {[userId: string]: UserTie}
 
   /**
    * Close setting box of circle

@@ -1,0 +1,37 @@
+.sendFeedback__content {
+
+    position: fixed;
+    right: 5px;
+    bottom: 5px;
+    z-index: 1;
+    .paper {
+        width: 350px;
+        height: 100%;
+        margin: 20px;
+        text-align: center;
+        
+    }
+    .buttons {
+        position: relative;
+    }
+    .close {
+        position: absolute;
+        top: 13px;
+        right: 13px;
+    }
+    .success {
+        padding: 30px;
+    }
+    .error {
+        padding: 30px;
+    }
+    .loading{
+        padding: 18px 0px 0px 0px;
+        .icon {
+            justify-content: center;
+            align-items: center;
+            align-content: center;
+            align-self: center;
+        }
+    }
+}

@@ -5,6 +5,50 @@ import { GlobalActionType } from 'constants/globalActionType'
 import * as postActions from 'actions/postActions'
 import * as commentActions from 'actions/commentActions'
 import * as userActions from 'actions/userActions'
+import * as serverActions from 'actions/serverActions'
+
+import { ICommonService } from 'core/services/common/ICommonService'
+import { provider } from 'src/socialEngine'
+import { SocialProviderTypes } from 'core/socialProviderTypes'
+import { Feed, SocialError } from 'core/domain/common'
+import { ServerRequestType } from 'constants/serverRequestType'
+import StringAPI from 'api/StringAPI'
+import { ServerRequestModel } from 'models/server'
+import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
+
+/**
+ * Get service providers
+ */
+const commonService: ICommonService = provider.get<ICommonService>(SocialProviderTypes.CommonService)
+
+/**
+ * Add a normal feed
+ * @param {any} newFeed
+ * @param {Function} callBack
+ */
+export let dbSendFeed = (newFeed: Feed) => {
+  return (dispatch: any, getState: Function) => {
+
+    let uid: string = getState().authorize.uid
+
+    // Set server request status to {Sent}
+    const feedbackRequest = createFeedbackRequest(uid)
+    dispatch(serverActions.sendRequest(feedbackRequest))
+
+    return commonService.addFeed(newFeed).then(() => {
+      // Set server request status to {OK}
+      feedbackRequest.status = ServerRequestStatusType.OK
+      dispatch(serverActions.sendRequest(feedbackRequest))
+    })
+      .catch((error: SocialError) => {
+        dispatch(showErrorMessage(error.message))
+
+        // Set server request status to {Error}
+        feedbackRequest.status = ServerRequestStatusType.Error
+        dispatch(serverActions.sendRequest(feedbackRequest))
+      })
+  }
+}
 
 /**
  * Progress change
@@ -14,7 +58,7 @@ import * as userActions from 'actions/userActions'
 export const progressChange = (percent: number, visible: Boolean) => {
   return {
     type: GlobalActionType.PROGRESS_CHANGE,
-    payload: {percent, visible}
+    payload: { percent, visible }
   }
 
 }
@@ -23,7 +67,7 @@ export const progressChange = (percent: number, visible: Boolean) => {
  * Default data loaded status will be true
  */
 export const defaultDataEnable = () => {
-  return{
+  return {
     type: GlobalActionType.DEFAULT_DATA_ENABLE
   }
 }
@@ -33,21 +77,21 @@ export const defaultDataEnable = () => {
  * @param {boolean} status
  */
 export const defaultDataDisable = () => {
-  return{
+  return {
     type: GlobalActionType.DEFAULT_DATA_DISABLE
   }
 }
 
 // - Show notification of request
 export const showNotificationRequest = () => {
-  return{
+  return {
     type: GlobalActionType.SHOW_SEND_REQUEST_MESSAGE_GLOBAL
   }
 }
 
 // - Show notification of success
 export const showNotificationSuccess = () => {
-  return{
+  return {
     type: GlobalActionType.SHOW_REQUEST_SUCCESS_MESSAGE_GLOBAL
   }
 }
@@ -57,7 +101,7 @@ export const showNotificationSuccess = () => {
  */
 export const hideMessage = () => {
   hideTopLoading()
-  return{
+  return {
     type: GlobalActionType.HIDE_MESSAGE_GLOBAL
   }
 
@@ -68,23 +112,6 @@ export const hideMessage = () => {
  * @param {string} message
  */
 export const showErrorMessage = (message: string) => {
-  const appElement = document.getElementById('app')
-  const masterElement = document.getElementById('master')
-  const container = document.createElement('div')
-  const div = document.createElement('div')
-  div.innerHTML = message
-  container.style.position = '100000'
-  container.style.position = 'fixed'
-  container.style.backgroundColor = '#32c3e4b8'
-  container.style.width = '100%'
-  container.style.height = '100%'
-  container.style.display = 'flex'
-  container.style.alignItems = 'center'
-  container.style.alignItems = 'center'
-  container.style.flexDirection = 'row'
-  container.appendChild(div)
-
-  appElement!.insertBefore(container, masterElement)
   return {
     type: GlobalActionType.SHOW_ERROR_MESSAGE_GLOBAL,
     payload: message
@@ -95,8 +122,8 @@ export const showErrorMessage = (message: string) => {
 /**
  * Set header title
  */
-export const setHeaderTitleOpt = (callerKey: string,payload: any) => {
-  return (dispatch: any,getState: Function) => {
+export const setHeaderTitleOpt = (callerKey: string, payload: any) => {
+  return (dispatch: any, getState: Function) => {
     switch (callerKey) {
       case 'profile':
         const userName = getState().user.info && getState().user.info[payload] ? getState().user.info[payload].fullName : ''
@@ -114,7 +141,7 @@ export const setHeaderTitleOpt = (callerKey: string,payload: any) => {
  * Set header title
  */
 export const setHeaderTitle = (text: string) => {
-  return{
+  return {
     type: GlobalActionType.SET_HEADER_TITLE,
     payload: text
   }
@@ -125,7 +152,7 @@ export const setHeaderTitle = (text: string) => {
  * Open post write
  */
 export const openPostWrite = () => {
-  return{
+  return {
     type: GlobalActionType.OPEN_POST_WRITE
   }
 
@@ -135,7 +162,7 @@ export const openPostWrite = () => {
  * Close post write
  */
 export const closePostWrite = () => {
-  return{
+  return {
     type: GlobalActionType.CLOSE_POST_WRITE
   }
 
@@ -145,7 +172,7 @@ export const closePostWrite = () => {
  * Show top loading
  */
 export const showTopLoading = () => {
-  return{
+  return {
     type: GlobalActionType.SHOW_TOP_LOADING
   }
 
@@ -155,8 +182,48 @@ export const showTopLoading = () => {
  * Hide top loading
  */
 export const hideTopLoading = () => {
-  return{
+  return {
     type: GlobalActionType.HIDE_TOP_LOADING
+  }
+
+}
+
+/**
+ * Show master loading
+ */
+export const showMasterLoading = () => {
+  return {
+    type: GlobalActionType.SHOW_MASTER_LOADING
+  }
+
+}
+
+/**
+ * Show send feedback
+ */
+export const showSendFeedback = () => {
+  return {
+    type: GlobalActionType.SHOW_SEND_FEEDBACK
+  }
+
+}
+
+/**
+ * Hide send feedback
+ */
+export const hideSendFeedback = () => {
+  return {
+    type: GlobalActionType.HIDE_SEND_FEEDBACK
+  }
+
+}
+
+/**
+ * Hide master loading
+ */
+export const hideMasterLoading = () => {
+  return {
+    type: GlobalActionType.HIDE_MASTER_LOADING
   }
 
 }
@@ -165,7 +232,7 @@ export const hideTopLoading = () => {
  * Store temp data
  */
 export const temp = (data: any) => {
-  return{
+  return {
     type: GlobalActionType.TEMP,
     payload: data
   }
@@ -176,7 +243,7 @@ export const temp = (data: any) => {
  * Clear temp data
  */
 export const clearTemp = () => {
-  return{
+  return {
     type: GlobalActionType.CLEAR_TEMP
   }
 
@@ -185,7 +252,43 @@ export const clearTemp = () => {
 // - Load data for guest
 export const loadDataGuest = () => {
   // tslint:disable-next-line:no-empty
-  return (dispatch: any,getState: Function) => {
+  return (dispatch: any, getState: Function) => {
   }
 
+}
+
+/**
+ * Show error report dialog
+ */
+const showErrorReport = (message: string) => {
+  const appElement = document.getElementById('app')
+  const masterElement = document.getElementById('master')
+  const container = document.createElement('div')
+  const div = document.createElement('div')
+  div.innerHTML = message
+  container.style.position = '100000'
+  container.style.position = 'fixed'
+  container.style.backgroundColor = '#32c3e4b8'
+  container.style.width = '100%'
+  container.style.height = '100%'
+  container.style.display = 'flex'
+  container.style.alignItems = 'center'
+  container.style.alignItems = 'center'
+  container.style.flexDirection = 'row'
+  container.appendChild(div)
+
+  appElement!.insertBefore(container, masterElement)
+}
+
+/**
+ * Create send feedback serevr request model
+ */
+const createFeedbackRequest = (userId: string) => {
+  const requestId = StringAPI.createServerRequestId(ServerRequestType.CommonSendFeedback, userId)
+  return new ServerRequestModel(
+    ServerRequestType.CommonSendFeedback,
+    requestId,
+    '',
+    ServerRequestStatusType.Sent
+  )
 }

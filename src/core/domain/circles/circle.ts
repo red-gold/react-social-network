@@ -35,8 +35,8 @@ export class Circle extends BaseDomain {
   public name: string
 
   /**
-   * Whether circle setting is open
+   * Whether it's configured by system
    */
-  public openCircleSettings?: boolean
+  public isSystem: boolean
 
 }

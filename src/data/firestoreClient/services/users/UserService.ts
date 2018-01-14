@@ -91,7 +91,7 @@ export class UserService implements IUserService {
               }
 
             ]
-          });
+          })
           resolve({ users: parsedData, newLastUserId })
         })
           .catch((error: any) => {
@@ -107,11 +107,15 @@ export class UserService implements IUserService {
     return new Promise<UserProvider>((resolve,reject) => {
       let userProviderRef = db.doc(`userProviderInfo/${userId}`)
       userProviderRef.get().then((snapshot) => {
-        let userProvider: UserProvider = snapshot.data() as UserProvider || {}
-        resolve(userProvider)
+        if (snapshot.exists) {
+          let userProvider: UserProvider = snapshot.data() as UserProvider || {}
+          resolve(userProvider)
+        } else {
+          throw new SocialError(`firestore/getUserProviderData/notExist `, `document of userProviderRef is not exist `)
+        }
       })
       .catch((error: any) => {
-        reject(new SocialError(error.code, 'firestore/getUserProviderData' + error.message))
+        reject(new SocialError(error.code, 'firestore/getUserProviderData ' + error.message))
       })
     })
 

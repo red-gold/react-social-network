@@ -34,21 +34,9 @@ export interface IUserBoxComponentState {
   anchorEl?: any
 
   /**
-   * Circle list popover is open {true} or not {false}
-   *
-   * @type {boolean}
-   * @memberof IUserBoxComponentState
-   */
-  open: boolean
-
-  /**
    * Whether current user changed the selected circles for referer user
    *
    */
   disabledDoneCircles: boolean
 
-  /**
-   * Keep selected circles for refere user
-   */
-  selectedCircles: string[]
 }

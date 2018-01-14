@@ -45,9 +45,7 @@ export class YourCirclesComponent extends Component<IYourCirclesComponentProps,I
 
     if (circles) {
       Object.keys(circles).map((key, index) => {
-        if (key.trim() !== '-Followers') {
           parsedCircles.push(<CircleComponent key={key} circle={circles![key]} id={key} uid={uid!} />)
-        }
       })
     }
     return parsedCircles

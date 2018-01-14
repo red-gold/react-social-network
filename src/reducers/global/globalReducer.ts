@@ -67,12 +67,22 @@ export const globalReducer = (state: GlobalState = new GlobalState(), action: IG
         ...state,
         headerTitle: action.payload
       }
-    case GlobalActionType.HIDE_TOP_LOADING:
-      const queue = state.topLoadingQueue > 0 ? (state.topLoadingQueue - 1) : 0
+    case GlobalActionType.SHOW_SEND_FEEDBACK:
       return {
         ...state,
-        topLoadingQueue: queue,
-        showTopLoading: (queue > 0 ? true : false)
+        sendFeedbackStatus: true
+      }
+    case GlobalActionType.HIDE_SEND_FEEDBACK:
+      return {
+        ...state,
+        sendFeedbackStatus: false
+      }
+    case GlobalActionType.HIDE_TOP_LOADING:
+      const queueTopLoading = state.topLoadingQueue > 0 ? (state.topLoadingQueue - 1) : 0
+      return {
+        ...state,
+        topLoadingQueue: queueTopLoading,
+        showTopLoading: (queueTopLoading > 0 ? true : false)
 
       }
     case GlobalActionType.SHOW_TOP_LOADING:
@@ -80,6 +90,20 @@ export const globalReducer = (state: GlobalState = new GlobalState(), action: IG
         ...state,
         topLoadingQueue: (state.topLoadingQueue + 1),
         showTopLoading: true
+      }
+    case GlobalActionType.HIDE_MASTER_LOADING:
+      const queueMasterLoading = state.masterLoadingQueue > 0 ? (state.masterLoadingQueue - 1) : 0
+      return {
+        ...state,
+        masterLoadingQueue: queueMasterLoading,
+        showMasterLoading: (queueMasterLoading > 0 ? true : false)
+
+      }
+    case GlobalActionType.SHOW_MASTER_LOADING:
+      return {
+        ...state,
+        masterLoadingQueue: (state.masterLoadingQueue + 1),
+        showMasterLoading: true
       }
     case GlobalActionType.TEMP:
       return {

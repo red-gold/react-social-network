@@ -54,6 +54,32 @@ export class UserTieService implements IUserTieService {
     }
 
   /**
+   * Update users tie
+   */
+  public updateUsersTie: (userTieSenderInfo: UserTie, userTieReceiveInfo: UserTie, circleIds: string[])
+  => Promise<void> = (userTieSenderInfo, userTieReceiveInfo, circleIds) => {
+    return new Promise<void>((resolve, reject) => {
+
+      this._graphService
+      .updateGraph(
+        new Graph(
+          userTieSenderInfo.userId!,
+          'TIE',
+          userTieReceiveInfo.userId!,
+          {...userTieSenderInfo},
+          {...userTieReceiveInfo},
+          {creationDate: Date.now(), circleIds}
+        )
+      ,'users'
+    ).then(() => {
+      resolve()
+
+    })
+    .catch((error: any) => reject(new SocialError(error.code, 'firestore/updateUsersTie :' + error.message)))
+    })
+  }
+
+  /**
    * Remove users' tie
    */
   public removeUsersTie: (firstUserId: string, secondUserId: string)
@@ -89,7 +115,7 @@ export class UserTieService implements IUserTieService {
           parsedData = {
             ...parsedData,
             [rightUserInfo.userId!] : {
-              ...node.rightMetadata,
+              ...rightUserInfo,
               circleIdList: metadata ? metadata.circleIds : []
             }
           }
@@ -123,7 +149,7 @@ export class UserTieService implements IUserTieService {
           parsedData = {
             ...parsedData,
             [leftUserInfo.userId!] : {
-              ...parsedData[leftUserInfo.userId!],
+              ...leftUserInfo,
               circleIdList: []
             }
           }

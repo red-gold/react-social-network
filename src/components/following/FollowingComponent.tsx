@@ -6,11 +6,11 @@ import PropTypes from 'prop-types'
 // - Import app components
 import UserBoxList from 'components/userBoxList'
 
+import { Circle } from 'core/domain/circles'
+
 // - Import API
-import CircleAPI from 'api/CircleAPI'
 import { IFollowingComponentProps } from './IFollowingComponentProps'
 import { IFollowingComponentState } from './IFollowingComponentState'
-import { Circle } from 'core/domain/circles';
 
 // - Import actions
 
