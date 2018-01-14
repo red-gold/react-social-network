@@ -1,5 +1,44 @@
 # Change Log
 
+## [Unreleased](https://github.com/Qolzam/react-social-network/tree/HEAD)
+
+[Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.5.0...HEAD)
+
+**Implemented enhancements:**
+
+- Better sourcemaps [\#27](https://github.com/Qolzam/react-social-network/issues/27)
+- \[Feature Request\] User account confirmation [\#23](https://github.com/Qolzam/react-social-network/issues/23)
+- Feedback button doesn't do anything [\#20](https://github.com/Qolzam/react-social-network/issues/20)
+- Forget password [\#9](https://github.com/Qolzam/react-social-network/issues/9)
+- Send feedback [\#6](https://github.com/Qolzam/react-social-network/issues/6)
+- Pagination for posts [\#5](https://github.com/Qolzam/react-social-network/issues/5)
+
+**Closed issues:**
+
+- The next version [\#42](https://github.com/Qolzam/react-social-network/issues/42)
+- \[Feature request\] Change Password screen [\#36](https://github.com/Qolzam/react-social-network/issues/36)
+- What are your thoughts on TSX? [\#35](https://github.com/Qolzam/react-social-network/issues/35)
+
+## [v0.5.0](https://github.com/Qolzam/react-social-network/tree/v0.5.0) (2018-01-14)
+[Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.3.1...v0.5.0)
+
+**Fixed bugs:**
+
+- Firebase picture upload [\#33](https://github.com/Qolzam/react-social-network/issues/33)
+- \[Bug\]Can not close notifications from popup [\#29](https://github.com/Qolzam/react-social-network/issues/29)
+
+**Closed issues:**
+
+- UserAvatar component errors [\#38](https://github.com/Qolzam/react-social-network/issues/38)
+- Image upload help needed [\#37](https://github.com/Qolzam/react-social-network/issues/37)
+- Blank screen upon running web server [\#34](https://github.com/Qolzam/react-social-network/issues/34)
+- Tagline not visible on Profile page [\#32](https://github.com/Qolzam/react-social-network/issues/32)
+- A user is receiving notifications for actions they carried out - the user ended up receiving my notifications [\#31](https://github.com/Qolzam/react-social-network/issues/31)
+
+**Merged pull requests:**
+
+- Updated README.md [\#41](https://github.com/Qolzam/react-social-network/pull/41) ([LeeGing](https://github.com/LeeGing))
+
 ## [v0.3.1](https://github.com/Qolzam/react-social-network/tree/v0.3.1) (2017-10-12)
 [Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.3...v0.3.1)
 
