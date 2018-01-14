@@ -91,6 +91,7 @@ and then install the package
       > PROJECT_ID=[PROJECT_ID]<br/>
       > STORAGE_BUCKET=[BUCKET].appspot.com<br/>
       > MESSAGING_SENDER_ID=[SENDER_ID]HOST_URL<br/>
+      > PORT= Local_Host_Port<br/>
 
  5. [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
     - In the Firebase console, open the Auth section.
