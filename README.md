@@ -43,7 +43,7 @@ I recommend that you get to know React before using React Social Network. React 
   Comming soon :) ...
 
 
-## Road map
+## Roadmap
  1. Support Firebase/Firestore -> on developing
  2. Support AWS -> on developing
  3. Support Azure

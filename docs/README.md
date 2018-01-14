@@ -43,7 +43,7 @@ I recommend that you get to know React before using React Social Network. React 
   Comming soon :) ...
 
 
-## Road map
+## Roadmap
  1. Support Firebase/Firestore -> on developing
  2. Support AWS -> on developing
  3. Support Azure
@@ -69,14 +69,17 @@ and then install the package
 
 ### Installing
  
-## Install back-end server/serverless
- Comming soon :) ...
+#### Install back-end server/serverless
+1. You need to choose and install your backend bfore installing UI
+ - [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
+ - [AWS Social Backend]()
+ - [ASP.NET Social Backend](https://github.com/Qolzam/aspnet-core-social-network)
 
- 1. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
- 2. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
+ 2. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
+ 3. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
 
   > You need to configure firbase first before starting other steps. We are using firebase storage to store files, firebase database to store user information and firebase authorization to authorize user with email and password.
- 3. Configure firebase:
+ 4. Configure firebase:
     - Get [firebase config](https://firebase.google.com/docs/web/setup)
     - Create a folder in root folder `react-social-network` set the name `config` => `>react-social-network\config`
     - Create three files in `>react-social-network\config` set their name `development.env` , `test.env` and `production.env` => `>react-social-network\config\development.env` and `>react-social-network\config\test.env`
@@ -89,13 +92,13 @@ and then install the package
       > STORAGE_BUCKET=[BUCKET].appspot.com<br/>
       > MESSAGING_SENDER_ID=[SENDER_ID]HOST_URL<br/>
 
- 4. [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
+ 5. [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
     - In the Firebase console, open the Auth section.
     - On the Sign in method tab, enable the Email/password sign-in method and click Save.
 
- 5. Installing all nodejs modules:
+ 6. Installing all nodejs modules:
   `npm install`
- 6. Go ahead ;)
+ 7. Go ahead ;)
   `npm start`
 
 
