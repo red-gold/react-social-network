@@ -49,7 +49,7 @@ I recommend that you get to know React before using React Social Network. React 
 ------------ | -------------
 [Firebase/Firestore](firebase.google.com/cloud/firestore‎) | :+1:
 [Amazon Web Service (AWS)](https://aws.amazon.com/) | On Developing :zap:
-[Azure](https://aws.amazon.com/) | Future Support :star:
+[Azure](https://azure.microsoft.com/en-us/) | Future Support :star:
 [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/) | On Developing :zap:
 ## Getting Started
 
