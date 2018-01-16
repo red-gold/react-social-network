@@ -74,7 +74,7 @@ and then install the package
 
 3. Choose and install your backend bfore installing UI
 
-    [![Firestore](https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/firestore.png)](firebase.google.com/cloud/firestore)
+    [![Firestore](https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/firestore2.png)](firebase.google.com/cloud/firestore)
     #### [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
       * Configure firebase:
         * Get [firebase config](https://firebase.google.com/docs/web/setup)
