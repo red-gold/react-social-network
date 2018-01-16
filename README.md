@@ -82,9 +82,13 @@ and then install the package
         * [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
             * In the Firebase console, open the Auth section.
             * On the Sign in method tab, enable the Email/password sign-in method and click Save.
+        * [Enable Firestore](https://firebase.google.com/docs/firestore/quickstart)
+          * Open the [Firebase Console](https://console.firebase.google.com/) and create a new project.
+          * In the Database section, click Try Firestore Beta.
+          * Click Enable.
         * [Install Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
       * Enable firestore dependecies
-        * Go to `src/socialEngine.ts` write `useFirestore(provider)` to enable firestore dependencies!
+        * Go to React Social Network folder in `src/socialEngine.ts` write `useFirestore(provider)` to enable firestore dependencies!
 
     #### AWS Social Backend
       * Comming soon ...
