@@ -4,9 +4,9 @@ This layer include [React components](https://facebook.github.io/react/docs/reac
 
 ## Add a new component
 
-To add a new page in Home.jsx (with side-bar and top-bar) :
+To add a new page in Home (with side-bar and top-bar) :
 
-- In components/Home.jsx
+- In components/Home
 - Inside the [Switch] tag
 
 ```jsx
@@ -25,7 +25,7 @@ To add a new page in Home.jsx (with side-bar and top-bar) :
 
 To add a new item for menu bar
 
-- In components/Home.jsx
+- In components/Home
 - Inside the [Menu] tag
 
 ```javascript

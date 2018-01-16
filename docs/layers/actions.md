@@ -4,7 +4,7 @@ This layer is responsible for implementing actions for entities. [Actions](http:
 
 ----
 
-## authorizeActions.jsx
+## authorizeActions
 
 We provide some actions to authorize a user. The authorize actions include singup, login, logout and update password for a user.
 
@@ -58,7 +58,7 @@ updatePassword = () => {}
 
 This action is responsible to fire reducer method on update password.
 
-## circleActions.jsx
+## circleActions
 
 We provide some actions to authorize a user. The authorize actions include singup, login, logout and update password for a user.
 
@@ -156,7 +156,7 @@ deleteFollowingUser = (uid, cid, followingId) => {}
 Delete a user from a circle.
 Delete a user with `followingId` identifier from a circle with `cid` identifier belong to the user with `uid` identifier. `userCircle` is an object of user information which we want to delete from a circle.
 
-## commentActions.jsx
+## commentActions
 
 ### Comment Action Functions
 
@@ -226,7 +226,7 @@ closeCommentEditor = (comment) => {}
 
 Comment comment editor of a comment. `comment` include comment information.
 
-## globalActions.jsx
+## globalActions
 
 ### Global Action Functions
 
@@ -320,22 +320,22 @@ loadDataGuest = () => {}
 
 Execute some procedure like load essential data the time user is unauthorized.
 
-## imageGalleryActions.jsx
+## imageGalleryActions
 
 ### Image Gallery Action Functions
 
-## notifyActions.jsx
+## notifyActions
 
 ### Notify Action Functions
 
-## postActions.jsx
+## postActions
 
 ### Post Action Functions
 
-## userActions.jsx
+## userActions
 
 ### User Action Functions
 
-## voteActions.jsx
+## voteActions
 
 ### Vote Action Functions

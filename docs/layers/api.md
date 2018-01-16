@@ -2,7 +2,7 @@
 
 Is a decoupled layer of interfaces to data and/or functionality of one or more components.
 
-## FileAPI.jsx
+## FileAPI
 
 A set of functions for working with files.
 
@@ -30,7 +30,7 @@ dataURLToBlob = (dataURL) => {}
 
 Convert [data url file](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) to [blob file](https://developer.mozilla.org/en/docs/Web/API/Blob). `dataURL` is the file with data url type.
 
-## PostAPI.jsx
+## PostAPI
 
 A set of functions for working with user posts.
 
