@@ -47,9 +47,9 @@ I recommend that you get to know React before using React Social Network. React 
 ### Supporting diverse data platforms
    Platform  | Accessible
 ------------ | -------------
-[Firebase/Firestore](firebase.google.com/cloud/firestore‎) | - :beer:
+[Firebase/Firestore](firebase.google.com/cloud/firestore‎) | :+1:
 [Amazon Web Service (AWS)](https://aws.amazon.com/) | On Developing :zap:
-[Azure](https://aws.amazon.com/) | Future Support :zap:
+[Azure](https://aws.amazon.com/) | Future Support :star:
 [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/) | On Developing :zap:
 ## Getting Started
 
