@@ -44,11 +44,13 @@ I recommend that you get to know React before using React Social Network. React 
 
 
 ## Roadmap
- 1. Support Firebase/Firestore -> on developing
- 2. Support AWS -> on developing
- 3. Support Azure
- 4. Support ASP.NET -> on developing
-
+### Supporting diverse data platforms
+   Platform  | Accessible
+------------ | -------------
+[Firebase/Firestore](firebase.google.com/cloud/firestore‎) | - :beer:
+[Amazon Web Service (AWS)](https://aws.amazon.com/) | On Developing :zap:
+[Azure](https://aws.amazon.com/) | Future Support :zap:
+[ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/) | On Developing :zap:
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -74,7 +76,7 @@ and then install the package
 
 3. Choose and install your backend bfore installing UI
 
-    [![Firestore](https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/firestore.png)](firebase.google.com/cloud/firestore)
+    [![Firestore](https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/firestore2.png)](firebase.google.com/cloud/firestore)
     #### [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
       * Configure firebase:
         * Get [firebase config](https://firebase.google.com/docs/web/setup)
