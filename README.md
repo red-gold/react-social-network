@@ -73,17 +73,17 @@ and then install the package
 2. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
 
 3. Choose and install your backend bfore installing UI
- #### [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
-   * Configure firebase:
-     * Get [firebase config](https://firebase.google.com/docs/web/setup)
-     * Create a folder in root folder `react-social-network` set the name `config` => `>react-social-network\config`
-     * Create three files in `>react-social-network\config` set their name `development.env` , `test.env` and `production.env` => `>react-social-network\config\development.env` and `>react-social-network\config\test.env`
-     * Inside the files, you should write some keys of firebase configuration (each file is depend on the environment you work in `NODE_ENV`. If you set `NODE_ENV=development` your project will use from [development.env](https://github.com/Qolzam/react-social-network/blob/master/docs/app/configure/development.env) or [production.env](https://github.com/Qolzam/react-social-network/blob/master/docs/app/configure/production.env) to config firebase but if you set it `NODE_ENV=test` it will use `test.env` in test environment):
-    * [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
-        * In the Firebase console, open the Auth section.
-        * On the Sign in method tab, enable the Email/password sign-in method and click Save.
- #### AWS Social Backend
- #### [ASP.NET Social Backend](https://github.com/Qolzam/aspnet-core-social-network)
+    #### [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
+      * Configure firebase:
+        * Get [firebase config](https://firebase.google.com/docs/web/setup)
+        * Create a folder in root folder `react-social-network` set the name `config` => `>react-social-network\config`
+        * Create three files in `>react-social-network\config` set their name `development.env` , `test.env` and `production.env` => `>react-social-network\config\development.env` and `>react-social-network\config\test.env`
+        * Inside the files, you should write some keys of firebase configuration (each file is depend on the environment you work in `NODE_ENV`. If you set `NODE_ENV=development` your project will use from [development.env](https://github.com/Qolzam/react-social-network/blob/master/docs/app/configure/development.env) or [production.env](https://github.com/Qolzam/react-social-network/blob/master/docs/app/configure/production.env) to config firebase but if you set it `NODE_ENV=test` it will use `test.env` in test environment):
+        * [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
+            * In the Firebase console, open the Auth section.
+            * On the Sign in method tab, enable the Email/password sign-in method and click Save.
+    #### AWS Social Backend
+    #### [ASP.NET Social Backend](https://github.com/Qolzam/aspnet-core-social-network)
 
 4. Installing all nodejs modules:
   `npm install`
