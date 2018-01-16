@@ -226,7 +226,6 @@ export class AuthorizeService implements IAuthorizeService {
         }
       )
       .then(() => {
-        alert(userId)
         resolve(new RegisterUserResult(userId))
       })
       .catch((error: any) => reject(new SocialError(error.name, 'firestore/storeUserInformation : ' + error.message)))

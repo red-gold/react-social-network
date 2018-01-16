@@ -68,38 +68,26 @@ and then install the package
 
 
 ### Installing
- 
-#### Install back-end server/serverless
-1. You need to choose and install your backend bfore installing UI
- - [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
- - [AWS Social Backend]()
- - [ASP.NET Social Backend](https://github.com/Qolzam/aspnet-core-social-network)
 
- 2. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
- 3. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
+1. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
+2. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
 
-  > You need to configure firbase first before starting other steps. We are using firebase storage to store files, firebase database to store user information and firebase authorization to authorize user with email and password.
- 4. Configure firebase:
-    - Get [firebase config](https://firebase.google.com/docs/web/setup)
-    - Create a folder in root folder `react-social-network` set the name `config` => `>react-social-network\config`
-    - Create three files in `>react-social-network\config` set their name `development.env` , `test.env` and `production.env` => `>react-social-network\config\development.env` and `>react-social-network\config\test.env`
-    - Inside the files, you should write some keys of firebase configuration (each file is depend on the environment you work in `NODE_ENV`. If you set `NODE_ENV=development` your project will use from [development.env](https://github.com/Qolzam/react-social-network/blob/master/docs/app/configure/development.env) to config firebase but if you set it `NODE_ENV=test` it will use `test.env` in test environment):
+3. Choose and install your backend bfore installing UI
+ #### [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
+   * Configure firebase:
+     * Get [firebase config](https://firebase.google.com/docs/web/setup)
+     * Create a folder in root folder `react-social-network` set the name `config` => `>react-social-network\config`
+     * Create three files in `>react-social-network\config` set their name `development.env` , `test.env` and `production.env` => `>react-social-network\config\development.env` and `>react-social-network\config\test.env`
+     * Inside the files, you should write some keys of firebase configuration (each file is depend on the environment you work in `NODE_ENV`. If you set `NODE_ENV=development` your project will use from [development.env](https://github.com/Qolzam/react-social-network/blob/master/docs/app/configure/development.env) or [production.env](https://github.com/Qolzam/react-social-network/blob/master/docs/app/configure/production.env) to config firebase but if you set it `NODE_ENV=test` it will use `test.env` in test environment):
+    * [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
+        * In the Firebase console, open the Auth section.
+        * On the Sign in method tab, enable the Email/password sign-in method and click Save.
+ #### AWS Social Backend
+ #### [ASP.NET Social Backend](https://github.com/Qolzam/aspnet-core-social-network)
 
-      > API_KEY=[API_KEY] <br/>
-      > AUTH_DOMAIN=[PROJECT_ID].firebaseapp.com<br/>
-      > DATABASE_URL=https://[DATABASE_NAME].firebaseio.com<br/>
-      > PROJECT_ID=[PROJECT_ID]<br/>
-      > STORAGE_BUCKET=[BUCKET].appspot.com<br/>
-      > MESSAGING_SENDER_ID=[SENDER_ID]HOST_URL<br/>
-      > PORT= Local_Host_Port<br/>
-
- 5. [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
-    - In the Firebase console, open the Auth section.
-    - On the Sign in method tab, enable the Email/password sign-in method and click Save.
-
- 6. Installing all nodejs modules:
+4. Installing all nodejs modules:
   `npm install`
- 7. Go ahead ;)
+5. Go ahead ;)
   `npm start`
 
 
