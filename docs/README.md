@@ -1,7 +1,7 @@
 <!-- Logo -->
 <p align="center">
   <a href="https://github.com/Qolzam/react-social-network">
-    <img height="128" width="128" src="https://raw.githubusercontent.com/Qolzam/react-social-network/master/docs/app/logo.png">
+    <img height="128" width="128" src="https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/logo.png">
   </a>
 </p>
 <!-- Name -->
@@ -16,16 +16,16 @@ The structure of this project give the ability to devoloper to develop their pro
 
 <p align="center">
   <a href="http://greensocial.herokuapp.com/">
-    <img src="https://raw.githubusercontent.com/Qolzam/react-social-network/master/docs/app/multi-device.png">
+    <img src="https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/multi-device.png">
   </a>
 </p>
 
 Since I started building this project I've planned to have a back end for this project so I haven't focused on performance until I build the back end and move some data procedure from end to back end. Therefore I need to change data structure and actions for [Redux](http://redux.js.org/).
 For those who prefer writing code by typescript, now React Social Network support both javascript and typescript language.
 
->You should consult the [CHANGELOG](https://github.com/Qolzam/react-social-network/blob/master/CHANGELOG.md) and related issues for more information
+>You should consult the [CHANGELOG](https://github.com/Qolzam/react-social-network/blob/next/CHANGELOG.md) and related issues for more information
 
-This project adheres to the Contributor Covenant [code of conduct](https://github.com/Qolzam/react-social-network/blob/master/CODE_OF_CONDUCT.md).
+This project adheres to the Contributor Covenant [code of conduct](https://github.com/Qolzam/react-social-network/blob/next/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report unacceptable behavior to amir.gholzam@live.com.
 
 ## Example
@@ -74,13 +74,13 @@ and then install the package
 
 3. Choose and install your backend bfore installing UI
 
-    [![Firestore](https://raw.githubusercontent.com/Qolzam/react-social-network/master/docs/app/firestore.png)](firebase.google.com/cloud/firestore)
+    [![Firestore](https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/firestore.png)](firebase.google.com/cloud/firestore)
     #### [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
       * Configure firebase:
         * Get [firebase config](https://firebase.google.com/docs/web/setup)
         * Create a folder in root folder `react-social-network` set the name `config` => `>react-social-network\config`
         * Create three files in `>react-social-network\config` set their name `development.env` , `test.env` and `production.env` => `>react-social-network\config\development.env` and `>react-social-network\config\test.env`
-        * Inside the files, you should write some keys of firebase configuration (each file is depend on the environment you work in `NODE_ENV`. If you set `NODE_ENV=development` your project will use from [development.env](https://github.com/Qolzam/react-social-network/blob/master/docs/app/configure/development.env) or [production.env](https://github.com/Qolzam/react-social-network/blob/master/docs/app/configure/production.env) to config firebase but if you set it `NODE_ENV=test` it will use `test.env` in test environment):
+        * Inside the files, you should write some keys of firebase configuration (each file is depend on the environment you work in `NODE_ENV`. If you set `NODE_ENV=development` your project will use from [development.env](https://github.com/Qolzam/react-social-network/blob/next/docs/app/configure/development.env) or [production.env](https://github.com/Qolzam/react-social-network/blob/next/docs/app/configure/production.env) to config firebase but if you set it `NODE_ENV=test` it will use `test.env` in test environment):
         * [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
             * In the Firebase console, open the Auth section.
             * On the Sign in method tab, enable the Email/password sign-in method and click Save.
@@ -128,7 +128,7 @@ Follow [firebase instruction](https://firebase.google.com/docs/hosting/deploying
 
 [React Social Network](https://love-social.firebaseapp.com) has been made by love. I planed to build a back-end for this project and improve the performance as I process all procedures on the front-end side. If you'd like to help,
 check out the [document](https://qolzam.gitbooks.io/react-social-network/).
-I'd greatly appreciate any [contribution](https://github.com/Qolzam/react-social-network/blob/master/CONTRIBUTING.md)
+I'd greatly appreciate any [contribution](https://github.com/Qolzam/react-social-network/blob/next/CONTRIBUTING.md)
 
 ## Versioning
 
@@ -141,7 +141,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/Qolzam/react-social-network/blob/master/LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/Qolzam/react-social-network/blob/next/LICENSE) file for details
 
 
 ## Acknowledgments
