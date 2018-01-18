@@ -33,6 +33,6 @@ export class PostState {
   /**
    * Profile posts data storage
    */
-  profile?: {hasMoreData: boolean, lastPageRequest: number, lastPostId: string} =
-  {hasMoreData: true, lastPageRequest: -1, lastPostId: ''}
+  profile?: {[userId: string]: {hasMoreData: boolean, lastPageRequest: number, lastPostId: string}} =
+  {}
 }

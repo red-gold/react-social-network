@@ -140,7 +140,10 @@ export let postReducer = (state: PostState = new PostState(), action: IPostActio
         ...state,
         profile: {
           ...state.profile,
-          hasMoreData: false
+          [payload.userId]: {
+            ...state.profile![payload.userId],
+            hasMoreData: false
+          }
         }
 
       }
@@ -150,7 +153,11 @@ export let postReducer = (state: PostState = new PostState(), action: IPostActio
         ...state,
         profile: {
           ...state.profile,
-          lastPageRequest: payload.page
+          [payload.userId]: {
+            ...state.profile![payload.userId],
+            lastPageRequest: payload.page
+
+          }
         }
       }
 
@@ -159,7 +166,10 @@ export let postReducer = (state: PostState = new PostState(), action: IPostActio
         ...state,
         profile: {
           ...state.profile,
-          lastPostId: payload.lastPostId
+          [payload.userId]: {
+            ...state.profile![payload.userId],
+            lastPostId: payload.lastPostId
+          }
         }
       }
     default:

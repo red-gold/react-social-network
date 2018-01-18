@@ -218,25 +218,25 @@ export const dbGetPosts = (page: number = 0, limit: number = 10) => {
 /**
  * Get all user posts from data base
  */
-export const dbGetPostsByUserId = (page: number = 0, limit: number = 10) => {
+export const dbGetPostsByUserId = (userId: string, page: number = 0, limit: number = 10) => {
   return (dispatch: any, getState: Function) => {
     const state = getState()
     const {profile} = state.post
-    const lastPageRequest = profile.lastPageRequest
-    const lastPostId = profile.lastPostId
-    const hasMoreData = profile.hasMoreData
+    const lastPageRequest = profile[userId] ? profile[userId].lastPageRequest : -1
+    const lastPostId = profile[userId] ? profile[userId].lastPostId : ''
+    const hasMoreData = profile[userId] ? profile[userId].hasMoreData : true
 
     let uid: string = state.authorize.uid
 
     if (uid && lastPageRequest !== page) {
 
-      return postService.getPostsByUserId(uid, lastPostId, page, limit).then((result) => {
+      return postService.getPostsByUserId(userId, lastPostId, page, limit).then((result) => {
 
         if (!result.posts || !(result.posts.length > 0)) {
-          return dispatch(notMoreDataProfile())
+          return dispatch(notMoreDataProfile(userId))
         }
         // Store last post Id
-        dispatch(lastPostProfile(result.newLastPostId))
+        dispatch(lastPostProfile(userId, result.newLastPostId))
 
         let parsedData: { [userId: string]: {[postId: string]: Post} } = {}
         result.posts.forEach((post) => {
@@ -409,9 +409,10 @@ export const hasMoreDataProfile = () => {
 /**
  * Set profile posts has not data any more to show
  */
-export const notMoreDataProfile = () => {
+export const notMoreDataProfile = (userId: string) => {
   return {
-    type: PostActionType.NOT_MORE_DATA_PROFILE
+    type: PostActionType.NOT_MORE_DATA_PROFILE,
+    payload: {userId}
   }
 
 }
@@ -419,10 +420,10 @@ export const notMoreDataProfile = () => {
 /**
  * Set last page request of profile posts
  */
-export const requestPageProfile = (page: number) => {
+export const requestPageProfile = (userId: string, page: number) => {
   return {
     type: PostActionType.REQUEST_PAGE_PROFILE,
-    payload: { page}
+    payload: {userId, page}
   }
 
 }
@@ -430,10 +431,10 @@ export const requestPageProfile = (page: number) => {
 /**
  * Set last post identification of profile posts
  */
-export const lastPostProfile = (lastPostId: string) => {
+export const lastPostProfile = (userId: string, lastPostId: string) => {
   return {
     type: PostActionType.LAST_POST_PROFILE,
-    payload: { lastPostId}
+    payload: { userId, lastPostId}
   }
 
 }

@@ -133,14 +133,15 @@ const mapStateToProps = (state: any, ownProps: IProfileComponentProps) => {
   const { userId } = ownProps.match.params
   const {uid} = state.authorize
   const hasMorePosts = state.post.profile.hasMoreData
+  const posts = state.post.userPosts ? state.post.userPosts[userId] : {}
   return {
     avatar: state.user.info && state.user.info[userId] ? state.user.info[userId].avatar || '' : '',
     name: state.user.info && state.user.info[userId] ? state.user.info[userId].fullName || '' : '',
     banner: state.user.info && state.user.info[userId] ? state.user.info[userId].banner || '' : '',
     tagLine: state.user.info && state.user.info[userId] ? state.user.info[userId].tagLine || '' : '',
-    posts: state.post.userPosts ? state.post.userPosts[userId] : {},
     isAuthedUser: userId === uid,
     userId,
+    posts,
     hasMorePosts
 
   }
