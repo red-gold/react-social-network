@@ -15,7 +15,7 @@ console.trace = CommonAPI.logger
 export const provider = new Container()
 
 /**
- * Regeister dependencies
+ * Register dependencies
  */
 // useFirebase(provider)
 // useAws(provider)
