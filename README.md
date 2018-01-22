@@ -12,7 +12,7 @@
 [![Gitter](https://badges.gitter.im/react-social-network/Lobby.svg)](https://gitter.im/react-social-network/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 The React Social Network is an open source project relying on [React](https://facebook.github.io/react/docs/hello-world.html) a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network. 
-The structure of this project give the ability to devoloper to develop their project on thier own idea and environment.
+The structure of this project give the ability to developer to develop their project on their own idea and environment.
 
 <p align="center">
   <a href="http://greensocial.herokuapp.com/">
@@ -31,6 +31,28 @@ By participating, you are expected to uphold this code. Please report unacceptab
 ## Example
 
   [Love Open Social](https://love-social.firebaseapp.com)
+ 
+
+## What is new?
+### Structure
+New structure could make the project easy to change and scale up.
+There are three main layers:
+ - Core 
+   - Domain 
+   - Providing interface for data services
+    - ISer
+ - Data
+  - This layer provide supporting variety of data platforms such as [Firebase](https://firebase.google.com/), [AWS](https://aws.amazon.com/), ... .
+    - FirestoreClient
+    - AwsClient
+    - AspNetClient
+    - ...
+ - Components
+  - This layer take care of user inteface which on [React](https://reactjs.org) and in [react-mobile-social] on [React Native](https://facebook.github.io/react-native/). It means **the only thing change here among these three layer on mobile app, is component layer**. So with this structure we save time to.
+
+### Dependency Management
+### Features
+
 
 ## Required Knowledge
 
@@ -91,7 +113,7 @@ and then install the package
           * In the Database section, click Try Firestore Beta.
           * Click Enable.
         * [Install Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
-      * Enable firestore dependecies
+      * Enable firestore dependencies
         * Go to React Social Network folder in `src/socialEngine.ts` write `useFirestore(provider)` to enable firestore dependencies!
 
     #### AWS Social Backend
