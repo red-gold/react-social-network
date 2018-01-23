@@ -33,7 +33,7 @@ By participating, you are expected to uphold this code. Please report unacceptab
   [Love Open Social](https://love-social.firebaseapp.com)
  
 
-## What is new?
+## What is new? :star2:
 ### Structure
 New structure could make the project easy to change and scale up.
 There are three main layers:
@@ -59,7 +59,7 @@ There are three main layers:
   - Add scroll auto loading for show posts and people pages.
   - Using [Firestore](https://firebase.google.com/docs/firestore/)
   - Some cool stuff :)
-## Can I connect React Social Network to other data platforms ?
+## Can I connect React Social Network to other data platforms ? :bowtie:
   Your server side is on `PHP`, `Java`,`ASP.NET`, `Python`, etc. Or you are using serverless platforms such as `Google Cloud`, `AWS`, `Azure`, etc. You can connect `React Social Network` to any data platform. You only need to implement the [interfaces of core services](https://github.com/Qolzam/react-social-network/tree/next/src/core/services) like implementation of [firestoreClient](https://github.com/Qolzam/react-social-network/tree/next/src/data/firestoreClient).
   
   There are a summary steps of creating your own `dataClients`. We assume that we want to implement for `PHP` backend.
@@ -76,6 +76,7 @@ There are three main layers:
   6. Finally call registering dependencies function for in [socialEngine](https://github.com/Qolzam/react-social-network/blob/next/src/socialEngine.ts#L22) file.
   7. Enjoy ;)
 
+> :heart_eyes: It also would be great if you could contribute your `clientData` and `backend` with us to be part of this contribution. We would appreciate any conntribution.:thumbsup:
 ## Required Knowledge
 
 I recommend that you get to know React before using React Social Network. React Social Network has built by React components, so understanding how React fits into web development is important.
@@ -171,9 +172,9 @@ Follow [firebase instruction](https://firebase.google.com/docs/hosting/deploying
   * [Webpack](https://webpack.js.org/) for bundling code
   * [InversifyJS](http://inversify.io/) InversifyJS is a lightweight (4KB) inversion of control (IoC) container for TypeScript and JavaScript apps. A IoC container uses a class constructor to identify and inject its dependencies.
 
-## Contributing
+## :heart: Contributing :heart:
 
-[React Social Network](https://love-social.firebaseapp.com) has been made by love. I planed to build a back-end for this project and improve the performance as I process all procedures on the front-end side. If you'd like to help,
+[React Social Network](https://love-social.firebaseapp.com) has been made by love:heart:. I planed to build a back-end for this project and improve the performance as I process all procedures on the front-end side. If you'd like to help,
 check out the [document](https://qolzam.gitbooks.io/react-social-network/).
 I'd greatly appreciate any [contribution](https://github.com/Qolzam/react-social-network/blob/next/CONTRIBUTING.md)
 
