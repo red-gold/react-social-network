@@ -37,22 +37,28 @@ By participating, you are expected to uphold this code. Please report unacceptab
 ### Structure
 New structure could make the project easy to change and scale up.
 There are three main layers:
- - Core 
-   - Domain 
-   - Providing interface for data services
-    - ISer
- - Data
+ - [Core](https://github.com/Qolzam/react-social-network/tree/next/src/core) 
+   - [Domain](https://github.com/Qolzam/react-social-network/tree/next/src/core/domain)
+   - [Providing interface for data services](https://github.com/Qolzam/react-social-network/tree/next/src/core/services)
+ - [Data](https://github.com/Qolzam/react-social-network/tree/next/src/data)
   - This layer provide supporting variety of data platforms such as [Firebase](https://firebase.google.com/), [AWS](https://aws.amazon.com/), ... .
-    - FirestoreClient
+    - [FirestoreClient](https://github.com/Qolzam/react-social-network/tree/next/src/data/firestoreClient)
     - AwsClient
     - AspNetClient
     - ...
- - Components
-  - This layer take care of user inteface which on [React](https://reactjs.org) and in [react-mobile-social] on [React Native](https://facebook.github.io/react-native/). It means **the only thing change here among these three layer on mobile app, is component layer**. So with this structure we save time to.
+ - [Components](https://github.com/Qolzam/react-social-network/tree/next/src/components)
+  - This layer take care of user interface which on [React](https://reactjs.org) and in [react-mobile-social] on [React Native](https://facebook.github.io/react-native/). It means **the only thing change here among these three layers on mobile app, is component layer**.
 
-### Dependency Management
+### IOC Container
+  - Using [InversifyJS](http://inversify.io/) in project give us the ability to switch between custom dependencies easily. Specially for *data layer*, if you are the user working with [AWS](https://aws.amazon.com/) you only need to call `useAws()` or using [Firebase](https://firebase.google.com/) call `useFirestore()` in [SocialEngine](https://github.com/Qolzam/react-social-network/blob/next/src/socialEngine.ts#L20) file.
 ### Features
-
+  - [InversifyJS](http://inversify.io/) as IOC container
+  - Add auto compile on changing code for `webpack`
+  - Open browser on after compiling on `npm start`. You need to set `PORT=[PORT_NUMBER]` in [config file](https://github.com/Qolzam/react-social-network/blob/next/docs/app/configure/development.env).
+  - Add reset password, confirm password and authorizing by GitHub, Google and Facebook.
+  - Add scroll auto loading for show posts and people pages.
+  - Using [Firestore](https://firebase.google.com/docs/firestore/)
+  - Some cool stuff :)
 
 ## Required Knowledge
 
@@ -147,6 +153,7 @@ Follow [firebase instruction](https://firebase.google.com/docs/hosting/deploying
   * [React Router V4](https://github.com/ReactTraining/react-router) for routing website location
   * [Sass](http://sass-lang.com/) CSS with superpowers. Sass boasts more features and abilities than any other CSS extension language out there.
   * [Webpack](https://webpack.js.org/) for bundling code
+  * [InversifyJS](http://inversify.io/) InversifyJS is a lightweight (4KB) inversion of control (IoC) container for TypeScript and JavaScript apps. A IoC container uses a class constructor to identify and inject its dependencies.
 
 ## Contributing
 
