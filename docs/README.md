@@ -12,7 +12,7 @@
 [![Gitter](https://badges.gitter.im/react-social-network/Lobby.svg)](https://gitter.im/react-social-network/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 The React Social Network is an open source project relying on [React](https://facebook.github.io/react/docs/hello-world.html) a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network. 
-The structure of this project give the ability to devoloper to develop their project on thier own idea and environment.
+The structure of this project give the ability to developer to develop their project on their own idea and environment.
 
 <p align="center">
   <a href="http://greensocial.herokuapp.com/">
@@ -31,6 +31,34 @@ By participating, you are expected to uphold this code. Please report unacceptab
 ## Example
 
   [Love Open Social](https://love-social.firebaseapp.com)
+ 
+
+## What is new?
+### Structure
+New structure could make the project easy to change and scale up.
+There are three main layers:
+ - [Core](https://github.com/Qolzam/react-social-network/tree/next/src/core) 
+   - [Domain](https://github.com/Qolzam/react-social-network/tree/next/src/core/domain)
+   - [Providing interface for data services](https://github.com/Qolzam/react-social-network/tree/next/src/core/services)
+ - [Data](https://github.com/Qolzam/react-social-network/tree/next/src/data)
+  - This layer provide supporting variety of data platforms such as [Firebase](https://firebase.google.com/), [AWS](https://aws.amazon.com/), ... .
+    - [FirestoreClient](https://github.com/Qolzam/react-social-network/tree/next/src/data/firestoreClient)
+    - AwsClient
+    - AspNetClient
+    - ...
+ - [Components](https://github.com/Qolzam/react-social-network/tree/next/src/components)
+  - This layer take care of user interface which on [React](https://reactjs.org) and in [react-mobile-social] on [React Native](https://facebook.github.io/react-native/). It means **the only thing change here among these three layers on mobile app, is component layer**.
+
+### IOC Container
+  - Using [InversifyJS](http://inversify.io/) in project give us the ability to switch between custom dependencies easily. Specially for *data layer*, if you are the user working with [AWS](https://aws.amazon.com/) you only need to call `useAws()` or using [Firebase](https://firebase.google.com/) call `useFirestore()` in [SocialEngine](https://github.com/Qolzam/react-social-network/blob/next/src/socialEngine.ts#L20) file.
+### Features
+  - [InversifyJS](http://inversify.io/) as IOC container
+  - Add auto compile on changing code for `webpack`
+  - Open browser on after compiling on `npm start`. You need to set `PORT=[PORT_NUMBER]` in [config file](https://github.com/Qolzam/react-social-network/blob/next/docs/app/configure/development.env).
+  - Add reset password, confirm password and authorizing by GitHub, Google and Facebook.
+  - Add scroll auto loading for show posts and people pages.
+  - Using [Firestore](https://firebase.google.com/docs/firestore/)
+  - Some cool stuff :)
 
 ## Required Knowledge
 
@@ -49,7 +77,7 @@ I recommend that you get to know React before using React Social Network. React 
 ------------ | -------------
 [Firebase/Firestore](firebase.google.com/cloud/firestore‎) | :+1:
 [Amazon Web Service (AWS)](https://aws.amazon.com/) | On Developing :zap:
-[Azure](https://azure.microsoft.com/en-us/) | Future Support :star:
+[Azure](https://aws.amazon.com/) | Future Support :star:
 [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/) | On Developing :zap:
 ## Getting Started
 
@@ -91,7 +119,7 @@ and then install the package
           * In the Database section, click Try Firestore Beta.
           * Click Enable.
         * [Install Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
-      * Enable firestore dependecies
+      * Enable firestore dependencies
         * Go to React Social Network folder in `src/socialEngine.ts` write `useFirestore(provider)` to enable firestore dependencies!
 
     #### AWS Social Backend
@@ -125,6 +153,7 @@ Follow [firebase instruction](https://firebase.google.com/docs/hosting/deploying
   * [React Router V4](https://github.com/ReactTraining/react-router) for routing website location
   * [Sass](http://sass-lang.com/) CSS with superpowers. Sass boasts more features and abilities than any other CSS extension language out there.
   * [Webpack](https://webpack.js.org/) for bundling code
+  * [InversifyJS](http://inversify.io/) InversifyJS is a lightweight (4KB) inversion of control (IoC) container for TypeScript and JavaScript apps. A IoC container uses a class constructor to identify and inject its dependencies.
 
 ## Contributing
 
