@@ -1,5 +1,6 @@
 import { Profile } from 'core/domain/users'
 import { Comment } from 'core/domain/comments'
+import { ServerRequestModel } from 'models/server'
 export interface ICommentGroupComponentProps {
 
   /**
@@ -97,5 +98,15 @@ export interface ICommentGroupComponentProps {
    * @memberof ICommentGroupComponentProps
    */
   send?: (commentText: string, postId: string, clearCommentWrite: () => void) => any
+
+  /**
+   * Get post comments request payload
+   */
+  getCommentsRequest?: ServerRequestModel
+
+  /**
+   * Styles
+   */
+  classes?: any
 
 }

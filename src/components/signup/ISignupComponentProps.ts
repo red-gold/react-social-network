@@ -5,19 +5,24 @@ export interface ISignupComponentProps {
    *
    * @memberof ISignupComponentState
    */
-  showError: (message: string) => any
+  showError?: (message: string) => any
 
     /**
      * Register user
      *
      * @memberof ISignupComponentState
      */
-  register: (data: any) => any
+  register?: (data: any) => any
 
     /**
      * Login
      *
      * @memberof ISignupComponentState
      */
-  loginPage: () => any
+  loginPage?: () => any
+
+  /**
+   * Styles
+   */
+  classes?: any
 }

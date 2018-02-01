@@ -2,7 +2,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SvgImage from 'material-ui/svg-icons/image/image'
+import SvgImage from 'material-ui-icons/image'
+import { withStyles } from 'material-ui/styles'
 
 // - Import app components
 
@@ -12,6 +13,15 @@ import SvgImage from 'material-ui/svg-icons/image/image'
 import * as imageGalleryActions from 'actions/imageGalleryActions'
 import { IImgComponentProps } from './IImgComponentProps'
 import { IImgComponentState } from './IImgComponentState'
+
+const styles = (theme: any) => ({
+  image: {
+    verticalAlign: 'top',
+    maxWidth: '100%',
+    minWidth: '100%',
+    width: '100%'
+  }
+})
 
 /**
  * Create component class
@@ -77,9 +87,10 @@ export class ImgComponent extends Component<IImgComponentProps,IImgComponentStat
 
     let { fileName, style } = this.props
     let { isImageLoaded } = this.state
+    const {classes} = this.props
     return (
       <div>
-        <img onLoad={this.handleLoadImage} src={fileName || ''} style={isImageLoaded ? style : { display: 'none' }} />
+        <img className={classes.image} onLoad={this.handleLoadImage} src={fileName || ''} style={isImageLoaded ? style : { display: 'none' }} />
         <div style={Object.assign({},{ backgroundColor: 'white' }, isImageLoaded ? { display: 'none' } : this.styles.loding) }>
           <div style={this.styles.loadingContent as any}>
             <SvgImage style={this.styles.loadingImage} />
@@ -117,4 +128,4 @@ const mapStateToProps = (state: any, ownProps: IImgComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(ImgComponent as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ImgComponent as any)as any)

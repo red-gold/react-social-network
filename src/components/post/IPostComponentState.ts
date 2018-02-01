@@ -38,5 +38,18 @@ export interface IPostComponentState {
        */
   openPostWrite: boolean
 
+  /**
+   * Open the comment group
+   */
   openCommentGroup?: () => void
+
+  /**
+   * Post menu anchor element
+   */
+  postMenuAnchorEl?: any
+
+  /**
+   * Whether post menu open
+   */
+  isPostMenuOpen?: boolean
 }

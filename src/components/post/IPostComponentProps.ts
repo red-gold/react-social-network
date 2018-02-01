@@ -114,4 +114,9 @@ export interface IPostComponentProps {
    * @memberof ICommentGroupComponentProps
    */
   commentList?: {[commentId: string]: Comment}
+
+  /**
+   * Styles
+   */
+  classes?: any
 }

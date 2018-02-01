@@ -2,13 +2,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { List } from 'material-ui/List'
+import List from 'material-ui/List'
 
 // - Import app components
 import CircleComponent from 'components/circle'
 import { IYourCirclesComponentProps } from './IYourCirclesComponentProps'
 import { IYourCirclesComponentState } from './IYourCirclesComponentState'
-import { Circle } from 'core/domain/circles';
+import { Circle } from 'core/domain/circles'
 
 // - Import API
 
@@ -45,7 +45,7 @@ export class YourCirclesComponent extends Component<IYourCirclesComponentProps,I
 
     if (circles) {
       Object.keys(circles).map((key, index) => {
-          parsedCircles.push(<CircleComponent key={key} circle={circles![key]} id={key} uid={uid!} />)
+        parsedCircles.push(<CircleComponent key={key} circle={circles![key]} id={key} uid={uid!} />)
       })
     }
     return parsedCircles

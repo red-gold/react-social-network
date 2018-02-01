@@ -201,3 +201,12 @@ input[type="file"] {
     margin: 3px auto 15px;
     border-radius: 9px;
 }
+
+g__input-underline {
+    &::before {
+        display: none;
+    }
+    &::after {
+        display: none;
+    }
+}

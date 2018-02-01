@@ -55,4 +55,9 @@ export interface IEditProfileComponentProps {
    * @memberof IEditProfileComponentProps
    */
   onRequestClose?: () => void
+
+  /**
+   * Styles
+   */
+  classes: any
 }

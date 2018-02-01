@@ -28,6 +28,11 @@ export interface IPostWriteComponentState {
   /**
    * If it's true share will be disabled on post
    */
-  disableSharing: boolean
+  disableSharing: boolean,
+
+  /**
+   * Whether menu is open
+   */
+  menuOpen: boolean
 
 }

@@ -4,8 +4,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { push } from 'react-router-redux'
-import SvgClose from 'material-ui/svg-icons/navigation/close'
-import { grey400 } from 'material-ui/styles/colors'
+import SvgClose from 'material-ui-icons/close'
+import { grey } from 'material-ui/colors'
+import { withStyles } from 'material-ui/styles'
+import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List'
 
 // - Import app components
 import UserAvatar from 'components/userAvatar'
@@ -17,6 +19,20 @@ import * as notifyActions from 'actions/notifyActions'
 
 import { INotifyItemComponentProps } from './INotifyItemComponentProps'
 import { INotifyItemComponentState } from './INotifyItemComponentState'
+
+const styles = (theme: any) => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper
+  },
+  closeButton: {color: 'black'},
+  closeIcon: {width: 12, height: 12},
+  listItem: {
+    backgroundColor: 'white',
+    marginBottom: '6px'
+  }
+})
 
 /**
  * Create component class
@@ -90,13 +106,12 @@ export class NotifyItemComponent extends Component<INotifyItemComponentProps,INo
      * @return {react element} return the DOM which rendered by component
      */
   render () {
-    let { description, fullName, avatar, isSeen, id, goTo,closeNotify, notifierUserId, url, deleteNotiy } = this.props
+    let { description, fullName, avatar, isSeen, id, goTo,closeNotify, notifierUserId, url, deleteNotiy, classes } = this.props
 
     return (
 
-            <div className='item' style={isSeen ? { opacity: 0.6 } : {}} key={id}>
-                <div className='avatar'>
-                    <NavLink
+        <ListItem key={notifierUserId} dense button className={classes.listItem} style={isSeen ? { opacity: 0.6 } : {}}>
+              <NavLink
                         to={`/${notifierUserId}`}
                         onClick={(evt) => {
                           evt.preventDefault()
@@ -106,21 +121,20 @@ export class NotifyItemComponent extends Component<INotifyItemComponentProps,INo
                     >
                         <UserAvatar fullName={fullName} fileName={avatar} />
                     </NavLink>
-                </div>
-                <div className='info'>
-                    <NavLink to={url} onClick={this.handleSeenNotify}>
+              <ListItemText primary={<NavLink to={url} onClick={this.handleSeenNotify}>
                         <div className='user-name'>
                             {fullName}
                         </div>
                         <div className='description'>
                             {description}
                         </div>
-                    </NavLink>
+                    </NavLink>} />
+              <ListItemSecondaryAction className={classes.closeButton}>
+              <div onClick={() => deleteNotiy!(id)}>
+                    <SvgClose className={classes.closeIcon} style={{ cursor: 'pointer' }} />
                 </div>
-                <div className='close' onClick={() => deleteNotiy!(id)}>
-                    <SvgClose hoverColor={grey400} style={{ cursor: 'pointer' }} />
-                </div>
-            </div>
+              </ListItemSecondaryAction>
+            </ListItem>
 
     )
   }
@@ -153,4 +167,4 @@ const mapStateToProps = (state: any, ownProps: INotifyItemComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(NotifyItemComponent as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NotifyItemComponent as any) as any )

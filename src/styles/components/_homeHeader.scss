@@ -1,5 +1,9 @@
-.homeHeader__page {
-  border-left: 1px solid rgba(255, 255, 255, 0.2);
+.homeHeader__title-root {
+  flex: 1;
+}
+
+.homeHeader__title {
+  border-left: 1px solid #fff;
   padding-left: 24px;
   margin-left: 24px;
   line-height: 32px;
@@ -7,7 +11,7 @@
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
   font-size: 20px;
   -webkit-font-smoothing: antialiased;
-  color: white;
+  color: #fff;
 }
 
 .homeHeader__right {

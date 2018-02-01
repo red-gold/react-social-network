@@ -2,13 +2,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors'
+import { grey } from 'material-ui/colors'
 import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
-import FlatButton from 'material-ui/FlatButton'
-import RaisedButton from 'material-ui/RaisedButton'
+import MoreVertIcon from 'material-ui-icons/moreVert'
+import { MenuList, MenuItem } from 'material-ui/Menu'
+import Button from 'material-ui/Button'
+import RaisedButton from 'material-ui/Button'
 import EventListener, { withOptions } from 'react-event-listener'
 import { Parallax, Background } from 'react-parallax'
 
@@ -152,19 +151,18 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
     }
 
     const iconButtonElement = (
-            <IconButton style={this.state.isSmall ? styles.iconButtonSmall : styles.iconButton} iconStyle={this.state.isSmall ? styles.iconButtonSmall : styles.iconButton}
-                touch={true}
-            >
-                <MoreVertIcon color={grey400} viewBox='10 0 24 24' />
+            <IconButton style={this.state.isSmall ? styles.iconButtonSmall : styles.iconButton}>
+                <MoreVertIcon style={{...(this.state.isSmall ? styles.iconButtonSmall : styles.iconButton), color: grey[400]}} viewBox='10 0 24 24' />
             </IconButton>
         )
 
     const RightIconMenu = () => (
-            <IconMenu iconButtonElement={iconButtonElement}>
+      <div>
+           {iconButtonElement}
                 <MenuItem style={{ fontSize: '14px' }}>Reply</MenuItem>
                 <MenuItem style={{ fontSize: '14px' }}>Edit</MenuItem>
                 <MenuItem style={{ fontSize: '14px' }}>Delete</MenuItem>
-            </IconMenu>
+      </div>
         )
 
     const {isAuthedUser} = this.props
@@ -200,7 +198,11 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
                         </div>
                     </div>
                     <div className='right'>
-                        {isAuthedUser ? (<div style={this.state.isSmall ? styles.editButtonSmall : styles.editButton}><RaisedButton label='EDIT PROFILE' onClick={this.props.openEditor} /></div>) : ''}
+                        {isAuthedUser ? (<div style={this.state.isSmall ? styles.editButtonSmall : styles.editButton}>
+                        <Button raised onClick={this.props.openEditor}>
+                        EDIT PROFILE
+                        </Button>
+                        </div>) : ''}
                     </div>
                 </div>
                 {isAuthedUser ? (<EditProfile

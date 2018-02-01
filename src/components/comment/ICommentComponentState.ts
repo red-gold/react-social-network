@@ -15,7 +15,7 @@ export interface ICommentComponentState {
    * @type {string}
    * @memberof ICommentComponentProps
    */
-  text?: string | null
+  text: string
 
   /**
    * Comment is in edit state {true} or not {false}
@@ -40,4 +40,9 @@ export interface ICommentComponentState {
    * @memberof ICommentComponentState
    */
   display?: boolean
+
+  /**
+   * Wheter comment menu is open
+   */
+  openMenu?: boolean
 }

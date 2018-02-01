@@ -1,8 +1,7 @@
 // - Import react components
 import React, { Component } from 'react'
-import CircularProgress from 'material-ui/CircularProgress'
+import { CircularProgress } from 'material-ui/Progress'
 import Dialog from 'material-ui/Dialog'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { IMasterLoadingComponentProps } from './IMasterLoadingComponentProps'
 import { IMasterLoadingComponentState } from './IMasterLoadingComponentState'
 
@@ -24,15 +23,15 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
     return (
 
       <div className='mLoading__loading' style={{ display: (activeLoading ? 'flex' : 'none') }}>
-        <RefreshIndicator
-          size={50}
-          left={70}
-          top={0}
-          status='loading'
-        />
+         <CircularProgress
+        color='secondary'
+        size={50}
+        mode='determinate'
+        value={25}
+        min={0}
+        max={50}
+      />
       </div>
-
-
 
     )
   }

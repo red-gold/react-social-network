@@ -5,25 +5,35 @@ import { NavLink, withRouter } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
-import FontIcon from 'material-ui/FontIcon'
+import RaisedButton from 'material-ui/Button'
+import Button from 'material-ui/Button'
+import IconButton from 'material-ui/IconButton'
 import Divider from 'material-ui/Divider'
-import ActionAndroid from 'material-ui/svg-icons/action/android'
+import ActionAndroid from 'material-ui-icons/android'
+import { withStyles } from 'material-ui/styles'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
 import { ILoginComponentProps } from './ILoginComponentProps'
 import { ILoginComponentState } from './ILoginComponentState'
-import { firebaseAuth } from 'data/firebaseClient'
 import { OAuthType } from 'core/domain/authorize'
+
+const styles = (theme: any) => ({
+  textField: {
+    minWidth: 280,
+    marginTop: 20
+
+  }
+})
 
 // - Create Login component class
 export class LoginComponent extends Component<ILoginComponentProps,ILoginComponentState> {
 
   styles = {
     singinOptions: {
-      paddingBottom: 10
+      paddingBottom: 10,
+      justifyContent: 'space-around',
+      display: 'flex'
     },
     divider: {
       marginBottom: 10,
@@ -124,6 +134,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
    * @return {react element} return the DOM which rendered by component
    */
   render () {
+    const {classes} = this.props
 
     const paperStyle = {
       minHeight: 370,
@@ -148,7 +159,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
         }}>Green</h1>
 
         <div className='animate-bottom'>
-          <Paper style={paperStyle} zDepth={1} rounded={false} >
+          <Paper style={paperStyle} elevation={1} >
             <div style={{ padding: '48px 40px 36px' }}>
               <div style={{
                 paddingLeft: '40px',
@@ -164,38 +175,37 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
                   margin: 0
                 }} className='zoomOutLCorner animated'>Sign in</h2>
               </div>
-              <div style={this.styles.singinOptions}>
-              <FlatButton
-                icon={<div className='icon-fb icon'></div>}
-                onClick={() => loginWithOAuth(OAuthType.FACEBOOK)}
-                />
-              <FlatButton
-                icon={<div className='icon-google icon'></div>}
-                onClick={() => loginWithOAuth(OAuthType.GOOGLE)}
-                />
-              <FlatButton
-                icon={<div className='icon-github icon'></div>}
-                onClick={() => loginWithOAuth(OAuthType.GITHUB)}
-
-              />
+              <div style={this.styles.singinOptions as any}>
+              <IconButton
+                onClick={() => loginWithOAuth!(OAuthType.FACEBOOK)}
+              ><div className='icon-fb icon'></div></IconButton>
+              <IconButton
+                onClick={() => loginWithOAuth!(OAuthType.GOOGLE)}
+              > <div className='icon-google icon'></div> </IconButton>
+              <IconButton
+                onClick={() => loginWithOAuth!(OAuthType.GITHUB)}
+              > <div className='icon-github icon'></div> </IconButton>
 
               </div>
               <Divider style={this.styles.divider} />
               <TextField
+              className={classes.textField}
+               autoFocus
                 onChange={this.handleInputChange}
-                errorText={this.state.emailInputError}
+                helperText={this.state.emailInputError}
+                error={this.state.emailInputError.trim() !== ''}
                 name='emailInput'
-                floatingLabelStyle={{ fontSize: '15px' }}
-                floatingLabelText='Email'
+                label='Email'
                 type='email'
                 tabIndex={1}
               /><br />
               <TextField
+              className={classes.textField}
                 onChange={this.handleInputChange}
-                errorText={this.state.passwordInputError}
+                helperText={this.state.passwordInputError}
+                error={this.state.passwordInputError.trim() !== ''}
                 name='passwordInput'
-                floatingLabelStyle={{ fontSize: '15px' }}
-                floatingLabelText='Password'
+                label='Password'
                 type='password'
                 tabIndex={2}
               /><br />
@@ -203,10 +213,10 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
               <br />
               <div className='login__button-box'>
                 <div>
-                  <FlatButton label='Create an account' onClick={this.props.signupPage} tabIndex={4} />
+                  <Button onClick={this.props.signupPage} tabIndex={4}> Create an account </Button>
                 </div>
                 <div >
-                  <RaisedButton label='Login' primary={true} onClick={this.handleForm} tabIndex={3} />
+                  <Button raised color='primary' onClick={this.handleForm} tabIndex={3} > Login </Button>
                 </div>
               </div>
                 <span style={this.styles.restPassword as any}>Have you forgot your password? <NavLink to='/resetPassword' style={this.styles.restPasswordLink}>reset your password</NavLink></span>
@@ -249,4 +259,4 @@ const mapStateToProps = (state: any, ownProps: ILoginComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginComponent as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LoginComponent as any) as any))

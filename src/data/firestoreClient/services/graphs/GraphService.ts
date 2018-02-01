@@ -121,7 +121,6 @@ export class GraphService implements IGraphService {
           graphsRef = graphsRef.where('leftNode', '==', leftNode)
         }
         if (rightNode && rightNode != null) {
-          console.trace('getGraphsQuery', {collection, leftNode, edgeType, rightNode})
 
           graphsRef = graphsRef.where('rightNode', '==', rightNode)
         }

@@ -2,16 +2,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { GridList, GridTile } from 'material-ui/GridList'
+import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList'
 import IconButton from 'material-ui/IconButton'
-import Subheader from 'material-ui/Subheader'
-import StarBorder from 'material-ui/svg-icons/toggle/star-border'
-import FloatingActionButton from 'material-ui/FloatingActionButton'
-import SvgUpload from 'material-ui/svg-icons/file/cloud-upload'
-import SvgAddImage from 'material-ui/svg-icons/image/add-a-photo'
-import SvgDelete from 'material-ui/svg-icons/action/delete'
-import { grey200, grey600 } from 'material-ui/styles/colors'
-import FlatButton from 'material-ui/FlatButton'
+import StarBorder from 'material-ui-icons/starBorder'
+import Button from 'material-ui/Button'
+import SvgUpload from 'material-ui-icons/cloudUpload'
+import SvgAddImage from 'material-ui-icons/addAPhoto'
+import SvgDelete from 'material-ui-icons/delete'
+import { grey } from 'material-ui/colors'
 import uuid from 'uuid'
 
 // - Import actions
@@ -52,7 +50,8 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
       overflowY: 'auto'
     },
     uploadButton: {
-      verticalAlign: 'middle'
+      verticalAlign: 'middle',
+      fontWeight: 100
     },
     uploadInput: {
       cursor: 'pointer',
@@ -66,11 +65,13 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
     },
     deleteImage: {
       marginLeft: '5px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      color: 'white'
     },
     addImage: {
       marginRight: '5px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      color: 'white'
     }
   }
 
@@ -125,7 +126,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
 
     const { resizedImage, fileName } = event.detail
     const {uploadImage} = this.props
-    uploadImage(resizedImage,fileName)
+    uploadImage!(resizedImage,fileName)
   }
 
   /**
@@ -150,11 +151,9 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
 
     return this.props.images!.map((image: Image, index) => {
 
-      return (<GridTile
+      return (
+      <GridListTile
         key={image.id!}
-        title={<SvgDelete hoverColor={grey200} color='white' style={this.styles.deleteImage as any} onClick={evt => this.handleDeleteImage(evt, image.id!)} />}
-        subtitle={<span></span>}
-        actionIcon={<SvgAddImage hoverColor={grey200} color='white' style={this.styles.addImage as any} onClick={evt => this.handleSetImage(evt, image.URL,image.fullPath)} />}
       >
         <div>
           <div style={{ overflowY: 'hidden', overflowX: 'auto' }}>
@@ -171,7 +170,15 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
             </ul>
           </div>
         </div>
-      </GridTile>)
+        <GridListTileBar
+              title={<SvgDelete style={this.styles.deleteImage as any} onClick={evt => this.handleDeleteImage(evt, image.id!)} />}
+              titlePosition='top'
+              actionIcon={
+                <SvgAddImage style={this.styles.addImage as any} onClick={evt => this.handleSetImage(evt, image.URL,image.fullPath)} />
+              }
+              actionPosition='left'
+            />
+      </GridListTile>)
     })
   }
 
@@ -193,21 +200,24 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
           cellHeight={180}
           style={this.styles.gridList as any}
         >
-          <GridTile >
+          <GridListTile key='upload-image-gallery' >
 
             <div style={{ display: 'flex', backgroundColor: 'rgba(222, 222, 222, 0.52)', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
 
-              <FlatButton
-                label='Upload Photo'
-                labelStyle={{ fontWeight: 100 }}
-                labelPosition='before'
-                style={this.styles.uploadButton}
-                containerElement='label'
-              >
-                <input type='file' onChange={this.onFileChange} accept='image/*' style={this.styles.uploadInput as any} />
-              </FlatButton>
+              <input
+                accept='image/*'
+                style={this.styles.uploadInput as any}
+                id='raised-button-file'
+                onChange={this.onFileChange}
+                type='file'
+              />
+              <label htmlFor='raised-button-file'>
+                <Button raised component='span' style={this.styles.uploadButton as any}>
+                  Upload
+        </Button>
+              </label>
             </div>
-          </GridTile>
+          </GridListTile>
           {this.imageList()}
         </GridList>
       </div>

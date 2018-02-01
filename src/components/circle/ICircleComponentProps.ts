@@ -78,4 +78,9 @@ export interface ICircleComponentProps {
    * @memberof ICircleComponentProps
    */
   openCircleSettings?: () => any
+
+  /**
+   * Styles
+   */
+  classes?: any
 }

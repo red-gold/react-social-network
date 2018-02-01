@@ -2,25 +2,33 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors'
+import { grey } from 'material-ui/colors'
 import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import SvgCamera from 'material-ui/svg-icons/image/photo-camera'
-import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
-import FlatButton from 'material-ui/FlatButton'
-import RaisedButton from 'material-ui/RaisedButton'
+import MoreVertIcon from 'material-ui-icons/moreVert'
+import SvgCamera from 'material-ui-icons/photoCamera'
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
+import Menu, { MenuList, MenuItem } from 'material-ui/Menu'
+import Button from 'material-ui/Button'
+import RaisedButton from 'material-ui/Button'
 import EventListener, { withOptions } from 'react-event-listener'
-import Dialog from 'material-ui/Dialog'
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle
+} from 'material-ui/Dialog'
 import Divider from 'material-ui/Divider'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
+import Input, { InputLabel } from 'material-ui/Input'
+import { FormControl, FormHelperText } from 'material-ui/Form'
+import { withStyles } from 'material-ui/styles'
 
 // - Import app components
 import ImgCover from 'components/imgCover'
 import UserAvatarComponent from 'components/userAvatar'
 import ImageGallery from 'components/imageGallery'
-import DialogTitle from 'layouts/DialogTitle'
+import AppDialogTitle from 'layouts/dialogTitle'
 
 // - Import API
 import FileAPI from 'api/FileAPI'
@@ -33,6 +41,12 @@ import * as imageGalleryActions from 'actions/imageGalleryActions'
 import { IEditProfileComponentProps } from './IEditProfileComponentProps'
 import { IEditProfileComponentState } from './IEditProfileComponentState'
 import { Profile } from 'core/domain/users'
+
+const styles = (theme: any) => ({
+  dialogTitle: {
+    padding: 0
+  }
+})
 
 /**
  * Create component class
@@ -277,20 +291,20 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
      */
   render () {
 
+    const {classes} = this.props
     const iconButtonElement = (
-            <IconButton style={this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton} iconStyle={this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton}
-                touch={true}
-            >
-                <MoreVertIcon color={grey400} viewBox='10 0 24 24' />
+            <IconButton style={this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton}>
+                <MoreVertIcon style={{...(this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton),color: grey[400]}} viewBox='10 0 24 24' />
             </IconButton>
         )
 
     const RightIconMenu = () => (
-            <IconMenu iconButtonElement={iconButtonElement}>
+      <div>
+      {iconButtonElement}
                 <MenuItem style={{ fontSize: '14px' }}>Reply</MenuItem>
                 <MenuItem style={{ fontSize: '14px' }}>Edit</MenuItem>
                 <MenuItem style={{ fontSize: '14px' }}>Delete</MenuItem>
-            </IconMenu>
+            </div>
         )
 
     return (
@@ -299,15 +313,10 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
                 {/* Edit profile dialog */}
                 <Dialog
                     key='Edit-Profile'
-                    modal={false}
                     open={this.props.open!}
-                    onRequestClose={this.props.onRequestClose}
-                    autoScrollBodyContent={true}
-                    bodyStyle={{ backgroundColor: 'none', padding: 'none', borderTop: 'none', borderBottom: 'none' }}
-                    overlayStyle={{ background: 'rgba(0,0,0,0.12)' }}
-                    contentStyle={{ backgroundColor: 'none', maxWidth: '450px', maxHeight: 'none', height: '100%' }}
-                    style={{ backgroundColor: 'none', maxHeight: 'none', height: '100%' }}
+                    onClose={this.props.onRequestClose}
                 >
+                <DialogContent>
                     {/* Banner */}
                     <div style={{ position: 'relative' }}>
                         <ImgCover width='100%' height='250px' borderRadius='2px' fileName={this.state.banner} />
@@ -323,7 +332,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
                         <div className='left'>
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                                 {/* Avatar */}
-                                <div className='g__circle-black' onClick={this.handleOpenAvatarGallery} style={{ position: 'absolute', left: '50%', display: 'inline-block', top: '52px', margin: '-18px' }}>
+                                <div className='g__circle-black' onClick={this.handleOpenAvatarGallery} style={{zIndex: 1, position: 'absolute', left: '50%', display: 'inline-block', top: '52px', margin: '-18px' }}>
                                     <SvgCamera style={{ fill: 'rgba(255, 255, 255, 0.88)', transform: 'translate(6px, 6px)' }} />
 
                                 </div>
@@ -340,61 +349,59 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
                     </div>
 
                     {/* Edit user information box*/}
-                    <Paper style={this.styles.paper} zDepth={1}>
+                    <Paper style={this.styles.paper} elevation={1}>
                         <div style={this.styles.title as any}>Personal Information</div>
                         <div style={this.styles.box}>
-                            <TextField
-                                floatingLabelText='Full name'
-                                onChange={this.handleInputChange}
-                                name='fullNameInput'
-                                errorText={this.state.fullNameInputError}
-                                value={this.state.fullNameInput}
-                            />
+                          <FormControl aria-describedby='fullNameInputError'>
+                            <InputLabel htmlFor='fullNameInput'>Full name</InputLabel>
+                            <Input id='fullNameInput'
+                              onChange={this.handleInputChange}
+                              name='fullNameInput'
+                              value={this.state.fullNameInput} />
+                            <FormHelperText id='fullNameInputError'>{this.state.fullNameInputError}</FormHelperText>
+                          </FormControl>
                         </div>
                         <br />
                         <div style={this.styles.box}>
-                            <TextField
-                                floatingLabelText='Tag Line'
-                                onChange={this.handleInputChange}
-                                name='tagLineInput'
-                                value={this.state.tagLineInput}
-                            />
+                        <FormControl aria-describedby='tagLineInputError'>
+                            <InputLabel htmlFor='tagLineInput'>Tagline</InputLabel>
+                            <Input id='tagLineInput'
+                              onChange={this.handleInputChange}
+                              name='tagLineInput'
+                              value={this.state.tagLineInput} />
+                            <FormHelperText id='tagLineInputError'>{this.state.fullNameInputError}</FormHelperText>
+                          </FormControl>
                         </div>
                         <br />
                         <div style={this.styles.actions as any}>
-                            <FlatButton label='CANCEL' onClick={this.props.onRequestClose} />
-                            <RaisedButton label='UPDATE' primary={true} onClick={this.handleUpdate} style={this.styles.updateButton} />
+                            <Button onClick={this.props.onRequestClose} > CANCEL </Button>
+                            <Button raised color='primary' onClick={this.handleUpdate} style={this.styles.updateButton}> UPDATE </Button>
                         </div>
                     </Paper>
                     <div style={{ height: '16px' }}></div>
-
+                    </DialogContent>
                 </Dialog>
 
                 {/* Image gallery for banner*/}
                 <Dialog
-                    title={<DialogTitle title='Choose an banner image' onRequestClose={this.handleCloseBannerGallery} />}
-                    modal={false}
                     open={this.state.openBanner}
-                    contentStyle={this.styles.dialogGallery}
-                    onRequestClose={this.handleCloseBannerGallery}
-                    overlayStyle={{ background: 'rgba(0,0,0,0.12)' }}
-                    autoDetectWindowHeight={false}
+                    onClose={this.handleCloseBannerGallery}
 
                 >
+                <DialogTitle className={classes.dialogTitle}>
+                <AppDialogTitle title='Choose an banner image' onRequestClose={this.handleCloseBannerGallery} />
+          </DialogTitle>
                     <ImageGallery set={this.handleRequestSetBanner} close={this.handleCloseBannerGallery} />
                 </Dialog>
 
                 {/* Image gallery for avatar */}
                 <Dialog
-                    title={<DialogTitle title='Choose an avatar image' onRequestClose={this.handleCloseAvatarGallery} />}
-                    modal={false}
                     open={this.state.openAvatar}
-                    contentStyle={this.styles.dialogGallery}
-                    onRequestClose={this.handleCloseAvatarGallery}
-                    overlayStyle={{ background: 'rgba(0,0,0,0.12)' }}
-                    autoDetectWindowHeight={false}
-
+                    onClose={this.handleCloseAvatarGallery}
                 >
+                <DialogTitle className={classes.dialogTitle}>
+                <AppDialogTitle title='Choose an avatar image' onRequestClose={this.handleCloseAvatarGallery} />
+          </DialogTitle>
                     <ImageGallery set={this.handleRequestSetAvatar} close={this.handleCloseAvatarGallery} />
                 </Dialog>
 
@@ -433,4 +440,4 @@ const mapStateToProps = (state: any, ownProps: IEditProfileComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(EditProfileComponent as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EditProfileComponent as any) as any)

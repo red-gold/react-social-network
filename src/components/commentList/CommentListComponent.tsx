@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { List, ListItem } from 'material-ui/List'
+import List, { ListItem, ListItemText } from 'material-ui/List'
 
 // - Import app components
 import CommentComponent from 'components/Comment'
@@ -68,7 +68,7 @@ export class CommentListComponent extends Component<ICommentListComponentProps, 
 
       return sortedComments.map((comment: Comment, index: number, array: Comment) => {
 
-        return <CommentComponent key={comment.id} comment={comment} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments}/>
+        return <CommentComponent key={comment.id!} comment={comment} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments}/>
 
       })
 
@@ -84,8 +84,7 @@ export class CommentListComponent extends Component<ICommentListComponentProps, 
     const styles: any = {
       list: {
         width: '100%',
-        maxHeight: 450,
-        overflowY: 'auto'
+        maxHeight: 450
       }
     }
 

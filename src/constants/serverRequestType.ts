@@ -3,6 +3,7 @@ export enum ServerRequestType {
     CircleFollowUser = 'CircleFollowUser',
     CircleCreateTieUser = 'CircleCreateTieUser',
     CircleDeleteFollowingUser = 'CircleDeleteFollowingUser',
-    CommonSendFeedback = 'CommonSendFeedback'
+    CommonSendFeedback = 'CommonSendFeedback',
+    CommentGetComments = 'CommentGetComments'
 
 }

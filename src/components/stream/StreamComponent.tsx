@@ -3,13 +3,11 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card'
-import FlatButton from 'material-ui/FlatButton'
-import { grey400, grey800, darkBlack, lightBlack,tealA400 } from 'material-ui/styles/colors'
-import CircularProgress from 'material-ui/CircularProgress'
-import SvgCamera from 'material-ui/svg-icons/image/photo-camera'
+import Button from 'material-ui/Button'
+import { grey,teal } from 'material-ui/colors'
+import SvgCamera from 'material-ui-icons/photoCamera'
 import Paper from 'material-ui/Paper'
-import { List, ListItem } from 'material-ui/List'
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
 import InfiniteScroll from 'react-infinite-scroller'
 
 // - Import app components
@@ -50,11 +48,10 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
 
   styles = {
     postWritePrimaryText : {
-      color: grey400,
+      color: grey[400],
       cursor: 'text'
     },
     postWtireItem : {
-      padding: '7px 0px',
       fontWeight: '200'
     }
   }
@@ -220,15 +217,18 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
           <div className='grid-cell animate-top' style= {{maxWidth: '530px', minWidth: '280px'}}>
             {displayWriting && !tag
             ? (<PostWriteComponent open={this.state.openPostWrite} onRequestClose={this.handleClosePostWrite} edit={false} >
-                  <Paper zDepth={2} style={{ height: '68px', width: '100%' }}>
+                  <Paper elevation={2}>
 
-                    <ListItem
-                      primaryText={<span style={this.styles.postWritePrimaryText as any}> What's new with you? </span>}
-                      leftAvatar={<UserAvatarComponent fullName={this.props.fullName!} fileName={this.props.avatar!} size={36} />}
-                      rightIcon={<SvgCamera />}
+                    <ListItem button
                       style={this.styles.postWtireItem as any}
-                      onTouchTap={this.handleOpenPostWrite}
-                    />
+                      onClick={this.handleOpenPostWrite}
+                    >
+                    <UserAvatarComponent fullName={this.props.fullName!} fileName={this.props.avatar!} size={36} />
+        <ListItemText inset primary={<span style={this.styles.postWritePrimaryText as any}> What's new with you? </span>} />
+                    <ListItemIcon>
+                    <SvgCamera />
+        </ListItemIcon>
+                    </ListItem>
 
                   </Paper>
                   <div style={{ height: '16px' }}></div>

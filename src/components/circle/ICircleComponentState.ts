@@ -24,4 +24,9 @@ export interface ICircleComponentState {
    * @memberof ICircleComponentState
    */
   disabledSave: boolean
+
+  /**
+   * Whether circle menu is open
+   */
+  isMenuOpen: boolean
 }

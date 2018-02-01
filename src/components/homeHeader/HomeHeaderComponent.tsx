@@ -2,17 +2,20 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import SvgDehaze from 'material-ui/svg-icons/image/dehaze'
-import { green700, grey400, blue500 } from 'material-ui/styles/colors'
-import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
+import SvgDehaze from 'material-ui-icons/dehaze'
+import { grey, blue } from 'material-ui/colors'
+import Toolbar from 'material-ui/Toolbar'
 import IconButton from 'material-ui/IconButton'
-import RaisedButton from 'material-ui/RaisedButton'
-import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
-import Menu from 'material-ui/Menu'
-import MenuItem from 'material-ui/MenuItem'
+import Popover from 'material-ui/Popover'
+import AppBar from 'material-ui/AppBar'
+import Menu, { MenuList, MenuItem } from 'material-ui/Menu'
 import Paper from 'material-ui/Paper'
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications'
+import NotificationsIcon from 'material-ui-icons/notifications'
 import EventListener, { withOptions } from 'react-event-listener'
+import Tooltip from 'material-ui/Tooltip'
+import Typography from 'material-ui/Typography'
+import { Manager, Target, Popper } from 'react-popper'
+import { withStyles } from 'material-ui/styles'
 
 // - Import components
 import UserAvatarComponent from 'components/userAvatar'
@@ -24,20 +27,19 @@ import { authorizeActions } from 'actions'
 import { IHomeHeaderComponentProps } from './IHomeHeaderComponentProps'
 import { IHomeHeaderComponentState } from './IHomeHeaderComponentState'
 
+const styles = {
+  root: {
+    backgroundColor: '#a5792a'
+  },
+  flex: {
+    flex: 1
+  }
+}
+
 // - Create HomeHeader component class
-export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps,IHomeHeaderComponentState> {
+export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IHomeHeaderComponentState> {
 
   styles = {
-    toolbarStyle: {
-      transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
-      boxSizing: 'border-box',
-      fontFamily: 'Roboto, sans-serif',
-      position: 'fixed',
-      zIndex: '1101',
-      width: '100%',
-      top: '0px',
-      boxShadow: '0 1px 8px rgba(0,0,0,.3)'
-    },
     avatarStyle: {
       margin: 5,
       cursor: 'pointer'
@@ -49,7 +51,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps,IHo
    * Component constructor
    * @param  {object} props is an object properties of component
    */
-  constructor (props: IHomeHeaderComponentProps) {
+  constructor(props: IHomeHeaderComponentProps) {
     super(props)
 
     // Default state
@@ -89,10 +91,10 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps,IHo
   // On click toggle sidebar
   onToggleSidebar = () => {
     if (this.props.sidebarStatus) {
-      this.props.sidebar!(false,'onToggle')
+      this.props.sidebar!(false, 'onToggle')
 
     } else {
-      this.props.sidebar!(true,'onToggle')
+      this.props.sidebar!(true, 'onToggle')
 
     }
   }
@@ -120,9 +122,6 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps,IHo
    * @memberof HomeHeader
    */
   handleAvatarTouchTap = (event: any) => {
-    // This prevents ghost click.
-    event.preventDefault()
-
     this.setState({
       openAvatarMenu: true,
       anchorEl: event.currentTarget
@@ -147,7 +146,8 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps,IHo
    */
   handleRequestClose = () => {
     this.setState({
-      openAvatarMenu: false
+      openAvatarMenu: false,
+      anchorEl: null
     })
   }
 
@@ -183,69 +183,79 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps,IHo
 
   // Render app DOM component
   render () {
-
+    const { classes } = this.props
     return (
 
-      <Toolbar style={this.styles.toolbarStyle as any}>
-        <EventListener
-          target='window'
-          onResize={this.handleResize}
-          onKeyUp={this.handleKeyUp}
-        />
-        {/* Left side */}
-        <ToolbarGroup firstChild={true}>
+      <AppBar position='fixed' color='secondary'>
+        <Toolbar>
+          <EventListener
+            target='window'
+            onResize={this.handleResize}
+            onKeyUp={this.handleKeyUp}
+          />
+          {/* Left side */}
 
-          <IconButton iconStyle={{ color: '#fff' }} onClick={this.onToggleSidebar} >
-            <SvgDehaze style={{ color: '#fff', marginLeft: '15px', cursor: 'pointer' }} />
+          <IconButton onClick={this.onToggleSidebar} >
+            <SvgDehaze color='primary' style={{ cursor: 'pointer' }} />
           </IconButton>
           {/* Header title */}
-          <ToolbarTitle style={{ color: '#fff', marginLeft: '15px' }} text='Green' />
-          {this.state.showTitle ? <div className='homeHeader__page'>{this.props.title}</div> : ''}
-        </ToolbarGroup>
-        <ToolbarGroup>
+          <Typography type='title' color='primary' style={{ marginLeft: '15px' }} >
+            Green
+          </Typography>
+          <div className='homeHeader__title-root'>
+            {this.state.showTitle ? <div className='homeHeader__title'>{this.props.title}</div> : ''}
+          </div>
 
-        </ToolbarGroup>
-
-        {/* Notification */}
-        <ToolbarGroup lastChild={true}>
+          {/* Notification */}
           <div className='homeHeader__right'>
-            {this.props.notifyCount! > 0 ? (<IconButton tooltip='Notifications' onTouchTap={this.handleNotifyTouchTap}>
-              <div className='homeHeader__notify'>
-                <div className='title'>{this.props.notifyCount}</div>
-              </div>
-            </IconButton>)
-
-              : (<IconButton tooltip='Notifications' onTouchTap={this.handleNotifyTouchTap}>
-                <NotificationsIcon color='rgba(255, 255, 255, 0.87)' />
-              </IconButton>)}
-              <Notify open={this.state.openNotifyMenu} anchorEl={this.state.anchorEl} onRequestClose={this.handleCloseNotify}/>
+            <Manager>
+              <Target>
+                {this.props.notifyCount! > 0 ? (
+                  <Tooltip title='Notifications'>
+                    <IconButton onClick={this.handleNotifyTouchTap}>
+                      <div className='homeHeader__notify'>
+                        <div className='title'>{this.props.notifyCount}</div>
+                      </div>
+                    </IconButton>
+                  </Tooltip>)
+                  : (<Tooltip title='Notifications'>
+                    <IconButton onClick={this.handleNotifyTouchTap}>
+                      <NotificationsIcon style={{ color: 'rgba(255, 255, 255, 0.87)' }} />
+                    </IconButton>
+                  </Tooltip>)}
+              </Target>
+              <Notify open={this.state.openNotifyMenu} anchorEl={this.state.anchorEl} onRequestClose={this.handleCloseNotify} />
+            </Manager>
 
             {/* User avatar*/}
             <UserAvatarComponent
-              onTouchTap={this.handleAvatarTouchTap}
+              onClick={this.handleAvatarTouchTap}
               fullName={this.props.fullName!}
               fileName={this.props.avatar!}
               size={32}
               style={this.styles.avatarStyle}
             />
-            <Popover
+
+            <Menu
               open={this.state.openAvatarMenu}
-              anchorEl={this.state.anchorEl}
-              anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-              targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-              onRequestClose={this.handleRequestClose}
-            >
-              <Menu>
-                <MenuItem style={{ backgroundColor: 'white', color: blue500, fontSize: '14px' }} primaryText='MY ACCOUNT' />
-                <MenuItem primaryText='LOGOUT' style={{ fontSize: '14px' }} onClick={this.handleLogout.bind(this)} />
+              anchorEl={this.state.anchorEl!}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right'
+              }}
+              onClose={this.handleRequestClose}>
+              <MenuItem style={{ backgroundColor: 'white', color: blue[500], fontSize: '14px' }} > MY ACCOUNT </MenuItem>
+              <MenuItem style={{ fontSize: '14px' }} onClick={this.handleLogout.bind(this)} > LOGOUT </MenuItem>
 
-              </Menu>
-            </Popover>
+            </Menu>
           </div>
-        </ToolbarGroup>
 
-      </Toolbar>
-
+        </Toolbar>
+      </AppBar >
     )
   }
 }
@@ -261,10 +271,10 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IHomeHeaderComponentPr
 const mapStateToProps = (state: any, ownProps: IHomeHeaderComponentProps) => {
 
   let notifyCount = state.notify.userNotifies
-  ? Object
-  .keys(state.notify.userNotifies)
-  .filter((key) => !state.notify.userNotifies[key].isSeen).length
-  : 0
+    ? Object
+      .keys(state.notify.userNotifies)
+      .filter((key) => !state.notify.userNotifies[key].isSeen).length
+    : 0
   return {
     avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
     fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : '',
@@ -274,4 +284,4 @@ const mapStateToProps = (state: any, ownProps: IHomeHeaderComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(HomeHeaderComponent as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(HomeHeaderComponent as any) as any)

@@ -2,7 +2,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
+import classNames from 'classnames'
+import { Manager, Target, Popper } from 'react-popper'
+import ClickAwayListener from 'material-ui/utils/ClickAwayListener'
+import Grow from 'material-ui/transitions/Grow'
+import { withStyles } from 'material-ui/styles'
+import Typography from 'material-ui/Typography'
+import Paper from 'material-ui/Paper'
+import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List'
 
 // - Import app components
 import NotifyItem from 'components/notifyItem'
@@ -15,10 +22,30 @@ import { INotifyComponentProps } from './INotifyComponentProps'
 import { INotifyComponentState } from './INotifyComponentState'
 import { Notification } from 'core/domain/notifications'
 
+const styles = (theme: any) => ({
+  root: {
+    width: 360,
+    maxWidth: 360,
+    backgroundColor: '#efefef',
+    minHeight: 376,
+    display: 'flex'
+  },
+  noNotify: {
+    color: '#888888',
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
+    width: '100%'
+  },
+  popperClose: {
+    pointerEvents: 'none'
+  }
+})
+
 /**
  * Create component class
  */
-export class NotifyComponent extends Component<INotifyComponentProps,INotifyComponentState> {
+export class NotifyComponent extends Component<INotifyComponentProps, INotifyComponentState> {
 
   static propTypes = {
     /**
@@ -60,7 +87,7 @@ export class NotifyComponent extends Component<INotifyComponentProps,INotifyComp
     let parsedDOM: any[] = []
     if (notifications) {
       Object.keys(notifications).forEach((key) => {
-        const {notifierUserId} = notifications![key]
+        const { notifierUserId } = notifications![key]
         parsedDOM.push(
           <NotifyItem
             key={key}
@@ -68,7 +95,7 @@ export class NotifyComponent extends Component<INotifyComponentProps,INotifyComp
             fullName={(info![notifierUserId] ? info![notifierUserId].fullName || '' : '')}
             avatar={(info![notifierUserId] ? info![notifierUserId].avatar || '' : '')}
             id={key}
-            isSeen={(notifications![key] ? notifications![key].isSeen || false : false )}
+            isSeen={(notifications![key] ? notifications![key].isSeen || false : false)}
             url={(notifications![key] ? notifications![key].url || '' : '')}
             notifierUserId={notifierUserId}
             closeNotify={onRequestClose}
@@ -84,25 +111,27 @@ export class NotifyComponent extends Component<INotifyComponentProps,INotifyComp
    * @return {react element} return the DOM which rendered by component
    */
   render () {
-    let { open, anchorEl, onRequestClose } = this.props
-
+    let { open, anchorEl, onRequestClose, classes } = this.props
+    const noNotify = ( <div className={classes.noNotify}>
+     All caught up! </div>)
+    const items = this.notifyItemList()
     return (
-      <Popover
-        className='homeHeader__notify-menu'
-        open={open}
-        anchorEl={anchorEl}
-        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-        onRequestClose={onRequestClose}
+      <Popper
+        placement='bottom-start'
+        eventsEnabled={open}
+        className={classNames({ [classes.popperClose]: !open })}
       >
-        <div className='container'>
-          <div className='title'>Green </div>
-          <div className='content'>
-            {this.notifyItemList()}
-          </div>
-        </div>
-      </Popover>
 
+        <ClickAwayListener onClickAway={onRequestClose}>
+          <Grow in={open} style={{ transformOrigin: '0 0 0' }}>
+          <Paper className={classes.root} elevation={4} >
+
+                {items.length > 0 ? <List>{items}</List> : noNotify}
+
+              </Paper>
+          </Grow>
+        </ClickAwayListener>
+      </Popper>
     )
   }
 }
@@ -133,4 +162,4 @@ const mapStateToProps = (state: any, ownProps: INotifyComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(NotifyComponent as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NotifyComponent as any) as any)

@@ -1,6 +1,6 @@
 export enum FeedType {
     Awesome = 'Awesome',
-    Happy = 'Happey',
+    Happy = 'Happy',
     Acceptable = 'Acceptable',
     Sad = 'Sad',
     Bug = 'Bug'

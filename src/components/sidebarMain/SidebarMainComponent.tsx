@@ -30,7 +30,7 @@ export default class SidebarMainComponent extends Component<ISidebarMainComponen
   render () {
     return (
       <div className='home__main' style={this.props.cstyle} >
-        <div style={{height: '64px', width: '100%'}}></div>
+        <div style={{height: '80px', width: '100%'}}></div>
         {this.props.children}
         </div>
     )

@@ -1,9 +1,9 @@
 // - Import react components
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { grey400 } from 'material-ui/styles/colors'
-import SvgClose from 'material-ui/svg-icons/navigation/close'
-import FlatButton from 'material-ui/FlatButton'
+import { grey } from 'material-ui/colors'
+import SvgClose from 'material-ui-icons/close'
+import Button from 'material-ui/Button'
 import Divider from 'material-ui/Divider'
 import { IDialogTitleComponentProps } from './IDialogTitleComponentProps'
 import { IDialogTitleComponentState } from './IDialogTitleComponentState'
@@ -76,13 +76,13 @@ export default class DialogTitleComponent extends Component<IDialogTitleComponen
       <div className='g__dialog-title'>
         <div style={this.styles.contain as any}>
           <div style={{ paddingRight: '10px' }}>
-            <SvgClose onClick={onRequestClose} hoverColor={grey400} style={{ cursor: 'pointer' }} />
+            <SvgClose onClick={onRequestClose} hoverColor={grey[400]} style={{ cursor: 'pointer' }} />
           </div>
           <div style={this.styles.title}>
             {title || ''}
           </div>
         { buttonLabel ? (<div style={{ marginTop: '-9px' }}>
-            <FlatButton label={buttonLabel || ''} primary={true} disabled={disabledButton ? disabledButton : false} onClick={onClickButton || (x => x)} />
+            <Button label={buttonLabel || ''} color='primary' disabled={disabledButton ? disabledButton : false} onClick={onClickButton || (x => x)} />
           </div>) : ''}
         </div>
         <Divider />

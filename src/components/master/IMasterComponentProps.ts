@@ -109,4 +109,9 @@ export interface IMasterComponentProps {
    */
   hideMasterLoading?: () => any
 
+  /**
+   * Whether send feesback box is visible
+   */
+  sendFeedbackStatus?: boolean
+
 }

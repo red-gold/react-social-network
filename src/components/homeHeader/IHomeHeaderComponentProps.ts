@@ -60,4 +60,9 @@ export interface IHomeHeaderComponentProps {
    * @memberof IHomeHeaderComponentProps
    */
   sidebar?: (status: boolean, source: string) => void
+
+  /**
+   * Material ui theme style
+   */
+  classes?: any
 }

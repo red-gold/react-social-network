@@ -5,9 +5,8 @@ import { NavLink, withRouter } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
-import { firebaseRef, firebaseAuth } from 'data/firebaseClient'
+import RaisedButton from 'material-ui/Button'
+import Button from 'material-ui/Button'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
@@ -74,7 +73,7 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
         }}>Green</h1>
 
         <div className='animate-bottom'>
-          <Paper style={paperStyle} zDepth={1} rounded={false} >
+          <Paper style={paperStyle} elevation={1} rounded={false} >
             <div style={{ padding: '48px 40px 36px' }}>
               <div style={{
                 paddingLeft: '40px',
@@ -94,8 +93,8 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
                   An verificiation email has been already sent to you. Please check your inbox. If you couldn't see the emai, please resend email verification.
                 </p>
                 <div style={this.styles.buttons}>
-                  <RaisedButton style={this.styles.homeButton} label='Home' primary={true} onClick={() => this.props.homePage()} />
-                  <RaisedButton label='Send Email Verification' primary={true} onClick={() => this.props.sendEmailVerification()} />
+                  <Button raised style={this.styles.homeButton} label='Home' color='primary' onClick={() => this.props.homePage()} />
+                  <Button raised label='Send Email Verification' color='primary' onClick={() => this.props.sendEmailVerification()} />
                 </div>
                 <div>
                 </div>

@@ -31,5 +31,5 @@ export interface IHomeHeaderComponentState {
    * @type {*}
    * @memberof IHomeHeaderComponentState
    */
-  anchorEl?: HTMLElement
+  anchorEl?: HTMLElement | null
 }

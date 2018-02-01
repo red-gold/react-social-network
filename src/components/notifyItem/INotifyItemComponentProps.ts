@@ -83,4 +83,9 @@ export interface INotifyItemComponentProps {
    * @memberof INotifyItemComponentProps
    */
   seenNotify?: (notificationId: string) => any
+
+  /**
+   * Material ui styles
+   */
+  classes?: any
 }

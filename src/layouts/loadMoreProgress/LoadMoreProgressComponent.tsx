@@ -1,7 +1,7 @@
 // - Import react components
 import React, { Component } from 'react'
-import { grey400, grey800, darkBlack, lightBlack,tealA400 } from 'material-ui/styles/colors'
-import CircularProgress from 'material-ui/CircularProgress'
+import { teal } from 'material-ui/colors'
+import { CircularProgress } from 'material-ui/Progress'
 
 /**
  * Create component class
@@ -14,7 +14,7 @@ export default class LoadMoreProgressComponent extends Component<{},{}> {
    */
   render () {
     return (
-      <div className='g-load-more'><CircularProgress size={30} thickness={5} color={tealA400} /></div>
+      <div className='g-load-more'><CircularProgress size={30} thickness={5} style={{color: teal['A400'] }} /></div>
     )
   }
 }

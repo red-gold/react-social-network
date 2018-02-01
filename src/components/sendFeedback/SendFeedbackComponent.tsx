@@ -5,10 +5,11 @@ import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
-import SvgHappy from 'material-ui/svg-icons/image/tag-faces'
-import SvgSad from 'material-ui/svg-icons/action/face'
-import SvgClose from 'material-ui/svg-icons/content/clear'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
+import SvgHappy from 'material-ui-icons/tagFaces'
+import SvgSad from 'material-ui-icons/face'
+import SvgClose from 'material-ui-icons/clear'
+import { CircularProgress } from 'material-ui/Progress'
+import Tooltip from 'material-ui/Tooltip'
 
 // - Import app components
 
@@ -37,7 +38,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
    * Component constructor
    * @param  {object} props is an object properties of component
    */
-  constructor(props: ISendFeedbackComponentProps) {
+  constructor (props: ISendFeedbackComponentProps) {
     super(props)
 
     // Defaul state
@@ -75,44 +76,47 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
     const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequest } = this.props
     const { feedText } = this.state
     return (
-      <div>
+      <div className='main-box'>
         <TextField
-          hintText='What do you feel?'
-          multiLine={true}
+          placeholder='What do you feel?'
+          multiline
           onChange={this.handleFeedText}
           rows={2}
           rowsMax={4}
-        /><br />
+          autoFocus
+          fullWidth
+        />
+        <br />
         <div className='buttons'>
+        <Tooltip title='Sad' placement='bottom-start'>
           <IconButton
-            tooltip='sad'
-            iconClassName='flaticon-sad-2 icon__svg'
-            tooltipPosition='bottom-left'
+            className='flaticon-sad-2 icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Sad)}
           >
           </IconButton>
+          </Tooltip>
+
+          <Tooltip title='Acceptable' placement='bottom-start'>
           <IconButton
-            tooltip='acceptable'
-            iconClassName='flaticon-neutral icon__svg'
-            tooltipPosition='bottom-left'
+            className='flaticon-neutral icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Acceptable)}
           >
           </IconButton>
+          </Tooltip>
+          <Tooltip title='Happy' placement='bottom-start'>
           <IconButton
-            tooltip='happy'
-            iconClassName='flaticon-happy-2 icon__svg'
-            tooltipPosition='bottom-left'
+            className='flaticon-happy-2 icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Happy)}
           >
           </IconButton>
+          </Tooltip>
+          <Tooltip title='Awesome' placement='bottom-start'>
           <IconButton
-            tooltip='awesome'
-            iconClassName='flaticon-happy icon__svg'
-            tooltipPosition='bottom-left'
+            className='flaticon-happy icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Awesome)}
           >
           </IconButton>
-
+          </Tooltip>
         </div>
       </div >)
   }
@@ -123,13 +127,14 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
           Your feedback is sending!
       </p>
       <div className='icon'>
-        <RefreshIndicator
-          size={50}
-          left={70}
-          top={0}
-          status='loading'
-        />
-        
+      <CircularProgress
+        color='secondary'
+        size={50}
+        mode='determinate'
+        value={25}
+        min={0}
+        max={50}
+      />
       </div>
     </div>)
   }
@@ -169,21 +174,21 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
    * Reneder component DOM
    * @return {react element} return the DOM which rendered by component
    */
-  render() {
+  render () {
     const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequest } = this.props
     const { feedText } = this.state
 
     return (
-      <div className='sendFeedback__content animate__up' style={{ display: (sendFeedbackStatus ? 'block' : 'none') }}>
+      <div className='sendFeedback__content animate__up'>
         <Paper className='paper' >
           <div className='close'>
+          <Tooltip title='Cancel' placement='bottom-start'>
             <IconButton
-              tooltip='cancel'
-              tooltipPosition='bottom-left'
-              onClick={() => hideFeedback()}
+              onClick={() => hideFeedback!()}
             >
               <SvgClose />
             </IconButton>
+            </Tooltip >
           </div>
           {this.getFeedbackForm()}
 

@@ -41,6 +41,7 @@ export let commentReducer = (state: CommentState = new CommentState(), action: I
       return {
         ...state,
         postComments: {
+          ...state.postComments,
           ...payload
         },
         loaded: true

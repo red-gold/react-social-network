@@ -1,11 +1,11 @@
-/// <reference types="@types/material-ui" />
+
 // - Import react components
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import Snackbar from 'material-ui/Snackbar'
-import LinearProgress from 'material-ui/LinearProgress'
+import { LinearProgress } from 'material-ui/Progress'
 
 // - Import components
 
@@ -125,12 +125,12 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
    */
   public render () {
 
-    const { progress, global, loaded, guest, uid } = this.props
+    const { progress, global, loaded, guest, uid, sendFeedbackStatus } = this.props
     const { loading, isVerifide } = this.state
 
     return (
       <div id='master'>
-        <SendFeedback />
+       {sendFeedbackStatus ? <SendFeedback /> : ''}
         <div className='master__progress' style={{ display: (progress.visible ? 'block' : 'none') }}>
           <LinearProgress mode='determinate' value={progress.percent} />
         </div>
@@ -196,7 +196,9 @@ const mapDispatchToProps = (dispatch: any, ownProps: IMasterComponentProps) => {
  */
 const mapStateToProps = (state: any) => {
   const { authorize, global, user, post, comment, imageGallery, vote, notify, circle } = state
+  const { sendFeedbackStatus } = global
   return {
+    sendFeedbackStatus,
     guest: authorize.guest,
     uid: authorize.uid,
     authed: authorize.authed,

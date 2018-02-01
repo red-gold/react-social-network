@@ -5,8 +5,9 @@ import { push } from 'react-router-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/Button'
+import Button from 'material-ui/Button'
+import { withStyles } from 'material-ui/styles'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
@@ -18,6 +19,14 @@ import StringAPI from 'api/StringAPI'
 import { ISignupComponentProps } from './ISignupComponentProps'
 import { ISignupComponentState } from './ISignupComponentState'
 import { UserRegisterModel } from 'models/users/userRegisterModel'
+
+const styles = (theme: any) => ({
+  textField: {
+    minWidth: 280,
+    marginTop: 20
+
+  }
+})
 
 // - Create Signup component class
 export class SignupComponent extends Component<ISignupComponentProps,ISignupComponentState> {
@@ -38,7 +47,6 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
       passwordInputError: '',
       confirmInput: '',
       confirmInputError: ''
-
     }
     // Binding function to `this`
     this.handleForm = this.handleForm.bind(this)
@@ -145,7 +153,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
 
     }
     if (!error) {
-      register({
+      register!({
         email: emailInput,
         password: passwordInput,
         fullName: fullNameInput
@@ -159,6 +167,8 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
  * @return {react element} return the DOM which rendered by component
  */
   render () {
+
+    const {classes} = this.props
     const paperStyle = {
       minHeight: 500,
       width: 450,
@@ -182,7 +192,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
       }}>Green</h1>
 
           <div className='animate-bottom'>
-   <Paper style={paperStyle} zDepth={1} rounded={false} >
+   <Paper style={paperStyle} elevation={1} >
      <div style={{padding: '48px 40px 36px'}}>
      <div style={{paddingLeft: '40px',
        paddingRight: '40px'}}>
@@ -197,44 +207,49 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
          </div>
 
      <TextField
+     className={classes.textField}
+     autoFocus
        onChange={this.handleInputChange}
-       errorText={this.state.fullNameInputError}
+       helperText={this.state.fullNameInputError}
+       error={this.state.fullNameInputError.trim() !== ''}
        name='fullNameInput'
-       floatingLabelStyle={{fontSize: '15px'}}
-      floatingLabelText='Full Name'
+      label='Full Name'
       type='text'
     /><br />
     <TextField
+    className={classes.textField}
       onChange={this.handleInputChange}
-      errorText={this.state.emailInputError}
+      helperText={this.state.emailInputError}
+      error={this.state.emailInputError.trim() !== ''}
       name='emailInput'
-      floatingLabelStyle={{fontSize: '15px'}}
-     floatingLabelText='Email'
+     label='Email'
      type='email'
    /><br />
    <TextField
+   className={classes.textField}
      onChange={this.handleInputChange}
-     errorText={this.state.passwordInputError }
+     helperText={this.state.passwordInputError }
+     error={this.state.passwordInputError.trim() !== ''}
      name='passwordInput'
-     floatingLabelStyle={{fontSize: '15px'}}
-    floatingLabelText='Password'
+    label='Password'
     type='password'
   /><br />
   <TextField
+  className={classes.textField}
     onChange={this.handleInputChange}
-    errorText={this.state.confirmInputError }
+    helperText={this.state.confirmInputError }
+    error={this.state.confirmInputError.trim() !== ''}
     name='confirmInput'
-    floatingLabelStyle={{fontSize: '15px'}}
-   floatingLabelText='Confirm Password'
+   label='Confirm Password'
    type='password'
  /><br />
 <br />
   <div className='signup__button-box'>
     <div>
-      <FlatButton label='Login' onClick={this.props.loginPage} />
+      <Button onClick={this.props.loginPage}> Login </Button>
     </div>
     <div>
-      <RaisedButton label='Create' primary={true} onClick={this.handleForm}/>
+      <Button raised color='primary' onClick={this.handleForm}> Create </Button>
 
     </div>
   </div>
@@ -281,4 +296,4 @@ const mapStateToProps = (state: any,ownProps: ISignupComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(SignupComponent as any) as any)
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(SignupComponent as any) as any))

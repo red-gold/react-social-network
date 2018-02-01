@@ -141,7 +141,7 @@ export class SidebarComponent extends Component<ISidebarComponentProps,ISidebarC
       this.props.status(false)
 
     }
-    this.props.overlay((sizeCondition(width)) ? false : true)
+    this.props.overlay(!(sizeCondition(width)) && this.state.open ? true : false)
   }
 
   /**
@@ -174,12 +174,12 @@ export class SidebarComponent extends Component<ISidebarComponentProps,ISidebarC
         }else {
           this.setState({
             overlayOpen: true,
-            overlay: true
+            overlay: this.state.open
           })
         }
       } else {
-        this.setState({ sidebarClass: 'sidebar  sidebar__over', overlay: true })
-        this.props.overlay(true)
+        this.setState({ sidebarClass: 'sidebar  sidebar__over', overlay: this.state.open })
+        this.props.overlay(this.state.open!)
       }
 
     }

@@ -16,15 +16,15 @@ export interface ISendFeedbackComponentProps {
   /**
    * Hide feedback form
    */
-  hideFeedback: () => any
+  hideFeedback?: () => any
 
   /**
    * The server request of send feedback
    */
-  sendFeedbackRequest: ServerRequestModel
+  sendFeedbackRequest?: ServerRequestModel
 
   /**
    * Current user profile
    */
-  currentUser: Profile
+  currentUser?: Profile
 }

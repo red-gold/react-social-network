@@ -21,4 +21,9 @@ export interface ILoginComponentProps {
    * @memberof ILoginComponentProps
    */
   signupPage?: () => any
+
+  /**
+   * Styles
+   */
+  classes?: any
 }

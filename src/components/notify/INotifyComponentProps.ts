@@ -40,6 +40,11 @@ export interface INotifyComponentProps {
    * @type {*}
    * @memberof INotifyComponentProps
    */
-  anchorEl: any
+  anchorEl?: any
+
+  /**
+   * Material ui styles
+   */
+  classes?: any
 
 }

@@ -16,7 +16,7 @@ export interface ICommentComponentProps {
    * @type {Function}
    * @memberof ICommentComponentProps
    */
-  openEditor: Function
+  openEditor?: Function
 
   /**
    * Close comment editor
@@ -24,7 +24,7 @@ export interface ICommentComponentProps {
    * @type {Function}
    * @memberof ICommentComponentProps
    */
-  closeEditor: () => any
+  closeEditor?: () => any
 
   /**
    * Current user is comment owner {true} or not {false}
@@ -32,7 +32,7 @@ export interface ICommentComponentProps {
    * @type {boolean}
    * @memberof ICommentComponentProps
    */
-  isCommentOwner: boolean
+  isCommentOwner?: boolean
 
   /**
    * Current user is post owner {true} or not {false}
@@ -47,21 +47,21 @@ export interface ICommentComponentProps {
    *
    * @memberof ICommentComponentProps
    */
-  update: (comment: Comment) => any
+  update?: (comment: Comment) => any
 
   /**
    * Delete comment
    *
    * @memberof ICommentComponentProps
    */
-  delete: (id?: string| null, postId?: string) => any
+  delete?: (id?: string| null, postId?: string) => any
 
   /**
    * Get user profile
    *
    * @memberof ICommentComponentProps
    */
-  getUserInfo: () => void
+  getUserInfo?: () => void
 
   /**
    * User profile
@@ -69,7 +69,7 @@ export interface ICommentComponentProps {
    * @type {{[userId: string]: Profile}}
    * @memberof ICommentComponentProps
    */
-  info: {[userId: string]: Profile}
+  info?: {[userId: string]: Profile}
 
   /**
    * User full name
@@ -77,7 +77,7 @@ export interface ICommentComponentProps {
    * @type {string}
    * @memberof ICommentComponentProps
    */
-  fullName: string
+  fullName?: string
 
   /**
    * User avatar address
@@ -85,7 +85,7 @@ export interface ICommentComponentProps {
    * @type {string}
    * @memberof Comment
    */
-  avatar: string
+  avatar?: string
 
   /**
    * Writing comment on the post is disabled {true} or not false
@@ -93,6 +93,11 @@ export interface ICommentComponentProps {
    * @type {boolean}
    * @memberof ICommentComponentProps
    */
-  disableComments: boolean
+  disableComments?: boolean
+
+  /**
+   * Styles
+   */
+  classes: any
 
 }

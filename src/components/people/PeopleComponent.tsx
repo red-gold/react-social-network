@@ -3,9 +3,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Tabs, Tab } from 'material-ui/Tabs'
-import { grey50, grey200, grey400, grey600, cyan500 } from 'material-ui/styles/colors'
+import Tabs, { Tab } from 'material-ui/Tabs'
+import { grey, cyan } from 'material-ui/colors'
 import { push } from 'react-router-redux'
+import AppBar from 'material-ui/AppBar'
+import Typography from 'material-ui/Typography'
 
 // - Import app components
 import FindPeople from 'components/findPeople'
@@ -20,6 +22,14 @@ import * as circleActions from 'actions/circleActions'
 import * as globalActions from 'actions/globalActions'
 import { IPeopleComponentProps } from './IPeopleComponentProps'
 import { IPeopleComponentState } from './IPeopleComponentState'
+
+const TabContainer = (props: any) => {
+  return (
+    <Typography component='div' style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  )
+}
 
 /**
  * Create component class
@@ -36,14 +46,39 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
    */
   constructor (props: IPeopleComponentProps) {
     super(props)
-
+    const {tab} = this.props.match.params
     // Defaul state
     this.state = {
-
+      tabIndex: this.getTabIndexByNav(tab)
     }
 
     // Binding functions to `this`
 
+  }
+
+  /**
+   * Hadle on tab change
+   */
+  handleChangeTab = (event: any, value: any) => {
+    const {circlesLoaded, goTo, setHeaderTitle} = this.props
+    this.setState({ tabIndex: value })
+    switch (value) {
+      case 0:
+        goTo!('/people')
+        setHeaderTitle!('People')
+        break
+      case 1:
+        goTo!('/people/circles')
+        setHeaderTitle!('Circles')
+        break
+      case 2:
+        goTo!('/people/followers')
+        setHeaderTitle!('Followers')
+        break
+
+      default:
+        break
+    }
   }
 
   componentWillMount () {
@@ -91,47 +126,43 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
     }
 
     const {circlesLoaded, goTo, setHeaderTitle} = this.props
-    const {tab} = this.props.match.params
-    let tabIndex = 0
-    switch (tab) {
-      case undefined:
-      case '':
-        tabIndex = 0
-        break
-      case 'circles':
-        tabIndex = 1
-        break
-      case 'followers':
-        tabIndex = 2
-        break
-      default:
-        break
-    }
+    const {tabIndex} = this.state
     return (
       <div style={styles.people}>
-      <Tabs inkBarStyle={{backgroundColor: grey50}} initialSelectedIndex={tabIndex} >
-        <Tab label='Find People' onActive={() => {
-          goTo!('/people')
-          setHeaderTitle!('People')
-        }} >
-          {circlesLoaded ? <FindPeople /> : ''}
-        </Tab>
-        <Tab label='Following' onActive={() => {
-          goTo!('/people/circles')
-          setHeaderTitle!('Circles')
-        }} >
-         {circlesLoaded ? <Following/> : ''}
-         {circlesLoaded ? <YourCircles/> : ''}
-        </Tab>
-        <Tab label='Followers' onActive={() => {
-          goTo!('/people/followers')
-          setHeaderTitle!('Followers')
-        }}>
-        {circlesLoaded ? <Followers /> : ''}
-        </Tab>
+      <AppBar position='static' color='default'>
+      <Tabs indicatorColor= {grey[50]}
+      onChange={this.handleChangeTab}
+      value={tabIndex} centered
+      textColor='primary'
+       >
+        <Tab label='Find People' />
+        <Tab label='Following' />
+        <Tab label='Followers' />
       </Tabs>
+      </AppBar>
+      {tabIndex === 0 && <TabContainer>{circlesLoaded ? <FindPeople /> : ''}</TabContainer>}
+      {tabIndex === 1 && <TabContainer>
+        {circlesLoaded ? <Following/> : ''}
+        {circlesLoaded ? <YourCircles/> : ''}
+      </TabContainer>}
+      {tabIndex === 2 && <TabContainer>{circlesLoaded ? <Followers /> : ''}</TabContainer>}
       </div>
     )
+  }
+
+  /**
+   * Get tab index by navigation name
+   */
+  private getTabIndexByNav: (navName: string) => number = (navName: string) => {
+    let tabIndex = 0
+    switch (navName) {
+      case 'circles':
+        return 1
+      case 'followers':
+        return 2
+      default:
+        return 0
+    }
   }
 }
 

@@ -37,11 +37,14 @@ export let circleReducer = (state: CircleState = new CircleState(), action: ICir
     case CircleActionType.UPDATE_CIRCLE:
       return {
         ...state,
+        openSetting: {
+          ...state.openSetting,
+          [payload.circle.id]: false
+        },
         circleList: {
           ...state.circleList,
           [payload.circle.id]: {
-            ...payload.circle,
-            openCircleSettings: false
+            ...payload.circle
           }
         }
       }
@@ -156,24 +159,18 @@ export let circleReducer = (state: CircleState = new CircleState(), action: ICir
     case CircleActionType.CLOSE_CIRCLE_SETTINGS:
       return {
         ...state,
-        circleList: {
-          ...state.circleList,
-          [payload.circleId]: {
-            ...state.circleList[payload.circleId],
-            openCircleSettings: false
-          }
+        openSetting: {
+          ...state.openSetting,
+          [payload.circleId]: false
         }
       }
 
     case CircleActionType.OPEN_CIRCLE_SETTINGS:
       return {
         ...state,
-        circleList: {
-          ...state.circleList,
-          [payload.circleId]: {
-            ...state.circleList[payload.circleId],
-            openCircleSettings: true
-          }
+        openSetting: {
+          ...state.openSetting,
+          [payload.circleId]: true
         }
       }
 

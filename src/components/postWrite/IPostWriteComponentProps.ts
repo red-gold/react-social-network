@@ -70,4 +70,9 @@ export interface IPostWriteComponentProps {
    * @memberof IPostWriteComponentProps
    */
   update?: (post: Post, callback: Function) => any
+
+  /**
+   * Styles
+   */
+  classes?: any
 }

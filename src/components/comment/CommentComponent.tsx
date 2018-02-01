@@ -9,19 +9,24 @@ import Linkify from 'react-linkify'
 import { Comment } from 'core/domain/comments'
 
 // - Import material UI libraries
-import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
 import Paper from 'material-ui/Paper'
-import FlatButton from 'material-ui/FlatButton'
-import { grey400, darkBlack, lightBlack } from 'material-ui/styles/colors'
+import Button from 'material-ui/Button'
+import { grey } from 'material-ui/colors'
 import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import IconMenu from 'material-ui/IconMenu'
-import MenuItem from 'material-ui/MenuItem'
+import MoreVertIcon from 'material-ui-icons/moreVert'
+import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
+import Menu, { MenuList, MenuItem } from 'material-ui/Menu'
 import TextField from 'material-ui/TextField'
+import { withStyles } from 'material-ui/styles'
+import { Manager, Target, Popper } from 'react-popper'
+import { Card, CardActions, CardHeader, CardMedia, CardContent } from 'material-ui'
+import Grow from 'material-ui/transitions/Grow'
+import ClickAwayListener from 'material-ui/utils/ClickAwayListener'
+import classNames from 'classnames'
 
 // - Import app components
-import UserAvatarComponent from 'components/userAvatar'
+import UserAvatar from 'components/userAvatar'
 
 // - Import API
 
@@ -35,10 +40,58 @@ import * as userActions from 'actions/userActions'
 import { ICommentComponentProps } from './ICommentComponentProps'
 import { ICommentComponentState } from './ICommentComponentState'
 
+const styles = (theme: any) => ({
+  textField: {
+    fontWeight: 100,
+    fontSize: '14px'
+  },
+  header: {
+    padding: '2px 3px 3px 10px'
+  },
+  popperOpen: {
+    zIndex: 11
+  },
+  popperClose: {
+    pointerEvents: 'none',
+    zIndex: 0
+  },
+  iconButton: {
+    top: 0,
+    display: 'flex',
+    right: 4,
+    flexDirection: 'row-reverse',
+    position: 'absolute'
+
+  },
+  commentBody: {
+    color: 'black',
+    fontWeight: 100,
+    fontSize: '12px',
+    height: '100%',
+    border: 'none',
+    width: '100%',
+    outline: 'none',
+    resize: 'none'
+  },
+  rightIconMenuItem: {
+    fontSize: 12,
+    fontWeight: 300,
+    paddingLeft: 6,
+    paddingRight: 6,
+    paddingTop: 0,
+    paddingBottom: 0
+
+  },
+  moreIcon: {
+    width: '0.6em',
+    height: '0.6em'
+  }
+})
+
 /**
  * Create component class
  */
-export class CommentComponent extends Component<ICommentComponentProps,ICommentComponentState> {
+export class CommentComponent extends Component<ICommentComponentProps, ICommentComponentState> {
 
   static propTypes = {
     /**
@@ -62,34 +115,14 @@ export class CommentComponent extends Component<ICommentComponentProps,ICommentC
    * @memberof CommentComponent
    */
   styles = {
-    comment: {
-      marginBottom: '12px'
-    },
-    iconButton: {
-      width: 16,
-      height: 16
-
-    },
     author: {
-      fontSize: '13px',
+      fontSize: '10px',
       paddingRight: '10px',
       fontWeight: 400,
       color: 'rgba(0,0,0,0.87)',
       textOverflow: 'ellipsis',
       overflow: 'hidden'
 
-    },
-    commentBody: {
-      fontSize: '13px',
-      lineHeight: '20px',
-      color: 'rgba(0,0,0,0.87)',
-      fontWeight: 300,
-      height: '',
-      display: 'block'
-
-    },
-    rightIconMenuItem: {
-      fontSize: '14px'
     },
     textarea: {
       fontWeight: 100,
@@ -146,7 +179,11 @@ export class CommentComponent extends Component<ICommentComponentProps,ICommentC
       /**
        * If it's true the post owner is the logged in user which this post be long to the comment
        */
-      isPostOwner: false
+      isPostOwner: false,
+      /**
+       * The anchor of comment menu element
+       */
+      openMenu: false
 
     }
 
@@ -164,8 +201,8 @@ export class CommentComponent extends Component<ICommentComponentProps,ICommentC
    * @param  {event} evt is an event passed by clicking on edit button
    */
   handleEditComment = (evt: any) => {
-    this.inputText.style.height = this.divComment.clientHeight + 'px'
-    this.props.openEditor()
+    this.setState({openMenu: false})
+    this.props.openEditor!()
   }
 
   /**
@@ -177,7 +214,7 @@ export class CommentComponent extends Component<ICommentComponentProps,ICommentC
     this.setState({
       text: this.state.initialText
     })
-    this.props.closeEditor()
+    this.props.closeEditor!()
   }
 
   /**
@@ -185,10 +222,10 @@ export class CommentComponent extends Component<ICommentComponentProps,ICommentC
    * @param  {event} evt is an event passed by clicking on post button
    */
   handleUpdateComment = (evt: any) => {
-    const {comment} = this.props
+    const { comment } = this.props
     comment.editorStatus = undefined
     comment.text = this.state.text
-    this.props.update(comment)
+    this.props.update!(comment)
     this.setState({
       initialText: this.state.text
     })
@@ -202,7 +239,6 @@ export class CommentComponent extends Component<ICommentComponentProps,ICommentC
    */
   handleOnChange = (evt: any) => {
     const data = evt.target.value
-    this.inputText.style.height = evt.target.scrollHeight + 'px'
     if (data.length === 0 || data.trim() === '' || data.trim() === this.state.initialText) {
       this.setState({
         text: data,
@@ -223,14 +259,28 @@ export class CommentComponent extends Component<ICommentComponentProps,ICommentC
    * @param  {string} id     comment identifire
    * @param  {string} postId post identifier which comment belong to
    */
-  handleDelete = (evt: any, id?: string| null, postId?: string) => {
-    this.props.delete(id, postId)
+  handleDelete = (evt: any, id?: string | null, postId?: string) => {
+    this.props.delete!(id, postId)
+  }
+
+  /**
+   * Handle comment menu
+   */
+  handleCommentMenu = (event: any) => {
+    this.setState({ openMenu: true })
+  }
+
+  /**
+   * Handle close request for comment menu
+   */
+  handleCloseCommentMenu = () => {
+    this.setState({ openMenu: false })
   }
 
   componentWillMount () {
-    const {userId} = this.props.comment
-    if (!this.props.isCommentOwner && !this.props.info[userId!]) {
-      this.props.getUserInfo()
+    const { userId } = this.props.comment
+    if (!this.props.isCommentOwner && !this.props.info![userId!]) {
+      this.props.getUserInfo!()
     }
   }
 
@@ -243,56 +293,94 @@ export class CommentComponent extends Component<ICommentComponentProps,ICommentC
     /**
      * Comment object from props
      */
-    const {comment} = this.props
+    const { comment, classes, fullName, avatar } = this.props
 
-    const iconButtonElement = (
-      <IconButton style={this.styles.iconButton} iconStyle={this.styles.iconButton}
-        touch={true}
-      >
-        <MoreVertIcon color={grey400} viewBox='9 0 24 24' />
-      </IconButton>
-    )
+    const { openMenu } = this.state
 
     const RightIconMenu = () => (
-      <IconMenu iconButtonElement={iconButtonElement} style={{ display: 'block', position: 'absolute', top: '0px', right: '4px' }}>
-        <MenuItem style={{ fontSize: '14px' }}>Reply</MenuItem>
-        {this.props.isCommentOwner ? (<MenuItem style={this.styles.rightIconMenuItem} onClick={this.handleEditComment}>Edit</MenuItem>) : ''}
-       {(this.props.isCommentOwner || this.props.isPostOwner) ? ( <MenuItem style={{ fontSize: '14px' }} onClick={(evt) => this.handleDelete(evt, comment.id, comment.postId)}>Delete</MenuItem>) : ''}
-      </IconMenu>
+      <Manager
+        className={classes.iconButton}
+      >
+        <Target>
+          <IconButton
+            aria-owns={openMenu! ? 'comment-menu' : null}
+            aria-haspopup='true'
+            onClick={this.handleCommentMenu}
+          >
+            <MoreVertIcon className={classes.moreIcon} />
+          </IconButton>
+        </Target>
+        <Popper
+          placement='bottom-start'
+          eventsEnabled={openMenu!}
+          className={classNames({ [classes.popperClose]: !openMenu! }, { [classes.popperOpen]: openMenu! })}
+        >
+          <ClickAwayListener onClickAway={this.handleCloseCommentMenu}>
+            <Grow in={openMenu!} id='comment-menu' style={{ transformOrigin: '0 0 0' }}>
+              <Paper>
+                <MenuList role='menu'>
+                  <MenuItem className={classes.rightIconMenuItem}>Reply</MenuItem>
+                  {this.props.isCommentOwner ? (<MenuItem className={classes.rightIconMenuItem} onClick={this.handleEditComment}>Edit</MenuItem>) : ''}
+                  {(this.props.isCommentOwner || this.props.isPostOwner) ? (<MenuItem className={classes.rightIconMenuItem} onClick={(evt: any) => this.handleDelete(evt, comment.id, comment.postId)}>Delete</MenuItem>) : ''}
+                </MenuList>
+              </Paper>
+            </Grow>
+          </ClickAwayListener>
+        </Popper>
+      </Manager>
     )
 
     const Author = () => (
-      <div style={{ marginTop: '-11px' }}>
-        <span style={this.styles.author as any}>{comment.userDisplayName}</span><span style={{
+      <div>
+        <NavLink to={`/${userId}`}> <span style={this.styles.author as any}>{comment.userDisplayName}</span></NavLink><span style={{
           fontWeight: 100,
-          fontSize: '10px'
+          fontSize: '8px'
         }}>{moment.unix(comment.creationDate!).fromNow()}</span>
       </div>
     )
+    const { userId, editorStatus } = comment
     const commentBody = (
-      <p style={this.styles.commentBody as any}>{comment.text}</p>
+      <div style={{ outline: 'none', flex: 'auto', flexGrow: 1 }}>
+      { editorStatus ? <TextField
+                placeholder={'Add a comment...'}
+                multiline
+                autoFocus
+                rowsMax='4'
+                InputProps={{
+                  disableUnderline: true,
+                  autoFocus: true,
+                  fullWidth: true
+                }}
+                value={this.state.text}
+                onChange={this.handleOnChange}
+                className={classes.textField}
+                fullWidth={true}
+              /> : <div className={classNames('animate2-top10', classes.commentBody)}>{this.state.text}</div>}
+
+        <div style={{ display: (editorStatus ? 'flex' : 'none'), flexDirection: 'row-reverse' }}>
+          <Button color='primary' disabled={this.state.editDisabled}
+            style={{ float: 'right', clear: 'both', zIndex: 5, margin: '0px 5px 5px 0px', fontWeight: 400 }}
+            onClick={this.handleUpdateComment} > Update </Button>
+          <Button color='primary' style={this.styles.cancel as any} onClick={this.handleCancelEdit} > Cancel </Button>
+        </div>
+      </div>
     )
-
-    const {userId} = comment
-
     return (
-      <div className='animate-top' style={this.styles.comment} key={comment.id!}>
-        <Paper zDepth={0} className='animate2-top10' style={{ position: 'relative', padding: '', display: (!this.state.display ? 'block' : 'none') }}>
-          <div style={{ marginLeft: '0px', padding: '16px 56px 0px 72px', position: 'relative' }}>
-            <NavLink to={`/${userId}`}><UserAvatarComponent fullName={this.props.fullName} fileName={this.props.avatar} style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: '8px', left: '16px' }} size={36} /></NavLink>
-           <NavLink to={`/${userId}`}> <Author /></NavLink>
-            {(!this.props.isCommentOwner && !this.props.isPostOwner && this.props.disableComments ) ? '' : (<RightIconMenu />)}
-            <div style={{ outline: 'none', marginLeft: '16px', flex: 'auto', flexGrow: 1 }}>
-              <textarea ref={this.textareaRef} className='animate2-top10' style={ Object.assign({}, this.styles.textarea, { display: (this.props.comment.editorStatus ? 'block' : 'none') })} onChange={this.handleOnChange} value={this.state.text!}></textarea>
-              <Linkify properties={{target: '_blank', style: {color: 'blue'}}}>
-              <div ref={this.divCommentRef} className='animate2-top10' style={{ fontWeight: 100, fontSize: '14px', height: '100%', border: 'none', width: '100%', outline: 'none', resize: 'none', display: (!this.props.comment.editorStatus ? 'block' : 'none') }}>{this.state.text}</div>
-              </Linkify>
-            </div>
-          </div>
-          <div style={{ display: (this.props.comment.editorStatus ? 'flex' : 'none'), flexDirection: 'row-reverse' }}>
-            <FlatButton primary={true} disabled={this.state.editDisabled} label='Update' style={{ float: 'right', clear: 'both', zIndex: 5, margin: '0px 5px 5px 0px', fontWeight: 400 }} onClick={this.handleUpdateComment} />
-            <FlatButton primary={true} label='Cancel' style={this.styles.cancel as any} onClick={this.handleCancelEdit} />
-          </div>
+      <div className='animate-top' key={comment.id!}>
+        <Paper elevation={0} className='animate2-top10'
+          style={{ position: 'relative', padding: '', display: (!this.state.display ? 'block' : 'none') }}>
+          <Card elevation={0}>
+            <CardHeader
+            className={classes.header}
+              title={editorStatus ? '' : <Author />}
+              subheader={commentBody}
+              avatar={<NavLink to={`/${userId}`}><UserAvatar fullName={fullName!} fileName={avatar!} size={24} /></NavLink>}
+              action={(!this.props.isCommentOwner && !this.props.isPostOwner && this.props.disableComments) || editorStatus ? '' : (<RightIconMenu />)}
+            >
+            </CardHeader>
+
+          </Card>
+
         </Paper>
 
       </div>
@@ -308,16 +396,13 @@ export class CommentComponent extends Component<ICommentComponentProps,ICommentC
  */
 const mapDispatchToProps = (dispatch: any, ownProps: ICommentComponentProps) => {
   return {
-    delete: (id: string| null, postId: string) => dispatch(commentActions.dbDeleteComment(id, postId)),
+    delete: (id: string | null, postId: string) => dispatch(commentActions.dbDeleteComment(id, postId)),
     update: (comment: Comment) => {
-      console.log('====================================')
-      console.log(comment)
-      console.log('====================================')
       dispatch(commentActions.dbUpdateComment(comment))
     },
     openEditor: () => dispatch(commentActions.openCommentEditor({ id: ownProps.comment.id, postId: ownProps.comment.postId })),
     closeEditor: () => dispatch(commentActions.closeCommentEditor({ id: ownProps.comment.id, postId: ownProps.comment.postId })),
-    getUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(ownProps.comment.userId!,''))
+    getUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(ownProps.comment.userId!, ''))
   }
 }
 
@@ -328,7 +413,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentComponentProps) => 
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: any) => {
-  const {uid} = state.authorize
+  const { uid } = state.authorize
   const avatar = state.user.info && state.user.info[ownProps.comment.userId] ? state.user.info[ownProps.comment.userId].avatar || '' : ''
   const fullName = state.user.info && state.user.info[ownProps.comment.userId] ? state.user.info[ownProps.comment.userId].fullName || '' : ''
   return {
@@ -341,4 +426,4 @@ const mapStateToProps = (state: any, ownProps: any) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(CommentComponent as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CommentComponent as any) as any)

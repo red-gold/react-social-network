@@ -13,4 +13,9 @@ export interface IResetPasswordComponentProps {
    * @memberof IResetPasswordComponentProps
    */
   loginPage?: () => void
+
+  /**
+   * Styles
+   */
+  classes?: any
 }

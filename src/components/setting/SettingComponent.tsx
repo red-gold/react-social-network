@@ -5,14 +5,22 @@ import { NavLink, withRouter } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/Button'
+import Button from 'material-ui/Button'
+import { withStyles } from 'material-ui/styles'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
 import { ISettingComponentProps } from './ISettingComponentProps'
 import { ISettingComponentState } from './ISettingComponentState'
 
+const styles = (theme: any) => ({
+  textField: {
+    minWidth: 280,
+    marginTop: 20
+
+  }
+})
 /**
  * Create component class
  *
@@ -98,7 +106,7 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
     }
 
     if (!error) {
-      this.props.login(
+      this.props.login!(
         this.state.passwordInput,
         this.state.confirmInput
       )
@@ -112,6 +120,7 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
    */
   render () {
 
+    const {classes} = this.props
     const paperStyle = {
       minHeight: 370,
       width: 450,
@@ -133,7 +142,7 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
         }}>Green</h1>
 
         <div className='animate-bottom'>
-          <Paper style={paperStyle} zDepth={1} rounded={false} >
+          <Paper style={paperStyle} elevation={1} >
             <div style={{ padding: '48px 40px 36px' }}>
               <div style={{
                 paddingLeft: '40px',
@@ -142,38 +151,41 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
 
                 <h2 style={{
                   textAlign: 'left',
-                  paddingTop: '16px',
+                  paddingTop: '10px',
                   fontSize: '24px',
                   fontWeight: 400,
                   lineHeight: '32px',
                   margin: 0
-                }}>Change Password</h2>
+                }} className='zoomOutLCorner animated'>Change Password</h2>
               </div>
 
               <TextField
+              autoFocus
+              className={classes.textField}
                 onChange={this.handleInputChange}
-                errorText={this.state.passwordInputError}
+                helperText={this.state.passwordInputError}
                 name='passwordInput'
-                floatingLabelStyle={{ fontSize: '15px' }}
-                floatingLabelText='New password'
+                label='New password'
                 type='password'
+                error={this.state.passwordInputError.trim() !== ''}
               /><br />
               <TextField
+              className={classes.textField}
                 onChange={this.handleInputChange}
-                errorText={this.state.confirmInputError}
+                helperText={this.state.confirmInputError}
                 name='confirmInput'
-                floatingLabelStyle={{ fontSize: '15px' }}
-                floatingLabelText='Confirm password'
+                label='Confirm password'
                 type='password'
+                error={this.state.confirmInputError.trim() !== ''}
               /><br />
               <br />
               <br />
               <div className='settings__button-box'>
                 <div>
-                  <FlatButton label='Home' onClick={this.props.homePage} />
+                  <Button onClick={this.props.homePage} > Home </Button>
                 </div>
                 <div>
-                  <RaisedButton label='Change password' primary={true} onClick={this.handleForm} />
+                  <Button raised color='primary' onClick={this.handleForm}> Change password </Button>
 
                 </div>
               </div>
@@ -216,4 +228,4 @@ const mapStateToProps = (state: any, ownProps: ISettingComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SettingComponent as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SettingComponent as any) as any))

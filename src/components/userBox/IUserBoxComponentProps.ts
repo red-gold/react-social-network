@@ -155,4 +155,9 @@ export interface IUserBoxComponentProps {
    * Whether the select circles box for referer user is open
    */
   isSelecteCirclesOpen?: boolean
+
+  /**
+   * Styles
+   */
+  classes?: any
 }

@@ -217,14 +217,11 @@ export const dbUpdateCircle = (newCircle: Circle) => {
     let uid: string = getState().authorize.uid
 
     // Write the new data simultaneously in the list
-    let circle: Circle = getState().circle.userTies[uid][newCircle.id!]
-    let updatedCircle: Circle = {
-      name: newCircle.name || circle.name,
-      isSystem : false
-    }
+    let circle: Circle = {...getState().circle.circleList[newCircle.id!]}
+    circle.name = newCircle.name
     return circleService.updateCircle(uid, newCircle.id!, circle)
       .then(() => {
-        dispatch(updateCircle({ id: newCircle.id, ...updatedCircle }))
+        dispatch(updateCircle({ id: newCircle.id, ...circle }))
       }, (error: SocialError) => {
         dispatch(globalActions.showErrorMessage(error.message))
       })

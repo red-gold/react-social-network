@@ -3,11 +3,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import { cyan500 } from 'material-ui/styles/colors'
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import 'reflect-metadata'
+import 'typeface-roboto'
 
 import { Provider } from 'react-redux'
 import store, { history } from 'store/configureStore'
@@ -21,31 +19,16 @@ import Master from 'components/master'
 // tslint:disable-next-line:no-empty
 store.subscribe(() => { })
 
-// Needed for onTouchTap
+// Needed for onClick
 // http://stackoverflow.com/a/34015469/988941
 try { injectTapEventPlugin() } catch (e) { }
 
-// This replaces the textColor value on the palette
-// and then update the keys for each component that depends on it.
-// More on Colors: http://www.material-ui.com/#/customization/colors
-const muiTheme = getMuiTheme({
+const theme = createMuiTheme({
   palette: {
-    primary1Color: 'rgb(199, 212, 0)'
-  },
-  // raisedButton: {
-  //   primaryColor: 'rgb(199, 212, 0)' // Raised button background color
-  // },
-  // flatButton: {
-  //   primaryTextColor: 'rgb(199, 212, 0)' // Flat button background color
-  // },
-  // tabs: {
-  //   backgroundColor: 'rgb(199, 212, 0)' // Tabs backgound color
-  // },
-  toolbar: {
-	  backgroundColor: '#6d9828' // Backgroung color of header in toolbar
+	  primary: { main: '#00b1b3' },
+	  secondary: { main: '#4d545d' }
   }
 })
-
 // App css
 import 'applicationStyles'
 
@@ -60,7 +43,7 @@ const render = (Component: any) => {
 		<AppContainer warnings={false}>
 			<Provider store={store}>
 				<ConnectedRouter history={history}>
-					<MuiThemeProvider muiTheme={muiTheme}>
+					<MuiThemeProvider theme={theme}>
 						<Component />
 					</MuiThemeProvider>
 				</ConnectedRouter>

@@ -52,4 +52,9 @@ export class CircleState {
    * @memberof CircleState
    */
   loaded: boolean = false
+
+  /**
+   * Circle stting state
+   */
+  openSetting: {[circleId: string]: boolean }
 }

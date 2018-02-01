@@ -5,14 +5,26 @@ import { NavLink, withRouter } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
-import FlatButton from 'material-ui/FlatButton'
-import { firebaseRef, firebaseAuth } from 'data/firebaseClient'
+import RaisedButton from 'material-ui/Button'
+import Button from 'material-ui/Button'
+import { withStyles } from 'material-ui/styles'
+import Typography from 'material-ui/Typography'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
 import { IResetPasswordComponentProps } from './IResetPasswordComponentProps'
 import { IResetPasswordComponentState } from './IResetPasswordComponentState'
+
+const styles = (theme: any) => ({
+  textField: {
+    minWidth: 280,
+    marginTop: 20
+
+  },
+  caption: {
+    marginTop: 30
+  }
+})
 
 /**
  * Create component class
@@ -77,6 +89,8 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
    */
   render () {
 
+    const {classes} = this.props
+
     const paperStyle = {
       minHeight: 370,
       width: 450,
@@ -98,7 +112,7 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
         }}>Green</h1>
 
         <div className='animate-bottom'>
-          <Paper style={paperStyle} zDepth={1} rounded={false} >
+          <Paper style={paperStyle} elevation={1}>
             <div style={{ padding: '48px 40px 36px' }}>
               <div style={{
                 paddingLeft: '40px',
@@ -116,24 +130,29 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
               </div>
 
               <TextField
+              className={classes.textField}
+              autoFocus
                 onChange={this.handleInputChange}
-                errorText={this.state.emailInputError}
+                helperText={this.state.emailInputError}
+                error={this.state.emailInputError.trim() !== ''}
                 name='emailInput'
-                floatingLabelStyle={{ fontSize: '15px' }}
-                floatingLabelText='Email'
+                label='Email'
                 type='email'
               /><br />
               <br />
               <br />
               <div className='settings__button-box'>
                 <div>
-                  <FlatButton label='Back' onClick={this.props.loginPage} />
+                  <Button onClick={this.props.loginPage}> Back </Button>
                 </div>
                 <div>
-                  <RaisedButton label='Reset password' primary={true} onClick={this.handleForm} />
+                  <Button raised color='primary' onClick={this.handleForm}> Reset password </Button>
                 </div>
               </div>
-
+              <Typography className={classes.caption} type='caption' component='p'>
+               Please put your email and click on "RESET PASSWORD". If not click on "BACK".
+               We will send you an email contains the link of the reset password.
+          </Typography>
             </div>
           </Paper>
         </div>
@@ -170,4 +189,4 @@ const mapStateToProps = (state: any, ownProps: IResetPasswordComponentProps) => 
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ResetPasswordComponent as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ResetPasswordComponent as any) as any))

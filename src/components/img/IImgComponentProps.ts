@@ -16,4 +16,9 @@ export interface IImgComponentProps {
    */
   style?: {}
 
+  /**
+   * Styles
+   */
+  classes?: any
+
 }

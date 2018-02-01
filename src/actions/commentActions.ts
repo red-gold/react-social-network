@@ -14,10 +14,15 @@ import { CommentActionType } from 'constants/commentActionType'
 import * as globalActions from 'actions/globalActions'
 import * as notifyActions from 'actions/notifyActions'
 import * as postActions from 'actions/postActions'
+import * as serverActions from 'actions/serverActions'
 
 import { ICommentService } from 'core/services/comments'
 import { SocialProviderTypes } from 'core/socialProviderTypes'
 import { provider } from '../socialEngine'
+import StringAPI from 'api/StringAPI'
+import { ServerRequestType } from 'constants/serverRequestType'
+import { ServerRequestModel } from 'models/server'
+import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
 
 /**
  * Get service providers
@@ -82,8 +87,15 @@ export const dbGetComments = (ownerUserId: string, postId: string) => {
     const state = getState()
     let uid: string = getState().authorize.uid
     if (uid) {
+        // Set server request status to {Sent}
+      const getCommentsRequest = createGetCommentsRequest(postId)
+      dispatch(serverActions.sendRequest(getCommentsRequest))
 
       return commentService.getComments(postId, (comments: {[postId: string]: {[commentId: string]: Comment}}) => {
+
+         // Set server request status to {OK}
+        getCommentsRequest.status = ServerRequestStatusType.OK
+        dispatch(serverActions.sendRequest(getCommentsRequest))
 
         /**
          * Workout getting the number of post's comment and getting three last comments
@@ -172,6 +184,19 @@ export const dbDeleteComment = (id?: string | null, postId?: string) => {
       })
   }
 
+}
+
+/**
+ * Create get comments server request model
+ */
+const createGetCommentsRequest = (postId: string) => {
+  const requestId = StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId)
+  return new ServerRequestModel(
+    ServerRequestType.CommentGetComments,
+    requestId,
+    '',
+    ServerRequestStatusType.Sent
+    )
 }
 
 /* _____________ CRUD State _____________ */

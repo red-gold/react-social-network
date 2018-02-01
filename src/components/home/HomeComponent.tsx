@@ -6,14 +6,15 @@ import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import Menu from 'material-ui/Menu'
-import MenuItem from 'material-ui/MenuItem'
+import { MenuList, MenuItem } from 'material-ui/Menu'
+import { ListItemIcon, ListItemText } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
-import SvgArrowLeft from 'material-ui/svg-icons/hardware/keyboard-arrow-left'
-import SvgHome from 'material-ui/svg-icons/action/home'
-import SvgFeedback from 'material-ui/svg-icons/action/feedback'
-import SvgSettings from 'material-ui/svg-icons/action/settings'
-import SvgAccountCircle from 'material-ui/svg-icons/action/account-circle'
-import SvgPeople from 'material-ui/svg-icons/social/people'
+import SvgArrowLeft from 'material-ui-icons/keyboardArrowLeft'
+import SvgHome from 'material-ui-icons/home'
+import SvgFeedback from 'material-ui-icons/feedback'
+import SvgSettings from 'material-ui-icons/settings'
+import SvgAccountCircle from 'material-ui-icons/accountCircle'
+import SvgPeople from 'material-ui-icons/people'
 
 // - Import app components
 import Sidebar from 'components/sidebar'
@@ -105,7 +106,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
   }
 
   componentWillMount () {
-    const {global, clearData, loadData, authed, defaultDataEnable, isVerifide, goTo } = this.props
+    const { global, clearData, loadData, authed, defaultDataEnable, isVerifide, goTo } = this.props
     if (!authed) {
       goTo!('/login')
       return
@@ -129,29 +130,71 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
    * @memberof Home
    */
   render () {
-    const {loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback} = this.props
+    const { loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback } = this.props
     return (
       <div id='home'>
         <HomeHeader sidebar={this.state.sidebarOpen} sidebarStatus={this.state.sidebarStatus} />
         <Sidebar overlay={this.sidebarOverlay} open={this.sidebar} status={this.sidebarStatus}>
           <SidebarContent>
-            <Menu style={{ color: 'rgb(117, 117, 117)', width: '210px' }}>
+            <MenuList style={{ color: 'rgb(117, 117, 117)', width: '210px' }}>
               {this.state.sidebarOverlay
-                ? <div><MenuItem onClick={this.handleCloseSidebar} primaryText={<span style={{ color: 'rgb(117, 117, 117)' }} className='sidebar__title'>Green</span>} rightIcon={<SvgArrowLeft viewBox='0 3 24 24' style={{ color: '#fff', marginLeft: '15px', width: '32px', height: '32px', cursor: 'pointer' }} />} /><Divider /></div>
+                ? <div>
+                  <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
+                  <ListItemIcon>
+                  <SvgArrowLeft viewBox='0 3 24 24' style={{ color: '#fff', marginLeft: '15px', width: '32px', height: '32px', cursor: 'pointer' }} />
+                  </ListItemIcon>
+                  <ListItemText inset
+                  primary={<span style={{ color: 'rgb(117, 117, 117)' }}
+                  className='sidebar__title'>Green</span>} />
+                </MenuItem>
+                  <Divider /></div>
                 : ''
               }
 
-              <NavLink to='/'><MenuItem primaryText='Home' style={{ color: 'rgb(117, 117, 117)' }} leftIcon={<SvgHome />} /></NavLink>
-              <NavLink to={`/${this.props.uid}`}><MenuItem primaryText='Profile' style={{ color: 'rgb(117, 117, 117)' }} leftIcon={<SvgAccountCircle />} /></NavLink>
-              <NavLink to='/people'><MenuItem primaryText='People' style={{ color: 'rgb(117, 117, 117)' }} leftIcon={<SvgPeople />} /></NavLink>
+              <NavLink to='/'>
+                <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
+                  <ListItemIcon>
+                    <SvgHome />
+                  </ListItemIcon>
+                  <ListItemText inset primary='Home' />
+                </MenuItem>
+              </NavLink>
+              <NavLink to={`/${this.props.uid}`}>
+                <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
+                  <ListItemIcon>
+                    <SvgAccountCircle />
+                  </ListItemIcon>
+                  <ListItemText inset primary='Profile' />
+                </MenuItem>
+              </NavLink>
+              <NavLink to='/people'>
+              <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
+                  <ListItemIcon>
+                    <SvgPeople />
+                  </ListItemIcon>
+                  <ListItemText inset primary='People' />
+                </MenuItem>
+              </NavLink>
               <Divider />
-              <NavLink to='/settings'><MenuItem primaryText='Settings' style={{ color: 'rgb(117, 117, 117)' }} leftIcon={<SvgSettings />} /></NavLink>
-              <MenuItem primaryText='Send feedback' onClick={() => showSendFeedback()} style={{ color: 'rgb(117, 117, 117)' }} leftIcon={<SvgFeedback />} />
-            </Menu>
+              <NavLink to='/settings'>
+              <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
+                  <ListItemIcon>
+                    <SvgSettings />
+                  </ListItemIcon>
+                  <ListItemText inset primary='Settings' />
+                </MenuItem>
+              </NavLink>
+              <MenuItem onClick={() => showSendFeedback()} style={{ color: 'rgb(117, 117, 117)' }}>
+                  <ListItemIcon>
+                    <SvgFeedback />
+                  </ListItemIcon>
+                  <ListItemText inset primary='Send feedback' />
+                </MenuItem>
+              </MenuList>
           </SidebarContent>
 
           <SidebarMain>
-            <HomeRouter enabled={loaded!} data={{ mergedPosts, loadDataStream, hasMorePosts}} />
+            <HomeRouter enabled={loaded!} data={{ mergedPosts, loadDataStream, hasMorePosts }} />
           </SidebarMain>
         </Sidebar>
 
@@ -166,7 +209,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
 
   return {
     loadDataStream:
-    (page: number, limit: number) => dispatch(postActions.dbGetPosts(page,limit)),
+      (page: number, limit: number) => dispatch(postActions.dbGetPosts(page, limit)),
     loadData: () => {
       dispatch(postActions.dbGetPosts())
       dispatch(imageGalleryActions.dbGetImageGallery())
@@ -216,9 +259,9 @@ const mapStateToProps = (state: any, ownProps: IHomeComponentProps) => {
   const hasMorePosts = post.stream.hasMoreData
   Object.keys(followingUsers).forEach((userId) => {
     let newPosts = post.userPosts ? post.userPosts[userId] : {}
-    _.merge(mergedPosts,newPosts)
+    _.merge(mergedPosts, newPosts)
   })
-  _.merge(mergedPosts,posts)
+  _.merge(mergedPosts, posts)
   return {
     authed: authorize.authed,
     isVerifide: authorize.isVerifide,
