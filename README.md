@@ -154,7 +154,7 @@ and then install the package
 
 ## Deployment
 Follow [firebase instruction](https://firebase.google.com/docs/hosting/deploying)
-`firebase deploy`
+`npm run deploy:firebase`
 
 ## Built With
 
