@@ -1,6 +1,5 @@
-import { IStorageService } from 'core/services/files'
 // - Import react componetns
-import moment from 'moment'
+import moment from 'moment/moment'
 
 // - Import domain
 import { Image } from 'core/domain/imageGallery'
@@ -12,9 +11,6 @@ import { ImageGalleryActionType } from 'constants/imageGalleryActionType'
 // - Import actions
 import * as globalActions from 'actions/globalActions'
 
-// - Import app API
-import FileAPI from 'api/FileAPI'
-
 import { IImageGalleryService } from 'core/services/imageGallery'
 import { FileResult } from 'models/files/fileResult'
 import { SocialProviderTypes } from 'core/socialProviderTypes'
@@ -24,7 +20,6 @@ import { provider } from '../socialEngine'
  * Get service providers
  */
 const imageGalleryService: IImageGalleryService = provider.get<IImageGalleryService>(SocialProviderTypes.ImageGalleryService)
-const storageService: IStorageService = provider.get<IStorageService>(SocialProviderTypes.StorageService)
 
 /* _____________ UI Actions _____________ */
 
@@ -52,8 +47,6 @@ export const dbGetImageGallery = () => {
 
 /**
  * Save image URL in the server
- * @param  {string} imageURL is the URL of image
- * @param  {string} imageFullPath is the folder name + / + file name
  */
 export const dbSaveImage = (imageURL: string,imageFullPath: string) => {
   return (dispatch: any, getState: Function) => {
@@ -104,8 +97,6 @@ export const dbDeleteImage = (id: string) => {
 
 /**
  * Upload image on the server
- * @param {file} file
- * @param {string} fileName
  */
 export const dbUploadImage = (image: any, imageName: string) => {
   return (dispatch: any, getState: Function) => {
@@ -137,10 +128,10 @@ export const dbDownloadImage = (fileName: string) => {
       return {}
     }
     if (getState().imageGallery.imageURLList[fileName] && fileName !== '') {
-      return
+      return undefined
     }
     if (getState().imageGallery.imageRequests.indexOf(fileName) > -1) {
-      return
+      return undefined
     }
     dispatch(sendImageRequest(fileName))
 
@@ -212,6 +203,5 @@ export const sendImageRequest = (name: string) => {
     type: ImageGalleryActionType.SEND_IMAGE_REQUEST,
     payload: name
   }
-
 
 }

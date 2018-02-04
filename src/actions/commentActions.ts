@@ -1,5 +1,5 @@
 // - Import react components
-import moment from 'moment'
+import moment from 'moment/moment'
 import _ from 'lodash'
 
 // - Import domain
@@ -33,9 +33,6 @@ const commentService: ICommentService = provider.get<ICommentService>(SocialProv
 
 /**
  *  Add comment to database
- * @param  {object} ownerPostUserId the identifier of the user who is the owner of the post which comment belong to
- * @param  {object} newComment user comment
- * @param  {function} callBack  will be fired when server responsed
  */
 export const dbAddComment = (ownerPostUserId: string, newComment: Comment, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
@@ -43,13 +40,13 @@ export const dbAddComment = (ownerPostUserId: string, newComment: Comment, callB
     dispatch(globalActions.showTopLoading())
 
     const state = getState()
-    let uid: string = getState().authorize.uid
+    let uid: string = state.authorize.uid
 
     let comment: Comment = {
       score : 0,
       creationDate : moment().unix(),
-      userDisplayName : getState().user.info[uid].fullName,
-      userAvatar : getState().user.info[uid].avatar,
+      userDisplayName : state.user.info[uid].fullName,
+      userAvatar : state.user.info[uid].avatar,
       userId : uid,
       postId: newComment.postId,
       text: newComment.text
@@ -102,7 +99,6 @@ export const dbGetComments = (ownerUserId: string, postId: string) => {
          */
         dispatch(addCommentList(comments))
         let commentsCount: number
-        const state = getState()
         const post: Post = state.post.userPosts[ownerUserId][postId]
         if (!post) {
           return
@@ -131,17 +127,11 @@ export const dbGetComments = (ownerUserId: string, postId: string) => {
 
 /**
  * Update a comment from database
- * @param  {string} id of comment
- * @param {string} postId is the identifier of the post which comment belong to
- * @param {string} text is the text of comment
  */
 export const dbUpdateComment = (comment: Comment) => {
   return (dispatch: any, getState: Function) => {
     delete comment.editorStatus
     dispatch(globalActions.showTopLoading())
-
-    // Get current user id
-    let uid: string = getState().authorize.uid
 
     return commentService.updateComment(comment)
       .then(() => {
@@ -158,8 +148,6 @@ export const dbUpdateComment = (comment: Comment) => {
 
 /**
  * Delete a comment from database
- * @param  {string} id of comment
- * @param {string} postId is the identifier of the post which comment belong to
  */
 export const dbDeleteComment = (id?: string | null, postId?: string) => {
   return (dispatch: any, getState: Function) => {
@@ -168,9 +156,6 @@ export const dbDeleteComment = (id?: string | null, postId?: string) => {
       dispatch(globalActions.showErrorMessage('comment id can not be null or undefined'))
     }
     dispatch(globalActions.showTopLoading())
-
-    // Get current user id
-    let uid: string = getState().authorize.uid
 
     return commentService.deleteComment(id!)
       .then(() => {
@@ -214,10 +199,7 @@ export const addComment = (comment: Comment) => {
 }
 
 /**
- *
- * @param id comment identifier
- * @param postId post identefier which comment belong to
- * @param text the new text for comment
+ * Update comment
  */
 export const updateComment = ( comment: Comment) => {
 
@@ -241,8 +223,6 @@ export const addCommentList = (postComments: {[postId: string]: {[commentId: str
 
 /**
  * Delete a comment
- * @param  {string} id of comment
- * @param {string} postId is the identifier of the post which comment belong to
  */
 export const deleteComment = (id: string, postId: string) => {
   return { type: CommentActionType.DELETE_COMMENT, payload: { id, postId } }

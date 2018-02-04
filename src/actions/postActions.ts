@@ -1,13 +1,9 @@
-// - Import react components
-import { Action } from 'redux'
-
 // - Import domain
 import { Post } from 'core/domain/posts'
-import { Comment } from 'core/domain/comments'
 import { SocialError } from 'core/domain/common'
 
 // - Import utility components
-import moment from 'moment'
+import moment from 'moment/moment'
 
 // - Import action types
 import { PostActionType } from 'constants/postActionType'
@@ -28,8 +24,6 @@ const postService: IPostService = provider.get<IPostService>(SocialProviderTypes
 
 /**
  * Add a normal post
- * @param {any} newPost
- * @param {Function} callBack
  */
 export let dbAddPost = (newPost: Post, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
@@ -71,8 +65,6 @@ export let dbAddPost = (newPost: Post, callBack: Function) => {
 
 /**
  * Add a post with image
- * @param {object} newPost
- * @param {function} callBack
  */
 export const dbAddImagePost = (newPost: Post, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
@@ -118,15 +110,11 @@ export const dbAddImagePost = (newPost: Post, callBack: Function) => {
 
 /**
  * Update a post from database
- * @param  {object} newPost
- * @param {func} callBack //TODO: anti pattern should change to parent state or move state to redux
  */
 export const dbUpdatePost = (updatedPost: Post, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
 
     dispatch(globalActions.showTopLoading())
-    // Get current user id
-    let uid: string = getState().authorize.uid
 
     return postService.updatePost(updatedPost).then(() => {
 
@@ -178,7 +166,6 @@ export const dbGetPosts = (page: number = 0, limit: number = 10) => {
     const {stream} = state.post
     const lastPageRequest = stream.lastPageRequest
     const lastPostId = stream.lastPostId
-    const hasMoreData = stream.hasMoreData
 
     let uid: string = state.authorize.uid
     if (uid && lastPageRequest !== page) {
@@ -224,7 +211,6 @@ export const dbGetPostsByUserId = (userId: string, page: number = 0, limit: numb
     const {profile} = state.post
     const lastPageRequest = profile[userId] ? profile[userId].lastPageRequest : -1
     const lastPostId = profile[userId] ? profile[userId].lastPostId : ''
-    const hasMoreData = profile[userId] ? profile[userId].hasMoreData : true
 
     let uid: string = state.authorize.uid
 
@@ -265,8 +251,6 @@ export const dbGetPostsByUserId = (userId: string, page: number = 0, limit: numb
 
 /**
  * Get all user posts from data base
- * @param uid post owner identifier
- * @param postId post identifier
  */
 export const dbGetPostById = (uid: string, postId: string) => {
   return (dispatch: any, getState: Function) => {
@@ -287,8 +271,6 @@ export const dbGetPostById = (uid: string, postId: string) => {
 
 /**
  * Add a normal post
- * @param {string} uid is user identifier
- * @param {Post} post
  */
 export const addPost = (uid: string, post: Post) => {
   return {
@@ -299,8 +281,6 @@ export const addPost = (uid: string, post: Post) => {
 
 /**
  * Update a post
- * @param {string} uid is user identifier
- * @param {Post} post
  */
 export const updatePost = (post: Post) => {
   return {
@@ -311,8 +291,6 @@ export const updatePost = (post: Post) => {
 
 /**
  * Delete a post
- * @param {string} uid is user identifier
- * @param {string} id is post identifier
  */
 export const deletePost = (uid: string, id: string) => {
   return {
@@ -323,8 +301,6 @@ export const deletePost = (uid: string, id: string) => {
 
 /**
  * Add a list of post
- * @param {string} uid
- * @param {[object]} posts
  */
 export const addPosts = (userPosts: { [userId: string]: {[postId: string]: Post} }) => {
   return {
@@ -394,7 +370,6 @@ export const lastPostStream = (lastPostId: string) => {
   }
 
 }
-
 
 /**
  * Set profile posts has more data to show

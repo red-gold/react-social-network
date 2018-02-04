@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Button from 'material-ui/Button'
 import { grey,teal } from 'material-ui/colors'
-import SvgCamera from 'material-ui-icons/photoCamera'
+import SvgCamera from 'material-ui-icons/PhotoCamera'
 import Paper from 'material-ui/Paper'
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
 import InfiniteScroll from 'react-infinite-scroller'
@@ -149,7 +149,7 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
           if (postMatch !== null) {
             parsedPosts.push({ ...posts[postId]})
           }
-        }else {
+        } else {
           parsedPosts.push({ ...posts[postId]})
 
         }
@@ -174,7 +174,7 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
 
         if ((index % 2) === 1 && postBack.divided) {
           postBack.oddPostList.push(newPost as never)
-        }else {
+        } else {
           postBack.evenPostList.push(newPost as never)
         }
       })
@@ -188,7 +188,7 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
    */
   scrollLoad = (page: number) => {
     const {loadStream} = this.props
-    loadStream(page, 10)
+    loadStream!(page, 10)
   }
 
   componentWillMount () {
@@ -211,10 +211,10 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
       loadMore={this.scrollLoad}
       hasMore={hasMorePosts}
       useWindow={true}
-      loader={ <LoadMoreProgressComponent />}
+      loader={<LoadMoreProgressComponent />}
     >
         <div className='grid grid__gutters grid__1of2 grid__space-around animate-top'>
-          <div className='grid-cell animate-top' style= {{maxWidth: '530px', minWidth: '280px'}}>
+          <div className='grid-cell animate-top' style={{maxWidth: '530px', minWidth: '280px'}}>
             {displayWriting && !tag
             ? (<PostWriteComponent open={this.state.openPostWrite} onRequestClose={this.handleClosePostWrite} edit={false} >
                   <Paper elevation={2}>

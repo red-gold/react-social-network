@@ -1,4 +1,4 @@
-import * as moment from 'moment'
+import * as moment from 'moment/moment'
 /**
  * Log the data
  * @param title log title
@@ -7,7 +7,7 @@ import * as moment from 'moment'
 const logger = (title: string, data: any) => {
   const randomColor = getRandomColor()
 
-  console.log(`\n\n%c =======  ${title} ======= %c${moment().format('HH:mm:ss SSS')} \n`, `color:${getRandomColor()};font-size:15`
+  console.log(`\n\n%c =======  ${title} ======= %c${moment().format('HH:mm:ss SSS')} \n`, `color:${randomColor};font-size:15`
   , `color:${getRandomColor()};font-size:15`, data,`\n\n =========================================`)
 
 }

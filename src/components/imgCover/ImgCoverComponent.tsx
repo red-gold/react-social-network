@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SvgImage from 'material-ui-icons/image'
+import SvgImage from 'material-ui-icons/Image'
 
 // - Import app components
 

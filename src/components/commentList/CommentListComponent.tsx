@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import List, { ListItem, ListItemText } from 'material-ui/List'
 
 // - Import app components
-import CommentComponent from 'components/Comment'
+import CommentComponent from 'components/comment'
 
 import * as PostAPI from 'api/PostAPI'
 

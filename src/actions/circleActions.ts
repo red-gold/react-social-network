@@ -1,22 +1,18 @@
 // - Import domain
-import { User, Profile } from 'core/domain/users'
+import { User } from 'core/domain/users'
 import { Circle, UserTie } from 'core/domain/circles'
 import { SocialError } from 'core/domain/common'
-
-// - Import utility components
-import moment from 'moment'
+import * as moment from 'moment/moment'
 
 // - Import action types
 import { CircleActionType } from 'constants/circleActionType'
 
 // - Import actions
 import * as globalActions from 'actions/globalActions'
-import * as postActions from 'actions/postActions'
 import * as userActions from 'actions/userActions'
 import * as notifyActions from 'actions/notifyActions'
 import * as serverActions from 'actions/serverActions'
 
-import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { ICircleService } from 'core/services/circles'
 import { SocialProviderTypes } from 'core/socialProviderTypes'
 import { provider } from '../socialEngine'

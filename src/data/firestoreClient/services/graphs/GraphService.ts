@@ -96,7 +96,7 @@ export class GraphService implements IGraphService {
 
             // Delete documents in a batch
           let batch = db.batch()
-          snapshot.docs.forEach(function (doc) {
+          snapshot.docs.forEach(function (doc: any) {
             batch.delete(doc.ref)
           })
 
@@ -115,7 +115,7 @@ export class GraphService implements IGraphService {
   private getGraphsQuery: (collection: string, leftNode?: string | null, edgeType?: string, rightNode?: string | null)
     => Promise<firebase.firestore.QuerySnapshot> = (collection, leftNode, edgeType, rightNode) => {
       return new Promise<firebase.firestore.QuerySnapshot>((resolve,reject) => {
-        let graphsRef = db.collection(`graphs:${collection}`)
+        let graphsRef = db.collection(`graphs:${collection}`) as any
 
         if (leftNode != null) {
           graphsRef = graphsRef.where('leftNode', '==', leftNode)
@@ -129,14 +129,14 @@ export class GraphService implements IGraphService {
         }
 
         if (graphsRef) {
-          graphsRef.get().then((result) => {
+          graphsRef.get().then((result: any) => {
 
             resolve(result)
-          }).catch((error) => reject(error))
+          }).catch((error: any) => reject(error))
         } else {
-          graphsRef.get().then((result) => {
+          graphsRef.get().then((result: any) => {
             resolve(result)
-          }).catch((error) => reject(error))
+          }).catch((error: any) => reject(error))
         }
 
       })

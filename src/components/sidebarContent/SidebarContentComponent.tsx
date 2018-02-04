@@ -10,7 +10,7 @@ import { ISidebarContentComponentState } from './ISidebarContentComponentState'
 // - Create component class
 export default class SidebarContentComponent extends Component<ISidebarContentComponentProps,ISidebarContentComponentState> {
 
-  static qcName= 'SidebarContent'
+  static qcName = 'SidebarContent'
 
   /**
    * Component constructor

@@ -59,5 +59,5 @@ export interface IEditProfileComponentProps {
   /**
    * Styles
    */
-  classes: any
+  classes?: any
 }

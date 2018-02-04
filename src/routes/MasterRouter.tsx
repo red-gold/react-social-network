@@ -23,7 +23,8 @@ export class MasterRouter extends Component<IRouterProps, any> {
   render () {
     const { enabled, match, data } = this.props
     return (
-        enabled ? (<Switch>
+        enabled ? (
+        <Switch>
           <Route path='/signup' component={Signup} />
           <Route path='/emailVerification' component={EmailVerification} />
           <Route path='/settings' component={Setting} />
@@ -36,4 +37,4 @@ export class MasterRouter extends Component<IRouterProps, any> {
     )
   }
 }
-export default withRouter(connect(null, null)(MasterRouter as any))
+export default withRouter<any>(connect(null, null)(MasterRouter as any)) as typeof MasterRouter

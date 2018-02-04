@@ -130,7 +130,7 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
     return (
       <div style={styles.people}>
       <AppBar position='static' color='default'>
-      <Tabs indicatorColor= {grey[50]}
+      <Tabs indicatorColor={grey[50]}
       onChange={this.handleChangeTab}
       value={tabIndex} centered
       textColor='primary'
@@ -197,4 +197,4 @@ const mapStateToProps = (state: any, ownProps: IPeopleComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PeopleComponent as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PeopleComponent as any) as any)

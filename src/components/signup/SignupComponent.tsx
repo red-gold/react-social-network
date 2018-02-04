@@ -228,7 +228,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
    <TextField
    className={classes.textField}
      onChange={this.handleInputChange}
-     helperText={this.state.passwordInputError }
+     helperText={this.state.passwordInputError}
      error={this.state.passwordInputError.trim() !== ''}
      name='passwordInput'
     label='Password'
@@ -237,7 +237,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
   <TextField
   className={classes.textField}
     onChange={this.handleInputChange}
-    helperText={this.state.confirmInputError }
+    helperText={this.state.confirmInputError}
     error={this.state.confirmInputError.trim() !== ''}
     name='confirmInput'
    label='Confirm Password'
@@ -296,4 +296,4 @@ const mapStateToProps = (state: any,ownProps: ISignupComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(SignupComponent as any) as any))
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(withStyles(styles)(SignupComponent as any) as any) as any)

@@ -54,7 +54,7 @@ export interface ICommentComponentProps {
    *
    * @memberof ICommentComponentProps
    */
-  delete?: (id?: string| null, postId?: string) => any
+  delete?: (id?: string | null, postId?: string) => any
 
   /**
    * Get user profile
@@ -98,6 +98,6 @@ export interface ICommentComponentProps {
   /**
    * Styles
    */
-  classes: any
+  classes?: any
 
 }

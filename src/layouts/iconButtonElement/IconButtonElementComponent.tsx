@@ -1,7 +1,7 @@
 // - Import react components
 import React, { Component } from 'react'
 import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui-icons/moreVert'
+import MoreVertIcon from 'material-ui-icons/MoreVert'
 import { grey } from 'material-ui/colors'
 
 /**

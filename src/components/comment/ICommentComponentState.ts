@@ -7,7 +7,7 @@ export interface ICommentComponentState {
    * @type {string}
    * @memberof ICommentComponentProps
    */
-  initialText?: string | null
+  initialText?: string
 
   /**
    * Initialt text comment

@@ -1,19 +1,16 @@
 // - Import react components
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
-import { grey } from 'material-ui/colors'
 import List, {
   ListItem,
   ListItemIcon,
   ListItemSecondaryAction,
-  ListItemText,
-  ListSubheader
+  ListItemText
 } from 'material-ui/List'
-import SvgGroup from 'material-ui-icons/groupWork'
+import SvgGroup from 'material-ui-icons/GroupWork'
 import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui-icons/moreVert'
+import MoreVertIcon from 'material-ui-icons/MoreVert'
 import TextField from 'material-ui/TextField'
 import { MenuList, MenuItem } from 'material-ui/Menu'
 import { withStyles } from 'material-ui/styles'
@@ -31,7 +28,7 @@ import Dialog, {
 import Divider from 'material-ui/Divider'
 import Button from 'material-ui/Button'
 import RaisedButton from 'material-ui/Button'
-import SvgClose from 'material-ui-icons/close'
+import SvgClose from 'material-ui-icons/Close'
 import AppBar from 'material-ui/AppBar'
 import Paper from 'material-ui/Paper'
 import Collapse from 'material-ui/transitions/Collapse'
@@ -102,7 +99,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
    * Component constructor
    * @param  {object} props is an object properties of component
    */
-  constructor(props: ICircleComponentProps) {
+  constructor (props: ICircleComponentProps) {
     super(props)
 
     // Defaul state
@@ -229,7 +226,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
    * Reneder component DOM
    * @return {react element} return the DOM which rendered by component
    */
-  render() {
+  render () {
 
     const { circle, classes } = this.props
     const { isMenuOpen } = this.state
@@ -242,7 +239,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
       <Manager>
         <Target>
           <IconButton
-            aria-owns={isMenuOpen! ? 'circle-menu' : null}
+            aria-owns={isMenuOpen! ? 'circle-menu' : ''}
             aria-haspopup='true'
             onClick={this.handleOpenMenu}
           >
@@ -255,7 +252,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           className={classNames({ [classes.popperClose]: !isMenuOpen }, { [classes.popperOpen]: isMenuOpen })}
         >
           <ClickAwayListener onClickAway={this.handleCloseMenu}>
-            <Grow in={isMenuOpen} id='circle-menu' style={{ transformOrigin: '0 0 0' }}>
+            <Grow in={isMenuOpen} style={{ transformOrigin: '0 0 0' }}>
               <Paper>
                 <MenuList role='menu'>
                   <MenuItem onClick={this.handleDeleteCircle} > Delete circle </MenuItem>
@@ -300,7 +297,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           </ListItemIcon>
           <ListItemText inset primary={<span style={this.styles}>{this.props.circle.name}</span>} />
           <ListItemSecondaryAction>
-            { circle.isSystem ? null : rightIconMenu }
+            {circle.isSystem ? null : rightIconMenu}
           </ListItemSecondaryAction>
         </ListItem>
         <Collapse component='li' in={this.state.open} timeout='auto' unmountOnExit>

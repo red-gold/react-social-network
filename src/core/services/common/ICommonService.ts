@@ -1,5 +1,5 @@
 import { User } from 'core/domain/users'
-import { Feed } from 'core/domain/common';
+import { Feed } from 'core/domain/common'
 
 /**
  * Common service interface

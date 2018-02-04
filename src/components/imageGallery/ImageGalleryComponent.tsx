@@ -4,11 +4,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList'
 import IconButton from 'material-ui/IconButton'
-import StarBorder from 'material-ui-icons/starBorder'
+import StarBorder from 'material-ui-icons/StarBorder'
 import Button from 'material-ui/Button'
-import SvgUpload from 'material-ui-icons/cloudUpload'
-import SvgAddImage from 'material-ui-icons/addAPhoto'
-import SvgDelete from 'material-ui-icons/delete'
+import SvgUpload from 'material-ui-icons/CloudUpload'
+import SvgAddImage from 'material-ui-icons/AddAPhoto'
+import SvgDelete from 'material-ui-icons/Delete'
 import { grey } from 'material-ui/colors'
 import uuid from 'uuid'
 
@@ -174,8 +174,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
               title={<SvgDelete style={this.styles.deleteImage as any} onClick={evt => this.handleDeleteImage(evt, image.id!)} />}
               titlePosition='top'
               actionIcon={
-                <SvgAddImage style={this.styles.addImage as any} onClick={evt => this.handleSetImage(evt, image.URL,image.fullPath)} />
-              }
+                <SvgAddImage style={this.styles.addImage as any} onClick={evt => this.handleSetImage(evt, image.URL,image.fullPath)} />}
               actionPosition='left'
             />
       </GridListTile>)

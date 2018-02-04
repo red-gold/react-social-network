@@ -1,6 +1,6 @@
 // - Import react components
 import React, { Component } from 'react'
-import moment from 'moment'
+import moment from 'moment/moment'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
@@ -21,7 +21,7 @@ import Dialog, {
   DialogTitle,
   withMobileDialog
 } from 'material-ui/Dialog'
-import SvgAdd from 'material-ui-icons/add'
+import SvgAdd from 'material-ui-icons/Add'
 import IconButton from 'material-ui/IconButton'
 import { grey } from 'material-ui/colors'
 

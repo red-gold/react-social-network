@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import _ from 'lodash'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import moment from 'moment'
+import moment from 'moment/moment'
 
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
@@ -24,16 +24,16 @@ import classNames from 'classnames'
 import * as commentActions from 'actions/commentActions'
 
 // - Import app components
-import CommentListComponent from 'components/CommentList'
+import CommentListComponent from 'components/commentList'
 import UserAvatar from 'components/userAvatar'
 
 import { ICommentGroupComponentProps } from './ICommentGroupComponentProps'
 import { ICommentGroupComponentState } from './ICommentGroupComponentState'
 import { Comment } from 'core/domain/comments/comment'
-import { ServerRequestModel } from 'models/server';
-import StringAPI from 'api/StringAPI';
-import { ServerRequestType } from 'constants/serverRequestType';
-import { ServerRequestStatusType } from 'actions/serverRequestStatusType';
+import { ServerRequestModel } from 'models/server'
+import StringAPI from 'api/StringAPI'
+import { ServerRequestType } from 'constants/serverRequestType'
+import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
 
 const styles = (theme: any) => ({
   textField: {
@@ -254,7 +254,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
           <Card elevation={0}>
             <CardHeader
             className={classes.header}
-              title={ <Author />}
+              title={<Author />}
               avatar={<UserAvatar fullName={commentFullName!} fileName={commentAvatar!} size={24} />}
               subheader={commentBody}
             >
@@ -278,7 +278,8 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
     /**
      * Comment list box
      */
-    const commentWriteBox = (<div>
+    const commentWriteBox = (
+    <div>
       <Divider />
       <Paper key={postId! + '-commentwrite'} elevation={0} className='animate2-top10'>
           <Card elevation={0}>
@@ -313,7 +314,8 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
 )
 
     const showComments = ( comments && Object.keys(comments).length > 0
-    ? (<Paper elevation={0} style={open ? { display: 'block', padding: '0px 0px' } : { display: 'none', padding: '12px 16px' }}>
+    ? (
+    <Paper elevation={0} style={open ? { display: 'block', padding: '0px 0px' } : { display: 'none', padding: '12px 16px' }}>
       <CommentListComponent comments={comments!} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments} />
     </Paper>)
     : '')
@@ -391,4 +393,4 @@ const mapStateToProps = (state: any, ownProps: ICommentGroupComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CommentGroupComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(CommentGroupComponent as any) as any)

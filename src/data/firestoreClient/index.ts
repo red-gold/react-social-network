@@ -1,16 +1,17 @@
 import firebase from 'firebase'
 import 'firebase/firestore'
+import config from 'src/config'
 try {
-  let config = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    databaseURL: process.env.DATABASE_URL,
-    projectId: process.env.PROJECT_ID,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.MESSAGING_SENDER_ID
+  let firebaseConfig = {
+    apiKey: config.firebase.apiKey,
+    authDomain: config.firebase.authDomain,
+    databaseURL: config.firebase.databaseURL,
+    projectId: config.firebase.projectId,
+    storageBucket: config.firebase.storageBucket,
+    messagingSenderId: config.firebase.messagingSenderId
   }
 
-  firebase.initializeApp(config)
+  firebase.initializeApp(firebaseConfig)
 } catch (error) {
   console.log('=========Firebase firestore initializer==============')
   console.log(error)

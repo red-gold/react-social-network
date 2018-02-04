@@ -69,12 +69,12 @@ export interface IStreamComponentProps {
   /**
    * Load the data for stream
    */
-  loadStream: (page: number, limit: number) => any
+  loadStream?: (page: number, limit: number) => any
 
   /**
    * If there is more post {true} or not {false}
    */
-  hasMorePosts: boolean
+  hasMorePosts?: boolean
 
   /**
    * Posts for stream
@@ -87,5 +87,5 @@ export interface IStreamComponentProps {
   /**
    * Router match property
    */
-  match: any
+  match?: any
 }

@@ -112,8 +112,10 @@ export class NotifyComponent extends Component<INotifyComponentProps, INotifyCom
    */
   render () {
     let { open, anchorEl, onRequestClose, classes } = this.props
-    const noNotify = ( <div className={classes.noNotify}>
-     All caught up! </div>)
+    const noNotify = ( 
+    <div className={classes.noNotify}>
+     All caught up! </div>
+     )
     const items = this.notifyItemList()
     return (
       <Popper
@@ -162,4 +164,4 @@ const mapStateToProps = (state: any, ownProps: INotifyComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NotifyComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(NotifyComponent as any) as any)

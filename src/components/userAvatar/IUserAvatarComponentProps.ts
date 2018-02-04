@@ -19,5 +19,5 @@ export interface IUserAvatarComponentProps {
     /**
      * Trigger on touch tap
      */
-  onClick?: (event: any) => anys
+  onClick?: (event: any) => any
 }

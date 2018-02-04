@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/Button'
 import Button from 'material-ui/Button'
 import IconButton from 'material-ui/IconButton'
 import Divider from 'material-ui/Divider'
-import ActionAndroid from 'material-ui-icons/android'
+import ActionAndroid from 'material-ui-icons/Android'
 import { withStyles } from 'material-ui/styles'
 
 // - Import actions
@@ -259,4 +259,4 @@ const mapStateToProps = (state: any, ownProps: ILoginComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LoginComponent as any) as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LoginComponent as any) as any) as any)

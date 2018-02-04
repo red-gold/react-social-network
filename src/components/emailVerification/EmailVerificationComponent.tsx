@@ -73,7 +73,7 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
         }}>Green</h1>
 
         <div className='animate-bottom'>
-          <Paper style={paperStyle} elevation={1} rounded={false} >
+          <Paper style={paperStyle} elevation={1} >
             <div style={{ padding: '48px 40px 36px' }}>
               <div style={{
                 paddingLeft: '40px',
@@ -93,8 +93,8 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
                   An verificiation email has been already sent to you. Please check your inbox. If you couldn't see the emai, please resend email verification.
                 </p>
                 <div style={this.styles.buttons}>
-                  <Button raised style={this.styles.homeButton} label='Home' color='primary' onClick={() => this.props.homePage()} />
-                  <Button raised label='Send Email Verification' color='primary' onClick={() => this.props.sendEmailVerification()} />
+                  <Button raised style={this.styles.homeButton} color='primary' onClick={() => this.props.homePage()}> Home </Button>
+                  <Button raised color='primary' onClick={() => this.props.sendEmailVerification()}> Send Email Verification </Button>
                 </div>
                 <div>
                 </div>
@@ -135,4 +135,4 @@ const mapStateToProps = (state: any, ownProps: IEmailVerificationComponentProps)
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EmailVerificationComponent as any))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EmailVerificationComponent as any) as any)

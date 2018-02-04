@@ -41,7 +41,7 @@ export interface IUserBoxComponentProps {
   /**
    * Whether current user followed this user
    */
-  isFollowed: boolean
+  isFollowed?: boolean
 
     /**
      * The number of circles

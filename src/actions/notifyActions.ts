@@ -1,5 +1,3 @@
-// - Import react components
-import moment from 'moment'
 
 // - Import domain
 import { Notification } from 'core/domain/notifications'
@@ -29,8 +27,6 @@ const notificationService: INotificationService = provider.get<INotificationServ
  */
 export const dbAddNotification = (newNotify: Notification) => {
   return (dispatch: any, getState: Function) => {
-
-    let uid: string = getState().authorize.uid
 
     let notify: Notification = {
       isSeen: false,

@@ -8,7 +8,7 @@ import UserBoxList from 'components/userBoxList'
 
 import { IFollowersComponentProps } from './IFollowersComponentProps'
 import { IFollowersComponentState } from './IFollowersComponentState'
-import { Circle } from 'core/domain/circles';
+import { Circle } from 'core/domain/circles'
 
 // - Import API
 

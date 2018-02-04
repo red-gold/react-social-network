@@ -49,8 +49,9 @@ export class PostPageComponent extends Component<IPostPageComponentProps,IPostPa
    * @return {react element} return the DOM which rendered by component
    */
   render () {
+    const St = Stream as any
     return (
-          <Stream posts={this.props.posts} displayWriting={false} />
+          <St posts={this.props.posts} displayWriting={false} />
     )
   }
 }

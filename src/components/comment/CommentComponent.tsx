@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import moment from 'moment'
+import moment from 'moment/moment'
 import Linkify from 'react-linkify'
 
 import { Comment } from 'core/domain/comments'
@@ -14,7 +14,7 @@ import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
 import { grey } from 'material-ui/colors'
 import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui-icons/moreVert'
+import MoreVertIcon from 'material-ui-icons/MoreVert'
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
 import Menu, { MenuList, MenuItem } from 'material-ui/Menu'
 import TextField from 'material-ui/TextField'
@@ -167,11 +167,11 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
       /**
        * Comment text
        */
-      text: this.props.comment.text,
+      text: this.props.comment.text!,
       /**
        * Comment text to match edit with new comment that is edited
        */
-      initialText: this.props.comment.text,
+      initialText: this.props.comment.text!,
       /**
        * If comment text dosn't take any change it will be true
        */
@@ -212,7 +212,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
   handleCancelEdit = (evt: any) => {
 
     this.setState({
-      text: this.state.initialText
+      text: this.state.initialText!
     })
     this.props.closeEditor!()
   }
@@ -303,7 +303,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
       >
         <Target>
           <IconButton
-            aria-owns={openMenu! ? 'comment-menu' : null}
+            aria-owns={openMenu! ? 'comment-menu' : ''}
             aria-haspopup='true'
             onClick={this.handleCommentMenu}
           >
@@ -316,7 +316,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
           className={classNames({ [classes.popperClose]: !openMenu! }, { [classes.popperOpen]: openMenu! })}
         >
           <ClickAwayListener onClickAway={this.handleCloseCommentMenu}>
-            <Grow in={openMenu!} id='comment-menu' style={{ transformOrigin: '0 0 0' }}>
+            <Grow in={openMenu!} style={{ transformOrigin: '0 0 0' }}>
               <Paper>
                 <MenuList role='menu'>
                   <MenuItem className={classes.rightIconMenuItem}>Reply</MenuItem>
@@ -426,4 +426,4 @@ const mapStateToProps = (state: any, ownProps: any) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CommentComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(CommentComponent as any) as any)

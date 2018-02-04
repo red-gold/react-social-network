@@ -1,5 +1,5 @@
 import { Circle } from './circle'
-import { UserTie } from './UserTie'
+import { UserTie } from './userTie'
 
 export {
     Circle,

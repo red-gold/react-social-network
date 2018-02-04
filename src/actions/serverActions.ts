@@ -1,12 +1,9 @@
-import moment from 'moment'
-
 // - Import action types
 import { ServerActionType } from 'constants/serverActionType'
 
 // - Import domain
 
 // - Import actions
-import * as globalActions from 'actions/globalActions'
 import { ServerRequestModel } from 'models/server/serverRequestModel'
 import { SocialError } from 'core/domain/common/socialError'
 

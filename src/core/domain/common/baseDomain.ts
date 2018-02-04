@@ -1,4 +1,4 @@
 
-export class BaseDomain{
+export class BaseDomain {
    
 }

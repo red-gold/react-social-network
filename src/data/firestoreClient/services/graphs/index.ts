@@ -1,5 +1,5 @@
-import { VoteService } from './VoteService'
+import { GraphService } from './GraphService'
 
 export {
-    VoteService
+    GraphService
 }

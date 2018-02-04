@@ -1,6 +1,6 @@
 // - Import react components
 import firebase, { firebaseRef, firebaseAuth, db } from 'data/firestoreClient'
-import moment from 'moment'
+import moment from 'moment/moment'
 
 import { SocialError } from 'core/domain/common'
 import { Profile, UserProvider } from 'core/domain/users'

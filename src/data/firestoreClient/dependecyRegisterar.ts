@@ -44,6 +44,4 @@ export const useFirestore = (container: Container) => {
   container.bind<IGraphService>(FirestoreClientTypes.GraphService).to(GraphService)
   container.bind<IUserTieService>(SocialProviderTypes.UserTieService).to(UserTieService)
 
-
-
 }

@@ -4,18 +4,18 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import PropTypes from 'prop-types'
-import moment from 'moment'
+import moment from 'moment/moment'
 import Linkify from 'react-linkify'
 import copy from 'copy-to-clipboard'
 
 // - Material UI
 import { Card, CardActions, CardHeader, CardMedia, CardContent } from 'material-ui'
 import Typography from 'material-ui/Typography'
-import SvgShare from 'material-ui-icons/share'
-import SvgLink from 'material-ui-icons/link'
-import SvgComment from 'material-ui-icons/comment'
-import SvgFavorite from 'material-ui-icons/favorite'
-import SvgFavoriteBorder from 'material-ui-icons/favoriteBorder'
+import SvgShare from 'material-ui-icons/Share'
+import SvgLink from 'material-ui-icons/Link'
+import SvgComment from 'material-ui-icons/Comment'
+import SvgFavorite from 'material-ui-icons/Favorite'
+import SvgFavoriteBorder from 'material-ui-icons/FavoriteBorder'
 import Checkbox from 'material-ui/Checkbox'
 import Button from 'material-ui/Button'
 import Divider from 'material-ui/Divider'
@@ -26,7 +26,7 @@ import { MenuList, MenuItem } from 'material-ui/Menu'
 import TextField from 'material-ui/TextField'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui-icons/moreVert'
+import MoreVertIcon from 'material-ui-icons/MoreVert'
 import { ListItemIcon, ListItemText } from 'material-ui/List'
 import { withStyles } from 'material-ui/styles'
 import { Manager, Target, Popper } from 'react-popper'
@@ -342,7 +342,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
       <Manager>
         <Target>
           <IconButton
-            aria-owns={isPostMenuOpen! ? 'post-menu' : null}
+            aria-owns={isPostMenuOpen! ? 'post-menu' : ''}
             aria-haspopup='true'
             onClick={this.openPostMenu.bind(this)}
           >
@@ -356,7 +356,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
           className={classNames({ [classes.popperClose]: !isPostMenuOpen! }, { [classes.popperOpen]: isPostMenuOpen! })}
         >
           <ClickAwayListener onClickAway={this.closePostMenu}>
-            <Grow in={isPostMenuOpen!} id='post-menu' style={{ transformOrigin: '0 0 0' }}>
+            <Grow in={isPostMenuOpen!} style={{ transformOrigin: '0 0 0' }}>
               <Paper>
                 <MenuList role='menu'>
                   <MenuItem onClick={this.handleOpenPostWrite} > Edit </MenuItem>
@@ -537,4 +537,4 @@ const mapStateToProps = (state: any, ownProps: IPostComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PostComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(PostComponent as any) as any)

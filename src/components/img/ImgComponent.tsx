@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SvgImage from 'material-ui-icons/image'
+import SvgImage from 'material-ui-icons/Image'
 import { withStyles } from 'material-ui/styles'
 
 // - Import app components
@@ -91,7 +91,7 @@ export class ImgComponent extends Component<IImgComponentProps,IImgComponentStat
     return (
       <div>
         <img className={classes.image} onLoad={this.handleLoadImage} src={fileName || ''} style={isImageLoaded ? style : { display: 'none' }} />
-        <div style={Object.assign({},{ backgroundColor: 'white' }, isImageLoaded ? { display: 'none' } : this.styles.loding) }>
+        <div style={Object.assign({},{ backgroundColor: 'white' }, isImageLoaded ? { display: 'none' } : this.styles.loding)}>
           <div style={this.styles.loadingContent as any}>
             <SvgImage style={this.styles.loadingImage} />
             <div>Image has not loaded</div>

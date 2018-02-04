@@ -25,9 +25,9 @@ import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
 import Tooltip from 'material-ui/Tooltip'
 import { MenuList, MenuItem } from 'material-ui/Menu'
-import SvgRemoveImage from 'material-ui-icons/removeCircle'
-import SvgCamera from 'material-ui-icons/photoCamera'
-import MoreVertIcon from 'material-ui-icons/moreVert'
+import SvgRemoveImage from 'material-ui-icons/RemoveCircle'
+import SvgCamera from 'material-ui-icons/PhotoCamera'
+import MoreVertIcon from 'material-ui-icons/MoreVert'
 import { withStyles } from 'material-ui/styles'
 import { Manager, Target, Popper } from 'react-popper'
 import Grow from 'material-ui/transitions/Grow'
@@ -87,7 +87,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
    * Component constructor
    * @param  {object} props is an object properties of component
    */
-  constructor(props: IPostWriteComponentProps) {
+  constructor (props: IPostWriteComponentProps) {
 
     super(props)
 
@@ -323,7 +323,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
     })
   }
 
-  componentWillReceiveProps(nextProps: IPostWriteComponentProps) {
+  componentWillReceiveProps (nextProps: IPostWriteComponentProps) {
     if (!nextProps.open) {
       const { postModel } = this.props
       this.setState({
@@ -364,7 +364,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
    * Reneder component DOM
    * @return {react element} return the DOM which rendered by component
    */
-  render() {
+  render () {
 
     const { classes } = this.props
     const { menuOpen } = this.state
@@ -421,7 +421,8 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
      * Provide post image
      */
     const loadImage = (this.state.image && this.state.image !== '')
-      ? (<div>
+      ? (
+      <div>
         <div style={{ position: 'relative', overflowY: 'hidden', overflowX: 'auto' }}>
           <ul style={{ position: 'relative', whiteSpace: 'nowrap', padding: '0 0 0 16px', margin: '8px 0 0 0', paddingRight: '16px', verticalAlign: 'bottom', flexShrink: 0, listStyleType: 'none' }}>
             <div style={{ display: 'flex', position: 'relative' }}>
@@ -442,7 +443,8 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
 
           </ul>
         </div>
-      </div>) : ''
+      </div>
+      ) : ''
 
     const styles = {
       dialog: {
@@ -579,4 +581,4 @@ const mapStateToProps = (state: any, ownProps: IPostWriteComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PostWriteComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(PostWriteComponent as any) as any)

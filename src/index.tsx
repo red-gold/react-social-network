@@ -1,11 +1,11 @@
 // Import external components refrence
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { AppContainer } from 'react-hot-loader'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import 'reflect-metadata'
 import 'typeface-roboto'
+import registerServiceWorker from './registerServiceWorker'
 
 import { Provider } from 'react-redux'
 import store, { history } from 'store/configureStore'
@@ -21,7 +21,7 @@ store.subscribe(() => { })
 
 // Needed for onClick
 // http://stackoverflow.com/a/34015469/988941
-try { injectTapEventPlugin() } catch (e) { }
+try { injectTapEventPlugin() } catch (e) {}
 
 const theme = createMuiTheme({
   palette: {
@@ -30,7 +30,7 @@ const theme = createMuiTheme({
   }
 })
 // App css
-import 'applicationStyles'
+import './styles/app.css'
 
 /**
  * Execute startup functions
@@ -38,24 +38,14 @@ import 'applicationStyles'
 import './socialEngine'
 
 const supportsHistory = 'pushState' in window.history
-const render = (Component: any) => {
-	 ReactDOM.render(
-		<AppContainer warnings={false}>
+ReactDOM.render(
 			<Provider store={store}>
 				<ConnectedRouter history={history}>
 					<MuiThemeProvider theme={theme}>
-						<Component />
+						<Master />
 					</MuiThemeProvider>
 				</ConnectedRouter>
-			</Provider>
-		</AppContainer>,
-		document.getElementById('app')
-	)
-}
-
-render(Master)
-
-// Webpack Hot Module Replacement API
-if (module.hot) {
-  module.hot.accept()
-}
+			</Provider>,
+	document.getElementById('app') as HTMLElement
+  )
+registerServiceWorker()

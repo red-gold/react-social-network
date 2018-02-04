@@ -171,7 +171,7 @@ export class SidebarComponent extends Component<ISidebarComponentProps,ISidebarC
         if (!this.state.auto && this.state.open) {
           this.open(false, 'auto')
 
-        }else {
+        } else {
           this.setState({
             overlayOpen: true,
             overlay: this.state.open

@@ -1,9 +1,6 @@
 {
 
     "compilerOptions": {
-        "module": "es6",
-        "target": "es6",
-        "lib": ["es7", "dom"],
         "types": ["reflect-metadata"],
         "allowSyntheticDefaultImports": true, // see below
         "baseUrl": "./src/", // enables you to import relative to this folder
@@ -18,20 +15,35 @@
             "layouts/*": ["layouts/*"],
             "models/*": ["models/*"]
         },
-        "sourceMap": true, // make TypeScript generate sourcemaps
-        "outDir": "public", // output directory to build to (irrelevant because we use Webpack most of the time)
-        "jsx": "preserve", // enable JSX mode, but "preserve" tells TypeScript to not transform it (we'll use Babel)
-        "strict": true,
+        "outDir": "build/dist",
+        "module": "esnext",
+        "target": "es5",
+        "lib": ["es7", "dom"],
+        "sourceMap": true,
+        "allowJs": true,
+        "jsx": "react",
         "moduleResolution": "node",
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "allowJs": true
+        "rootDir": "src",
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitReturns": false,
+        "noImplicitThis": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "noUnusedLocals": false,
+        "experimentalDecorators": true
 
     },
     "include": [
         "src/**/*"
     ],
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "build",
+        "scripts",
+        "acceptance-tests",
+        "webpack",
+        "jest",
+        "src/setupTests.ts"
     ]
 }

@@ -78,7 +78,7 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
       }
     }
     const {loadPosts, hasMorePosts} = this.props
-
+    const St = StreamComponent as any
     return (
       <div style={styles.profile}>
         <div style={styles.header}>
@@ -92,7 +92,7 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
                </div>
           <div style={{ height: '24px' }}></div>
 
-          <StreamComponent
+          <St
           posts={this.props.posts}
           loadStream={loadPosts}
           hasMorePosts={hasMorePosts}

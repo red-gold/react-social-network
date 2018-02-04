@@ -9,7 +9,7 @@ import { LoginUser, RegisterUserResult } from 'core/domain/authorize'
 import { SocialError } from 'core/domain/common'
 
 import { OAuthType } from 'core/domain/authorize/oauthType'
-import moment from 'moment'
+import moment from 'moment/moment'
 import { injectable } from 'inversify'
 /**
  * Firbase authorize service

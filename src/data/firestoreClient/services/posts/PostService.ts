@@ -108,7 +108,7 @@ export class PostService implements IPostService {
                       postList = [
                         ...postList,
                         ...result.posts
-                      ];
+                      ]
 
                       resolve(this.pagingPosts(postList, lastPostId, limit))
                     })

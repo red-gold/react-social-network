@@ -5,9 +5,9 @@ import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
-import SvgHappy from 'material-ui-icons/tagFaces'
-import SvgSad from 'material-ui-icons/face'
-import SvgClose from 'material-ui-icons/clear'
+import SvgHappy from 'material-ui-icons/TagFaces'
+import SvgSad from 'material-ui-icons/Face'
+import SvgClose from 'material-ui-icons/Clear'
 import { CircularProgress } from 'material-ui/Progress'
 import Tooltip from 'material-ui/Tooltip'
 
@@ -122,7 +122,8 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
   }
 
   loadingForm = () => {
-    return (<div className='loading'>
+    return (
+    <div className='loading'>
     <p>
           Your feedback is sending!
       </p>

@@ -1,5 +1,5 @@
 // - Import react components
-import moment from 'moment'
+import moment from 'moment/moment'
 import _ from 'lodash'
 
 // - Import domain

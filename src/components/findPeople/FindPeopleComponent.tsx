@@ -57,7 +57,7 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
                 loadMore={this.scrollLoad}
                 hasMore={hasMorePeople}
                 useWindow={true}
-                loader={ <LoadMoreProgressComponent />}
+                loader={<LoadMoreProgressComponent />}
                 >
 
                 <div className='tracks'>

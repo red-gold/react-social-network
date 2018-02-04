@@ -1,6 +1,5 @@
 // - Import react components
 import { provider } from '../socialEngine'
-import _ from 'lodash'
 // - Import domain
 import { Profile } from 'core/domain/users'
 import { SocialError } from 'core/domain/common'
@@ -10,7 +9,6 @@ import { UserActionType } from 'constants/userActionType'
 
 // - Import actions
 import * as globalActions from 'actions/globalActions'
-import * as userActions from 'actions/userActions'
 
 import { IUserService } from 'core/services/users'
 import { SocialProviderTypes } from 'core/socialProviderTypes'
@@ -47,8 +45,6 @@ export const dbGetUserInfo = () => {
 
 /**
  *  Get user info from database
- * @param {string} uid
- * @param {string} callerKey
  */
 export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
   return (dispatch: Function, getState: Function) => {
@@ -56,7 +52,7 @@ export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
 
       let caller = getState().global.temp.caller
       if ( caller && caller.indexOf(`dbGetUserInfoByUserId-${uid}`) > -1) {
-        return
+        return undefined
       }
       dispatch(globalActions.temp({caller: `dbGetUserInfoByUserId-${uid}`}))
       return userService.getUserProfile(uid).then((userProfile: Profile) => {
@@ -122,7 +118,6 @@ export const dbGetPeopleInfo = (page: number, limit: number) => {
     const {people} = state.user
     const lastPageRequest = people.lastPageRequest
     const lastUserId = people.lastUserId
-    const hasMoreData = people.hasMoreData
 
     let uid: string = state.authorize.uid
 
@@ -159,8 +154,6 @@ export const dbGetPeopleInfo = (page: number, limit: number) => {
 
 /**
  * Add user information
- * @param {string} uid is the user identifier
- * @param {Profile} info is the information about user
  */
 export const addUserInfo = (uid: string, info: Profile) => {
   return {
@@ -182,8 +175,6 @@ export const addPeopleInfo = (infoList: {[userId: string]: Profile}) => {
 
 /**
  * Update user information
- * @param {string} uid is the user identifier
- * @param {Profile} info is the information about user
  */
 export const updateUserInfo = (uid: string, info: Profile) => {
   return {

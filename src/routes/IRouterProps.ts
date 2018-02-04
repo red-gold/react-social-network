@@ -21,6 +21,6 @@ export interface IRouterProps {
    * @type {*}
    * @memberof IRouterProps
    */
-  match: any
+  match?: any
 
 }

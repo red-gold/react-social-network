@@ -2,9 +2,6 @@
 import { GlobalActionType } from 'constants/globalActionType'
 
 // - Import actions
-import * as postActions from 'actions/postActions'
-import * as commentActions from 'actions/commentActions'
-import * as userActions from 'actions/userActions'
 import * as serverActions from 'actions/serverActions'
 
 import { ICommonService } from 'core/services/common/ICommonService'
@@ -23,8 +20,6 @@ const commonService: ICommonService = provider.get<ICommonService>(SocialProvide
 
 /**
  * Add a normal feed
- * @param {any} newFeed
- * @param {Function} callBack
  */
 export let dbSendFeed = (newFeed: Feed) => {
   return (dispatch: any, getState: Function) => {
@@ -52,8 +47,6 @@ export let dbSendFeed = (newFeed: Feed) => {
 
 /**
  * Progress change
- * @param {string} percent
- * @param {boolean} visible
  */
 export const progressChange = (percent: number, visible: Boolean) => {
   return {
@@ -255,29 +248,6 @@ export const loadDataGuest = () => {
   return (dispatch: any, getState: Function) => {
   }
 
-}
-
-/**
- * Show error report dialog
- */
-const showErrorReport = (message: string) => {
-  const appElement = document.getElementById('app')
-  const masterElement = document.getElementById('master')
-  const container = document.createElement('div')
-  const div = document.createElement('div')
-  div.innerHTML = message
-  container.style.position = '100000'
-  container.style.position = 'fixed'
-  container.style.backgroundColor = '#32c3e4b8'
-  container.style.width = '100%'
-  container.style.height = '100%'
-  container.style.display = 'flex'
-  container.style.alignItems = 'center'
-  container.style.alignItems = 'center'
-  container.style.flexDirection = 'row'
-  container.appendChild(div)
-
-  appElement!.insertBefore(container, masterElement)
 }
 
 /**

@@ -1,11 +1,7 @@
 {
     "hosting": {
-        "public": "public",
+        "public": "build",
         "rewrites": [
-            {
-                "source": "/bundle-v0.4.js",
-                "destination": "/bundle-v0.4.js"
-            },
             {
                 "source": "/favicon.ico",
                 "destination": "/favicon.ico"

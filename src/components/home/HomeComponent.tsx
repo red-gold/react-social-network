@@ -9,12 +9,12 @@ import Menu from 'material-ui/Menu'
 import { MenuList, MenuItem } from 'material-ui/Menu'
 import { ListItemIcon, ListItemText } from 'material-ui/List'
 import Divider from 'material-ui/Divider'
-import SvgArrowLeft from 'material-ui-icons/keyboardArrowLeft'
-import SvgHome from 'material-ui-icons/home'
-import SvgFeedback from 'material-ui-icons/feedback'
-import SvgSettings from 'material-ui-icons/settings'
-import SvgAccountCircle from 'material-ui-icons/accountCircle'
-import SvgPeople from 'material-ui-icons/people'
+import SvgArrowLeft from 'material-ui-icons/KeyboardArrowLeft'
+import SvgHome from 'material-ui-icons/Home'
+import SvgFeedback from 'material-ui-icons/Feedback'
+import SvgSettings from 'material-ui-icons/Settings'
+import SvgAccountCircle from 'material-ui-icons/AccountCircle'
+import SvgPeople from 'material-ui-icons/People'
 
 // - Import app components
 import Sidebar from 'components/sidebar'
@@ -130,6 +130,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
    * @memberof Home
    */
   render () {
+    const HR = HomeRouter as any
     const { loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback } = this.props
     return (
       <div id='home'>
@@ -184,7 +185,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
                   <ListItemText inset primary='Settings' />
                 </MenuItem>
               </NavLink>
-              <MenuItem onClick={() => showSendFeedback()} style={{ color: 'rgb(117, 117, 117)' }}>
+              <MenuItem onClick={() => showSendFeedback!()} style={{ color: 'rgb(117, 117, 117)' }}>
                   <ListItemIcon>
                     <SvgFeedback />
                   </ListItemIcon>
@@ -194,7 +195,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
           </SidebarContent>
 
           <SidebarMain>
-            <HomeRouter enabled={loaded!} data={{ mergedPosts, loadDataStream, hasMorePosts }} />
+            <HR enabled={loaded!} data={{ mergedPosts, loadDataStream, hasMorePosts }} />
           </SidebarMain>
         </Sidebar>
 
@@ -274,4 +275,4 @@ const mapStateToProps = (state: any, ownProps: IHomeComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeComponent as any) as any)
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(HomeComponent as any)) as typeof HomeComponent

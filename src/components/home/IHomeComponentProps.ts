@@ -37,7 +37,7 @@ export interface IHomeComponentProps {
   /**
    * Load the data for stream
    */
-  loadDataStream: (lastPostId: string, page: number, limit: number) => any
+  loadDataStream?: (lastPostId: string, page: number, limit: number) => any
 
   /**
    * Global state
@@ -101,11 +101,11 @@ export interface IHomeComponentProps {
   /**
    * Show send feedback form
    */
-  showSendFeedback: () => any
+  showSendFeedback?: () => any
 
   /**
    * Hide send feedback form
    */
-  hideSendFeedback: () => any
+  hideSendFeedback?: () => any
 
 }
