@@ -91,6 +91,9 @@ and then install the package
 1. Choose and install your backend before installing UI. React Network is able to be connected with every backend. Here we are developing some and you should choose one.
 
     [![Firestore](https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/firestore2.png)](firebase.google.com/cloud/firestore)
+    **Video tutorial**
+    
+    [![Install React Social Network](https://img.youtube.com/vi/zrqDE82Eny8/0.jpg)](https://www.youtube.com/watch?v=zrqDE82Eny8)
     #### [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
       * Configure firebase:
         * If you don't have firebase account, follow [Create firebase account](https://firebase.google.com/)
