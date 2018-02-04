@@ -114,4 +114,9 @@ export interface IMasterComponentProps {
    */
   sendFeedbackStatus?: boolean
 
+  /**
+   * Hide global message
+   */
+  hideMessage?: () => any
+
 }

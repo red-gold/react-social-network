@@ -14,7 +14,7 @@ export default class LoadMoreProgressComponent extends Component<{},{}> {
    */
   render () {
     return (
-      <div className='g-load-more'><CircularProgress size={30} thickness={5} style={{color: teal['A400'] }} /></div>
+      <div key='load-more-progress' className='g-load-more'><CircularProgress size={30} thickness={5} style={{color: teal['A400'] }} /></div>
     )
   }
 }

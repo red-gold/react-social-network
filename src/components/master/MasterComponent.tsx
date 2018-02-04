@@ -125,7 +125,7 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
    */
   public render () {
 
-    const { progress, global, loaded, guest, uid, sendFeedbackStatus } = this.props
+    const { progress, global, loaded, guest, uid, sendFeedbackStatus, hideMessage } = this.props
     const { loading, isVerifide } = this.state
 
     return (
@@ -142,6 +142,7 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
         <Snackbar
           open={this.props.global.messageOpen}
           message={this.props.global.message}
+          onClose={hideMessage}
           autoHideDuration={4000}
           style={{ left: '1%', transform: 'none' }}
         />
@@ -185,7 +186,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: IMasterComponentProps) => {
       dispatch(globalActions.loadDataGuest())
     },
     showMasterLoading: () => dispatch(globalActions.showMasterLoading()),
-    hideMasterLoading: () => dispatch(globalActions.hideMasterLoading())
+    hideMasterLoading: () => dispatch(globalActions.hideMasterLoading()),
+    hideMessage: () => dispatch(globalActions.hideMessage())
   }
 
 }
