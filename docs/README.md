@@ -117,44 +117,51 @@ and then install the package
 ### Installing
 
 1. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
-2. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
-
-3. Choose and install your backend bfore installing UI
+1. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
+1. To install node dependencies use 
+  ```bash
+  npm install
+  ```
+  OR
+  ```bash
+  yarn install
+  ```
+1. Choose and install your backend before installing UI. React Network is able to be connected with every backend. Here we are developing some and you should choose one.
 
     [![Firestore](https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/firestore2.png)](firebase.google.com/cloud/firestore)
     #### [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
       * Configure firebase:
-        * Get [firebase config](https://firebase.google.com/docs/web/setup)
-        * Create a folder in root folder `react-social-network` set the name `config` => `>react-social-network\config`
-        * Create three files in `>react-social-network\config` set their name `development.env` , `test.env` and `production.env` => `>react-social-network\config\development.env` and `>react-social-network\config\test.env`
-        * Inside the files, you should write some keys of firebase configuration (each file is depend on the environment you work in `NODE_ENV`. If you set `NODE_ENV=development` your project will use from [development.env](https://github.com/Qolzam/react-social-network/blob/next/docs/app/configure/development.env) or [production.env](https://github.com/Qolzam/react-social-network/blob/next/docs/app/configure/production.env) to config firebase but if you set it `NODE_ENV=test` it will use `test.env` in test environment):
-        * [Enable Email/Password](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
+        * If you don't have firebase account, follow [Create firebase account](https://firebase.google.com/)
+        * Create Project open the [Firebase Console](https://console.firebase.google.com/) and create a new project.
+        * [Enable Firestore](https://firebase.google.com/docs/firestore/quickstart)
+        * [Enable firebase storage](https://firebase.google.com/docs/storage/) Go to [firebase console](https://console.firebase.google.com). Click on your `project name`. In `DEVELOP` menu choose `Storage`. Click on `GET STARTED`. In `dialog` click on `GOT IT`.
+        * Get [firebase config](https://firebase.google.com/docs/web/setup) Go to [firebase console](https://console.firebase.google.com). Click on your `project name`. In `Project Overview` page click on `Add Firebase to your web app`. In dialog box copy `var config = <copy this area>` configuration key/value. Open config file `react-social-network` root directory in `src/config/environment.dev.ts`. Pate your config in `firebase : <paste here>`.
+        * [Enable Email/Password Authentication](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
             * In the Firebase console, open the Auth section.
             * On the Sign in method tab, enable the Email/password sign-in method and click Save.
-        * [Enable Firestore](https://firebase.google.com/docs/firestore/quickstart)
-          * Open the [Firebase Console](https://console.firebase.google.com/) and create a new project.
-          * In the Database section, click Try Firestore Beta.
-          * Click Enable.
-        * [Install Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
+        * [Enable OAuth](https://firebase.google.com/docs/auth/) We are supporting sign-in with Github, Google and Facebook. Following [firebase document](https://firebase.google.com/docs/auth/) you can enable each one you need.
+        * [Install Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend) Follow instruction of [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
       * Enable firestore dependencies
         * Go to React Social Network folder in `src/socialEngine.ts` write `useFirestore(provider)` to enable firestore dependencies!
 
     #### AWS Social Backend
-      * Comming soon ...
+      * Coming soon ...
     #### [ASP.NET Social Backend](https://github.com/Qolzam/aspnet-core-social-network)
-      * Comming soon ...
-
-4. Installing all nodejs modules:
-  `npm install`
-5. Go ahead ;)
-  `npm start`
+      * Coming soon ...
+1. Go ahead ;)
+    ```bash
+    npm start
+    ```
 
 
 
 
 ## Deployment
-Follow [firebase instruction](https://firebase.google.com/docs/hosting/deploying)
-`npm run deploy:firebase`
+- In command line of [react-social-network] root project, type [firebase login](https://firebase.google.com/docs/cli/). This command connects your local machine to your Firebase account and grants access to your projects. To test that authentication worked, you can run firebase list to see a list of all of your Firebase projects. The list should be the same as the projects listed at [Firebase console](https://console.firebase.google.com).
+- Be sure the name of firebase project for [react-social-network] and this project is same. You also need to check `.firebaserc` if you set correct project name in `default` field of `projects` field.
+  ```bash
+  npm run deploy:firebase
+  ```
 
 ## Built With
 
@@ -166,11 +173,10 @@ Follow [firebase instruction](https://firebase.google.com/docs/hosting/deploying
   * [react-redux](https://github.com/reactjs/react-redux) Official React bindings for Redux.
   * [Firebase](https://firebase.google.com/) products like Analytics, Realtime Database, Messaging, and Crash Reporting let you move quickly and focus on your users.
   * [redux-thunk](https://github.com/gaearon/redux-thunk) Redux Thunk middleware allows you to write action creators that return a function instead of an action. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met. The inner function receives the store methods dispatch and getState as parameters.
-  * [Express](https://expressjs.com/) Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
   * [React Router V4](https://github.com/ReactTraining/react-router) for routing website location
   * [Sass](http://sass-lang.com/) CSS with superpowers. Sass boasts more features and abilities than any other CSS extension language out there.
-  * [Webpack](https://webpack.js.org/) for bundling code
   * [InversifyJS](http://inversify.io/) InversifyJS is a lightweight (4KB) inversion of control (IoC) container for TypeScript and JavaScript apps. A IoC container uses a class constructor to identify and inject its dependencies.
+  * [create-react-app](https://github.com/facebook/create-react-app) Create React App is a tool built by developers at Facebook to help you build React applications. It saves you from time-consuming setup and configuration. You simply run one command and create react app sets up the tools you need to start your React project.
 
 ## :heart: Contributing :heart:
 
@@ -198,5 +204,3 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 * Firebase
 * JavaScript
 * TypeScript
-
-
