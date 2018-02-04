@@ -72,7 +72,14 @@ and then install the package
 ### Installing
 
 1. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
-1. Clone your fork to your local machine `git clone git@github.com:<yourname>/react-social-network.git`
+1. Clone your fork to your local machine 
+   ```bash
+   git clone git@github.com:<yourname>/react-social-network.git
+   ```
+1. Go to the project root directory 
+   ```bash
+   cd react-social-network
+   ```
 1. To install node dependencies use 
   ```bash
   npm install
