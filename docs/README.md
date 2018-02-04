@@ -32,51 +32,6 @@ By participating, you are expected to uphold this code. Please report unacceptab
 
   [Love Open Social](https://love-social.firebaseapp.com)
  
-
-## What is new? :star2:
-### Structure
-New structure could make the project easy to change and scale up.
-There are three main layers:
- - [Core](https://github.com/Qolzam/react-social-network/tree/next/src/core) 
-   - [Domain](https://github.com/Qolzam/react-social-network/tree/next/src/core/domain)
-   - [Providing interface for data services](https://github.com/Qolzam/react-social-network/tree/next/src/core/services)
- - [Data](https://github.com/Qolzam/react-social-network/tree/next/src/data)
-  - This layer provide supporting variety of data platforms such as [Firebase](https://firebase.google.com/), [AWS](https://aws.amazon.com/), ... .
-    - [FirestoreClient](https://github.com/Qolzam/react-social-network/tree/next/src/data/firestoreClient)
-    - AwsClient
-    - AspNetClient
-    - ...
- - [Components](https://github.com/Qolzam/react-social-network/tree/next/src/components)
-  - This layer take care of user interface which on [React](https://reactjs.org) and in [react-mobile-social] on [React Native](https://facebook.github.io/react-native/). It means **the only thing change here among these three layers on mobile app, is component layer**.
-
-### IOC Container
-  - Using [InversifyJS](http://inversify.io/) in project give us the ability to switch between custom dependencies easily. Specially for *data layer*, if you are the user working with [AWS](https://aws.amazon.com/) you only need to call `useAws()` or using [Firebase](https://firebase.google.com/) call `useFirestore()` in [SocialEngine](https://github.com/Qolzam/react-social-network/blob/next/src/socialEngine.ts#L20) file.
-### Features
-  - [InversifyJS](http://inversify.io/) as IOC container
-  - Add auto compile on changing code for `webpack`
-  - Open browser on after compiling on `npm start`. You need to set `PORT=[PORT_NUMBER]` in [config file](https://github.com/Qolzam/react-social-network/blob/next/docs/app/configure/development.env).
-  - Add reset password, confirm password and authorizing by GitHub, Google and Facebook.
-  - Add scroll auto loading for show posts and people pages.
-  - Using [Firestore](https://firebase.google.com/docs/firestore/)
-  - Some cool stuff :)
-## Can I connect React Social Network to other data platforms ? :bowtie:
-  Your server side is on `PHP`, `Java`,`ASP.NET`, `Python`, etc. Or you are using serverless platforms such as `Google Cloud`, `AWS`, `Azure`, etc. You can connect `React Social Network` to any data platform. You only need to implement the [interfaces of core services](https://github.com/Qolzam/react-social-network/tree/next/src/core/services) like implementation of [firestoreClient](https://github.com/Qolzam/react-social-network/tree/next/src/data/firestoreClient).
-  
-  There are a summary steps of creating your own `dataClients`. We assume that we want to implement for `PHP` backend.
-  
-  * You need to know about [TypeScript](https://www.typescriptlang.org/samples/index.html) and implementing interfaces which I recommend take a look at [this article](https://www.typescriptlang.org/docs/handbook/interfaces.html).
-  
-  * You can get help from other [dataClient](https://github.com/Qolzam/react-social-network/tree/next/src/data) implementation for your backend algorithm and also using [core domain](https://github.com/Qolzam/react-social-network/tree/next/src/core/domain) for the backend domain could be helpful.
-  
-  1. Create a folder in [data layer](https://github.com/Qolzam/react-social-network/tree/next/src/data) name `phpClient`.
-  2. Create a folder in `/phpClient` folder name `services` then in `services` folder create some folders following [core/services folder](https://github.com/Qolzam/react-social-network/tree/next/src/core/services) such as `services/votes`, `services/posts` and etc.
-  3. In each folder inside `/phpClient/services/*` folder you should implement following interfaces in `core/services/*` folder in file with appropriate name. For example we need to implement `IPostService` from `core/services/posts/IPostService.ts` in `data/phpClient/services/posts/PostService.ts` file.
-  4. After implementing interfaces for services layer. We should register the dependencies for our `phpClient` services. Create a file in `phpClient` folder name `dependecyRegisterar.ts`.
-  5. Following `firestoreClient` dependencies, add a function name `usePhp()` and bind dependencies in the the function. For example for `PostService` class add `container.bind<IPostService>(SocialProviderTypes.PostService).to(PostService)`. Here `SocialProviderTypes` has the identifier of each service. To learn more take a look at [inversify docs](http://inversify.io/).
-  6. Finally call registering dependencies function for in [socialEngine](https://github.com/Qolzam/react-social-network/blob/next/src/socialEngine.ts#L22) file.
-  7. Enjoy ;)
-
-> :heart_eyes: It also would be great if you could contribute your `clientData` and `backend` with us to be part of this contribution. We would appreciate any conntribution.:thumbsup:
 ## Required Knowledge
 
 I recommend that you get to know React before using React Social Network. React Social Network has built by React components, so understanding how React fits into web development is important.
@@ -153,7 +108,50 @@ and then install the package
     npm start
     ```
 
+## What is new? :star2:
+### Structure
+New structure could make the project easy to change and scale up.
+There are three main layers:
+ - [Core](https://github.com/Qolzam/react-social-network/tree/next/src/core) 
+   - [Domain](https://github.com/Qolzam/react-social-network/tree/next/src/core/domain)
+   - [Providing interface for data services](https://github.com/Qolzam/react-social-network/tree/next/src/core/services)
+ - [Data](https://github.com/Qolzam/react-social-network/tree/next/src/data)
+  - This layer provide supporting variety of data platforms such as [Firebase](https://firebase.google.com/), [AWS](https://aws.amazon.com/), ... .
+    - [FirestoreClient](https://github.com/Qolzam/react-social-network/tree/next/src/data/firestoreClient)
+    - AwsClient
+    - AspNetClient
+    - ...
+ - [Components](https://github.com/Qolzam/react-social-network/tree/next/src/components)
+  - This layer take care of user interface which on [React](https://reactjs.org) and in [react-mobile-social] on [React Native](https://facebook.github.io/react-native/). It means **the only thing change here among these three layers on mobile app, is component layer**.
 
+### IOC Container
+  - Using [InversifyJS](http://inversify.io/) in project give us the ability to switch between custom dependencies easily. Specially for *data layer*, if you are the user working with [AWS](https://aws.amazon.com/) you only need to call `useAws()` or using [Firebase](https://firebase.google.com/) call `useFirestore()` in [SocialEngine](https://github.com/Qolzam/react-social-network/blob/next/src/socialEngine.ts#L20) file.
+### Features
+  - [InversifyJS](http://inversify.io/) as IOC container
+  - Add auto compile on changing code for `webpack`
+  - Open browser on after compiling on `npm start`. You need to set `PORT=[PORT_NUMBER]` in [config file](https://github.com/Qolzam/react-social-network/blob/next/docs/app/configure/development.env).
+  - Add reset password, confirm password and authorizing by GitHub, Google and Facebook.
+  - Add scroll auto loading for show posts and people pages.
+  - Using [Firestore](https://firebase.google.com/docs/firestore/)
+  - Some cool stuff :)
+## Can I connect React Social Network to other data platforms ? :bowtie:
+  Your server side is on `PHP`, `Java`,`ASP.NET`, `Python`, etc. Or you are using serverless platforms such as `Google Cloud`, `AWS`, `Azure`, etc. You can connect `React Social Network` to any data platform. You only need to implement the [interfaces of core services](https://github.com/Qolzam/react-social-network/tree/next/src/core/services) like implementation of [firestoreClient](https://github.com/Qolzam/react-social-network/tree/next/src/data/firestoreClient).
+  
+  There are a summary steps of creating your own `dataClients`. We assume that we want to implement for `PHP` backend.
+  
+  * You need to know about [TypeScript](https://www.typescriptlang.org/samples/index.html) and implementing interfaces which I recommend take a look at [this article](https://www.typescriptlang.org/docs/handbook/interfaces.html).
+  
+  * You can get help from other [dataClient](https://github.com/Qolzam/react-social-network/tree/next/src/data) implementation for your backend algorithm and also using [core domain](https://github.com/Qolzam/react-social-network/tree/next/src/core/domain) for the backend domain could be helpful.
+  
+  1. Create a folder in [data layer](https://github.com/Qolzam/react-social-network/tree/next/src/data) name `phpClient`.
+  2. Create a folder in `/phpClient` folder name `services` then in `services` folder create some folders following [core/services folder](https://github.com/Qolzam/react-social-network/tree/next/src/core/services) such as `services/votes`, `services/posts` and etc.
+  3. In each folder inside `/phpClient/services/*` folder you should implement following interfaces in `core/services/*` folder in file with appropriate name. For example we need to implement `IPostService` from `core/services/posts/IPostService.ts` in `data/phpClient/services/posts/PostService.ts` file.
+  4. After implementing interfaces for services layer. We should register the dependencies for our `phpClient` services. Create a file in `phpClient` folder name `dependecyRegisterar.ts`.
+  5. Following `firestoreClient` dependencies, add a function name `usePhp()` and bind dependencies in the the function. For example for `PostService` class add `container.bind<IPostService>(SocialProviderTypes.PostService).to(PostService)`. Here `SocialProviderTypes` has the identifier of each service. To learn more take a look at [inversify docs](http://inversify.io/).
+  6. Finally call registering dependencies function for in [socialEngine](https://github.com/Qolzam/react-social-network/blob/next/src/socialEngine.ts#L22) file.
+  7. Enjoy ;)
+
+> :heart_eyes: It also would be great if you could contribute your `clientData` and `backend` with us to be part of this contribution. We would appreciate any conntribution.:thumbsup:
 
 
 ## Deployment
