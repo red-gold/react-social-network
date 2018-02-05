@@ -39,6 +39,9 @@ const styles = (theme: any) => ({
   },
   popperClose: {
     pointerEvents: 'none'
+  },
+  popperOpen: {
+    zIndex: 1
   }
 })
 
@@ -121,7 +124,7 @@ export class NotifyComponent extends Component<INotifyComponentProps, INotifyCom
       <Popper
         placement='bottom-start'
         eventsEnabled={open}
-        className={classNames({ [classes.popperClose]: !open })}
+        className={classNames({ [classes.popperClose]: !open }, { [classes.popperOpen]: open })}
       >
 
         <ClickAwayListener onClickAway={onRequestClose}>

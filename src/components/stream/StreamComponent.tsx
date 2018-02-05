@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Button from 'material-ui/Button'
-import { grey,teal } from 'material-ui/colors'
+import { grey, teal } from 'material-ui/colors'
 import SvgCamera from 'material-ui-icons/PhotoCamera'
 import Paper from 'material-ui/Paper'
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
@@ -27,7 +27,7 @@ import { IStreamComponentState } from './IStreamComponentState'
 import { Post } from 'core/domain/posts'
 
 // - Create StreamComponent component class
-export class StreamComponent extends Component<IStreamComponentProps,IStreamComponentState> {
+export class StreamComponent extends Component<IStreamComponentProps, IStreamComponentState> {
 
   static propTypes = {
     /**
@@ -47,11 +47,11 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
   }
 
   styles = {
-    postWritePrimaryText : {
+    postWritePrimaryText: {
       color: grey[400],
       cursor: 'text'
     },
-    postWtireItem : {
+    postWtireItem: {
       fontWeight: '200'
     }
   }
@@ -60,7 +60,7 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
    * Component constructor
    * @param  {object} props is an object properties of component
    */
-  constructor (props: IStreamComponentProps) {
+  constructor(props: IStreamComponentProps) {
     super(props)
 
     this.state = {
@@ -121,14 +121,14 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
     })
   }
 
-   /**
-    * Create a list of posts
-    * @return {DOM} posts
-    */
+  /**
+   * Create a list of posts
+   * @return {DOM} posts
+   */
   postLoad = () => {
 
-    let { posts ,match } = this.props
-    let {tag} = match.params
+    let { posts, match } = this.props
+    let { tag } = match.params
     if (posts === undefined || !(Object.keys(posts).length > 0)) {
 
       return (
@@ -144,13 +144,13 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
       let parsedPosts: any = []
       Object.keys(posts).forEach((postId) => {
         if (tag) {
-          let regex = new RegExp('#' + tag,'g')
+          let regex = new RegExp('#' + tag, 'g')
           let postMatch = posts[postId].body!.match(regex)
           if (postMatch !== null) {
-            parsedPosts.push({ ...posts[postId]})
+            parsedPosts.push({ ...posts[postId] })
           }
         } else {
-          parsedPosts.push({ ...posts[postId]})
+          parsedPosts.push({ ...posts[postId] })
 
         }
       })
@@ -161,13 +161,13 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
       } else {
         postBack.divided = false
       }
-      sortedPosts.forEach((post: any, index: any) => {
+      sortedPosts.forEach((post: Post, index: any) => {
 
         let newPost: any = (
-          <div key={post.id}>
+          <div key={`${post.id!}-stream-div`}>
 
             {index > 1 || (!postBack.divided && index > 0) ? <div style={{ height: '16px' }}></div> : ''}
-            <PostComponent post={post} />
+            <PostComponent key={`${post.id!}-stream-div-post`} post={post} />
 
           </div>
         )
@@ -187,12 +187,12 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
    * Scroll loader
    */
   scrollLoad = (page: number) => {
-    const {loadStream} = this.props
+    const { loadStream } = this.props
     loadStream!(page, 10)
   }
 
-  componentWillMount () {
-    const {setHomeTitle} = this.props
+  componentWillMount() {
+    const { setHomeTitle } = this.props
     setHomeTitle!()
   }
 
@@ -200,38 +200,38 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
    * Reneder component DOM
    * @return {react element} return the DOM which rendered by component
    */
-  render () {
+  render() {
 
-    const {tag, displayWriting, hasMorePosts } = this.props
-    const postList = this.postLoad() as {evenPostList: Post[], oddPostList: Post[], divided: boolean} | any
+    const { tag, displayWriting, hasMorePosts } = this.props
+    const postList = this.postLoad() as { evenPostList: Post[], oddPostList: Post[], divided: boolean } | any
 
     return (
       <InfiniteScroll
-      pageStart={0}
-      loadMore={this.scrollLoad}
-      hasMore={hasMorePosts}
-      useWindow={true}
-      loader={<LoadMoreProgressComponent />}
-    >
+        pageStart={0}
+        loadMore={this.scrollLoad}
+        hasMore={hasMorePosts}
+        useWindow={true}
+        loader={<LoadMoreProgressComponent key='stream-load-more-progress' />}
+      >
         <div className='grid grid__gutters grid__1of2 grid__space-around animate-top'>
-          <div className='grid-cell animate-top' style={{maxWidth: '530px', minWidth: '280px'}}>
+          <div className='grid-cell animate-top' style={{ maxWidth: '530px', minWidth: '280px' }}>
             {displayWriting && !tag
-            ? (<PostWriteComponent open={this.state.openPostWrite} onRequestClose={this.handleClosePostWrite} edit={false} >
-                  <Paper elevation={2}>
+              ? (<PostWriteComponent open={this.state.openPostWrite} onRequestClose={this.handleClosePostWrite} edit={false} >
+                <Paper elevation={2}>
 
-                    <ListItem button
-                      style={this.styles.postWtireItem as any}
-                      onClick={this.handleOpenPostWrite}
-                    >
+                  <ListItem button
+                    style={this.styles.postWtireItem as any}
+                    onClick={this.handleOpenPostWrite}
+                  >
                     <UserAvatarComponent fullName={this.props.fullName!} fileName={this.props.avatar!} size={36} />
-        <ListItemText inset primary={<span style={this.styles.postWritePrimaryText as any}> What's new with you? </span>} />
+                    <ListItemText inset primary={<span style={this.styles.postWritePrimaryText as any}> What's new with you? </span>} />
                     <ListItemIcon>
-                    <SvgCamera />
-        </ListItemIcon>
-                    </ListItem>
+                      <SvgCamera />
+                    </ListItemIcon>
+                  </ListItem>
 
-                  </Paper>
-                  <div style={{ height: '16px' }}></div>
+                </Paper>
+                <div style={{ height: '16px' }}></div>
               </PostWriteComponent>)
               : ''}
 
@@ -239,7 +239,7 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
             <div style={{ height: '16px' }}></div>
           </div>
           {postList.divided
-            ? (<div className='grid-cell animate-top' style={{maxWidth: '530px', minWidth: '280px'}}>
+            ? (<div className='grid-cell animate-top' style={{ maxWidth: '530px', minWidth: '280px' }}>
               <div className='blog__right-list'>
                 {postList.oddPostList}
                 <div style={{ height: '16px' }}></div>
@@ -249,7 +249,7 @@ export class StreamComponent extends Component<IStreamComponentProps,IStreamComp
 
         </div>
 
-        </InfiniteScroll>
+      </InfiniteScroll>
     )
   }
 }
@@ -276,7 +276,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IStreamComponentProps) => {
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IStreamComponentProps) => {
-  const {post} = state
+  const { post } = state
   return {
     avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
     fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : ''
