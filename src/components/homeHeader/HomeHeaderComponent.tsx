@@ -16,6 +16,7 @@ import Tooltip from 'material-ui/Tooltip'
 import Typography from 'material-ui/Typography'
 import { Manager, Target, Popper } from 'react-popper'
 import { withStyles } from 'material-ui/styles'
+import config from 'src/config'
 
 // - Import components
 import UserAvatarComponent from 'components/userAvatar'
@@ -200,7 +201,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
           </IconButton>
           {/* Header title */}
           <Typography type='title' color='primary' style={{ marginLeft: '15px' }} >
-            Green
+            {config.settings.appName}
           </Typography>
           <div className='homeHeader__title-root'>
             {this.state.showTitle ? <div className='homeHeader__title'>{this.props.title}</div> : ''}

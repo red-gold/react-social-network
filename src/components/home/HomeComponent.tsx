@@ -15,7 +15,7 @@ import SvgFeedback from 'material-ui-icons/Feedback'
 import SvgSettings from 'material-ui-icons/Settings'
 import SvgAccountCircle from 'material-ui-icons/AccountCircle'
 import SvgPeople from 'material-ui-icons/People'
-
+import config from 'src/config'
 // - Import app components
 import Sidebar from 'components/sidebar'
 import StreamComponent from 'components/stream'
@@ -146,7 +146,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
                   </ListItemIcon>
                   <ListItemText inset
                   primary={<span style={{ color: 'rgb(117, 117, 117)' }}
-                  className='sidebar__title'>Green</span>} />
+                  className='sidebar__title'>{config.settings.appName}</span>} />
                 </MenuItem>
                   <Divider /></div>
                 : ''

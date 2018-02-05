@@ -8,6 +8,7 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/Button'
 import Button from 'material-ui/Button'
 import { withStyles } from 'material-ui/styles'
+import config from 'src/config'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
@@ -189,7 +190,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
         lineHeight: '32px',
         margin: 'auto',
         color: 'rgba(138, 148, 138, 0.2)'
-      }}>Green</h1>
+      }}>{config.settings.appName}</h1>
 
           <div className='animate-bottom'>
    <Paper style={paperStyle} elevation={1} >

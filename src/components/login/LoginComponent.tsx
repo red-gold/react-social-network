@@ -11,6 +11,7 @@ import IconButton from 'material-ui/IconButton'
 import Divider from 'material-ui/Divider'
 import ActionAndroid from 'material-ui-icons/Android'
 import { withStyles } from 'material-ui/styles'
+import config from 'src/config'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
@@ -156,7 +157,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
           lineHeight: '32px',
           margin: 'auto',
           color: 'rgba(138, 148, 138, 0.2)'
-        }}>Green</h1>
+        }}>{config.settings.appName}</h1>
 
         <div className='animate-bottom'>
           <Paper style={paperStyle} elevation={1} >
