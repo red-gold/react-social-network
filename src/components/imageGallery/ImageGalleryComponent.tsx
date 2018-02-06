@@ -11,6 +11,7 @@ import SvgAddImage from 'material-ui-icons/AddAPhoto'
 import SvgDelete from 'material-ui-icons/Delete'
 import { grey } from 'material-ui/colors'
 import uuid from 'uuid'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import actions
 import * as imageGalleryActions from 'actions/imageGalleryActions'
@@ -181,13 +182,9 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
     })
   }
 
-  /**
-   * When the post text changed
-   * @param  {event} evt is an event passed by change post text callback funciton
-   * @param  {string} data is the post content which user writes
-   */
   render () {
 
+    const {translate} = this.props
     /**
      * Component styles
      * @type {Object}
@@ -212,7 +209,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
               />
               <label htmlFor='raised-button-file'>
                 <Button raised component='span' style={this.styles.uploadButton as any}>
-                  Upload
+                  {translate!('imageGallery.uploadButton')}
         </Button>
               </label>
             </div>
@@ -247,6 +244,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImageGalleryComponentProps
  */
 const mapStateToProps = (state: any) => {
   return {
+    translate: getTranslate(state.locale),
     images: state.imageGallery.images,
     avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : ''
 

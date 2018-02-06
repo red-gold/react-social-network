@@ -8,6 +8,7 @@ import { grey, cyan } from 'material-ui/colors'
 import { push } from 'react-router-redux'
 import AppBar from 'material-ui/AppBar'
 import Typography from 'material-ui/Typography'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
 import FindPeople from 'components/findPeople'
@@ -125,7 +126,7 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
       }
     }
 
-    const {circlesLoaded, goTo, setHeaderTitle} = this.props
+    const {circlesLoaded, goTo, setHeaderTitle, translate} = this.props
     const {tabIndex} = this.state
     return (
       <div style={styles.people}>
@@ -135,9 +136,9 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
       value={tabIndex} centered
       textColor='primary'
        >
-        <Tab label='Find People' />
-        <Tab label='Following' />
-        <Tab label='Followers' />
+        <Tab label={translate!('people.findPeopleTab')} />
+        <Tab label={translate!('people.followingTab')} />
+        <Tab label={translate!('people.followersTab')} />
       </Tabs>
       </AppBar>
       {tabIndex === 0 && <TabContainer>{circlesLoaded ? <FindPeople /> : ''}</TabContainer>}
@@ -190,6 +191,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPeopleComponentProps) => {
 const mapStateToProps = (state: any, ownProps: IPeopleComponentProps) => {
 
   return {
+    translate: getTranslate(state.locale),
     uid: state.authorize.uid,
     circlesLoaded: state.circle.loaded
 

@@ -39,4 +39,9 @@ export interface IImgCoverComponentProps {
    * @memberof IImgCoverComponentProps
    */
   borderRadius?: string
+
+  /**
+   * Translate to locale string
+   */
+  translate?: (state: any) => any
 }

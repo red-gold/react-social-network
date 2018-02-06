@@ -29,4 +29,9 @@ export interface IPeopleComponentProps {
    * @memberof IPeopleComponentProps
    */
   setHeaderTitle?: (title: string) => any
+
+  /**
+   * Translate to locale string
+   */
+  translate?: (state: any) => any
 }

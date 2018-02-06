@@ -46,6 +46,7 @@
     "react-event-listener": "^0.5.1",
     "react-infinite-scroller": "^1.1.2",
     "react-linkify": "^0.2.1",
+    "react-localize-redux": "^2.15.1",
     "react-parallax": "^1.4.4",
     "react-redux": "^5.0.6",
     "react-router": "^4.1.1 ",

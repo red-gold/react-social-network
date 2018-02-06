@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Dialog from 'material-ui/Dialog'
 import Button from 'material-ui/Button'
 import RaisedButton from 'material-ui/Button'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
 import ProfileHeader from 'components/profileHeader'
@@ -77,7 +78,7 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
         border: '2px solid rgb(255, 255, 255)'
       }
     }
-    const {loadPosts, hasMorePosts} = this.props
+    const {loadPosts, hasMorePosts, translate} = this.props
     const St = StreamComponent as any
     return (
       <div style={styles.profile}>
@@ -88,7 +89,7 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
         {this.props.posts && Object.keys(this.props.posts).length !== 0
         ? (<div style={styles.content}>
           <div className='profile__title'>
-            {this.props.name}'s posts
+            {translate!('profile.headPostsLabel', {userName: this.props.name})}
                </div>
           <div style={{ height: '24px' }}></div>
 
@@ -99,7 +100,7 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
           displayWriting={false} />
         </div>)
         : (<div className='profile__title'>
-                Nothing shared
+                {translate!('profile.nothingSharedLabel')}
                </div>)
         }
 
@@ -135,6 +136,7 @@ const mapStateToProps = (state: any, ownProps: IProfileComponentProps) => {
   const hasMorePosts = state.post.profile.hasMoreData
   const posts = state.post.userPosts ? state.post.userPosts[userId] : {}
   return {
+    translate: getTranslate(state.locale),
     avatar: state.user.info && state.user.info[userId] ? state.user.info[userId].avatar || '' : '',
     name: state.user.info && state.user.info[userId] ? state.user.info[userId].fullName || '' : '',
     banner: state.user.info && state.user.info[userId] ? state.user.info[userId].banner || '' : '',

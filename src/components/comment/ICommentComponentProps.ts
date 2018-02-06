@@ -100,4 +100,9 @@ export interface ICommentComponentProps {
    */
   classes?: any
 
+  /**
+   * Translate to locale string
+   */
+  translate?: (state: any) => any
+
 }

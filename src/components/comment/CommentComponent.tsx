@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import Linkify from 'react-linkify'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 import { Comment } from 'core/domain/comments'
 
@@ -293,7 +294,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
     /**
      * Comment object from props
      */
-    const { comment, classes, fullName, avatar } = this.props
+    const { comment, classes, fullName, avatar, translate } = this.props
 
     const { openMenu } = this.state
 
@@ -319,9 +320,9 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
             <Grow in={openMenu!} style={{ transformOrigin: '0 0 0' }}>
               <Paper>
                 <MenuList role='menu'>
-                  <MenuItem className={classes.rightIconMenuItem}>Reply</MenuItem>
-                  {this.props.isCommentOwner ? (<MenuItem className={classes.rightIconMenuItem} onClick={this.handleEditComment}>Edit</MenuItem>) : ''}
-                  {(this.props.isCommentOwner || this.props.isPostOwner) ? (<MenuItem className={classes.rightIconMenuItem} onClick={(evt: any) => this.handleDelete(evt, comment.id, comment.postId)}>Delete</MenuItem>) : ''}
+                  <MenuItem className={classes.rightIconMenuItem}>{translate!('comment.replyButton')}</MenuItem>
+                  {this.props.isCommentOwner ? (<MenuItem className={classes.rightIconMenuItem} onClick={this.handleEditComment}>{translate!('comment.editButton')}</MenuItem>) : ''}
+                  {(this.props.isCommentOwner || this.props.isPostOwner) ? (<MenuItem className={classes.rightIconMenuItem} onClick={(evt: any) => this.handleDelete(evt, comment.id, comment.postId)}>{translate!('comment.deleteButton')}</MenuItem>) : ''}
                 </MenuList>
               </Paper>
             </Grow>
@@ -342,7 +343,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
     const commentBody = (
       <div style={{ outline: 'none', flex: 'auto', flexGrow: 1 }}>
       { editorStatus ? <TextField
-                placeholder={'Add a comment...'}
+                placeholder={translate!('comment.updateCommentPlaceholder')}
                 multiline
                 autoFocus
                 rowsMax='4'
@@ -360,8 +361,8 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
         <div style={{ display: (editorStatus ? 'flex' : 'none'), flexDirection: 'row-reverse' }}>
           <Button color='primary' disabled={this.state.editDisabled}
             style={{ float: 'right', clear: 'both', zIndex: 5, margin: '0px 5px 5px 0px', fontWeight: 400 }}
-            onClick={this.handleUpdateComment} > Update </Button>
-          <Button color='primary' style={this.styles.cancel as any} onClick={this.handleCancelEdit} > Cancel </Button>
+            onClick={this.handleUpdateComment} > {translate!('comment.updateButton')} </Button>
+          <Button color='primary' style={this.styles.cancel as any} onClick={this.handleCancelEdit} > {translate!('comment.cancelButton')} </Button>
         </div>
       </div>
     )
@@ -417,6 +418,7 @@ const mapStateToProps = (state: any, ownProps: any) => {
   const avatar = state.user.info && state.user.info[ownProps.comment.userId] ? state.user.info[ownProps.comment.userId].avatar || '' : ''
   const fullName = state.user.info && state.user.info[ownProps.comment.userId] ? state.user.info[ownProps.comment.userId].fullName || '' : ''
   return {
+    translate: getTranslate(state.locale),
     uid: uid,
     isCommentOwner: (uid === ownProps.comment.userId),
     info: state.user.info,

@@ -5,6 +5,7 @@ import _ from 'lodash'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment/moment'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
@@ -273,7 +274,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
    * @return {react element} return the DOM which rendered by component
    */
   render () {
-    const { comments, classes, postId, fullName, avatar, getCommentsRequest, open, commentSlides } = this.props
+    const { comments, classes, postId, fullName, avatar, getCommentsRequest, open, commentSlides, translate } = this.props
 
     /**
      * Comment list box
@@ -288,7 +289,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
               avatar={<UserAvatar fullName={fullName!} fileName={avatar!} size={24} />}
               subheader={<TextField
                 autoFocus
-                placeholder={'Add a comment...'}
+                placeholder={translate!('comment.addCommentPlaceholder')}
                 multiline
                 rowsMax='4'
                 InputProps={{
@@ -305,7 +306,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
             </CardHeader>
                 <CardActions className={classes.postButton} >
           <Button color='primary' disabled={this.state.postDisable} onClick={this.handlePostComment}>
-        Post
+        {translate!('comment.postButton')}
         </Button>
                   </CardActions>
           </Card>
@@ -383,6 +384,7 @@ const mapStateToProps = (state: any, ownProps: ICommentGroupComponentProps) => {
   const commentSlides = post.userPosts[ownerPostUserId] && post.userPosts[ownerPostUserId][postId] ? post.userPosts[ownerPostUserId][postId].comments : {}
   const getCommentsRequest: ServerRequestModel = request ? request[StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId)] : null
   return {
+    translate: getTranslate(state.locale),
     getCommentsRequest,
     commentSlides,
     avatar: user.info && user.info[state.authorize.uid] ? user.info[authorize.uid].avatar || '' : '',

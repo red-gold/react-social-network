@@ -69,7 +69,7 @@ export const dbAddComment = (ownerPostUserId: string, newComment: Comment, callB
         }
 
       }, (error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
         dispatch(globalActions.hideTopLoading())
 
       })
@@ -139,7 +139,7 @@ export const dbUpdateComment = (comment: Comment) => {
         dispatch(globalActions.hideTopLoading())
 
       }, (error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
         dispatch(globalActions.hideTopLoading())
 
       })
@@ -153,7 +153,7 @@ export const dbDeleteComment = (id?: string | null, postId?: string) => {
   return (dispatch: any, getState: Function) => {
 
     if (id === undefined || id === null) {
-      dispatch(globalActions.showErrorMessage('comment id can not be null or undefined'))
+      dispatch(globalActions.showMessage('comment id can not be null or undefined'))
     }
     dispatch(globalActions.showTopLoading())
 
@@ -163,7 +163,7 @@ export const dbDeleteComment = (id?: string | null, postId?: string) => {
         dispatch(globalActions.hideTopLoading())
 
       }, (error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
         dispatch(globalActions.hideTopLoading())
 
       })

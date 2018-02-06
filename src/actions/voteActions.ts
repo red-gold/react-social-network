@@ -62,7 +62,7 @@ export const dbAddVote = (postId: string,ownerPostUserId: string) => {
       post.score! -= 1
       post.votes = { ...post.votes!, [uid]: false}
       dispatch(postActions.updatePost(post))
-      dispatch(globalActions.showErrorMessage(error.message))
+      dispatch(globalActions.showMessage(error.message))
     })
   }
 }
@@ -113,7 +113,7 @@ export const dbDeleteVote = (postId: string, ownerPostUserId: string) => {
       post.score! += 1
       post.votes = { ...post.votes!, [uid]: true}
       dispatch(postActions.updatePost(post))
-      dispatch(globalActions.showErrorMessage(error.message))
+      dispatch(globalActions.showMessage(error.message))
     })
   }
 }

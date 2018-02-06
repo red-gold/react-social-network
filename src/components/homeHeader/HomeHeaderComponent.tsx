@@ -16,6 +16,7 @@ import Tooltip from 'material-ui/Tooltip'
 import Typography from 'material-ui/Typography'
 import { Manager, Target, Popper } from 'react-popper'
 import { withStyles } from 'material-ui/styles'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import config from 'src/config'
 
 // - Import components
@@ -184,7 +185,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
 
   // Render app DOM component
   render () {
-    const { classes } = this.props
+    const { classes , translate} = this.props
     return (
 
       <AppBar position='fixed' color='secondary'>
@@ -212,14 +213,14 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
             <Manager>
               <Target>
                 {this.props.notifyCount! > 0 ? (
-                  <Tooltip title='Notifications'>
+                  <Tooltip title={translate!('header.notificationTooltip')}>
                     <IconButton onClick={this.handleNotifyTouchTap}>
                       <div className='homeHeader__notify'>
                         <div className='title'>{this.props.notifyCount}</div>
                       </div>
                     </IconButton>
                   </Tooltip>)
-                  : (<Tooltip title='Notifications'>
+                  : (<Tooltip title={translate!('header.notificationTooltip')}>
                     <IconButton onClick={this.handleNotifyTouchTap}>
                       <NotificationsIcon style={{ color: 'rgba(255, 255, 255, 0.87)' }} />
                     </IconButton>
@@ -249,8 +250,8 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
                 horizontal: 'right'
               }}
               onClose={this.handleRequestClose}>
-              <MenuItem style={{ backgroundColor: 'white', color: blue[500], fontSize: '14px' }} > MY ACCOUNT </MenuItem>
-              <MenuItem style={{ fontSize: '14px' }} onClick={this.handleLogout.bind(this)} > LOGOUT </MenuItem>
+              <MenuItem style={{ backgroundColor: 'white', color: blue[500], fontSize: '14px' }} > {translate!('header.myAccount')} </MenuItem>
+              <MenuItem style={{ fontSize: '14px' }} onClick={this.handleLogout.bind(this)} > {translate!('header.logout')} </MenuItem>
 
             </Menu>
           </div>
@@ -277,6 +278,7 @@ const mapStateToProps = (state: any, ownProps: IHomeHeaderComponentProps) => {
       .filter((key) => !state.notify.userNotifies[key].isSeen).length
     : 0
   return {
+    translate: getTranslate(state.locale),
     avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
     fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : '',
     title: state.global.headerTitle,

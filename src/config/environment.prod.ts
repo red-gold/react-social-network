@@ -1,3 +1,5 @@
+import { LanguageType } from 'reducers/locale/langugeType'
+
 export const environment = {
   firebase: {
     apiKey: 'AIzaSyAHOZ7rWGDODCwJMB3WIt63CAIa90qI-jg',
@@ -8,6 +10,11 @@ export const environment = {
     messagingSenderId: '964743099489'
   },
   settings: {
-    appName: 'Green'
+    appName: 'Green',
+    defaultLanguage: LanguageType.English
+  },
+  theme: {
+    primaryColor: '#00b1b3',
+    secondaryColor: '#4d545d'
   }
 }

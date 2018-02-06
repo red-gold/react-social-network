@@ -27,4 +27,10 @@ export interface ISendFeedbackComponentProps {
    * Current user profile
    */
   currentUser?: Profile
+
+  /**
+   * Translate to locale string
+   */
+  translate?: (state: any, param?: {}) => any
+
 }

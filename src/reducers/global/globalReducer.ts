@@ -31,7 +31,7 @@ export const globalReducer = (state: GlobalState = new GlobalState(), action: IG
         ...state,
         defaultLoadDataStatus: true
       }
-    case GlobalActionType.SHOW_ERROR_MESSAGE_GLOBAL:
+    case GlobalActionType.SHOW_MESSAGE_GLOBAL:
       return {
         ...state,
         message: action.payload,
@@ -41,18 +41,6 @@ export const globalReducer = (state: GlobalState = new GlobalState(), action: IG
       return {
         ...state,
         message: action.payload,
-        messageOpen: true
-      }
-    case GlobalActionType.SHOW_SEND_REQUEST_MESSAGE_GLOBAL:
-      return {
-        ...state,
-        message: 'Request has been sent',
-        messageOpen: true
-      }
-    case GlobalActionType.SHOW_REQUEST_SUCCESS_MESSAGE_GLOBAL:
-      return {
-        ...state,
-        message: 'Your request has processed successfuly',
         messageOpen: true
       }
     case GlobalActionType.HIDE_MESSAGE_GLOBAL:

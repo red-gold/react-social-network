@@ -84,4 +84,9 @@ export interface IProfileComponentProps {
    * If there is more posts to show in profile
    */
   hasMorePosts: boolean
+
+  /**
+   * Translate to locale string
+   */
+  translate?: (state: any, params?: {}) => any
 }

@@ -4,6 +4,7 @@ import thunk from 'redux-thunk'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
 import { createLogger } from 'redux-logger'
+import { localeReducer as locale } from 'react-localize-redux'
 
 // - Import reducers
 import {
@@ -19,8 +20,6 @@ import {
   notificationReducer
 } from 'reducers'
 
-declare const window: any
-
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory()
 
@@ -30,6 +29,7 @@ const logger = createLogger()
 
 // - Reducers
 let reducer = redux.combineReducers({
+  locale,
   imageGallery: imageGalleryReducer,
   post: postReducer,
   circle: circleReducer,

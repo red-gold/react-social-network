@@ -9,6 +9,7 @@ import SvgCamera from 'material-ui-icons/PhotoCamera'
 import Paper from 'material-ui/Paper'
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
 import InfiniteScroll from 'react-infinite-scroller'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
 import PostComponent from 'components/post'
@@ -202,7 +203,7 @@ export class StreamComponent extends Component<IStreamComponentProps, IStreamCom
    */
   render() {
 
-    const { tag, displayWriting, hasMorePosts } = this.props
+    const { tag, displayWriting, hasMorePosts, translate } = this.props
     const postList = this.postLoad() as { evenPostList: Post[], oddPostList: Post[], divided: boolean } | any
 
     return (
@@ -224,7 +225,7 @@ export class StreamComponent extends Component<IStreamComponentProps, IStreamCom
                     onClick={this.handleOpenPostWrite}
                   >
                     <UserAvatarComponent fullName={this.props.fullName!} fileName={this.props.avatar!} size={36} />
-                    <ListItemText inset primary={<span style={this.styles.postWritePrimaryText as any}> What's new with you? </span>} />
+                    <ListItemText inset primary={<span style={this.styles.postWritePrimaryText as any}> {translate!('home.postWriteButtonText')}</span>} />
                     <ListItemIcon>
                       <SvgCamera />
                     </ListItemIcon>
@@ -278,6 +279,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IStreamComponentProps) => {
 const mapStateToProps = (state: any, ownProps: IStreamComponentProps) => {
   const { post } = state
   return {
+    translate: getTranslate(state.locale),
     avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
     fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : ''
   }

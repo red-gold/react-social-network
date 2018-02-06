@@ -62,4 +62,9 @@ export interface IProfileHeaderComponentProps {
    * @memberof IProfileHeaderComponentProps
    */
   userId: string
+
+  /**
+   * Translate to locale string
+   */
+  translate?: (state: any) => any
 }

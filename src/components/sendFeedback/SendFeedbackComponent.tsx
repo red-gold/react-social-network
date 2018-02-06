@@ -10,6 +10,7 @@ import SvgSad from 'material-ui-icons/Face'
 import SvgClose from 'material-ui-icons/Clear'
 import { CircularProgress } from 'material-ui/Progress'
 import Tooltip from 'material-ui/Tooltip'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
 
@@ -73,12 +74,12 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
   }
 
   mainForm = () => {
-    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequest } = this.props
+    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequest, translate } = this.props
     const { feedText } = this.state
     return (
       <div className='main-box'>
         <TextField
-          placeholder='What do you feel?'
+          placeholder={translate!('feedback.textareaPlaceholder')}
           multiline
           onChange={this.handleFeedText}
           rows={2}
@@ -88,7 +89,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
         />
         <br />
         <div className='buttons'>
-        <Tooltip title='Sad' placement='bottom-start'>
+        <Tooltip title={translate!('feedback.sadTooltip')} placement='bottom-start'>
           <IconButton
             className='flaticon-sad-2 icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Sad)}
@@ -96,21 +97,21 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
           </IconButton>
           </Tooltip>
 
-          <Tooltip title='Acceptable' placement='bottom-start'>
+          <Tooltip title={translate!('feedback.acceptableTooltip')} placement='bottom-start'>
           <IconButton
             className='flaticon-neutral icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Acceptable)}
           >
           </IconButton>
           </Tooltip>
-          <Tooltip title='Happy' placement='bottom-start'>
+          <Tooltip title={translate!('feedback.happyTooltip')} placement='bottom-start'>
           <IconButton
             className='flaticon-happy-2 icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Happy)}
           >
           </IconButton>
           </Tooltip>
-          <Tooltip title='Awesome' placement='bottom-start'>
+          <Tooltip title={translate!('feedback.awesomeTooltip')} placement='bottom-start'>
           <IconButton
             className='flaticon-happy icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Awesome)}
@@ -122,10 +123,11 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
   }
 
   loadingForm = () => {
+    const {translate} = this.props
     return (
     <div className='loading'>
     <p>
-          Your feedback is sending!
+    {translate!('feedback.sendingMessage')}
       </p>
       <div className='icon'>
       <CircularProgress
@@ -141,11 +143,13 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
   }
 
   successForm = () => {
-    return (<div className='success'>We appreciate your kind support as always ;)</div>)
+    const {translate} = this.props
+    return (<div className='success'>{translate!('feedback.appreciateMessage')}</div>)
   }
 
   errorForm = () => {
-    return (<div className='error'>Error in sending feedback :(</div>)
+    const {translate} = this.props
+    return (<div className='error'>{translate!('feedback.errorMessage')}</div>)
   }
 
   getFeedbackForm = () => {
@@ -228,6 +232,7 @@ const mapStateToProps = (state: any, ownProps: ISendFeedbackComponentProps) => {
   const sendFeedbackRequest: ServerRequestModel = request ? request[StringAPI.createServerRequestId(ServerRequestType.CommonSendFeedback, uid)] : null
 
   return {
+    translate: getTranslate(state.locale),
     sendFeedbackStatus,
     sendFeedbackRequest,
     currentUser

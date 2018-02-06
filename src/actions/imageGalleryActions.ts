@@ -36,7 +36,7 @@ export const dbGetImageGallery = () => {
           dispatch(addImageList(images))
         })
         .catch((error: SocialError) => {
-          dispatch(globalActions.showErrorMessage(error.message))
+          dispatch(globalActions.showMessage(error.message))
         })
     }
   }
@@ -69,7 +69,7 @@ export const dbSaveImage = (imageURL: string,imageFullPath: string) => {
         }))
       })
       .catch((error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
       })
   }
 }
@@ -89,7 +89,7 @@ export const dbDeleteImage = (id: string) => {
         dispatch(deleteImage(id))
       })
       .catch((error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
       })
   }
 
@@ -111,7 +111,7 @@ export const dbUploadImage = (image: any, imageName: string) => {
       dispatch(globalActions.hideTopLoading())
     })
     .catch((error: SocialError) => {
-      dispatch(globalActions.showErrorMessage(error.code))
+      dispatch(globalActions.showMessage(error.code))
       dispatch(globalActions.hideTopLoading())
     })
   }
@@ -143,7 +143,7 @@ export const dbDownloadImage = (fileName: string) => {
         }
       })
     .catch((error: SocialError) => {
-      dispatch(globalActions.showErrorMessage(error.message))
+      dispatch(globalActions.showMessage(error.message))
     })
   }
 }

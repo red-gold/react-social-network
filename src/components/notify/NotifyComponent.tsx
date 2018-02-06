@@ -41,7 +41,9 @@ const styles = (theme: any) => ({
     pointerEvents: 'none'
   },
   popperOpen: {
-    zIndex: 1
+    zIndex: 1,
+    maxWidth: 500,
+    overflowY: 'auto'
   }
 })
 

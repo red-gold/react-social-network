@@ -7,6 +7,7 @@ import * as notifyActions from './notifyActions'
 import * as postActions from './postActions'
 import * as userActions from './userActions'
 import * as voteActions from './voteActions'
+import * as localeActions from './localeActions'
 
 export {
   authorizeActions,
@@ -17,5 +18,6 @@ export {
   notifyActions,
   postActions,
   userActions,
-  voteActions
+  voteActions,
+  localeActions
 }

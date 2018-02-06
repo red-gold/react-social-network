@@ -76,7 +76,7 @@ export const dbLogin = (email: string, password: string) => {
       dispatch(globalActions.showNotificationSuccess())
       dispatch(login(result.uid, result.emailVerified))
       dispatch(push('/'))
-    }, (error: SocialError) => dispatch(globalActions.showErrorMessage(error.code)))
+    }, (error: SocialError) => dispatch(globalActions.showMessage(error.code)))
   }
 }
 
@@ -89,7 +89,7 @@ export const dbLogout = () => {
       dispatch(logout())
       dispatch(push('/login'))
 
-    }, (error: SocialError) => dispatch(globalActions.showErrorMessage(error.code)))
+    }, (error: SocialError) => dispatch(globalActions.showMessage(error.code)))
   }
 
 }
@@ -108,7 +108,7 @@ export const dbSendEmailVerfication = () => {
     })
       .catch((error: SocialError) => {
         // An error happened.
-        dispatch(globalActions.showErrorMessage(error.code))
+        dispatch(globalActions.showMessage(error.code))
 
       })
   }
@@ -134,7 +134,7 @@ export const dbSignup = (user: UserRegisterModel) => {
       dispatch(dbSendEmailVerfication())
       dispatch(push('/emailVerification'))
     })
-      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.code)))
+      .catch((error: SocialError) => dispatch(globalActions.showMessage(error.code)))
   }
 
 }
@@ -158,7 +158,7 @@ export const dbUpdatePassword = (newPassword: string) => {
         // An error happened.
         switch (error.code) {
           case 'auth/requires-recent-login':
-            dispatch(globalActions.showErrorMessage(error.code))
+            dispatch(globalActions.showMessage(error.code))
             dispatch(dbLogout())
             break
           default:
@@ -184,7 +184,7 @@ export const dbResetPassword = (email: string) => {
     })
       .catch((error: SocialError) => {
         // An error happened.
-        dispatch(globalActions.showErrorMessage(error.code))
+        dispatch(globalActions.showMessage(error.code))
 
       })
   }
@@ -205,7 +205,7 @@ export const dbLoginWithOAuth = (type: OAuthType) => {
     })
       .catch((error: SocialError) => {
         // An error happened.
-        dispatch(globalActions.showErrorMessage(error.code))
+        dispatch(globalActions.showMessage(error.code))
 
       })
   }

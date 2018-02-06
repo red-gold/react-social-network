@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/Button'
 import Button from 'material-ui/Button'
 import { withStyles } from 'material-ui/styles'
 import config from 'src/config'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
@@ -105,7 +106,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
   handleForm = () => {
 
     const {fullNameInput, emailInput, passwordInput, confirmInput} = this.state
-    const {register} = this.props
+    const {register, translate} = this.props
 
     let error = false
 
@@ -117,7 +118,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
       || fullNameCheck.indexOf('asd') > -1
       || fullNameCheck.length < 4) {
       this.setState({
-        fullNameInputError: 'Please enter a valid name.'
+        fullNameInputError: translate!('signup.validNameError')
       })
       error = true
     }
@@ -125,7 +126,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
      /* Validate email*/
     if (!StringAPI.isValidEmail(emailInput)) {
       this.setState({
-        emailInputError: 'Please enter a valid email.'
+        emailInputError: translate!('signup.validEmailError')
       })
       error = true
 
@@ -134,21 +135,21 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
     /* Check password */
     if (passwordInput === '') {
       this.setState({
-        passwordInputError: 'This field is required.'
+        passwordInputError: translate!('signup.passwordRequiredError')
       })
       error = true
 
     }
     if (confirmInput === '') {
       this.setState({
-        confirmInputError: 'This field is required.'
+        confirmInputError: translate!('signup.confirmRequiredError')
       })
       error = true
 
     } else if (confirmInput !== passwordInput) {
       this.setState({
-        passwordInputError: 'This field sould be equal to confirm password.',
-        confirmInputError: 'This field sould be equal to password.'
+        passwordInputError: translate!('signup.passwordEqualConfirmError'),
+        confirmInputError: translate!('signup.confirmEqualPasswordError')
       })
       error = true
 
@@ -169,7 +170,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
  */
   render () {
 
-    const {classes} = this.props
+    const {classes, translate} = this.props
     const paperStyle = {
       minHeight: 500,
       width: 450,
@@ -204,7 +205,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
        fontSize: '24px',
        fontWeight: 400,
        lineHeight: '32px',
-       margin: 0}} className='zoomOutLCorner animated'>Sign up</h2>
+       margin: 0}} className='zoomOutLCorner animated'>{translate!('signup.title')}</h2>
          </div>
 
      <TextField
@@ -214,7 +215,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
        helperText={this.state.fullNameInputError}
        error={this.state.fullNameInputError.trim() !== ''}
        name='fullNameInput'
-      label='Full Name'
+      label={translate!('signup.fullNameLabel')}
       type='text'
     /><br />
     <TextField
@@ -223,7 +224,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
       helperText={this.state.emailInputError}
       error={this.state.emailInputError.trim() !== ''}
       name='emailInput'
-     label='Email'
+     label={translate!('signup.emailLabel')}
      type='email'
    /><br />
    <TextField
@@ -232,7 +233,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
      helperText={this.state.passwordInputError}
      error={this.state.passwordInputError.trim() !== ''}
      name='passwordInput'
-    label='Password'
+    label={translate!('signup.passwordLabel')}
     type='password'
   /><br />
   <TextField
@@ -241,16 +242,16 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
     helperText={this.state.confirmInputError}
     error={this.state.confirmInputError.trim() !== ''}
     name='confirmInput'
-   label='Confirm Password'
+   label={translate!('signup.confirmPasswordLabel')}
    type='password'
  /><br />
 <br />
   <div className='signup__button-box'>
     <div>
-      <Button onClick={this.props.loginPage}> Login </Button>
+      <Button onClick={this.props.loginPage}>{translate!('signup.loginButton')}</Button>
     </div>
     <div>
-      <Button raised color='primary' onClick={this.handleForm}> Create </Button>
+      <Button raised color='primary' onClick={this.handleForm}>{translate!('signup.createButton')}</Button>
 
     </div>
   </div>
@@ -273,7 +274,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
 const mapDispatchToProps = (dispatch: any,ownProps: ISignupComponentProps) => {
   return {
     showError: (message: string) => {
-      dispatch(globalActions.showErrorMessage(message))
+      dispatch(globalActions.showMessage(message))
     },
     register: (userRegister: UserRegisterModel) => {
       dispatch(authorizeActions.dbSignup(userRegister))
@@ -292,7 +293,7 @@ const mapDispatchToProps = (dispatch: any,ownProps: ISignupComponentProps) => {
  */
 const mapStateToProps = (state: any,ownProps: ISignupComponentProps) => {
   return{
-
+    translate: getTranslate(state.locale),
   }
 }
 

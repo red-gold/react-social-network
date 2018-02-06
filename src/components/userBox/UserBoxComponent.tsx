@@ -4,6 +4,9 @@ import moment from 'moment/moment'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
+// - Material UI
 import Paper from 'material-ui/Paper'
 import Button from 'material-ui/Button'
 import RaisedButton from 'material-ui/Button'
@@ -295,7 +298,7 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
    */
   render () {
     const { disabledDoneCircles } = this.state
-    const { isFollowed, followRequest, userId, isSelecteCirclesOpen, addToCircleRequest, deleteFollowingUserRequest, classes } = this.props
+    const { isFollowed, followRequest, userId, isSelecteCirclesOpen, addToCircleRequest, deleteFollowingUserRequest, classes, translate } = this.props
 
     return (
       <Paper key={userId} style={this.styles.paper} elevation={1} className='grid-cell'>
@@ -330,8 +333,8 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
                 (deleteFollowingUserRequest ? deleteFollowingUserRequest.status === ServerRequestStatusType.Sent : false)
               }
             >
-              {!isFollowed ? 'Follow'
-                : (this.props.belongCirclesCount! > 1 ? `${this.props.belongCirclesCount} Circles` : ((this.props.firstBelongCircle) ? this.props.firstBelongCircle.name : 'Follow'))}
+              {!isFollowed ? translate!('userBox.followButton')
+                : (this.props.belongCirclesCount! > 1 ? translate!('userBox.numberOfCircleButton', {circlesCount: this.props.belongCirclesCount}) : ((this.props.firstBelongCircle) ? this.props.firstBelongCircle.name : translate!('userBox.followButton')))}
             </Button>
           </div>
         </div>
@@ -350,14 +353,14 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
                 <ListItemText primary={
                   <TextField
                   autoFocus
-                    placeholder='Group name'
+                    placeholder={translate!('userBox.groupNamePlaceholder')}
                     onChange={this.handleChangeName}
                     value={this.state.circleName}
                   />
                 } />
                 <ListItemSecondaryAction>
                   <IconButton onClick={this.onCreateCircle} disabled={this.state.disabledCreateCircle}>
-                    <Tooltip title='Create circle'>
+                    <Tooltip title={translate!('userBox.createCircleTooltip')}>
                       <SvgAdd />
                     </Tooltip>
                   </IconButton>
@@ -373,7 +376,7 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
               onClick={this.onRequestCloseAddCircle}
               style={{ color: grey[800] }}
             >
-              Cancel
+              {translate!('userBox.cancelButton')}
         </Button>
             <Button
               color='primary'
@@ -382,7 +385,7 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
               disabled={disabledDoneCircles || (addToCircleRequest ? addToCircleRequest!.status === ServerRequestStatusType.Sent : false)}
               onClick={this.handleDoneAddCircle}
             >
-              Done
+              {translate!('userBox.doneButton')}
         </Button>
           </DialogActions>
         </Dialog>
@@ -436,6 +439,7 @@ const mapStateToProps = (state: any, ownProps: IUserBoxComponentProps) => {
   const isSelecteCirclesOpen = circle.openSelecteCircles ? circle.openSelecteCircles[ownProps.userId] : []
 
   return {
+    translate: getTranslate(state.locale),
     isSelecteCirclesOpen,
     isFollowed,
     selectedCircles,

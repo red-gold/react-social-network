@@ -1,0 +1,154 @@
+{
+    "sidebar" : {
+        "home": "Home",
+        "profile": "Profile",
+        "people": "People",
+        "settings": "Settings",
+        "sendFeedback": "Send Feedback"
+
+    },
+    "header": {
+        "home":"Home",
+        "notificationTooltip": "Notifications",
+        "myAccount": "My Account",
+        "logout": "Logout"
+
+    },
+    "home": {
+        "postWriteButtonText": "What's new with you?"
+    },
+    "post": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "disableComments": "Disable Comments",
+        "disableSharing": "Disable Sharing",
+        "enableComments": "Enable Comments",
+        "enableSharing": "Enable Sharing",
+        "public": "public",
+        "textareaPlaceholder": "What's new with you?",
+        "moreTooltip": "more",
+        "postButton": "POST",
+        "cancelButton": "CANCEL",
+        "updateButton": "UPDATE",
+        "copyLinkButton": "Copy Link"
+
+    },
+    "imageGallery": {
+        "uploadButton": "UPLOAD",
+        "cancelButton": "CANCEL"
+    },
+    "image": {
+        "notLoaded": "Image has not loaded!"
+    },
+    "comment": {
+        "postButton": "POST",
+        "cancelButton": "CANCEL",
+        "updateButton": "UPDATE",
+        "addCommentPlaceholder": "Add a comment ...",
+        "updateCommentPlaceholder": "Write your comment ...",
+        "replyButton": "Reply",
+        "editButton": "Edit",
+        "deleteButton": "Delete"
+    },
+    "profile": {
+        "editProfileButton": "Edit Profile",
+        "cancelButton": "CANCEL",
+        "updateButton": "UPDATE",
+        "fullName": "Full Name",
+        "tagline": "Tagline",
+        "personalInformationLabel": "Personal Information",
+        "headPostsLabel": "${userName}'s posts",
+        "nothingSharedLabel": " Nothing shared",
+        "chooseAvatarDialogTitle": "Choose an avatar image",
+        "chooseBanerDialogTitle": "Choose an baner image"
+    },
+    "people": {
+        "findPeopleTab": "FIND PEOPLE",
+        "followingTab": "FOLLOWING",
+        "followersTab": "FOLLOWERS",
+        "suggestionsForYouLabel": "Suggestions for you",
+        "nothingToShowLabel": "Nothing to show! :(",
+        "followingLabel": "Following",
+        "noFollowingLabel": "No following user!",
+        "followersLabel": "Followers",
+        "noFollowersLabel": "No followers!"
+    },
+    "userBox": {
+        "followButton": "FOLLOW",
+        "cancelButton": "CANCEL",
+        "numberOfCircleButton": "${circlesCount} Circles",
+        "doneButton": "DONE",
+        "groupNamePlaceholder": "Group Name",
+        "createCircleTooltip": "Create Circle"
+
+    },
+    "changePassword": {
+        "title": "Change Password",
+        "newPasswordLabel": "New password",
+        "confirmPasswordLabel": "Confirm password",
+        "homeButton": "HOME",
+        "changePasswordButton": "CHANGE PASSWORD",
+        "newPasswordRequiredError": "This field is required",
+        "confirmPasswordRequiredError": "This field is required",
+        "confirmPasswordEqualNewPasswordError": "Password and confirm password should be equal!"
+
+    },
+    "feedback": {
+        "textareaPlaceholder": "What do you feel :) ?",
+        "sadTooltip":  "Sad",
+        "acceptableTooltip":  "Acceptable",
+        "happyTooltip":  "Happy",
+        "awesomeTooltip":  "Awesome",
+        "appreciateMessage": "We appreciate your kind support as always ;)",
+        "sendingMessage": "Your feedback is sending!",
+        "errorMessage": "Error in sending feedback :( "
+    },
+    "login": {
+        "title": "Sign in",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "emailRequiredError": "This field is required.",
+        "passwordRequiredError": "This field is required.",
+        "createAccountButton": "CREATE AN ACCOUNT",
+        "loginButton": "LOGIN",
+        "forgetPasswordMessage": "Have you forgot your password?",
+        "resetPasswordLabel": "reset your password."
+    },
+    "signup": {
+        "title":"Sign up",
+        "fullNameLabel": "Full Name",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "confirmPasswordLabel": "Confirm Password",
+        "validNameError":"Please enter a valid name.",
+        "validEmailError": "Please enter a valid email.",
+        "emailRequiredError": "This field is required.",
+        "passwordRequiredError": "This field is required.",
+        "confirmRequiredError": "This field is required.",
+        "passwordEqualConfirmError": "This field sould be equal to confirm password.",
+        "confirmEqualPasswordError": "This field sould be equal to password.",
+        "loginButton": "LOGIN",
+        "createButton": "CREATE"
+
+    },
+    "resetPassword": {
+        "title": "Reset Password",
+        "emailLabel": "Email",
+        "backButton": "BACK",
+        "resetPasswordButton": "RESET PASSWORD",
+        "emailRequiredError": "This field is required.",
+        "description": "Please put your email and click on `RESET PASSWORD`. If not click on `BACK`. We will send you an email contains the link of the reset password."
+
+    },
+    "emailVerification": {
+        "title": "Email Verification",
+        "homeButton": "HOME",
+        "sendButton": "Send Email Verification",
+        "description": "An verificiation email has been already sent to you. Please check your inbox. If you couldn't see the emai, please resend email verification."
+    },
+    "common": {
+        "sentRequestMessage": "Request has been sent.",
+        "successfulRequestMessage": "Request has been successful."
+    }
+    
+}

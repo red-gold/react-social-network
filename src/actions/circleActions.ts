@@ -49,7 +49,7 @@ export let dbAddCircle = (circleName: string) => {
       circle.ownerId = uid
       dispatch(addCircle(circle))
 
-    }, (error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+    }, (error: SocialError) => dispatch(globalActions.showMessage(error.message)))
 
   }
 }
@@ -99,7 +99,7 @@ export const dbFollowUser = (followingCircleId: string, userFollowing: UserTie) 
           }))
 
       }, (error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
 
         // Set server request status to {Error} for following user
         followReqestModel.status = ServerRequestStatusType.Error
@@ -150,7 +150,7 @@ export let dbUpdateUserInCircles = (circleIdList: string[], userFollowing: UserT
         dispatch(closeSelectCircleBox(userFollowing.userId!))
 
       }, (error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
 
         dispatch(globalActions.hideMasterLoading())
 
@@ -189,7 +189,7 @@ export let dbDeleteFollowingUser = (userFollowingId: string) => {
         deleteFollowingUserRequest.status = ServerRequestStatusType.OK
         dispatch(serverActions.sendRequest(deleteFollowingUserRequest))
       }, (error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
 
         dispatch(globalActions.hideMasterLoading())
 
@@ -219,7 +219,7 @@ export const dbUpdateCircle = (newCircle: Circle) => {
       .then(() => {
         dispatch(updateCircle({ id: newCircle.id, ...circle }))
       }, (error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
       })
   }
 
@@ -238,7 +238,7 @@ export const dbDeleteCircle = (circleId: string) => {
       .then(() => {
         dispatch(deleteCircle(circleId))
       }, (error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
       })
   }
 
@@ -257,7 +257,7 @@ export const dbGetCircles = () => {
           dispatch(addCircles(circles))
         })
         .catch((error: SocialError) => {
-          dispatch(globalActions.showErrorMessage(error.message))
+          dispatch(globalActions.showMessage(error.message))
         })
 
     }
@@ -278,7 +278,7 @@ export const dbGetUserTies = () => {
 
       })
         .catch((error: SocialError) => {
-          dispatch(globalActions.showErrorMessage(error.message))
+          dispatch(globalActions.showMessage(error.message))
         })
     }
   }
@@ -298,7 +298,7 @@ export const dbGetFollowers = () => {
 
       })
         .catch((error: SocialError) => {
-          dispatch(globalActions.showErrorMessage(error.message))
+          dispatch(globalActions.showMessage(error.message))
         })
     }
   }
@@ -317,7 +317,7 @@ export const dbGetCirclesByUserId = (uid: string) => {
           dispatch(addCircles(circles))
         })
         .catch((error: SocialError) => {
-          dispatch(globalActions.showErrorMessage(error.message))
+          dispatch(globalActions.showMessage(error.message))
         })
     }
   }

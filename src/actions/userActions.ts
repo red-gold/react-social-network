@@ -37,7 +37,7 @@ export const dbGetUserInfo = () => {
           creationDate: userProfile.creationDate
         }))
       })
-      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+      .catch((error: SocialError) => dispatch(globalActions.showMessage(error.message)))
 
     }
   }
@@ -76,7 +76,7 @@ export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
             break
         }
       })
-      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+      .catch((error: SocialError) => dispatch(globalActions.showMessage(error.message)))
 
     }
   }
@@ -105,7 +105,7 @@ export const dbUpdateUserInfo = (newProfile: Profile) => {
       dispatch(updateUserInfo(uid, updatedProfile))
       dispatch(closeEditProfile())
     })
-    .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+    .catch((error: SocialError) => dispatch(globalActions.showMessage(error.message)))
 
   }
 
@@ -144,7 +144,7 @@ export const dbGetPeopleInfo = (page: number, limit: number) => {
         })
         dispatch(addPeopleInfo(parsedData))
       })
-        .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+        .catch((error: SocialError) => dispatch(globalActions.showMessage(error.message)))
 
     }
   }

@@ -1,5 +1,6 @@
 // - Import image gallery action types
 import { GlobalActionType } from 'constants/globalActionType'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import actions
 import * as serverActions from 'actions/serverActions'
@@ -36,7 +37,7 @@ export let dbSendFeed = (newFeed: Feed) => {
       dispatch(serverActions.sendRequest(feedbackRequest))
     })
       .catch((error: SocialError) => {
-        dispatch(showErrorMessage(error.message))
+        dispatch(showMessage(error.message))
 
         // Set server request status to {Error}
         feedbackRequest.status = ServerRequestStatusType.Error
@@ -44,6 +45,26 @@ export let dbSendFeed = (newFeed: Feed) => {
       })
   }
 }
+
+// - Show notification of request
+export const showNotificationRequest = () => {
+  return (dispatch: Function, getState: Function) => {
+    const state = getState()
+    const translate =  getTranslate(state.locale)
+    return dispatch(showMessage(String(translate('common.sentRequestMessage'))))
+  }
+}
+
+// - Show notification of success
+export const showNotificationSuccess = () => {
+  return (dispatch: Function, getState: Function) => {
+    const state = getState()
+    const translate =  getTranslate(state.locale)
+    return dispatch(showMessage(String(translate('common.successfulRequestMessage'))))
+  }
+}
+
+// - Internal request------------------
 
 /**
  * Progress change
@@ -75,20 +96,6 @@ export const defaultDataDisable = () => {
   }
 }
 
-// - Show notification of request
-export const showNotificationRequest = () => {
-  return {
-    type: GlobalActionType.SHOW_SEND_REQUEST_MESSAGE_GLOBAL
-  }
-}
-
-// - Show notification of success
-export const showNotificationSuccess = () => {
-  return {
-    type: GlobalActionType.SHOW_REQUEST_SUCCESS_MESSAGE_GLOBAL
-  }
-}
-
 /**
  * Hide global message
  */
@@ -101,12 +108,12 @@ export const hideMessage = () => {
 }
 
 /**
- * Show error message
+ * Show message
  * @param {string} message
  */
-export const showErrorMessage = (message: string) => {
+export const showMessage = (message: string) => {
   return {
-    type: GlobalActionType.SHOW_ERROR_MESSAGE_GLOBAL,
+    type: GlobalActionType.SHOW_MESSAGE_GLOBAL,
     payload: message
   }
 

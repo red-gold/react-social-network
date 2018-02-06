@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/Button'
 import Button from 'material-ui/Button'
 import { withStyles } from 'material-ui/styles'
 import config from 'src/config'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
@@ -84,23 +85,23 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
    * Handle register form
    */
   handleForm = () => {
-
+    const {translate} = this.props
     let error = false
     if (this.state.passwordInput === '') {
       this.setState({
-        passwordInputError: 'This field is required'
+        passwordInputError: translate!('changePassword.newPasswordRequiredError')
       })
       error = true
 
     } else if (this.state.confirmInput === '') {
       this.setState({
-        confirmInputError: 'This field is required'
+        confirmInputError: translate!('changePassword.confirmPasswordRequiredError')
       })
       error = true
 
     } else if (this.state.confirmInput !== this.state.passwordInput) {
       this.setState({
-        confirmInputError: 'Password and confirm password should be equal!'
+        confirmInputError: translate!('changePassword.confirmPasswordEqualNewPasswordError')
       })
       error = true
 
@@ -121,7 +122,7 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
    */
   render () {
 
-    const {classes} = this.props
+    const {classes, translate} = this.props
     const paperStyle = {
       minHeight: 370,
       width: 450,
@@ -157,7 +158,7 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
                   fontWeight: 400,
                   lineHeight: '32px',
                   margin: 0
-                }} className='zoomOutLCorner animated'>Change Password</h2>
+                }} className='zoomOutLCorner animated'>{translate!('changePassword.title')}</h2>
               </div>
 
               <TextField
@@ -166,7 +167,7 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
                 onChange={this.handleInputChange}
                 helperText={this.state.passwordInputError}
                 name='passwordInput'
-                label='New password'
+                label={translate!('changePassword.newPasswordLabel')}
                 type='password'
                 error={this.state.passwordInputError.trim() !== ''}
               /><br />
@@ -175,7 +176,7 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
                 onChange={this.handleInputChange}
                 helperText={this.state.confirmInputError}
                 name='confirmInput'
-                label='Confirm password'
+                label={translate!('changePassword.confirmPasswordLabel')}
                 type='password'
                 error={this.state.confirmInputError.trim() !== ''}
               /><br />
@@ -183,10 +184,10 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
               <br />
               <div className='settings__button-box'>
                 <div>
-                  <Button onClick={this.props.homePage} > Home </Button>
+                  <Button onClick={this.props.homePage} > {translate!('changePassword.homeButton')} </Button>
                 </div>
                 <div>
-                  <Button raised color='primary' onClick={this.handleForm}> Change password </Button>
+                  <Button raised color='primary' onClick={this.handleForm}> {translate!('changePassword.changePasswordButton')} </Button>
 
                 </div>
               </div>
@@ -224,7 +225,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: ISettingComponentProps) => 
  */
 const mapStateToProps = (state: any, ownProps: ISettingComponentProps) => {
   return {
-
+    translate: getTranslate(state.locale)
   }
 }
 

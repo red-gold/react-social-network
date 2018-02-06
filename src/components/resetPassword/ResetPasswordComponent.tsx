@@ -10,6 +10,7 @@ import Button from 'material-ui/Button'
 import { withStyles } from 'material-ui/styles'
 import Typography from 'material-ui/Typography'
 import config from 'src/config'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
@@ -71,11 +72,11 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
    * Handle register form
    */
   handleForm = () => {
-
+    const {translate} = this.props
     let error = false
     if (this.state.emailInput === '') {
       this.setState({
-        emailInputError: 'This field is required'
+        emailInputError: translate!('resetPassword.emailRequiredError')
       })
 
       return
@@ -90,7 +91,7 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
    */
   render () {
 
-    const {classes} = this.props
+    const {classes, translate} = this.props
 
     const paperStyle = {
       minHeight: 370,
@@ -127,7 +128,7 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
                   fontWeight: 400,
                   lineHeight: '32px',
                   margin: 0
-                }} className='zoomOutLCorner animated'>Reset Password</h2>
+                }} className='zoomOutLCorner animated'>{translate!('resetPassword.title')}</h2>
               </div>
 
               <TextField
@@ -137,22 +138,21 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
                 helperText={this.state.emailInputError}
                 error={this.state.emailInputError.trim() !== ''}
                 name='emailInput'
-                label='Email'
+                label={translate!('resetPassword.emailLabel')}
                 type='email'
               /><br />
               <br />
               <br />
               <div className='settings__button-box'>
                 <div>
-                  <Button onClick={this.props.loginPage}> Back </Button>
+                  <Button onClick={this.props.loginPage}>{translate!('resetPassword.backButton')}</Button>
                 </div>
                 <div>
-                  <Button raised color='primary' onClick={this.handleForm}> Reset password </Button>
+                  <Button raised color='primary' onClick={this.handleForm}>{translate!('resetPassword.resetPasswordButton')} </Button>
                 </div>
               </div>
               <Typography className={classes.caption} type='caption' component='p'>
-               Please put your email and click on "RESET PASSWORD". If not click on "BACK".
-               We will send you an email contains the link of the reset password.
+              {translate!('resetPassword.description')}
           </Typography>
             </div>
           </Paper>
@@ -185,7 +185,7 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IResetPasswordComponen
  */
 const mapStateToProps = (state: any, ownProps: IResetPasswordComponentProps) => {
   return {
-
+    translate: getTranslate(state.locale),
   }
 }
 

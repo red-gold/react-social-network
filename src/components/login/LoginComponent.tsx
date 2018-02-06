@@ -12,6 +12,7 @@ import Divider from 'material-ui/Divider'
 import ActionAndroid from 'material-ui-icons/Android'
 import { withStyles } from 'material-ui/styles'
 import config from 'src/config'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
@@ -104,18 +105,18 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
    * Handle register form
    */
   handleForm = () => {
-
+    const {translate} = this.props
     let error = false
     if (this.state.emailInput === '') {
       this.setState({
-        emailInputError: 'This field is required'
+        emailInputError: translate!('login.emailRequiredError')
       })
       error = true
 
     }
     if (this.state.passwordInput === '') {
       this.setState({
-        passwordInputError: 'This field is required'
+        passwordInputError: translate!('login.passwordRequiredError')
       })
       error = true
 
@@ -135,7 +136,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
    * @return {react element} return the DOM which rendered by component
    */
   render () {
-    const {classes} = this.props
+    const {classes, loginWithOAuth, translate} = this.props
 
     const paperStyle = {
       minHeight: 370,
@@ -145,7 +146,6 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
       margin: 'auto'
     }
 
-    const {loginWithOAuth} = this.props
     return (
       <form>
 
@@ -174,7 +174,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
                   fontWeight: 400,
                   lineHeight: '32px',
                   margin: 0
-                }} className='zoomOutLCorner animated'>Sign in</h2>
+                }} className='zoomOutLCorner animated'>{translate!('login.title')}</h2>
               </div>
               <div style={this.styles.singinOptions as any}>
               <IconButton
@@ -196,7 +196,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
                 helperText={this.state.emailInputError}
                 error={this.state.emailInputError.trim() !== ''}
                 name='emailInput'
-                label='Email'
+                label={translate!('login.emailLabel')}
                 type='email'
                 tabIndex={1}
               /><br />
@@ -206,7 +206,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
                 helperText={this.state.passwordInputError}
                 error={this.state.passwordInputError.trim() !== ''}
                 name='passwordInput'
-                label='Password'
+                label={translate!('login.passwordLabel')}
                 type='password'
                 tabIndex={2}
               /><br />
@@ -214,13 +214,13 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
               <br />
               <div className='login__button-box'>
                 <div>
-                  <Button onClick={this.props.signupPage} tabIndex={4}> Create an account </Button>
+                  <Button onClick={this.props.signupPage} tabIndex={4}>{translate!('login.createAccountButton')}</Button>
                 </div>
                 <div >
-                  <Button raised color='primary' onClick={this.handleForm} tabIndex={3} > Login </Button>
+                  <Button raised color='primary' onClick={this.handleForm} tabIndex={3} >{translate!('login.loginButton')}</Button>
                 </div>
               </div>
-                <span style={this.styles.restPassword as any}>Have you forgot your password? <NavLink to='/resetPassword' style={this.styles.restPasswordLink}>reset your password</NavLink></span>
+                <span style={this.styles.restPassword as any}>{translate!('login.forgetPasswordMessage')} <NavLink to='/resetPassword' style={this.styles.restPasswordLink}>{translate!('login.resetPasswordLabel')}</NavLink></span>
             </div>
           </Paper>
         </div>
@@ -255,7 +255,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: ILoginComponentProps) => {
  */
 const mapStateToProps = (state: any, ownProps: ILoginComponentProps) => {
   return {
-
+    translate: getTranslate(state.locale)
   }
 }
 

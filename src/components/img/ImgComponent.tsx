@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SvgImage from 'material-ui-icons/Image'
 import { withStyles } from 'material-ui/styles'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
 
@@ -85,7 +86,7 @@ export class ImgComponent extends Component<IImgComponentProps,IImgComponentStat
    */
   render () {
 
-    let { fileName, style } = this.props
+    let { fileName, style, translate } = this.props
     let { isImageLoaded } = this.state
     const {classes} = this.props
     return (
@@ -94,7 +95,7 @@ export class ImgComponent extends Component<IImgComponentProps,IImgComponentStat
         <div style={Object.assign({},{ backgroundColor: 'white' }, isImageLoaded ? { display: 'none' } : this.styles.loding)}>
           <div style={this.styles.loadingContent as any}>
             <SvgImage style={this.styles.loadingImage} />
-            <div>Image has not loaded</div>
+            <div>{translate!('image.notLoaded')}</div>
           </div>
         </div>
       </div>
@@ -122,6 +123,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImgComponentProps) => {
  */
 const mapStateToProps = (state: any, ownProps: IImgComponentProps) => {
   return {
+    translate: getTranslate(state.locale),
     avatarURL: state.imageGallery.imageURLList,
     imageRequests: state.imageGallery.imageRequests
   }

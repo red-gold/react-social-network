@@ -59,7 +59,7 @@ export let dbAddPost = (newPost: Post, callBack: Function) => {
       }))
       callBack()
     })
-      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+      .catch((error: SocialError) => dispatch(globalActions.showMessage(error.message)))
   }
 }
 
@@ -102,7 +102,7 @@ export const dbAddImagePost = (newPost: Post, callBack: Function) => {
       dispatch(globalActions.hideTopLoading())
 
     })
-      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+      .catch((error: SocialError) => dispatch(globalActions.showMessage(error.message)))
 
   }
 
@@ -124,7 +124,7 @@ export const dbUpdatePost = (updatedPost: Post, callBack: Function) => {
 
     })
       .catch((error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
         dispatch(globalActions.hideTopLoading())
 
       })
@@ -150,7 +150,7 @@ export const dbDeletePost = (id: string) => {
 
     })
       .catch((error: SocialError) => {
-        dispatch(globalActions.showErrorMessage(error.message))
+        dispatch(globalActions.showMessage(error.message))
         dispatch(globalActions.hideTopLoading())
       })
   }
@@ -195,7 +195,7 @@ export const dbGetPosts = (page: number = 0, limit: number = 10) => {
         dispatch(addPosts(parsedData))
       })
         .catch((error: SocialError) => {
-          dispatch(globalActions.showErrorMessage(error.message))
+          dispatch(globalActions.showMessage(error.message))
         })
 
     }
@@ -242,7 +242,7 @@ export const dbGetPostsByUserId = (userId: string, page: number = 0, limit: numb
         dispatch(addPosts(parsedData))
       })
         .catch((error: SocialError) => {
-          dispatch(globalActions.showErrorMessage(error.message))
+          dispatch(globalActions.showMessage(error.message))
         })
 
     }
@@ -260,7 +260,7 @@ export const dbGetPostById = (uid: string, postId: string) => {
         dispatch(addPost(uid, post))
       })
         .catch((error: SocialError) => {
-          dispatch(globalActions.showErrorMessage(error.message))
+          dispatch(globalActions.showMessage(error.message))
         })
 
     }

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SvgImage from 'material-ui-icons/Image'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
 
@@ -108,7 +109,7 @@ export class ImgCoverComponent extends Component<IImgCoverComponentProps,IImgCov
    */
   render () {
 
-    let { fileName, style } = this.props
+    let { fileName, style, translate } = this.props
     let { isImageLoaded } = this.state
 
     return (
@@ -124,7 +125,7 @@ export class ImgCoverComponent extends Component<IImgCoverComponentProps,IImgCov
         <div style={Object.assign({},{ backgroundColor: 'blue' },isImageLoaded ? { display: 'none' } : this.styles.loding)}>
           <div style={this.styles.loadingContent as any}>
             <SvgImage style={this.styles.loadingImage} />
-            <div>Image has not loaded</div>
+            <div>{translate!('image.notLoaded')}</div>
           </div>
         </div>
          <img onLoad={this.handleLoadImage} src={fileName || ''} style={{ display: 'none'}} />
@@ -152,6 +153,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImgCoverComponentProps) =>
  */
 const mapStateToProps = (state: any, ownProps: IImgCoverComponentProps) => {
   return {
+    translate: getTranslate(state.locale),
     avatarURL: state.imageGallery.imageURLList,
     imageRequests: state.imageGallery.imageRequests
 

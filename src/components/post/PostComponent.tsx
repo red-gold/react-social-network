@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import Linkify from 'react-linkify'
 import copy from 'copy-to-clipboard'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Material UI
 import { Card, CardActions, CardHeader, CardMedia, CardContent } from 'material-ui'
@@ -262,9 +263,10 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
    * @memberof Post
    */
   handleCopyLink = () => {
+    const {translate} = this.props
     this.setState({
       openCopyLink: true,
-      shareTitle: 'Copy Link'
+      shareTitle: translate!('post.copyLinkButton')
     })
   }
 
@@ -336,7 +338,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
    * @return {react element} return the DOM which rendered by component
    */
   render () {
-    const { post, setHomeTitle, goTo, fullName, isPostOwner, commentList, avatar, classes } = this.props
+    const { post, setHomeTitle, goTo, fullName, isPostOwner, commentList, avatar, classes , translate} = this.props
     const { postMenuAnchorEl, isPostMenuOpen } = this.state
     const RightIconMenu = () => (
       <Manager>
@@ -359,15 +361,15 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
             <Grow in={isPostMenuOpen!} style={{ transformOrigin: '0 0 0' }}>
               <Paper>
                 <MenuList role='menu'>
-                  <MenuItem onClick={this.handleOpenPostWrite} > Edit </MenuItem>
-                  <MenuItem onClick={this.handleDelete} > Delete </MenuItem>
+                  <MenuItem onClick={this.handleOpenPostWrite} > {translate!('post.edit')} </MenuItem>
+                  <MenuItem onClick={this.handleDelete} > {translate!('post.delete')} </MenuItem>
                   <MenuItem
                     onClick={() => this.props.toggleDisableComments!(!post.disableComments)} >
-                    {post.disableComments ? 'Enable comments' : 'Disable comments'}
+                    {post.disableComments ? translate!('post.enableComments') : translate!('post.disableComments')}
                   </MenuItem>
                   <MenuItem
                     onClick={() => this.props.toggleSharingComments!(!post.disableSharing)} >
-                    {post.disableSharing ? 'Enable sharing' : 'Disable sharing'}
+                    {post.disableSharing ? translate!('post.enableSharing') : translate!('post.disableSharing')}
                   </MenuItem>
                 </MenuList>
               </Paper>
@@ -383,7 +385,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
       <Card>
         <CardHeader
           title={<NavLink to={`/${ownerUserId}`}>{ownerDisplayName}</NavLink>}
-          subheader={moment.unix(creationDate!).fromNow() + ' | public'}
+          subheader={moment.unix(creationDate!).fromNow() + ' | ' + translate!('post.public')}
           avatar={<NavLink to={`/${ownerUserId}`}><UserAvatar fullName={fullName!} fileName={avatar!} size={36} /></NavLink>}
           action={isPostOwner ? <RightIconMenu /> : ''}
         >
@@ -461,7 +463,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
                   <ListItemIcon>
                     <SvgLink />
                   </ListItemIcon>
-                  <ListItemText inset primary='Copy Link' />
+                  <ListItemText inset primary={translate!('post.copyLinkButton')} />
                 </MenuItem>
               </MenuList>)
             : <div>
@@ -527,6 +529,7 @@ const mapStateToProps = (state: any, ownProps: IPostComponentProps) => {
   const postOwner = (post.userPosts[uid] ? Object.keys(post.userPosts[uid]).filter((key) => { return ownProps.post.id === key }).length : 0)
   const commentList: { [commentId: string]: Comment } = comment.postComments[ownProps.post.id!]
   return {
+    translate: getTranslate(state.locale),
     commentList,
     avatar: state.user.info && state.user.info[ownProps.post.ownerUserId!] ? state.user.info[ownProps.post.ownerUserId!].avatar || '' : '',
     fullName: state.user.info && state.user.info[ownProps.post.ownerUserId!] ? state.user.info[ownProps.post.ownerUserId!].fullName || '' : '',

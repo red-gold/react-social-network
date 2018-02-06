@@ -5,6 +5,9 @@ import _ from 'lodash'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import config from 'src/config'
+
 import Menu from 'material-ui/Menu'
 import { MenuList, MenuItem } from 'material-ui/Menu'
 import { ListItemIcon, ListItemText } from 'material-ui/List'
@@ -15,7 +18,7 @@ import SvgFeedback from 'material-ui-icons/Feedback'
 import SvgSettings from 'material-ui-icons/Settings'
 import SvgAccountCircle from 'material-ui-icons/AccountCircle'
 import SvgPeople from 'material-ui-icons/People'
-import config from 'src/config'
+
 // - Import app components
 import Sidebar from 'components/sidebar'
 import StreamComponent from 'components/stream'
@@ -131,7 +134,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
    */
   render () {
     const HR = HomeRouter as any
-    const { loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback } = this.props
+    const { loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback, translate } = this.props
     return (
       <div id='home'>
         <HomeHeader sidebar={this.state.sidebarOpen} sidebarStatus={this.state.sidebarStatus} />
@@ -157,7 +160,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
                   <ListItemIcon>
                     <SvgHome />
                   </ListItemIcon>
-                  <ListItemText inset primary='Home' />
+                  <ListItemText inset primary={translate!('sidebar.home')} />
                 </MenuItem>
               </NavLink>
               <NavLink to={`/${this.props.uid}`}>
@@ -165,7 +168,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
                   <ListItemIcon>
                     <SvgAccountCircle />
                   </ListItemIcon>
-                  <ListItemText inset primary='Profile' />
+                  <ListItemText inset primary={translate!('sidebar.profile')} />
                 </MenuItem>
               </NavLink>
               <NavLink to='/people'>
@@ -173,7 +176,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
                   <ListItemIcon>
                     <SvgPeople />
                   </ListItemIcon>
-                  <ListItemText inset primary='People' />
+                  <ListItemText inset primary={translate!('sidebar.people')} />
                 </MenuItem>
               </NavLink>
               <Divider />
@@ -182,14 +185,14 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
                   <ListItemIcon>
                     <SvgSettings />
                   </ListItemIcon>
-                  <ListItemText inset primary='Settings' />
+                  <ListItemText inset primary={translate!('sidebar.settings')} />
                 </MenuItem>
               </NavLink>
               <MenuItem onClick={() => showSendFeedback!()} style={{ color: 'rgb(117, 117, 117)' }}>
                   <ListItemIcon>
                     <SvgFeedback />
                   </ListItemIcon>
-                  <ListItemText inset primary='Send feedback' />
+                  <ListItemText inset primary={translate!('sidebar.sendFeedback')} />
                 </MenuItem>
               </MenuList>
           </SidebarContent>
@@ -267,6 +270,8 @@ const mapStateToProps = (state: any, ownProps: IHomeComponentProps) => {
     authed: authorize.authed,
     isVerifide: authorize.isVerifide,
     mainStyle: global.sidebarMainStyle,
+    translate: getTranslate(state.locale),
+    currentLanguage: getActiveLanguage(state.locale).code,
     mergedPosts,
     global,
     hasMorePosts,

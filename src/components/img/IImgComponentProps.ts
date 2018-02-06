@@ -21,4 +21,9 @@ export interface IImgComponentProps {
    */
   classes?: any
 
+  /**
+   * Translate to locale string
+   */
+  translate?: (state: any) => any
+
 }

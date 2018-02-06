@@ -10,6 +10,7 @@ import Button from 'material-ui/Button'
 import RaisedButton from 'material-ui/Button'
 import EventListener, { withOptions } from 'react-event-listener'
 import { Parallax, Background } from 'react-parallax'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
 import ImgCover from 'components/imgCover'
@@ -113,7 +114,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
      * @return {react element} return the DOM which rendered by component
      */
   render () {
-
+    const {translate, isAuthedUser} = this.props
     const styles = {
       avatar: {
         border: '2px solid rgb(255, 255, 255)'
@@ -165,8 +166,6 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
       </div>
         )
 
-    const {isAuthedUser} = this.props
-
     return (
 
             <div>
@@ -200,7 +199,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
                     <div className='right'>
                         {isAuthedUser ? (<div style={this.state.isSmall ? styles.editButtonSmall : styles.editButton}>
                         <Button raised onClick={this.props.openEditor}>
-                        EDIT PROFILE
+                        {translate!('profile.editProfileButton')}
                         </Button>
                         </div>) : ''}
                     </div>
@@ -236,6 +235,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IProfileHeaderComponentProp
 const mapStateToProps = (state: any, ownProps: IProfileHeaderComponentProps) => {
 
   return {
+    translate: getTranslate(state.locale)
   }
 }
 

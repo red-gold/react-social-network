@@ -23,4 +23,9 @@ export interface IRouterProps {
    */
   match?: any
 
+  /**
+   * Translate to locale strting
+   */
+  translate?: (state: any) => any
+
 }

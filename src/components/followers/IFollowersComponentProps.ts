@@ -9,4 +9,9 @@ export interface IFollowersComponentProps {
    * @memberof IFindPeopleComponentProps
    */
   followers?: {[userId: string]: UserTie}
+
+  /**
+   * Translate to locale string
+   */
+  translate?: (state: any) => any
 }

@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 import { Card, CardActions, CardHeader, CardMedia, CardContent } from 'material-ui'
 import List, {
@@ -366,13 +367,13 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
    */
   render () {
 
-    const { classes } = this.props
+    const { classes, translate } = this.props
     const { menuOpen } = this.state
 
     const rightIconMenu = (
       <Manager>
         <Target>
-          <Tooltip id='tooltip-icon' title='more' placement='bottom-start'>
+          <Tooltip id='tooltip-icon' title={translate!('post.moreTooltip')} placement='bottom-start'>
             <IconButton
               onClick={this.handleOpenMenu}
             >
@@ -413,7 +414,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
         }}>{this.props.ownerDisplayName}</span><span style={{
           fontWeight: 100,
           fontSize: '10px'
-        }}> | Public</span>
+        }}> | {translate!('post.public')}</span>
       </div>
     )
 
@@ -483,7 +484,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
                      autoFocus
                       value={this.state.postText}
                       onChange={this.handleOnChange}
-                      placeholder='What is new with you?'
+                      placeholder={translate!('post.textareaPlaceholder')}
                       multiline
                       rows={2}
                       rowsMax={4}
@@ -514,7 +515,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
               onClick={this.props.onRequestClose}
               style={{ color: grey[800] }}
             >
-              Cancel
+            {translate!('post.cancelButton')}
       </Button>
             <Button
               color='primary'
@@ -523,7 +524,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
               onClick={this.handlePost}
               disabled={this.state.disabledPost}
             >
-              {this.props.edit ? 'UPDATE' : 'POST'}
+              {this.props.edit ? translate!('post.updateButton') : translate!('post.postButton')}
             </Button>
           </DialogActions>
         </Dialog>
@@ -543,7 +544,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
               onClick={this.handleCloseGallery}
               style={{ color: grey[800] }}
             >
-              Cancel
+              {translate!('post.cancelButton')}
         </Button>
           </DialogActions>
         </Dialog>
@@ -574,6 +575,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPostWriteComponentProps) =
  */
 const mapStateToProps = (state: any, ownProps: IPostWriteComponentProps) => {
   return {
+    translate: getTranslate(state.locale),
     postImageState: state.imageGallery.status,
     ownerAvatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
     ownerDisplayName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : ''

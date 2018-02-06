@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Paper from 'material-ui/Paper'
 import InfiniteScroll from 'react-infinite-scroller'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
 import UserBoxList from 'components/userBoxList'
@@ -48,7 +49,7 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
      * @return {react element} return the DOM which rendered by component
      */
   render () {
-    const {hasMorePeople} = this.props
+    const {hasMorePeople, translate} = this.props
 
     return (
             <div>
@@ -64,12 +65,12 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
 
                 {this.props.peopleInfo && Object.keys(this.props.peopleInfo).length !== 0 ? (<div>
                 <div className='profile__title'>
-                    Suggestions for you
+                    {translate!('people.suggestionsForYouLabel')}
                 </div>
                 <UserBoxList users={this.props.peopleInfo}/>
                 <div style={{ height: '24px' }}></div>
                 </div>) : (<div className='g__title-center'>
-                Nothing to show! :(
+                {translate!('people.nothingToShowLabel')}
                </div>)}
                 </div>
             </InfiniteScroll>
@@ -99,6 +100,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IFindPeopleComponentProps) 
 const mapStateToProps = (state: any, ownProps: IFindPeopleComponentProps) => {
   const {people, info} = state.user
   return {
+    translate: getTranslate(state.locale),
     peopleInfo: info,
     hasMorePeople: people.hasMoreData
   }

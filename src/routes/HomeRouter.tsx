@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
 import StreamComponent from 'components/stream'
@@ -18,7 +19,7 @@ import { IRouterProps } from './IRouterProps'
  */
 export class HomeRouter extends Component<IRouterProps, any> {
   render () {
-    const { enabled, match, data } = this.props
+    const { enabled, match, data, translate } = this.props
     const St = StreamComponent as any
     return (
           enabled ? (
@@ -33,7 +34,7 @@ export class HomeRouter extends Component<IRouterProps, any> {
             <PrivateRoute path='/' component={(
             <div className='blog'>
             <St
-            homeTitle='Home'
+            homeTitle={translate!('header.home')}
             posts={data.mergedPosts}
             loadStream={data.loadDataStream}
             hasMorePosts={data.hasMorePosts}
@@ -47,4 +48,22 @@ export class HomeRouter extends Component<IRouterProps, any> {
     )
   }
 }
-export default withRouter(connect(null, null)(HomeRouter as any) as any)
+
+// - Map dispatch to props
+const mapDispatchToProps = (dispatch: any, ownProps: IRouterProps) => {
+
+  return {}
+
+}
+
+/**
+ * Map state to props
+ */
+const mapStateToProps = (state: any, ownProps: IRouterProps) => {
+  return {
+    translate: getTranslate(state.locale),
+    currentLanguage: getActiveLanguage(state.locale).code,
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeRouter as any) as any) as typeof HomeRouter

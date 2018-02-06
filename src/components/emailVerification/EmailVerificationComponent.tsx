@@ -8,6 +8,7 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/Button'
 import Button from 'material-ui/Button'
 import config from 'src/config'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
@@ -52,7 +53,7 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
    * @return {react element} return the DOM which rendered by component
    */
   render () {
-
+    const {translate} = this.props
     const paperStyle = {
       minHeight: 370,
       width: 450,
@@ -88,14 +89,14 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
                   fontWeight: 400,
                   lineHeight: '32px',
                   margin: 0
-                }} className='zoomOutLCorner animated'>Email Verification</h2>
+                }} className='zoomOutLCorner animated'>{translate!('emailVerification.title')}</h2>
               </div>
               <p style={this.styles.message as any}>
-                  An verificiation email has been already sent to you. Please check your inbox. If you couldn't see the emai, please resend email verification.
+              {translate!('emailVerification.description')}
                 </p>
                 <div style={this.styles.buttons}>
-                  <Button raised style={this.styles.homeButton} color='primary' onClick={() => this.props.homePage()}> Home </Button>
-                  <Button raised color='primary' onClick={() => this.props.sendEmailVerification()}> Send Email Verification </Button>
+                  <Button raised style={this.styles.homeButton} color='primary' onClick={() => this.props.homePage()}> {translate!('emailVerification.homeButton')} </Button>
+                  <Button raised color='primary' onClick={() => this.props.sendEmailVerification()}> {translate!('emailVerification.sendButton')} </Button>
                 </div>
                 <div>
                 </div>
@@ -131,7 +132,7 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IEmailVerificationComp
  */
 const mapStateToProps = (state: any, ownProps: IEmailVerificationComponentProps) => {
   return {
-
+    translate: getTranslate(state.locale)
   }
 }
 

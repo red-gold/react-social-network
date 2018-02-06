@@ -2,6 +2,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
 import { grey } from 'material-ui/colors'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui-icons/MoreVert'
@@ -291,7 +293,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
      */
   render () {
 
-    const {classes} = this.props
+    const {classes, translate} = this.props
     const iconButtonElement = (
             <IconButton style={this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton}>
                 <MoreVertIcon style={{...(this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton),color: grey[400]}} viewBox='10 0 24 24' />
@@ -350,10 +352,10 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
 
                     {/* Edit user information box*/}
                     <Paper style={this.styles.paper} elevation={1}>
-                        <div style={this.styles.title as any}>Personal Information</div>
+                        <div style={this.styles.title as any}>{translate!('profile.personalInformationLabel')}</div>
                         <div style={this.styles.box}>
                           <FormControl aria-describedby='fullNameInputError'>
-                            <InputLabel htmlFor='fullNameInput'>Full name</InputLabel>
+                            <InputLabel htmlFor='fullNameInput'>{translate!('profile.fullName')}</InputLabel>
                             <Input id='fullNameInput'
                               onChange={this.handleInputChange}
                               name='fullNameInput'
@@ -364,7 +366,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
                         <br />
                         <div style={this.styles.box}>
                         <FormControl aria-describedby='tagLineInputError'>
-                            <InputLabel htmlFor='tagLineInput'>Tagline</InputLabel>
+                            <InputLabel htmlFor='tagLineInput'>{translate!('profile.tagline')}</InputLabel>
                             <Input id='tagLineInput'
                               onChange={this.handleInputChange}
                               name='tagLineInput'
@@ -374,8 +376,8 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
                         </div>
                         <br />
                         <div style={this.styles.actions as any}>
-                            <Button onClick={this.props.onRequestClose} > CANCEL </Button>
-                            <Button raised color='primary' onClick={this.handleUpdate} style={this.styles.updateButton}> UPDATE </Button>
+                            <Button onClick={this.props.onRequestClose} > {translate!('profile.cancelButton')} </Button>
+                            <Button raised color='primary' onClick={this.handleUpdate} style={this.styles.updateButton}> {translate!('profile.updateButton')} </Button>
                         </div>
                     </Paper>
                     <div style={{ height: '16px' }}></div>
@@ -389,7 +391,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
 
                 >
                 <DialogTitle className={classes.dialogTitle}>
-                <AppDialogTitle title='Choose an banner image' onRequestClose={this.handleCloseBannerGallery} />
+                <AppDialogTitle title={translate!('profile.chooseBanerDialogTitle')} onRequestClose={this.handleCloseBannerGallery} />
           </DialogTitle>
                     <ImageGallery set={this.handleRequestSetBanner} close={this.handleCloseBannerGallery} />
                 </Dialog>
@@ -400,7 +402,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
                     onClose={this.handleCloseAvatarGallery}
                 >
                 <DialogTitle className={classes.dialogTitle}>
-                <AppDialogTitle title='Choose an avatar image' onRequestClose={this.handleCloseAvatarGallery} />
+                <AppDialogTitle title={translate!('profile.chooseAvatarDialogTitle')} onRequestClose={this.handleCloseAvatarGallery} />
           </DialogTitle>
                     <ImageGallery set={this.handleRequestSetAvatar} close={this.handleCloseAvatarGallery} />
                 </Dialog>
@@ -432,6 +434,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IEditProfileComponentProps)
  */
 const mapStateToProps = (state: any, ownProps: IEditProfileComponentProps) => {
   return {
+    translate: getTranslate(state.locale),
     open: state.user.openEditProfile,
     info: state.user.info[state.authorize.uid],
     avatarURL: state.imageGallery.imageURLList

@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
 import UserBoxList from 'components/userBoxList'
@@ -44,18 +45,18 @@ export class FollowingComponent extends Component<IFollowingComponentProps,IFoll
    * @return {react element} return the DOM which rendered by component
    */
   render () {
-
+    const {translate} = this.props
     return (
           <div>
             {(this.props.followingUsers && Object.keys(this.props.followingUsers).length !== 0 ) ? (<div>
               <div className='profile__title'>
-                Following
+                {translate!('people.followingLabel')}
                         </div>
                         <UserBoxList users={this.props.followingUsers} />
               <div style={{ height: '24px' }}></div>
 
               </div>) : (<div className='g__title-center'>
-                 No following user!
+                 {translate!('people.noFollowingLabel')}
                </div>)}
           </div>
     )
@@ -86,6 +87,7 @@ const mapStateToProps = (state: any,ownProps: IFollowingComponentProps) => {
   const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
   const followingUsers = circle ? circle.userTies : {}
   return {
+    translate: getTranslate(state.locale),
     uid,
     circles,
     followingUsers

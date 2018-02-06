@@ -40,7 +40,7 @@ export const dbAddNotification = (newNotify: Notification) => {
       .then(() => {
         dispatch(addNotify())
       })
-      .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+      .catch((error: SocialError) => dispatch(globalActions.showMessage(error.message)))
 
   }
 }
@@ -78,7 +78,7 @@ export const dbDeleteNotification = (id: string) => {
     return notificationService.deleteNotification(id,uid).then(() => {
       dispatch(deleteNotify(id))
     })
-    .catch((error: SocialError) => dispatch(globalActions.showErrorMessage(error.message)))
+    .catch((error: SocialError) => dispatch(globalActions.showMessage(error.message)))
   }
 
 }
@@ -106,7 +106,7 @@ export const dbSeenNotification = (id: string) => {
     .then(() => {
       dispatch(seenNotify(id))
     })
-    .catch((error) => dispatch(globalActions.showErrorMessage(error.message)))
+    .catch((error) => dispatch(globalActions.showMessage(error.message)))
   }
 
 }

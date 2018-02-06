@@ -22,4 +22,9 @@ export interface IFindPeopleComponentProps {
    */
   hasMorePeople?: boolean
 
+  /**
+   * Translate to locale string
+   */
+  translate?: (state: any) => any
+
 }

@@ -88,4 +88,9 @@ export interface IStreamComponentProps {
    * Router match property
    */
   match?: any
+
+  /**
+   * Translate to locale string
+   */
+  translate?: (state: any) => any
 }

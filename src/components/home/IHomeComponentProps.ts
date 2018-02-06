@@ -108,4 +108,9 @@ export interface IHomeComponentProps {
    */
   hideSendFeedback?: () => any
 
+  /**
+   * Translate locale to string
+   */
+  translate?: (state: any) => any
+
 }
