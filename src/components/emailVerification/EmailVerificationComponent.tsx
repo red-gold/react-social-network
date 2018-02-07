@@ -26,7 +26,7 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
 
   styles = {
     message: {
-      fontWeight: 100
+      fontWeight: 400
     },
     buttons: {
       marginTop: 60

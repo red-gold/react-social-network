@@ -43,7 +43,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
     },
     restPassword: {
       lineHeight: 6,
-      fontWeight: 100,
+      fontWeight: 400,
       fontSize: 'small'
     },
     restPasswordLink: {

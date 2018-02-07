@@ -38,7 +38,7 @@ export class ImgComponent extends Component<IImgComponentProps,IImgComponentStat
       height: '100px',
       position: 'relative',
       color: '#cacecd',
-      fontWeight: 100
+      fontWeight: 400
     },
     loadingContent: {
       display: 'flex',

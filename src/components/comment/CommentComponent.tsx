@@ -43,7 +43,7 @@ import { ICommentComponentState } from './ICommentComponentState'
 
 const styles = (theme: any) => ({
   textField: {
-    fontWeight: 100,
+    fontWeight: 400,
     fontSize: '14px'
   },
   header: {
@@ -66,7 +66,7 @@ const styles = (theme: any) => ({
   },
   commentBody: {
     color: 'black',
-    fontWeight: 100,
+    fontWeight: 400,
     fontSize: '12px',
     height: '100%',
     border: 'none',
@@ -126,7 +126,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
 
     },
     textarea: {
-      fontWeight: 100,
+      fontWeight: 400,
       fontSize: '14px',
       border: 'none',
       width: '100%',
@@ -334,7 +334,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
     const Author = () => (
       <div>
         <NavLink to={`/${userId}`}> <span style={this.styles.author as any}>{comment.userDisplayName}</span></NavLink><span style={{
-          fontWeight: 100,
+          fontWeight: 400,
           fontSize: '8px'
         }}>{moment.unix(comment.creationDate!).fromNow()}</span>
       </div>

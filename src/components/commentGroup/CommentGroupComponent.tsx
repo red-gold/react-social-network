@@ -38,7 +38,7 @@ import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
 
 const styles = (theme: any) => ({
   textField: {
-    fontWeight: 100,
+    fontWeight: 400,
     fontSize: '14px'
   },
   header: {
@@ -46,7 +46,7 @@ const styles = (theme: any) => ({
   },
   commentBody: {
     color: 'black',
-    fontWeight: 100,
+    fontWeight: 400,
     fontSize: '12px',
     height: '100%',
     border: 'none',
@@ -116,7 +116,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
     },
     writeCommentTextField: {
       width: '100%',
-      fontWeight: 100,
+      fontWeight: 400,
       fontSize: '14px'
     },
     progressbar: {
@@ -245,7 +245,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
         const Author = () => (
           <div>
             <NavLink to={`/${comment.userId!}`}> <span className={classes.author}>{comment.userDisplayName}</span></NavLink><span style={{
-              fontWeight: 100,
+              fontWeight: 400,
               fontSize: '8px'
             }}>{moment.unix(comment.creationDate!).fromNow()}</span>
           </div>

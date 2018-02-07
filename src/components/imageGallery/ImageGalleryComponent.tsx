@@ -52,7 +52,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
     },
     uploadButton: {
       verticalAlign: 'middle',
-      fontWeight: 100
+      fontWeight: 400
     },
     uploadInput: {
       cursor: 'pointer',

@@ -412,7 +412,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
           overflow: 'hidden',
           lineHeight: '25px'
         }}>{this.props.ownerDisplayName}</span><span style={{
-          fontWeight: 100,
+          fontWeight: 400,
           fontSize: '10px'
         }}> | {translate!('post.public')}</span>
       </div>
@@ -488,7 +488,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
                       multiline
                       rows={2}
                       rowsMax={4}
-                      style={{ fontWeight: 200, fontSize: '14px', margin: '0 16px', flexShrink: 0, width: 'initial', flexGrow: 1 }}
+                      style={{ fontWeight: 400, fontSize: '14px', margin: '0 16px', flexShrink: 0, width: 'initial', flexGrow: 1 }}
 
                     />
 

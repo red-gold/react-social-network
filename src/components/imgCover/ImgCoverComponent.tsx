@@ -62,7 +62,7 @@ export class ImgCoverComponent extends Component<IImgCoverComponentProps,IImgCov
       height: '100px',
       position: 'relative',
       color: '#cacecd',
-      fontWeight: 100
+      fontWeight: 400
     },
     loadingContent: {
       display: 'flex',

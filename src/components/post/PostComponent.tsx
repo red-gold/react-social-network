@@ -64,13 +64,13 @@ const styles = (theme: any) => ({
   voteCounter: {
     color: 'rgb(134, 129, 129)',
     fontSize: 10,
-    fontWeight: 100,
+    fontWeight: 400,
     padding: 2
   },
   commentCounter: {
     color: 'rgb(134, 129, 129)',
     fontSize: 10,
-    fontWeight: 100,
+    fontWeight: 400,
     padding: 4
   },
   popperOpen: {
@@ -90,7 +90,7 @@ const styles = (theme: any) => ({
     textAlign: 'center',
     marginTop: '10px',
     color: '#1e882d',
-    fontWeight: 100
+    fontWeight: 400
   },
   postBody: {
     wordWrap: 'break-word',

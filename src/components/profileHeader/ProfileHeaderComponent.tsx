@@ -2,6 +2,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import config from 'src/config'
+
+// - Material UI
 import { grey } from 'material-ui/colors'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui-icons/MoreVert'
@@ -172,7 +175,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
                 <Parallax strength={500} className='profile__parallax' bgStyle={{ position: 'relative' }}>
                     <Background>
                         <ImgCover width='100%' height='510px' borderRadius='2px'
-                        fileName={this.props.banner || 'https://firebasestorage.googleapis.com/v0/b/open-social-33d92.appspot.com/o/images%2F751145a1-9488-46fd-a97e-04018665a6d3.JPG?alt=media&token=1a1d5e21-5101-450e-9054-ea4a20e06c57'} />
+                        fileName={this.props.banner || config.settings.defaultProfileCover} />
                     </Background>
 
                 </Parallax>

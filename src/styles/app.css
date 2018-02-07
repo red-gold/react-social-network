@@ -719,7 +719,7 @@ g__input-underline::after {
   .homeHeader__notify div.title {
     color: white;
     font-size: 10px;
-    font-weight: 100;
+    font-weight: 400;
     white-space: nowrap;
     -webkit-flex-shrink: 1;
     flex-shrink: 1;
@@ -787,7 +787,7 @@ g__input-underline::after {
           .homeHeader__notify-menu div.container div.content div.item div.info div.description {
             color: rgba(0, 0, 0, 0.54);
             font-size: 14px;
-            font-weight: 200;
+            font-weight: 400;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis; }
