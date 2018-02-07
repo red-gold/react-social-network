@@ -31,9 +31,6 @@ import UserAvatar from 'components/userAvatar'
 
 // - Import API
 
-// - Import action types
-import * as types from 'constants/actionTypes'
-
 // - Import actions
 import * as commentActions from 'actions/commentActions'
 import * as userActions from 'actions/userActions'

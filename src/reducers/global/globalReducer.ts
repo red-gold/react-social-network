@@ -104,6 +104,11 @@ export const globalReducer = (state: GlobalState = new GlobalState(), action: IG
           ]
         }
       }
+      case GlobalActionType.CLEAR_ALL_GLOBAL:
+      return {
+        ...state,
+        sendFeedbackStatus: false,
+      }
 
     default:
       return state

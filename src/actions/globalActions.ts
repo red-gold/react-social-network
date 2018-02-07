@@ -244,7 +244,7 @@ export const temp = (data: any) => {
  */
 export const clearTemp = () => {
   return {
-    type: GlobalActionType.CLEAR_TEMP
+    type: GlobalActionType.CLEAR_ALL_GLOBAL
   }
 
 }
