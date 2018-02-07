@@ -95,7 +95,7 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
               {translate!('emailVerification.description')}
                 </p>
                 <div style={this.styles.buttons}>
-                  <Button raised style={this.styles.homeButton} color='primary' onClick={() => this.props.homePage()}> {translate!('emailVerification.homeButton')} </Button>
+                  {/* <Button raised style={this.styles.homeButton} color='primary' onClick={() => this.props.homePage()}> {translate!('emailVerification.homeButton')} </Button> */}
                   <Button raised color='primary' onClick={() => this.props.sendEmailVerification()}> {translate!('emailVerification.sendButton')} </Button>
                 </div>
                 <div>
