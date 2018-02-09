@@ -320,7 +320,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
       <CommentListComponent comments={comments!} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments} />
     </Paper>)
     : '')
-    const loadComments = (( getCommentsRequest === undefined || (getCommentsRequest && getCommentsRequest!.status !== ServerRequestStatusType.OK)) ? <LinearProgress style={this.styles.progressbar} mode='indeterminate' /> : showComments)
+    const loadComments = (( getCommentsRequest === undefined || (getCommentsRequest && getCommentsRequest!.status !== ServerRequestStatusType.OK)) ? <LinearProgress style={this.styles.progressbar} variant='indeterminate' /> : showComments)
     /**
      * Return Elements
      */

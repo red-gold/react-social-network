@@ -468,7 +468,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
               </MenuList>)
             : <div>
               <TextField autoFocus fullWidth={true} id='text-field-default' defaultValue={`${location.origin}/${post.ownerUserId}/posts/${post.id}`} />
-              <Typography className={classNames('animate-top', classes.clipboard)} type='headline' component='h2'>
+              <Typography className={classNames('animate-top', classes.clipboard)} variant='headline' component='h2'>
               Link has been copied to clipboard ...
           </Typography>
               </div>}

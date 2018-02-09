@@ -53,21 +53,21 @@ const styles = (theme: any) => ({
 /**
  * Create component class
  */
-export class EditProfileComponent extends Component<IEditProfileComponentProps,IEditProfileComponentState> {
+export class EditProfileComponent extends Component<IEditProfileComponentProps, IEditProfileComponentState> {
 
   static propTypes = {
 
-        /**
-         * User avatar address
-         */
+    /**
+     * User avatar address
+     */
     avatar: PropTypes.string,
-        /**
-         * User avatar address
-         */
+    /**
+     * User avatar address
+     */
     banner: PropTypes.string,
-        /**
-         * User full name
-         */
+    /**
+     * User full name
+     */
     fullName: PropTypes.string.isRequired
 
   }
@@ -117,118 +117,118 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
 
   }
 
-    /**
-     * Component constructor
-     * @param  {object} props is an object properties of component
-     */
-  constructor (props: IEditProfileComponentProps) {
+  /**
+   * Component constructor
+   * @param  {object} props is an object properties of component
+   */
+  constructor(props: IEditProfileComponentProps) {
     super(props)
-        // Defaul state
+    // Defaul state
     this.state = {
-            /**
-             * If it's true the winow is in small size
-             */
+      /**
+       * If it's true the winow is in small size
+       */
       isSmall: false,
-            /**
-             * User tag line input value
-             */
+      /**
+       * User tag line input value
+       */
       tagLineInput: props.info!.tagLine || '',
-            /**
-             * User full name input value
-             */
+      /**
+       * User full name input value
+       */
       fullNameInput: props.info!.fullName || '',
-            /**
-             * Error message of full name input
-             */
+      /**
+       * Error message of full name input
+       */
       fullNameInputError: '',
-            /**
-             * User banner address
-             */
+      /**
+       * User banner address
+       */
       banner: props.banner || 'https://firebasestorage.googleapis.com/v0/b/open-social-33d92.appspot.com/o/images%2F751145a1-9488-46fd-a97e-04018665a6d3.JPG?alt=media&token=1a1d5e21-5101-450e-9054-ea4a20e06c57',
-            /**
-             * User avatar address
-             */
+      /**
+       * User avatar address
+       */
       avatar: props.avatar || '',
-            /**
-             * It's true if the image galley for banner is open
-             */
+      /**
+       * It's true if the image galley for banner is open
+       */
       openBanner: false,
-            /**
-             * It's true if the image gallery for avatar is open
-             */
+      /**
+       * It's true if the image gallery for avatar is open
+       */
       openAvatar: false
 
     }
 
-        // Binding functions to `this`
+    // Binding functions to `this`
     this.handleUpdate = this.handleUpdate.bind(this)
     this.handleRequestSetAvatar = this.handleRequestSetAvatar.bind(this)
     this.handleRequestSetBanner = this.handleRequestSetBanner.bind(this)
 
   }
 
-   /**
-    * Close image gallery of banner
-    */
+  /**
+   * Close image gallery of banner
+   */
   handleCloseBannerGallery = () => {
     this.setState({
       openBanner: false
     })
   }
 
-   /**
-    * Open image gallery of banner
-    */
+  /**
+   * Open image gallery of banner
+   */
   handleOpenBannerGallery = () => {
     this.setState({
       openBanner: true
     })
   }
 
-    /**
-     * Close image gallery of avatar
-     */
+  /**
+   * Close image gallery of avatar
+   */
   handleCloseAvatarGallery = () => {
     this.setState({
       openAvatar: false
     })
   }
 
-    /**
-     * Open image gallery of avatar
-     */
+  /**
+   * Open image gallery of avatar
+   */
   handleOpenAvatarGallery = () => {
     this.setState({
       openAvatar: true
     })
   }
 
-   /**
-    * Set banner image url
-    */
+  /**
+   * Set banner image url
+   */
   handleRequestSetBanner = (url: string) => {
     this.setState({
       banner: url
     })
   }
 
-   /**
-    * Set avatar image url
-    */
+  /**
+   * Set avatar image url
+   */
   handleRequestSetAvatar = (fileName: string) => {
     this.setState({
       avatar: fileName
     })
   }
 
-    /**
-     * Update profile on the server
-     *
-     *
-     * @memberof EditProfile
-     */
+  /**
+   * Update profile on the server
+   *
+   *
+   * @memberof EditProfile
+   */
   handleUpdate = () => {
-    const {fullNameInput, tagLineInput, avatar, banner} = this.state
+    const { fullNameInput, tagLineInput, avatar, banner } = this.state
 
     if (this.state.fullNameInput.trim() === '') {
       this.setState({
@@ -249,10 +249,10 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
     }
   }
 
-    /**
-     * Handle data on input change
-     * @param  {event} evt is an event of inputs of element on change
-     */
+  /**
+   * Handle data on input change
+   * @param  {event} evt is an event of inputs of element on change
+   */
   handleInputChange = (event: any) => {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
@@ -268,7 +268,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
    */
   handleResize = (event: any) => {
 
-        // Set initial state
+    // Set initial state
     let width = window.innerWidth
 
     if (width > 900) {
@@ -283,131 +283,133 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps,I
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.handleResize(null)
   }
 
-    /**
-     * Reneder component DOM
-     * @return {react element} return the DOM which rendered by component
-     */
-  render () {
+  /**
+   * Reneder component DOM
+   * @return {react element} return the DOM which rendered by component
+   */
+  render() {
 
-    const {classes, translate} = this.props
+    const { classes, translate } = this.props
     const iconButtonElement = (
-            <IconButton style={this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton}>
-                <MoreVertIcon style={{...(this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton),color: grey[400]}} viewBox='10 0 24 24' />
-            </IconButton>
-        )
+      <IconButton style={this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton}>
+        <MoreVertIcon style={{ ...(this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton), color: grey[400] }} viewBox='10 0 24 24' />
+      </IconButton>
+    )
 
     const RightIconMenu = () => (
       <div>
-      {iconButtonElement}
-                <MenuItem style={{ fontSize: '14px' }}>Reply</MenuItem>
-                <MenuItem style={{ fontSize: '14px' }}>Edit</MenuItem>
-                <MenuItem style={{ fontSize: '14px' }}>Delete</MenuItem>
-            </div>
-        )
+        {iconButtonElement}
+        <MenuItem style={{ fontSize: '14px' }}>Reply</MenuItem>
+        <MenuItem style={{ fontSize: '14px' }}>Edit</MenuItem>
+        <MenuItem style={{ fontSize: '14px' }}>Delete</MenuItem>
+      </div>
+    )
 
     return (
 
-            <div>
-                {/* Edit profile dialog */}
-                <Dialog
-                    key='Edit-Profile'
-                    open={this.props.open!}
-                    onClose={this.props.onRequestClose}
-                >
-                <DialogContent>
-                    {/* Banner */}
-                    <div style={{ position: 'relative' }}>
-                        <ImgCover width='100%' height='250px' borderRadius='2px' fileName={this.state.banner} />
-                        <div className='g__circle-black' onClick={this.handleOpenBannerGallery} style={{ position: 'absolute', right: '10px', top: '10px' }}>
-                            <SvgCamera style={{ fill: 'rgba(255, 255, 255, 0.88)', transform: 'translate(6px, 6px)' }} />
-                        </div>
-                    </div>
-                    <div className='profile__edit'>
-                        <EventListener
-                            target='window'
-                            onResize={this.handleResize}
-                        />
-                        <div className='left'>
-                            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                {/* Avatar */}
-                                <div className='g__circle-black' onClick={this.handleOpenAvatarGallery} style={{zIndex: 1, position: 'absolute', left: '50%', display: 'inline-block', top: '52px', margin: '-18px' }}>
-                                    <SvgCamera style={{ fill: 'rgba(255, 255, 255, 0.88)', transform: 'translate(6px, 6px)' }} />
+      <div>
+        {/* Edit profile dialog */}
+        <Dialog
+          key='Edit-Profile'
+          open={this.props.open!}
+          onClose={this.props.onRequestClose}
+          maxWidth='sm'
+        >
+          <DialogContent>
+            {/* Banner */}
+            <div style={{ position: 'relative' }}>
+              <ImgCover width='100%' height='250px' borderRadius='2px' fileName={this.state.banner} />
+              <div className='g__circle-black' onClick={this.handleOpenBannerGallery} style={{ position: 'absolute', right: '10px', top: '10px' }}>
+                <SvgCamera style={{ fill: 'rgba(255, 255, 255, 0.88)', transform: 'translate(6px, 6px)' }} />
+              </div>
+            </div>
+            <div className='profile__edit'>
+              <EventListener
+                target='window'
+                onResize={this.handleResize}
+              />
+              <div className='left'>
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  {/* Avatar */}
+                  <div className='g__circle-black' onClick={this.handleOpenAvatarGallery} style={{ zIndex: 1, position: 'absolute', left: '50%', display: 'inline-block', top: '52px', margin: '-18px' }}>
+                    <SvgCamera style={{ fill: 'rgba(255, 255, 255, 0.88)', transform: 'translate(6px, 6px)' }} />
 
-                                </div>
-                                <UserAvatarComponent fullName={(this.props.info ? this.props.info.fullName : '')} fileName={this.state.avatar} size={90} style={this.styles.avatar} />
-                            </div>
-                            <div className='info'>
-                                <div className='fullName'>
-                                    {this.props.fullName}
-                                </div>
+                  </div>
+                  <UserAvatarComponent fullName={(this.props.info ? this.props.info.fullName : '')} fileName={this.state.avatar} size={90} style={this.styles.avatar} />
+                </div>
+                <div className='info'>
+                  <div className='fullName'>
+                    {this.props.fullName}
+                  </div>
 
-                            </div>
-                        </div>
-
-                    </div>
-
-                    {/* Edit user information box*/}
-                    <Paper style={this.styles.paper} elevation={1}>
-                        <div style={this.styles.title as any}>{translate!('profile.personalInformationLabel')}</div>
-                        <div style={this.styles.box}>
-                          <FormControl aria-describedby='fullNameInputError'>
-                            <InputLabel htmlFor='fullNameInput'>{translate!('profile.fullName')}</InputLabel>
-                            <Input id='fullNameInput'
-                              onChange={this.handleInputChange}
-                              name='fullNameInput'
-                              value={this.state.fullNameInput} />
-                            <FormHelperText id='fullNameInputError'>{this.state.fullNameInputError}</FormHelperText>
-                          </FormControl>
-                        </div>
-                        <br />
-                        <div style={this.styles.box}>
-                        <FormControl aria-describedby='tagLineInputError'>
-                            <InputLabel htmlFor='tagLineInput'>{translate!('profile.tagline')}</InputLabel>
-                            <Input id='tagLineInput'
-                              onChange={this.handleInputChange}
-                              name='tagLineInput'
-                              value={this.state.tagLineInput} />
-                            <FormHelperText id='tagLineInputError'>{this.state.fullNameInputError}</FormHelperText>
-                          </FormControl>
-                        </div>
-                        <br />
-                        <div style={this.styles.actions as any}>
-                            <Button onClick={this.props.onRequestClose} > {translate!('profile.cancelButton')} </Button>
-                            <Button raised color='primary' onClick={this.handleUpdate} style={this.styles.updateButton}> {translate!('profile.updateButton')} </Button>
-                        </div>
-                    </Paper>
-                    <div style={{ height: '16px' }}></div>
-                    </DialogContent>
-                </Dialog>
-
-                {/* Image gallery for banner*/}
-                <Dialog
-                    open={this.state.openBanner}
-                    onClose={this.handleCloseBannerGallery}
-
-                >
-                <DialogTitle className={classes.dialogTitle}>
-                <AppDialogTitle title={translate!('profile.chooseBanerDialogTitle')} onRequestClose={this.handleCloseBannerGallery} />
-          </DialogTitle>
-                    <ImageGallery set={this.handleRequestSetBanner} close={this.handleCloseBannerGallery} />
-                </Dialog>
-
-                {/* Image gallery for avatar */}
-                <Dialog
-                    open={this.state.openAvatar}
-                    onClose={this.handleCloseAvatarGallery}
-                >
-                <DialogTitle className={classes.dialogTitle}>
-                <AppDialogTitle title={translate!('profile.chooseAvatarDialogTitle')} onRequestClose={this.handleCloseAvatarGallery} />
-          </DialogTitle>
-                    <ImageGallery set={this.handleRequestSetAvatar} close={this.handleCloseAvatarGallery} />
-                </Dialog>
+                </div>
+              </div>
 
             </div>
+
+            {/* Edit user information box*/}
+            <Paper style={this.styles.paper} elevation={1}>
+              <div style={this.styles.title as any}>{translate!('profile.personalInformationLabel')}</div>
+              <div style={this.styles.box}>
+                <FormControl aria-describedby='fullNameInputError'>
+                  <InputLabel htmlFor='fullNameInput'>{translate!('profile.fullName')}</InputLabel>
+                  <Input id='fullNameInput'
+                    onChange={this.handleInputChange}
+                    name='fullNameInput'
+                    value={this.state.fullNameInput} />
+                  <FormHelperText id='fullNameInputError'>{this.state.fullNameInputError}</FormHelperText>
+                </FormControl>
+              </div>
+              <br />
+              <div style={this.styles.box}>
+                <FormControl aria-describedby='tagLineInputError'>
+                  <InputLabel htmlFor='tagLineInput'>{translate!('profile.tagline')}</InputLabel>
+                  <Input id='tagLineInput'
+                    onChange={this.handleInputChange}
+                    name='tagLineInput'
+                    value={this.state.tagLineInput} />
+                  <FormHelperText id='tagLineInputError'>{this.state.fullNameInputError}</FormHelperText>
+                </FormControl>
+              </div>
+              <br />
+
+            </Paper>
+            <div style={{ height: '16px' }}></div>
+          </DialogContent>
+            <DialogActions>
+                <Button onClick={this.props.onRequestClose} > {translate!('profile.cancelButton')} </Button>
+                <Button variant='raised' color='primary' onClick={this.handleUpdate} style={this.styles.updateButton}> {translate!('profile.updateButton')} </Button>
+              </DialogActions>
+        </Dialog>
+
+        {/* Image gallery for banner*/}
+        <Dialog
+          open={this.state.openBanner}
+          onClose={this.handleCloseBannerGallery}
+
+        >
+          <DialogTitle className={classes.dialogTitle}>
+            <AppDialogTitle title={translate!('profile.chooseBanerDialogTitle')} onRequestClose={this.handleCloseBannerGallery} />
+          </DialogTitle>
+          <ImageGallery set={this.handleRequestSetBanner} close={this.handleCloseBannerGallery} />
+        </Dialog>
+
+        {/* Image gallery for avatar */}
+        <Dialog
+          open={this.state.openAvatar}
+          onClose={this.handleCloseAvatarGallery}
+        >
+          <DialogTitle className={classes.dialogTitle}>
+            <AppDialogTitle title={translate!('profile.chooseAvatarDialogTitle')} onRequestClose={this.handleCloseAvatarGallery} />
+          </DialogTitle>
+          <ImageGallery set={this.handleRequestSetAvatar} close={this.handleCloseAvatarGallery} />
+        </Dialog>
+
+      </div>
     )
   }
 }

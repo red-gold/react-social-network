@@ -201,7 +201,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
                     </div>
                     <div className='right'>
                         {isAuthedUser ? (<div style={this.state.isSmall ? styles.editButtonSmall : styles.editButton}>
-                        <Button raised onClick={this.props.openEditor}>
+                        <Button variant='raised' onClick={this.props.openEditor}>
                         {translate!('profile.editProfileButton')}
                         </Button>
                         </div>) : ''}

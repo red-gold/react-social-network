@@ -133,7 +133,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
       <CircularProgress
         color='secondary'
         size={50}
-        mode='determinate'
+        variant='determinate'
         value={25}
         min={0}
         max={50}

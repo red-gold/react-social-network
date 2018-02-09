@@ -26,7 +26,7 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
          <CircularProgress
         color='secondary'
         size={50}
-        mode='determinate'
+        variant='determinate'
         value={25}
         min={0}
         max={50}

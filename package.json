@@ -31,7 +31,7 @@
     "inversify": "^4.6.0",
     "keycode": "^2.1.9",
     "lodash": "^4.17.4",
-    "material-ui": "^1.0.0-beta.31",
+    "material-ui": "^1.0.0-beta.32",
     "material-ui-icons": "^1.0.0-beta.17",
     "moment": "^2.18.1",
     "morgan": "^1.8.1",
@@ -64,15 +64,15 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "@types/react-infinite-scroller": "^1.0.4",
     "@types/classnames": "^2.2.3",
-    "@types/lodash": "^4.14.77",
     "@types/jest": "^22.1.1",
+    "@types/lodash": "^4.14.77",
     "@types/node": "^9.4.0",
     "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.36",
     "@types/react-dom": "^16.0.3",
     "@types/react-event-listener": "^0.4.4",
+    "@types/react-infinite-scroller": "^1.0.4",
     "@types/react-redux": "^5.0.10",
     "@types/react-router-dom": "^4.0.8",
     "@types/react-router-redux": "^5.0.8",
@@ -81,10 +81,10 @@
     "@types/uuid": "^3.4.3",
     "redux-logger": "^3.0.1",
     "redux-mock-store": "^1.2.3",
-    "typescript": "^2.7.1",
     "ts-node": "^3.3.0",
     "tslint": "^5.7.0",
-    "tslint-config-standard": "^6.0.1"
+    "tslint-config-standard": "^6.0.1",
+    "typescript": "^2.7.1"
   },
   "engines": {
     "node": "8.9.4",

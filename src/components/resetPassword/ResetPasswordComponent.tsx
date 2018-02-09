@@ -148,10 +148,10 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
                   <Button onClick={this.props.loginPage}>{translate!('resetPassword.backButton')}</Button>
                 </div>
                 <div>
-                  <Button raised color='primary' onClick={this.handleForm}>{translate!('resetPassword.resetPasswordButton')} </Button>
+                  <Button variant='raised' color='primary' onClick={this.handleForm}>{translate!('resetPassword.resetPasswordButton')} </Button>
                 </div>
               </div>
-              <Typography className={classes.caption} type='caption' component='p'>
+              <Typography className={classes.caption} variant='caption' component='p'>
               {translate!('resetPassword.description')}
           </Typography>
             </div>

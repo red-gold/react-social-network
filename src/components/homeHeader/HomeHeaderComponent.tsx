@@ -201,7 +201,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
             <SvgDehaze color='primary' style={{ cursor: 'pointer' }} />
           </IconButton>
           {/* Header title */}
-          <Typography type='title' color='primary' style={{ marginLeft: '15px' }} >
+          <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
             {config.settings.appName}
           </Typography>
           <div className='homeHeader__title-root'>

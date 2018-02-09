@@ -187,7 +187,7 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
                   <Button onClick={this.props.homePage} > {translate!('changePassword.homeButton')} </Button>
                 </div>
                 <div>
-                  <Button raised color='primary' onClick={this.handleForm}> {translate!('changePassword.changePasswordButton')} </Button>
+                  <Button variant='raised' color='primary' onClick={this.handleForm}> {translate!('changePassword.changePasswordButton')} </Button>
 
                 </div>
               </div>

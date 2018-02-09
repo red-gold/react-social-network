@@ -28,7 +28,8 @@ const styles = (theme: any) => ({
     maxWidth: 360,
     backgroundColor: '#efefef',
     minHeight: 376,
-    display: 'flex'
+    maxHeight: '380px',
+    display: 'flex',
   },
   noNotify: {
     color: '#888888',
@@ -44,6 +45,12 @@ const styles = (theme: any) => ({
     zIndex: 1,
     maxWidth: 500,
     overflowY: 'auto'
+  },
+  popper: {
+    maxHeight: '380px'
+  },
+  overflowHidden: {
+    overflow: 'hidden'
   }
 })
 
@@ -131,7 +138,7 @@ export class NotifyComponent extends Component<INotifyComponentProps, INotifyCom
 
         <ClickAwayListener onClickAway={onRequestClose}>
           <Grow in={open} style={{ transformOrigin: '0 0 0' }}>
-          <Paper className={classes.root} elevation={4} >
+          <Paper className={classNames(classes.root, { [classes.overflowHidden]: !open })} elevation={4} >
 
                 {items.length > 0 ? <List>{items}</List> : noNotify}
 

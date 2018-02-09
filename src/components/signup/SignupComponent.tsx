@@ -251,7 +251,7 @@ export class SignupComponent extends Component<ISignupComponentProps,ISignupComp
       <Button onClick={this.props.loginPage}>{translate!('signup.loginButton')}</Button>
     </div>
     <div>
-      <Button raised color='primary' onClick={this.handleForm}>{translate!('signup.createButton')}</Button>
+      <Button variant='raised' color='primary' onClick={this.handleForm}>{translate!('signup.createButton')}</Button>
 
     </div>
   </div>

@@ -132,7 +132,7 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
       <div id='master'>
        {sendFeedbackStatus ? <SendFeedback /> : ''}
         <div className='master__progress' style={{ display: (progress.visible ? 'block' : 'none') }}>
-          <LinearProgress mode='determinate' value={progress.percent} />
+          <LinearProgress variant='determinate' value={progress.percent} />
         </div>
         <div className='master__loading animate-fading2' style={{ display: (global.showTopLoading ? 'flex' : 'none') }}>
           <div className='title'>Loading ... </div>

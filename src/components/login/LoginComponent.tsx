@@ -217,7 +217,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
                   <Button onClick={this.props.signupPage} tabIndex={4}>{translate!('login.createAccountButton')}</Button>
                 </div>
                 <div >
-                  <Button raised color='primary' onClick={this.handleForm} tabIndex={3} >{translate!('login.loginButton')}</Button>
+                  <Button variant='raised' color='primary' onClick={this.handleForm} tabIndex={3} >{translate!('login.loginButton')}</Button>
                 </div>
               </div>
                 <span style={this.styles.restPassword as any}>{translate!('login.forgetPasswordMessage')} <NavLink to='/resetPassword' style={this.styles.restPasswordLink}>{translate!('login.resetPasswordLabel')}</NavLink></span>
