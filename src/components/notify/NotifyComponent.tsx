@@ -28,7 +28,6 @@ const styles = (theme: any) => ({
     maxWidth: 360,
     backgroundColor: '#efefef',
     minHeight: 376,
-    maxHeight: '380px',
     display: 'flex',
   },
   noNotify: {
@@ -47,10 +46,14 @@ const styles = (theme: any) => ({
     overflowY: 'auto'
   },
   popper: {
-    maxHeight: '380px'
   },
   overflowHidden: {
     overflow: 'hidden'
+  },
+  list: {
+    maxHeight: 380,
+    overflowY: 'auto'
+
   }
 })
 
@@ -140,7 +143,7 @@ export class NotifyComponent extends Component<INotifyComponentProps, INotifyCom
           <Grow in={open} style={{ transformOrigin: '0 0 0' }}>
           <Paper className={classNames(classes.root, { [classes.overflowHidden]: !open })} elevation={4} >
 
-                {items.length > 0 ? <List>{items}</List> : noNotify}
+                {items.length > 0 ? <List className={classes.list} >{items}</List> : noNotify}
 
               </Paper>
           </Grow>
