@@ -203,6 +203,9 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
   - Amir Movahedi
   - See also the list of [contributors](https://github.com/Qolzam/react-social-network/contributors) who participated in this project.
 
+## How To Support
+- Contribution
+- Fork || Star
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/Qolzam/react-social-network/blob/next/LICENSE) file for details
