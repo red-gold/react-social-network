@@ -204,7 +204,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
   - See also the list of [contributors](https://github.com/Qolzam/react-social-network/contributors) who participated in this project.
 
 ## How To Support
-- Contribution
+- [Contribution](https://github.com/Qolzam/react-social-network/blob/next/CONTRIBUTING.md)
 - Fork || Star
 ## License
 
