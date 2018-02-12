@@ -140,7 +140,7 @@ export class NotifyComponent extends Component<INotifyComponentProps, INotifyCom
       >
 
         <ClickAwayListener onClickAway={onRequestClose}>
-          <Grow in={open} style={{ transformOrigin: '0 0 0' }}>
+          <Grow in={open} >
           <Paper className={classNames(classes.root, { [classes.overflowHidden]: !open })} elevation={4} >
 
                 {items.length > 0 ? <List className={classes.list} >{items}</List> : noNotify}

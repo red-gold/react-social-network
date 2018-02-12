@@ -358,7 +358,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
           className={classNames({ [classes.popperClose]: !isPostMenuOpen! }, { [classes.popperOpen]: isPostMenuOpen! })}
         >
           <ClickAwayListener onClickAway={this.closePostMenu}>
-            <Grow in={isPostMenuOpen!} style={{ transformOrigin: '0 0 0' }}>
+            <Grow in={isPostMenuOpen!} >
               <Paper>
                 <MenuList role='menu'>
                   <MenuItem onClick={this.handleOpenPostWrite} > {translate!('post.edit')} </MenuItem>
@@ -506,7 +506,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPostComponentProps) => {
     },
     toggleSharingComments: (status: boolean) => {
       post.disableSharing = status
-      dispatch(postActions.dbUpdatePost({ id: post.id!, disableSharing: status }, (x: any) => x))
+      dispatch(postActions.dbUpdatePost(post, (x: any) => x))
     },
     goTo: (url: string) => dispatch(push(url)),
     setHomeTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title || '')),

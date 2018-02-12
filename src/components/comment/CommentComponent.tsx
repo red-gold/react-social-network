@@ -314,7 +314,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
           className={classNames({ [classes.popperClose]: !openMenu! }, { [classes.popperOpen]: openMenu! })}
         >
           <ClickAwayListener onClickAway={this.handleCloseCommentMenu}>
-            <Grow in={openMenu!} style={{ transformOrigin: '0 0 0' }}>
+            <Grow in={openMenu!} >
               <Paper>
                 <MenuList role='menu'>
                   <MenuItem className={classes.rightIconMenuItem}>{translate!('comment.replyButton')}</MenuItem>

@@ -252,7 +252,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           className={classNames({ [classes.popperClose]: !isMenuOpen }, { [classes.popperOpen]: isMenuOpen })}
         >
           <ClickAwayListener onClickAway={this.handleCloseMenu}>
-            <Grow in={isMenuOpen} style={{ transformOrigin: '0 0 0' }}>
+            <Grow in={isMenuOpen} >
               <Paper>
                 <MenuList role='menu'>
                   <MenuItem onClick={this.handleDeleteCircle} > Delete circle </MenuItem>

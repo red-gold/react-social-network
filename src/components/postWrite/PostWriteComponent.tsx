@@ -387,7 +387,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
           className={classNames({ [classes.popperClose]: !menuOpen }, { [classes.popperOpen]: menuOpen })}
         >
           <ClickAwayListener onClickAway={this.handleCloseMenu}>
-            <Grow in={menuOpen} style={{ transformOrigin: '0 0 0' }}>
+            <Grow in={menuOpen} >
               <Paper>
                 <MenuList role='menu'>
                   <MenuItem onClick={this.handleToggleComments} style={{ fontSize: '14px' }}>{!this.state.disableComments ? 'Disable comments' : 'Enable comments'} </MenuItem>
