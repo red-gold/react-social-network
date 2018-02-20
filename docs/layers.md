@@ -20,7 +20,7 @@
    * ASP.NET Data Client
    * PHP Data Client
   ### Components
-<img height="500" width="700" src="https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/layer-3.png">
+<img height="400" width="700" src="https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/layer-3.png">
 
 ## Integrating and reusability in both mobile and web app
   With new structure we are able to develop the mobile app in parallel with web app **only** with changing `Components` layer. It means we can keep `Core`, `Data` layers, `Actions`, `Reducers`, etc. What we have high reusability and fast in producing the products.
