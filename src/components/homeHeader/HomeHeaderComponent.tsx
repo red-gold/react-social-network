@@ -2,6 +2,8 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
+
+// - Material UI
 import SvgDehaze from 'material-ui-icons/Dehaze'
 import { grey, blue } from 'material-ui/colors'
 import Toolbar from 'material-ui/Toolbar'
@@ -10,8 +12,8 @@ import Popover from 'material-ui/Popover'
 import AppBar from 'material-ui/AppBar'
 import Menu, { MenuList, MenuItem } from 'material-ui/Menu'
 import Paper from 'material-ui/Paper'
+import Hidden from 'material-ui/Hidden'
 import NotificationsIcon from 'material-ui-icons/Notifications'
-import EventListener, { withOptions } from 'react-event-listener'
 import Tooltip from 'material-ui/Tooltip'
 import Typography from 'material-ui/Typography'
 import { Manager, Target, Popper } from 'react-popper'
@@ -92,13 +94,8 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
 
   // On click toggle sidebar
   onToggleSidebar = () => {
-    if (this.props.sidebarStatus) {
-      this.props.sidebar!(false, 'onToggle')
-
-    } else {
-      this.props.sidebar!(true, 'onToggle')
-
-    }
+   const {onToggleDrawer} = this.props
+   onToggleDrawer()
   }
 
   /**
@@ -153,29 +150,19 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
     })
   }
 
-  handleKeyUp = () => {
-    // TODO: Handle key up on press ESC to close menu
-  }
-
   /**
    * Handle resize event for window to manipulate home header status
    * @param  {event} evt is the event is passed by winodw resize event
    */
   handleResize = (event: any) => {
-
+    const {drawerStatus} = this.props
     // Set initial state
     let width = window.innerWidth
 
-    if (width >= 600 && !this.state.showTitle) {
-      this.setState({
-        showTitle: true
-      })
+    if (width >= 600 && !drawerStatus) {
+      this.onToggleSidebar()
+    } else if (width < 600) {
 
-    } else if (width < 600 && this.state.showTitle) {
-
-      this.setState({
-        showTitle: false
-      })
     }
   }
 
@@ -190,11 +177,6 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
 
       <AppBar position='fixed' color='secondary'>
         <Toolbar>
-          <EventListener
-            target='window'
-            onResize={this.handleResize}
-            onKeyUp={this.handleKeyUp}
-          />
           {/* Left side */}
 
           <IconButton onClick={this.onToggleSidebar} >
@@ -205,7 +187,9 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
             {config.settings.appName}
           </Typography>
           <div className='homeHeader__title-root'>
-            {this.state.showTitle ? <div className='homeHeader__title'>{this.props.title}</div> : ''}
+          <Hidden smDown>
+           <div className='homeHeader__title'>{this.props.title}</div> 
+           </Hidden>
           </div>
 
           {/* Notification */}

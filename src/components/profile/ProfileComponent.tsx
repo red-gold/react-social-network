@@ -62,8 +62,6 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
      */
     const styles = {
       profile: {
-        margin: '0 auto',
-        width: '90%'
       },
       header: {
 

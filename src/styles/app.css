@@ -837,10 +837,6 @@ g__input-underline::after {
   overflow: hidden;
   margin-left: 15px; }
 
-.blog {
-  margin: 0 auto;
-  width: 90%; }
-
 @media (min-width: 993px) {
   .blog__right-list {
     margin-left: 2%; } }

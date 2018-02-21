@@ -112,8 +112,7 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
    */
     const styles = {
       people: {
-        margin: '0 auto',
-        width: '90%'
+        margin: '0 auto'
       },
       headline: {
         fontSize: 24,

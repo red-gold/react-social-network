@@ -113,4 +113,14 @@ export interface IHomeComponentProps {
    */
   translate?: (state: any) => any
 
+  /**
+   * Styles
+   */
+  classes?: any
+  
+  /**
+   * Theme
+   */
+  theme?: any
+
 }

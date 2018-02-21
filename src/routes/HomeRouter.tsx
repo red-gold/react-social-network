@@ -27,12 +27,12 @@ export class HomeRouter extends Component<IRouterProps, any> {
             <PrivateRoute path='/people/:tab?' component={<People />} />
 
             <PrivateRoute path='/tag/:tag' component={(
-            <div className='blog'><St displayWriting={false} homeTitle={`#${match.params.tag}`} posts={data.mergedPosts} /></div>
+            <div><St displayWriting={false} homeTitle={`#${match.params.tag}`} posts={data.mergedPosts} /></div>
             )} />
             <Route path='/:userId/posts/:postId/:tag?' component={PostPage} />
             <Route path='/:userId' component={Profile} />
             <PrivateRoute path='/' component={(
-            <div className='blog'>
+            <div>
             <St
             homeTitle={translate!('header.home')}
             posts={data.mergedPosts}

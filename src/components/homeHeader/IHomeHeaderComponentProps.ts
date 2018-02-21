@@ -7,7 +7,7 @@ export interface IHomeHeaderComponentProps {
    * @type {boolean}
    * @memberof IHomeHeaderComponentProps
    */
-  sidebarStatus?: boolean
+  drawerStatus: boolean
 
   /**
    * Logout user
@@ -59,7 +59,7 @@ export interface IHomeHeaderComponentProps {
    *
    * @memberof IHomeHeaderComponentProps
    */
-  sidebar?: (status: boolean, source: string) => void
+  onToggleDrawer: () => void
 
   /**
    * Material ui theme style
