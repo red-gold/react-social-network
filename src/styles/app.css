@@ -676,9 +676,7 @@ g__input-underline::after {
 .homeHeader__title-root {
   flex: 1; }
 
-.homeHeader__title {
-  border-left: 1px solid #fff;
-  padding-left: 24px;
+.homeHeader__title, .homeHeader__title-right, .homeHeader__title-left {
   margin-left: 24px;
   line-height: 32px;
   font-weight: 500;
@@ -686,6 +684,14 @@ g__input-underline::after {
   font-size: 20px;
   -webkit-font-smoothing: antialiased;
   color: #fff; }
+
+.homeHeader__title-right {
+  border-right: 1px solid #fff;
+  padding-right: 24px; }
+
+.homeHeader__title-left {
+  border-left: 1px solid #fff;
+  padding-left: 24px; }
 
 .homeHeader__right {
   padding-left: 30px;

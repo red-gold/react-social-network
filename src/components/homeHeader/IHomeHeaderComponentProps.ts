@@ -65,6 +65,11 @@ export interface IHomeHeaderComponentProps {
    * Material ui theme style
    */
   classes?: any
+    
+  /**
+   * Theme
+   */
+  theme?: any
 
   /**
    * Translate to locale string

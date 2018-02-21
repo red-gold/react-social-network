@@ -28,6 +28,7 @@
     "firebase": "^4.6.2",
     "install": "^0.10.2",
     "inversify": "^4.6.0",
+    "jss-rtl": "^0.2.1",
     "keycode": "^2.1.9",
     "lodash": "^4.17.4",
     "material-ui": "^1.0.0-beta.34",

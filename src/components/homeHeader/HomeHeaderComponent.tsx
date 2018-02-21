@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
 
 // - Material UI
 import SvgDehaze from 'material-ui-icons/Dehaze'
@@ -172,7 +173,8 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
 
   // Render app DOM component
   render () {
-    const { classes , translate} = this.props
+    const { classes , translate, theme} = this.props
+    const anchor = theme.direction === 'rtl' ? 'right' : 'left'
     return (
 
       <AppBar position='fixed' color='secondary'>
@@ -188,7 +190,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
           </Typography>
           <div className='homeHeader__title-root'>
           <Hidden smDown>
-           <div className='homeHeader__title'>{this.props.title}</div> 
+           <div className={classNames({'homeHeader__title-left': anchor === 'left', 'homeHeader__title-right': anchor === 'right' })}>{this.props.title}</div> 
            </Hidden>
           </div>
 
@@ -271,4 +273,4 @@ const mapStateToProps = (state: any, ownProps: IHomeHeaderComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(HomeHeaderComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(HomeHeaderComponent as any) as any)

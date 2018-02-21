@@ -145,6 +145,7 @@ There are three main layers:
   - Add reset password, confirm password and authorizing by GitHub, Google and Facebook.
   - Add scroll auto loading for show posts and people pages.
   - Using [Firestore](https://firebase.google.com/docs/firestore/)
+  - Supportig `Right To Left`
   - Some cool stuff :)
 ## Can I connect React Social Network to other data platforms ? :bowtie:
   Your server side is on `PHP`, `Java`,`ASP.NET`, `Python`, etc. Or you are using serverless platforms such as `Google Cloud`, `AWS`, `Azure`, etc. You can connect `React Social Network` to any data platform. You only need to implement the [interfaces of core services](https://github.com/Qolzam/react-social-network/tree/next/src/core/services) like implementation of [firestoreClient](https://github.com/Qolzam/react-social-network/tree/next/src/data/firestoreClient).
@@ -203,6 +204,9 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
   - Amir Movahedi
   - See also the list of [contributors](https://github.com/Qolzam/react-social-network/contributors) who participated in this project.
 
+## How To Support
+- [Contribution](https://github.com/Qolzam/react-social-network/blob/next/CONTRIBUTING.md)
+- Fork || Star
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](https://github.com/Qolzam/react-social-network/blob/next/LICENSE) file for details

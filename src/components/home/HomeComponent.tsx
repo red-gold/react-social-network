@@ -56,7 +56,7 @@ import {
 import { IHomeComponentProps } from './IHomeComponentProps'
 import { IHomeComponentState } from './IHomeComponentState'
 
-const drawerWidth = 240
+const drawerWidth = 220
 const styles = (theme: any) => ({
   root: {
     width: '100%',
@@ -99,7 +99,7 @@ const styles = (theme: any) => ({
     backgroundColor: '#EEEEEE'
   },
   content: {
-    backgroundColor: 'transparent',    
+    backgroundColor: 'transparent',
     width: '100%',
     flexGrow: 1,
     padding: theme.spacing.unit * 1,
@@ -191,49 +191,49 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
   render() {
     const HR = HomeRouter as any
     const { loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback, translate, classes, theme } = this.props
-    const {drawerOpen} = this.state
+    const { drawerOpen } = this.state
     const drawer = (
       <>
 
-        <NavLink to='/'>
-          <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
-            <ListItemIcon>
-              <SvgHome />
-            </ListItemIcon>
-            <ListItemText inset primary={translate!('sidebar.home')} />
-          </MenuItem>
-        </NavLink>
-        <NavLink to={`/${this.props.uid}`}>
-          <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
-            <ListItemIcon>
-              <SvgAccountCircle />
-            </ListItemIcon>
-            <ListItemText inset primary={translate!('sidebar.profile')} />
-          </MenuItem>
-        </NavLink>
-        <NavLink to='/people'>
-          <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
-            <ListItemIcon>
-              <SvgPeople />
-            </ListItemIcon>
-            <ListItemText inset primary={translate!('sidebar.people')} />
-          </MenuItem>
-        </NavLink>
-        <Divider />
-        <NavLink to='/settings'>
-          <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
-            <ListItemIcon>
-              <SvgSettings />
-            </ListItemIcon>
-            <ListItemText inset primary={translate!('sidebar.settings')} />
-          </MenuItem>
-        </NavLink>
-        <MenuItem onClick={() => showSendFeedback!()} style={{ color: 'rgb(117, 117, 117)' }}>
+      <NavLink to='/'>
+        <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
           <ListItemIcon>
-            <SvgFeedback />
+            <SvgHome />
           </ListItemIcon>
-          <ListItemText inset primary={translate!('sidebar.sendFeedback')} />
+          <ListItemText inset primary={translate!('sidebar.home')} />
         </MenuItem>
+      </NavLink>
+      <NavLink to={`/${this.props.uid}`}>
+        <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
+          <ListItemIcon>
+            <SvgAccountCircle />
+          </ListItemIcon>
+          <ListItemText inset primary={translate!('sidebar.profile')} />
+        </MenuItem>
+      </NavLink>
+      <NavLink to='/people'>
+        <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
+          <ListItemIcon>
+            <SvgPeople />
+          </ListItemIcon>
+          <ListItemText inset primary={translate!('sidebar.people')} />
+        </MenuItem>
+      </NavLink>
+      <Divider />
+      <NavLink to='/settings'>
+        <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
+          <ListItemIcon>
+            <SvgSettings />
+          </ListItemIcon>
+          <ListItemText inset primary={translate!('sidebar.settings')} />
+        </MenuItem>
+      </NavLink>
+      <MenuItem onClick={() => showSendFeedback!()} style={{ color: 'rgb(117, 117, 117)' }}>
+        <ListItemIcon>
+          <SvgFeedback />
+        </ListItemIcon>
+        <ListItemText inset primary={translate!('sidebar.sendFeedback')} />
+      </MenuItem>
       </>
     )
 
@@ -245,7 +245,6 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
           <Hidden mdUp>
             <Drawer
               variant='temporary'
-              anchor={anchor}
               open={this.state.drawerOpen}
               classes={{
                 paper: classes.drawerPaper,
@@ -258,8 +257,8 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
               <div>
                 <div className={classes.drawerHeader} />
                 <MenuList style={{ color: 'rgb(117, 117, 117)', width: '210px' }}>
-                <Divider />
-                {drawer}
+                  <Divider />
+                  {drawer}
                 </MenuList>
               </div>
             </Drawer>
@@ -273,8 +272,8 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
               }}
             >
               <div>
-              <MenuList className={classes.menu} style={{ color: 'rgb(117, 117, 117)', width: '210px' }}>
-                {drawer}
+                <MenuList className={classes.menu} style={{ color: 'rgb(117, 117, 117)', width: '210px' }}>
+                  {drawer}
                 </MenuList>
               </div>
             </Drawer>
