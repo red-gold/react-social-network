@@ -13,7 +13,6 @@
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "watch": "webpack -w",
     "deploy:firebase": "npm run build && firebase deploy"
   },
   "author": "Amir Movahedi",
@@ -31,7 +30,7 @@
     "inversify": "^4.6.0",
     "keycode": "^2.1.9",
     "lodash": "^4.17.4",
-    "material-ui": "^1.0.0-beta.33",
+    "material-ui": "^1.0.0-beta.34",
     "material-ui-icons": "^1.0.0-beta.17",
     "moment": "^2.18.1",
     "morgan": "^1.8.1",
