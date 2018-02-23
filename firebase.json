@@ -1,6 +1,17 @@
 {
     "hosting": {
         "public": "build",
+        "headers": [
+            {
+                "source": "**",
+                "headers": [
+                    {
+                        "key": "Cache-Control",
+                        "value": "max-age=7200"
+                    }
+                ]
+            }
+        ],
         "rewrites": [
             {
                 "source": "/favicon.ico",
