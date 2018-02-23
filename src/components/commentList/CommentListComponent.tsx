@@ -54,7 +54,7 @@ export class CommentListComponent extends Component<ICommentListComponentProps, 
    * @return {DOM} list of comments' DOM
    */
   commentList = () => {
-    let comments = this.props.comments
+    let {comments, commentsEditorStatus} = this.props
     if (comments) {
 
       let parsedComments: Comment[] = []
@@ -68,7 +68,15 @@ export class CommentListComponent extends Component<ICommentListComponentProps, 
 
       return sortedComments.map((comment: Comment, index: number, array: Comment) => {
 
-        return <CommentComponent key={comment.id!} comment={comment} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments}/>
+        return (
+             <CommentComponent 
+                key={comment.id!} 
+                comment={comment} 
+                isPostOwner={this.props.isPostOwner} 
+                disableComments={this.props.disableComments}
+                editorStatus={(commentsEditorStatus![comment.id!]) || false}
+              />
+              )
 
       })
 
@@ -116,9 +124,11 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentListComponentProps)
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: any, ownProps: ICommentListComponentProps) => {
+  const { comment } = state
+  const commentsEditorStatus: { [commentId: string]: Comment } = comment.editorStatus[ownProps.postId] || {}
   return {
-
+    commentsEditorStatus
   }
 }
 

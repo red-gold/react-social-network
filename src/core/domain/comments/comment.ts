@@ -66,13 +66,4 @@ export class Comment extends BaseDomain {
    */
   public userId?: string
 
-  /**
-   * Comment is in edit state {true} or not {false}
-   *
-   * @type {boolean}
-   * @memberof Comment
-   */
-  // TODO: Should be changed to reuseable component and remove this property
-  editorStatus?: boolean
-
 }

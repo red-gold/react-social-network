@@ -113,7 +113,7 @@ export const dbAddImagePost = (newPost: Post, callBack: Function) => {
  */
 export const dbUpdatePost = (updatedPost: Post, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
-
+console.trace('update post ', updatedPost)
     dispatch(globalActions.showTopLoading())
 
     return postService.updatePost(updatedPost).then(() => {

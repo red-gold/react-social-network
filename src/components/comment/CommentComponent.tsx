@@ -221,7 +221,6 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
    */
   handleUpdateComment = (evt: any) => {
     const { comment } = this.props
-    comment.editorStatus = undefined
     comment.text = this.state.text
     this.props.update!(comment)
     this.setState({
@@ -291,11 +290,11 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
     /**
      * Comment object from props
      */
-    const { comment, classes, fullName, avatar, translate } = this.props
+    const { comment, classes, fullName, avatar, translate , editorStatus} = this.props
 
     const { openMenu } = this.state
 
-    const RightIconMenu = () => (
+    const rightIconMenu = (
       <Manager
         className={classes.iconButton}
       >
@@ -336,7 +335,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
         }}>{moment.unix(comment.creationDate!).fromNow()}</span>
       </div>
     )
-    const { userId, editorStatus } = comment
+    const { userId } = comment
     const commentBody = (
       <div style={{ outline: 'none', flex: 'auto', flexGrow: 1 }}>
       { editorStatus ? <TextField
@@ -373,7 +372,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
               title={editorStatus ? '' : <Author />}
               subheader={commentBody}
               avatar={<NavLink to={`/${userId}`}><UserAvatar fullName={fullName!} fileName={avatar!} size={24} /></NavLink>}
-              action={(!this.props.isCommentOwner && !this.props.isPostOwner && this.props.disableComments) || editorStatus ? '' : (<RightIconMenu />)}
+              action={(!this.props.isCommentOwner && !this.props.isPostOwner && this.props.disableComments) || editorStatus ? '' : rightIconMenu}
             >
             </CardHeader>
 

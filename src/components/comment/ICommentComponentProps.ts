@@ -96,6 +96,11 @@ export interface ICommentComponentProps {
   disableComments?: boolean
 
   /**
+   * Whether comment edit is open
+   */
+  editorStatus: boolean
+
+  /**
    * Styles
    */
   classes?: any

@@ -340,7 +340,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   render () {
     const { post, setHomeTitle, goTo, fullName, isPostOwner, commentList, avatar, classes , translate} = this.props
     const { postMenuAnchorEl, isPostMenuOpen } = this.state
-    const RightIconMenu = () => (
+    const rightIconMenu = (
       <Manager>
         <Target>
           <IconButton
@@ -355,10 +355,10 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
         <Popper
           placement='bottom-start'
           eventsEnabled={isPostMenuOpen!}
-          className={classNames({ [classes.popperClose]: !isPostMenuOpen! }, { [classes.popperOpen]: isPostMenuOpen! })}
+          className={classNames({ [classes.popperClose]: !isPostMenuOpen }, { [classes.popperOpen]: isPostMenuOpen })}
         >
           <ClickAwayListener onClickAway={this.closePostMenu}>
-            <Grow in={isPostMenuOpen!} >
+            <Grow in={isPostMenuOpen} >
               <Paper>
                 <MenuList role='menu'>
                   <MenuItem onClick={this.handleOpenPostWrite} > {translate!('post.edit')} </MenuItem>
@@ -387,7 +387,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
           title={<NavLink to={`/${ownerUserId}`}>{ownerDisplayName}</NavLink>}
           subheader={moment.unix(creationDate!).fromNow() + ' | ' + translate!('post.public')}
           avatar={<NavLink to={`/${ownerUserId}`}><UserAvatar fullName={fullName!} fileName={avatar!} size={36} /></NavLink>}
-          action={isPostOwner ? <RightIconMenu /> : ''}
+          action={isPostOwner ? rightIconMenu : ''}
         >
         </CardHeader>
         {image ? (

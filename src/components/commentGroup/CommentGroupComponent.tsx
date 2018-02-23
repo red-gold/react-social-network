@@ -317,7 +317,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
     const showComments = ( comments && Object.keys(comments).length > 0
     ? (
     <Paper elevation={0} style={open ? { display: 'block', padding: '0px 0px' } : { display: 'none', padding: '12px 16px' }}>
-      <CommentListComponent comments={comments!} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments} />
+      <CommentListComponent comments={comments!} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments} postId={postId}/>
     </Paper>)
     : '')
     const loadComments = (( getCommentsRequest === undefined || (getCommentsRequest && getCommentsRequest!.status !== ServerRequestStatusType.OK)) ? <LinearProgress style={this.styles.progressbar} variant='indeterminate' /> : showComments)

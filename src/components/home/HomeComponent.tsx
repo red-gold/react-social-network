@@ -160,7 +160,6 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
    * Handle drawer toggle
    */
   handleDrawerToggle = () => {
-    console.trace('toggle')
     this.setState({ drawerOpen: !this.state.drawerOpen })
   }
 

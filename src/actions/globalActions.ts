@@ -112,6 +112,9 @@ export const hideMessage = () => {
  * @param {string} message
  */
 export const showMessage = (message: string) => {
+  if (!message || message === '' || (message && message.trim() === '')) {
+    message = 'Bad request'
+  }
   return {
     type: GlobalActionType.SHOW_MESSAGE_GLOBAL,
     payload: message

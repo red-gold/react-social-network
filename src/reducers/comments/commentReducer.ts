@@ -85,28 +85,22 @@ export let commentReducer = (state: CommentState = new CommentState(), action: I
     case CommentActionType.CLOSE_COMMENT_EDITOR:
       return {
         ...state,
-        postComments: {
-          ...state.postComments,
+        editorStatus: {
+          ...state.editorStatus,
           [payload.postId]: {
-            ...state.postComments![payload.postId],
-            [payload.id]: {
-              ...state.postComments![payload.postId][payload.id],
-              editorStatus: false
-            }
+            ...state.editorStatus![payload.postId],
+            [payload.id]: false
           }
         }
       }
     case CommentActionType.OPEN_COMMENT_EDITOR:
       return {
         ...state,
-        postComments: {
-          ...state.postComments,
+        editorStatus: {
+          ...state.editorStatus,
           [payload.postId]: {
-            ...state.postComments![payload.postId],
-            [payload.id]: {
-              ...state.postComments![payload.postId][payload.id],
-              editorStatus: true
-            }
+            ...state.editorStatus![payload.postId],
+            [payload.id]: true
           }
         }
       }
