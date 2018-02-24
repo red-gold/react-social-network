@@ -114,7 +114,7 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
         <h1 className='g__app-name'>{config.settings.appName}</h1>
 
         <div className='animate-bottom'>
-          <Paper style={classes.paper} elevation={1}>
+          <Paper className={classes.paper} elevation={1}>
             <div style={{ padding: '48px 40px 36px' }}>
               <div style={{
                 paddingLeft: '40px',
