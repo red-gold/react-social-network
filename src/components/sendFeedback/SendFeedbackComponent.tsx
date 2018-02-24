@@ -2,6 +2,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import classNames from 'classnames'
+
+// - Material UI
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
@@ -11,6 +14,7 @@ import SvgClose from 'material-ui-icons/Clear'
 import { CircularProgress } from 'material-ui/Progress'
 import Tooltip from 'material-ui/Tooltip'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import { withStyles } from 'material-ui/styles'
 
 // - Import app components
 
@@ -29,6 +33,17 @@ import StringAPI from 'api/StringAPI'
 import { ServerRequestType } from 'constants/serverRequestType'
 import { User } from 'core/domain/users'
 import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
+
+const styles = (theme: any) => ({
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      overflowY: 'auto'
+    }
+  }
+})
 
 /**
  * Create component class
@@ -180,11 +195,11 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
    * @return {react element} return the DOM which rendered by component
    */
   render () {
-    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequest } = this.props
+    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequest, classes } = this.props
     const { feedText } = this.state
 
     return (
-      <div className='sendFeedback__content animate__up'>
+      <div className={classNames('sendFeedback__content', 'animate__up',classes.fullPageXs)}>
         <Paper className='paper' >
           <div className='close'>
           <Tooltip title='Cancel' placement='bottom-start'>
@@ -240,4 +255,4 @@ const mapStateToProps = (state: any, ownProps: ISendFeedbackComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(SendFeedbackComponent as any)
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(SendFeedbackComponent as any)) as any)

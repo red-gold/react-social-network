@@ -657,11 +657,9 @@ g__input-underline::after {
   position: fixed;
   right: 5px;
   bottom: 5px;
-  z-index: 1; }
+  z-index: 1101; }
   .sendFeedback__content .paper {
-    width: 350px;
     height: 100%;
-    margin: 20px;
     text-align: center; }
   .sendFeedback__content .main-box {
     padding: 26px 26px 0px 26px; }
