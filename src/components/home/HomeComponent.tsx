@@ -77,6 +77,7 @@ const styles = (theme: any) => ({
   },
   drawerHeader: theme.mixins.toolbar,
   drawerPaper: {
+    maxWidth: drawerWidth,
     width: drawerWidth,
     [theme.breakpoints.up('md')]: {
       width: drawerWidth,
@@ -96,7 +97,6 @@ const styles = (theme: any) => ({
   },
   menu: {
     height: '100%',
-    backgroundColor: '#EEEEEE'
   },
   content: {
     backgroundColor: 'transparent',
