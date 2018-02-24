@@ -10,6 +10,7 @@ import SvgUpload from 'material-ui-icons/CloudUpload'
 import SvgAddImage from 'material-ui-icons/AddAPhoto'
 import SvgDelete from 'material-ui-icons/Delete'
 import { grey } from 'material-ui/colors'
+import { withStyles } from 'material-ui/styles'
 import uuid from 'uuid'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
@@ -25,6 +26,17 @@ import FileAPI from 'api/FileAPI'
 import { IImageGalleryComponentProps } from './IImageGalleryComponentProps'
 import { IImageGalleryComponentState } from './IImageGalleryComponentState'
 import { Image } from 'core/domain/imageGallery'
+
+const styles = (theme: any) => ({
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      overflowY: 'auto'
+    }
+  }
+})
 
 /**
  * Create ImageGallery component class
@@ -252,4 +264,4 @@ const mapStateToProps = (state: any) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(ImageGalleryComponent as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(ImageGalleryComponent as any) as any)

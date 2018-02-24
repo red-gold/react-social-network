@@ -8,12 +8,33 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/Button'
 import Button from 'material-ui/Button'
 import config from 'src/config'
+import { withStyles } from 'material-ui/styles'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
 import { IEmailVerificationComponentProps } from './IEmailVerificationComponentProps'
 import { IEmailVerificationComponentState } from './IEmailVerificationComponentState'
+import { Grid } from 'material-ui'
+
+const styles = (theme: any) => ({
+  textField: {
+    minWidth: 280,
+    marginTop: 20
+
+  },
+  contain: {
+    margin: '0 auto'
+  },
+  paper: {
+    minHeight: 370,
+    maxWidth: 450,
+    minWidth: 337,
+    textAlign: 'center',
+    display: 'block',
+    margin: 'auto'
+  }
+})
 
 /**
  * Create component class
@@ -22,7 +43,7 @@ import { IEmailVerificationComponentState } from './IEmailVerificationComponentS
  * @class EmailVerificationComponent
  * @extends {Component}
  */
-export class EmailVerificationComponent extends Component<IEmailVerificationComponentProps,IEmailVerificationComponentState> {
+export class EmailVerificationComponent extends Component<IEmailVerificationComponentProps, IEmailVerificationComponentState> {
 
   styles = {
     message: {
@@ -32,7 +53,18 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
       marginTop: 60
     },
     homeButton: {
-      marginRight: 10 
+      marginRight: 10
+    },
+    contain: {
+      margin: '0 auto'
+    },
+    paper: {
+      minHeight: 370,
+      maxWidth: 450,
+      minWidth: 337,
+      textAlign: 'center',
+      display: 'block',
+      margin: 'auto'
     }
 
   }
@@ -41,7 +73,7 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
    * Component constructor
    * @param  {object} props is an object properties of component
    */
-  constructor (props: IEmailVerificationComponentProps) {
+  constructor(props: IEmailVerificationComponentProps) {
     super(props)
 
     // Binding function to `this`
@@ -52,47 +84,26 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
    * Reneder component DOM
    * @return {react element} return the DOM which rendered by component
    */
-  render () {
-    const {translate} = this.props
-    const paperStyle = {
-      minHeight: 370,
-      width: 450,
-      textAlign: 'center',
-      display: 'block',
-      margin: 'auto'
-    }
+  render() {
+    const { translate, classes } = this.props
     return (
-      <div>
+      <Grid container spacing={24}>
+        <Grid item xs={12} className={classes.contain}>
 
-        <h1 style={{
-          textAlign: 'center',
-          padding: '20px',
-          fontSize: '30px',
-          fontWeight: 500,
-          lineHeight: '32px',
-          margin: 'auto',
-          color: 'rgba(138, 148, 138, 0.2)'
-        }}>{config.settings.appName}</h1>
+          <h1 className='g__app-name'>{config.settings.appName}</h1>
 
-        <div className='animate-bottom'>
-          <Paper style={paperStyle} elevation={1} >
-            <div style={{ padding: '48px 40px 36px' }}>
-              <div style={{
-                paddingLeft: '40px',
-                paddingRight: '40px'
-              }}>
+          <div className='animate-bottom'>
+            <Paper className={classes.paper} elevation={1} >
+              <div style={{ padding: '48px 40px 36px' }}>
+                <div style={{
+                  paddingLeft: '40px',
+                  paddingRight: '40px'
+                }}>
 
-                <h2 style={{
-                  textAlign: 'left',
-                  paddingTop: '16px',
-                  fontSize: '24px',
-                  fontWeight: 400,
-                  lineHeight: '32px',
-                  margin: 0
-                }} className='zoomOutLCorner animated'>{translate!('emailVerification.title')}</h2>
-              </div>
-              <p style={this.styles.message as any}>
-              {translate!('emailVerification.description')}
+                  <h2 className='zoomOutLCorner animated g__paper-title'>{translate!('emailVerification.title')}</h2>
+                </div>
+                <p style={this.styles.message as any}>
+                  {translate!('emailVerification.description')}
                 </p>
                 <div style={this.styles.buttons}>
                   <Button variant='raised' style={this.styles.homeButton} color='primary' onClick={() => this.props.homePage()}> {translate!('emailVerification.homeButton')} </Button>
@@ -101,10 +112,11 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
                 <div>
                 </div>
 
-            </div>
-          </Paper>
-        </div>
-      </div>
+              </div>
+            </Paper>
+          </div>
+        </Grid>
+      </Grid>
     )
   }
 }
@@ -137,4 +149,4 @@ const mapStateToProps = (state: any, ownProps: IEmailVerificationComponentProps)
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EmailVerificationComponent as any) as any)
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EmailVerificationComponent as any) as any)) as typeof EmailVerificationComponent

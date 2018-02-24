@@ -19,17 +19,37 @@ import * as authorizeActions from 'actions/authorizeActions'
 import { ILoginComponentProps } from './ILoginComponentProps'
 import { ILoginComponentState } from './ILoginComponentState'
 import { OAuthType } from 'core/domain/authorize'
+import Grid from 'material-ui/Grid/Grid'
 
 const styles = (theme: any) => ({
   textField: {
     minWidth: 280,
     marginTop: 20
-
+  },
+  contain: {
+    margin: '0 auto'
+  },
+  paper: {
+    minHeight: 370,
+    maxWidth: 450,
+    minWidth: 337,
+    textAlign: 'center',
+    display: 'block',
+    margin: 'auto'
+  },
+  bottomPaper: {
+    display: 'inherit',
+    fontSize: 'small',
+    marginTop: '50px'
+  },
+  link: {
+    color: '#0095ff',
+    display: 'inline-block'
   }
 })
 
 // - Create Login component class
-export class LoginComponent extends Component<ILoginComponentProps,ILoginComponentState> {
+export class LoginComponent extends Component<ILoginComponentProps, ILoginComponentState> {
 
   styles = {
     singinOptions: {
@@ -40,14 +60,6 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
     divider: {
       marginBottom: 10,
       marginTop: 15
-    },
-    restPassword: {
-      lineHeight: 6,
-      fontWeight: 400,
-      fontSize: 'small'
-    },
-    restPasswordLink: {
-      color: '#0095ff'
     }
   }
 
@@ -55,7 +67,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
    * Component constructor
    * @param  {object} props is an object properties of component
    */
-  constructor (props: ILoginComponentProps) {
+  constructor(props: ILoginComponentProps) {
     super(props)
 
     this.state = {
@@ -105,7 +117,7 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
    * Handle register form
    */
   handleForm = () => {
-    const {translate} = this.props
+    const { translate } = this.props
     let error = false
     if (this.state.emailInput === '') {
       this.setState({
@@ -135,96 +147,77 @@ export class LoginComponent extends Component<ILoginComponentProps,ILoginCompone
    * Reneder component DOM
    * @return {react element} return the DOM which rendered by component
    */
-  render () {
-    const {classes, loginWithOAuth, translate} = this.props
-
-    const paperStyle = {
-      minHeight: 370,
-      width: 450,
-      textAlign: 'center',
-      display: 'block',
-      margin: 'auto'
-    }
+  render() {
+    const { classes, loginWithOAuth, translate } = this.props
 
     return (
-      <form>
+      <Grid container spacing={24}>
+        <Grid item xs={12} className={classes.contain}>
 
-        <h1 style={{
-          textAlign: 'center',
-          padding: '20px',
-          fontSize: '30px',
-          fontWeight: 500,
-          lineHeight: '32px',
-          margin: 'auto',
-          color: 'rgba(138, 148, 138, 0.2)'
-        }}>{config.settings.appName}</h1>
+          <h1 className='g__app-name'>{config.settings.appName}</h1>
 
-        <div className='animate-bottom'>
-          <Paper style={paperStyle} elevation={1} >
-            <div style={{ padding: '48px 40px 36px' }}>
-              <div style={{
-                paddingLeft: '40px',
-                paddingRight: '40px'
-              }}>
+          <div className='animate-bottom'>
+            <Paper className={classes.paper} elevation={1} >
+              <form>
+                <div style={{ padding: '48px 40px 36px' }}>
+                  <div style={{
+                    paddingLeft: '40px',
+                    paddingRight: '40px'
+                  }}>
 
-                <h2 style={{
-                  textAlign: 'left',
-                  paddingTop: '16px',
-                  fontSize: '24px',
-                  fontWeight: 400,
-                  lineHeight: '32px',
-                  margin: 0
-                }} className='zoomOutLCorner animated'>{translate!('login.title')}</h2>
-              </div>
-              <div style={this.styles.singinOptions as any}>
-              <IconButton
-                onClick={() => loginWithOAuth!(OAuthType.FACEBOOK)}
-              ><div className='icon-fb icon'></div></IconButton>
-              <IconButton
-                onClick={() => loginWithOAuth!(OAuthType.GOOGLE)}
-              > <div className='icon-google icon'></div> </IconButton>
-              <IconButton
-                onClick={() => loginWithOAuth!(OAuthType.GITHUB)}
-              > <div className='icon-github icon'></div> </IconButton>
+                    <h2 className='zoomOutLCorner animated g__paper-title'>{translate!('login.title')}</h2>
+                  </div>
+                  <div style={this.styles.singinOptions as any}>
+                    <IconButton
+                      onClick={() => loginWithOAuth!(OAuthType.FACEBOOK)}
+                    ><div className='icon-fb icon'></div></IconButton>
+                    <IconButton
+                      onClick={() => loginWithOAuth!(OAuthType.GOOGLE)}
+                    > <div className='icon-google icon'></div> </IconButton>
+                    <IconButton
+                      onClick={() => loginWithOAuth!(OAuthType.GITHUB)}
+                    > <div className='icon-github icon'></div> </IconButton>
 
-              </div>
-              <Divider style={this.styles.divider} />
-              <TextField
-              className={classes.textField}
-               autoFocus
-                onChange={this.handleInputChange}
-                helperText={this.state.emailInputError}
-                error={this.state.emailInputError.trim() !== ''}
-                name='emailInput'
-                label={translate!('login.emailLabel')}
-                type='email'
-                tabIndex={1}
-              /><br />
-              <TextField
-              className={classes.textField}
-                onChange={this.handleInputChange}
-                helperText={this.state.passwordInputError}
-                error={this.state.passwordInputError.trim() !== ''}
-                name='passwordInput'
-                label={translate!('login.passwordLabel')}
-                type='password'
-                tabIndex={2}
-              /><br />
-              <br />
-              <br />
-              <div className='login__button-box'>
-                <div>
-                  <Button onClick={this.props.signupPage} tabIndex={4}>{translate!('login.createAccountButton')}</Button>
+                  </div>
+                  <Divider style={this.styles.divider} />
+                  <TextField
+                    className={classes.textField}
+                    autoFocus
+                    onChange={this.handleInputChange}
+                    helperText={this.state.emailInputError}
+                    error={this.state.emailInputError.trim() !== ''}
+                    name='emailInput'
+                    label={translate!('login.emailLabel')}
+                    type='email'
+                    tabIndex={1}
+                  /><br />
+                  <TextField
+                    className={classes.textField}
+                    onChange={this.handleInputChange}
+                    helperText={this.state.passwordInputError}
+                    error={this.state.passwordInputError.trim() !== ''}
+                    name='passwordInput'
+                    label={translate!('login.passwordLabel')}
+                    type='password'
+                    tabIndex={2}
+                  /><br />
+                  <br />
+                  <br />
+                  <div className='login__button-box'>
+                    <div>
+                      <Button onClick={this.props.signupPage} tabIndex={4}>{translate!('login.createAccountButton')}</Button>
+                    </div>
+                    <div >
+                      <Button variant='raised' color='primary' onClick={this.handleForm} tabIndex={3} >{translate!('login.loginButton')}</Button>
+                    </div>
+                  </div>
+                  <span className={classes.bottomPaper}>{translate!('login.forgetPasswordMessage')} <NavLink to='/resetPassword' className={classes.link}>{translate!('login.resetPasswordLabel')}</NavLink></span>
                 </div>
-                <div >
-                  <Button variant='raised' color='primary' onClick={this.handleForm} tabIndex={3} >{translate!('login.loginButton')}</Button>
-                </div>
-              </div>
-                <span style={this.styles.restPassword as any}>{translate!('login.forgetPasswordMessage')} <NavLink to='/resetPassword' style={this.styles.restPasswordLink}>{translate!('login.resetPasswordLabel')}</NavLink></span>
-            </div>
-          </Paper>
-        </div>
-      </form>
+              </form>
+            </Paper>
+          </div>
+        </Grid>
+      </Grid>
     )
   }
 }
@@ -260,4 +253,4 @@ const mapStateToProps = (state: any, ownProps: ILoginComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LoginComponent as any) as any) as any)
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LoginComponent as any) as any)) as typeof LoginComponent

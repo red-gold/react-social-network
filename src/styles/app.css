@@ -491,6 +491,23 @@ g__input-underline::before {
 g__input-underline::after {
   display: none; }
 
+.g__app-name {
+  text-align: center;
+  padding: 20px;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 32px;
+  margin: auto;
+  color: rgba(138, 148, 138, 0.2); }
+
+.g__paper-title {
+  text-align: left;
+  padding-top: 16px;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  margin: 0; }
+
 .master__progress {
   position: fixed;
   top: 0;

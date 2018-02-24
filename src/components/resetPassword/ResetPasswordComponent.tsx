@@ -3,14 +3,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import { push } from 'react-router-redux'
+import config from 'src/config'
+import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
+// - Material UI
 import Paper from 'material-ui/Paper'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/Button'
 import Button from 'material-ui/Button'
 import { withStyles } from 'material-ui/styles'
 import Typography from 'material-ui/Typography'
-import config from 'src/config'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import { Grid } from 'material-ui'
 
 // - Import actions
 import * as authorizeActions from 'actions/authorizeActions'
@@ -25,6 +28,17 @@ const styles = (theme: any) => ({
   },
   caption: {
     marginTop: 30
+  },
+  contain: {
+    margin: '0 auto'
+  },
+  paper: {
+    minHeight: 370,
+    maxWidth: 450,
+    minWidth: 337,
+    textAlign: 'center',
+    display: 'block',
+    margin: 'auto'
   }
 })
 
@@ -93,42 +107,21 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
 
     const {classes, translate} = this.props
 
-    const paperStyle = {
-      minHeight: 370,
-      width: 450,
-      textAlign: 'center',
-      display: 'block',
-      margin: 'auto'
-    }
     return (
-      <div>
+      <Grid container spacing={24}>
+      <Grid item xs={12} className={classes.contain}>
 
-        <h1 style={{
-          textAlign: 'center',
-          padding: '20px',
-          fontSize: '30px',
-          fontWeight: 500,
-          lineHeight: '32px',
-          margin: 'auto',
-          color: 'rgba(138, 148, 138, 0.2)'
-        }}>{config.settings.appName}</h1>
+        <h1 className='g__app-name'>{config.settings.appName}</h1>
 
         <div className='animate-bottom'>
-          <Paper style={paperStyle} elevation={1}>
+          <Paper style={classes.paper} elevation={1}>
             <div style={{ padding: '48px 40px 36px' }}>
               <div style={{
                 paddingLeft: '40px',
                 paddingRight: '40px'
               }}>
 
-                <h2 style={{
-                  textAlign: 'left',
-                  paddingTop: '16px',
-                  fontSize: '24px',
-                  fontWeight: 400,
-                  lineHeight: '32px',
-                  margin: 0
-                }} className='zoomOutLCorner animated'>{translate!('resetPassword.title')}</h2>
+                <h2 className='zoomOutLCorner animated g__paper-title'>{translate!('resetPassword.title')}</h2>
               </div>
 
               <TextField
@@ -157,7 +150,8 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
             </div>
           </Paper>
         </div>
-      </div>
+        </Grid>
+      </Grid>
     )
   }
 }
@@ -190,4 +184,4 @@ const mapStateToProps = (state: any, ownProps: IResetPasswordComponentProps) => 
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ResetPasswordComponent as any) as any) as any)
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ResetPasswordComponent as any) as any)) as typeof ResetPasswordComponent

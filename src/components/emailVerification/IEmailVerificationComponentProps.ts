@@ -11,6 +11,11 @@ export interface IEmailVerificationComponentProps {
   homePage: () => any
 
   /**
+   * Styles
+   */
+  classes?: any
+
+  /**
    * Translate to locale string
    */
   translate?: (state: any, param?: {}) => any

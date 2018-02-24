@@ -61,6 +61,14 @@ const styles = (theme: any) => ({
   },
   dialogPaper: {
     minWidth: 400
+  },
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      overflowY: 'auto'
+    }
   }
 })
 
@@ -306,6 +314,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           </List>
         </Collapse>
         <Dialog
+        PaperProps={{className: classes.fullPageXs}}
           key={this.props.id}
           open={this.props.openSetting!}
           onClose={this.props.closeCircleSettings}

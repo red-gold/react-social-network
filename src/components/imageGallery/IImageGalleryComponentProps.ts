@@ -40,6 +40,11 @@ export interface IImageGalleryComponentProps {
   images?: Image[]
 
   /**
+   * Styles
+   */
+  classes?: any
+
+  /**
    * Translate to locale string
    */
   translate?: (state: any) => any

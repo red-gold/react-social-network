@@ -54,6 +54,14 @@ const styles = (theme: any) => ({
     maxHeight: 380,
     overflowY: 'auto'
 
+  },
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      overflowY: 'auto'
+    }
   }
 })
 

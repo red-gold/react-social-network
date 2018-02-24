@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { push } from 'react-router-redux'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import classNames from 'classnames'
 
 // - Material UI
 import Paper from 'material-ui/Paper'
@@ -51,6 +52,14 @@ const styles = (theme: any) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper
   },
+  paper: {
+    height: 254,
+    width: 243,
+    margin: 10,
+    textAlign: 'center',
+    minWidth: 230,    
+    maxWidth: '257px'
+  },
   dialogContent: {
     paddingTop: '5px',
     padding: '0px 5px 5px 5px'
@@ -60,6 +69,14 @@ const styles = (theme: any) => ({
   },
   space: {
     height: 20
+  },
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      overflowY: 'auto'
+    }
   }
 })
 
@@ -83,13 +100,6 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
   }
 
   styles = {
-    paper: {
-      height: 254,
-      width: 243,
-      margin: 10,
-      textAlign: 'center',
-      maxWidth: '257px'
-    },
     followButton: {
       position: 'absolute',
       bottom: '30px',
@@ -301,7 +311,7 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
     const { isFollowed, followRequest, userId, isSelecteCirclesOpen, addToCircleRequest, deleteFollowingUserRequest, classes, translate } = this.props
 
     return (
-      <Paper key={userId} style={this.styles.paper} elevation={1} className='grid-cell'>
+      <Paper key={userId} elevation={1} className={classNames('grid-cell', classes.paper)}>
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -339,6 +349,7 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
           </div>
         </div>
         <Dialog
+        PaperProps={{className: classes.fullPageXs}}
           key={this.props.userId || 0}
           open={isSelecteCirclesOpen === true}
           onClose={this.onRequestCloseAddCircle}

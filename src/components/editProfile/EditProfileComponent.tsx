@@ -47,6 +47,14 @@ import { Profile } from 'core/domain/users'
 const styles = (theme: any) => ({
   dialogTitle: {
     padding: 0
+  },
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      overflowY: 'auto'
+    }
   }
 })
 
@@ -314,6 +322,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
       <div>
         {/* Edit profile dialog */}
         <Dialog
+        PaperProps={{className: classes.fullPageXs}}
           key='Edit-Profile'
           open={this.props.open!}
           onClose={this.props.onRequestClose}
@@ -388,6 +397,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
 
         {/* Image gallery for banner*/}
         <Dialog
+        PaperProps={{className: classes.fullPageXs}}
           open={this.state.openBanner}
           onClose={this.handleCloseBannerGallery}
 
@@ -400,6 +410,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
 
         {/* Image gallery for avatar */}
         <Dialog
+        PaperProps={{className: classes.fullPageXs}}
           open={this.state.openAvatar}
           onClose={this.handleCloseAvatarGallery}
         >

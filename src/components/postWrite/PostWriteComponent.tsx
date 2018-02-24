@@ -49,8 +49,17 @@ import * as postActions from 'actions/postActions'
 import { IPostWriteComponentProps } from './IPostWriteComponentProps'
 import { IPostWriteComponentState } from './IPostWriteComponentState'
 import { Post } from 'core/domain/posts'
+import Grid from 'material-ui/Grid/Grid'
 
 const styles = (theme: any) => ({
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      overflowY: 'auto'
+    }
+  },
   backdrop: {
     top: 0,
     left: 0,
@@ -62,7 +71,7 @@ const styles = (theme: any) => ({
     backgroundColor: 'rgba(251, 249, 249, 0.5)',
     WebkitTapHighlightColor: 'transparent'
   },
-  root: {
+  content: {
     padding: 0,
     paddingTop: 0
   },
@@ -88,7 +97,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
    * Component constructor
    * @param  {object} props is an object properties of component
    */
-  constructor (props: IPostWriteComponentProps) {
+  constructor(props: IPostWriteComponentProps) {
 
     super(props)
 
@@ -324,7 +333,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
     })
   }
 
-  componentWillReceiveProps (nextProps: IPostWriteComponentProps) {
+  componentWillReceiveProps(nextProps: IPostWriteComponentProps) {
     if (!nextProps.open) {
       const { postModel } = this.props
       this.setState({
@@ -365,7 +374,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
    * Reneder component DOM
    * @return {react element} return the DOM which rendered by component
    */
-  render () {
+  render() {
 
     const { classes, translate } = this.props
     const { menuOpen } = this.state
@@ -423,28 +432,28 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
      */
     const loadImage = (this.state.image && this.state.image !== '')
       ? (
-      <div>
-        <div style={{ position: 'relative', overflowY: 'hidden', overflowX: 'auto' }}>
-          <ul style={{ position: 'relative', whiteSpace: 'nowrap', padding: '0 0 0 16px', margin: '8px 0 0 0', paddingRight: '16px', verticalAlign: 'bottom', flexShrink: 0, listStyleType: 'none' }}>
-            <div style={{ display: 'flex', position: 'relative' }}>
-              <span onClick={this.handleRemoveImage} style={{
-                position: 'absolute', width: '28px', backgroundColor: 'rgba(255, 255, 255, 0.22)',
-                height: '28px', right: 12, top: 4, cursor: 'pointer', borderRadius: '50%',
-                display: 'flex', alignItems: 'center', justifyContent: 'center'
-              }}>
-                <SvgRemoveImage style={{ color: 'rgba(0, 0, 0, 0.53)' }} />
-              </span>
+        <div>
+          <div style={{ position: 'relative', overflowY: 'hidden', overflowX: 'auto' }}>
+            <ul style={{ position: 'relative', whiteSpace: 'nowrap', padding: '0 0 0 16px', margin: '8px 0 0 0', paddingRight: '16px', verticalAlign: 'bottom', flexShrink: 0, listStyleType: 'none' }}>
+              <div style={{ display: 'flex', position: 'relative' }}>
+                <span onClick={this.handleRemoveImage} style={{
+                  position: 'absolute', width: '28px', backgroundColor: 'rgba(255, 255, 255, 0.22)',
+                  height: '28px', right: 12, top: 4, cursor: 'pointer', borderRadius: '50%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center'
+                }}>
+                  <SvgRemoveImage style={{ color: 'rgba(0, 0, 0, 0.53)' }} />
+                </span>
 
-              <div style={{ display: 'inline-block', width: '100%', marginRight: '8px', transition: 'transform .25s' }}>
-                <li style={{ width: '100%', margin: 0, verticalAlign: 'bottom', position: 'static' }}>
-                  <Img fileName={this.state.image} style={{ width: '100%', height: 'auto' }} />
-                </li>
+                <div style={{ display: 'inline-block', width: '100%', marginRight: '8px', transition: 'transform .25s' }}>
+                  <li style={{ width: '100%', margin: 0, verticalAlign: 'bottom', position: 'static' }}>
+                    <Img fileName={this.state.image} style={{ width: '100%', height: 'auto' }} />
+                  </li>
+                </div>
               </div>
-            </div>
 
-          </ul>
+            </ul>
+          </div>
         </div>
-      </div>
       ) : ''
 
     const styles = {
@@ -459,14 +468,15 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
       <div style={this.props.style}>
         {this.props.children}
         <Dialog
-        BackdropProps={{className: classes.backdrop} as any}
+          BackdropProps={{ className: classes.backdrop } as any}
+          PaperProps={{className: classes.fullPageXs}}
           key={this.props.id || 0}
           open={this.props.open}
           onClose={this.props.onRequestClose}
         >
           <DialogContent
-          className={classes.root}
-          style={{paddingTop: 0}}
+            className={classes.content}
+            style={{ paddingTop: 0 }}
 
           >
 
@@ -478,10 +488,11 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
               >
               </CardHeader>
               <CardContent>
+                <Grid item xs={12}>
                 <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1, overflow: 'hidden' }}>
                   <div style={{ position: 'relative', flexDirection: 'column', display: 'flex', flexGrow: 1, overflow: 'hidden', overflowY: 'auto', maxHeight: '300px' }}>
                     <TextField
-                     autoFocus
+                      autoFocus
                       value={this.state.postText}
                       onChange={this.handleOnChange}
                       placeholder={translate!('post.textareaPlaceholder')}
@@ -504,6 +515,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
                     </div>
                   </div>
                 </div>
+                </Grid>
               </CardContent>
             </Card>
           </DialogContent>
@@ -515,8 +527,8 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
               onClick={this.props.onRequestClose}
               style={{ color: grey[800] }}
             >
-            {translate!('post.cancelButton')}
-      </Button>
+              {translate!('post.cancelButton')}
+            </Button>
             <Button
               color='primary'
               disableFocusRipple={true}
@@ -529,6 +541,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
           </DialogActions>
         </Dialog>
         <Dialog
+        PaperProps={{className: classes.fullPageXs}}
           open={this.state.galleryOpen}
           onClose={this.handleCloseGallery}
 
@@ -545,11 +558,11 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
               style={{ color: grey[800] }}
             >
               {translate!('post.cancelButton')}
-        </Button>
+            </Button>
           </DialogActions>
         </Dialog>
 
-      </div>
+      </div >
     )
   }
 }

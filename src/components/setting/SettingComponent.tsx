@@ -15,13 +15,25 @@ import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import * as authorizeActions from 'actions/authorizeActions'
 import { ISettingComponentProps } from './ISettingComponentProps'
 import { ISettingComponentState } from './ISettingComponentState'
+import { Grid } from 'material-ui'
 
 const styles = (theme: any) => ({
   textField: {
     minWidth: 280,
     marginTop: 20
 
-  }
+  },
+  contain: {
+    margin: '0 auto'
+  },
+  paper: {
+    minHeight: 370,
+    maxWidth: 450,
+    minWidth: 337,
+    textAlign: 'center',
+    display: 'block',
+    margin: 'auto'
+  },
 })
 /**
  * Create component class
@@ -123,28 +135,15 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
   render () {
 
     const {classes, translate} = this.props
-    const paperStyle = {
-      minHeight: 370,
-      width: 450,
-      textAlign: 'center',
-      display: 'block',
-      margin: 'auto'
-    }
-    return (
-      <div>
 
-        <h1 style={{
-          textAlign: 'center',
-          padding: '20px',
-          fontSize: '30px',
-          fontWeight: 500,
-          lineHeight: '32px',
-          margin: 'auto',
-          color: 'rgba(138, 148, 138, 0.2)'
-        }}>{config.settings.appName}</h1>
+    return (
+      <Grid container spacing={24}>
+        <Grid item xs={12} className={classes.contain}>
+
+        <h1 className='g__app-name'>{config.settings.appName}</h1>
 
         <div className='animate-bottom'>
-          <Paper style={paperStyle} elevation={1} >
+          <Paper className={classes.paper} elevation={1} >
             <div style={{ padding: '48px 40px 36px' }}>
               <div style={{
                 paddingLeft: '40px',
@@ -158,7 +157,7 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
                   fontWeight: 400,
                   lineHeight: '32px',
                   margin: 0
-                }} className='zoomOutLCorner animated'>{translate!('changePassword.title')}</h2>
+                }} className='zoomOutLCorner animated g__paper-title'>{translate!('changePassword.title')}</h2>
               </div>
 
               <TextField
@@ -195,7 +194,8 @@ export class SettingComponent extends Component<ISettingComponentProps,ISettingC
             </div>
           </Paper>
         </div>
-      </div>
+        </Grid>
+      </Grid>
     )
   }
 }
