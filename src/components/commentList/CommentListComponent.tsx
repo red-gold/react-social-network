@@ -22,7 +22,8 @@ const styles = (theme: any) => ({
   list: {
     width: '100%',
     maxHeight: 290,
-    overflowY: 'auto'
+    overflowY: 'auto',
+    overflowX: 'hidden'
   }
 })
 
