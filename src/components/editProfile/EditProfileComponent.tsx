@@ -49,7 +49,7 @@ const styles = (theme: any) => ({
     padding: 0
   },
   dialogContentRoot: {
-    maxHeight: 520,
+    maxHeight: 400,
     minWidth: 330
   },
   fullPageXs: {
