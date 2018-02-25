@@ -50,7 +50,11 @@ const styles = (theme: any) => ({
   },
   dialogContentRoot: {
     maxHeight: 400,
-    minWidth: 330
+    minWidth: 330,
+    [theme.breakpoints.down('xs')]: {
+      maxHeight: '100%',
+    }
+
   },
   fullPageXs: {
     [theme.breakpoints.down('xs')]: {
@@ -58,6 +62,21 @@ const styles = (theme: any) => ({
       height: '100%',
       margin: 0,
       overflowY: 'auto'
+    }
+  },
+  fixedDownStickyXS: {
+    [theme.breakpoints.down('xs')]: {
+      position: 'fixed',
+      bottom: 0,
+      right: 0,
+      background: 'white',
+      width: '100%'
+    }
+  },
+  bottomSpace: {
+    height: 16,
+    [theme.breakpoints.down('xs')]: {
+      height: 36
     }
   }
 })
@@ -326,7 +345,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
       <div>
         {/* Edit profile dialog */}
         <Dialog
-        PaperProps={{className: classes.fullPageXs}}
+          PaperProps={{ className: classes.fullPageXs }}
           key='Edit-Profile'
           open={this.props.open!}
           onClose={this.props.onRequestClose}
@@ -391,17 +410,17 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
               <br />
 
             </Paper>
-            <div style={{ height: '16px' }}></div>
+            <div className={classes.bottomSpace}></div>
           </DialogContent>
-            <DialogActions>
-                <Button onClick={this.props.onRequestClose} > {translate!('profile.cancelButton')} </Button>
-                <Button variant='raised' color='primary' onClick={this.handleUpdate} style={this.styles.updateButton}> {translate!('profile.updateButton')} </Button>
-              </DialogActions>
+          <DialogActions className={classes.fixedDownStickyXS}>
+            <Button onClick={this.props.onRequestClose} > {translate!('profile.cancelButton')} </Button>
+            <Button variant='raised' color='primary' onClick={this.handleUpdate} style={this.styles.updateButton}> {translate!('profile.updateButton')} </Button>
+          </DialogActions>
         </Dialog>
 
         {/* Image gallery for banner*/}
         <Dialog
-        PaperProps={{className: classes.fullPageXs}}
+          PaperProps={{ className: classes.fullPageXs }}
           open={this.state.openBanner}
           onClose={this.handleCloseBannerGallery}
 
@@ -414,7 +433,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
 
         {/* Image gallery for avatar */}
         <Dialog
-        PaperProps={{className: classes.fullPageXs}}
+          PaperProps={{ className: classes.fullPageXs }}
           open={this.state.openAvatar}
           onClose={this.handleCloseAvatarGallery}
         >
