@@ -48,6 +48,10 @@ const styles = (theme: any) => ({
   dialogTitle: {
     padding: 0
   },
+  dialogContentRoot: {
+    maxHeight: 520,
+    minWidth: 330
+  },
   fullPageXs: {
     [theme.breakpoints.down('xs')]: {
       width: '100%',
@@ -328,7 +332,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
           onClose={this.props.onRequestClose}
           maxWidth='sm'
         >
-          <DialogContent>
+          <DialogContent className={classes.dialogContentRoot}>
             {/* Banner */}
             <div style={{ position: 'relative' }}>
               <ImgCover width='100%' height='250px' borderRadius='2px' fileName={this.state.banner} />

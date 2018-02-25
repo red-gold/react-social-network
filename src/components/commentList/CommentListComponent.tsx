@@ -2,6 +2,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+
+// - Material UI
+import { withStyles } from 'material-ui/styles'
 import List, { ListItem, ListItemText } from 'material-ui/List'
 
 // - Import app components
@@ -14,6 +17,14 @@ import { ICommentListComponentState } from './ICommentListComponentState'
 import { Comment } from 'core/domain/comments'
 
 // - Import actions
+
+const styles = (theme: any) => ({
+  list: {
+    width: '100%',
+    maxHeight: 290,
+    overflowY: 'auto'
+  }
+})
 
 /**
  * Create component class
@@ -88,17 +99,11 @@ export class CommentListComponent extends Component<ICommentListComponentProps, 
    * @return {react element} return the DOM which rendered by component
    */
   render () {
-
-    const styles: any = {
-      list: {
-        width: '100%',
-        maxHeight: 450
-      }
-    }
+    const {classes} = this.props
 
     return (
 
-      <List style={styles.list}>
+      <List className={classes.list}>
 
         {this.commentList()}
       </List>
@@ -133,4 +138,4 @@ const mapStateToProps = (state: any, ownProps: ICommentListComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(CommentListComponent as any)
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles as any)(CommentListComponent as any))as any)

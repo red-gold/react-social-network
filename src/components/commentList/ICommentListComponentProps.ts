@@ -35,4 +35,9 @@ export interface ICommentListComponentProps {
    * @memberof ICommentListComponentProps
    */
   disableComments: boolean
+
+  /**
+   * Styles
+   */
+  classes?: any
 }
