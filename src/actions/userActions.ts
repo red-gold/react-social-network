@@ -34,7 +34,11 @@ export const dbGetUserInfo = () => {
           fullName: userProfile.fullName,
           banner: userProfile.banner,
           tagLine: userProfile.tagLine,
-          creationDate: userProfile.creationDate
+          creationDate: userProfile.creationDate,
+          birthday: userProfile.birthday,
+          companyName: userProfile.companyName,
+          webUrl: userProfile.webUrl,
+          twitterId: userProfile.twitterId,
         }))
       })
       .catch((error: SocialError) => dispatch(globalActions.showMessage(error.message)))
@@ -63,7 +67,11 @@ export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
           fullName: userProfile.fullName,
           banner: userProfile.banner,
           tagLine: userProfile.tagLine,
-          creationDate: userProfile.creationDate
+          creationDate: userProfile.creationDate,
+          birthday: userProfile.birthday,
+          companyName: userProfile.companyName,
+          webUrl: userProfile.webUrl,
+          twitterId: userProfile.twitterId,
         }))
 
         switch (callerKey) {
@@ -87,7 +95,7 @@ export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
  */
 export const dbUpdateUserInfo = (newProfile: Profile) => {
   return (dispatch: any, getState: Function) => {
-
+    console.trace('newProfile', newProfile)
     // Get current user id
     let uid: string = getState().authorize.uid
 
@@ -98,6 +106,10 @@ export const dbUpdateUserInfo = (newProfile: Profile) => {
       email: newProfile.email || profile.email || '',
       fullName: newProfile.fullName || profile.fullName || '',
       tagLine: newProfile.tagLine || profile.tagLine || '',
+      birthday: newProfile.birthday,
+      companyName: newProfile.companyName || '',
+      webUrl: newProfile.webUrl || '',
+      twitterId: newProfile.twitterId || '',
       creationDate: newProfile.creationDate
     }
     return userService.updateUserProfile(uid,updatedProfile).then(() => {

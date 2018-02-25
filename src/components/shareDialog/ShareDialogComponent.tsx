@@ -105,7 +105,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <FacebookShareButton
                   onShareWindowClose={onClose}
-                  url={`https://test-4515a.firebaseapp.com/${post.ownerUserId}/posts/${post.id}`}
+                  url={`${location.origin}/${post.ownerUserId}/posts/${post.id}`}
                   quote={post.body}
                   hashtag={`#${post.tags![0]}`}>
                   <MenuItem >
@@ -121,7 +121,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <TwitterShareButton
                   onShareWindowClose={onClose}
-                  url={`https://test-4515a.firebaseapp.com/${post.ownerUserId}/posts/${post.id}`}
+                  url={`${location.origin}/${post.ownerUserId}/posts/${post.id}`}
                   quote={post.body}
                   hashtag={`#${post.tags![0]}`}>
                   <MenuItem >
@@ -137,7 +137,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <LinkedinShareButton
                   onShareWindowClose={onClose}
-                  url={`https://test-4515a.firebaseapp.com/${post.ownerUserId}/posts/${post.id}`}
+                  url={`${location.origin}/${post.ownerUserId}/posts/${post.id}`}
                   quote={post.body}
                   hashtag={`#${post.tags![0]}`}>
                   <MenuItem >
@@ -153,7 +153,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <GooglePlusShareButton
                   onShareWindowClose={onClose}
-                  url={`https://test-4515a.firebaseapp.com/${post.ownerUserId}/posts/${post.id}`}
+                  url={`${location.origin}/${post.ownerUserId}/posts/${post.id}`}
                   quote={post.body}
                   hashtag={`#${post.tags![0]}`}>
                   <MenuItem >

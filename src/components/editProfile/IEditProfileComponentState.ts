@@ -65,4 +65,29 @@ export interface IEditProfileComponentState {
    */
   openAvatar: boolean
 
+  /**
+   * Default birth day
+   */
+  defaultBirthday: Date
+
+  /**
+   * Seleted birth day
+   */
+  selectedBirthday: number
+
+  /**
+   * Web URL
+   */
+  webUrl: string
+
+  /**
+   * User company name
+   */
+  companyName: string
+
+  /**
+   * User twitter id
+   */
+  twitterId: string
+
 }
