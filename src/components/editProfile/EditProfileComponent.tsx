@@ -60,8 +60,7 @@ const styles = (theme: any) => ({
     [theme.breakpoints.down('xs')]: {
       width: '100%',
       height: '100%',
-      margin: 0,
-      overflowY: 'auto'
+      margin: 0
     }
   },
   fixedDownStickyXS: {
@@ -76,7 +75,7 @@ const styles = (theme: any) => ({
   bottomSpace: {
     height: 16,
     [theme.breakpoints.down('xs')]: {
-      height: 36
+      height: 90
     }
   }
 })
