@@ -53,6 +53,7 @@
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^5.0.0-alpha.6",
     "react-scripts-ts": "2.13.0",
+    "react-share": "^2.0.0",
     "react-string-replace": "^0.4.0",
     "react-tap-event-plugin": "^3.0.2",
     "redux": "^3.7.2",

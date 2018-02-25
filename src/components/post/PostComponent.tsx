@@ -13,7 +13,6 @@ import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import { Card, CardActions, CardHeader, CardMedia, CardContent } from 'material-ui'
 import Typography from 'material-ui/Typography'
 import SvgShare from 'material-ui-icons/Share'
-import SvgLink from 'material-ui-icons/Link'
 import SvgComment from 'material-ui-icons/Comment'
 import SvgFavorite from 'material-ui-icons/Favorite'
 import SvgFavoriteBorder from 'material-ui-icons/FavoriteBorder'
@@ -39,6 +38,7 @@ import reactStringReplace from 'react-string-replace'
 
 // - Import app components
 import CommentGroup from 'components/commentGroup'
+import ShareDialog from 'components/shareDialog'
 import PostWrite from 'components/postWrite'
 import Img from 'components/img'
 import IconButtonElement from 'layouts/IconButtonElement'
@@ -80,18 +80,6 @@ const styles = (theme: any) => ({
     pointerEvents: 'none',
     zIndex: 0
   },
-  shareLinkPaper: {
-    minHeight: 80,
-    padding: 10,
-    minWidth: 460
-  },
-  clipboard: {
-    fontSize: '18px',
-    textAlign: 'center',
-    marginTop: '10px',
-    color: '#1e882d',
-    fontWeight: 400
-  },
   postBody: {
     wordWrap: 'break-word',
     color: 'rgba(0, 0, 0, 0.87)',
@@ -103,6 +91,14 @@ const styles = (theme: any) => ({
   image: {
     width: '100%',
     height: 500
+  },
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      overflowY: 'auto'
+    }
   }
 })
 
@@ -450,31 +446,15 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
 
         <CommentGroup open={this.state.openComments} comments={commentList} ownerPostUserId={post.ownerUserId!} onToggleRequest={this.handleOpenComments} isPostOwner={this.props.isPostOwner!} disableComments={post.disableComments!} postId={post.id!} />
 
-        {/* Copy link dialog*/}
-        <Dialog
-          title='Share On'
-          open={this.state.shareOpen}
-          onClose={this.handleCloseShare}
-        >
-             <Paper className={classes.shareLinkPaper}>
-              {!this.state.openCopyLink
-             ? (<MenuList>
-                <MenuItem onClick={this.handleCopyLink} >
-                  <ListItemIcon>
-                    <SvgLink />
-                  </ListItemIcon>
-                  <ListItemText inset primary={translate!('post.copyLinkButton')} />
-                </MenuItem>
-              </MenuList>)
-            : <div>
-              <TextField autoFocus fullWidth={true} id='text-field-default' defaultValue={`${location.origin}/${post.ownerUserId}/posts/${post.id}`} />
-              <Typography className={classNames('animate-top', classes.clipboard)} variant='headline' component='h2'>
-              Link has been copied to clipboard ...
-          </Typography>
-              </div>}
-            </Paper>
-        </Dialog>
+        <ShareDialog 
+        onClose={this.handleCloseShare} 
+        shareOpen={this.state.shareOpen} 
+        onCopyLink={this.handleCopyLink} 
+        openCopyLink={this.state.openCopyLink}
+        post={post} 
 
+        />
+       
         <PostWrite
           open={this.state.openPostWrite}
           onRequestClose={this.handleClosePostWrite}
