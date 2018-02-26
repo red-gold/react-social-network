@@ -92,7 +92,7 @@ const styles = (theme: any) => ({
       height: '100%',
     },
     top: 70,
-    backgroundColor: 'transparent',
+    backgroundColor: '#fafafa',
     borderRight: 0
   },
   menu: {
