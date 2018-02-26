@@ -23,7 +23,7 @@ const styles = (theme: any) => ({
     width: '100%',
     maxHeight: 290,
     overflowY: 'auto',
-    overflowX: 'hidden'
+    overflowX: 'visible'
   }
 })
 

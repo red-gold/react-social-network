@@ -135,6 +135,7 @@ export const dbUpdateComment = (comment: Comment) => {
     return commentService.updateComment(comment)
       .then(() => {
         dispatch(updateComment( comment))
+        dispatch(closeCommentEditor(comment))
         dispatch(globalActions.hideTopLoading())
 
       }, (error: SocialError) => {
