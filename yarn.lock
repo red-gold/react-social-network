@@ -2076,7 +2076,7 @@ es6-set@~0.1.5:
     es6-symbol "3.1.1"
     event-emitter "~0.3.5"
 
-es6-symbol@3.1.1, es6-symbol@^3.1.0, es6-symbol@^3.1.1, es6-symbol@~3.1.1:
+es6-symbol@3.1.1, es6-symbol@^3.1.1, es6-symbol@~3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/es6-symbol/-/es6-symbol-3.1.1.tgz#bf00ef4fdab6ba1b46ecb7b629b4c7ed5715cc77"
   dependencies:
@@ -4426,13 +4426,6 @@ material-ui-icons@^1.0.0-beta.17:
   dependencies:
     recompose "^0.26.0"
 
-material-ui-pickers@^1.0.0-beta.15.1:
-  version "1.0.0-beta.15.1"
-  resolved "https://registry.yarnpkg.com/material-ui-pickers/-/material-ui-pickers-1.0.0-beta.15.1.tgz#37f29e8e26a1b5fbc8a183a61fe1d8f9e830d47c"
-  dependencies:
-    moment-range "^3.0.3"
-    react-text-mask "^5.0.2"
-
 material-ui@^1.0.0-beta.34:
   version "1.0.0-beta.34"
   resolved "https://registry.yarnpkg.com/material-ui/-/material-ui-1.0.0-beta.34.tgz#bea328d3d34df7ab8bf01c936d08adee11195b80"
@@ -4666,12 +4659,6 @@ mkdirp@0.5.x, "mkdirp@>=0.5 0", mkdirp@^0.5.0, mkdirp@^0.5.1, mkdirp@~0.5.0, mkd
   resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.1.tgz#30057438eac6cf7f8c4767f38648d6697d75c903"
   dependencies:
     minimist "0.0.8"
-
-moment-range@^3.0.3:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/moment-range/-/moment-range-3.1.1.tgz#5c52cf9fab29db9dd9bcd86d37e52b04a7a7271a"
-  dependencies:
-    es6-symbol "^3.1.0"
 
 moment@^2.18.1:
   version "2.20.1"
@@ -5884,7 +5871,7 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
-prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.0:
+prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -6091,6 +6078,13 @@ react-avatar-editor@^10.3.0:
   dependencies:
     prop-types "^15.5.8"
 
+react-day-picker@^7.0.7:
+  version "7.0.7"
+  resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-7.0.7.tgz#4af30404ebb19125ff5f9f2d62e6204b4e68f119"
+  dependencies:
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
+
 react-dev-utils@4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-4.2.1.tgz#9f2763e7bafa1a1b9c52254d2a479deec280f111"
@@ -6288,12 +6282,6 @@ react-tap-event-plugin@^3.0.2:
   resolved "https://registry.yarnpkg.com/react-tap-event-plugin/-/react-tap-event-plugin-3.0.2.tgz#280371677b881c31376e0027a0b86d2c6de039ee"
   dependencies:
     fbjs "^0.8.6"
-
-react-text-mask@^5.0.2:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/react-text-mask/-/react-text-mask-5.1.0.tgz#490aa519aae73398d491edd675c821dc947b764b"
-  dependencies:
-    prop-types "^15.5.6"
 
 react-transition-group@^2.2.1:
   version "2.2.1"

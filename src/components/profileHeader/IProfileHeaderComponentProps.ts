@@ -64,6 +64,11 @@ export interface IProfileHeaderComponentProps {
   userId: string
 
   /**
+   * Whether edit profile is open
+   */
+  editProfileOpen?: boolean
+
+  /**
    * Translate to locale string
    */
   translate?: (state: any) => any

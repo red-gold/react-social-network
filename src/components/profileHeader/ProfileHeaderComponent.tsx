@@ -117,7 +117,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
      * @return {react element} return the DOM which rendered by component
      */
   render () {
-    const {translate, isAuthedUser} = this.props
+    const {translate, isAuthedUser, editProfileOpen} = this.props
     const styles = {
       avatar: {
         border: '2px solid rgb(255, 255, 255)'
@@ -207,7 +207,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
                         </div>) : ''}
                     </div>
                 </div>
-                {isAuthedUser ? (<EditProfile
+                {isAuthedUser && editProfileOpen ? (<EditProfile
                     avatar={this.props.avatar}
                     banner={this.props.banner}
                     fullName={this.props.fullName}
@@ -238,7 +238,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: IProfileHeaderComponentProp
 const mapStateToProps = (state: any, ownProps: IProfileHeaderComponentProps) => {
 
   return {
-    translate: getTranslate(state.locale)
+    translate: getTranslate(state.locale),
+    editProfileOpen: state.user.openEditProfile
   }
 }
 

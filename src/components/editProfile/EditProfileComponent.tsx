@@ -4,6 +4,12 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import moment from 'moment/moment'
+import DayPickerInput from 'react-day-picker/DayPickerInput'
+import 'react-day-picker/lib/style.css'
+import MomentLocaleUtils, {
+  formatDate,
+  parseDate,
+} from 'react-day-picker/moment'
 
 import { grey } from 'material-ui/colors'
 import IconButton from 'material-ui/IconButton'
@@ -26,13 +32,13 @@ import TextField from 'material-ui/TextField'
 import Input, { InputLabel } from 'material-ui/Input'
 import { FormControl, FormHelperText } from 'material-ui/Form'
 import { withStyles } from 'material-ui/styles'
-import { TimePicker, DatePicker, DateTimePicker } from 'material-ui-pickers'
 
 // - Import app components
 import ImgCover from 'components/imgCover'
 import UserAvatarComponent from 'components/userAvatar'
 import ImageGallery from 'components/imageGallery'
 import AppDialogTitle from 'layouts/dialogTitle'
+import AppInput from 'layouts/appInput'
 
 // - Import API
 import FileAPI from 'api/FileAPI'
@@ -87,6 +93,10 @@ const styles = (theme: any) => ({
   },
   bottomTextSpace: {
     marginBottom: 15
+  },
+  dayPicker: {
+    width: '100%',
+    padding: '13px 0px 8px'
   }
 })
 
@@ -195,7 +205,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
       /**
        * Default birth day
        */
-      defaultBirthday:  (props.info && props.info.birthday) ? moment.unix(props.info!.birthday!).toDate() : new Date(),
+      defaultBirthday: (props.info && props.info.birthday) ? moment.unix(props.info!.birthday!).toDate() : '',
       /**
        * Seleted birth day
        */
@@ -283,8 +293,8 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
    * @memberof EditProfile
    */
   handleUpdate = () => {
-    const { fullNameInput, tagLineInput, avatar, banner, selectedBirthday, companyName, webUrl, twitterId} = this.state
-    const {info} = this.props
+    const { fullNameInput, tagLineInput, avatar, banner, selectedBirthday, companyName, webUrl, twitterId } = this.state
+    const { info } = this.props
 
     if (this.state.fullNameInput.trim() === '') {
       this.setState({
@@ -346,9 +356,8 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
   /**
    * Handle birthday date changed
    */
-  handleBirthdayDateChange = (date: moment.Moment) => {
-    console.trace('changed', date)
-    this.setState({ selectedBirthday: date.unix() })
+  handleBirthdayDateChange = (date: any) => {
+    this.setState({ selectedBirthday: moment(date).unix() })
   }
 
   componentDidMount() {
@@ -361,8 +370,8 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
    */
   render() {
 
-    const { classes, translate } = this.props
-    const {defaultBirthday, webUrl, twitterId, companyName} = this.state
+    const { classes, translate, currentLanguage } = this.props
+    const { defaultBirthday, webUrl, twitterId, companyName } = this.state
     const iconButtonElement = (
       <IconButton style={this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton}>
         <MoreVertIcon style={{ ...(this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton), color: grey[400] }} viewBox='10 0 24 24' />
@@ -430,8 +439,8 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
                   <Input id='fullNameInput'
                     onChange={this.handleInputChange}
                     name='fullNameInput'
-                    value={this.state.fullNameInput} 
-                    />
+                    value={this.state.fullNameInput}
+                  />
                   <FormHelperText id='fullNameInputError'>{this.state.fullNameInputError}</FormHelperText>
                 </FormControl>
               </div>
@@ -441,50 +450,58 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
                   <Input id='tagLineInput'
                     onChange={this.handleInputChange}
                     name='tagLineInput'
-                    value={this.state.tagLineInput} 
-                    />
+                    value={this.state.tagLineInput}
+                  />
                   <FormHelperText id='tagLineInputError'>{this.state.fullNameInputError}</FormHelperText>
                 </FormControl>
               </div>
               <div className={classes.box}>
-              <TextField 
-              className={classes.bottomTextSpace}
-              onChange={this.handleInputChange}
-              name='companyName'
-              value={companyName}
-              label={translate!('profile.companyName')}
-              fullWidth
-              />
+                <TextField
+                  className={classes.bottomTextSpace}
+                  onChange={this.handleInputChange}
+                  name='companyName'
+                  value={companyName}
+                  label={translate!('profile.companyName')}
+                  fullWidth
+                />
               </div>
               <div className={classes.box}>
-              <TextField 
-              className={classes.bottomTextSpace}
-              onChange={this.handleInputChange}
-              name='twitterId'
-              value={twitterId}
-              label={translate!('profile.twitterId')}
-              fullWidth
-              />
+                <TextField
+                  className={classes.bottomTextSpace}
+                  onChange={this.handleInputChange}
+                  name='twitterId'
+                  value={twitterId}
+                  label={translate!('profile.twitterId')}
+                  fullWidth
+                />
               </div>
               <div className={classes.box}>
-              <TextField 
-              className={classes.bottomTextSpace}
-              onChange={this.handleInputChange}
-              name='webUrl'
-              value={webUrl}
-              label={translate!('profile.webUrl')}
-              fullWidth
-              />
+                <TextField
+                  className={classes.bottomTextSpace}
+                  onChange={this.handleInputChange}
+                  name='webUrl'
+                  value={webUrl}
+                  label={translate!('profile.webUrl')}
+                  fullWidth
+                />
               </div>
               <div className={classes.box}>
-              <DatePicker
+              <DayPickerInput
+              classNames={{ container: classes.dayPicker, overlay: '' }}
                 value={defaultBirthday}
-                onChange={this.handleBirthdayDateChange}
-                label={translate!('profile.birthday')}
-                fullWidth
+                onDayChange={this.handleBirthdayDateChange}
+                formatDate={formatDate}
+                parseDate={parseDate}
+                component={AppInput}
+                format='LL'
+                placeholder={`${moment().format('LL')}`}
+                dayPickerProps={{
+                  locale: currentLanguage,
+                  localeUtils: MomentLocaleUtils,
+                }}
               />
               </div>
-              <br/>
+              <br />
 
             </Paper>
             <div className={classes.bottomPaperSpace}></div>
@@ -547,6 +564,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IEditProfileComponentProps)
  */
 const mapStateToProps = (state: any, ownProps: IEditProfileComponentProps) => {
   return {
+    currentLanguage: getActiveLanguage(state.locale).code,
     translate: getTranslate(state.locale),
     open: state.user.openEditProfile,
     info: state.user.info[state.authorize.uid],

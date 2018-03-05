@@ -68,7 +68,7 @@ export interface IEditProfileComponentState {
   /**
    * Default birth day
    */
-  defaultBirthday: Date
+  defaultBirthday: any
 
   /**
    * Seleted birth day
