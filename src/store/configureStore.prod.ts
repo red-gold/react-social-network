@@ -22,4 +22,4 @@ let store: redux.Store<any> = redux.createStore(rootReducer, initialState, redux
   (window as any).devToolsExtension ? (window as any).devToolsExtension() : (f: any) => f
 ))
 
-export default store
+export default {store, history}

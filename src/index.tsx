@@ -9,7 +9,7 @@ import registerServiceWorker from './registerServiceWorker'
 import config from 'src/config'
 
 import { Provider } from 'react-redux'
-import store, { history } from 'store/configureStore'
+import configureStore from 'store/configureStore'
 import { ConnectedRouter } from 'react-router-redux'
 
 // - Actions
@@ -21,10 +21,10 @@ import Master from 'components/master'
 
 // Set default data
 // tslint:disable-next-line:no-empty
-store.subscribe(() => { })
+configureStore.store.subscribe(() => { })
 
 // - Initialize languages
-store.dispatch(localeActions.initTranslation())
+configureStore.store.dispatch(localeActions.initTranslation())
 
 // Needed for onClick
 // http://stackoverflow.com/a/34015469/988941
@@ -47,8 +47,8 @@ import './socialEngine'
 
 const supportsHistory = 'pushState' in window.history
 ReactDOM.render(
-			<Provider store={store}>
-				<ConnectedRouter history={history}>
+			<Provider store={configureStore.store}>
+				<ConnectedRouter history={configureStore.history}>
 					<MuiThemeProvider theme={theme}>
 						<Master />
 					</MuiThemeProvider>
