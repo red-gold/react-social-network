@@ -20,9 +20,9 @@ The structure of this project give the ability to developer to develop their pro
   </a>
 </p>
 
-Since I started building this project I've planned to have a back end for this project so I haven't focused on performance until I build the back end and move some data procedure from end to back end. Therefore I need to change data structure and actions for [Redux](http://redux.js.org/).
-For those who prefer writing code by typescript, now React Social Network support both javascript and typescript language.
-
+## 🌟New Upgrade :
+React Social Network is [moving on redux-saga](https://github.com/Qolzam/react-social-network/issues/48) however we keep [redux-thunk](https://github.com/gaearon/redux-thunk) version of **React Social Network** in branch name `v0.5`. Any contribution would be appreciate by :heart:.
+ 
 >You should consult the [CHANGELOG](https://github.com/Qolzam/react-social-network/blob/next/CHANGELOG.md) and related issues for more information
 
 This project adheres to the Contributor Covenant [code of conduct](https://github.com/Qolzam/react-social-network/blob/next/CODE_OF_CONDUCT.md).
