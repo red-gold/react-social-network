@@ -83,6 +83,10 @@
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.2.6.tgz#a4b81ca8cdeb1acbc7923289a4a514f61b59db86"
 
+"@types/base16@*":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@types/base16/-/base16-1.0.1.tgz#76dc8630675e99d1d5be78dfef59307254831203"
+
 "@types/classnames@^2.2.3":
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.3.tgz#3f0ff6873da793870e20a260cada55982f38a9e5"
@@ -173,6 +177,26 @@
 "@types/react@*", "@types/react@^16.0.36":
   version "16.0.38"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.38.tgz#76617433ea10274505f60bb86eddfdd0476ffdc2"
+
+"@types/redux-devtools-dock-monitor@^1.1.32":
+  version "1.1.32"
+  resolved "https://registry.yarnpkg.com/@types/redux-devtools-dock-monitor/-/redux-devtools-dock-monitor-1.1.32.tgz#09103f3734de63a02fbd2d42618291061dd6fce0"
+  dependencies:
+    "@types/react" "*"
+
+"@types/redux-devtools-log-monitor@^1.0.33":
+  version "1.0.33"
+  resolved "https://registry.yarnpkg.com/@types/redux-devtools-log-monitor/-/redux-devtools-log-monitor-1.0.33.tgz#2432606c74250cac15fc74bb891762376b533a19"
+  dependencies:
+    "@types/base16" "*"
+    "@types/react" "*"
+
+"@types/redux-devtools@^3.0.43":
+  version "3.0.43"
+  resolved "https://registry.yarnpkg.com/@types/redux-devtools/-/redux-devtools-3.0.43.tgz#082b203a3b06cb768ea26601f8080b57a7a96d42"
+  dependencies:
+    "@types/react" "*"
+    redux "^3.6.0"
 
 "@types/redux-logger@^3.0.4":
   version "3.0.5"
@@ -691,7 +715,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.6.1:
+babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0, babel-runtime@^6.6.1:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -742,6 +766,10 @@ balanced-match@^0.4.2:
 balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
+
+base16@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/base16/-/base16-1.0.0.tgz#e297f60d7ec1014a7a971a39ebc8a98c0b681e70"
 
 base64-js@^1.0.2:
   version "1.2.3"
@@ -4247,6 +4275,10 @@ lodash._createset@~4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/lodash._createset/-/lodash._createset-4.0.3.tgz#0f4659fbb09d75194fa9e2b88a6644d363c9fe26"
 
+lodash._getnative@^3.0.0:
+  version "3.9.1"
+  resolved "https://registry.yarnpkg.com/lodash._getnative/-/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
+
 lodash._reinterpolate@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
@@ -4267,6 +4299,20 @@ lodash.clonedeep@^4.3.2, lodash.clonedeep@~4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
 
+lodash.curry@^4.0.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.curry/-/lodash.curry-4.1.1.tgz#248e36072ede906501d75966200a86dab8b23170"
+
+lodash.debounce@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-3.1.1.tgz#812211c378a94cc29d5aa4e3346cf0bfce3a7df5"
+  dependencies:
+    lodash._getnative "^3.0.0"
+
+lodash.debounce@^4.0.4:
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
+
 lodash.defaults@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/lodash.defaults/-/lodash.defaults-4.2.0.tgz#d09178716ffea4dde9e5fb7b37f6f0802274580c"
@@ -4274,6 +4320,10 @@ lodash.defaults@^4.2.0:
 lodash.endswith@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/lodash.endswith/-/lodash.endswith-4.2.1.tgz#fed59ac1738ed3e236edd7064ec456448b37bc09"
+
+lodash.flow@^3.3.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/lodash.flow/-/lodash.flow-3.5.0.tgz#87bf40292b8cf83e4e8ce1a3ae4209e20071675a"
 
 lodash.isequal@^4.0.0:
   version "4.5.0"
@@ -5372,6 +5422,10 @@ parse-json@^4.0.0:
     error-ex "^1.3.1"
     json-parse-better-errors "^1.0.1"
 
+parse-key@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/parse-key/-/parse-key-0.2.1.tgz#7bcf76595536e36075664be4d687e4bdd910208f"
+
 parse-passwd@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/parse-passwd/-/parse-passwd-1.0.0.tgz#6d5b934a456993b23d37f40a382d6f1666a8e5c6"
@@ -5871,6 +5925,14 @@ promzard@^0.3.0:
   dependencies:
     read "1"
 
+prop-types@^15.0.0, prop-types@^15.5.7:
+  version "15.6.1"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.1.tgz#36644453564255ddda391191fb3a125cbdf654ca"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
 prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
@@ -5958,6 +6020,10 @@ punycode@1.3.2:
 punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
+
+pure-color@^1.2.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/pure-color/-/pure-color-1.3.0.tgz#1fe064fb0ac851f0de61320a8bf796836422f33e"
 
 q@^1.1.2:
   version "1.5.1"
@@ -6078,6 +6144,15 @@ react-avatar-editor@^10.3.0:
   dependencies:
     prop-types "^15.5.8"
 
+react-base16-styling@^0.5.1:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/react-base16-styling/-/react-base16-styling-0.5.3.tgz#3858f24e9c4dd8cbd3f702f3f74d581ca2917269"
+  dependencies:
+    base16 "^1.0.0"
+    lodash.curry "^4.0.1"
+    lodash.flow "^3.3.0"
+    pure-color "^1.2.0"
+
 react-day-picker@^7.0.7:
   version "7.0.7"
   resolved "https://registry.yarnpkg.com/react-day-picker/-/react-day-picker-7.0.7.tgz#4af30404ebb19125ff5f9f2d62e6204b4e68f119"
@@ -6108,6 +6183,13 @@ react-dev-utils@4.2.1:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
+react-dock@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/react-dock/-/react-dock-0.2.4.tgz#e727dc7550b3b73116635dcb9c0e04d0b7afe17c"
+  dependencies:
+    lodash.debounce "^3.1.1"
+    prop-types "^15.5.8"
+
 react-dom@^16.2.0:
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.2.0.tgz#69003178601c0ca19b709b33a83369fe6124c044"
@@ -6135,6 +6217,14 @@ react-infinite-scroller@^1.1.2:
   resolved "https://registry.yarnpkg.com/react-infinite-scroller/-/react-infinite-scroller-1.1.3.tgz#c4230024bc237ce876c76b2e38d77dc1f6aabb26"
   dependencies:
     prop-types "^15.5.8"
+
+react-json-tree@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/react-json-tree/-/react-json-tree-0.11.0.tgz#f5b17e83329a9c76ae38be5c04fda3a7fd684a35"
+  dependencies:
+    babel-runtime "^6.6.1"
+    prop-types "^15.5.8"
+    react-base16-styling "^0.5.1"
 
 react-jss@^8.1.0:
   version "8.3.3"
@@ -6173,6 +6263,10 @@ react-popper@^0.8.0:
   dependencies:
     popper.js "^1.12.9"
     prop-types "^15.6.0"
+
+react-pure-render@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-pure-render/-/react-pure-render-1.0.2.tgz#9d8a928c7f2c37513c2d064e57b3e3c356e9fabb"
 
 react-redux@^5.0.6:
   version "5.0.7"
@@ -6483,6 +6577,47 @@ redux-actions@^2.0.3:
     lodash "^4.13.1"
     lodash-es "^4.17.4"
     reduce-reducers "^0.1.0"
+
+redux-devtools-dock-monitor@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/redux-devtools-dock-monitor/-/redux-devtools-dock-monitor-1.1.3.tgz#1205e823c82536570aac8551a1c4b70972cba6aa"
+  dependencies:
+    babel-runtime "^6.2.0"
+    parse-key "^0.2.1"
+    prop-types "^15.5.8"
+    react-dock "^0.2.4"
+    react-pure-render "^1.0.2"
+
+redux-devtools-instrument@^1.0.1:
+  version "1.8.3"
+  resolved "https://registry.yarnpkg.com/redux-devtools-instrument/-/redux-devtools-instrument-1.8.3.tgz#c510d67ab4e5e4525acd6e410c25ab46b85aca7c"
+  dependencies:
+    lodash "^4.2.0"
+    symbol-observable "^1.0.2"
+
+redux-devtools-log-monitor@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/redux-devtools-log-monitor/-/redux-devtools-log-monitor-1.4.0.tgz#716b9580eda2a331cd359a36aa09e3a1602a854b"
+  dependencies:
+    lodash.debounce "^4.0.4"
+    prop-types "^15.0.0"
+    react-json-tree "^0.11.0"
+    react-pure-render "^1.0.2"
+    redux-devtools-themes "^1.0.0"
+
+redux-devtools-themes@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/redux-devtools-themes/-/redux-devtools-themes-1.0.0.tgz#c482dce3c5373976045f40134907d9dcb3ae3d5d"
+  dependencies:
+    base16 "^1.0.0"
+
+redux-devtools@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/redux-devtools/-/redux-devtools-3.4.1.tgz#09d342ce0ab6087be679e953a1d7c530efa1138e"
+  dependencies:
+    lodash "^4.2.0"
+    prop-types "^15.5.7"
+    redux-devtools-instrument "^1.0.1"
 
 redux-logger@^3.0.1:
   version "3.0.6"
@@ -7373,7 +7508,7 @@ sw-toolbox@^3.4.0:
     path-to-regexp "^1.0.1"
     serviceworker-cache-polyfill "^4.0.0"
 
-symbol-observable@^1.0.3, symbol-observable@^1.0.4, symbol-observable@^1.1.0:
+symbol-observable@^1.0.2, symbol-observable@^1.0.3, symbol-observable@^1.0.4, symbol-observable@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/symbol-observable/-/symbol-observable-1.2.0.tgz#c22688aed4eab3cdc2dfeacbb561660560a00804"
 
