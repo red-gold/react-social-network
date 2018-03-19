@@ -40,8 +40,8 @@ export class CommentService implements ICommentService {
    *
    * @memberof CommentService
    */
-  public getComments: (postId: string, callback: (resultComments: { [postId: string]: { [commentId: string]: Comment } }) => void)
-    => void = (postId, callback) => {
+  public getComments: (postId: string, next: (resultComments: { [postId: string]: { [commentId: string]: Comment } }) => void)
+    => void = (postId, next) => {
       let commentsRef = db.collection(`comments`).where('postId', '==', postId)
       commentsRef.onSnapshot((snapshot) => {
         let parsedData: {[postId: string]: {[commentId: string]: Comment}} = {[postId]: {}}
@@ -51,8 +51,8 @@ export class CommentService implements ICommentService {
             ...result.data() as Comment
           }
         })
-        if (callback) {
-          callback(parsedData)
+        if (next) {
+          next(parsedData)
         }
       })
     }
