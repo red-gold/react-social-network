@@ -98,5 +98,29 @@
   "engines": {
     "node": "8.9.4",
     "npm": "5.6.0"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Qolzam/react-social-network.git"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "saga",
+    "redux-saga",
+    "router",
+    "react-router",
+    "firebase",
+    "social",
+    "media",
+    "app",
+    "mobile"
+  ],
+  "bugs": {
+    "url": "https://github.com/Qolzam/react-social-network/issues"
+  },
+  "homepage": "https://github.com/Qolzam/react-social-network#readme"
 }

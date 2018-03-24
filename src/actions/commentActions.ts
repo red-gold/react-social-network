@@ -23,6 +23,7 @@ import StringAPI from 'api/StringAPI'
 import { ServerRequestType } from 'constants/serverRequestType'
 import { ServerRequestModel } from 'models/server'
 import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
+import CommentAPI from 'api/CommentAPI'
 
 /**
  * Get service providers
@@ -43,18 +44,18 @@ export const dbAddComment = (ownerPostUserId: string, newComment: Comment, callB
     let uid: string = state.authorize.uid
 
     let comment: Comment = {
-      score : 0,
-      creationDate : moment().unix(),
-      userDisplayName : state.user.info[uid].fullName,
-      userAvatar : state.user.info[uid].avatar,
-      userId : uid,
+      score: 0,
+      creationDate: moment().unix(),
+      userDisplayName: state.user.info[uid].fullName,
+      userAvatar: state.user.info[uid].avatar,
+      userId: uid,
       postId: newComment.postId,
       text: newComment.text
     }
 
     return commentService.addComment(comment)
       .then((commentKey: string) => {
-        dispatch(addComment({id: commentKey! ,...comment}))
+        dispatch(addComment({ id: commentKey!, ...comment }))
         callBack()
         dispatch(globalActions.hideTopLoading())
 
@@ -79,49 +80,10 @@ export const dbAddComment = (ownerPostUserId: string, newComment: Comment, callB
 /**
  * Get all comments from database
  */
-export const dbGetComments = (ownerUserId: string, postId: string) => {
-  return (dispatch: any, getState: Function) => {
-    const state = getState()
-    let uid: string = getState().authorize.uid
-    if (uid) {
-        // Set server request status to {Sent}
-      const getCommentsRequest = createGetCommentsRequest(postId)
-      dispatch(serverActions.sendRequest(getCommentsRequest))
-
-      return commentService.getComments(postId, (comments: {[postId: string]: {[commentId: string]: Comment}}) => {
-
-         // Set server request status to {OK}
-        getCommentsRequest.status = ServerRequestStatusType.OK
-        dispatch(serverActions.sendRequest(getCommentsRequest))
-
-        /**
-         * Workout getting the number of post's comment and getting three last comments
-         */
-        dispatch(addCommentList(comments))
-        let commentsCount: number
-        const post: Post = state.post.userPosts[ownerUserId][postId]
-        if (!post) {
-          return
-        }
-
-        const desiredComments = comments[postId]
-        if (desiredComments) {
-          commentsCount = Object.keys(desiredComments).length
-          let sortedObjects = desiredComments as any
-          // Sort posts with creation date
-
-          const commentKeys = Object.keys(sortedObjects)
-          if (commentKeys.length > 1) {
-            sortedObjects = _.fromPairs(_.toPairs(sortedObjects)
-            .sort((a: any, b: any) => parseInt(b[1].creationDate,10) - parseInt(a[1].creationDate,10)).slice(0, 3))
-
-          }
-          post.comments = sortedObjects
-          post.commentCounter = commentsCount
-          dispatch(postActions.updatePost(post))
-        }
-      })
-    }
+export const dbFetchComments = (ownerUserId: string, postId: string) => {
+  return {
+    type: CommentActionType.DB_FETCH_COMMENTS,
+    payload: {postId, ownerUserId}
   }
 }
 
@@ -134,7 +96,7 @@ export const dbUpdateComment = (comment: Comment) => {
 
     return commentService.updateComment(comment)
       .then(() => {
-        dispatch(updateComment( comment))
+        dispatch(updateComment(comment))
         dispatch(closeCommentEditor(comment))
         dispatch(globalActions.hideTopLoading())
 
@@ -171,19 +133,6 @@ export const dbDeleteComment = (id?: string | null, postId?: string) => {
 
 }
 
-/**
- * Create get comments server request model
- */
-const createGetCommentsRequest = (postId: string) => {
-  const requestId = StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId)
-  return new ServerRequestModel(
-    ServerRequestType.CommentGetComments,
-    requestId,
-    '',
-    ServerRequestStatusType.Sent
-    )
-}
-
 /* _____________ CRUD State _____________ */
 
 /**
@@ -201,7 +150,7 @@ export const addComment = (comment: Comment) => {
 /**
  * Update comment
  */
-export const updateComment = ( comment: Comment) => {
+export const updateComment = (comment: Comment) => {
 
   return {
     type: CommentActionType.UPDATE_COMMENT,
@@ -213,7 +162,7 @@ export const updateComment = ( comment: Comment) => {
  * Add comment list
  * @param {[postId: string]: {[commentId: string] : Comment}} postComments an array of comments
  */
-export const addCommentList = (postComments: {[postId: string]: {[commentId: string]: Comment}}) => {
+export const addCommentList = (postComments: { [postId: string]: { [commentId: string]: Comment } }) => {
 
   return {
     type: CommentActionType.ADD_COMMENT_LIST,

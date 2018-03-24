@@ -24,7 +24,15 @@ const getRandomColor = () => {
   return color
 }
 
+const updateObject = (oldObject: any, updatedProperties: any) => {
+  return {
+      ...oldObject,
+      ...updatedProperties
+  }
+}
+
 export default {
   logger,
-  getRandomColor
+  getRandomColor,
+  updateObject
 }

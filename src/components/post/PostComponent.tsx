@@ -490,7 +490,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPostComponentProps) => {
     },
     goTo: (url: string) => dispatch(push(url)),
     setHomeTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title || '')),
-    getPostComments: (ownerUserId: string, postId: string) => dispatch(commentActions.dbGetComments(ownerUserId, postId))
+    getPostComments: (ownerUserId: string, postId: string) => dispatch(commentActions.dbFetchComments(ownerUserId, postId))
 
   }
 }

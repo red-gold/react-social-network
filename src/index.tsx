@@ -44,6 +44,9 @@ import './styles/app.css'
  * Execute startup functions
  */
 import './socialEngine'
+import rootSaga from 'sagas/rootSaga'
+
+configureStore.runSaga(rootSaga)
 
 const supportsHistory = 'pushState' in window.history
 ReactDOM.render(

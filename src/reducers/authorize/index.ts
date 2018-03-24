@@ -1,3 +1,6 @@
 import { authorizeReducer } from './authorizeReducer'
-
-export {authorizeReducer}
+import {authorizeSelector} from './authorizeSelector'
+export {
+    authorizeReducer,
+    authorizeSelector
+}

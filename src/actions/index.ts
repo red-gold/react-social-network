@@ -8,6 +8,7 @@ import * as postActions from './postActions'
 import * as userActions from './userActions'
 import * as voteActions from './voteActions'
 import * as localeActions from './localeActions'
+import * as serverActions from './serverActions'
 
 export {
   authorizeActions,
@@ -19,5 +20,6 @@ export {
   postActions,
   userActions,
   voteActions,
-  localeActions
+  localeActions,
+  serverActions
 }

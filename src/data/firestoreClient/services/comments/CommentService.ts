@@ -6,6 +6,7 @@ import { SocialError } from 'core/domain/common'
 import { ICommentService } from 'core/services/comments'
 import { Comment } from 'core/domain/comments'
 import { injectable } from 'inversify'
+import { postComments } from 'models/comments/commentTypes'
 
 /**
  * Firbase comment service
@@ -40,10 +41,10 @@ export class CommentService implements ICommentService {
    *
    * @memberof CommentService
    */
-  public getComments: (postId: string, next: (resultComments: { [postId: string]: { [commentId: string]: Comment } }) => void)
-    => void = (postId, next) => {
+  public getComments: (postId: string, next: (resultComments: postComments) => void)
+    => () => void = (postId, next) => {
       let commentsRef = db.collection(`comments`).where('postId', '==', postId)
-      commentsRef.onSnapshot((snapshot) => {
+    const unsubscribe = commentsRef.onSnapshot((snapshot) => {
         let parsedData: {[postId: string]: {[commentId: string]: Comment}} = {[postId]: {}}
         snapshot.forEach((result) => {
           parsedData[postId][result.id] = {
@@ -55,6 +56,7 @@ export class CommentService implements ICommentService {
           next(parsedData)
         }
       })
+      return unsubscribe
     }
 
   /**
