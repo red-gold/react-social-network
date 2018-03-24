@@ -173,6 +173,7 @@ There are three main layers:
   ```bash
   npm run deploy:firebase
   ```
+- Please checkout [here](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment) for more deployment solution.
 
 ## Built With
 
