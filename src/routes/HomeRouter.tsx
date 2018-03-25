@@ -6,13 +6,25 @@ import { connect } from 'react-redux'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
-// - Import app components
-import StreamComponent from 'containers/stream'
-import Profile from 'containers/profile'
-import PostPage from 'containers/postPage'
-import People from 'containers/people'
-
+import asyncComponent from 'hoc/asyncComponent/asyncComponent'
 import { IRouterProps } from './IRouterProps'
+
+// - Async Components
+const AsyncStream = asyncComponent(() => {
+  return import('containers/stream')
+})
+
+const AsyncProfile = asyncComponent(() => {
+  return import('containers/profile')
+})
+
+const AsyncPostPage = asyncComponent(() => {
+  return import('containers/postPage')
+})
+
+const AsyncPeople = asyncComponent(() => {
+  return import('containers/people')
+})
 
 /**
  * Home Router
@@ -20,17 +32,17 @@ import { IRouterProps } from './IRouterProps'
 export class HomeRouter extends Component<IRouterProps, any> {
   render () {
     const { enabled, match, data, translate } = this.props
-    const St = StreamComponent as any
+    const St = AsyncStream as any
     return (
           enabled ? (
           <Switch>
-            <PrivateRoute path='/people/:tab?' component={<People />} />
+            <PrivateRoute path='/people/:tab?' component={<AsyncPeople />} />
 
             <PrivateRoute path='/tag/:tag' component={(
             <div><St displayWriting={false} homeTitle={`#${match.params.tag}`} posts={data.mergedPosts} /></div>
             )} />
-            <Route path='/:userId/posts/:postId/:tag?' component={PostPage} />
-            <Route path='/:userId' component={Profile} />
+            <Route path='/:userId/posts/:postId/:tag?' component={AsyncPostPage} />
+            <Route path='/:userId' component={AsyncProfile} />
             <PrivateRoute path='/' component={(
             <div>
             <St
