@@ -21,7 +21,7 @@ The structure of this project give the ability to developer to develop their pro
 </p>
 
 ## 🌟New Upgrade :
-React Social Network is [moving on](https://github.com/Qolzam/react-social-network/issues/48) [redux-observable](https://redux-observable.js.org/) however we keep [redux-thunk](https://github.com/gaearon/redux-thunk) version of **React Social Network** in branch name `v0.5`. Any contribution would be appreciate by :heart:.
+React Social Network is [moving on](https://github.com/Qolzam/react-social-network/issues/48) [redux-saga](https://redux-saga.js.org/) however we keep [redux-thunk](https://github.com/gaearon/redux-thunk) version of **React Social Network** in branch name `v0.5`. Any contribution would be greatly appreciated by :heart:.
  
 >You should consult the [CHANGELOG](https://github.com/Qolzam/react-social-network/blob/next/CHANGELOG.md) and related issues for more information
 
