@@ -27,8 +27,8 @@ import UserAvatarComponent from 'components/userAvatar'
 import Notify from 'components/notify'
 
 // - Import actions
-import * as globalActions from 'actions/globalActions'
-import { authorizeActions } from 'actions'
+import * as globalActions from 'store/actions/globalActions'
+import { authorizeActions } from 'store/actions'
 import { IHomeHeaderComponentProps } from './IHomeHeaderComponentProps'
 import { IHomeHeaderComponentState } from './IHomeHeaderComponentState'
 

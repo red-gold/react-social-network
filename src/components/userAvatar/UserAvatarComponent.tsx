@@ -9,7 +9,7 @@ import Avatar from 'material-ui/Avatar'
 // - Import API
 
 // - Import actions
-import * as imageGalleryActions from 'actions/imageGalleryActions'
+import * as imageGalleryActions from 'store/actions/imageGalleryActions'
 
 import { IUserAvatarComponentProps } from './IUserAvatarComponentProps'
 import { IUserAvatarComponentState } from './IUserAvatarComponentState'

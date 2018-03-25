@@ -44,9 +44,9 @@ import AppInput from 'layouts/appInput'
 import FileAPI from 'api/FileAPI'
 
 // - Import actions
-import * as userActions from 'actions/userActions'
-import * as globalActions from 'actions/globalActions'
-import * as imageGalleryActions from 'actions/imageGalleryActions'
+import * as userActions from 'store/actions/userActions'
+import * as globalActions from 'store/actions/globalActions'
+import * as imageGalleryActions from 'store/actions/imageGalleryActions'
 
 import { IEditProfileComponentProps } from './IEditProfileComponentProps'
 import { IEditProfileComponentState } from './IEditProfileComponentState'

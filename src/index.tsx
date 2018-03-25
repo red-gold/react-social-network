@@ -13,10 +13,10 @@ import configureStore from 'store/configureStore'
 import { ConnectedRouter } from 'react-router-redux'
 
 // - Actions
-import * as localeActions from 'actions/localeActions'
+import * as localeActions from 'store/actions/localeActions'
 
 // - Import app components
-import Master from 'components/master'
+import Master from 'containers/master'
 // import { App } from 'components/AWS'
 
 // Set default data
@@ -44,7 +44,7 @@ import './styles/app.css'
  * Execute startup functions
  */
 import './socialEngine'
-import rootSaga from 'sagas/rootSaga'
+import rootSaga from 'store/sagas/rootSaga'
 
 configureStore.runSaga(rootSaga)
 

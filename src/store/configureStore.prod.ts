@@ -4,7 +4,7 @@ import thunk from 'redux-thunk'
 import { routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
 import createSagaMiddleware, { END } from 'redux-saga'
-import { rootReducer } from 'reducers'
+import { rootReducer } from 'store/reducers'
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory()
 

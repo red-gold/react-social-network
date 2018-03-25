@@ -22,7 +22,7 @@ import ClickAwayListener from 'material-ui/utils/ClickAwayListener'
 import classNames from 'classnames'
 
 // - Import actions
-import * as commentActions from 'actions/commentActions'
+import * as commentActions from 'store/actions/commentActions'
 
 // - Import app components
 import CommentListComponent from 'components/commentList'
@@ -34,7 +34,7 @@ import { Comment } from 'core/domain/comments/comment'
 import { ServerRequestModel } from 'models/server'
 import StringAPI from 'api/StringAPI'
 import { ServerRequestType } from 'constants/serverRequestType'
-import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 
 const styles = (theme: any) => ({
   textField: {

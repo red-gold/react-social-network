@@ -13,7 +13,7 @@ import LoadMoreProgressComponent from 'layouts/loadMoreProgress'
 // - Import API
 
 // - Import actions
-import * as userActions from 'actions/userActions'
+import * as userActions from 'store/actions/userActions'
 import { IFindPeopleComponentProps } from './IFindPeopleComponentProps'
 import { IFindPeopleComponentState } from './IFindPeopleComponentState'
 

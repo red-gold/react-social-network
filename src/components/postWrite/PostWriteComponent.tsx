@@ -44,8 +44,8 @@ import UserAvatarComponent from 'components/userAvatar'
 import * as PostAPI from 'api/PostAPI'
 
 // - Import actions
-import * as imageGalleryActions from 'actions/imageGalleryActions'
-import * as postActions from 'actions/postActions'
+import * as imageGalleryActions from 'store/actions/imageGalleryActions'
+import * as postActions from 'store/actions/postActions'
 import { IPostWriteComponentProps } from './IPostWriteComponentProps'
 import { IPostWriteComponentState } from './IPostWriteComponentState'
 import { Post } from 'core/domain/posts'

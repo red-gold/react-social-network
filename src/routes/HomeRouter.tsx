@@ -7,10 +7,10 @@ import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
-import StreamComponent from 'components/stream'
-import Profile from 'components/profile'
-import PostPage from 'components/postPage'
-import People from 'components/people'
+import StreamComponent from 'containers/stream'
+import Profile from 'containers/profile'
+import PostPage from 'containers/postPage'
+import People from 'containers/people'
 
 import { IRouterProps } from './IRouterProps'
 

@@ -5,7 +5,7 @@ import { routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
 import createSagaMiddleware, { END } from 'redux-saga'
 import { createLogger } from 'redux-logger'
-import { rootReducer } from 'reducers'
+import { rootReducer } from 'store/reducers'
 import DevTools from './devTools'
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory()

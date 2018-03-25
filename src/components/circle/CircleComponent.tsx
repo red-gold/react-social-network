@@ -39,7 +39,7 @@ import UserAvatar from 'components/userAvatar'
 // - Import API
 
 // - Import actions
-import * as circleActions from 'actions/circleActions'
+import * as circleActions from 'store/actions/circleActions'
 
 import { ICircleComponentProps } from './ICircleComponentProps'
 import { ICircleComponentState } from './ICircleComponentState'

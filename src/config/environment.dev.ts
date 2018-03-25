@@ -1,4 +1,4 @@
-import { LanguageType } from 'reducers/locale/langugeType'
+import { LanguageType } from 'store/reducers/locale/langugeType'
 
 export const environment = {
   firebase: {

@@ -36,14 +36,14 @@ import UserAvatar from 'components/userAvatar'
 import StringAPI from 'api/StringAPI'
 
 // - Import actions
-import * as circleActions from 'actions/circleActions'
+import * as circleActions from 'store/actions/circleActions'
 
 import { IUserBoxComponentProps } from './IUserBoxComponentProps'
 import { IUserBoxComponentState } from './IUserBoxComponentState'
 import { User } from 'core/domain/users'
 import { UserTie, Circle } from 'core/domain/circles'
 import { ServerRequestType } from 'constants/serverRequestType'
-import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 import { ServerRequestModel } from 'models/server'
 
 const styles = (theme: any) => ({

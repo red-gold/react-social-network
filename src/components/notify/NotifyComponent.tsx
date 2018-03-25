@@ -16,7 +16,7 @@ import NotifyItem from 'components/notifyItem'
 // - Import API
 
 // - Import actions
-import * as userActions from 'actions/userActions'
+import * as userActions from 'store/actions/userActions'
 
 import { INotifyComponentProps } from './INotifyComponentProps'
 import { INotifyComponentState } from './INotifyComponentState'

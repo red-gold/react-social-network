@@ -1,7 +1,7 @@
 import StringAPI from 'api/StringAPI'
 import { ServerRequestType } from 'constants/serverRequestType'
 import { ServerRequestModel } from 'models/server'
-import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 import { comments } from 'models/comments/commentTypes'
 import * as _ from 'lodash'
 

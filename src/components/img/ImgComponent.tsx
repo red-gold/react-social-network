@@ -11,7 +11,7 @@ import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 // - Import API
 
 // - Import actions
-import * as imageGalleryActions from 'actions/imageGalleryActions'
+import * as imageGalleryActions from 'store/actions/imageGalleryActions'
 import { IImgComponentProps } from './IImgComponentProps'
 import { IImgComponentState } from './IImgComponentState'
 

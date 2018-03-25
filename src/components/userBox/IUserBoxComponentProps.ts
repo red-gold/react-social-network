@@ -1,7 +1,7 @@
 import { User } from 'core/domain/users'
 import { Circle } from 'core/domain/circles/circle'
 import { UserTie } from 'core/domain/circles'
-import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 import { ServerRequestModel } from 'models/server/serverRequestModel'
 
 export interface IUserBoxComponentProps {

@@ -10,8 +10,8 @@ import keycode from 'keycode'
 // - Import API
 
 // - Import actions
-import * as authorizeActions from 'actions/authorizeActions'
-import * as globalActions from 'actions/globalActions'
+import * as authorizeActions from 'store/actions/authorizeActions'
+import * as globalActions from 'store/actions/globalActions'
 import { ISidebarComponentProps } from './ISidebarComponentProps'
 import { ISidebarComponentState } from './ISidebarComponentState'
 

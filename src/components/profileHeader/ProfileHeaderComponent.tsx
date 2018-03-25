@@ -23,8 +23,8 @@ import UserAvatar from 'components/userAvatar'
 // - Import API
 
 // - Import actions
-import * as globalActions from 'actions/globalActions'
-import * as userActions from 'actions/userActions'
+import * as globalActions from 'store/actions/globalActions'
+import * as userActions from 'store/actions/userActions'
 import { IProfileHeaderComponentProps } from './IProfileHeaderComponentProps'
 import { IProfileHeaderComponentState } from './IProfileHeaderComponentState'
 

@@ -21,7 +21,7 @@ import { withStyles } from 'material-ui/styles'
 // - Import API
 
 // - Import actions
-import { globalActions } from 'actions'
+import { globalActions } from 'store/actions'
 
 import { Feed } from 'core/domain/common'
 import { ISendFeedbackComponentProps } from './ISendFeedbackComponentProps'
@@ -32,7 +32,7 @@ import { Profile } from 'core/domain/users'
 import StringAPI from 'api/StringAPI'
 import { ServerRequestType } from 'constants/serverRequestType'
 import { User } from 'core/domain/users'
-import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 
 const styles = (theme: any) => ({
   fullPageXs: {

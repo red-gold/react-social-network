@@ -15,7 +15,7 @@ import UserAvatar from 'components/userAvatar'
 // - Import API
 
 // - Import actions
-import * as notifyActions from 'actions/notifyActions'
+import * as notifyActions from 'store/actions/notifyActions'
 
 import { INotifyItemComponentProps } from './INotifyItemComponentProps'
 import { INotifyItemComponentState } from './INotifyItemComponentState'

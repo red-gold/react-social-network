@@ -7,12 +7,12 @@ import { connect } from 'react-redux'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
 
 // - Import app components
-import Home from 'components/home'
-import Signup from 'components/signup'
-import EmailVerification from 'components/emailVerification'
-import Login from 'components/login'
-import ResetPassword from 'components/resetPassword'
-import Setting from 'components/setting'
+import Home from 'containers/home'
+import Signup from 'containers/signup'
+import EmailVerification from 'containers/emailVerification'
+import Login from 'containers/login'
+import ResetPassword from 'containers/resetPassword'
+import Setting from 'containers/setting'
 
 import { IRouterProps } from './IRouterProps'
 

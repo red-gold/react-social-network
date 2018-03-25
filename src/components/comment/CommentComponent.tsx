@@ -34,8 +34,8 @@ import UserAvatar from 'components/userAvatar'
 // - Import API
 
 // - Import actions
-import * as commentActions from 'actions/commentActions'
-import * as userActions from 'actions/userActions'
+import * as commentActions from 'store/actions/commentActions'
+import * as userActions from 'store/actions/userActions'
 
 import { ICommentComponentProps } from './ICommentComponentProps'
 import { ICommentComponentState } from './ICommentComponentState'

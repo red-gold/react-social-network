@@ -15,8 +15,8 @@ import uuid from 'uuid'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import actions
-import * as imageGalleryActions from 'actions/imageGalleryActions'
-import * as globalActions from 'actions/globalActions'
+import * as imageGalleryActions from 'store/actions/imageGalleryActions'
+import * as globalActions from 'store/actions/globalActions'
 
 // - Import app components
 import Img from 'components/img'

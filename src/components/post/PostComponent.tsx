@@ -45,10 +45,10 @@ import IconButtonElement from 'layouts/IconButtonElement'
 import UserAvatar from 'components/userAvatar'
 
 // - Import actions
-import * as voteActions from 'actions/voteActions'
-import * as postActions from 'actions/postActions'
-import * as commentActions from 'actions/commentActions'
-import * as globalActions from 'actions/globalActions'
+import * as voteActions from 'store/actions/voteActions'
+import * as postActions from 'store/actions/postActions'
+import * as commentActions from 'store/actions/commentActions'
+import * as globalActions from 'store/actions/globalActions'
 import { IPostComponentProps } from './IPostComponentProps'
 import { IPostComponentState } from './IPostComponentState'
 
