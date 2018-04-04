@@ -138,6 +138,8 @@ There are three main layers:
   - Using [InversifyJS](http://inversify.io/) in project give us the ability to switch between custom dependencies easily. Specially for *data layer*, if you are the user working with [AWS](https://aws.amazon.com/) you only need to call `useAws()` or using [Firebase](https://firebase.google.com/) call `useFirestore()` in [SocialEngine](https://github.com/Qolzam/react-social-network/blob/next/src/socialEngine.ts#L20) file.
 ### Features
   - We moved from custom webpack to [create-react-app](https://github.com/facebook/create-react-app).
+  - Moving on [redux-saga](https://redux-saga.js.org/) managing async request and side effects.
+  - Supporting [Async Component/Lazy loading](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#code-splitting) for each container.
   - Support Localization by [react-localize-redux](https://github.com/ryandrewjohnson/react-localize-redux). Providing this feature we support variety of languages. To contribute :heart: your language you are able to add your local language. You only need to edit `en.json` from `react-social-network` root project and `src/locale/en.json`. You should name your file according ISO 639-1 Language Codes. For example for Spanish you should name `es.json`. Which `es` is the standard code of Spanish language.
   - [InversifyJS](http://inversify.io/) as IOC container
   - Add auto compile on changing code for `webpack`
@@ -184,6 +186,7 @@ There are three main layers:
   * [Material-UI](http://www.material-ui.com/#/) A Set of React Components that Implement Google's Material Design.
   * [react-redux](https://github.com/reactjs/react-redux) Official React bindings for Redux.
   * [Firebase](https://firebase.google.com/) products like Analytics, Realtime Database, Messaging, and Crash Reporting let you move quickly and focus on your users.
+  * [redux-saga](https://redux-saga.js.org/) is a library that aims to make application side effects (i.e. asynchronous things like data fetching and impure things like accessing the browser cache) easier to manage, more efficient to execute, simple to test, and better at handling failures.
   * [redux-thunk](https://github.com/gaearon/redux-thunk) Redux Thunk middleware allows you to write action creators that return a function instead of an action. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met. The inner function receives the store methods dispatch and getState as parameters.
   * [React Router V4](https://github.com/ReactTraining/react-router) for routing website location
   * [Sass](http://sass-lang.com/) CSS with superpowers. Sass boasts more features and abilities than any other CSS extension language out there.

@@ -576,4 +576,4 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IEditProfileComponen
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EditProfileComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(EditProfileComponent as any) as any)

@@ -1,14 +1,3 @@
-
-// - Interface declaration
-interface FileReaderEventTarget extends EventTarget {
-  result: string
-}
-
-interface FileReaderEvent extends Event {
-  target: FileReaderEventTarget
-  getMessage (): string
-}
-
 // - Get file Extension
 const getExtension = (fileName: string) => {
   let re: RegExp = /(?:\.([^.]+))?$/
@@ -36,9 +25,9 @@ const constraintImage = (file: File,fileName: string, maxWidth?: number, maxHeig
   if (file.type.match(/image.*/)) {
         // Load the image
     let reader = new FileReader()
-    reader.onload = function (readerEvent: FileReaderEvent) {
+    reader.onload = (readerEvent: any) => {
       let image = new Image()
-      image.onload = function (imageEvent: Event) {
+      image.onload = (imageEvent: Event) => {
 
                 // Resize the image
         let canvas: HTMLCanvasElement = document.createElement('canvas')

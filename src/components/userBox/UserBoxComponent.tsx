@@ -475,4 +475,4 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IUserBoxComponentPro
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UserBoxComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(UserBoxComponent as any) as any)

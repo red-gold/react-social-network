@@ -184,4 +184,4 @@ const mapStateToProps = (state: any, ownProps: IResetPasswordComponentProps) => 
 }
 
 // - Connect component to redux store
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ResetPasswordComponent as any) as any)) as typeof ResetPasswordComponent
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(ResetPasswordComponent as any) as any)) as typeof ResetPasswordComponent

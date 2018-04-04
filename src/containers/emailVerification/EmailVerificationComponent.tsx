@@ -149,4 +149,4 @@ const mapStateToProps = (state: any, ownProps: IEmailVerificationComponentProps)
 }
 
 // - Connect component to redux store
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EmailVerificationComponent as any) as any)) as typeof EmailVerificationComponent
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(EmailVerificationComponent as any) as any)) as typeof EmailVerificationComponent

@@ -131,4 +131,4 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IImgComponentProps) 
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ImgComponent as any)as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(ImgComponent as any)as any)

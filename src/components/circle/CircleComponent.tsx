@@ -389,4 +389,4 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ICircleComponentProp
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CircleComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(CircleComponent as any) as any)
