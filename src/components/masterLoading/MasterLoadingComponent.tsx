@@ -25,12 +25,12 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
     if (error) {
       return (
         <Grid container>
-          <Grid item> 
-          <CircularProgress style={{ color: red[500] }} size={50} />
+          <Grid item>
+            <CircularProgress style={{ color: red[500] }} size={50} />
           </Grid>
-          <Grid item> 
-          <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
-            Unexpected Error Happened ...
+          <Grid item style={{ zIndex: 1 }}>
+            <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
+              Unexpected Error Happened ...
           </Typography>
           </Grid>
         </Grid>
@@ -38,12 +38,12 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
     } else if (timedOut) {
       return (
         <Grid container>
-          <Grid item> 
-          <CircularProgress style={{ color: red[500] }} size={50} />
+          <Grid item>
+            <CircularProgress style={{ color: red[500] }} size={50} />
           </Grid>
-          <Grid item> 
-          <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
-            It takes long time ...
+          <Grid item style={{ zIndex: 1 }}>
+            <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
+              It takes long time ...
           </Typography>
           </Grid>
         </Grid>
@@ -51,12 +51,12 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
     } else if (pastDelay) {
       return (
         <Grid container>
-          <Grid item> 
-          <CircularProgress size={50} />
+          <Grid item>
+            <CircularProgress size={50} />
           </Grid>
-          <Grid item> 
-          <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
-            Loading...
+          <Grid item style={{ zIndex: 1 }}>
+            <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
+              Loading...
           </Typography>
           </Grid>
         </Grid>
@@ -64,12 +64,12 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
     } else {
       return (
         <Grid container>
-          <Grid item> 
-          <CircularProgress size={50} />
+          <Grid item>
+            <CircularProgress size={50} />
           </Grid>
-          <Grid item> 
-          <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
-            Loading...
+          <Grid item style={{ zIndex: 1 }}>
+            <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
+              Loading...
           </Typography>
           </Grid>
         </Grid>
