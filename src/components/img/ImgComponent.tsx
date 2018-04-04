@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import SvgImage from 'material-ui-icons/Image'
 import { withStyles } from 'material-ui/styles'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import { Map } from 'immutable'
 
 // - Import app components
 
@@ -121,11 +122,11 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImgComponentProps) => {
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IImgComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: IImgComponentProps) => {
   return {
-    translate: getTranslate(state.locale),
-    avatarURL: state.imageGallery.imageURLList,
-    imageRequests: state.imageGallery.imageRequests
+    translate: getTranslate(state.get('locale')),
+    avatarURL: state.getIn(['imageGallery', 'imageURLList']),
+    imageRequests: state.getIn(['imageGallery', 'imageRequests'])
   }
 }
 

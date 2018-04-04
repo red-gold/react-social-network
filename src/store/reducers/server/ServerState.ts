@@ -1,4 +1,5 @@
 import { ServerRequestModel } from 'src/models/server'
+import {Map} from 'immutable'
 
 /**
  * Server state
@@ -12,5 +13,5 @@ export class ServerState {
      * The list of posts server
      * @memberof ServerState
      */
-  request: {[requestId: string]: ServerRequestModel} | null = {}
+  request: Map<string, ServerRequestModel> = Map({})
 }

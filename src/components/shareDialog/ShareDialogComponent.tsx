@@ -105,9 +105,9 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <FacebookShareButton
                   onShareWindowClose={onClose}
-                  url={`${location.origin}/${post.ownerUserId}/posts/${post.id}`}
-                  quote={post.body}
-                  hashtag={`#${post.tags![0]}`}>
+                  url={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
+                  quote={post.get('body')}
+                  hashtag={`#${post.getIn(['tags', 0], '')}`}>
                   <MenuItem >
                     <ListItemIcon classes={{ root: classes.networkShare }}>
                       <FacebookIcon
@@ -121,9 +121,9 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <TwitterShareButton
                   onShareWindowClose={onClose}
-                  url={`${location.origin}/${post.ownerUserId}/posts/${post.id}`}
-                  quote={post.body}
-                  hashtag={`#${post.tags![0]}`}>
+                  url={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
+                  quote={post.get('body')}
+                  hashtag={`#${post.getIn(['tags', 0], '')}`}>
                   <MenuItem >
                     <ListItemIcon classes={{ root: classes.networkShare }}>
                       <TwitterIcon
@@ -137,9 +137,9 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <LinkedinShareButton
                   onShareWindowClose={onClose}
-                  url={`${location.origin}/${post.ownerUserId}/posts/${post.id}`}
-                  quote={post.body}
-                  hashtag={`#${post.tags![0]}`}>
+                  url={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
+                  quote={post.get('body')}
+                  hashtag={`#${post.getIn(['tags', 0], '')}`}>
                   <MenuItem >
                     <ListItemIcon classes={{ root: classes.networkShare }}>
                       <LinkedinIcon
@@ -153,9 +153,9 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <GooglePlusShareButton
                   onShareWindowClose={onClose}
-                  url={`${location.origin}/${post.ownerUserId}/posts/${post.id}`}
-                  quote={post.body}
-                  hashtag={`#${post.tags![0]}`}>
+                  url={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
+                  quote={post.get('body')}
+                  hashtag={`#${post.getIn(['tags', 0], '')}`}>
                   <MenuItem >
                     <ListItemIcon classes={{ root: classes.networkShare }}>
                       <GooglePlusIcon
@@ -174,7 +174,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               </MenuItem>
             </MenuList>)
             : <div>
-              <TextField autoFocus fullWidth={true} id='text-field-default' defaultValue={`${location.origin}/${post.ownerUserId}/posts/${post.id}`} />
+              <TextField autoFocus fullWidth={true} id='text-field-default' defaultValue={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`} />
               <Typography className={classNames('animate-top', classes.clipboard)} variant='headline' component='h2'>
                 Link has been copied to clipboard ...
         </Typography>
@@ -205,7 +205,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IShareDialogComponentProps)
  */
 const mapStateToProps = (state: any, ownProps: IShareDialogComponentProps) => {
   return {
-    translate: getTranslate(state.locale)
+    translate: getTranslate(state.get('locale'))
   }
 }
 

@@ -1,4 +1,5 @@
 import { Comment } from 'core/domain/comments'
+import {Map} from 'immutable'
 
 export interface ICommentListComponentProps {
 
@@ -8,7 +9,7 @@ export interface ICommentListComponentProps {
    * @type {{[commentId: string]: Comment}}
    * @memberof ICommentListComponentProps
    */
-  comments: {[commentId: string]: Comment}
+  comments: Map<string, Comment>
 
   /**
    * Comments editor status

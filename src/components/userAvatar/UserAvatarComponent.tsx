@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Avatar from 'material-ui/Avatar'
+import { Map } from 'immutable'
 
 // - Import app components
 
@@ -95,8 +96,8 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IUserAvatarComponentPr
  */
 const mapStateToProps = (state: any, ownProps: IUserAvatarComponentProps) => {
   return {
-    avatarURL: state.imageGallery.imageURLList,
-    imageRequests: state.imageGallery.imageRequests
+    avatarURL: state.getIn(['imageGallery', 'imageURLList']),
+    imageRequests: state.getIn(['imageGallery', 'imageRequests'])
 
   }
 }

@@ -1,6 +1,7 @@
 // - Import react components
 import moment from 'moment/moment'
 import _ from 'lodash'
+import { Map } from 'immutable'
 
 // - Import domain
 import { Notification } from 'src/core/domain/notifications'
@@ -16,7 +17,7 @@ import { INotificationAction } from './INotificationAction'
  * @param {object} state
  * @param {object} action
  */
-export let notificationReducer = (state: NotificationState = new NotificationState(), action: INotificationAction) => {
+export let notificationReducer = (state = Map(new NotificationState()), action: INotificationAction) => {
   let { payload } = action
   switch (action.type) {
 
@@ -25,44 +26,21 @@ export let notificationReducer = (state: NotificationState = new NotificationSta
       return state
 
     case NotificationActionType.ADD_NOTIFY_LIST:
-      return {
-        ...state,
-        userNotifies: {
-          ...payload
-        },
-        loaded: true
-      }
+    return state
+    .set('userNotifies', payload)
+    .set('loaded', true)
 
     case NotificationActionType.SEEN_NOTIFY:
-      return {
-        ...state,
-        userNotifies: {
-          ...state.userNotifies,
-          [payload]: {
-            ...state.userNotifies![payload],
-            isSeen: true
-          }
-        },
-        loaded: true
-      }
+    return state
+    .setIn(['userNotifies', payload, 'isSeen'], true)
+    .set('loaded', true)
 
     case NotificationActionType.DELETE_NOTIFY:
-      let parsedNotifies = {}
-      Object.keys(state.userNotifies!).map((id) => {
-        if (id !== payload) {
-          _.merge(parsedNotifies, { [id]: { ...state.userNotifies![id] } })
-        }
-
-      })
-      return {
-        ...state,
-        userNotifies: {
-          ...parsedNotifies
-        }
-      }
+    return state
+    .deleteIn(['userNotifies', payload])
 
     case NotificationActionType.CLEAR_ALL_DATA_NOTIFY:
-      return new NotificationState()
+      return Map(new NotificationState())
 
     default:
       return state

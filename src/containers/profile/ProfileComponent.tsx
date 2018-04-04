@@ -6,6 +6,7 @@ import Dialog from 'material-ui/Dialog'
 import Button from 'material-ui/Button'
 import RaisedButton from 'material-ui/Button'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import {Map} from 'immutable'
 
 // - Import app components
 import ProfileHeader from 'src/components/profileHeader'
@@ -19,6 +20,7 @@ import * as userActions from 'src/store/actions/userActions'
 import * as globalActions from 'src/store/actions/globalActions'
 import { IProfileComponentProps } from './IProfileComponentProps'
 import { IProfileComponentState } from './IProfileComponentState'
+import { Profile } from 'core/domain/users'
 
 /**
  * Create component class
@@ -78,13 +80,13 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
     }
     const {loadPosts, hasMorePosts, translate} = this.props
     const St = StreamComponent as any
+    const posts = Map(this.props.posts)
     return (
       <div style={styles.profile}>
         <div style={styles.header}>
-
           <ProfileHeader tagLine={this.props.tagLine} avatar={this.props.avatar} isAuthedUser={this.props.isAuthedUser} banner={this.props.banner} fullName={this.props.name} followerCount={0} userId={this.props.userId}/>
         </div>
-        {this.props.posts && Object.keys(this.props.posts).length !== 0
+        {posts
         ? (<div style={styles.content}>
           <div className='profile__title'>
             {translate!('profile.headPostsLabel', {userName: this.props.name})}
@@ -92,7 +94,7 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
           <div style={{ height: '24px' }}></div>
 
           <St
-          posts={this.props.posts}
+          posts={posts}
           loadStream={loadPosts}
           hasMorePosts={hasMorePosts}
           displayWriting={false} />
@@ -128,17 +130,18 @@ const mapDispatchToProps = (dispatch: any, ownProps: IProfileComponentProps) => 
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IProfileComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: IProfileComponentProps) => {
   const { userId } = ownProps.match.params
-  const {uid} = state.authorize
-  const hasMorePosts = state.post.profile.hasMoreData
-  const posts = state.post.userPosts ? state.post.userPosts[userId] : {}
+  const uid = state.getIn(['authorize', 'uid'], 0)
+  const hasMorePosts = state.getIn(['post', 'profile', 'hasMoreData'])
+  const posts = state.getIn(['post', 'userPosts', userId])
+  const userProfile = state.getIn(['user', 'info', userId], {}) as Profile
   return {
-    translate: getTranslate(state.locale),
-    avatar: state.user.info && state.user.info[userId] ? state.user.info[userId].avatar || '' : '',
-    name: state.user.info && state.user.info[userId] ? state.user.info[userId].fullName || '' : '',
-    banner: state.user.info && state.user.info[userId] ? state.user.info[userId].banner || '' : '',
-    tagLine: state.user.info && state.user.info[userId] ? state.user.info[userId].tagLine || '' : '',
+    translate: getTranslate(state.get('locale')),
+    avatar: userProfile.avatar,
+    name: userProfile.fullName, 
+    banner: userProfile.banner,
+    tagLine: userProfile.tagLine,
     isAuthedUser: userId === uid,
     userId,
     posts,

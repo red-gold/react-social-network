@@ -1,15 +1,12 @@
 import { Comment } from 'core/domain/comments'
 import { Post } from 'core/domain/posts/post'
-
+import {Map} from 'immutable'
 export interface IPostComponentProps {
 
   /**
    * Post object
-   *
-   * @type {Post}
-   * @memberof IPostComponentProps
    */
-  post: Post
+  post: Map<string, any>
 
   /**
    * Owner's post avatar
@@ -113,7 +110,7 @@ export interface IPostComponentProps {
    * @type {{[commentId: string]: Comment}}
    * @memberof ICommentGroupComponentProps
    */
-  commentList?: {[commentId: string]: Comment}
+  commentList?: Map<string, Comment>
 
   /**
    * Styles

@@ -1,8 +1,8 @@
 // - Import react components
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import config from 'src/config'
+import {Map} from 'immutable'
 
 // - Material UI
 import { grey } from 'material-ui/colors'
@@ -32,39 +32,6 @@ import { IProfileHeaderComponentState } from './IProfileHeaderComponentState'
  * Create component class
  */
 export class ProfileHeaderComponent extends Component<IProfileHeaderComponentProps, IProfileHeaderComponentState> {
-
-  static propTypes = {
-
-        /**
-         * User avatar address
-         */
-    avatar: PropTypes.string,
-        /**
-         * User banner address
-         */
-    banner: PropTypes.string,
-      /**
-       * User tagline
-       */
-    tagLine: PropTypes.string,
-        /**
-         * User full name
-         */
-    fullName: PropTypes.string.isRequired,
-        /**
-         * The number of followers
-         */
-    followerCount: PropTypes.number,
-        /**
-         * User identifier
-         */
-    userId: PropTypes.string,
-        /**
-         * If the user profile identifier of param is equal to the user authed identifier
-         */
-    isAuthedUser: PropTypes.bool
-
-  }
 
     /**
      * Component constructor
@@ -186,7 +153,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
                     />
                     <div className='left'>
                         {/* User avatar*/}
-                        <div style={{ display: 'flex', justifyContent: 'center' }}><UserAvatar fullName={this.props.fullName} fileName={this.props.avatar} size={60} style={styles.avatar} /></div>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}><UserAvatar fullName={this.props.fullName || ' '} fileName={this.props.avatar} size={60} style={styles.avatar} /></div>
                         <div className='info'>
                             <div className='fullName'>
                                 {this.props.fullName}
@@ -235,11 +202,11 @@ const mapDispatchToProps = (dispatch: any, ownProps: IProfileHeaderComponentProp
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IProfileHeaderComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: IProfileHeaderComponentProps) => {
 
   return {
-    translate: getTranslate(state.locale),
-    editProfileOpen: state.user.openEditProfile
+    translate: getTranslate(state.get('locale')),
+    editProfileOpen: state.getIn(['user', 'openEditProfile'])
   }
 }
 

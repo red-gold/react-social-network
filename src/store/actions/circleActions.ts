@@ -3,6 +3,7 @@ import { User } from 'src/core/domain/users'
 import { Circle, UserTie } from 'src/core/domain/circles'
 import { SocialError } from 'src/core/domain/common'
 import * as moment from 'moment/moment'
+import { Map, List } from 'immutable'
 
 // - Import action types
 import { CircleActionType } from 'constants/circleActionType'
@@ -37,7 +38,8 @@ const userTieService: IUserTieService = provider.get<IUserTieService>(SocialProv
 export let dbAddCircle = (circleName: string) => {
   return (dispatch: any, getState: Function) => {
 
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
     let circle: Circle = {
       creationDate: moment().unix(),
       name: circleName,
@@ -47,7 +49,7 @@ export let dbAddCircle = (circleName: string) => {
     return circleService.addCircle(uid, circle).then((circleKey: string) => {
       circle.id = circleKey
       circle.ownerId = uid
-      dispatch(addCircle(circle))
+      dispatch(addCircle(Map(circle)))
 
     }, (error: SocialError) => dispatch(globalActions.showMessage(error.message)))
 
@@ -59,9 +61,9 @@ export let dbAddCircle = (circleName: string) => {
  */
 export const dbFollowUser = (followingCircleId: string, userFollowing: UserTie) => {
   return (dispatch: Function, getState: Function) => {
-    const state = getState()
-    let uid: string = state.authorize.uid
-    let user: User = { ...state.user.info[uid], userId: uid }
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
+    let user: User = { ...state.getIn(['user', 'info', uid]), userId: uid }
 
     // Set server request status to {Sent} for following user
     const followReqestModel = createFollowRequest(userFollowing.userId!)
@@ -74,15 +76,16 @@ export const dbFollowUser = (followingCircleId: string, userFollowing: UserTie) 
       [followingCircleId]
     )
       .then(() => {
-        dispatch(addFollowingUser(
-          new UserTie(
-            userFollowing.userId!,
-            moment().unix(),
-            userFollowing.fullName,
-            userFollowing.avatar,
-            false,
-            [followingCircleId]
-        )))
+        let userTie: Map<string, any> = Map(new UserTie(
+          userFollowing.userId!,
+          moment().unix(),
+          userFollowing.fullName,
+          userFollowing.avatar,
+          false,   
+      ))
+      userTie = userTie.set('circleIdList', List([followingCircleId]))
+
+        dispatch(addFollowingUser(userTie))
 
         // Set server request status to {OK} for following user
         followReqestModel.status = ServerRequestStatusType.OK
@@ -111,11 +114,11 @@ export const dbFollowUser = (followingCircleId: string, userFollowing: UserTie) 
 /**
  * Update user in circle/circles
  */
-export let dbUpdateUserInCircles = (circleIdList: string[], userFollowing: UserTie) => {
+export let dbUpdateUserInCircles = (circleIdList: List<string>, userFollowing: UserTie) => {
   return (dispatch: any, getState: Function) => {
-    const state = getState()
-    let uid: string = state.authorize.uid
-    let user: User = { ...state.user.info[uid], userId: uid }
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
+    let user: User = { ...state.getIn(['user', 'info', uid]), userId: uid }
 
     // Set server request status to {Sent}
     const addToCircleRequest = createAddToCircleRequest(userFollowing.userId!)
@@ -127,18 +130,18 @@ export let dbUpdateUserInCircles = (circleIdList: string[], userFollowing: UserT
     return userTieService.updateUsersTie(
       { userId: user.userId!, fullName: user.fullName, avatar: user.avatar, approved: false },
       { userId: userFollowing.userId!, fullName: userFollowing.fullName, avatar: userFollowing.avatar, approved: false },
-      circleIdList
+      circleIdList.toJS()
     )
       .then(() => {
-        dispatch(addFollowingUser(
-          new UserTie(
-            userFollowing.userId!,
-            moment().unix(),
-            userFollowing.fullName,
-            userFollowing.avatar,
-            false,
-            circleIdList
-        )))
+        let userTie: Map<string, any> = Map(new UserTie(
+          userFollowing.userId!,
+          moment().unix(),
+          userFollowing.fullName,
+          userFollowing.avatar,
+          false
+      ))
+      userTie = userTie.set('circleIdList', circleIdList)
+        dispatch(addFollowingUser(userTie))
 
         // Set server request status to {OK}
         addToCircleRequest.status = ServerRequestStatusType.OK
@@ -167,7 +170,8 @@ export let dbUpdateUserInCircles = (circleIdList: string[], userFollowing: UserT
 export let dbDeleteFollowingUser = (userFollowingId: string) => {
   return (dispatch: any, getState: Function) => {
 
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
 
     // Set server request status to {Sent}
     const deleteFollowingUserRequest = createdeleteFollowingUserRequest(userFollowingId)
@@ -208,16 +212,17 @@ export let dbDeleteFollowingUser = (userFollowingId: string) => {
  */
 export const dbUpdateCircle = (newCircle: Circle) => {
   return (dispatch: any, getState: Function) => {
-
     // Get current user id
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
 
     // Write the new data simultaneously in the list
-    let circle: Circle = {...getState().circle.circleList[newCircle.id!]}
-    circle.name = newCircle.name
-    return circleService.updateCircle(uid, newCircle.id!, circle)
+    let circle: Map<string, any> = state.getIn(['circle', 'circleList', newCircle.id!])
+    circle = circle.set('name', newCircle.name)
+    return circleService.updateCircle(uid, newCircle.id!, circle.toJS())
       .then(() => {
-        dispatch(updateCircle({ id: newCircle.id, ...circle }))
+        circle = circle.set('id', newCircle.id)
+        dispatch(updateCircle(circle))
       }, (error: SocialError) => {
         dispatch(globalActions.showMessage(error.message))
       })
@@ -232,7 +237,8 @@ export const dbDeleteCircle = (circleId: string) => {
   return (dispatch: any, getState: Function) => {
 
     // Get current user id
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
 
     return circleService.deleteCircle(uid, circleId)
       .then(() => {
@@ -249,7 +255,8 @@ export const dbDeleteCircle = (circleId: string) => {
  */
 export const dbGetCircles = () => {
   return (dispatch: any, getState: Function) => {
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
     if (uid) {
 
       return circleService.getCircles(uid)
@@ -269,7 +276,8 @@ export const dbGetCircles = () => {
  */
 export const dbGetUserTies = () => {
   return (dispatch: any, getState: Function) => {
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
     if (uid) {
       userTieService.getUserTies(uid).then((result) => {
 
@@ -289,7 +297,8 @@ export const dbGetUserTies = () => {
  */
 export const dbGetFollowers = () => {
   return (dispatch: any, getState: Function) => {
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
     if (uid) {
       userTieService.getUserTieSender(uid).then((result) => {
 
@@ -367,7 +376,7 @@ const createdeleteFollowingUserRequest = (userFollowingId: string) => {
 /**
  * Add a circle
  */
-export const addCircle = (circle: Circle) => {
+export const addCircle = (circle: Map<string, any>) => {
   return {
     type: CircleActionType.ADD_CIRCLE,
     payload: { circle }
@@ -377,7 +386,7 @@ export const addCircle = (circle: Circle) => {
 /**
  * Update a circle
  */
-export const updateCircle = (circle: Circle) => {
+export const updateCircle = (circle: Map<string, any>) => {
   return {
     type: CircleActionType.UPDATE_CIRCLE,
     payload: { circle }
@@ -438,7 +447,7 @@ export const closeCircleSettings = (circleId: string) => {
 /**
  * Add following user
  */
-export const addFollowingUser = (userTie: UserTie) => {
+export const addFollowingUser = (userTie: Map<string, any>) => {
   return {
     type: CircleActionType.ADD_FOLLOWING_USER,
     payload: { userTie }

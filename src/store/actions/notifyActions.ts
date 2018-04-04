@@ -2,6 +2,7 @@
 // - Import domain
 import { Notification } from 'src/core/domain/notifications'
 import { SocialError } from 'src/core/domain/common'
+import { Map, fromJS } from 'immutable'
 
 // - Import action types
 import { NotificationActionType } from 'constants/notificationActionType'
@@ -23,7 +24,6 @@ const notificationService: INotificationService = provider.get<INotificationServ
 
 /**
  *  Add notificaition to database
- * @param  {object} newNotify user notificaition
  */
 export const dbAddNotification = (newNotify: Notification) => {
   return (dispatch: any, getState: Function) => {
@@ -50,16 +50,17 @@ export const dbAddNotification = (newNotify: Notification) => {
  */
 export const dbGetNotifications = () => {
   return (dispatch: Function , getState: Function) => {
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
     if (uid) {
       return notificationService.getNotifications(uid,
         (notifications: { [notifyId: string]: Notification} ) => {
           Object.keys(notifications).forEach((key => {
-            if (!getState().user.info[notifications[key].notifierUserId]) {
+            if (!state.getIn(['user', 'info', 'notifications', 'key','notifierUserId'])) {
               dispatch(userActions.dbGetUserInfoByUserId(notifications[key].notifierUserId,''))
             }
           }))
-          dispatch(addNotifyList(notifications))
+          dispatch(addNotifyList(fromJS(notifications)))
         })
     }
   }
@@ -73,7 +74,8 @@ export const dbDeleteNotification = (id: string) => {
   return (dispatch: any, getState: Function) => {
 
     // Get current user id
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
 
     return notificationService.deleteNotification(id,uid).then(() => {
       dispatch(deleteNotify(id))
@@ -90,14 +92,14 @@ export const dbDeleteNotification = (id: string) => {
 export const dbSeenNotification = (id: string) => {
   return (dispatch: any, getState: Function) => {
 
-    // Get current user id
-    let uid: string = getState().authorize.uid
-    let notify: Notification = getState().notify.userNotifies[id]
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
+    let notify: Map<string, any> = state.getIn(['notify', 'userNotifies', id])
 
     let updatedNotification: Notification = {
-      description: notify.description,
-      url: notify.url,
-      notifierUserId: notify.notifierUserId,
+      description: notify.get('description'),
+      url: notify.get('url'),
+      notifierUserId: notify.get('notifierUserId'),
       notifyRecieverUserId: uid,
       isSeen: true
     }
@@ -127,7 +129,7 @@ export const addNotify = () => {
  * Add notificaition list
  * @param {[notifyId: string]: Notification} userNotifies an array of notificaitions
  */
-export const addNotifyList = (userNotifies: {[notifyId: string]: Notification}) => {
+export const addNotifyList = (userNotifies: Map<string, any>) => {
 
   return {
     type: NotificationActionType.ADD_NOTIFY_LIST,

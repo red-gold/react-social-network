@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import { Map } from 'immutable'
 
 import { Card, CardActions, CardHeader, CardMedia, CardContent } from 'material-ui'
 import List, {
@@ -108,15 +109,15 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
       /**
        * Post text
        */
-      postText: this.props.edit && postModel ? (postModel.body ? postModel.body! : '') : '',
+      postText: this.props.edit && postModel ? postModel.get('body', '') : '',
       /**
        * The URL image of the post
        */
-      image: this.props.edit && postModel ? (postModel.image ? postModel.image! : '') : '',
+      image: this.props.edit && postModel ? postModel.get('image', '') : '',
       /**
        * The path identifier of image on the server
        */
-      imageFullPath: this.props.edit && postModel ? (postModel.imageFullPath ? postModel.imageFullPath! : '') : '',
+      imageFullPath: this.props.edit && postModel ? postModel.get('imageFullPath', '') : '',
       /**
        * If it's true gallery will be open
        */
@@ -132,11 +133,11 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
       /**
        * If it's true comment will be disabled on post
        */
-      disableComments: this.props.edit && postModel ? postModel.disableComments! : false,
+      disableComments: this.props.edit && postModel ? postModel.get('disableComments') : false,
       /**
        * If it's true share will be disabled on post
        */
-      disableSharing: this.props.edit && postModel ? postModel.disableSharing! : false
+      disableSharing: this.props.edit && postModel ? postModel.get('disableSharing') : false
 
     }
 
@@ -253,14 +254,14 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
         }, onRequestClose)
       }
     } else { // In edit status we pass post to update functions
-      postModel!.body = postText
-      postModel!.tags = tags
-      postModel!.image = image
-      postModel!.imageFullPath = imageFullPath
-      postModel!.disableComments = disableComments
-      postModel!.disableSharing = disableSharing
+     const updatedPost =  postModel!.set('body', postText)
+      .set('tags', tags)
+      .set('image', image)
+      .set('imageFullPath', imageFullPath)
+      .set('disableComments', disableComments)
+      .set('disableSharing', disableSharing)
 
-      update!(postModel!, onRequestClose)
+      update!(updatedPost, onRequestClose)
     }
   }
 
@@ -337,34 +338,38 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
     if (!nextProps.open) {
       const { postModel } = this.props
       this.setState({
-        /**
-         * Post text
-         */
-        postText: this.props.edit && postModel ? (postModel.body ? postModel.body! : '') : '',
-        /**
-         * The URL image of the post
-         */
-        image: this.props.edit && postModel ? (postModel.image ? postModel.image! : '') : '',
-        /**
-         * The path identifier of image on the server
-         */
-        imageFullPath: this.props.edit && postModel ? (postModel.imageFullPath ? postModel.imageFullPath! : '') : '',
-        /**
-         * If it's true gallery will be open
-         */
-        galleryOpen: false,
-        /**
-         * If it's true post button will be disabled
-         */
-        disabledPost: true,
-        /**
-         * If it's true comment will be disabled on post
-         */
-        disableComments: this.props.edit && postModel ? postModel.disableComments! : false,
-        /**
-         * If it's true share will be disabled on post
-         */
-        disableSharing: this.props.edit && postModel ? postModel.disableSharing! : false
+      /**
+       * Post text
+       */
+      postText: this.props.edit && postModel ? postModel.get('body', '') : '',
+      /**
+       * The URL image of the post
+       */
+      image: this.props.edit && postModel ? postModel.get('image', '') : '',
+      /**
+       * The path identifier of image on the server
+       */
+      imageFullPath: this.props.edit && postModel ? postModel.get('imageFullPath', '') : '',
+      /**
+       * If it's true gallery will be open
+       */
+      galleryOpen: false,
+      /**
+       * Whether menu is open
+       */
+      menuOpen: false,
+      /**
+       * If it's true post button will be disabled
+       */
+      disabledPost: true,
+      /**
+       * If it's true comment will be disabled on post
+       */
+      disableComments: this.props.edit && postModel ? postModel.get('disableComments') : false,
+      /**
+       * If it's true share will be disabled on post
+       */
+      disableSharing: this.props.edit && postModel ? postModel.get('disableSharing') : false
 
       })
     }
@@ -576,7 +581,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
 const mapDispatchToProps = (dispatch: any, ownProps: IPostWriteComponentProps) => {
   return {
     post: (post: Post, callBack: Function) => dispatch(postActions.dbAddImagePost(post, callBack)),
-    update: (post: Post, callBack: Function) => dispatch(postActions.dbUpdatePost(post, callBack))
+    update: (post: Map<string, any>, callBack: Function) => dispatch(postActions.dbUpdatePost(post, callBack))
   }
 }
 
@@ -586,12 +591,14 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPostWriteComponentProps) =
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IPostWriteComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: IPostWriteComponentProps) => {
+  const uid = state.getIn(['authorize', 'uid'])
+  const user = state.getIn(['user', 'info', uid], {})
   return {
-    translate: getTranslate(state.locale),
-    postImageState: state.imageGallery.status,
-    ownerAvatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
-    ownerDisplayName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : ''
+    translate: getTranslate(state.get('locale')),
+    postImageState: state.getIn(['imageGallery', 'status']),
+    ownerAvatar: user.avatar || '',
+    ownerDisplayName: user.fullName || ''
   }
 }
 

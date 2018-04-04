@@ -5,33 +5,35 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
+import Loadable from 'react-loadable'
 
-import asyncComponent from 'hoc/asyncComponent/asyncComponent'
 import { IRouterProps } from './IRouterProps'
+import MasterLoadingComponent from 'components/masterLoading/MasterLoadingComponent'
 
 // - Async Components
-const AsyncHome: any = asyncComponent(() => {
-  return import('containers/home')
+const AsyncHome: any = Loadable({
+  loader: () => import('containers/home'),
+  loading: MasterLoadingComponent,
 })
-
-const AsyncSignup = asyncComponent(() => {
-  return import('containers/signup')
+const AsyncSignup = Loadable({
+  loader: () => import('containers/signup'),
+  loading: MasterLoadingComponent,
 })
-
-const AsyncEmailVerification = asyncComponent(() => {
-  return import('containers/emailVerification')
+const AsyncEmailVerification = Loadable({
+  loader: () => import('containers/emailVerification'),
+  loading: MasterLoadingComponent,
 })
-
-const AsyncResetPassword = asyncComponent(() => {
-  return import('containers/resetPassword')
+const AsyncResetPassword = Loadable({
+  loader: () => import('containers/resetPassword'),
+  loading: MasterLoadingComponent,
 })
-
-const AsyncLogin = asyncComponent(() => {
-  return import('containers/login')
+const AsyncLogin = Loadable({
+  loader: () => import('containers/login'),
+  loading: MasterLoadingComponent,
 })
-
-const AsyncSetting = asyncComponent(() => {
-  return import('containers/setting')
+const AsyncSetting = Loadable({
+  loader: () => import('containers/setting'),
+  loading: MasterLoadingComponent,
 })
 
 /**

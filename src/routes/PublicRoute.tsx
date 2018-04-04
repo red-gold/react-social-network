@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router-dom'
 import { IRoute } from './IRoute'
+import {Map} from 'immutable'
 
 export class PublicRoute extends Component<IRoute, any> {
 
@@ -19,10 +20,10 @@ export class PublicRoute extends Component<IRoute, any> {
   }
 }
 
-const mapStateToProps = (state: any, nexProps: IRoute) => {
-  const { authorize } = state
+const mapStateToProps = (state: Map<string, any>, nexProps: IRoute) => {
+
   return {
-    authed: authorize.authed
+    authed: state.getIn(['authorize', 'authed', false])
   }
 }
 

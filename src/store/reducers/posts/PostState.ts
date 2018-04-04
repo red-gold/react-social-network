@@ -1,4 +1,5 @@
 import { Post } from 'src/core/domain/posts'
+import { Map, fromJS, List } from 'immutable'
 
 /**
  * Post state
@@ -14,7 +15,7 @@ export class PostState {
      * @type {*}
      * @memberof PostState
      */
-  userPosts: any = {}
+  userPosts = Map({})
 
     /**
      * If user posts are loaded {true} or not {false}
@@ -27,12 +28,12 @@ export class PostState {
   /**
    * Stream data storage
    */
-  stream?: {hasMoreData: boolean, lastPageRequest: number, lastPostId: string} =
-  {hasMoreData: true, lastPageRequest: -1, lastPostId: ''}
+  stream?: Map<string,any> =
+  Map({hasMoreData: true, lastPageRequest: -1, lastPostId: ''})
 
   /**
    * Profile posts data storage
    */
-  profile?: {[userId: string]: {hasMoreData: boolean, lastPageRequest: number, lastPostId: string}} =
-  {}
+  profile?: Map<string, any> =
+  Map({})
 }

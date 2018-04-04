@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import {Map} from 'immutable'
 
 // - Import app components
 import UserBoxList from 'components/userBoxList'
@@ -46,13 +47,14 @@ export class FollowingComponent extends Component<IFollowingComponentProps,IFoll
    */
   render () {
     const {translate} = this.props
+    const followingUsers = Map(this.props.followingUsers!)
     return (
           <div>
-            {(this.props.followingUsers && Object.keys(this.props.followingUsers).length !== 0 ) ? (<div>
+            {(followingUsers && followingUsers.keySeq().count() !== 0 ) ? (<div>
               <div className='profile__title'>
                 {translate!('people.followingLabel')}
                         </div>
-                        <UserBoxList users={this.props.followingUsers} />
+                        <UserBoxList users={followingUsers} />
               <div style={{ height: '24px' }}></div>
 
               </div>) : (<div className='g__title-center'>
@@ -81,13 +83,13 @@ const mapDispatchToProps = (dispatch: any,ownProp: IFollowingComponentProps) => 
    * @param  {object} ownProps is the props belong to component
    * @return {object}          props of component
    */
-const mapStateToProps = (state: any,ownProps: IFollowingComponentProps) => {
-  const {circle, authorize, server} = state
-  const { uid } = state.authorize
-  const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
-  const followingUsers = circle ? circle.userTies : {}
+const mapStateToProps = (state: Map<string, any>,ownProps: IFollowingComponentProps) => {
+
+  const uid = state.getIn(['authorize', 'uid'], 0)
+  const circles: { [circleId: string]: Circle } = state.getIn(['circle', 'circleList'], {})
+  const followingUsers = state.getIn(['circle', 'userTies'], {})
   return {
-    translate: getTranslate(state.locale),
+    translate: getTranslate(state.get('locale')),
     uid,
     circles,
     followingUsers

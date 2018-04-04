@@ -1,4 +1,5 @@
 import { User,Profile } from 'src/core/domain/users'
+import { Map, fromJS, List } from 'immutable'
 
 /**
  * User state
@@ -9,31 +10,21 @@ import { User,Profile } from 'src/core/domain/users'
 export class UserState {
     /**
      * The list of users information
-     *
-     * @type {({[userId: string]: Profile} | null)}
-     * @memberof UserState
      */
-  info: {[userId: string]: Profile} = {}
+  info: Map<string,  Profile> = Map({})
 
     /**
      * If users profile are loaded
-     *
-     * @type {Boolean}
-     * @memberof UserState
      */
   loaded: Boolean = false
 
     /**
      * If edit profile is open {true} or not {false}
-     *
-     * @type {Boolean}
-     * @memberof UserState
      */
   openEditProfile: Boolean = false
 
   /**
    * People data storage
    */
-  people?: {hasMoreData: boolean, lastPageRequest: number, lastUserId: string} =
-  {hasMoreData: true, lastPageRequest: -1, lastUserId: ''}
+  people?: Map<string, any> = Map({hasMoreData: true, lastPageRequest: -1, lastUserId: ''})
 }

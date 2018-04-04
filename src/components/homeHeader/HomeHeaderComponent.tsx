@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
+import { Map } from 'immutable'
 
 // - Material UI
 import SvgDehaze from 'material-ui-icons/Dehaze'
@@ -256,18 +257,20 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IHomeHeaderComponentPr
 }
 
 // - Map state to props
-const mapStateToProps = (state: any, ownProps: IHomeHeaderComponentProps) => {
+const mapStateToProps = (state: Map<string,any>, ownProps: IHomeHeaderComponentProps) => {
 
-  let notifyCount = state.notify.userNotifies
-    ? Object
-      .keys(state.notify.userNotifies)
-      .filter((key) => !state.notify.userNotifies[key].isSeen).length
+  const uid = state.getIn(['authorize', 'uid'], 0)
+  const userNotifies: Map<string, any> = state.getIn(['notify','userNotifies'])
+  let notifyCount = userNotifies
+    ? userNotifies
+      .filter((notification) => !notification.get('isSeen', false)).count()
     : 0
+    const user = state.getIn(['user', 'info', uid], {})
   return {
-    translate: getTranslate(state.locale),
-    avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
-    fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : '',
-    title: state.global.headerTitle,
+    translate: getTranslate(state.get('locale')),
+    avatar: user.avatar || '',
+    fullName: user.fullName || '',
+    title: state.getIn(['global', 'headerTitle'], ''),
     notifyCount
   }
 }

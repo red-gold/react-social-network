@@ -1,4 +1,5 @@
 import { Circle, UserTie } from 'src/core/domain/circles'
+import {Map} from 'immutable'
 
 /**
  * Circle state
@@ -12,19 +13,19 @@ export class CircleState {
    *
    * @memberof CircleState
    */
-  userTies: { [userId: string]: UserTie } = {}
+  userTies: Map<string, UserTie> = Map({})
 
   /**
    * The list of users belong to users circle
    *
    * @memberof CircleState
    */
-  userTieds: { [userId: string]: UserTie } = {}
+  userTieds: Map<string, UserTie> = Map({})
 
   /**
    * The list of circle of current user
    */
-  circleList: { [circleId: string]: Circle }
+  circleList: Map<string, Circle> = Map({})
 
   /**
    * Whether select circle box is open for the selected user
@@ -39,7 +40,7 @@ export class CircleState {
   /**
    * Keep selected circles for refere user
    */
-  selectedCircles: { [userId: string]: string[] }
+  selectedCircles: Map<string, string[]> = Map({})
 
   /**
    * Whether the select circles box for referer user is open

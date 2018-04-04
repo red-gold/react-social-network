@@ -225,7 +225,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: ISettingComponentProps) => 
  */
 const mapStateToProps = (state: any, ownProps: ISettingComponentProps) => {
   return {
-    translate: getTranslate(state.locale)
+    translate: getTranslate(state.get('locale'))
   }
 }
 

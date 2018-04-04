@@ -8,6 +8,7 @@ import moment from 'moment/moment'
 import Linkify from 'react-linkify'
 import Popover from 'material-ui/Popover'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import {Map} from 'immutable'
 
 import { Comment } from 'core/domain/comments'
 
@@ -285,8 +286,8 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
   }
 
   componentWillMount () {
-    const { userId } = this.props.comment
-    if (!this.props.isCommentOwner && !this.props.info![userId!]) {
+    const { commentOwner } = this.props
+    if (!this.props.isCommentOwner && !commentOwner) {
       this.props.getUserInfo!()
     }
   }
@@ -432,15 +433,16 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentComponentProps) => 
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: any) => {
-  const { uid } = state.authorize
-  const avatar = state.user.info && state.user.info[ownProps.comment.userId] ? state.user.info[ownProps.comment.userId].avatar || '' : ''
-  const fullName = state.user.info && state.user.info[ownProps.comment.userId] ? state.user.info[ownProps.comment.userId].fullName || '' : ''
+const mapStateToProps = (state: any, ownProps: ICommentComponentProps) => {
+  const commentOwnerId = ownProps.comment.userId
+  const uid = state.getIn(['authorize', 'uid'])
+  const avatar =  ownProps.comment.userAvatar
+  const fullName = ownProps.comment.userDisplayName
   return {
-    translate: getTranslate(state.locale),
+    translate: getTranslate(state.get('locale')),
     uid: uid,
-    isCommentOwner: (uid === ownProps.comment.userId),
-    info: state.user.info,
+    isCommentOwner: (uid === commentOwnerId),
+    commentOwner: state.getIn(['user', 'info', commentOwnerId]),
     avatar,
     fullName
   }

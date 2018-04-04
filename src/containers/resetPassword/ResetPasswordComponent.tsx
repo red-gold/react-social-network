@@ -179,7 +179,7 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IResetPasswordComponen
  */
 const mapStateToProps = (state: any, ownProps: IResetPasswordComponentProps) => {
   return {
-    translate: getTranslate(state.locale),
+    translate: getTranslate(state.get('locale')),
   }
 }
 

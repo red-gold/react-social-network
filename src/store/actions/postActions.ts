@@ -1,6 +1,7 @@
 // - Import domain
 import { Post } from 'src/core/domain/posts'
 import { SocialError } from 'src/core/domain/common'
+import { Map } from 'immutable'
 
 // - Import utility components
 import moment from 'moment/moment'
@@ -27,8 +28,8 @@ const postService: IPostService = provider.get<IPostService>(SocialProviderTypes
  */
 export let dbAddPost = (newPost: Post, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
-
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
     let post: Post = {
       postTypeId: 0,
       creationDate: moment().unix(),
@@ -70,8 +71,8 @@ export const dbAddImagePost = (newPost: Post, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
 
     dispatch(globalActions.showTopLoading())
-
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
     let post: Post = {
       postTypeId: 1,
       creationDate: moment().unix(),
@@ -111,12 +112,12 @@ export const dbAddImagePost = (newPost: Post, callBack: Function) => {
 /**
  * Update a post from database
  */
-export const dbUpdatePost = (updatedPost: Post, callBack: Function) => {
+export const dbUpdatePost = (updatedPost: Map<string, any>, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
-console.trace('update post ', updatedPost)
+
     dispatch(globalActions.showTopLoading())
 
-    return postService.updatePost(updatedPost).then(() => {
+    return postService.updatePost(updatedPost.toJS()).then(() => {
 
       dispatch(updatePost(updatedPost))
       callBack()
@@ -141,8 +142,9 @@ export const dbDeletePost = (id: string) => {
 
     dispatch(globalActions.showTopLoading())
 
+    const state: Map<string, any>  = getState()
     // Get current user id
-    let uid: string = getState().authorize.uid
+    let uid: string = state.getIn(['authorize', 'uid'])
 
     return postService.deletePost(id).then(() => {
       dispatch(deletePost(uid, id))
@@ -162,12 +164,12 @@ export const dbDeletePost = (id: string) => {
  */
 export const dbGetPosts = (page: number = 0, limit: number = 10) => {
   return (dispatch: any, getState: Function) => {
-    const state = getState()
-    const {stream} = state.post
-    const lastPageRequest = stream.lastPageRequest
-    const lastPostId = stream.lastPostId
+    const state: Map<string, any>  = getState()
+    const stream: Map<string, any> = state.getIn(['post', 'stream'])
+    const lastPageRequest = stream.get('lastPageRequest')
+    const lastPostId = stream.get('lastPostId')
 
-    let uid: string = state.authorize.uid
+    let uid: string = state.getIn(['authorize', 'uid'])
     if (uid && lastPageRequest !== page) {
       return postService.getPosts(uid, lastPostId, page, limit).then((result) => {
         if (!result.posts || !(result.posts.length > 0)) {
@@ -207,12 +209,12 @@ export const dbGetPosts = (page: number = 0, limit: number = 10) => {
  */
 export const dbGetPostsByUserId = (userId: string, page: number = 0, limit: number = 10) => {
   return (dispatch: any, getState: Function) => {
-    const state = getState()
-    const {profile} = state.post
-    const lastPageRequest = profile[userId] ? profile[userId].lastPageRequest : -1
-    const lastPostId = profile[userId] ? profile[userId].lastPostId : ''
+    const state: Map<string, any>  = getState()
+    const {profile} = state.get('post')
+    const lastPageRequest = state.getIn(['post','profile', userId, 'lastPageRequest'], -1 )
+    const lastPostId = state.getIn(['post','profile', userId, 'lastPostId'], '' )
 
-    let uid: string = state.authorize.uid
+    let uid: string = state.getIn(['authorize', 'uid'])
 
     if (uid && lastPageRequest !== page) {
 
@@ -282,10 +284,30 @@ export const addPost = (uid: string, post: Post) => {
 /**
  * Update a post
  */
-export const updatePost = (post: Post) => {
+export const updatePost = (post: Map<string, any>) => {
   return {
     type: PostActionType.UPDATE_POST,
     payload: { post }
+  }
+}
+
+/**
+ * Update the comments of post
+ */
+export const updatePostComments = (comments: Map<string, any>) => {
+  return {
+    type: PostActionType.UPDATE_POST,
+    payload: comments
+  }
+}
+
+/**
+ * Update the votes of post
+ */
+export const updatePostVotes = (votes: Map<string, any>) => {
+  return {
+    type: PostActionType.UPDATE_POST,
+    payload: votes
   }
 }
 

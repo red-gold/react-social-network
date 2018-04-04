@@ -11,6 +11,7 @@ import { eventChannel, Channel } from 'redux-saga'
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 import { Post } from 'core/domain/posts'
 import { postSelector } from 'store/reducers/posts/postSelector'
+import {Map} from 'immutable'
 /**
  * Get service providers
  */
@@ -40,15 +41,15 @@ function* setComments(ownerId: string, postId: string, comments: postComments) {
          */
         yield put(commentActions.addCommentList(comments))
         let commentsCount: number
-        const post: Post = yield select(postSelector.getPost, ownerId, postId)
+        const post: Map<string, any> = yield select(postSelector.getPost, ownerId, postId)
         if (post) {
         const desiredComments = comments[postId]
         if (desiredComments) {
           commentsCount = Object.keys(desiredComments).length
           let sortedObjects = yield CommentAPI.sortCommentsByDate(desiredComments)
-          post.comments = sortedObjects
-          post.commentCounter = commentsCount
-          yield put(postActions.updatePost(post))
+         const updatedPost =  post.set('comments', Map(sortedObjects))
+                                  .set('commentCounter', commentsCount)
+          yield put(postActions.updatePost(updatedPost))
         }
     }
 }
@@ -72,10 +73,8 @@ function* dbFetchComments(ownerId: string, postId: string) {
             yield call(setComments, ownerId, postId, comments)
         }
       } finally {
-          console.trace('FiNALLY')
         if (yield cancelled()) {
             channelSubscription.close()
-            console.trace('comments cancelled')
           } 
       }
     

@@ -1,5 +1,7 @@
-import * as redux from 'redux'
 import { localeReducer as locale } from 'react-localize-redux'
+import {
+  combineReducers
+} from 'redux-immutable'
 
 // - Import reducers
 import { authorizeReducer } from './authorize'
@@ -15,7 +17,7 @@ import { serverReducer } from './server'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 
 // - Reducers
-export const rootReducer = redux.combineReducers({
+export const rootReducer = combineReducers({
     locale,
     imageGallery: imageGalleryReducer,
     post: postReducer,

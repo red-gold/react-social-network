@@ -287,7 +287,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: ISignupComponentProps) => {
  */
 const mapStateToProps = (state: any, ownProps: ISignupComponentProps) => {
   return {
-    translate: getTranslate(state.locale),
+    translate: getTranslate(state.get('locale')),
   }
 }
 

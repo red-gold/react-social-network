@@ -10,6 +10,7 @@ import Paper from 'material-ui/Paper'
 import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
 import InfiniteScroll from 'react-infinite-scroller'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import { Map, List as ImuList } from 'immutable'
 
 // - Import app components
 import PostComponent from 'src/components/post'
@@ -128,56 +129,58 @@ export class StreamComponent extends Component<IStreamComponentProps, IStreamCom
    */
   postLoad = () => {
 
-    let { posts, match } = this.props
+    let { match } = this.props
+    let posts: Map<string, Map<string, any>> = this.props.posts
     let { tag } = match.params
-    if (posts === undefined || !(Object.keys(posts).length > 0)) {
-
+    if (posts === undefined || !(posts.keySeq().count() > 0)) {
+      
       return (
-
+        
         <h1>
           'Nothing has shared.'
                 </h1>
 
-      )
-    } else {
-
-      let postBack = { divided: false, oddPostList: [], evenPostList: [] }
-      let parsedPosts: any = []
-      Object.keys(posts).forEach((postId) => {
+)
+} else {
+  
+  let postBack = { divided: false, oddPostList: [], evenPostList: [] }
+  let parsedPosts: ImuList<any> = ImuList()
+  posts.forEach((post: Map<string, any>) => {
         if (tag) {
           let regex = new RegExp('#' + tag, 'g')
-          let postMatch = posts[postId].body!.match(regex)
+          let postMatch = String(post.get('body', '')).match(regex)
           if (postMatch !== null) {
-            parsedPosts.push({ ...posts[postId] })
+            parsedPosts =  parsedPosts.push(post)
           }
         } else {
-          parsedPosts.push({ ...posts[postId] })
-
+          parsedPosts = parsedPosts.push(post)
         }
       })
-      const sortedPosts = PostAPI.sortObjectsDate(parsedPosts)
-      if (sortedPosts.length > 6) {
+      const sortedPosts = PostAPI.sortImuObjectsDate(parsedPosts)
+      if (sortedPosts.count() > 6) {
         postBack.divided = true
-
+        
       } else {
         postBack.divided = false
       }
-      sortedPosts.forEach((post: Post, index: any) => {
-
+      let index = 0
+      sortedPosts.forEach((post) => {
+        
         let newPost: any = (
-          <div key={`${post.id!}-stream-div`}>
-
+          <div key={`${post!.get('id')!}-stream-div`}>
+          
             {index > 1 || (!postBack.divided && index > 0) ? <div style={{ height: '16px' }}></div> : ''}
-            <PostComponent key={`${post.id!}-stream-div-post`} post={post} />
+            <PostComponent key={`${post!.get('id')}-stream-div-post`} post={post! as any} />
 
           </div>
         )
-
+        
         if ((index % 2) === 1 && postBack.divided) {
           postBack.oddPostList.push(newPost as never)
         } else {
           postBack.evenPostList.push(newPost as never)
         }
+        ++index
       })
       return postBack
     }
@@ -276,14 +279,15 @@ const mapDispatchToProps = (dispatch: any, ownProps: IStreamComponentProps) => {
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IStreamComponentProps) => {
-  const { post } = state
+const mapStateToProps = (state: Map<string, any>, ownProps: IStreamComponentProps) => {
+const uid = state.getIn(['authorize', 'uid'])
+const user = state.getIn(['user', 'info', uid])
   return {
-    translate: getTranslate(state.locale),
-    avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
-    fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : ''
+    translate: getTranslate(state.get('locale')),
+    avatar: user.avatar || '',
+    fullName: user.fullName || ''
   }
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StreamComponent as any) as any)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(StreamComponent as any) as any) as typeof StreamComponent

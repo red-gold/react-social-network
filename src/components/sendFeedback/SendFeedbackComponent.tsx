@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
+import {Map} from 'immutable'
 
 // - Material UI
 import Paper from 'material-ui/Paper'
@@ -89,7 +90,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
   }
 
   mainForm = () => {
-    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequest, translate } = this.props
+    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequestType, translate } = this.props
     const { feedText } = this.state
     return (
       <div className='main-box'>
@@ -168,11 +169,11 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
   }
 
   getFeedbackForm = () => {
-    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequest } = this.props
+    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequestType } = this.props
     const { feedText } = this.state
 
-    if (sendFeedbackRequest) {
-      switch (sendFeedbackRequest.status) {
+    if (sendFeedbackRequestType) {
+      switch (sendFeedbackRequestType) {
         case ServerRequestStatusType.Sent:
           return this.loadingForm()
 
@@ -195,7 +196,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
    * @return {react element} return the DOM which rendered by component
    */
   render () {
-    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequest, classes } = this.props
+    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequestType, classes } = this.props
     const { feedText } = this.state
 
     return (
@@ -237,19 +238,19 @@ const mapDispatchToProps = (dispatch: Function, ownProps: ISendFeedbackComponent
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: ISendFeedbackComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: ISendFeedbackComponentProps) => {
 
-  const { server, global, authorize, user } = state
-  const { request } = server
-  const { uid } = authorize
-  const currentUser: User = user.info && user.info[uid] ? { ...user.info[uid], userId: uid } : {}
-  const { sendFeedbackStatus } = global
-  const sendFeedbackRequest: ServerRequestModel = request ? request[StringAPI.createServerRequestId(ServerRequestType.CommonSendFeedback, uid)] : null
+  const request = state.getIn(['server', 'request'])
+  const uid = state.getIn(['authorize', 'uid'])
+  const requestId = StringAPI.createServerRequestId(ServerRequestType.CommonSendFeedback, uid)
+  const currentUser: User =  { ...state.getIn(['user', 'info', uid], {}), userId: uid }
+  const sendFeedbackStatus = state.getIn(['global', 'sendFeedbackStatus'])
+  const sendFeedbackRequestType = state.getIn(['server', 'request', requestId])
 
   return {
-    translate: getTranslate(state.locale),
+    translate: getTranslate(state.get('locale')),
     sendFeedbackStatus,
-    sendFeedbackRequest,
+    sendFeedbackRequestType: sendFeedbackRequestType ? sendFeedbackRequestType.status : ServerRequestStatusType.NoAction,
     currentUser
   }
 }

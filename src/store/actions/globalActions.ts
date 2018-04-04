@@ -1,6 +1,7 @@
 // - Import image gallery action types
 import { GlobalActionType } from 'constants/globalActionType'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import { Map } from 'immutable'
 
 // - Import actions
 import * as serverActions from 'store/actions/serverActions'
@@ -24,8 +25,8 @@ const commonService: ICommonService = provider.get<ICommonService>(SocialProvide
  */
 export let dbSendFeed = (newFeed: Feed) => {
   return (dispatch: any, getState: Function) => {
-
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  =  getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
 
     // Set server request status to {Sent}
     const feedbackRequest = createFeedbackRequest(uid)
@@ -49,8 +50,8 @@ export let dbSendFeed = (newFeed: Feed) => {
 // - Show notification of request
 export const showNotificationRequest = () => {
   return (dispatch: Function, getState: Function) => {
-    const state = getState()
-    const translate =  getTranslate(state.locale)
+    const state: Map<string, any> = getState()
+    const translate =  getTranslate(state.get('locale'))
     return dispatch(showMessage(String(translate('common.sentRequestMessage'))))
   }
 }
@@ -58,8 +59,8 @@ export const showNotificationRequest = () => {
 // - Show notification of success
 export const showNotificationSuccess = () => {
   return (dispatch: Function, getState: Function) => {
-    const state = getState()
-    const translate =  getTranslate(state.locale)
+    const state: Map<string, any>  = getState()
+    const translate =  getTranslate(state.get('locale'))
     return dispatch(showMessage(String(translate('common.successfulRequestMessage'))))
   }
 }

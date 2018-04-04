@@ -2,6 +2,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import {Map, List as ImuList} from 'immutable'
+
+// - Material UI
 import List, {
   ListItem,
   ListItemIcon,
@@ -119,7 +122,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
       /**
        * Circle name on change
        */
-      circleName: this.props.circle.name,
+      circleName: this.props.circle.get('name', ''),
       /**
        * Save operation will be disable if user doesn't meet requirement
        */
@@ -210,9 +213,9 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
     let usersParsed: any = []
 
     if (usersOfCircle) {
-      Object.keys(usersOfCircle).forEach((userId, index) => {
-        const { fullName } = usersOfCircle[userId]
-        let avatar = usersOfCircle && usersOfCircle[userId] ? usersOfCircle[userId].avatar || '' : ''
+      usersOfCircle.forEach((user: Map<string, any>, userId) => {
+        const fullName = user.get('fullName')
+        let avatar = user.get('avatar', '')
         usersParsed.push(
           <ListItem
             button
@@ -303,9 +306,9 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           <ListItemIcon className={classes.icon}>
             <SvgGroup />
           </ListItemIcon>
-          <ListItemText inset primary={<span style={this.styles}>{this.props.circle.name}</span>} />
+          <ListItemText inset primary={<span style={this.styles}>{this.props.circle.get('name')}</span>} />
           <ListItemSecondaryAction>
-            {circle.isSystem ? null : rightIconMenu}
+            {circle.get('isSystem') ? null : rightIconMenu}
           </ListItemSecondaryAction>
         </ListItem>
         <Collapse component='li' in={this.state.open} timeout='auto' unmountOnExit>
@@ -363,27 +366,24 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICircleComponentProps) => {
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: ICircleComponentProps) => {
-  const { circle, authorize, server } = state
-  const { userTies } = circle
-  const { uid } = state.authorize
-  const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
-  const currentCircle = (circles ? circles[ownProps.id] : {}) as Circle
-  const circleId = ownProps.circle.id!
-  let usersOfCircle: { [userId: string]: UserTie } = {}
-  Object.keys(userTies).forEach((userTieId) => {
-    const theUserTie = userTies[userTieId] as UserTie
-    if (theUserTie.circleIdList!.indexOf(ownProps.id) > -1) {
-      usersOfCircle = {
-        ...usersOfCircle,
-        [userTieId]: theUserTie
-      }
+const mapStateToProps = (state: Map<string, any>, ownProps: ICircleComponentProps) => {
+  const userTies: Map<string, any> = state.getIn(['circle', 'userTies'])
+  const uid = state.getIn(['authorize', 'uid'])
+  const circles: Map<string, Map<string, any>> = state.getIn(['circle', 'circleList'], {})
+  const currentCircle: Map<string, any> = circles.get(ownProps.id, Map({}))
+  const circleId = ownProps.circle.get('id')
+  let usersOfCircle: Map<string, any> = Map({})
+  userTies.forEach((userTie , userTieId) => {
+    const theUserTie: Map<string, any> = userTie
+    const circleList: ImuList<string> = theUserTie.getIn(['circleIdList'])
+    if ( circleList.indexOf(ownProps.id) > -1) {
+      usersOfCircle =  usersOfCircle.set(userTieId!, theUserTie)
     }
   })
   return {
     usersOfCircle,
-    openSetting: (state.circle && state.circle.openSetting && state.circle.openSetting[circleId]) ? state.circle.openSetting[circleId] : false,
-    userInfo: state.user.info
+    openSetting: state.getIn(['circle', 'openSetting', circleId], false),
+    userInfo: state.getIn(['user', 'info'])
 
   }
 }

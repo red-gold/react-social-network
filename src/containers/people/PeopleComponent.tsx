@@ -9,6 +9,7 @@ import { push } from 'react-router-redux'
 import AppBar from 'material-ui/AppBar'
 import Typography from 'material-ui/Typography'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import {Map} from 'immutable'
 
 // - Import app components
 import FindPeople from 'src/components/findPeople'
@@ -187,12 +188,12 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPeopleComponentProps) => {
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IPeopleComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: IPeopleComponentProps) => {
 
   return {
-    translate: getTranslate(state.locale),
-    uid: state.authorize.uid,
-    circlesLoaded: state.circle.loaded
+    translate: getTranslate(state.get('locale')),
+    uid: state.getIn(['authorize', 'uid'], 0),
+    circlesLoaded: state.getIn(['circle', 'loaded'])
 
   }
 }

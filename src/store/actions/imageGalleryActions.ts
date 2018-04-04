@@ -1,5 +1,6 @@
 // - Import react componetns
 import moment from 'moment/moment'
+import { Map } from 'immutable'
 
 // - Import domain
 import { Image } from 'src/core/domain/imageGallery'
@@ -28,7 +29,8 @@ const imageGalleryService: IImageGalleryService = provider.get<IImageGalleryServ
  */
 export const dbGetImageGallery = () => {
   return (dispatch: any, getState: Function) => {
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
     if (uid) {
 
       return imageGalleryService.getImageGallery(uid)
@@ -51,7 +53,8 @@ export const dbGetImageGallery = () => {
 export const dbSaveImage = (imageURL: string,imageFullPath: string) => {
   return (dispatch: any, getState: Function) => {
 
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
     let image: Image = {
       creationDate: moment().unix(),
       deleteDate: '',
@@ -82,7 +85,8 @@ export const dbDeleteImage = (id: string) => {
   return (dispatch: any, getState: Function) => {
 
     // Get current user id
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
 
     return imageGalleryService.deleteImage(uid,id)
       .then(() => {

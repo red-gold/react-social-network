@@ -1,4 +1,5 @@
 import { Image } from 'src/core/domain/imageGallery'
+import {Map, Collection, List} from 'immutable'
 
 /**
  * ImageGallery state
@@ -18,49 +19,31 @@ export class ImageGalleryState  {
 
       /**
        * The list of image
-       * 
-       * @type {(Image[] | null)}
-       * @memberof ImageGalleryState
        */
-      images: Image[] = []
+      images: List<Image> = List()
 
       /**
        * Selected image name
-       * 
-       * @type {string}
-       * @memberof ImageGalleryState
        */
       selectImage: string = ''
 
       /**
        * Selected image address
-       * 
-       * @type {string}
-       * @memberof ImageGalleryState
        */
       selectURL: string = ''
 
       /**
        * If image gallery is loaded {true} or not false
-       * 
-       * @type {Boolean}
-       * @memberof ImageGalleryState
        */
       loaded: Boolean = false
 
       /**
        * Images address list
-       * 
-       * @type {*}
-       * @memberof ImageGalleryState
        */
       imageURLList: any = {}
 
       /**
        * Store image requested
-       * 
-       * @type {*}
-       * @memberof ImageGalleryState
        */
       imageRequests: any = {}
     

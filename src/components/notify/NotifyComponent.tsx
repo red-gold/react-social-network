@@ -10,6 +10,7 @@ import { withStyles } from 'material-ui/styles'
 import Typography from 'material-ui/Typography'
 import Paper from 'material-ui/Paper'
 import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List'
+import { Map } from 'immutable'
 
 // - Import app components
 import NotifyItem from 'components/notifyItem'
@@ -52,7 +53,8 @@ const styles = (theme: any) => ({
   },
   list: {
     maxHeight: 380,
-    overflowY: 'auto'
+    overflowY: 'auto',
+    width: '98%'
 
   },
   fullPageXs: {
@@ -106,20 +108,22 @@ export class NotifyComponent extends Component<INotifyComponentProps, INotifyCom
   }
 
   notifyItemList = () => {
-    let { notifications, info, onRequestClose } = this.props
+    let { info, onRequestClose } = this.props
+    let notifications: Map<string, Map<string, any>> = this.props.notifications!
     let parsedDOM: any[] = []
     if (notifications) {
-      Object.keys(notifications).forEach((key) => {
-        const { notifierUserId } = notifications![key]
+      notifications.forEach((notification, key) => {
+        const notifierUserId = notification!.get('notifierUserId')
+        const userInfo = info!.get(notifierUserId)
         parsedDOM.push(
           <NotifyItem
             key={key}
-            description={(notifications![key] ? notifications![key].description || '' : '')}
-            fullName={(info![notifierUserId] ? info![notifierUserId].fullName || '' : '')}
-            avatar={(info![notifierUserId] ? info![notifierUserId].avatar || '' : '')}
-            id={key}
-            isSeen={(notifications![key] ? notifications![key].isSeen || false : false)}
-            url={(notifications![key] ? notifications![key].url || '' : '')}
+            description={notification!.get('description', '')}
+            fullName={(userInfo ? userInfo.fullName || '' : '')}
+            avatar={(userInfo ? userInfo.avatar || '' : '')}
+            id={key!}
+            isSeen={notification!.get('isSeen', false)}
+            url={notification!.get('url')}
             notifierUserId={notifierUserId}
             closeNotify={onRequestClose}
           />
@@ -179,10 +183,10 @@ const mapDispatchToProps = (dispatch: any, ownProps: INotifyComponentProps) => {
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: INotifyComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: INotifyComponentProps) => {
   return {
-    notifications: state.notify.userNotifies,
-    info: state.user.info
+    notifications: state.getIn(['notify', 'userNotifies']),
+    info: state.getIn(['user', 'info'])
   }
 }
 

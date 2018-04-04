@@ -1,4 +1,5 @@
 import { Post } from 'core/domain/posts'
+import {Map} from 'immutable'
 
 export interface IShareDialogComponentProps {
 
@@ -25,7 +26,7 @@ export interface IShareDialogComponentProps {
   /**
    * The post object for sharing
    */
-  post: Post
+  post: Map<string, any>
 
   /**
    * Styles

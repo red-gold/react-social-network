@@ -1,3 +1,4 @@
+import { Map, fromJS, List } from 'immutable'
 /**
  * Global state
  *
@@ -15,13 +16,10 @@ export class GlobalState {
   *   }}
   * @memberof IGlobalState
   */
-  progress: {
-    percent: number
-    visible: boolean
-  } = {
+  progress = Map({
     percent: 0,
     visible: false
-  }
+  })
 
  /**
   * If loading is enabled {true} or not false
@@ -122,7 +120,7 @@ export class GlobalState {
   * @type {*}
   * @memberof IGlobalState
   */
-  temp: any = {
-    caller: []
-  }
+  temp: any = Map({
+    caller: List()
+  })
 }

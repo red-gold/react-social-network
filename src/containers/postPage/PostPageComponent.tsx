@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import {Map} from 'immutable'
 
 // - Import app components
 import Stream from 'containers/stream'
@@ -76,12 +77,15 @@ const mapDispatchToProps = (dispatch: any,ownProps: IPostPageComponentProps) => 
    * @param  {object} ownProps is the props belong to component
    * @return {object}          props of component
    */
-const mapStateToProps = (state: any,ownProps: IPostPageComponentProps) => {
+const mapStateToProps = (state: Map<string, any>,ownProps: IPostPageComponentProps) => {
   const {userId,postId} = ownProps.match.params
+  const userInfo = state.getIn(['state', 'user', 'info', userId])
+  let posts: Map<string, Map<string, any>> = Map({})
+  posts = posts.set(postId, state.getIn(['post', 'userPosts', userId, postId], Map({})))
   return{
-    avatar: state.user.info && state.user.info[userId] ? state.user.info[userId].avatar : '',
-    name: state.user.info && state.user.info[userId] ? state.user.info[userId].fullName : '',
-    posts: state.post.userPosts && state.post.userPosts[userId] ? {[postId] : { ...state.post.userPosts[userId][postId]}} : {}
+    avatar:  userInfo ? userInfo.avatar : '',
+    name:  userInfo ? userInfo.fullName : '',
+    posts
   }
 }
 

@@ -6,6 +6,8 @@ import { Route, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
 import { push } from 'react-router-redux'
 import Snackbar from 'material-ui/Snackbar'
 import { LinearProgress } from 'material-ui/Progress'
+import {Helmet} from 'react-helmet'
+import {Map} from 'immutable'
 
 // - Import components
 
@@ -53,7 +55,6 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
     }
 
     // Binding functions to `this`
-    this.handleLoading = this.handleLoading.bind(this)
     this.handleMessage = this.handleMessage.bind(this)
 
   }
@@ -61,14 +62,6 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
   // Handle click on message
   handleMessage = (evt: any) => {
     this.props.closeMessage()
-  }
-
-  // Handle loading
-  handleLoading = (status: boolean) => {
-    this.setState({
-      loading: status,
-      authed: false
-    })
   }
 
   componentDidCatch (error: any, info: any) {
@@ -130,6 +123,11 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
 
     return (
       <div id='master'>
+      <Helmet>
+                <meta charSet='utf-8' />
+                <title>React Social Network</title>
+                <link rel='canonical' href='https://github.com/Qolzam/react-social-network' />
+            </Helmet>
        {sendFeedbackStatus ? <SendFeedback /> : ''}
         <div className='master__progress' style={{ display: (progress.visible ? 'block' : 'none') }}>
           <LinearProgress variant='determinate' value={progress.percent} />
@@ -137,7 +135,7 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
         <div className='master__loading animate-fading2' style={{ display: (global.showTopLoading ? 'flex' : 'none') }}>
           <div className='title'>Loading ... </div>
         </div>
-        <MasterLoading activeLoading={global.showMasterLoading} handleLoading={this.handleLoading} />
+       {progress.visible ? <MasterLoading /> : ''}
       <MasterRouter enabled={!loading} data={{uid}} />
         <Snackbar
           open={this.props.global.messageOpen}
@@ -196,15 +194,16 @@ const mapDispatchToProps = (dispatch: any, ownProps: IMasterComponentProps) => {
  * Map state to props
  * @param {object} state
  */
-const mapStateToProps = (state: any) => {
-  const { authorize, global, user, post, comment, imageGallery, vote, notify, circle } = state
-  const { sendFeedbackStatus } = global
+const mapStateToProps = (state: Map<string, any>) => {
+  const  authorize = Map(state.get('authorize', {})).toJS()
+  const global = Map(state.get('global', {})).toJS()
+  const { sendFeedbackStatus, progress } = global
   return {
     sendFeedbackStatus,
+    progress,
     guest: authorize.guest,
     uid: authorize.uid,
     authed: authorize.authed,
-    progress: global.progress,
     global: global
   }
 

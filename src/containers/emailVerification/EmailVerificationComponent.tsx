@@ -144,7 +144,7 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IEmailVerificationComp
  */
 const mapStateToProps = (state: any, ownProps: IEmailVerificationComponentProps) => {
   return {
-    translate: getTranslate(state.locale)
+    translate: getTranslate(state.get('locale'))
   }
 }
 

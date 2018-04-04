@@ -13,6 +13,7 @@ import { grey } from 'material-ui/colors'
 import { withStyles } from 'material-ui/styles'
 import uuid from 'uuid'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import {Map} from 'immutable'
 
 // - Import actions
 import * as imageGalleryActions from 'store/actions/imageGalleryActions'
@@ -161,7 +162,6 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
   }
 
   imageList = () => {
-
     return this.props.images!.map((image: Image, index) => {
 
       return (
@@ -254,11 +254,13 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImageGalleryComponentProps
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: Map<string, any>) => {
+  const uid = state.getIn(['authorize', 'uid'])
+  const currentUser = state.getIn(['user', 'info', uid])
   return {
-    translate: getTranslate(state.locale),
-    images: state.imageGallery.images,
-    avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : ''
+    translate: getTranslate(state.get('locale')),
+    images: state.getIn(['imageGallery', 'images']),
+    avatar: currentUser ? currentUser.avatar : ''
 
   }
 }

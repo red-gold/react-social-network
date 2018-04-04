@@ -1,4 +1,5 @@
 import moment from 'moment/moment'
+import {Map} from 'immutable'
 
 // - Import action types
 import { VoteActionType } from 'constants/voteActionType'
@@ -31,20 +32,22 @@ const voteService: IVoteService = provider.get<IVoteService>(SocialProviderTypes
 export const dbAddVote = (postId: string,ownerPostUserId: string) => {
   return (dispatch: any, getState: Function) => {
 
-    const state = getState()
-    let uid: string = state.authorize.uid
+    const state: Map<string, any> = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
+    const currentUser = state.getIn(['user', 'info', uid])
     let vote: Vote = {
       postId: postId,
       creationDate: moment().unix(),
-      userDisplayName: getState().user.info[uid].fullName,
-      userAvatar: getState().user.info[uid].avatar,
+      userDisplayName: currentUser.fullName,
+      userAvatar: currentUser.avatar,
       userId: uid
     }
-    const post: Post = state.post.userPosts[ownerPostUserId][postId]
-
-    post.score! += 1
-    post.votes = { ...post.votes!, [uid]: true}
-    dispatch(postActions.updatePost(post))
+    const post: Map<string, any> = state.getIn(['post', 'userPosts', ownerPostUserId, postId])
+    const score = Number(post.get('score', 0)) + 1
+     const votedPost = post
+     .set('score', score)
+     .setIn(['votes',uid], true)
+    dispatch(postActions.updatePost(votedPost))
 
     return voteService.addVote(vote).then((voteKey: string) => {
       if (uid !== ownerPostUserId) {
@@ -59,9 +62,11 @@ export const dbAddVote = (postId: string,ownerPostUserId: string) => {
 
     })
     .catch((error) => {
-      post.score! -= 1
-      post.votes = { ...post.votes!, [uid]: false}
-      dispatch(postActions.updatePost(post))
+      const score = post.get('score', 0) - 1
+      const votedPost = post
+     .set('score', score)
+     .setIn(['votes',uid], false)
+      dispatch(postActions.updatePost(votedPost))
       dispatch(globalActions.showMessage(error.message))
     })
   }
@@ -72,15 +77,15 @@ export const dbAddVote = (postId: string,ownerPostUserId: string) => {
  */
 export const dbGetVotes = (userId: string, postId: string) => {
   return (dispatch: any, getState: Function) => {
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any> = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
     if (uid) {
 
       return voteService
       .getVotes(postId)
       .then((postVotes: { [postId: string]: { [voteId: string]: Vote } }) => {
         dispatch(addVoteList(postVotes))
-        const state = getState()
-        const post: Post = state.post.userPosts[userId][postId]
+        const post: Post = state.getIn(['post', 'userPosts', userId, postId])
         if (!post) {
           return
         }
@@ -101,18 +106,21 @@ export const dbGetVotes = (userId: string, postId: string) => {
  */
 export const dbDeleteVote = (postId: string, ownerPostUserId: string) => {
   return (dispatch: any, getState: Function) => {
-    const state = getState()
-    // Get current user id
-    let uid: string = state.authorize.uid
-    const post: Post = state.post.userPosts[ownerPostUserId][postId]
-    post.score! -= 1
-    post.votes = { ...post.votes!, [uid]: false}
-    dispatch(postActions.updatePost(post))
+    const state: Map<string, any> = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
+    const post: Map<string, any> = state.getIn(['post', 'userPosts', ownerPostUserId, postId])
+    const score = post.get('score', 0) - 1
+    const votedPost = post
+     .set('score', score)
+     .setIn(['votes',uid], false)
+    dispatch(postActions.updatePost(votedPost))
     return voteService.deleteVote(uid, postId).then(x => x)
     .catch((error: any) => {
-      post.score! += 1
-      post.votes = { ...post.votes!, [uid]: true}
-      dispatch(postActions.updatePost(post))
+      const score = post.get('score', 0) + 1
+      const votedPost = post
+     .set('score', score)
+     .setIn(['votes',uid], true)
+      dispatch(postActions.updatePost(votedPost))
       dispatch(globalActions.showMessage(error.message))
     })
   }

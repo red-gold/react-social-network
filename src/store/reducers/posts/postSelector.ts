@@ -1,7 +1,7 @@
-const getPost = (state: any, userId: string, postId: string) => {
-    return (state.post.userPosts && state.post.userPosts[userId] && state.post.userPosts[userId][postId])
-            ? state.post.userPosts[userId][postId]
-            : null
+import {Map} from 'immutable'
+
+const getPost = (state: Map<string, any>, userId: string, postId: string) => {
+    return state.getIn(['post', 'userPosts', userId, postId])
 }
 
 export const postSelector = {

@@ -24,7 +24,8 @@ const sortCommentsByDate = (sortedObjects: comments) => {
        return _.fromPairs(_.toPairs(sortedObjects)
             .sort((a: any, b: any) => parseInt(b[1].creationDate, 10) - parseInt(a[1].creationDate, 10)).slice(0, 3))
 
-    }
+    } 
+    return sortedObjects
 }
 
 export default {

@@ -1,5 +1,6 @@
 // - Import react components
 import { HomeRouter } from 'routes'
+import { Map } from 'immutable'
 import React, { Component } from 'react'
 import _ from 'lodash'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
@@ -172,7 +173,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
     if (!isVerifide) {
       goTo!('/emailVerification')
 
-    } else if (!global.defaultLoadDataStatus) {
+    } else if (!global.get('defaultLoadDataStatus')) {
 
       clearData!()
       loadData!()
@@ -188,7 +189,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
    * @memberof Home
    */
   render() {
-    const HR = HomeRouter as any
+    const HR = HomeRouter
     const { loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback, translate, classes, theme } = this.props
     const { drawerOpen } = this.state
     const drawer = (
@@ -337,29 +338,28 @@ const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IHomeComponentProps) => {
-  const { authorize, global, user, post, imageGallery, notify, circle } = state
-  const { uid } = authorize
-  let mergedPosts = {}
-  const circles = circle ? (circle.circleList || {}) : {}
-  const followingUsers = circle ? circle.userTies : {}
-  const posts = post.userPosts ? post.userPosts[authorize.uid] : {}
-  const hasMorePosts = post.stream.hasMoreData
-  Object.keys(followingUsers).forEach((userId) => {
-    let newPosts = post.userPosts ? post.userPosts[userId] : {}
-    _.merge(mergedPosts, newPosts)
+const mapStateToProps = (state: Map<string, any>, ownProps: IHomeComponentProps) => {
+  const uid = state.getIn(['authorize', 'uid'], {})
+  const global = state.get('global', {})
+  let mergedPosts = Map({})
+  const circles = state.getIn(['circle', 'circleList'], {})
+  const followingUsers: Map<string, any> = state.getIn(['circle', 'userTies'], {})
+  const posts = state.getIn(['post', 'userPosts', uid ], {})
+  const hasMorePosts = state.getIn(['post', 'stream', 'hasMoreData' ], true)
+  followingUsers.forEach((user, userId) => {
+    let newPosts = state.getIn(['post', 'userPosts', userId], {})
+   mergedPosts = mergedPosts.merge(newPosts)
   })
-  _.merge(mergedPosts, posts)
+  mergedPosts = mergedPosts.merge(posts)
   return {
-    authed: authorize.authed,
-    isVerifide: authorize.isVerifide,
-    mainStyle: global.sidebarMainStyle,
-    translate: getTranslate(state.locale),
-    currentLanguage: getActiveLanguage(state.locale).code,
+    authed: state.getIn(['authorize', 'authed'], false),
+    isVerifide: state.getIn(['authorize', 'isVerifide'], false),
+    translate: getTranslate(state.get('locale')),
+    currentLanguage: getActiveLanguage(state.get('locale')).code,
     mergedPosts,
     global,
     hasMorePosts,
-    loaded: user.loaded && imageGallery.loaded && notify.loaded && circle.loaded
+    loaded: state.getIn(['user', 'loaded']) && state.getIn(['imageGallery', 'loaded']) && state.getIn(['notify', 'loaded']) && state.getIn(['circle', 'loaded'])
   }
 }
 

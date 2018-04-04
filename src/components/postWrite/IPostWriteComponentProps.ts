@@ -1,5 +1,5 @@
 import { Post } from 'core/domain/posts'
-
+import {Map} from 'immutable'
 export interface IPostWriteComponentProps {
 
     /**
@@ -55,7 +55,7 @@ export interface IPostWriteComponentProps {
   /**
    * Post model
    */
-  postModel?: Post
+  postModel?: Map<string, any>
 
   /**
    * Save a post
@@ -69,7 +69,7 @@ export interface IPostWriteComponentProps {
    *
    * @memberof IPostWriteComponentProps
    */
-  update?: (post: Post, callback: Function) => any
+  update?: (post: Map<string, any>, callback: Function) => any
 
   /**
    * Styles

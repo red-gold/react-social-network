@@ -1,6 +1,7 @@
 // - Import react components
 import moment from 'moment/moment'
 import _ from 'lodash'
+import {Map} from 'immutable'
 
 // - Import domain
 import { Comment } from 'src/core/domain/comments'
@@ -40,14 +41,14 @@ export const dbAddComment = (ownerPostUserId: string, newComment: Comment, callB
 
     dispatch(globalActions.showTopLoading())
 
-    const state = getState()
-    let uid: string = state.authorize.uid
-
+    const state: Map<string, any> = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
+    const currentUser = state.getIn(['user', 'info', uid])
     let comment: Comment = {
       score: 0,
       creationDate: moment().unix(),
-      userDisplayName: state.user.info[uid].fullName,
-      userAvatar: state.user.info[uid].avatar,
+      userDisplayName: currentUser.fullName,
+      userAvatar: currentUser.avatar,
       userId: uid,
       postId: newComment.postId,
       text: newComment.text

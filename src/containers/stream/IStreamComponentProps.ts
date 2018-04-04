@@ -1,4 +1,5 @@
 import { Post } from 'src/core/domain/posts'
+import {Map} from 'immutable'
 
 export interface IStreamComponentProps {
 
@@ -82,7 +83,7 @@ export interface IStreamComponentProps {
    * @type {{[postId: string]: Post}}
    * @memberof IStreamComponentProps
    */
-  posts: {[postId: string]: Post}
+  posts: Map<string, Map<string, any>>
 
   /**
    * Router match property

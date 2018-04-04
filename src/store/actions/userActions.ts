@@ -1,5 +1,7 @@
 // - Import react components
 import { provider } from 'src/socialEngine'
+import { Map } from 'immutable'
+
 // - Import domain
 import { Profile } from 'src/core/domain/users'
 import { SocialError } from 'src/core/domain/common'
@@ -25,7 +27,8 @@ const userService: IUserService = provider.get<IUserService>(SocialProviderTypes
  */
 export const dbGetUserInfo = () => {
   return (dispatch: any, getState: Function) => {
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
     if (uid) {
       return userService.getUserProfile(uid).then((userProfile: Profile) => {
         dispatch(addUserInfo(uid, {
@@ -54,7 +57,8 @@ export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
   return (dispatch: Function, getState: Function) => {
     if (uid) {
 
-      let caller = getState().global.temp.caller
+      const state: Map<string, any>  = getState()
+    let caller = state.getIn(['global', 'temp', 'caller'])
       if ( caller && caller.indexOf(`dbGetUserInfoByUserId-${uid}`) > -1) {
         return undefined
       }
@@ -95,11 +99,10 @@ export const dbGetUserInfoByUserId = (uid: string, callerKey: string) => {
  */
 export const dbUpdateUserInfo = (newProfile: Profile) => {
   return (dispatch: any, getState: Function) => {
-    console.trace('newProfile', newProfile)
-    // Get current user id
-    let uid: string = getState().authorize.uid
+    const state: Map<string, any>  = getState()
+    let uid: string = state.getIn(['authorize', 'uid'])
 
-    let profile: Profile = getState().user.info[uid]
+    let profile: Profile = state.getIn(['user', 'info', uid])
     let updatedProfile: Profile = {
       avatar: newProfile.avatar || profile.avatar || '',
       banner: newProfile.banner || profile.banner || 'https://firebasestorage.googleapis.com/v0/b/open-social-33d92.appspot.com/o/images%2F751145a1-9488-46fd-a97e-04018665a6d3.JPG?alt=media&token=1a1d5e21-5101-450e-9054-ea4a20e06c57',
@@ -126,33 +129,27 @@ export const dbUpdateUserInfo = (newProfile: Profile) => {
 // - Get people info from database
 export const dbGetPeopleInfo = (page: number, limit: number) => {
   return (dispatch: any, getState: Function) => {
-    const state = getState()
-    const {people} = state.user
-    const lastPageRequest = people.lastPageRequest
-    const lastUserId = people.lastUserId
+    const state: Map<string, any>  = getState()
+    const people: Map<string, any> = state.getIn(['user', 'people'])
+    const lastPageRequest = people.get('lastPageRequest')
+    const lastUserId = people.get('lastUserId')
 
-    let uid: string = state.authorize.uid
+    let uid: string = state.getIn(['authorize', 'uid'])
 
     if (uid && lastPageRequest !== page) {
 
       return userService.getUsersProfile(uid, lastUserId, page, limit).then((result) => {
-
         if (!result.users || !(result.users.length > 0)) {
           return dispatch(notMoreDataPeople())
         }
         // Store last user Id
         dispatch(lastUserPeople(result.newLastUserId))
 
-        let parsedData: {[userId: string]: Profile} = {}
-        result.users.forEach((post) => {
-          const userId = Object.keys(post)[0]
-          const postData = post[userId]
-          parsedData = {
-            ...parsedData,
-            [userId]: {
-              ...postData
-            }
-          }
+        let parsedData: Map<string, Profile> = Map({})
+        result.users.forEach((user) => {
+          const userId = Object.keys(user)[0]
+          const userData = user[userId]
+          parsedData = parsedData.set(userId, userData)
         })
         dispatch(addPeopleInfo(parsedData))
       })
@@ -176,9 +173,8 @@ export const addUserInfo = (uid: string, info: Profile) => {
 
 /**
  * Add people information
- * @param {[userId: string]: Profile} infoList is the lst of information about users
  */
-export const addPeopleInfo = (infoList: {[userId: string]: Profile}) => {
+export const addPeopleInfo = (infoList: Map<string, Profile>) => {
   return {
     type: UserActionType.ADD_PEOPLE_INFO,
     payload: infoList

@@ -1,5 +1,6 @@
 // - Import react components
 import _ from 'lodash'
+import { Map, List } from 'immutable'
 
 // - Import domain
 import { User } from 'src/core/domain/users'
@@ -14,52 +15,36 @@ import { ImageGalleryState } from './ImageGalleryState'
 /**
  *  Image gallery reducer
  */
-export let imageGalleryReducer = (state: ImageGalleryState = new ImageGalleryState(), action: IImageGalleryAction) => {
+export let imageGalleryReducer = (state = Map(new ImageGalleryState()), action: IImageGalleryAction) => {
   const { payload } = action
 
   switch (action.type) {
     /* ----------------- CRUD ----------------- */
     case ImageGalleryActionType.ADD_IMAGE_GALLERY:
-      return {
-        ...state,
-        images: [...state.images!, payload]
-      }
+      return state
+        .mergeIn(['images'], List([payload]))
+
     case ImageGalleryActionType.ADD_IMAGE_LIST_GALLERY:
-      return {
-        ...state,
-        images: [...payload],
-        loaded: true
-      }
+      return state
+        .set('images', List(payload))
+        .set('loaded', true)
 
     case ImageGalleryActionType.DELETE_IMAGE:
-      return {
-        ...state,
-        images: [
-          ...state.images!.filter((item: Image) => {
-            return item.id !== payload
-          })
-        ]
-      }
+      return state
+        .update('images', (images: List<Image>) => {
+         return images.filter((image) => image!.id !== payload)
+        })
+
     case ImageGalleryActionType.SET_IMAGE_URL:
-      return {
-        ...state,
-        imageURLList: {
-          ...state.imageURLList,
-          [payload.name]: payload.url
-        }
-      }
+      return state
+        .setIn(['imageURLList', payload.name], payload.url)
 
     case ImageGalleryActionType.SEND_IMAGE_REQUEST:
-      return {
-        ...state,
-        imageRequests: [
-          ...state.imageRequests,
-          payload
-        ]
-      }
+      return state
+        .mergeIn(['imageRequests'], payload)
 
     case ImageGalleryActionType.CLEAT_ALL_DATA_IMAGE_GALLERY:
-      return new ImageGalleryState()
+      return Map(new ImageGalleryState())
 
     default:
       return state

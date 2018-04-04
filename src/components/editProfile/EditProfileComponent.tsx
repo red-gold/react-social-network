@@ -10,6 +10,7 @@ import MomentLocaleUtils, {
   formatDate,
   parseDate,
 } from 'react-day-picker/moment'
+import {Map} from 'immutable'
 
 import { grey } from 'material-ui/colors'
 import IconButton from 'material-ui/IconButton'
@@ -294,9 +295,9 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
    */
   handleUpdate = () => {
     const { fullNameInput, tagLineInput, avatar, banner, selectedBirthday, companyName, webUrl, twitterId } = this.state
-    const { info } = this.props
+    const { info, update } = this.props
 
-    if (this.state.fullNameInput.trim() === '') {
+    if (fullNameInput.trim() === '') {
       this.setState({
         fullNameInputError: 'This field is required'
       })
@@ -305,7 +306,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
         fullNameInputError: ''
       })
 
-      this.props.update!({
+      update!({
         fullName: fullNameInput,
         tagLine: tagLineInput,
         avatar: avatar,
@@ -562,13 +563,14 @@ const mapDispatchToProps = (dispatch: any, ownProps: IEditProfileComponentProps)
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IEditProfileComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: IEditProfileComponentProps) => {
+  const uid = state.getIn(['authorize', 'uid'])
   return {
-    currentLanguage: getActiveLanguage(state.locale).code,
-    translate: getTranslate(state.locale),
-    open: state.user.openEditProfile,
-    info: state.user.info[state.authorize.uid],
-    avatarURL: state.imageGallery.imageURLList
+    currentLanguage: getActiveLanguage(state.get('locale')).code,
+    translate: getTranslate(state.get('locale')),
+    open: state.getIn(['user', 'openEditProfile'], false),
+    info: state.getIn(['user', 'info', uid]),
+    avatarURL: state.getIn(['imageGallery', 'imageURLList'])
 
   }
 }

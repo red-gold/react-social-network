@@ -1,4 +1,5 @@
 import { Profile } from 'core/domain/users/profile'
+import { UserTie } from 'core/domain/circles'
 
 export interface IFindPeopleComponentProps {
 
@@ -11,11 +12,8 @@ export interface IFindPeopleComponentProps {
 
   /**
    * Users' profile
-   *
-   * @type {{[userId: string]: Profile}}
-   * @memberof IFindPeopleComponentProps
    */
-  peopleInfo?: {[userId: string]: Profile}
+  peopleInfo?: Map<string, UserTie>
 
   /**
    * If there are more people {true} or not {false}

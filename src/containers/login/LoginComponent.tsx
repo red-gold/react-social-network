@@ -12,7 +12,7 @@ import Divider from 'material-ui/Divider'
 import ActionAndroid from 'material-ui-icons/Android'
 import { withStyles } from 'material-ui/styles'
 import config from 'src/config'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import { localize } from 'react-localize-redux'
 
 // - Import actions
 import * as authorizeActions from 'src/store/actions/authorizeActions'
@@ -20,6 +20,7 @@ import { ILoginComponentProps } from './ILoginComponentProps'
 import { ILoginComponentState } from './ILoginComponentState'
 import { OAuthType } from 'src/core/domain/authorize'
 import Grid from 'material-ui/Grid/Grid'
+import CommonAPI from 'api/CommonAPI'
 
 const styles = (theme: any) => ({
   textField: {
@@ -253,9 +254,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: ILoginComponentProps) => {
  */
 const mapStateToProps = (state: any, ownProps: ILoginComponentProps) => {
   return {
-    translate: getTranslate(state.locale)
   }
 }
 
 // - Connect component to redux store
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LoginComponent as any) as any)) as typeof LoginComponent
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(localize(LoginComponent, 'locale', CommonAPI.getStateSlice) as any) as any)) as typeof LoginComponent
