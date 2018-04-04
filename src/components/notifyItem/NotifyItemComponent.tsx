@@ -167,4 +167,4 @@ const mapStateToProps = (state: any, ownProps: INotifyItemComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NotifyItemComponent as any) as any )
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(NotifyItemComponent as any) as any )

@@ -230,4 +230,4 @@ const mapStateToProps = (state: any, ownProps: ISettingComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SettingComponent as any) as any) as any)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(SettingComponent as any) as any) as any)

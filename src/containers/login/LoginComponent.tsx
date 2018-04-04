@@ -258,4 +258,4 @@ const mapStateToProps = (state: any, ownProps: ILoginComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(LoginComponent as any) as any)) as typeof LoginComponent
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(LoginComponent as any) as any)) as typeof LoginComponent

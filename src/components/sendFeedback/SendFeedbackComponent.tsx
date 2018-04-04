@@ -255,4 +255,4 @@ const mapStateToProps = (state: any, ownProps: ISendFeedbackComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles)(SendFeedbackComponent as any)) as any)
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles as any)(SendFeedbackComponent as any)) as any)
