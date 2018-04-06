@@ -28,6 +28,13 @@ React Social Network is [moving on](https://github.com/Qolzam/react-social-netwo
 This project adheres to the Contributor Covenant [code of conduct](https://github.com/Qolzam/react-social-network/blob/next/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report unacceptable behavior to amir.gholzam@live.com.
 
+## Before Starting
+First of all this is a boilerplate react social and the purpose is to find the best way to implement a huge project such as social network by [React](https://facebook.github.io/react/docs/hello-world.html) . We learn what technology or algorithm could be better solution for our project by [React](https://facebook.github.io/react/docs/hello-world.html). Please approach to this project with these ideas and if you feel that you have better solution, to our great pleasure if we could have your contribution.
+  - You are the person who is new to [React](https://facebook.github.io/react/docs/hello-world.html) and you are looking for some ideas to start [React](https://facebook.github.io/react/docs/hello-world.html) with some basic stuff. Also you are the fan of [React Semantic UI](https://react.semantic-ui.com/) I recommend you start with [React Blog Project](https://github.com/Qolzam/react-blog).
+  - You are the person who has the base knowledge of [React](https://facebook.github.io/react/docs/hello-world.html) which provided in [React Blog Project](https://github.com/Qolzam/react-blog) and you are the fan of social network projects, [Material-UI](http://www.material-ui.com/#/). You are the person who love JS/JSX. [js-react-social-tutorial](https://github.com/Qolzam/js-react-social-tutorial) project will be recommended.
+  - You are the fan of pure [Redux](http://redux.js.org/) with [redux-thunk](https://github.com/gaearon/redux-thunk), [TypeScript](https://www.typescriptlang.org/), [InversifyJS](http://inversify.io/) IOC container and you have the knowledge enough about the stuff in [js-react-social-tutorial](https://github.com/Qolzam/js-react-social-tutorial). [Version 0.5.0 branch of react-social-network](https://github.com/Qolzam/react-social-network/tree/v0.5) is the place you can find yourself.
+  - You are in advanced level of React and you are in love with learning advanced stuff about [React](https://facebook.github.io/react/docs/hello-world.html) such [Async Component/Lazy loading](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#code-splitting), [redux-saga](https://redux-saga.js.org/) and other cool stuff, well come you here. We are going ahead.👍
+
 ## Example
 
   [Love Open Social](https://love-social.firebaseapp.com)
@@ -40,7 +47,7 @@ I recommend that you get to know React before using React Social Network. React 
 
 ## Document
 
-  Comming soon :) ...
+ Comming soon :) ...
 
 
 ## Roadmap
