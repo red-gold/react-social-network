@@ -248,9 +248,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: ILoginComponentProps) => {
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: ILoginComponentProps) => {
   return {
@@ -258,4 +255,4 @@ const mapStateToProps = (state: any, ownProps: ILoginComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(localize(LoginComponent, 'locale', CommonAPI.getStateSlice) as any) as any)) as typeof LoginComponent
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(localize(LoginComponent, 'locale', CommonAPI.getStateSlice) as any) as any)) as typeof LoginComponent
