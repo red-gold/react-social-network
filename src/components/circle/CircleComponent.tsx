@@ -306,7 +306,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           <ListItemIcon className={classes.icon}>
             <SvgGroup />
           </ListItemIcon>
-          <ListItemText inset primary={<span style={this.styles}>{this.props.circle.get('name')}</span>} />
+          <ListItemText inset primary={<span style={this.styles as any}>{this.props.circle.get('name')}</span>} />
           <ListItemSecondaryAction>
             {circle.get('isSystem') ? null : rightIconMenu}
           </ListItemSecondaryAction>

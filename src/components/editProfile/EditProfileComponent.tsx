@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import moment from 'moment/moment'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
-import 'react-day-picker/lib/style.css'
 import MomentLocaleUtils, {
   formatDate,
   parseDate,
