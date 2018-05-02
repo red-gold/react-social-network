@@ -111,7 +111,7 @@ and then install the package
         * [Enable Email/Password Authentication](https://firebase.google.com/docs/auth/web/password-auth) sign-in on firebase:
             * In the Firebase console, open the Auth section.
             * On the Sign in method tab, enable the Email/password sign-in method and click Save.
-        * [Enable OAuth](https://firebase.google.com/docs/auth/) We are supporting sign-in with Github, Google and Facebook. Following [firebase document](https://firebase.google.com/docs/auth/) you can enable each one you need.
+        * [Enable OAuth](https://firebase.google.com/docs/auth/) We are supporting sign-in with [Github](https://medium.com/@endactiongroup/enable-github-sign-in-oauth-with-firebase-38b93960e8db), Google and [Facebook](https://medium.com/@endactiongroup/enable-facebook-sign-in-oauth-with-firebase-af7a6651b60c). Following [firebase document](https://firebase.google.com/docs/auth/) you can enable each one you need.
         * [Install Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend) Follow instruction of [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
       * Enable firestore dependencies
         * Go to React Social Network folder in `src/socialEngine.ts` write `useFirestore(provider)` to enable firestore dependencies!
