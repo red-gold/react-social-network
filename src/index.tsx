@@ -14,17 +14,28 @@ import { ConnectedRouter } from 'react-router-redux'
 
 // - Actions
 import * as localeActions from 'store/actions/localeActions'
+import * as globalActions from 'store/actions/globalActions'
 
 // - Import app components
 import Master from 'containers/master'
 // import { App } from 'components/AWS'
+// App css
+import './styles/app.css'
+
+/**
+ * Execute startup functions
+ */
+import './socialEngine'
+import rootSaga from 'store/sagas/rootSaga'
+
+configureStore.runSaga(rootSaga)
 
 // Set default data
 // tslint:disable-next-line:no-empty
 configureStore.store.subscribe(() => { })
 
 // - Initialize languages
-configureStore.store.dispatch(localeActions.initTranslation())
+configureStore.store.dispatch(globalActions.initLocale())
 
 // Needed for onClick
 // http://stackoverflow.com/a/34015469/988941
@@ -36,17 +47,6 @@ const theme = createMuiTheme({
 	  secondary: { main: config.theme.secondaryColor }
   }
 })
-
-// App css
-import './styles/app.css'
-
-/**
- * Execute startup functions
- */
-import './socialEngine'
-import rootSaga from 'store/sagas/rootSaga'
-
-configureStore.runSaga(rootSaga)
 
 const supportsHistory = 'pushState' in window.history
 ReactDOM.render(

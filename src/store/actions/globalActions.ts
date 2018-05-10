@@ -79,6 +79,17 @@ export const progressChange = (percent: number, visible: Boolean) => {
 }
 
 /**
+ * Progress change
+ */
+export const initLocale = () => {
+  return {
+    type: GlobalActionType.INIT_LOCALE,
+    payload: null
+  }
+
+}
+
+/**
  * Default data loaded status will be true
  */
 export const defaultDataEnable = () => {
