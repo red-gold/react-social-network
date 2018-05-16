@@ -13,7 +13,6 @@ import { GlobalActionType } from 'constants/globalActionType'
  * Initialize localization
  */
 function* initLocalization() {
-    debugger
     const languages = [
         { name: 'English', code: LanguageType.English },
         { name: 'French', code: LanguageType.French },

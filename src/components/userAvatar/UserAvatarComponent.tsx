@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Avatar from 'material-ui/Avatar'
+import Avatar from '@material-ui/core/Avatar'
 import { Map } from 'immutable'
 
 // - Import app components

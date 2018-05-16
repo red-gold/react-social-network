@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Paper from 'material-ui/Paper'
+import Paper from '@material-ui/core/Paper'
 import InfiniteScroll from 'react-infinite-scroller'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import {Map} from 'immutable'

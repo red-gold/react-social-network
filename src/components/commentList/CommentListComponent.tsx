@@ -5,8 +5,13 @@ import PropTypes from 'prop-types'
 import {Map} from 'immutable'
 
 // - Material UI
-import { withStyles } from 'material-ui/styles'
-import List, { ListItem, ListItemText } from 'material-ui/List'
+import { withStyles } from '@material-ui/core/styles'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItem from '@material-ui/core/ListItem'
+import List from '@material-ui/core/List'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 
 // - Import app components
 import CommentComponent from 'components/comment'

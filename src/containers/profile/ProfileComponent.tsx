@@ -2,9 +2,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Dialog from 'material-ui/Dialog'
-import Button from 'material-ui/Button'
-import RaisedButton from 'material-ui/Button'
+import Dialog from '@material-ui/core/Dialog'
+import Button from '@material-ui/core/Button'
+import RaisedButton from '@material-ui/core/Button'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import {Map} from 'immutable'
 

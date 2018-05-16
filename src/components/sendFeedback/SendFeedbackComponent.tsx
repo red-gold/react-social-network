@@ -6,16 +6,16 @@ import classNames from 'classnames'
 import {Map} from 'immutable'
 
 // - Material UI
-import Paper from 'material-ui/Paper'
-import TextField from 'material-ui/TextField'
-import IconButton from 'material-ui/IconButton'
-import SvgHappy from 'material-ui-icons/TagFaces'
-import SvgSad from 'material-ui-icons/Face'
-import SvgClose from 'material-ui-icons/Clear'
-import { CircularProgress } from 'material-ui/Progress'
-import Tooltip from 'material-ui/Tooltip'
+import Paper from '@material-ui/core/Paper'
+import TextField from '@material-ui/core/TextField'
+import IconButton from '@material-ui/core/IconButton'
+import SvgHappy from '@material-ui/icons/TagFaces'
+import SvgSad from '@material-ui/icons/Face'
+import SvgClose from '@material-ui/icons/Clear'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Tooltip from '@material-ui/core/Tooltip'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
-import { withStyles } from 'material-ui/styles'
+import { withStyles } from '@material-ui/core/styles'
 
 // - Import app components
 
@@ -150,9 +150,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
         color='secondary'
         size={50}
         variant='determinate'
-        value={25}
-        min={0}
-        max={50}
+        value={(25 - 0) / (50 - 0) * 100}
       />
       </div>
     </div>)

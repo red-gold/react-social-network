@@ -5,36 +5,35 @@ import { push } from 'react-router-redux'
 import {Map, List as ImuList} from 'immutable'
 
 // - Material UI
-import List, {
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText
-} from 'material-ui/List'
-import SvgGroup from 'material-ui-icons/GroupWork'
-import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui-icons/MoreVert'
-import TextField from 'material-ui/TextField'
-import { MenuList, MenuItem } from 'material-ui/Menu'
-import { withStyles } from 'material-ui/styles'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItem from '@material-ui/core/ListItem'
+import List from '@material-ui/core/List'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import SvgGroup from '@material-ui/icons/GroupWork'
+import IconButton from '@material-ui/core/IconButton'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import TextField from '@material-ui/core/TextField'
+import MenuList from '@material-ui/core/MenuList'
+import MenuItem from '@material-ui/core/MenuItem'
+import { withStyles } from '@material-ui/core/styles'
 import { Manager, Target, Popper } from 'react-popper'
-import Grow from 'material-ui/transitions/Grow'
-import ClickAwayListener from 'material-ui/utils/ClickAwayListener'
+import Grow from '@material-ui/core/Grow'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import classNames from 'classnames'
 import IconButtonElement from 'layouts/IconButtonElement'
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle
-} from 'material-ui/Dialog'
-import Divider from 'material-ui/Divider'
-import Button from 'material-ui/Button'
-import RaisedButton from 'material-ui/Button'
-import SvgClose from 'material-ui-icons/Close'
-import AppBar from 'material-ui/AppBar'
-import Paper from 'material-ui/Paper'
-import Collapse from 'material-ui/transitions/Collapse'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import Divider from '@material-ui/core/Divider'
+import Button from '@material-ui/core/Button'
+import RaisedButton from '@material-ui/core/Button'
+import SvgClose from '@material-ui/icons/Close'
+import AppBar from '@material-ui/core/AppBar'
+import Paper from '@material-ui/core/Paper'
+import Collapse from '@material-ui/core/Collapse'
 
 // - Import app components
 import UserAvatar from 'components/userAvatar'

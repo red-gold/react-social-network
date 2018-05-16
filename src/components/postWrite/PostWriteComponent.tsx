@@ -5,35 +5,34 @@ import PropTypes from 'prop-types'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import { Map } from 'immutable'
 
-import { Card, CardActions, CardHeader, CardMedia, CardContent } from 'material-ui'
-import List, {
-  ListItem,
-  ListItemAvatar,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText
-} from 'material-ui/List'
-import Paper from 'material-ui/Paper'
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle
-} from 'material-ui/Dialog'
-import Button from 'material-ui/Button'
-import RaisedButton from 'material-ui/Button'
-import { grey } from 'material-ui/colors'
-import IconButton from 'material-ui/IconButton'
-import TextField from 'material-ui/TextField'
-import Tooltip from 'material-ui/Tooltip'
-import { MenuList, MenuItem } from 'material-ui/Menu'
-import SvgRemoveImage from 'material-ui-icons/RemoveCircle'
-import SvgCamera from 'material-ui-icons/PhotoCamera'
-import MoreVertIcon from 'material-ui-icons/MoreVert'
-import { withStyles } from 'material-ui/styles'
+import { Card, CardActions, CardHeader, CardMedia, CardContent } from '@material-ui/core'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItem from '@material-ui/core/ListItem'
+import List from '@material-ui/core/List'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Paper from '@material-ui/core/Paper'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import Button from '@material-ui/core/Button'
+import RaisedButton from '@material-ui/core/Button'
+import { grey } from '@material-ui/core/colors'
+import IconButton from '@material-ui/core/IconButton'
+import TextField from '@material-ui/core/TextField'
+import Tooltip from '@material-ui/core/Tooltip'
+import MenuList from '@material-ui/core/MenuList'
+import MenuItem from '@material-ui/core/MenuItem'
+import SvgRemoveImage from '@material-ui/icons/RemoveCircle'
+import SvgCamera from '@material-ui/icons/PhotoCamera'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import { withStyles } from '@material-ui/core/styles'
 import { Manager, Target, Popper } from 'react-popper'
-import Grow from 'material-ui/transitions/Grow'
-import ClickAwayListener from 'material-ui/utils/ClickAwayListener'
+import Grow from '@material-ui/core/Grow'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import classNames from 'classnames'
 
 // - Import app components
@@ -50,7 +49,7 @@ import * as postActions from 'store/actions/postActions'
 import { IPostWriteComponentProps } from './IPostWriteComponentProps'
 import { IPostWriteComponentState } from './IPostWriteComponentState'
 import { Post } from 'core/domain/posts'
-import Grid from 'material-ui/Grid/Grid'
+import Grid from '@material-ui/core/Grid/Grid'
 
 const styles = (theme: any) => ({
   fullPageXs: {

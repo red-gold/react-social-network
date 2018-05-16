@@ -18,6 +18,8 @@
   "author": "Amir Movahedi",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^1.0.0-rc.1",
+    "@material-ui/icons": "^1.0.0-rc.0",
     "@types/react-helmet": "^5.0.5",
     "@types/redux-devtools": "^3.0.43",
     "@types/redux-devtools-dock-monitor": "^1.1.32",
@@ -37,8 +39,6 @@
     "jss-rtl": "^0.2.1",
     "keycode": "^2.1.9",
     "lodash": "^4.17.4",
-    "material-ui": "^1.0.0-beta.40",
-    "material-ui-icons": "^1.0.0-beta.17",
     "moment": "^2.18.1",
     "morgan": "^1.8.1",
     "node-sass-chokidar": "0.0.3",
@@ -101,10 +101,6 @@
     "tslint": "^5.9.1",
     "tslint-config-standard": "^6.0.1",
     "typescript": "^2.8.1"
-  },
-  "engines": {
-    "node": "8.9.4",
-    "npm": "5.6.0"
   },
   "directories": {
     "doc": "docs"

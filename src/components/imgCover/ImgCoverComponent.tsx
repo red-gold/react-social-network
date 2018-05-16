@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SvgImage from 'material-ui-icons/Image'
+import SvgImage from '@material-ui/icons/Image'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import {Map} from 'immutable'
 

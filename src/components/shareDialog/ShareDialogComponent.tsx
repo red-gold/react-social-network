@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SvgImage from 'material-ui-icons/Image'
-import { withStyles } from 'material-ui/styles'
+import SvgImage from '@material-ui/icons/Image'
+import { withStyles } from '@material-ui/core/styles'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import classNames from 'classnames'
 
@@ -28,8 +28,8 @@ import {
 // - Import actions
 import { IShareDialogComponentProps } from './IShareDialogComponentProps'
 import { IShareDialogComponentState } from './IShareDialogComponentState'
-import { Dialog, Paper, MenuList, MenuItem, ListItemIcon, ListItemText, TextField, Typography } from 'material-ui'
-import SvgLink from 'material-ui-icons/Link'
+import { Dialog, Paper, MenuList, MenuItem, ListItemIcon, ListItemText, TextField, Typography } from '@material-ui/core'
+import SvgLink from '@material-ui/icons/Link'
 
 const styles = (theme: any) => ({
   image: {

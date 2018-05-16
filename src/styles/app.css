@@ -372,7 +372,7 @@ select:-webkit-autofill:focus {
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   box-sizing: border-box;
   font-family: Roboto, sans-serif;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
   border-radius: 50%;
   display: inline-block;
@@ -391,7 +391,7 @@ select:-webkit-autofill:focus {
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
   box-sizing: border-box;
   font-family: Roboto, sans-serif;
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
   border-radius: 50%;
   display: inline-block;
@@ -559,9 +559,9 @@ g__input-underline::after {
   padding: 24px;
   flex-direction: row;
   align-items: center;
-  background-color: transparent;
-  background-image: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.46));
-  background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.46));
+  background-color: rgba(0, 0, 0, 0);
+  background-image: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.46));
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.46));
   display: flex; }
   .profile__head-info div.left {
     display: flex;

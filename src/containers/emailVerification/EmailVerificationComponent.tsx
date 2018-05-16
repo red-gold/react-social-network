@@ -3,19 +3,19 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import { push } from 'react-router-redux'
-import Paper from 'material-ui/Paper'
-import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/Button'
-import Button from 'material-ui/Button'
+import Paper from '@material-ui/core/Paper'
+import TextField from '@material-ui/core/TextField'
+import RaisedButton from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button'
 import config from 'src/config'
-import { withStyles } from 'material-ui/styles'
+import { withStyles } from '@material-ui/core/styles'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import actions
 import * as authorizeActions from 'src/store/actions/authorizeActions'
 import { IEmailVerificationComponentProps } from './IEmailVerificationComponentProps'
 import { IEmailVerificationComponentState } from './IEmailVerificationComponentState'
-import { Grid } from 'material-ui'
+import { Grid } from '@material-ui/core'
 
 const styles = (theme: any) => ({
   textField: {

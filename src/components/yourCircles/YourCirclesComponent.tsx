@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import {Map} from 'immutable'
 
-import List from 'material-ui/List'
+import List from '@material-ui/core/List'
 
 // - Import app components
 import CircleComponent from 'components/circle'

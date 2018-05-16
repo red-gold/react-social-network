@@ -7,13 +7,13 @@ import config from 'src/config'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Material UI
-import Paper from 'material-ui/Paper'
-import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/Button'
-import Button from 'material-ui/Button'
-import { withStyles } from 'material-ui/styles'
-import Typography from 'material-ui/Typography'
-import { Grid } from 'material-ui'
+import Paper from '@material-ui/core/Paper'
+import TextField from '@material-ui/core/TextField'
+import RaisedButton from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button'
+import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import { Grid } from '@material-ui/core'
 
 // - Import actions
 import * as authorizeActions from 'src/store/actions/authorizeActions'

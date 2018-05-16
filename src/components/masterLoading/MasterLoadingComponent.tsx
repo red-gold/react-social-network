@@ -1,12 +1,12 @@
 // - Import react components
 import React, { Component } from 'react'
-import { CircularProgress } from 'material-ui/Progress'
-import Dialog from 'material-ui/Dialog'
-import red from 'material-ui/colors/red'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Dialog from '@material-ui/core/Dialog'
+import red from '@material-ui/core/colors/red'
 import { IMasterLoadingComponentProps } from './IMasterLoadingComponentProps'
 import { IMasterLoadingComponentState } from './IMasterLoadingComponentState'
-import Grid from 'material-ui/Grid/Grid'
-import { Typography } from 'material-ui'
+import Grid from '@material-ui/core/Grid/Grid'
+import { Typography } from '@material-ui/core'
 
 // - Import app components
 

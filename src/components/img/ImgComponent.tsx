@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SvgImage from 'material-ui-icons/Image'
-import { withStyles } from 'material-ui/styles'
+import SvgImage from '@material-ui/icons/Image'
+import { withStyles } from '@material-ui/core/styles'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import { Map } from 'immutable'
 
