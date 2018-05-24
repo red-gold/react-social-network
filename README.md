@@ -78,7 +78,7 @@ and then install the package
 
 ### Installing
 
-> You also have this [blog](https://medium.com/@endactiongroup/create-social-network-by-react-js-fe60010a32e6) which explain installation in details and for all level.
+> You also have this [blog](https://medium.com/@qolzam/create-social-network-by-react-js-fe60010a32e6) which explain installation in details and for all level.
 
 1. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
 1. Clone your fork to your local machine 
