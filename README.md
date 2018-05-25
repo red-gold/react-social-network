@@ -103,7 +103,7 @@ and then install the package
     **Video tutorial**
     
     [![Install React Social Network](https://img.youtube.com/vi/zrqDE82Eny8/0.jpg)](https://www.youtube.com/watch?v=zrqDE82Eny8)
-    #### [Firestore Social Backend](https://github.com/Qolzam/firestore-social-backend)
+    #### With [Firestore](https://github.com/Qolzam/firestore-social-backend)
       * Configure firebase:
         * If you don't have firebase account, follow [Create firebase account](https://firebase.google.com/)
         * Create Project open the [Firebase Console](https://console.firebase.google.com/) and create a new project.
@@ -118,9 +118,9 @@ and then install the package
       * Enable firestore dependencies
         * Go to React Social Network folder in `src/socialEngine.ts` write `useFirestore(provider)` to enable firestore dependencies!
 
-    #### AWS Social Backend
+    #### With AWS 
       * Coming soon ...
-    #### [ASP.NET Social Backend](https://github.com/Qolzam/aspnet-core-social-network)
+    #### With [ASP.NET](https://github.com/Qolzam/aspnet-core-social-network)
       * Coming soon ...
 1. Go ahead ;)
     ```bash
