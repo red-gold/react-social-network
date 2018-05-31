@@ -25,7 +25,7 @@
     "@types/redux-devtools-dock-monitor": "^1.1.32",
     "@types/redux-devtools-log-monitor": "^1.0.33",
     "@types/redux-immutable": "^3.0.38",
-    "amazon-cognito-identity-js": "^1.21.0",
+    "amazon-cognito-identity-js": "^2.0.0",
     "aws-sdk": "^2.132.0",
     "axios": "^0.16.2",
     "classnames": "^2.2.5",
