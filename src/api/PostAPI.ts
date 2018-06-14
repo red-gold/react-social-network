@@ -1,3 +1,4 @@
+import {List} from 'immutable'
 
 // Get tags from post content
 export const detectTags: (content: string, character: string) => string[] = (content: string, character: string) => {
@@ -26,4 +27,16 @@ export const sortObjectsDate = (objects: any) => {
   })
 
   return sortedObjects
+}
+
+export const sortImuObjectsDate = (objects: List<Map<string, any>>) => {
+  let sortedObjects = objects
+
+     // Sort posts with creation date
+ return sortedObjects.sort((a: any, b: any) => {
+    return parseInt(b.get('creationDate'),10) - parseInt(a.get('creationDate'),10)
+
+  })
+
+  // return sortedObjects
 }

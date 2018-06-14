@@ -45,4 +45,9 @@ export interface ICommentComponentState {
    * Wheter comment menu is open
    */
   openMenu?: boolean
+
+  /**
+   * Anchor element
+   */
+  anchorEl: any
 }

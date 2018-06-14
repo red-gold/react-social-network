@@ -3,8 +3,6 @@
 }
 
 .homeHeader__title {
-  border-left: 1px solid #fff;
-  padding-left: 24px;
   margin-left: 24px;
   line-height: 32px;
   font-weight: 500;
@@ -12,6 +10,17 @@
   font-size: 20px;
   -webkit-font-smoothing: antialiased;
   color: #fff;
+}
+
+.homeHeader__title-right {
+  @extend .homeHeader__title;
+  border-right: 1px solid #fff;
+  padding-right: 24px;    
+}
+.homeHeader__title-left {
+  @extend .homeHeader__title;
+  border-left: 1px solid #fff;
+  padding-left: 24px;  
 }
 
 .homeHeader__right {

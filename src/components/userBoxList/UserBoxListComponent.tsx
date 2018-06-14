@@ -2,12 +2,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import {Map} from 'immutable'
 
 // - Import app components
 import UserBox from 'components/userBox'
 
 import { IUserBoxListComponentProps } from './IUserBoxListComponentProps'
 import { IUserBoxListComponentState } from './IUserBoxListComponentState'
+import { UserTie } from 'core/domain/circles/userTie'
 
 // - Import API
 
@@ -42,15 +44,17 @@ export class UserBoxListComponent extends Component<IUserBoxListComponentProps,I
   }
 
   userList = () => {
-    let { users, uid } = this.props
-
+    let { uid } = this.props
+    const users = this.props.users
+    const userBoxList: any[] = []
     if (users) {
-      return Object.keys(users).map((key, index) => {
+       users.forEach((user: UserTie, key: string) => {
         if (uid !== key) {
-          return <UserBox key={key} userId={key} user={users[key]}/>
+          userBoxList.push(<UserBox key={key} userId={key} user={user}/>)
         }
       })
     }
+    return userBoxList
   }
 
     /**
@@ -92,7 +96,7 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IUserBoxListComponentP
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IUserBoxListComponentProps) => {
-  const {uid} = state.authorize
+  const uid = state.getIn(['authorize', 'uid'], 0)
   return {
     uid
   }

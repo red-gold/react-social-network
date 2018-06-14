@@ -2,20 +2,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import GridList, { GridListTile, GridListTileBar } from 'material-ui/GridList'
-import IconButton from 'material-ui/IconButton'
-import StarBorder from 'material-ui-icons/StarBorder'
-import Button from 'material-ui/Button'
-import SvgUpload from 'material-ui-icons/CloudUpload'
-import SvgAddImage from 'material-ui-icons/AddAPhoto'
-import SvgDelete from 'material-ui-icons/Delete'
-import { grey } from 'material-ui/colors'
+import GridList from '@material-ui/core/GridList'
+import GridListTileBar  from '@material-ui/core/GridListTileBar'
+import GridListTile from '@material-ui/core/GridListTile'
+import IconButton from '@material-ui/core/IconButton'
+import StarBorder from '@material-ui/icons/StarBorder'
+import Button from '@material-ui/core/Button'
+import SvgUpload from '@material-ui/icons/CloudUpload'
+import SvgAddImage from '@material-ui/icons/AddAPhoto'
+import SvgDelete from '@material-ui/icons/Delete'
+import { grey } from '@material-ui/core/colors'
+import { withStyles } from '@material-ui/core/styles'
 import uuid from 'uuid'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import {Map} from 'immutable'
 
 // - Import actions
-import * as imageGalleryActions from 'actions/imageGalleryActions'
-import * as globalActions from 'actions/globalActions'
+import * as imageGalleryActions from 'store/actions/imageGalleryActions'
+import * as globalActions from 'store/actions/globalActions'
 
 // - Import app components
 import Img from 'components/img'
@@ -25,6 +29,17 @@ import FileAPI from 'api/FileAPI'
 import { IImageGalleryComponentProps } from './IImageGalleryComponentProps'
 import { IImageGalleryComponentState } from './IImageGalleryComponentState'
 import { Image } from 'core/domain/imageGallery'
+
+const styles = (theme: any) => ({
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      overflowY: 'auto'
+    }
+  }
+})
 
 /**
  * Create ImageGallery component class
@@ -149,7 +164,6 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
   }
 
   imageList = () => {
-
     return this.props.images!.map((image: Image, index) => {
 
       return (
@@ -242,14 +256,16 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImageGalleryComponentProps
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: Map<string, any>) => {
+  const uid = state.getIn(['authorize', 'uid'])
+  const currentUser = state.getIn(['user', 'info', uid])
   return {
-    translate: getTranslate(state.locale),
-    images: state.imageGallery.images,
-    avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : ''
+    translate: getTranslate(state.get('locale')),
+    images: state.getIn(['imageGallery', 'images']),
+    avatar: currentUser ? currentUser.avatar : ''
 
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(ImageGalleryComponent as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(ImageGalleryComponent as any) as any)

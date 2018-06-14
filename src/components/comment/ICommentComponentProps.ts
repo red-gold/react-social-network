@@ -11,6 +11,11 @@ export interface ICommentComponentProps {
   comment: Comment
 
   /**
+   * Comment owner
+   */
+  commentOwner?: Profile
+
+  /**
    * Open profile editor
    *
    * @type {Function}
@@ -64,14 +69,6 @@ export interface ICommentComponentProps {
   getUserInfo?: () => void
 
   /**
-   * User profile
-   *
-   * @type {{[userId: string]: Profile}}
-   * @memberof ICommentComponentProps
-   */
-  info?: {[userId: string]: Profile}
-
-  /**
    * User full name
    *
    * @type {string}
@@ -94,6 +91,11 @@ export interface ICommentComponentProps {
    * @memberof ICommentComponentProps
    */
   disableComments?: boolean
+
+  /**
+   * Whether comment edit is open
+   */
+  editorStatus: boolean
 
   /**
    * Styles

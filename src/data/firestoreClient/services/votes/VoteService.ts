@@ -5,6 +5,7 @@ import { SocialError } from 'core/domain/common'
 import { Vote } from 'core/domain/votes'
 import { IVoteService } from 'core/services/votes'
 import { injectable } from 'inversify'
+import { Post } from 'core/domain/posts/post'
 
 /**
  * Firbase vote service
@@ -30,7 +31,7 @@ export class VoteService implements IVoteService {
           db.runTransaction((transaction) => {
             return transaction.get(postRef).then((postDoc) => {
               if (postDoc.exists) {
-                const post = postDoc.data()
+                const post = postDoc.data() as Post
                 let {votes, score} = post
                 if (!votes) {
                   votes = {}
@@ -84,7 +85,7 @@ export class VoteService implements IVoteService {
           db.runTransaction((transaction) => {
             return transaction.get(postRef).then((postDoc) => {
               if (postDoc.exists) {
-                const post = postDoc.data()
+                const post = postDoc.data() as Post
                 let {votes, score} = post
                 if (!votes) {
                   votes = {}

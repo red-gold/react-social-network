@@ -1,6 +1,8 @@
 import { Profile } from 'core/domain/users'
 import { Comment } from 'core/domain/comments'
 import { ServerRequestModel } from 'models/server'
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
+import {Map} from 'immutable'
 export interface ICommentGroupComponentProps {
 
   /**
@@ -9,15 +11,12 @@ export interface ICommentGroupComponentProps {
    * @type {{[commentId: string]: Comment}}
    * @memberof ICommentGroupComponentProps
    */
-  comments?: {[commentId: string]: Comment}
+  comments?: Map<string, Comment>
 
   /**
    * Commnets show on slide preview
-   *
-   * @type {{[commentId: string]: Comment}}
-   * @memberof ICommentGroupComponentProps
    */
-  commentSlides?: {[commentId: string]: Comment}
+  commentSlides?: Map<string, Comment>
 
   /**
    * The post identifier which comment belong to
@@ -33,7 +32,7 @@ export interface ICommentGroupComponentProps {
    * @type {{[userId: string]: Profile}}
    * @memberof ICommentGroupComponentProps
    */
-  userInfo?: {[userId: string]: Profile}
+  userInfo?: Map<string, Profile>
 
   /**
    * Comment group is open {true} or not {false}
@@ -102,7 +101,7 @@ export interface ICommentGroupComponentProps {
   /**
    * Get post comments request payload
    */
-  getCommentsRequest?: ServerRequestModel
+  commentsRequestStatus?: ServerRequestStatusType
 
   /**
    * Styles

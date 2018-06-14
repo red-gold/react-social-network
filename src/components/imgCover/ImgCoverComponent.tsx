@@ -2,15 +2,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SvgImage from 'material-ui-icons/Image'
+import SvgImage from '@material-ui/icons/Image'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import {Map} from 'immutable'
 
 // - Import app components
 
 // - Import API
 
 // - Import actions
-import * as imageGalleryActions from 'actions/imageGalleryActions'
+import * as imageGalleryActions from 'store/actions/imageGalleryActions'
 import { IImgCoverComponentProps } from './IImgCoverComponentProps'
 import { IImgCoverComponentState } from './IImgCoverComponentState'
 
@@ -153,9 +154,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImgCoverComponentProps) =>
  */
 const mapStateToProps = (state: any, ownProps: IImgCoverComponentProps) => {
   return {
-    translate: getTranslate(state.locale),
-    avatarURL: state.imageGallery.imageURLList,
-    imageRequests: state.imageGallery.imageRequests
+    translate: getTranslate(state.get('locale'))
 
   }
 }

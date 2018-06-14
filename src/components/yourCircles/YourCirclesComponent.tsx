@@ -2,7 +2,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import List from 'material-ui/List'
+import {Map} from 'immutable'
+
+import List from '@material-ui/core/List'
 
 // - Import app components
 import CircleComponent from 'components/circle'
@@ -44,8 +46,8 @@ export class YourCirclesComponent extends Component<IYourCirclesComponentProps,I
     let parsedCircles: any[] = []
 
     if (circles) {
-      Object.keys(circles).map((key, index) => {
-        parsedCircles.push(<CircleComponent key={key} circle={circles![key]} id={key} uid={uid!} />)
+      circles.map((circle, key) => {
+        parsedCircles.push(<CircleComponent key={key} circle={circle!} id={key!} uid={uid!} />)
       })
     }
     return parsedCircles
@@ -95,10 +97,9 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IYourCirclesComponentP
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IYourCirclesComponentProps) => {
-  const {circle, authorize, server} = state
-  const { uid } = state.authorize
-  const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
+const mapStateToProps = (state: Map<string, any>, ownProps: IYourCirclesComponentProps) => {
+  const uid = state.getIn(['authorize', 'uid'])
+  const circles: Map<string, Map<string, any>> = state.getIn(['circle', 'circleList'], {})
   return {
     uid,
     circles

@@ -20,13 +20,20 @@ The structure of this project give the ability to developer to develop their pro
   </a>
 </p>
 
-Since I started building this project I've planned to have a back end for this project so I haven't focused on performance until I build the back end and move some data procedure from end to back end. Therefore I need to change data structure and actions for [Redux](http://redux.js.org/).
-For those who prefer writing code by typescript, now React Social Network support both javascript and typescript language.
-
+## 🌟New Upgrade :
+React Social Network is [moving on](https://github.com/Qolzam/react-social-network/issues/48) [redux-saga](https://redux-saga.js.org/) however we keep [redux-thunk](https://github.com/gaearon/redux-thunk) version of **React Social Network** in branch name `v0.5`. Any contribution would be greatly appreciated by :heart:.
+ 
 >You should consult the [CHANGELOG](https://github.com/Qolzam/react-social-network/blob/next/CHANGELOG.md) and related issues for more information
 
 This project adheres to the Contributor Covenant [code of conduct](https://github.com/Qolzam/react-social-network/blob/next/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report unacceptable behavior to amir.gholzam@live.com.
+
+## Before Starting
+First of all this is a boilerplate react social and the purpose is to find the best way to implement a huge project such as social network by [React](https://facebook.github.io/react/docs/hello-world.html) . We learn what technology or algorithm could be better solution for our project by [React](https://facebook.github.io/react/docs/hello-world.html). Please approach to this project with these ideas and if you feel that you have better solution, to our great pleasure if we could have your contribution.
+  - You are the person who is new to [React](https://facebook.github.io/react/docs/hello-world.html) and you are looking for some ideas to start [React](https://facebook.github.io/react/docs/hello-world.html) with some basic stuff. Also you are the fan of [React Semantic UI](https://react.semantic-ui.com/) I recommend you start with [React Blog Project](https://github.com/Qolzam/react-blog).
+  - You are the person who has the base knowledge of [React](https://facebook.github.io/react/docs/hello-world.html) which provided in [React Blog Project](https://github.com/Qolzam/react-blog) and you are the fan of social network projects, [Material-UI](http://www.material-ui.com/#/). You are the person who love JS/JSX. [js-react-social-tutorial](https://github.com/Qolzam/js-react-social-tutorial) project will be recommended.
+  - You are the fan of pure [Redux](http://redux.js.org/) with [redux-thunk](https://github.com/gaearon/redux-thunk), [TypeScript](https://www.typescriptlang.org/), [InversifyJS](http://inversify.io/) IOC container and you have the knowledge enough about the stuff in [js-react-social-tutorial](https://github.com/Qolzam/js-react-social-tutorial). [Version 0.5.0 branch of react-social-network](https://github.com/Qolzam/react-social-network/tree/v0.5) is the place you can find yourself.
+  - You are in advanced level of React and you are in love with learning advanced stuff about [React](https://facebook.github.io/react/docs/hello-world.html) such [Async Component/Lazy loading](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#code-splitting), [redux-saga](https://redux-saga.js.org/) and other cool stuff, well come you here. We are going ahead.👍
 
 ## Example
 
@@ -40,7 +47,7 @@ I recommend that you get to know React before using React Social Network. React 
 
 ## Document
 
-  Comming soon :) ...
+ Comming soon :) ...
 
 
 ## Roadmap
@@ -138,6 +145,8 @@ There are three main layers:
   - Using [InversifyJS](http://inversify.io/) in project give us the ability to switch between custom dependencies easily. Specially for *data layer*, if you are the user working with [AWS](https://aws.amazon.com/) you only need to call `useAws()` or using [Firebase](https://firebase.google.com/) call `useFirestore()` in [SocialEngine](https://github.com/Qolzam/react-social-network/blob/next/src/socialEngine.ts#L20) file.
 ### Features
   - We moved from custom webpack to [create-react-app](https://github.com/facebook/create-react-app).
+  - Moving on [redux-saga](https://redux-saga.js.org/) managing async request and side effects.
+  - Supporting [Async Component/Lazy loading](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#code-splitting) for each container.
   - Support Localization by [react-localize-redux](https://github.com/ryandrewjohnson/react-localize-redux). Providing this feature we support variety of languages. To contribute :heart: your language you are able to add your local language. You only need to edit `en.json` from `react-social-network` root project and `src/locale/en.json`. You should name your file according ISO 639-1 Language Codes. For example for Spanish you should name `es.json`. Which `es` is the standard code of Spanish language.
   - [InversifyJS](http://inversify.io/) as IOC container
   - Add auto compile on changing code for `webpack`
@@ -145,6 +154,7 @@ There are three main layers:
   - Add reset password, confirm password and authorizing by GitHub, Google and Facebook.
   - Add scroll auto loading for show posts and people pages.
   - Using [Firestore](https://firebase.google.com/docs/firestore/)
+  - Supportig `Right To Left`
   - Some cool stuff :)
 ## Can I connect React Social Network to other data platforms ? :bowtie:
   Your server side is on `PHP`, `Java`,`ASP.NET`, `Python`, etc. Or you are using serverless platforms such as `Google Cloud`, `AWS`, `Azure`, etc. You can connect `React Social Network` to any data platform. You only need to implement the [interfaces of core services](https://github.com/Qolzam/react-social-network/tree/next/src/core/services) like implementation of [firestoreClient](https://github.com/Qolzam/react-social-network/tree/next/src/data/firestoreClient).
@@ -172,6 +182,7 @@ There are three main layers:
   ```bash
   npm run deploy:firebase
   ```
+- Please checkout [here](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#deployment) for more deployment solution.
 
 ## Built With
 
@@ -182,6 +193,7 @@ There are three main layers:
   * [Material-UI](http://www.material-ui.com/#/) A Set of React Components that Implement Google's Material Design.
   * [react-redux](https://github.com/reactjs/react-redux) Official React bindings for Redux.
   * [Firebase](https://firebase.google.com/) products like Analytics, Realtime Database, Messaging, and Crash Reporting let you move quickly and focus on your users.
+  * [redux-saga](https://redux-saga.js.org/) is a library that aims to make application side effects (i.e. asynchronous things like data fetching and impure things like accessing the browser cache) easier to manage, more efficient to execute, simple to test, and better at handling failures.
   * [redux-thunk](https://github.com/gaearon/redux-thunk) Redux Thunk middleware allows you to write action creators that return a function instead of an action. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met. The inner function receives the store methods dispatch and getState as parameters.
   * [React Router V4](https://github.com/ReactTraining/react-router) for routing website location
   * [Sass](http://sass-lang.com/) CSS with superpowers. Sass boasts more features and abilities than any other CSS extension language out there.

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import {Map} from 'immutable'
 
 // - Import app components
 import UserBoxList from 'components/userBoxList'
@@ -46,13 +47,14 @@ export class FollowersComponent extends Component<IFollowersComponentProps,IFoll
    */
   render () {
     const {translate} = this.props
+    const followers = this.props.followers!
     return (
           <div>
-            {(this.props.followers && Object.keys(this.props.followers).length !== 0) ? (<div>
+            {(followers && followers.keySeq().count() !== 0) ? (<div>
               <div className='profile__title'>
                 {translate!('people.followersLabel')}
                         </div>
-                        <UserBoxList users={this.props.followers} />
+                        <UserBoxList users={followers} />
               <div style={{ height: '24px' }}></div>
               </div>)
               : (<div className='g__title-center'>
@@ -81,13 +83,13 @@ const mapDispatchToProps = (dispatch: any,ownProps: IFollowersComponentProps) =>
    * @param  {object} ownProps is the props belong to component
    * @return {object}          props of component
    */
-const mapStateToProps = (state: any,ownProps: IFollowersComponentProps) => {
-  const {circle, authorize, server} = state
-  const { uid } = state.authorize
-  const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
-  const followers = circle ? circle.userTieds : {}
+const mapStateToProps = (state: Map<string, any>,ownProps: IFollowersComponentProps) => {
+
+  const uid = state.getIn(['authorize', 'uid'], 0)
+  const circles: { [circleId: string]: Circle } = state.getIn(['circle', 'circleList'], {})
+  const followers = state.getIn(['circle', 'userTieds'], {})
   return{
-    translate: getTranslate(state.locale),
+    translate: getTranslate(state.get('locale')),
     followers
   }
 }

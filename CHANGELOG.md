@@ -1,23 +1,37 @@
 # Change Log
 
-## [Unreleased](https://github.com/Qolzam/react-social-network/tree/HEAD)
-
-[Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.5.0...HEAD)
+## [v0.6.0](https://github.com/Qolzam/react-social-network/tree/v0.6.0) (2018-03-25)
+[Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.5.0...v0.6.0)
 
 **Implemented enhancements:**
 
 - Better sourcemaps [\#27](https://github.com/Qolzam/react-social-network/issues/27)
 - \[Feature Request\] User account confirmation [\#23](https://github.com/Qolzam/react-social-network/issues/23)
 - Feedback button doesn't do anything [\#20](https://github.com/Qolzam/react-social-network/issues/20)
+- \[Idea\] what about create react app instead of custom webpack [\#17](https://github.com/Qolzam/react-social-network/issues/17)
+- \[discussion\] TypeScript or Create react app [\#15](https://github.com/Qolzam/react-social-network/issues/15)
 - Forget password [\#9](https://github.com/Qolzam/react-social-network/issues/9)
 - Send feedback [\#6](https://github.com/Qolzam/react-social-network/issues/6)
 - Pagination for posts [\#5](https://github.com/Qolzam/react-social-network/issues/5)
+- Over layer on slidebar [\#4](https://github.com/Qolzam/react-social-network/issues/4)
+
+**Fixed bugs:**
+
+- \[BUG\] Provider icons not appear in login page browsing with Firefox [\#46](https://github.com/Qolzam/react-social-network/issues/46)
+- Notifications popover not working properly on mobile [\#39](https://github.com/Qolzam/react-social-network/issues/39)
+- \[BUG\] Real time notifications not work \(as in live example greensocial.herokuapp.com\) [\#30](https://github.com/Qolzam/react-social-network/issues/30)
 
 **Closed issues:**
 
+- Issue messages is for issue page not private message \[Edited by Qolzam\] [\#47](https://github.com/Qolzam/react-social-network/issues/47)
+- Debugging with vs code on Windows machine  [\#45](https://github.com/Qolzam/react-social-network/issues/45)
 - The next version [\#42](https://github.com/Qolzam/react-social-network/issues/42)
 - \[Feature request\] Change Password screen [\#36](https://github.com/Qolzam/react-social-network/issues/36)
 - What are your thoughts on TSX? [\#35](https://github.com/Qolzam/react-social-network/issues/35)
+- Question: auth reference vs auth\(\) execution [\#28](https://github.com/Qolzam/react-social-network/issues/28)
+- How do you deploy the application? [\#26](https://github.com/Qolzam/react-social-network/issues/26)
+- Data structure optimization  [\#25](https://github.com/Qolzam/react-social-network/issues/25)
+- Debounce in resizing [\#12](https://github.com/Qolzam/react-social-network/issues/12)
 
 ## [v0.5.0](https://github.com/Qolzam/react-social-network/tree/v0.5.0) (2018-01-14)
 [Full Changelog](https://github.com/Qolzam/react-social-network/compare/v0.3.1...v0.5.0)

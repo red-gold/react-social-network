@@ -1,4 +1,5 @@
 import { Image } from 'core/domain/imageGallery'
+import {Map, Collection, List} from 'immutable'
 
 export interface IImageGalleryComponentProps {
 
@@ -33,11 +34,13 @@ export interface IImageGalleryComponentProps {
 
   /**
    * List of image in image gallery
-   *
-   * @type {Image[]}
-   * @memberof IImageGalleryComponentProps
    */
-  images?: Image[]
+  images?: List<Image>
+
+  /**
+   * Styles
+   */
+  classes?: any
 
   /**
    * Translate to locale string

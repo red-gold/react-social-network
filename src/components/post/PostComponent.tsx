@@ -8,47 +8,55 @@ import moment from 'moment/moment'
 import Linkify from 'react-linkify'
 import copy from 'copy-to-clipboard'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import { Map } from 'immutable'
 
 // - Material UI
-import { Card, CardActions, CardHeader, CardMedia, CardContent } from 'material-ui'
-import Typography from 'material-ui/Typography'
-import SvgShare from 'material-ui-icons/Share'
-import SvgLink from 'material-ui-icons/Link'
-import SvgComment from 'material-ui-icons/Comment'
-import SvgFavorite from 'material-ui-icons/Favorite'
-import SvgFavoriteBorder from 'material-ui-icons/FavoriteBorder'
-import Checkbox from 'material-ui/Checkbox'
-import Button from 'material-ui/Button'
-import Divider from 'material-ui/Divider'
-import { grey } from 'material-ui/colors'
-import Paper from 'material-ui/Paper'
-import Menu from 'material-ui/Menu'
-import { MenuList, MenuItem } from 'material-ui/Menu'
-import TextField from 'material-ui/TextField'
-import Dialog from 'material-ui/Dialog'
-import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui-icons/MoreVert'
-import { ListItemIcon, ListItemText } from 'material-ui/List'
-import { withStyles } from 'material-ui/styles'
+import Card from '@material-ui/core/Card'
+import CardActions from '@material-ui/core/CardActions'
+import CardHeader from '@material-ui/core/CardHeader'
+import CardMedia from '@material-ui/core/CardMedia'
+import CardContent from '@material-ui/core/CardContent'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import Typography from '@material-ui/core/Typography'
+import SvgShare from '@material-ui/icons/Share'
+import SvgComment from '@material-ui/icons/Comment'
+import SvgFavorite from '@material-ui/icons/Favorite'
+import SvgFavoriteBorder from '@material-ui/icons/FavoriteBorder'
+import Checkbox from '@material-ui/core/Checkbox'
+import Button from '@material-ui/core/Button'
+import Divider from '@material-ui/core/Divider'
+import { grey } from '@material-ui/core/colors'
+import Paper from '@material-ui/core/Paper'
+import Menu from '@material-ui/core/Menu'
+import MenuList from '@material-ui/core/MenuList'
+import MenuItem from '@material-ui/core/MenuItem'
+import TextField from '@material-ui/core/TextField'
+import Dialog from '@material-ui/core/Dialog'
+import IconButton from '@material-ui/core/IconButton'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
+import { withStyles } from '@material-ui/core/styles'
 import { Manager, Target, Popper } from 'react-popper'
-import Grow from 'material-ui/transitions/Grow'
-import ClickAwayListener from 'material-ui/utils/ClickAwayListener'
+import Grow from '@material-ui/core/Grow'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import classNames from 'classnames'
 
 import reactStringReplace from 'react-string-replace'
 
 // - Import app components
 import CommentGroup from 'components/commentGroup'
+import ShareDialog from 'components/shareDialog'
 import PostWrite from 'components/postWrite'
 import Img from 'components/img'
 import IconButtonElement from 'layouts/IconButtonElement'
 import UserAvatar from 'components/userAvatar'
 
 // - Import actions
-import * as voteActions from 'actions/voteActions'
-import * as postActions from 'actions/postActions'
-import * as commentActions from 'actions/commentActions'
-import * as globalActions from 'actions/globalActions'
+import * as voteActions from 'store/actions/voteActions'
+import * as postActions from 'store/actions/postActions'
+import * as commentActions from 'store/actions/commentActions'
+import * as globalActions from 'store/actions/globalActions'
 import { IPostComponentProps } from './IPostComponentProps'
 import { IPostComponentState } from './IPostComponentState'
 
@@ -65,7 +73,8 @@ const styles = (theme: any) => ({
     color: 'rgb(134, 129, 129)',
     fontSize: 10,
     fontWeight: 400,
-    padding: 2
+    padding: 2,
+    zIndex: 1
   },
   commentCounter: {
     color: 'rgb(134, 129, 129)',
@@ -80,18 +89,6 @@ const styles = (theme: any) => ({
     pointerEvents: 'none',
     zIndex: 0
   },
-  shareLinkPaper: {
-    minHeight: 80,
-    padding: 10,
-    minWidth: 460
-  },
-  clipboard: {
-    fontSize: '18px',
-    textAlign: 'center',
-    marginTop: '10px',
-    color: '#1e882d',
-    fontWeight: 400
-  },
   postBody: {
     wordWrap: 'break-word',
     color: 'rgba(0, 0, 0, 0.87)',
@@ -103,6 +100,14 @@ const styles = (theme: any) => ({
   image: {
     width: '100%',
     height: 500
+  },
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      overflowY: 'auto'
+    }
   }
 })
 
@@ -129,7 +134,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
       /**
        * Post text
        */
-      text: post.body ? post.body : '',
+      text: post.get('body', ''),
       /**
        * It's true if whole the text post is visible
        */
@@ -145,11 +150,11 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
       /**
        * If it's true comment will be disabled on post
        */
-      disableComments: post.disableComments!,
+      disableComments: post.get('disableComments', false),
       /**
        * If it's true share will be disabled on post
        */
-      disableSharing: post.disableSharing!,
+      disableSharing: post.get('disableSharing', false),
       /**
        * Title of share post
        */
@@ -191,7 +196,8 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
    */
   handleOpenComments = () => {
     const { getPostComments, commentList, post } = this.props
-    const { id, ownerUserId } = post
+    const id = post.get('id')
+    const ownerUserId = post.get('ownerUserId')
     if (!commentList) {
       getPostComments!(ownerUserId!, id!)
     }
@@ -232,14 +238,13 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
    */
   handleDelete = () => {
     const { post } = this.props
-    this.props.delete!(post.id!)
+    this.props.delete!(post.get('id'))
   }
 
   /**
    * Open post menu
    */
   openPostMenu = (event: any) => {
-    console.log(event.currentTarget)
     this.setState({
       postMenuAnchorEl: event.currentTarget,
       isPostMenuOpen: true
@@ -278,7 +283,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
    */
   handleOpenShare = () => {
     const {post} = this.props
-    copy(`${location.origin}/${post.ownerUserId}/posts/${post.id}`)
+    copy(`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`)
     this.setState({
       shareOpen: true
     })
@@ -340,7 +345,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   render () {
     const { post, setHomeTitle, goTo, fullName, isPostOwner, commentList, avatar, classes , translate} = this.props
     const { postMenuAnchorEl, isPostMenuOpen } = this.state
-    const RightIconMenu = () => (
+    const rightIconMenu = (
       <Manager>
         <Target>
           <IconButton
@@ -355,21 +360,21 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
         <Popper
           placement='bottom-start'
           eventsEnabled={isPostMenuOpen!}
-          className={classNames({ [classes.popperClose]: !isPostMenuOpen! }, { [classes.popperOpen]: isPostMenuOpen! })}
+          className={classNames({ [classes.popperClose]: !isPostMenuOpen }, { [classes.popperOpen]: isPostMenuOpen })}
         >
           <ClickAwayListener onClickAway={this.closePostMenu}>
-            <Grow in={isPostMenuOpen!} >
+            <Grow in={isPostMenuOpen} >
               <Paper>
                 <MenuList role='menu'>
                   <MenuItem onClick={this.handleOpenPostWrite} > {translate!('post.edit')} </MenuItem>
                   <MenuItem onClick={this.handleDelete} > {translate!('post.delete')} </MenuItem>
                   <MenuItem
-                    onClick={() => this.props.toggleDisableComments!(!post.disableComments)} >
-                    {post.disableComments ? translate!('post.enableComments') : translate!('post.disableComments')}
+                    onClick={() => this.props.toggleDisableComments!(!post.get('disableComments'))} >
+                    {post.get('disableComments') ? translate!('post.enableComments') : translate!('post.disableComments')}
                   </MenuItem>
                   <MenuItem
-                    onClick={() => this.props.toggleSharingComments!(!post.disableSharing)} >
-                    {post.disableSharing ? translate!('post.enableSharing') : translate!('post.disableSharing')}
+                    onClick={() => this.props.toggleSharingComments!(!post.get('disableSharing'))} >
+                    {post.get('disableSharing') ? translate!('post.enableSharing') : translate!('post.disableSharing')}
                   </MenuItem>
                 </MenuList>
               </Paper>
@@ -379,15 +384,25 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
       </Manager>
     )
 
-    const { ownerUserId, ownerDisplayName, creationDate, image, body } = post
+    const { 
+      ownerUserId, 
+      ownerDisplayName, 
+      creationDate, 
+      image, 
+      body, 
+      id, 
+      disableComments, 
+      commentCounter, 
+      disableSharing ,
+    } = post.toJS()
     // Define variables
     return (
-      <Card>
+      <Card key={`post-component-${id}`}>
         <CardHeader
           title={<NavLink to={`/${ownerUserId}`}>{ownerDisplayName}</NavLink>}
-          subheader={moment.unix(creationDate!).fromNow() + ' | ' + translate!('post.public')}
+          subheader={creationDate ? moment.unix(creationDate!).fromNow() + ' | ' + translate!('post.public') : <LinearProgress color='primary' />}
           avatar={<NavLink to={`/${ownerUserId}`}><UserAvatar fullName={fullName!} fileName={avatar!} size={36} /></NavLink>}
-          action={isPostOwner ? <RightIconMenu /> : ''}
+          action={isPostOwner ? rightIconMenu : ''}
         >
         </CardHeader>
         {image ? (
@@ -430,16 +445,16 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
               <div className={classes.voteCounter}> {this.props.voteCount! > 0 ? this.props.voteCount : ''} </div>
             </IconButton>
           </div>
-          {!post.disableComments ?
+          {!disableComments ?
             (<div style={{ display: 'inherit' }}><IconButton
               className={classes.iconButton}
               onClick={this.handleOpenComments}
               aria-label='Comment'>
               <SvgComment />
-              <div className={classes.commentCounter}>{post.commentCounter! > 0 ? post.commentCounter : ''} </div>
+              <div className={classes.commentCounter}>{commentCounter! > 0 ? commentCounter : ''} </div>
             </IconButton>
             </div>) : ''}
-          {!post.disableSharing ? (<IconButton
+          {!disableSharing ? (<IconButton
             className={classes.iconButton}
             onClick={this.handleOpenShare}
             aria-label='Comment'>
@@ -448,33 +463,17 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
 
         </CardActions>
 
-        <CommentGroup open={this.state.openComments} comments={commentList} ownerPostUserId={post.ownerUserId!} onToggleRequest={this.handleOpenComments} isPostOwner={this.props.isPostOwner!} disableComments={post.disableComments!} postId={post.id!} />
+        <CommentGroup open={this.state.openComments} comments={commentList} ownerPostUserId={ownerUserId!} onToggleRequest={this.handleOpenComments} isPostOwner={this.props.isPostOwner!} disableComments={disableComments!} postId={id} />
 
-        {/* Copy link dialog*/}
-        <Dialog
-          title='Share On'
-          open={this.state.shareOpen}
-          onClose={this.handleCloseShare}
-        >
-             <Paper className={classes.shareLinkPaper}>
-              {!this.state.openCopyLink
-             ? (<MenuList>
-                <MenuItem onClick={this.handleCopyLink} >
-                  <ListItemIcon>
-                    <SvgLink />
-                  </ListItemIcon>
-                  <ListItemText inset primary={translate!('post.copyLinkButton')} />
-                </MenuItem>
-              </MenuList>)
-            : <div>
-              <TextField autoFocus fullWidth={true} id='text-field-default' defaultValue={`${location.origin}/${post.ownerUserId}/posts/${post.id}`} />
-              <Typography className={classNames('animate-top', classes.clipboard)} variant='headline' component='h2'>
-              Link has been copied to clipboard ...
-          </Typography>
-              </div>}
-            </Paper>
-        </Dialog>
+        <ShareDialog 
+        onClose={this.handleCloseShare} 
+        shareOpen={this.state.shareOpen} 
+        onCopyLink={this.handleCopyLink} 
+        openCopyLink={this.state.openCopyLink}
+        post={post} 
 
+        />
+       
         <PostWrite
           open={this.state.openPostWrite}
           onRequestClose={this.handleClosePostWrite}
@@ -497,20 +496,18 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
 const mapDispatchToProps = (dispatch: any, ownProps: IPostComponentProps) => {
   const { post } = ownProps
   return {
-    vote: () => dispatch(voteActions.dbAddVote(post.id!, post.ownerUserId!)),
-    unvote: () => dispatch(voteActions.dbDeleteVote(post.id!, post.ownerUserId!)),
+    vote: () => dispatch(voteActions.dbAddVote(post.get('id'), post.get('ownerUserId'))),
+    unvote: () => dispatch(voteActions.dbDeleteVote(post.get('id'), post.get('ownerUserId'))),
     delete: (id: string) => dispatch(postActions.dbDeletePost(id)),
     toggleDisableComments: (status: boolean) => {
-      post.disableComments = status
-      dispatch(postActions.dbUpdatePost(post, (x: any) => x))
+      dispatch(postActions.dbUpdatePost(post.set('disableComments', status), (x: any) => x))
     },
     toggleSharingComments: (status: boolean) => {
-      post.disableSharing = status
-      dispatch(postActions.dbUpdatePost(post, (x: any) => x))
+      dispatch(postActions.dbUpdatePost(post.set('disableSharing', status), (x: any) => x))
     },
     goTo: (url: string) => dispatch(push(url)),
     setHomeTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title || '')),
-    getPostComments: (ownerUserId: string, postId: string) => dispatch(commentActions.dbGetComments(ownerUserId, postId))
+    getPostComments: (ownerUserId: string, postId: string) => dispatch(commentActions.dbFetchComments(ownerUserId, postId))
 
   }
 }
@@ -521,21 +518,21 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPostComponentProps) => {
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IPostComponentProps) => {
-  const { post, vote, authorize, comment } = state
-  const { uid } = authorize
-  let currentUserVote = ownProps.post.votes ? ownProps.post.votes[uid] : false
-  const postModel = post.userPosts[ownProps.post.ownerUserId!][ownProps.post.id!]
-  const postOwner = (post.userPosts[uid] ? Object.keys(post.userPosts[uid]).filter((key) => { return ownProps.post.id === key }).length : 0)
-  const commentList: { [commentId: string]: Comment } = comment.postComments[ownProps.post.id!]
+const mapStateToProps = (state: Map<string, any>, ownProps: IPostComponentProps) => {
+
+  const uid = state.getIn(['authorize', 'uid'])
+  let currentUserVote = ownProps.post.getIn(['votes', uid], false)
+  const voteCount = state.getIn(['post', 'userPosts', ownProps.post.get('ownerUserId'), ownProps.post.get('id'), 'score'], 0)
+  const commentList: { [commentId: string]: Comment } = state.getIn(['comment', 'postComments', ownProps.post.get('id')])
+  const user = state.getIn(['user', 'info', ownProps.post.get('ownerUserId')])
   return {
-    translate: getTranslate(state.locale),
+    translate: getTranslate(state.get('locale')),
     commentList,
-    avatar: state.user.info && state.user.info[ownProps.post.ownerUserId!] ? state.user.info[ownProps.post.ownerUserId!].avatar || '' : '',
-    fullName: state.user.info && state.user.info[ownProps.post.ownerUserId!] ? state.user.info[ownProps.post.ownerUserId!].fullName || '' : '',
-    voteCount: postModel.score,
+    avatar: user ? user.avatar : '',
+    fullName: user ? user.fullName : '',
+    voteCount,
     currentUserVote,
-    isPostOwner: postOwner > 0
+    isPostOwner: uid === ownProps.post.get('ownerUserId')
   }
 }
 

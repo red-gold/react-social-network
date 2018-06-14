@@ -1,7 +1,7 @@
 // - Import react components
 import React, { Component } from 'react'
-import { teal } from 'material-ui/colors'
-import { CircularProgress } from 'material-ui/Progress'
+import { teal } from '@material-ui/core/colors'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 /**
  * Create component class

@@ -1,29 +1,37 @@
 // - Import react components
 import React, { Component } from 'react'
+import { findDOMNode } from 'react-dom'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import Linkify from 'react-linkify'
+import Popover from '@material-ui/core/Popover'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import {Map} from 'immutable'
 
 import { Comment } from 'core/domain/comments'
 
 // - Import material UI libraries
-import Divider from 'material-ui/Divider'
-import Paper from 'material-ui/Paper'
-import Button from 'material-ui/Button'
-import { grey } from 'material-ui/colors'
-import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui-icons/MoreVert'
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
-import Menu, { MenuList, MenuItem } from 'material-ui/Menu'
-import TextField from 'material-ui/TextField'
-import { withStyles } from 'material-ui/styles'
+import Divider from '@material-ui/core/Divider'
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+import { grey } from '@material-ui/core/colors'
+import IconButton from '@material-ui/core/IconButton'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItem from '@material-ui/core/ListItem'
+import List from '@material-ui/core/List'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import MenuList from '@material-ui/core/MenuList'
+import MenuItem from '@material-ui/core/MenuItem'
+import TextField from '@material-ui/core/TextField'
+import { withStyles } from '@material-ui/core/styles'
 import { Manager, Target, Popper } from 'react-popper'
-import { Card, CardActions, CardHeader, CardMedia, CardContent } from 'material-ui'
-import Grow from 'material-ui/transitions/Grow'
-import ClickAwayListener from 'material-ui/utils/ClickAwayListener'
+import { Card, CardActions, CardHeader, CardMedia, CardContent } from '@material-ui/core'
+import Grow from '@material-ui/core/Grow'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import classNames from 'classnames'
 
 // - Import app components
@@ -32,8 +40,8 @@ import UserAvatar from 'components/userAvatar'
 // - Import API
 
 // - Import actions
-import * as commentActions from 'actions/commentActions'
-import * as userActions from 'actions/userActions'
+import * as commentActions from 'store/actions/commentActions'
+import * as userActions from 'store/actions/userActions'
 
 import { ICommentComponentProps } from './ICommentComponentProps'
 import { ICommentComponentState } from './ICommentComponentState'
@@ -90,7 +98,6 @@ const styles = (theme: any) => ({
  * Create component class
  */
 export class CommentComponent extends Component<ICommentComponentProps, ICommentComponentState> {
-
   static propTypes = {
     /**
      * Comment object
@@ -105,6 +112,11 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
      */
     disableComments: PropTypes.bool
   }
+
+  /**
+   * Fields
+   */
+  buttonMenu = null
 
   /**
    * DOM styles
@@ -181,7 +193,11 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
       /**
        * The anchor of comment menu element
        */
-      openMenu: false
+      openMenu: false,
+      /**
+       * Anchor element
+       */
+      anchorEl: null
 
     }
 
@@ -221,7 +237,6 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
    */
   handleUpdateComment = (evt: any) => {
     const { comment } = this.props
-    comment.editorStatus = undefined
     comment.text = this.state.text
     this.props.update!(comment)
     this.setState({
@@ -265,7 +280,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
    * Handle comment menu
    */
   handleCommentMenu = (event: any) => {
-    this.setState({ openMenu: true })
+    this.setState({ openMenu: true,  anchorEl: findDOMNode(this.buttonMenu!), })
   }
 
   /**
@@ -276,8 +291,8 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
   }
 
   componentWillMount () {
-    const { userId } = this.props.comment
-    if (!this.props.isCommentOwner && !this.props.info![userId!]) {
+    const { commentOwner } = this.props
+    if (!this.props.isCommentOwner && !commentOwner) {
       this.props.getUserInfo!()
     }
   }
@@ -291,30 +306,44 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
     /**
      * Comment object from props
      */
-    const { comment, classes, fullName, avatar, translate } = this.props
+    const { comment, classes, fullName, avatar, translate , editorStatus} = this.props
 
-    const { openMenu } = this.state
+    const { openMenu, anchorEl } = this.state
 
-    const RightIconMenu = () => (
-      <Manager
-        className={classes.iconButton}
-      >
-        <Target>
+    const rightIconMenu = (
+      <>
           <IconButton
+          buttonRef={(node: any) => {
+            this.buttonMenu = node
+          }}
             aria-owns={openMenu! ? 'comment-menu' : ''}
             aria-haspopup='true'
             onClick={this.handleCommentMenu}
           >
             <MoreVertIcon className={classes.moreIcon} />
           </IconButton>
-        </Target>
-        <Popper
+        {/* <Popper
           placement='bottom-start'
           eventsEnabled={openMenu!}
           className={classNames({ [classes.popperClose]: !openMenu! }, { [classes.popperOpen]: openMenu! })}
         >
           <ClickAwayListener onClickAway={this.handleCloseCommentMenu}>
-            <Grow in={openMenu!} >
+            <Grow in={openMenu!} > */}
+            <Popover
+                open={openMenu!}
+                anchorEl={anchorEl}
+                anchorReference={'anchorEl'}
+                anchorPosition={{ top: 0, left: 0 }}
+                onClose={this.handleCloseCommentMenu}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+                transformOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'center',
+                }}
+              >
               <Paper>
                 <MenuList role='menu'>
                   <MenuItem className={classes.rightIconMenuItem}>{translate!('comment.replyButton')}</MenuItem>
@@ -322,10 +351,9 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
                   {(this.props.isCommentOwner || this.props.isPostOwner) ? (<MenuItem className={classes.rightIconMenuItem} onClick={(evt: any) => this.handleDelete(evt, comment.id, comment.postId)}>{translate!('comment.deleteButton')}</MenuItem>) : ''}
                 </MenuList>
               </Paper>
-            </Grow>
-          </ClickAwayListener>
-        </Popper>
-      </Manager>
+              </Popover>
+
+              </>
     )
 
     const Author = () => (
@@ -336,7 +364,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
         }}>{moment.unix(comment.creationDate!).fromNow()}</span>
       </div>
     )
-    const { userId, editorStatus } = comment
+    const { userId } = comment
     const commentBody = (
       <div style={{ outline: 'none', flex: 'auto', flexGrow: 1 }}>
       { editorStatus ? <TextField
@@ -373,7 +401,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
               title={editorStatus ? '' : <Author />}
               subheader={commentBody}
               avatar={<NavLink to={`/${userId}`}><UserAvatar fullName={fullName!} fileName={avatar!} size={24} /></NavLink>}
-              action={(!this.props.isCommentOwner && !this.props.isPostOwner && this.props.disableComments) || editorStatus ? '' : (<RightIconMenu />)}
+              action={(!this.props.isCommentOwner && !this.props.isPostOwner && this.props.disableComments) || editorStatus ? '' : rightIconMenu}
             >
             </CardHeader>
 
@@ -410,15 +438,16 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentComponentProps) => 
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: any) => {
-  const { uid } = state.authorize
-  const avatar = state.user.info && state.user.info[ownProps.comment.userId] ? state.user.info[ownProps.comment.userId].avatar || '' : ''
-  const fullName = state.user.info && state.user.info[ownProps.comment.userId] ? state.user.info[ownProps.comment.userId].fullName || '' : ''
+const mapStateToProps = (state: any, ownProps: ICommentComponentProps) => {
+  const commentOwnerId = ownProps.comment.userId
+  const uid = state.getIn(['authorize', 'uid'])
+  const avatar =  ownProps.comment.userAvatar
+  const fullName = ownProps.comment.userDisplayName
   return {
-    translate: getTranslate(state.locale),
+    translate: getTranslate(state.get('locale')),
     uid: uid,
-    isCommentOwner: (uid === ownProps.comment.userId),
-    info: state.user.info,
+    isCommentOwner: (uid === commentOwnerId),
+    commentOwner: state.getIn(['user', 'info', commentOwnerId]),
     avatar,
     fullName
   }

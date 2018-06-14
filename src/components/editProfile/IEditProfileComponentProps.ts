@@ -65,4 +65,9 @@ export interface IEditProfileComponentProps {
    * Translate to locale string
    */
   translate?: (state: any) => any
+
+  /**
+   * Current locale language
+   */
+  currentLanguage?: string
 }

@@ -1,81 +1,57 @@
 import { Comment } from 'core/domain/comments'
 import { Profile } from 'core/domain/users'
 import { Circle, UserTie } from 'core/domain/circles'
+import {Map} from 'immutable'
 
 export interface ICircleComponentProps {
 
   /**
-   *
-   *
-   * @type {Circle}
-   * @memberof ICircleComponentProps
+   * Circle
    */
-  circle: Circle
+  circle: Map<string, any>
 
   /**
    * Circle identifier
-   *
-   * @type {string}
-   * @memberof ICircleComponentProps
    */
   id: string
 
   /**
    * User identifier
-   *
-   * @type {string}
-   * @memberof ICircleComponentProps
    */
   uid: string
 
   /**
-   *
-   *
-   * @type {Function}
-   * @memberof ICircleComponentProps
+   * Update circle
    */
   updateCircle?: Function
 
   /**
-   *
-   *
-   * @type {Function}
-   * @memberof ICircleComponentProps
+   * Delete circle
    */
   deleteCircle?: Function
 
   /**
    * Users of current circle
    */
-  usersOfCircle?: {[userId: string]: UserTie}
+  usersOfCircle?: Map<string, any>
 
   /**
    * Close setting box of circle
-   *
-   * @type {Function}
-   * @memberof ICircleComponentProps
    */
   closeCircleSettings?: any
 
   /**
    * Circle setting dialog is open {true} or not {false}
-   *
-   * @type {Function}
-   * @memberof ICircleComponentProps
    */
   openSetting?: boolean
 
   /**
    * Change route location
-   *
-   * @memberof ICircleComponentProps
    */
   goTo?: (url: string) => void
 
   /**
    * Open setting box for a circle
-   *
-   * @memberof ICircleComponentProps
    */
   openCircleSettings?: () => any
 

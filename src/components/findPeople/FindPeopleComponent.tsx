@@ -2,9 +2,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Paper from 'material-ui/Paper'
+import Paper from '@material-ui/core/Paper'
 import InfiniteScroll from 'react-infinite-scroller'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import {Map} from 'immutable'
 
 // - Import app components
 import UserBoxList from 'components/userBoxList'
@@ -13,9 +14,10 @@ import LoadMoreProgressComponent from 'layouts/loadMoreProgress'
 // - Import API
 
 // - Import actions
-import * as userActions from 'actions/userActions'
+import * as userActions from 'store/actions/userActions'
 import { IFindPeopleComponentProps } from './IFindPeopleComponentProps'
 import { IFindPeopleComponentState } from './IFindPeopleComponentState'
+import { UserTie } from 'core/domain/circles/userTie'
 
 /**
  * Create component class
@@ -50,7 +52,7 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
      */
   render () {
     const {hasMorePeople, translate} = this.props
-
+    const peopleInfo = Map<string, UserTie>(this.props.peopleInfo!)
     return (
             <div>
                 <InfiniteScroll
@@ -63,11 +65,11 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
 
                 <div className='tracks'>
 
-                {this.props.peopleInfo && Object.keys(this.props.peopleInfo).length !== 0 ? (<div>
+                {peopleInfo && peopleInfo.count() > 0 ? (<div>
                 <div className='profile__title'>
                     {translate!('people.suggestionsForYouLabel')}
                 </div>
-                <UserBoxList users={this.props.peopleInfo}/>
+                <UserBoxList users={peopleInfo}/>
                 <div style={{ height: '24px' }}></div>
                 </div>) : (<div className='g__title-center'>
                 {translate!('people.nothingToShowLabel')}
@@ -98,11 +100,13 @@ const mapDispatchToProps = (dispatch: any, ownProps: IFindPeopleComponentProps) 
  * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IFindPeopleComponentProps) => {
-  const {people, info} = state.user
+  const people = state.getIn(['user', 'people'])
+  const hasMorePeople = state.getIn(['user', 'people', 'hasMoreData' ], true)
+  const info: Map<string, UserTie> = state.getIn(['user', 'info'])
   return {
-    translate: getTranslate(state.locale),
+    translate: getTranslate(state.get('locale')),
     peopleInfo: info,
-    hasMorePeople: people.hasMoreData
+    hasMorePeople
   }
 }
 

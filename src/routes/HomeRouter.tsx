@@ -1,18 +1,32 @@
 // - Import react components
 import PrivateRoute from './PrivateRoute'
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
-
-// - Import app components
-import StreamComponent from 'components/stream'
-import Profile from 'components/profile'
-import PostPage from 'components/postPage'
-import People from 'components/people'
+import Loadable from 'react-loadable'
+import { Map } from 'immutable'
 
 import { IRouterProps } from './IRouterProps'
+import MasterLoadingComponent from 'components/masterLoading/MasterLoadingComponent'
+
+// - Async Components
+const AsyncStream = Loadable({
+  loader: () => import('containers/stream'),
+  loading: MasterLoadingComponent,
+})
+const AsyncProfile = Loadable({
+  loader: () => import('containers/profile'),
+  loading: MasterLoadingComponent,
+})
+const AsyncPostPage = Loadable({
+  loader: () => import('containers/postPage'),
+  loading: MasterLoadingComponent,
+})
+const AsyncPeople = Loadable({
+  loader: () => import('containers/people'),
+  loading: MasterLoadingComponent,
+})
 
 /**
  * Home Router
@@ -20,19 +34,19 @@ import { IRouterProps } from './IRouterProps'
 export class HomeRouter extends Component<IRouterProps, any> {
   render () {
     const { enabled, match, data, translate } = this.props
-    const St = StreamComponent as any
+    const St = AsyncStream
     return (
           enabled ? (
           <Switch>
-            <PrivateRoute path='/people/:tab?' component={<People />} />
+            <PrivateRoute path='/people/:tab?' component={<AsyncPeople />} />
 
             <PrivateRoute path='/tag/:tag' component={(
-            <div className='blog'><St displayWriting={false} homeTitle={`#${match.params.tag}`} posts={data.mergedPosts} /></div>
+            <div><St displayWriting={false} homeTitle={`#${match.params.tag}`} posts={data.mergedPosts} /></div>
             )} />
-            <Route path='/:userId/posts/:postId/:tag?' component={PostPage} />
-            <Route path='/:userId' component={Profile} />
+            <Route path='/:userId/posts/:postId/:tag?' component={AsyncPostPage} />
+            <Route path='/:userId' component={AsyncProfile} />
             <PrivateRoute path='/' component={(
-            <div className='blog'>
+            <div>
             <St
             homeTitle={translate!('header.home')}
             posts={data.mergedPosts}
@@ -59,10 +73,10 @@ const mapDispatchToProps = (dispatch: any, ownProps: IRouterProps) => {
 /**
  * Map state to props
  */
-const mapStateToProps = (state: any, ownProps: IRouterProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: IRouterProps) => {
   return {
-    translate: getTranslate(state.locale),
-    currentLanguage: getActiveLanguage(state.locale).code,
+    translate: getTranslate(state.get('locale')),
+    currentLanguage: getActiveLanguage(state.get('locale')).code,
   }
 }
 

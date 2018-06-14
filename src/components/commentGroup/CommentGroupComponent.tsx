@@ -6,23 +6,28 @@ import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment/moment'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import { Map } from 'immutable'
 
-import Paper from 'material-ui/Paper'
-import Button from 'material-ui/Button'
-import TextField from 'material-ui/TextField'
-import Divider from 'material-ui/Divider'
-import { ListItemIcon, ListItemText, ListItem } from 'material-ui/List'
-import { grey, teal } from 'material-ui/colors'
-import { LinearProgress } from 'material-ui/Progress'
-import { withStyles } from 'material-ui/styles'
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import Divider from '@material-ui/core/Divider'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItem from '@material-ui/core/ListItem'
+import List from '@material-ui/core/List'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import { grey, teal } from '@material-ui/core/colors'
+import LinearProgress from '@material-ui/core/LinearProgress'
+import { withStyles } from '@material-ui/core/styles'
 import { Manager, Target, Popper } from 'react-popper'
-import { Card, CardActions, CardHeader, CardMedia, CardContent } from 'material-ui'
-import Grow from 'material-ui/transitions/Grow'
-import ClickAwayListener from 'material-ui/utils/ClickAwayListener'
+import { Card, CardActions, CardHeader, CardMedia, CardContent } from '@material-ui/core'
+import Grow from '@material-ui/core/Grow'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import classNames from 'classnames'
 
 // - Import actions
-import * as commentActions from 'actions/commentActions'
+import * as commentActions from 'store/actions/commentActions'
 
 // - Import app components
 import CommentListComponent from 'components/commentList'
@@ -30,11 +35,12 @@ import UserAvatar from 'components/userAvatar'
 
 import { ICommentGroupComponentProps } from './ICommentGroupComponentProps'
 import { ICommentGroupComponentState } from './ICommentGroupComponentState'
-import { Comment } from 'core/domain/comments/comment'
+import { Comment } from 'core/domain/comments'
 import { ServerRequestModel } from 'models/server'
 import StringAPI from 'api/StringAPI'
 import { ServerRequestType } from 'constants/serverRequestType'
-import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
+import { Profile } from 'core/domain/users'
 
 const styles = (theme: any) => ({
   textField: {
@@ -210,8 +216,8 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
    * @return {DOM} list of comments' DOM
    */
   commentList = () => {
-    const {classes} = this.props
-    let comments = this.props.commentSlides
+    const {classes, postId} = this.props
+    let comments = Map(this.props.commentSlides!).toJS()
     if (comments) {
       comments = _.fromPairs(_.toPairs(comments)
         .sort((a: any, b: any) => parseInt(b[1].creationDate, 10) - parseInt(a[1].creationDate, 10)))
@@ -229,10 +235,8 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
         parsedComments.push(parsedComments[0])
       }
       return parsedComments.map((comment, index) => {
-        const { userInfo } = this.props
-
-        const commentAvatar = userInfo && userInfo[comment.userId!] ? userInfo[comment.userId!].avatar || '' : ''
-        const commentFullName = userInfo && userInfo[comment.userId!] ? userInfo[comment.userId!].fullName || '' : ''
+        const commentAvatar =  comment.userAvatar
+        const commentFullName = comment.userDisplayName
 
         const commentBody = (
           <div style={{ outline: 'none', flex: 'auto', flexGrow: 1 }}>
@@ -274,8 +278,8 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
    * @return {react element} return the DOM which rendered by component
    */
   render () {
-    const { comments, classes, postId, fullName, avatar, getCommentsRequest, open, commentSlides, translate } = this.props
-
+    const { classes, postId, fullName, avatar, commentsRequestStatus, open, commentSlides, translate } = this.props
+    const comments: Map<string, Comment> = this.props.comments || Map({})
     /**
      * Comment list box
      */
@@ -314,20 +318,20 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
         </div>
 )
 
-    const showComments = ( comments && Object.keys(comments).length > 0
+    const showComments = ( !comments.isEmpty()
     ? (
     <Paper elevation={0} style={open ? { display: 'block', padding: '0px 0px' } : { display: 'none', padding: '12px 16px' }}>
-      <CommentListComponent comments={comments!} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments} />
+      <CommentListComponent comments={comments!} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments} postId={postId}/>
     </Paper>)
     : '')
-    const loadComments = (( getCommentsRequest === undefined || (getCommentsRequest && getCommentsRequest!.status !== ServerRequestStatusType.OK)) ? <LinearProgress style={this.styles.progressbar} variant='indeterminate' /> : showComments)
+    const loadComments = ((commentsRequestStatus === ServerRequestStatusType.OK) || !comments.isEmpty() ? showComments : <LinearProgress style={this.styles.progressbar} variant='indeterminate' />)
     /**
      * Return Elements
      */
     return (
-      <div key={postId + '-comments'}>
-        <div style={commentSlides && Object.keys(commentSlides).length > 0 ? { display: 'block' } : { display: 'none' }}>
+      <div key={postId + '-comments-group'}>
           <Divider />
+        <div style={commentSlides && !commentSlides.isEmpty() ? { display: 'block' } : { display: 'none' }}>
           <Paper elevation={0} className='animate-top' style={!open ? { display: 'block' } : { display: 'none' }}>
 
             <div style={{ position: 'relative', height: '60px' }} >
@@ -339,11 +343,11 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
               </div>
             </div>
           </Paper>
+
+        </div>
           {
             open ? loadComments : ''
           }
-
-        </div>
         {
           (!this.props.disableComments && open )
             ? commentWriteBox
@@ -377,19 +381,20 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentGroupComponentProps
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: ICommentGroupComponentProps) => {
-  const { post, user, authorize, server } = state
-  const {request} = server
+const mapStateToProps = (state: Map<string, any>, ownProps: ICommentGroupComponentProps) => {
   const { ownerPostUserId, postId } = ownProps
-  const commentSlides = post.userPosts[ownerPostUserId] && post.userPosts[ownerPostUserId][postId] ? post.userPosts[ownerPostUserId][postId].comments : {}
-  const getCommentsRequest: ServerRequestModel = request ? request[StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId)] : null
+  const uid = state.getIn(['authorize', 'uid'], 0)
+  const requestId = StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId)
+  const commentsRequestStatus = state.getIn(['server', 'request', requestId])
+  const commentSlides = state.getIn(['post', 'userPosts', ownerPostUserId, postId, 'comments'])
+  const user = state.getIn(['user', 'info', uid])
   return {
-    translate: getTranslate(state.locale),
-    getCommentsRequest,
+    translate: getTranslate(state.get('locale')),
+    commentsRequestStatus : commentsRequestStatus ? commentsRequestStatus.status : ServerRequestStatusType.NoAction,
     commentSlides,
-    avatar: user.info && user.info[state.authorize.uid] ? user.info[authorize.uid].avatar || '' : '',
-    fullName: user.info && user.info[state.authorize.uid] ? user.info[authorize.uid].fullName || '' : '',
-    userInfo: user.info
+    avatar: user.avatar || '',
+    fullName: user.fullName || '',
+    userInfo: state.getIn(['user', 'info'])
 
   }
 }

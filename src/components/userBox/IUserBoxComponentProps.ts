@@ -1,42 +1,30 @@
 import { User } from 'core/domain/users'
 import { Circle } from 'core/domain/circles/circle'
 import { UserTie } from 'core/domain/circles'
-import { ServerRequestStatusType } from 'actions/serverRequestStatusType'
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 import { ServerRequestModel } from 'models/server/serverRequestModel'
-
+import {Map, List} from 'immutable'
 export interface IUserBoxComponentProps {
 
     /**
      * User identifier
-     *
-     * @type {string}
-     * @memberof IUserBoxComponentProps
      */
   userId: string
 
   /**
    * User
-   *
-   * @type {User}
-   * @memberof IUserBoxComponentProps
    */
   user: UserTie
 
     /**
      * Circles
-     *
-     * @type {{[circleId: string]: Circle}}
-     * @memberof IUserBoxComponentProps
      */
-  circles?: {[circleId: string]: Circle}
+  circles?: Map<string, Map<string, any>>
 
     /**
      * List of circles' id
-     *
-     * @type {string[]}
-     * @memberof IUserBoxComponentProps
      */
-  userBelongCircles?: string[]
+  userBelongCircles?: List<string>
 
   /**
    * Whether current user followed this user
@@ -45,54 +33,38 @@ export interface IUserBoxComponentProps {
 
     /**
      * The number of circles
-     *
-     * @type {number}
-     * @memberof IUserBoxComponentProps
      */
   belongCirclesCount?: number
 
     /**
      * The first circle
-     *
-     * @type {User}
-     * @memberof IUserBoxComponentProps
      */
-  firstBelongCircle?: Circle
+  firstBelongCircle?: Map<string, any>
 
     /**
      * Avatar address
-     *
-     * @type {string}
-     * @memberof IUserBoxComponentProps
      */
   avatar?: string
 
    /**
     * User full name
-    *
-    * @type {string}
-    * @memberof IUserBoxComponentProps
     */
   fullName?: string
 
    /**
     * The `Following` circle identifier of current user
     */
-  followingCircleId?: string
+  followingCircle?: Map<string, any>
 
   /**
    * Create a circle
-   *
-   * @memberof IUserBoxComponentProps
    */
   createCircle?: (name: string) => any
 
   /**
    * Add a user in a circle
-   *
-   * @memberof IUserBoxComponentProps
    */
-  addUserToCircle?: (circleIds: string[],user: UserTie) => any
+  addUserToCircle?: (circleIds: List<string>,user: UserTie) => any
 
   /**
    * Add referer user to the `Following` circle of current user
@@ -107,12 +79,12 @@ export interface IUserBoxComponentProps {
   /**
    * Set current user selected circles for referer user
    */
-  setSelectedCircles?: (userId: string, circleList: string[]) => any
+  setSelectedCircles?: (userId: string, circleList: List<string>) => any
 
   /**
    * Remove current user selected circles for referer user
    */
-  removeSelectedCircles?: (userId: string, circleList: string[]) => any
+  removeSelectedCircles?: (userId: string, circleList: List<string>) => any
 
   /**
    * Open select circle box
@@ -126,8 +98,6 @@ export interface IUserBoxComponentProps {
 
   /**
    * Redirect page to [url]
-   *
-   * @memberof IUserBoxComponentProps
    */
   goTo?: (url: string) => any
 
@@ -149,7 +119,7 @@ export interface IUserBoxComponentProps {
   /**
    * Keep selected circles for refere user
    */
-  selectedCircles?: string[]
+  selectedCircles?: List<string>
 
   /**
    * Whether the select circles box for referer user is open

@@ -2,16 +2,17 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import SvgImage from 'material-ui-icons/Image'
-import { withStyles } from 'material-ui/styles'
+import SvgImage from '@material-ui/icons/Image'
+import { withStyles } from '@material-ui/core/styles'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import { Map } from 'immutable'
 
 // - Import app components
 
 // - Import API
 
 // - Import actions
-import * as imageGalleryActions from 'actions/imageGalleryActions'
+import * as imageGalleryActions from 'store/actions/imageGalleryActions'
 import { IImgComponentProps } from './IImgComponentProps'
 import { IImgComponentState } from './IImgComponentState'
 
@@ -121,13 +122,13 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImgComponentProps) => {
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IImgComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: IImgComponentProps) => {
   return {
-    translate: getTranslate(state.locale),
-    avatarURL: state.imageGallery.imageURLList,
-    imageRequests: state.imageGallery.imageRequests
+    translate: getTranslate(state.get('locale')),
+    avatarURL: state.getIn(['imageGallery', 'imageURLList']),
+    imageRequests: state.getIn(['imageGallery', 'imageRequests'])
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ImgComponent as any)as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(ImgComponent as any)as any)

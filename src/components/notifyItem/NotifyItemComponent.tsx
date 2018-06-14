@@ -4,10 +4,15 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { push } from 'react-router-redux'
-import SvgClose from 'material-ui-icons/Close'
-import { grey } from 'material-ui/colors'
-import { withStyles } from 'material-ui/styles'
-import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List'
+import SvgClose from '@material-ui/icons/Close'
+import { grey } from '@material-ui/core/colors'
+import { withStyles } from '@material-ui/core/styles'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItem from '@material-ui/core/ListItem'
+import List from '@material-ui/core/List'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 
 // - Import app components
 import UserAvatar from 'components/userAvatar'
@@ -15,7 +20,7 @@ import UserAvatar from 'components/userAvatar'
 // - Import API
 
 // - Import actions
-import * as notifyActions from 'actions/notifyActions'
+import * as notifyActions from 'store/actions/notifyActions'
 
 import { INotifyItemComponentProps } from './INotifyItemComponentProps'
 import { INotifyItemComponentState } from './INotifyItemComponentState'
@@ -167,4 +172,4 @@ const mapStateToProps = (state: any, ownProps: INotifyItemComponentProps) => {
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(NotifyItemComponent as any) as any )
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(NotifyItemComponent as any) as any )

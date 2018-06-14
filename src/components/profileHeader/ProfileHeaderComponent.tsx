@@ -1,16 +1,18 @@
 // - Import react components
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import config from 'src/config'
+import {Map} from 'immutable'
 
 // - Material UI
-import { grey } from 'material-ui/colors'
-import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui-icons/MoreVert'
-import { MenuList, MenuItem } from 'material-ui/Menu'
-import Button from 'material-ui/Button'
-import RaisedButton from 'material-ui/Button'
+import { grey } from '@material-ui/core/colors'
+import IconButton from '@material-ui/core/IconButton'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import MenuList from '@material-ui/core/MenuList'
+import MenuItem from '@material-ui/core/MenuItem'
+import Menu from '@material-ui/core/Menu'
+import Button from '@material-ui/core/Button'
+import RaisedButton from '@material-ui/core/Button'
 import EventListener, { withOptions } from 'react-event-listener'
 import { Parallax, Background } from 'react-parallax'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
@@ -23,8 +25,8 @@ import UserAvatar from 'components/userAvatar'
 // - Import API
 
 // - Import actions
-import * as globalActions from 'actions/globalActions'
-import * as userActions from 'actions/userActions'
+import * as globalActions from 'store/actions/globalActions'
+import * as userActions from 'store/actions/userActions'
 import { IProfileHeaderComponentProps } from './IProfileHeaderComponentProps'
 import { IProfileHeaderComponentState } from './IProfileHeaderComponentState'
 
@@ -32,39 +34,6 @@ import { IProfileHeaderComponentState } from './IProfileHeaderComponentState'
  * Create component class
  */
 export class ProfileHeaderComponent extends Component<IProfileHeaderComponentProps, IProfileHeaderComponentState> {
-
-  static propTypes = {
-
-        /**
-         * User avatar address
-         */
-    avatar: PropTypes.string,
-        /**
-         * User banner address
-         */
-    banner: PropTypes.string,
-      /**
-       * User tagline
-       */
-    tagLine: PropTypes.string,
-        /**
-         * User full name
-         */
-    fullName: PropTypes.string.isRequired,
-        /**
-         * The number of followers
-         */
-    followerCount: PropTypes.number,
-        /**
-         * User identifier
-         */
-    userId: PropTypes.string,
-        /**
-         * If the user profile identifier of param is equal to the user authed identifier
-         */
-    isAuthedUser: PropTypes.bool
-
-  }
 
     /**
      * Component constructor
@@ -117,7 +86,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
      * @return {react element} return the DOM which rendered by component
      */
   render () {
-    const {translate, isAuthedUser} = this.props
+    const {translate, isAuthedUser, editProfileOpen} = this.props
     const styles = {
       avatar: {
         border: '2px solid rgb(255, 255, 255)'
@@ -186,7 +155,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
                     />
                     <div className='left'>
                         {/* User avatar*/}
-                        <div style={{ display: 'flex', justifyContent: 'center' }}><UserAvatar fullName={this.props.fullName} fileName={this.props.avatar} size={60} style={styles.avatar} /></div>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}><UserAvatar fullName={this.props.fullName || ' '} fileName={this.props.avatar} size={60} style={styles.avatar} /></div>
                         <div className='info'>
                             <div className='fullName'>
                                 {this.props.fullName}
@@ -207,7 +176,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
                         </div>) : ''}
                     </div>
                 </div>
-                {isAuthedUser ? (<EditProfile
+                {isAuthedUser && editProfileOpen ? (<EditProfile
                     avatar={this.props.avatar}
                     banner={this.props.banner}
                     fullName={this.props.fullName}
@@ -235,10 +204,11 @@ const mapDispatchToProps = (dispatch: any, ownProps: IProfileHeaderComponentProp
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IProfileHeaderComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: IProfileHeaderComponentProps) => {
 
   return {
-    translate: getTranslate(state.locale)
+    translate: getTranslate(state.get('locale')),
+    editProfileOpen: state.getIn(['user', 'openEditProfile'])
   }
 }
 

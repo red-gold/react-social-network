@@ -10,7 +10,7 @@ try {
     storageBucket: config.firebase.storageBucket,
     messagingSenderId: config.firebase.messagingSenderId
   }
-
+  
   firebase.initializeApp(firebaseConfig)
 } catch (error) {
   console.log('=========Firebase firestore initializer==============')
@@ -22,8 +22,12 @@ try {
 export let storageRef = firebase.storage().ref()
 
 // Initialize Cloud Firestore through Firebase
-export const db = firebase.firestore()
-
+const db = firebase.firestore()
+const settings = {timestampsInSnapshots: true}
+db.settings(settings)
+export {
+  db
+}
 // - Database authorize
 export let firebaseAuth = firebase.auth
 export let firebaseRef = firebase.database().ref()

@@ -4,11 +4,14 @@ import * as moment from 'moment/moment'
  * @param title log title
  * @param data log data object
  */
-const logger = (title: string, data: any) => {
+const logger = (title: string, ...data: any[]) => {
   const randomColor = getRandomColor()
 
-  console.log(`\n\n%c =======  ${title} ======= %c${moment().format('HH:mm:ss SSS')} \n`, `color:${randomColor};font-size:15`
-  , `color:${getRandomColor()};font-size:15`, data,`\n\n =========================================`)
+  window['console']['log'](`\n\n%c =======  ${title} ======= %c${moment().format('HH:mm:ss SSS')} \n`, `color:${randomColor};font-size:15`
+  , `color:${getRandomColor()};font-size:15`)
+  window['console']['log'](``)
+  window['console']['log'](`    `,  data)
+  window['console']['log'](`\n =========================================`)
 
 }
 
@@ -24,7 +27,18 @@ const getRandomColor = () => {
   return color
 }
 
+const updateObject = (oldObject: any, updatedProperties: any) => {
+  return {
+      ...oldObject,
+      ...updatedProperties
+  }
+}
+
+const getStateSlice = (state: any) => state.toJS()['locale']
+
 export default {
   logger,
-  getRandomColor
+  getRandomColor,
+  updateObject,
+  getStateSlice
 }

@@ -2,20 +2,26 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import SvgDehaze from 'material-ui-icons/Dehaze'
-import { grey, blue } from 'material-ui/colors'
-import Toolbar from 'material-ui/Toolbar'
-import IconButton from 'material-ui/IconButton'
-import Popover from 'material-ui/Popover'
-import AppBar from 'material-ui/AppBar'
-import Menu, { MenuList, MenuItem } from 'material-ui/Menu'
-import Paper from 'material-ui/Paper'
-import NotificationsIcon from 'material-ui-icons/Notifications'
-import EventListener, { withOptions } from 'react-event-listener'
-import Tooltip from 'material-ui/Tooltip'
-import Typography from 'material-ui/Typography'
+import classNames from 'classnames'
+import { Map } from 'immutable'
+
+// - Material UI
+import SvgDehaze from '@material-ui/icons/Dehaze'
+import { grey, blue } from '@material-ui/core/colors'
+import Toolbar from '@material-ui/core/Toolbar'
+import IconButton from '@material-ui/core/IconButton'
+import Popover from '@material-ui/core/Popover'
+import AppBar from '@material-ui/core/AppBar'
+import MenuList from '@material-ui/core/MenuList'
+import MenuItem from '@material-ui/core/MenuItem'
+import Menu from '@material-ui/core/Menu'
+import Paper from '@material-ui/core/Paper'
+import Hidden from '@material-ui/core/Hidden'
+import NotificationsIcon from '@material-ui/icons/Notifications'
+import Tooltip from '@material-ui/core/Tooltip'
+import Typography from '@material-ui/core/Typography'
 import { Manager, Target, Popper } from 'react-popper'
-import { withStyles } from 'material-ui/styles'
+import { withStyles } from '@material-ui/core/styles'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import config from 'src/config'
 
@@ -24,8 +30,8 @@ import UserAvatarComponent from 'components/userAvatar'
 import Notify from 'components/notify'
 
 // - Import actions
-import * as globalActions from 'actions/globalActions'
-import { authorizeActions } from 'actions'
+import * as globalActions from 'store/actions/globalActions'
+import { authorizeActions } from 'store/actions'
 import { IHomeHeaderComponentProps } from './IHomeHeaderComponentProps'
 import { IHomeHeaderComponentState } from './IHomeHeaderComponentState'
 
@@ -92,13 +98,8 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
 
   // On click toggle sidebar
   onToggleSidebar = () => {
-    if (this.props.sidebarStatus) {
-      this.props.sidebar!(false, 'onToggle')
-
-    } else {
-      this.props.sidebar!(true, 'onToggle')
-
-    }
+   const {onToggleDrawer} = this.props
+   onToggleDrawer()
   }
 
   /**
@@ -153,29 +154,19 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
     })
   }
 
-  handleKeyUp = () => {
-    // TODO: Handle key up on press ESC to close menu
-  }
-
   /**
    * Handle resize event for window to manipulate home header status
    * @param  {event} evt is the event is passed by winodw resize event
    */
   handleResize = (event: any) => {
-
+    const {drawerStatus} = this.props
     // Set initial state
     let width = window.innerWidth
 
-    if (width >= 600 && !this.state.showTitle) {
-      this.setState({
-        showTitle: true
-      })
+    if (width >= 600 && !drawerStatus) {
+      this.onToggleSidebar()
+    } else if (width < 600) {
 
-    } else if (width < 600 && this.state.showTitle) {
-
-      this.setState({
-        showTitle: false
-      })
     }
   }
 
@@ -185,16 +176,12 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
 
   // Render app DOM component
   render () {
-    const { classes , translate} = this.props
+    const { classes , translate, theme} = this.props
+    const anchor = theme.direction === 'rtl' ? 'right' : 'left'
     return (
 
       <AppBar position='fixed' color='secondary'>
         <Toolbar>
-          <EventListener
-            target='window'
-            onResize={this.handleResize}
-            onKeyUp={this.handleKeyUp}
-          />
           {/* Left side */}
 
           <IconButton onClick={this.onToggleSidebar} >
@@ -205,7 +192,9 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
             {config.settings.appName}
           </Typography>
           <div className='homeHeader__title-root'>
-            {this.state.showTitle ? <div className='homeHeader__title'>{this.props.title}</div> : ''}
+          <Hidden smDown>
+           <div className={classNames({'homeHeader__title-left': anchor === 'left', 'homeHeader__title-right': anchor === 'right' })}>{this.props.title}</div> 
+           </Hidden>
           </div>
 
           {/* Notification */}
@@ -270,21 +259,23 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IHomeHeaderComponentPr
 }
 
 // - Map state to props
-const mapStateToProps = (state: any, ownProps: IHomeHeaderComponentProps) => {
+const mapStateToProps = (state: Map<string,any>, ownProps: IHomeHeaderComponentProps) => {
 
-  let notifyCount = state.notify.userNotifies
-    ? Object
-      .keys(state.notify.userNotifies)
-      .filter((key) => !state.notify.userNotifies[key].isSeen).length
+  const uid = state.getIn(['authorize', 'uid'], 0)
+  const userNotifies: Map<string, any> = state.getIn(['notify','userNotifies'])
+  let notifyCount = userNotifies
+    ? userNotifies
+      .filter((notification) => !notification.get('isSeen', false)).count()
     : 0
+    const user = state.getIn(['user', 'info', uid], {})
   return {
-    translate: getTranslate(state.locale),
-    avatar: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].avatar : '',
-    fullName: state.user.info && state.user.info[state.authorize.uid] ? state.user.info[state.authorize.uid].fullName : '',
-    title: state.global.headerTitle,
+    translate: getTranslate(state.get('locale')),
+    avatar: user.avatar || '',
+    fullName: user.fullName || '',
+    title: state.getIn(['global', 'headerTitle'], ''),
     notifyCount
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(HomeHeaderComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(HomeHeaderComponent as any) as any)

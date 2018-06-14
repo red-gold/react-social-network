@@ -2,36 +2,38 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import List, {
-  ListItem,
-  ListItemIcon,
-  ListItemSecondaryAction,
-  ListItemText
-} from 'material-ui/List'
-import SvgGroup from 'material-ui-icons/GroupWork'
-import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui-icons/MoreVert'
-import TextField from 'material-ui/TextField'
-import { MenuList, MenuItem } from 'material-ui/Menu'
-import { withStyles } from 'material-ui/styles'
+import {Map, List as ImuList} from 'immutable'
+
+// - Material UI
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItem from '@material-ui/core/ListItem'
+import List from '@material-ui/core/List'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import SvgGroup from '@material-ui/icons/GroupWork'
+import IconButton from '@material-ui/core/IconButton'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import TextField from '@material-ui/core/TextField'
+import MenuList from '@material-ui/core/MenuList'
+import MenuItem from '@material-ui/core/MenuItem'
+import { withStyles } from '@material-ui/core/styles'
 import { Manager, Target, Popper } from 'react-popper'
-import Grow from 'material-ui/transitions/Grow'
-import ClickAwayListener from 'material-ui/utils/ClickAwayListener'
+import Grow from '@material-ui/core/Grow'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import classNames from 'classnames'
 import IconButtonElement from 'layouts/IconButtonElement'
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle
-} from 'material-ui/Dialog'
-import Divider from 'material-ui/Divider'
-import Button from 'material-ui/Button'
-import RaisedButton from 'material-ui/Button'
-import SvgClose from 'material-ui-icons/Close'
-import AppBar from 'material-ui/AppBar'
-import Paper from 'material-ui/Paper'
-import Collapse from 'material-ui/transitions/Collapse'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import Divider from '@material-ui/core/Divider'
+import Button from '@material-ui/core/Button'
+import RaisedButton from '@material-ui/core/Button'
+import SvgClose from '@material-ui/icons/Close'
+import AppBar from '@material-ui/core/AppBar'
+import Paper from '@material-ui/core/Paper'
+import Collapse from '@material-ui/core/Collapse'
 
 // - Import app components
 import UserAvatar from 'components/userAvatar'
@@ -39,7 +41,7 @@ import UserAvatar from 'components/userAvatar'
 // - Import API
 
 // - Import actions
-import * as circleActions from 'actions/circleActions'
+import * as circleActions from 'store/actions/circleActions'
 
 import { ICircleComponentProps } from './ICircleComponentProps'
 import { ICircleComponentState } from './ICircleComponentState'
@@ -61,6 +63,14 @@ const styles = (theme: any) => ({
   },
   dialogPaper: {
     minWidth: 400
+  },
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0,
+      overflowY: 'auto'
+    }
   }
 })
 
@@ -111,7 +121,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
       /**
        * Circle name on change
        */
-      circleName: this.props.circle.name,
+      circleName: this.props.circle.get('name', ''),
       /**
        * Save operation will be disable if user doesn't meet requirement
        */
@@ -202,9 +212,9 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
     let usersParsed: any = []
 
     if (usersOfCircle) {
-      Object.keys(usersOfCircle).forEach((userId, index) => {
-        const { fullName } = usersOfCircle[userId]
-        let avatar = usersOfCircle && usersOfCircle[userId] ? usersOfCircle[userId].avatar || '' : ''
+      usersOfCircle.forEach((user: Map<string, any>, userId) => {
+        const fullName = user.get('fullName')
+        let avatar = user.get('avatar', '')
         usersParsed.push(
           <ListItem
             button
@@ -295,9 +305,9 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           <ListItemIcon className={classes.icon}>
             <SvgGroup />
           </ListItemIcon>
-          <ListItemText inset primary={<span style={this.styles}>{this.props.circle.name}</span>} />
+          <ListItemText inset primary={<span style={this.styles as any}>{this.props.circle.get('name')}</span>} />
           <ListItemSecondaryAction>
-            {circle.isSystem ? null : rightIconMenu}
+            {circle.get('isSystem') ? null : rightIconMenu}
           </ListItemSecondaryAction>
         </ListItem>
         <Collapse component='li' in={this.state.open} timeout='auto' unmountOnExit>
@@ -306,6 +316,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           </List>
         </Collapse>
         <Dialog
+        PaperProps={{className: classes.fullPageXs}}
           key={this.props.id}
           open={this.props.openSetting!}
           onClose={this.props.closeCircleSettings}
@@ -354,30 +365,27 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICircleComponentProps) => {
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: ICircleComponentProps) => {
-  const { circle, authorize, server } = state
-  const { userTies } = circle
-  const { uid } = state.authorize
-  const circles: { [circleId: string]: Circle } = circle ? (circle.circleList || {}) : {}
-  const currentCircle = (circles ? circles[ownProps.id] : {}) as Circle
-  const circleId = ownProps.circle.id!
-  let usersOfCircle: { [userId: string]: UserTie } = {}
-  Object.keys(userTies).forEach((userTieId) => {
-    const theUserTie = userTies[userTieId] as UserTie
-    if (theUserTie.circleIdList!.indexOf(ownProps.id) > -1) {
-      usersOfCircle = {
-        ...usersOfCircle,
-        [userTieId]: theUserTie
-      }
+const mapStateToProps = (state: Map<string, any>, ownProps: ICircleComponentProps) => {
+  const userTies: Map<string, any> = state.getIn(['circle', 'userTies'])
+  const uid = state.getIn(['authorize', 'uid'])
+  const circles: Map<string, Map<string, any>> = state.getIn(['circle', 'circleList'], {})
+  const currentCircle: Map<string, any> = circles.get(ownProps.id, Map({}))
+  const circleId = ownProps.circle.get('id')
+  let usersOfCircle: Map<string, any> = Map({})
+  userTies.forEach((userTie , userTieId) => {
+    const theUserTie: Map<string, any> = userTie
+    const circleList: ImuList<string> = theUserTie.getIn(['circleIdList'])
+    if ( circleList.indexOf(ownProps.id) > -1) {
+      usersOfCircle =  usersOfCircle.set(userTieId!, theUserTie)
     }
   })
   return {
     usersOfCircle,
-    openSetting: (state.circle && state.circle.openSetting && state.circle.openSetting[circleId]) ? state.circle.openSetting[circleId] : false,
-    userInfo: state.user.info
+    openSetting: state.getIn(['circle', 'openSetting', circleId], false),
+    userInfo: state.getIn(['user', 'info'])
 
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CircleComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(CircleComponent as any) as any)

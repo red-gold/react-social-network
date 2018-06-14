@@ -3,42 +3,56 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import moment from 'moment/moment'
+import DayPickerInput from 'react-day-picker/DayPickerInput'
+import MomentLocaleUtils, {
+  formatDate,
+  parseDate,
+} from 'react-day-picker/moment'
+import {Map} from 'immutable'
 
-import { grey } from 'material-ui/colors'
-import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui-icons/MoreVert'
-import SvgCamera from 'material-ui-icons/PhotoCamera'
-import List, { ListItem, ListItemIcon, ListItemText } from 'material-ui/List'
-import Menu, { MenuList, MenuItem } from 'material-ui/Menu'
-import Button from 'material-ui/Button'
-import RaisedButton from 'material-ui/Button'
+import { grey } from '@material-ui/core/colors'
+import IconButton from '@material-ui/core/IconButton'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import SvgCamera from '@material-ui/icons/PhotoCamera'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItem from '@material-ui/core/ListItem'
+import List from '@material-ui/core/List'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import MenuList from '@material-ui/core/MenuList'
+import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@material-ui/core/Button'
+import RaisedButton from '@material-ui/core/Button'
 import EventListener, { withOptions } from 'react-event-listener'
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle
-} from 'material-ui/Dialog'
-import Divider from 'material-ui/Divider'
-import Paper from 'material-ui/Paper'
-import TextField from 'material-ui/TextField'
-import Input, { InputLabel } from 'material-ui/Input'
-import { FormControl, FormHelperText } from 'material-ui/Form'
-import { withStyles } from 'material-ui/styles'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import Divider from '@material-ui/core/Divider'
+import Paper from '@material-ui/core/Paper'
+import TextField from '@material-ui/core/TextField'
+import Input from '@material-ui/core/Input'
+import InputLabel from '@material-ui/core/InputLabel'
+import  FormHelperText from '@material-ui/core/FormHelperText'
+import FormControl from '@material-ui/core/FormControl'
+import { withStyles } from '@material-ui/core/styles'
 
 // - Import app components
 import ImgCover from 'components/imgCover'
 import UserAvatarComponent from 'components/userAvatar'
 import ImageGallery from 'components/imageGallery'
 import AppDialogTitle from 'layouts/dialogTitle'
+import AppInput from 'layouts/appInput'
 
 // - Import API
 import FileAPI from 'api/FileAPI'
 
 // - Import actions
-import * as userActions from 'actions/userActions'
-import * as globalActions from 'actions/globalActions'
-import * as imageGalleryActions from 'actions/imageGalleryActions'
+import * as userActions from 'store/actions/userActions'
+import * as globalActions from 'store/actions/globalActions'
+import * as imageGalleryActions from 'store/actions/imageGalleryActions'
 
 import { IEditProfileComponentProps } from './IEditProfileComponentProps'
 import { IEditProfileComponentState } from './IEditProfileComponentState'
@@ -47,6 +61,48 @@ import { Profile } from 'core/domain/users'
 const styles = (theme: any) => ({
   dialogTitle: {
     padding: 0
+  },
+  dialogContentRoot: {
+    maxHeight: 400,
+    minWidth: 330,
+    [theme.breakpoints.down('xs')]: {
+      maxHeight: '100%',
+    }
+
+  },
+  fullPageXs: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      height: '100%',
+      margin: 0
+    }
+  },
+  fixedDownStickyXS: {
+    [theme.breakpoints.down('xs')]: {
+      position: 'fixed',
+      bottom: 0,
+      right: 0,
+      background: 'white',
+      width: '100%'
+    }
+  },
+  bottomPaperSpace: {
+    height: 16,
+    [theme.breakpoints.down('xs')]: {
+      height: 90
+    }
+  },
+  box: {
+    padding: '0px 24px 0px',
+    display: 'flex'
+
+  },
+  bottomTextSpace: {
+    marginBottom: 15
+  },
+  dayPicker: {
+    width: '100%',
+    padding: '13px 0px 8px'
   }
 })
 
@@ -100,11 +156,6 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
     updateButton: {
       marginLeft: '10px'
     },
-    box: {
-      padding: '0px 24px 20px 24px',
-      display: 'flex'
-
-    },
     dialogGallery: {
       width: '',
       maxWidth: '530px',
@@ -156,7 +207,27 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
       /**
        * It's true if the image gallery for avatar is open
        */
-      openAvatar: false
+      openAvatar: false,
+      /**
+       * Default birth day
+       */
+      defaultBirthday: (props.info && props.info.birthday) ? moment.unix(props.info!.birthday!).toDate() : '',
+      /**
+       * Seleted birth day
+       */
+      selectedBirthday: 0,
+      /**
+       * Web URL
+       */
+      webUrl: (props.info && props.info.webUrl) ? props.info.webUrl : '',
+      /**
+       * User company name
+       */
+      companyName: (props.info && props.info.companyName) ? props.info.companyName : '',
+      /**
+       * User twitter id
+       */
+      twitterId: (props.info && props.info.twitterId) ? props.info.twitterId : ''
 
     }
 
@@ -228,9 +299,10 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
    * @memberof EditProfile
    */
   handleUpdate = () => {
-    const { fullNameInput, tagLineInput, avatar, banner } = this.state
+    const { fullNameInput, tagLineInput, avatar, banner, selectedBirthday, companyName, webUrl, twitterId } = this.state
+    const { info, update } = this.props
 
-    if (this.state.fullNameInput.trim() === '') {
+    if (fullNameInput.trim() === '') {
       this.setState({
         fullNameInputError: 'This field is required'
       })
@@ -239,12 +311,16 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
         fullNameInputError: ''
       })
 
-      this.props.update!({
+      update!({
         fullName: fullNameInput,
         tagLine: tagLineInput,
         avatar: avatar,
         banner: banner,
-        creationDate: this.props.info!.creationDate
+        companyName: companyName,
+        webUrl: webUrl,
+        twitterId: twitterId,
+        creationDate: this.props.info!.creationDate,
+        birthday: selectedBirthday > 0 ? selectedBirthday : ((info && info.birthday) ? info!.birthday! : 0)
       })
     }
   }
@@ -283,6 +359,13 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
     }
   }
 
+  /**
+   * Handle birthday date changed
+   */
+  handleBirthdayDateChange = (date: any) => {
+    this.setState({ selectedBirthday: moment(date).unix() })
+  }
+
   componentDidMount() {
     this.handleResize(null)
   }
@@ -293,7 +376,8 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
    */
   render() {
 
-    const { classes, translate } = this.props
+    const { classes, translate, currentLanguage } = this.props
+    const { defaultBirthday, webUrl, twitterId, companyName } = this.state
     const iconButtonElement = (
       <IconButton style={this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton}>
         <MoreVertIcon style={{ ...(this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton), color: grey[400] }} viewBox='10 0 24 24' />
@@ -314,12 +398,13 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
       <div>
         {/* Edit profile dialog */}
         <Dialog
+          PaperProps={{ className: classes.fullPageXs }}
           key='Edit-Profile'
           open={this.props.open!}
           onClose={this.props.onRequestClose}
           maxWidth='sm'
         >
-          <DialogContent>
+          <DialogContent className={classes.dialogContentRoot}>
             {/* Banner */}
             <div style={{ position: 'relative' }}>
               <ImgCover width='100%' height='250px' borderRadius='2px' fileName={this.state.banner} />
@@ -354,40 +439,88 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
             {/* Edit user information box*/}
             <Paper style={this.styles.paper} elevation={1}>
               <div style={this.styles.title as any}>{translate!('profile.personalInformationLabel')}</div>
-              <div style={this.styles.box}>
-                <FormControl aria-describedby='fullNameInputError'>
+              <div className={classes.box}>
+                <FormControl fullWidth aria-describedby='fullNameInputError'>
                   <InputLabel htmlFor='fullNameInput'>{translate!('profile.fullName')}</InputLabel>
                   <Input id='fullNameInput'
                     onChange={this.handleInputChange}
                     name='fullNameInput'
-                    value={this.state.fullNameInput} />
+                    value={this.state.fullNameInput}
+                  />
                   <FormHelperText id='fullNameInputError'>{this.state.fullNameInputError}</FormHelperText>
                 </FormControl>
               </div>
-              <br />
-              <div style={this.styles.box}>
-                <FormControl aria-describedby='tagLineInputError'>
+              <div className={classes.box}>
+                <FormControl fullWidth aria-describedby='tagLineInputError'>
                   <InputLabel htmlFor='tagLineInput'>{translate!('profile.tagline')}</InputLabel>
                   <Input id='tagLineInput'
                     onChange={this.handleInputChange}
                     name='tagLineInput'
-                    value={this.state.tagLineInput} />
+                    value={this.state.tagLineInput}
+                  />
                   <FormHelperText id='tagLineInputError'>{this.state.fullNameInputError}</FormHelperText>
                 </FormControl>
+              </div>
+              <div className={classes.box}>
+                <TextField
+                  className={classes.bottomTextSpace}
+                  onChange={this.handleInputChange}
+                  name='companyName'
+                  value={companyName}
+                  label={translate!('profile.companyName')}
+                  fullWidth
+                />
+              </div>
+              <div className={classes.box}>
+                <TextField
+                  className={classes.bottomTextSpace}
+                  onChange={this.handleInputChange}
+                  name='twitterId'
+                  value={twitterId}
+                  label={translate!('profile.twitterId')}
+                  fullWidth
+                />
+              </div>
+              <div className={classes.box}>
+                <TextField
+                  className={classes.bottomTextSpace}
+                  onChange={this.handleInputChange}
+                  name='webUrl'
+                  value={webUrl}
+                  label={translate!('profile.webUrl')}
+                  fullWidth
+                />
+              </div>
+              <div className={classes.box}>
+              <DayPickerInput
+              classNames={{ container: classes.dayPicker, overlay: '' }}
+                value={defaultBirthday}
+                onDayChange={this.handleBirthdayDateChange}
+                formatDate={formatDate}
+                parseDate={parseDate}
+                component={AppInput}
+                format='LL'
+                placeholder={`${moment().format('LL')}`}
+                dayPickerProps={{
+                  locale: currentLanguage,
+                  localeUtils: MomentLocaleUtils,
+                }}
+              />
               </div>
               <br />
 
             </Paper>
-            <div style={{ height: '16px' }}></div>
+            <div className={classes.bottomPaperSpace}></div>
           </DialogContent>
-            <DialogActions>
-                <Button onClick={this.props.onRequestClose} > {translate!('profile.cancelButton')} </Button>
-                <Button variant='raised' color='primary' onClick={this.handleUpdate} style={this.styles.updateButton}> {translate!('profile.updateButton')} </Button>
-              </DialogActions>
+          <DialogActions className={classes.fixedDownStickyXS}>
+            <Button onClick={this.props.onRequestClose} > {translate!('profile.cancelButton')} </Button>
+            <Button variant='raised' color='primary' onClick={this.handleUpdate} style={this.styles.updateButton}> {translate!('profile.updateButton')} </Button>
+          </DialogActions>
         </Dialog>
 
         {/* Image gallery for banner*/}
         <Dialog
+          PaperProps={{ className: classes.fullPageXs }}
           open={this.state.openBanner}
           onClose={this.handleCloseBannerGallery}
 
@@ -400,6 +533,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
 
         {/* Image gallery for avatar */}
         <Dialog
+          PaperProps={{ className: classes.fullPageXs }}
           open={this.state.openAvatar}
           onClose={this.handleCloseAvatarGallery}
         >
@@ -434,15 +568,17 @@ const mapDispatchToProps = (dispatch: any, ownProps: IEditProfileComponentProps)
  * @param  {object} ownProps is the props belong to component
  * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: IEditProfileComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: IEditProfileComponentProps) => {
+  const uid = state.getIn(['authorize', 'uid'])
   return {
-    translate: getTranslate(state.locale),
-    open: state.user.openEditProfile,
-    info: state.user.info[state.authorize.uid],
-    avatarURL: state.imageGallery.imageURLList
+    currentLanguage: getActiveLanguage(state.get('locale')).code,
+    translate: getTranslate(state.get('locale')),
+    open: state.getIn(['user', 'openEditProfile'], false),
+    info: state.getIn(['user', 'info', uid]),
+    avatarURL: state.getIn(['imageGallery', 'imageURLList'])
 
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EditProfileComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(EditProfileComponent as any) as any)

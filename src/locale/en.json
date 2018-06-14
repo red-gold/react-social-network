@@ -30,7 +30,11 @@
         "postButton": "POST",
         "cancelButton": "CANCEL",
         "updateButton": "UPDATE",
-        "copyLinkButton": "Copy Link"
+        "copyLinkButton": "Copy Link",
+        "facebookButton": "Share in Facebook",
+        "twitterButton": "Share in Twitter",
+        "linkedinButton": "Share in Linkedin",
+        "googlePlusButton": "Share in Google+"
 
     },
     "imageGallery": {
@@ -56,6 +60,10 @@
         "updateButton": "UPDATE",
         "fullName": "Full Name",
         "tagline": "Tagline",
+        "birthday": "Birthday",
+        "companyName": "Company Name",
+        "twitterId": "Twitter",
+        "webUrl": "Web address",
         "personalInformationLabel": "Personal Information",
         "headPostsLabel": "${userName}'s posts",
         "nothingSharedLabel": " Nothing shared",
