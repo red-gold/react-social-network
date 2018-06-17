@@ -49,7 +49,7 @@ import CommentGroup from 'components/commentGroup'
 import ShareDialog from 'components/shareDialog'
 import PostWrite from 'components/postWrite'
 import Img from 'components/img'
-import IconButtonElement from 'layouts/iconButtonElement'
+import IconButtonElement from 'layouts/IconButtonElement'
 import UserAvatar from 'components/userAvatar'
 
 // - Import actions
