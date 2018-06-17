@@ -32,7 +32,7 @@
     "copy-to-clipboard": "^3.0.8",
     "crypto-js": "^3.1.9-1",
     "faker": "^4.1.0",
-    "firebase": "^5.0.4",
+    "firebase": "^4.11.0",
     "immutable": "^3.8.2",
     "install": "^0.10.2",
     "inversify": "^4.6.0",
