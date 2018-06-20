@@ -13,7 +13,9 @@
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "deploy:firebase": "npm run build && firebase deploy"
+    "deploy:firebase": "npm run build && firebase deploy",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "Amir Movahedi",
   "license": "MIT",
@@ -72,7 +74,8 @@
     "reflect-metadata": "^0.1.10",
     "save": "^2.3.0",
     "typeface-roboto": "0.0.50",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "snyk": "^1.83.0"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.3",
@@ -124,5 +127,6 @@
   ],
   "bugs": {
     "url": "https://github.com/Qolzam/react-social-network/issues"
-  }
+  },
+  "snyk": true
 }
