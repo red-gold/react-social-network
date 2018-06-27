@@ -75,7 +75,7 @@
     "save": "^2.3.0",
     "typeface-roboto": "0.0.50",
     "uuid": "^3.0.1",
-    "snyk": "^1.83.0"
+    "snyk": "^1.85.0"
   },
   "devDependencies": {
     "@types/classnames": "^2.2.3",
