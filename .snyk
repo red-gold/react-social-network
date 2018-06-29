@@ -1,0 +1,89 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.12.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  'npm:hoek:20180212':
+    - npm > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - node-sass-chokidar > node-sass > request > hawk > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - node-sass-chokidar > node-sass > request > hawk > sntp > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - node-sass-chokidar > node-sass > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > node-gyp > request > hawk > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - node-sass-chokidar > node-sass > request > hawk > boom > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-20T11:28:44.870Z'
+    - npm > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - node-sass-chokidar > node-sass > request > hawk > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - node-sass-chokidar > node-sass > request > hawk > sntp > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - node-sass-chokidar > node-sass > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - npm > node-gyp > request > hawk > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - npm > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - node-sass-chokidar > node-sass > request > hawk > boom > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - npm > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-06-27T02:25:12.851Z'
+  'npm:tunnel-agent:20170305':
+    - node-sass-chokidar > node-sass > request > tunnel-agent:
+        patched: '2018-06-27T02:25:12.851Z'

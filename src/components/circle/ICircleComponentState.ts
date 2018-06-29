@@ -26,7 +26,7 @@ export interface ICircleComponentState {
   disabledSave: boolean
 
   /**
-   * Whether circle menu is open
+   * Keep menu anchor
    */
-  isMenuOpen: boolean
+  anchorElMenu: any
 }

@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import {Map, List as ImuList} from 'immutable'
+import { Map, List as ImuList } from 'immutable'
 
 // - Material UI
 import ListItemText from '@material-ui/core/ListItemText'
@@ -21,7 +21,7 @@ import { Manager, Target, Popper } from 'react-popper'
 import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import classNames from 'classnames'
-import IconButtonElement from 'layouts/iconButtonElement'
+import IconButtonElement from 'layouts/IconButtonElement'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -34,6 +34,7 @@ import SvgClose from '@material-ui/icons/Close'
 import AppBar from '@material-ui/core/AppBar'
 import Paper from '@material-ui/core/Paper'
 import Collapse from '@material-ui/core/Collapse'
+import Popover from '@material-ui/core/Popover'
 
 // - Import app components
 import UserAvatar from 'components/userAvatar'
@@ -109,7 +110,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
    * Component constructor
    * @param  {object} props is an object properties of component
    */
-  constructor (props: ICircleComponentProps) {
+  constructor(props: ICircleComponentProps) {
     super(props)
 
     // Defaul state
@@ -128,9 +129,9 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
       disabledSave: false,
 
       /**
-       * Whether meu is open
+       * Keep menu anchor
        */
-      isMenuOpen: false
+      anchorElMenu: null
     }
 
     // Binding functions to `this`
@@ -153,22 +154,21 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
       disabledSave: (!value || value.trim() === '')
     })
   }
-
   /**
    * Handle close menu
    */
   handleCloseMenu = () => {
     this.setState({
-      isMenuOpen: false
+      anchorElMenu: null
     })
   }
 
   /**
    * Handle open menu
    */
-  handleOpenMenu = () => {
+  handleOpenMenu = (event: any) => {
     this.setState({
-      isMenuOpen: true
+      anchorElMenu: event.currentTarget
     })
   }
 
@@ -225,7 +225,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           >
             <UserAvatar fullName={fullName!} fileName={avatar} />
             <ListItemText inset primary={fullName} />
-            </ListItem>)
+          </ListItem>)
 
       })
       return usersParsed
@@ -236,43 +236,47 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
    * Reneder component DOM
    * @return {react element} return the DOM which rendered by component
    */
-  render () {
+  render() {
 
     const { circle, classes } = this.props
-    const { isMenuOpen } = this.state
+    const { anchorElMenu } = this.state
     /**
      * Right icon menue of circle
      *
      */
     // tslint:disable-next-line:member-ordering
     const rightIconMenu = (
-      <Manager>
-        <Target>
-          <IconButton
-            aria-owns={isMenuOpen! ? 'circle-menu' : ''}
-            aria-haspopup='true'
-            onClick={this.handleOpenMenu}
-          >
-            <MoreVertIcon />
-          </IconButton>
-        </Target>
-        <Popper
-          placement='bottom-start'
-          eventsEnabled={isMenuOpen}
-          className={classNames({ [classes.popperClose]: !isMenuOpen }, { [classes.popperOpen]: isMenuOpen })}
+      <div>
+
+        <IconButton
+          aria-owns={anchorElMenu! ? 'circle-menu' : ''}
+          aria-haspopup='true'
+          onClick={this.handleOpenMenu}
         >
-          <ClickAwayListener onClickAway={this.handleCloseMenu}>
-            <Grow in={isMenuOpen} >
-              <Paper>
-                <MenuList role='menu'>
-                  <MenuItem onClick={this.handleDeleteCircle} > Delete circle </MenuItem>
-                  <MenuItem onClick={this.props.openCircleSettings}> Circle settings </MenuItem>
-                </MenuList>
-              </Paper>
-            </Grow>
-          </ClickAwayListener>
-        </Popper>
-      </Manager>
+          <MoreVertIcon />
+        </IconButton>
+
+        <Popover
+          id='current-user-menu-root'
+          anchorEl={anchorElMenu}
+          open={Boolean(anchorElMenu)}
+          onClose={this.handleCloseMenu}
+          PaperProps={{
+            style: {
+              maxHeight: 200 * 4.5,
+              boxShadow: '0 1px 4px 0 rgba(0,0,0,0.14)',
+
+            },
+          }}
+        >
+          <Paper>
+            <MenuList role='menu'>
+              <MenuItem onClick={this.handleDeleteCircle} > Delete Circle </MenuItem>
+              <MenuItem onClick={this.props.openCircleSettings}> Setting </MenuItem>
+            </MenuList>
+          </Paper>
+        </Popover>
+      </div>
     )
 
     const circleTitle = (
@@ -296,7 +300,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
       </div>
     )
     return (
-    <div>
+      <div>
         <ListItem
           className={classes.root}
           key={this.props.id + '-CircleComponent'}
@@ -312,11 +316,11 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
         </ListItem>
         <Collapse component='li' in={this.state.open} timeout='auto' unmountOnExit>
           <List disablePadding>
-          {this.userList()}
+            {this.userList()}
           </List>
         </Collapse>
         <Dialog
-        PaperProps={{className: classes.fullPageXs}}
+          PaperProps={{ className: classes.fullPageXs }}
           key={this.props.id}
           open={this.props.openSetting!}
           onClose={this.props.closeCircleSettings}
@@ -327,7 +331,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           <DialogTitle >{circleTitle}</DialogTitle>
           <DialogContent>
             <TextField
-            fullWidth
+              fullWidth
               autoFocus
               placeholder='Circle name'
               label='Circle name'
@@ -336,7 +340,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
             />
           </DialogContent>
         </Dialog>
-        </div>
+      </div>
     )
   }
 }
@@ -372,11 +376,11 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ICircleComponentProp
   const currentCircle: Map<string, any> = circles.get(ownProps.id, Map({}))
   const circleId = ownProps.circle.get('id')
   let usersOfCircle: Map<string, any> = Map({})
-  userTies.forEach((userTie , userTieId) => {
+  userTies.forEach((userTie, userTieId) => {
     const theUserTie: Map<string, any> = userTie
     const circleList: ImuList<string> = theUserTie.getIn(['circleIdList'])
-    if ( circleList.indexOf(ownProps.id) > -1) {
-      usersOfCircle =  usersOfCircle.set(userTieId!, theUserTie)
+    if (circleList.indexOf(ownProps.id) > -1) {
+      usersOfCircle = usersOfCircle.set(userTieId!, theUserTie)
     }
   })
   return {
