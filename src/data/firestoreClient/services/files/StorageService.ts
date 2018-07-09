@@ -6,26 +6,32 @@ import { injectable } from 'inversify'
 @injectable()
 export class StorageService implements IStorageService {
 
-    /**
-     * Upload image on the server
-     * @param {file} file
-     * @param {string} fileName
-     */
+  /**
+   * Upload image on the server
+   * @param {file} file
+   * @param {string} fileName
+   */
   public uploadFile = (file: any, fileName: string, progress: (percentage: number, status: boolean) => void) => {
 
     return new Promise<FileResult>((resolve, reject) => {
-                    // Create a storage refrence
+      // Create a storage refrence
       let storegeFile = storageRef.child(`images/${fileName}`)
 
-            // Upload file
+      // Upload file
       let task = storegeFile.put(file)
       task.then((result) => {
-        resolve(new FileResult(result.downloadURL!,result.metadata.fullPath))
+        result.ref.getDownloadURL()
+          .then((downloadURL) => {
+            resolve(new FileResult(downloadURL, result.metadata.fullPath))
+          })
+          .catch((error) => {
+            reject(error)
+          })
       }).catch((error) => {
         reject(error)
       })
 
-                    // Upload storage bar
+      // Upload storage bar
       task.on('state_changed', (snapshot: any) => {
         let percentage: number = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         progress(percentage, true)
