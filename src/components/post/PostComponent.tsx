@@ -343,7 +343,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
    * @return {react element} return the DOM which rendered by component
    */
   render () {
-    const { post, setHomeTitle, goTo, fullName, isPostOwner, commentList, avatar, classes , translate} = this.props
+    const { post, setHomeTitle, goTo, fullName, isPostOwner, commentList, classes , translate} = this.props
     const { postMenuAnchorEl, isPostMenuOpen } = this.state
     const rightIconMenu = (
       <Manager>
@@ -399,9 +399,9 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
     return (
       <Card key={`post-component-${id}`}>
         <CardHeader
-          title={<NavLink to={`/${ownerUserId}`}>{ownerDisplayName}</NavLink>}
+          title={<NavLink to={`/${ownerUserId}`}>{post.get('ownerDisplayName')}</NavLink>}
           subheader={creationDate ? moment.unix(creationDate!).fromNow() + ' | ' + translate!('post.public') : <LinearProgress color='primary' />}
-          avatar={<NavLink to={`/${ownerUserId}`}><UserAvatar fullName={fullName!} fileName={avatar!} size={36} /></NavLink>}
+          avatar={<NavLink to={`/${ownerUserId}`}><UserAvatar fullName={post.get('ownerDisplayName')} fileName={post.get('ownerAvatar')} size={36} /></NavLink>}
           action={isPostOwner ? rightIconMenu : ''}
         >
         </CardHeader>
