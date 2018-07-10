@@ -62,7 +62,6 @@ import { IPostComponentState } from './IPostComponentState'
 
 const styles = (theme: any) => ({
   iconButton: {
-    width: 27,
     marginLeft: 5
   },
   vote: {
