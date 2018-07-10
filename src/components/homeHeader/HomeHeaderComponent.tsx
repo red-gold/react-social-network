@@ -270,8 +270,8 @@ const mapStateToProps = (state: Map<string,any>, ownProps: IHomeHeaderComponentP
     const user = state.getIn(['user', 'info', uid], {})
   return {
     translate: getTranslate(state.get('locale')),
-    avatar: user.avatar || '',
-    fullName: user.fullName || '',
+    avatar: user ? user.avatar : '',
+    fullName: user ? user.fullName : '',
     title: state.getIn(['global', 'headerTitle'], ''),
     notifyCount
   }

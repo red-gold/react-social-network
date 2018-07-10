@@ -392,8 +392,8 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ICommentGroupCompone
     translate: getTranslate(state.get('locale')),
     commentsRequestStatus : commentsRequestStatus ? commentsRequestStatus.status : ServerRequestStatusType.NoAction,
     commentSlides,
-    avatar: user.avatar || '',
-    fullName: user.fullName || '',
+    avatar: user ? user.avatar : '',
+    fullName: user ? user.fullName : '',
     userInfo: state.getIn(['user', 'info'])
 
   }

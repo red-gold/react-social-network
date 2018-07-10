@@ -288,6 +288,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
               [classes[`contentShift-${anchor}`]]: drawerOpen,
             })}
           >
+          
             <HR enabled={loaded!} data={{ mergedPosts, loadDataStream, hasMorePosts }} />
           </main>
         </div>
