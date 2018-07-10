@@ -1,5 +1,5 @@
 // - Import react components
-import { firebaseRef, firebaseAuth, db } from 'data/firestoreClient'
+import { firebaseAuth, db } from 'data/firestoreClient'
 import _ from 'lodash'
 
 import { SocialError } from 'core/domain/common'

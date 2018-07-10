@@ -1,6 +1,6 @@
 // - Import react components
 import { datumString } from 'aws-sdk/clients/athena'
-import firebase, { firebaseRef, firebaseAuth, db } from 'data/firestoreClient'
+import firebase, {  firebaseAuth, db } from 'data/firestoreClient'
 import moment from 'moment/moment'
 
 import { SocialError } from 'core/domain/common'

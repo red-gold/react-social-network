@@ -1,5 +1,8 @@
-import firebase from 'firebase'
+import firebase from 'firebase/app'
 import 'firebase/firestore'
+import 'firebase/storage'
+import 'firebase/auth'
+import 'firebase/functions'
 import config from 'src/config'
 try {
   let firebaseConfig = {
@@ -30,7 +33,8 @@ export {
 }
 // - Database authorize
 export let firebaseAuth = firebase.auth
-export let firebaseRef = firebase.database().ref()
+export let functions = firebase.functions()
+// export let firebaseRef = firebase.database().ref()
 
 // - Firebase default
 export default firebase

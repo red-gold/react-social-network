@@ -1,5 +1,5 @@
 // - Import react components
-import { firebaseRef, firebaseAuth, db } from 'data/firestoreClient'
+import { firebaseAuth, db } from 'data/firestoreClient'
 
 import { SocialError, Feed } from 'core/domain/common'
 import { ICommonService } from 'core/services/common'

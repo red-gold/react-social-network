@@ -1,6 +1,6 @@
 import { FileResult } from 'models/files/fileResult'
 // - Import react components
-import { firebaseRef, firebaseAuth, storageRef, db } from 'data/firestoreClient'
+import { firebaseAuth, storageRef, db } from 'data/firestoreClient'
 
 import { SocialError } from 'core/domain/common'
 import { IImageGalleryService } from 'core/services/imageGallery'

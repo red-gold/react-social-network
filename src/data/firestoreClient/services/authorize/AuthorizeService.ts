@@ -1,7 +1,7 @@
 import { Profile } from 'core/domain/users'
 
 // - Import react components
-import { firebaseRef, firebaseAuth, db } from 'data/firestoreClient'
+import { firebaseAuth, db } from 'data/firestoreClient'
 
 import { IAuthorizeService } from 'core/services/authorize'
 import { User, UserProvider } from 'core/domain/users'

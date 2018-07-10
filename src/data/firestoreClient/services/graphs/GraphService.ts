@@ -1,5 +1,5 @@
 // - Import react components
-import firebase, { firebaseRef, firebaseAuth, db } from 'data/firestoreClient'
+import firebase, {  firebaseAuth, db } from 'data/firestoreClient'
 import { SocialError } from 'core/domain/common'
 import { Graph } from 'core/domain/graphs'
 import { IGraphService } from './IGraphService'
