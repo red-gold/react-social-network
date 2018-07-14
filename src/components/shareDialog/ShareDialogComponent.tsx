@@ -6,6 +6,7 @@ import SvgImage from '@material-ui/icons/Image'
 import { withStyles } from '@material-ui/core/styles'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import classNames from 'classnames'
+import {Map, List} from 'immutable'
 
 import {
   FacebookShareButton,
@@ -107,7 +108,8 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
                   onShareWindowClose={onClose}
                   url={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
                   quote={post.get('body')}
-                  hashtag={`#${post.getIn(['tags', 0], '')}`}>
+                  hashtag={post.get('tags', List<string>([])).count() > 0 ?  `#${post.getIn(['tags', 0], 'hashtag') }` : null}
+                  >
                   <MenuItem >
                     <ListItemIcon classes={{ root: classes.networkShare }}>
                       <FacebookIcon
