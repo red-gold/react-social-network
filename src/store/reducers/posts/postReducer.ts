@@ -2,7 +2,7 @@
 import moment from 'moment/moment'
 import _ from 'lodash'
 import { Reducer, Action } from 'redux'
-import { Map } from 'immutable'
+import { Map, fromJS } from 'immutable'
 
 // - Import action types
 import { PostActionType } from 'constants/postActionType'
@@ -53,7 +53,7 @@ export let postReducer = (state = Map(new PostState()), action: IPostAction) => 
 
     case PostActionType.ADD_POST:
       return state
-        .setIn(['userPosts', payload.uid, payload.post.id], Map(payload.post))
+        .setIn(['userPosts', payload.uid, payload.post.id], fromJS({...payload.post}))
 
     case PostActionType.UPDATE_POST: return updatePost(state, payload)
     case PostActionType.UPDATE_POST_COMMENTS: return updatePostComments(state, payload)

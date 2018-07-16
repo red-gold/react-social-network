@@ -189,9 +189,6 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IShareDialogComponentProps) => {
   return {
@@ -201,9 +198,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: IShareDialogComponentProps)
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IShareDialogComponentProps) => {
   return {

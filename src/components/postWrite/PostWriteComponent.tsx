@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
-import { Map } from 'immutable'
+import { Map, List as ImuList } from 'immutable'
 
 import { Card, CardActions, CardHeader, CardMedia, CardContent } from '@material-ui/core'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -254,7 +254,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
       }
     } else { // In edit status we pass post to update functions
      const updatedPost =  postModel!.set('body', postText)
-      .set('tags', tags)
+      .set('tags', ImuList(tags))
       .set('image', image)
       .set('imageFullPath', imageFullPath)
       .set('disableComments', disableComments)
