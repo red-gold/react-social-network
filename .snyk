@@ -84,6 +84,38 @@ patch:
         patched: '2018-06-27T02:25:12.851Z'
     - npm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
         patched: '2018-06-27T02:25:12.851Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - npm > node-gyp > request > hawk > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - npm > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - npm > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - npm > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - node-sass-chokidar > node-sass > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - npm > libcipm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > boom > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > sntp > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
+    - npm > npm-lifecycle > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2018-07-19T03:43:51.221Z'
   'npm:tunnel-agent:20170305':
     - node-sass-chokidar > node-sass > request > tunnel-agent:
         patched: '2018-06-27T02:25:12.851Z'
@@ -92,3 +124,5 @@ patch:
         patched: '2018-07-03T05:04:45.476Z'
     - npm > npm-audit-report > cli-table2 > lodash:
         patched: '2018-07-03T05:04:45.476Z'
+    - npm > cli-table2 > lodash:
+        patched: '2018-07-19T03:43:51.221Z'
