@@ -50,7 +50,7 @@ React Social Network正在发展基于redux-saga，但我们在 v0.5分支中保
 （如果您不熟悉Single Page Applications（SPA）的概念，请在阅读之前先到此处进行快速介绍。
 
 ## 中文的支持 🇨🇳🌏
-- 梁国辉
+- [梁国辉](https://github.com/HuyQLuong)
 
 
 
