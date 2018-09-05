@@ -10,7 +10,9 @@
 </h1>
 
 [![Gitter](https://badges.gitter.im/react-social-network/Lobby.svg)](https://gitter.im/react-social-network/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<br/>
 <a href="https://github.com/Qolzam/react-social-network/blob/next/README.cn.md">中文</a>
+<br/>
 The React Social Network is an open source project relying on [React](https://facebook.github.io/react/docs/hello-world.html) a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network. 
 The structure of this project give the ability to developer to develop their project on their own idea and environment.
 
