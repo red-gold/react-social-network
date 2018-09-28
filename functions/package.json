@@ -1,0 +1,48 @@
+{
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "author": "backend for react social network",
+  "version": "0.7.0",
+  "scripts": {
+    "serve": "npm run build && firebase serve --only functions",
+    "shell": "npm run build && firebase experimental:functions:shell",
+    "start": "npm run build",
+    "build": "webpack",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "./node_modules/.bin/mocha --reporter spec",
+    "set:config": "firebase functions:config:set gmail.email='amir.gholzam@live.com' gmail.password='password' recaptcha.secretkey='6LcO1EUUAAAAAHWS9Pdvj5SHCjkbNfStLPq8oVoT' phone.sourcenumber='+9891122698' plivo.authid='MAMGM1YJMLDD0MDC4MG' plivo.authtoken='ZjkzYjMfeOWJiYzUxZGRdsOTY4NDcyNmQwOTUy' setting.appname='React Social' setting.feedemail='amir.gholzam@live.com' algolia.app_id='JJGX9d5B11' algolia.api_key='30a1a30f3f281548ffe9e4f3206c96e2' algolia.search_key='db4fr9e0631f0f47bc2dba1dc7e0ea48'"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^1.7.0",
+    "@google-cloud/translate": "^1.1.0",
+    "@types/algoliasearch": "^3.27.5",
+    "@types/cors": "^2.8.4",
+    "algoliasearch": "^3.30.0",
+    "bcrypt": "^3.0.0",
+    "body-parser": "^1.18.3",
+    "child-process-promise": "^2.2.1",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "firebase-admin": "^5.13.1",
+    "firebase-functions": "^2.0.2",
+    "lodash": "^4.17.10",
+    "moment": "^2.22.2",
+    "nodemailer": "^4.6.7",
+    "plivo": "^4.0.1",
+    "request": "^2.87.0",
+    "superagent": "^3.8.3",
+    "tslint": "^5.11.0",
+    "webpack-cli": "^3.1.0"
+  },
+  "private": true,
+  "devDependencies": {
+    "fork-ts-checker-webpack-plugin": "^0.4.3",
+    "ts-loader": "^4.4.2",
+    "typescript": "^2.9.2",
+    "webpack": "^4.16.1",
+    "webpack-node-externals": "^1.7.2"
+  }
+}

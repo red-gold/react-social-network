@@ -1,0 +1,27 @@
+{
+    "indexes": [
+      {
+        "collectionId": "comments",
+        "fields": [
+          { "fieldPath": "postId", "mode": "ASCENDING" },
+          { "fieldPath": "creationDate", "mode": "DESCENDING" }
+        ]
+      },
+      {
+        "collectionId": "posts",
+        "fields": [
+          { "fieldPath": "ownerUserId", "mode": "ASCENDING" },
+          { "fieldPath": "id", "mode": "ASCENDING" },
+          { "fieldPath": "creationDate", "mode": "DESCENDING" }
+        ]
+      },
+      {
+        "collectionId": "userInfo",
+        "fields": [
+          { "fieldPath": "state", "mode": "ASCENDING" },
+          { "fieldPath": "id", "mode": "ASCENDING" },
+          { "fieldPath": "creationDate", "mode": "DESCENDING" }
+        ]
+      }
+    ]
+  }

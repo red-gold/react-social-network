@@ -1,0 +1,169 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+     match /users/{userId}/circles/{circleId} {
+      allow read, write: if allAuthed(userId);
+    }
+     match /users/{userId}/videos/{circleId} {
+      allow read, write: if allAuthed(userId);
+    }
+    match /users/{userId}/videos/{videoId} {
+      allow read, write: if allAuthed(userId);
+    }
+    match /users/{userId}/images/{imageId} {
+      allow read, write: if true //allAuthed(userId);
+    }
+    match /album/{albumId}/photos/{photoId} {
+      allow read, write: if true //allAuthed(incomingData().ownerUserId);
+    }
+    match /album/{albumId}{
+      allow read, write: if true //allAuthed(incomingData().ownerUserId);
+    }
+    match /userSetting/{userId} {
+      allow read, write: if allAuthed(userId);
+    }
+    match /users/{userId}/notifications/{notifyId} {
+      allow read: if allAuthed(userId) ;
+      allow create: if isAdmin() ;
+      allow update: if allAuthed(userId) ;
+      allow delete: if allAuthed(userId) ;
+    }
+    match /verification/{userId} {
+      allow read, write: if isAdmin();
+    }
+    match /protectedUser/{userId} {
+      allow read, write: if isAdmin();
+    }
+    match /userInfo/{userId} {
+      allow read: if isAuthed();
+      allow write: if allAuthed(userId) && incomingData().userId == userId;
+    }
+    match /posts/{postId} {
+      allow read: if hasPermission() || isAdmin();
+      //allow create: if isAuthed() ;
+      allow create: if incomingData().ownerUserId == request.auth.uid || isAdmin() ;
+      allow update: if existingData().ownerUserId == request.auth.uid || isAdmin() ;
+      allow delete: if existingData().ownerUserId == request.auth.uid || isAdmin() ;
+    }
+    match /posts/{postId}/votes/{voteId} {
+      allow read: if isAdmin();
+      allow create: if incomingData().userId == request.auth.uid || isAdmin() ;
+      allow update: if existingData().userId == request.auth.uid || isAdmin() ;
+      allow delete: if existingData().userId == request.auth.uid || isAdmin();
+    }
+    match /graphs:users/{nodeId}{
+      allow read: if existingData().leftNode == request.auth.uid
+      || existingData().rightNode == request.auth.uid || isAdmin();
+      allow create: if incomingData().leftNode == request.auth.uid || isAdmin() ;
+      allow update: if existingData().leftNode == request.auth.uid || isAdmin() ;
+      allow delete: if existingData().leftNode == request.auth.uid || isAdmin();
+    }
+     match /feeds/{feedId}{
+      allow read: if isAdmin();
+      allow create: if incomingData().user.userId == request.auth.uid || isAdmin() ; 
+      allow update: if (existingData().user.userId == request.auth.uid 
+      && incomingData().user.userId == request.auth.uid 
+      )|| isAdmin() ;
+      allow delete: if existingData().user.userId == request.auth.uid || isAdmin();
+    }
+    match /comments/{commentId}{
+      allow read: if isAuthed();
+      allow create: if incomingData().userId == request.auth.uid || isAdmin() ; 
+      allow update: if canUpdateComment() || isAdmin() ;
+      allow delete: if get(/databases/$(database)/documents/posts/$(existingData().postId)).data.ownerUserId == request.auth.uid 
+      || isAdmin()
+      || existingData().userId == request.auth.uid;
+    }
+     match /chatroom/{roomId}{
+      allow read: if request.auth.uid in existingData().connections
+      || isAdmin();
+      allow create: if request.auth.uid in incomingData().connections
+      || isAdmin();
+      allow update: if (request.auth.uid in incomingData().connections
+      && request.auth.uid in existingData().connections)
+      || isAdmin();
+      allow delete: if request.auth.uid in existingData().connections
+      || isAdmin();
+    }
+     match /chatroom/{roomId}/messages/{messageId}{
+      allow read: if request.auth.uid in get(/databases/$(database)/documents/chatroom/$(roomId)).data.connections
+      || isAdmin();
+      allow create: if request.auth.uid in get(/databases/$(database)/documents/chatroom/$(roomId)).data.connections
+      || isAdmin();
+      allow update: if request.auth.uid in get(/databases/$(database)/documents/chatroom/$(roomId)).data.connections
+      || isAdmin();
+      allow delete: if request.auth.uid in get(/databases/$(database)/documents/chatroom/$(roomId)).data.connections
+      || isAdmin();
+    }
+  }
+}
+
+// *** Comments ***
+// 
+// 
+// Return true if current user can update the commnet
+function canUpdateComment() {
+	return incomingData().userId == request.auth.uid && existingData().userId == request.auth.uid 
+}
+
+// *** Posts ***
+// 
+// 
+// Return true if user has access permission to the entity
+function hasPermission() {
+	return existingData().ownerUserId == request.auth.uid ||  existingData().permission == 'Public' || request.auth.uid in existingData().accessUserList
+}
+
+
+// *** Authorization ***
+// 
+// 
+// All authed accepted
+function allAuthed(userId) {
+	return isOwner(userId) || isAdmin();
+}
+
+
+// Returns true if the user is the owner of the file.
+function isOwner(uid) {
+  return request.auth.uid == uid;
+}
+
+// Returns true if the user is signed in.
+function isAuthed() {
+  return request.auth != null;
+}
+
+// Returns true if the user that initiated the request is an admin.
+function isAdmin() {
+  return request.auth.token != null && request.auth.token.admin == true;
+}
+
+// If user phone is verified
+function phoneVerified() {
+  return request.auth.token.phoneVerified;
+}
+
+// if user email is verified
+function emailVerified() {
+  return request.auth.token.email_verified;
+}
+
+// Returns existing data
+function existingData() {
+  return resource.data;
+}
+
+// Returns incoming data
+function incomingData() {
+  return request.resource.data;
+}
+
+// Get user information
+function getUserInfo(userId) {
+  return get(/databases/$(database)/documents/userInfo/$(userId));
+}
+
+// Get user information
+function getPost(postId) {
+  return get(/databases/$(database)/documents/posts/$(postId));
+}

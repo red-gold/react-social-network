@@ -1,0 +1,50 @@
+// Returns true if the uploaded file is an image and its size is below the given number of MB.
+function isImageBelowMaxSize(maxSizeMB) {
+  return request.resource.size < maxSizeMB * 1024 * 1024
+      && request.resource.contentType.matches('image/.*');
+}
+// Returns true if the uploaded file is an video and its size is below the given number of MB.
+function isVideoBelowMaxSize(maxSizeMB) {
+  return request.resource.size < maxSizeMB * 1024 * 1024
+      && request.resource.contentType.matches('video/.*');
+}
+
+// Returns true if the user that initiated the request is an admin.
+function isAdmin() {
+  return request.auth.token != null && request.auth.token.admin == true;
+}
+
+// Returns true if the resource is being deleted.
+function isResourceBeingDeleted() {
+  return request.resource == null;
+}
+
+// Returns true if the user is the owner of the file.
+function isOwner(uid) {
+  return request.auth.uid == uid;
+}
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /images/{userId}/{fileName} {
+      allow read;
+      allow write: if isAdmin() || isOwner(userId) && (isResourceBeingDeleted() || isImageBelowMaxSize(5));
+    }
+    match /videos/{userId}/{fileName} {
+      allow read;
+      allow write: if isAdmin() || isOwner(userId) && (isResourceBeingDeleted() || isVideoBelowMaxSize(20));
+    }
+    match /thumbnail/{userId}/{fileName} {
+      allow read;
+      allow write: if isAdmin() || isOwner(userId) && (isResourceBeingDeleted() || isImageBelowMaxSize(5));
+    }
+    match /avatar/{userId}/{fileName} {
+      allow read;
+      allow write: if isAdmin() || isOwner(userId) && (isResourceBeingDeleted() || isImageBelowMaxSize(5));
+    }
+   match /cover/{userId}/{fileName} {
+      allow read;
+      allow write: if isAdmin() || isOwner(userId) && (isResourceBeingDeleted() || isImageBelowMaxSize(5));
+    }
+  }
+}
