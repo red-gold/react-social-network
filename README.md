@@ -1,33 +1,33 @@
 <!-- Logo -->
 <p align="center">
-  <a href="https://github.com/Qolzam/react-social-network">
-    <img height="128" width="128" src="https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/logo.png">
+  <a href="https://github.com/red-gold/react-social-network">
+    <img height="128" width="128" src="https://raw.githubusercontent.com/red-gold/react-social-network/next/docs/app/logo.png">
   </a>
 </p>
 <!-- Name -->
 <h1 align="center">
-  <a href="https://github.com/Qolzam/react-social-network">React Social Network </a>:rocket:<span style="font-variant-caps: petite-caps;font-size: 30px;font-weight: 400;"> Version NEXT! </span>:rocket:
+  <a href="https://github.com/red-gold/react-social-network">React Social Network </a>:rocket:<span style="font-variant-caps: petite-caps;font-size: 30px;font-weight: 400;"> Version NEXT! </span>:rocket:
 </h1>
 
 [![Gitter](https://badges.gitter.im/react-social-network/Lobby.svg)](https://gitter.im/react-social-network/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 <br/>
-<a href="https://github.com/Qolzam/react-social-network/blob/next/README.cn.md">中文</a>
+<a href="https://github.com/red-gold/react-social-network/blob/next/README.cn.md">中文</a>
 <br/>
 The React Social Network is an open source project relying on [React](https://facebook.github.io/react/docs/hello-world.html) a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network. 
 The structure of this project give the ability to developer to develop their project on their own idea and environment.
 
 <p align="center">
   <a href="http://greensocial.herokuapp.com/">
-    <img src="https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/multi-device.png">
+    <img src="https://raw.githubusercontent.com/red-gold/react-social-network/next/docs/app/multi-device.png">
   </a>
 </p>
 
 ## 🌟New Upgrade :
-React Social Network is [moving on](https://github.com/Qolzam/react-social-network/issues/48) [redux-saga](https://redux-saga.js.org/) however we keep [redux-thunk](https://github.com/gaearon/redux-thunk) version of **React Social Network** in branch name `v0.5`. Any contribution would be greatly appreciated by :heart:.
+React Social Network is [moving on](https://github.com/red-gold/react-social-network/issues/48) [redux-saga](https://redux-saga.js.org/) however we keep [redux-thunk](https://github.com/gaearon/redux-thunk) version of **React Social Network** in branch name `v0.5`. Any contribution would be greatly appreciated by :heart:.
  
->You should consult the [CHANGELOG](https://github.com/Qolzam/react-social-network/blob/next/CHANGELOG.md) and related issues for more information
+>You should consult the [CHANGELOG](https://github.com/red-gold/react-social-network/blob/next/CHANGELOG.md) and related issues for more information
 
-This project adheres to the Contributor Covenant [code of conduct](https://github.com/Qolzam/react-social-network/blob/next/CODE_OF_CONDUCT.md).
+This project adheres to the Contributor Covenant [code of conduct](https://github.com/red-gold/react-social-network/blob/next/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report unacceptable behavior to amir.gholzam@live.com.
 
 ## Before Starting
@@ -82,7 +82,7 @@ and then install the package
 
 > You also have this [blog](https://medium.com/@qolzam/create-social-network-by-react-js-fe60010a32e6) which explain installation in details and for all level.
 
-1. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
+1. Fork the [react-social-network](https://github.com/red-gold/react-social-network) repository on Github
 1. Clone your fork to your local machine 
    ```bash
    git clone git@github.com:<yourname>/react-social-network.git
@@ -101,11 +101,11 @@ and then install the package
   ```
 1. Choose and install your backend before installing UI. React Network is able to be connected with every backend. Here we are developing some and you should choose one.
 
-    [![Firestore](https://raw.githubusercontent.com/Qolzam/react-social-network/next/docs/app/firestore2.png)](firebase.google.com/cloud/firestore)
+    [![Firestore](https://raw.githubusercontent.com/red-gold/react-social-network/next/docs/app/firestore2.png)](firebase.google.com/cloud/firestore)
     **Video tutorial**
     
     [![Install React Social Network](https://img.youtube.com/vi/zrqDE82Eny8/0.jpg)](https://www.youtube.com/watch?v=zrqDE82Eny8)
-    #### With [Firestore](https://github.com/Qolzam/firestore-social-backend)
+    #### With [Firestore](https://github.com/red-gold/firestore-social-backend)
       * Configure firebase:
         * If you don't have firebase account, follow [Create firebase account](https://firebase.google.com/)
         * Create Project open the [Firebase Console](https://console.firebase.google.com/) and create a new project.
@@ -133,20 +133,20 @@ and then install the package
 ### Structure
 New structure could make the project easy to change and scale up.
 There are three main layers:
- - [Core](https://github.com/Qolzam/react-social-network/tree/next/src/core) 
-   - [Domain](https://github.com/Qolzam/react-social-network/tree/next/src/core/domain)
-   - [Providing interface for data services](https://github.com/Qolzam/react-social-network/tree/next/src/core/services)
- - [Data](https://github.com/Qolzam/react-social-network/tree/next/src/data)
+ - [Core](https://github.com/red-gold/react-social-network/tree/next/src/core) 
+   - [Domain](https://github.com/red-gold/react-social-network/tree/next/src/core/domain)
+   - [Providing interface for data services](https://github.com/red-gold/react-social-network/tree/next/src/core/services)
+ - [Data](https://github.com/red-gold/react-social-network/tree/next/src/data)
   - This layer provide supporting variety of data platforms such as [Firebase](https://firebase.google.com/), [AWS](https://aws.amazon.com/), ... .
-    - [FirestoreClient](https://github.com/Qolzam/react-social-network/tree/next/src/data/firestoreClient)
+    - [FirestoreClient](https://github.com/red-gold/react-social-network/tree/next/src/data/firestoreClient)
     - AwsClient
     - AspNetClient
     - ...
- - [Components](https://github.com/Qolzam/react-social-network/tree/next/src/components)
+ - [Components](https://github.com/red-gold/react-social-network/tree/next/src/components)
   - This layer take care of user interface which on [React](https://reactjs.org) and in [react-mobile-social] on [React Native](https://facebook.github.io/react-native/). It means **the only thing change here among these three layers on mobile app, is component layer**.
 
 ### IOC Container
-  - Using [InversifyJS](http://inversify.io/) in project give us the ability to switch between custom dependencies easily. Specially for *data layer*, if you are the user working with [AWS](https://aws.amazon.com/) you only need to call `useAws()` or using [Firebase](https://firebase.google.com/) call `useFirestore()` in [SocialEngine](https://github.com/Qolzam/react-social-network/blob/next/src/socialEngine.ts#L20) file.
+  - Using [InversifyJS](http://inversify.io/) in project give us the ability to switch between custom dependencies easily. Specially for *data layer*, if you are the user working with [AWS](https://aws.amazon.com/) you only need to call `useAws()` or using [Firebase](https://firebase.google.com/) call `useFirestore()` in [SocialEngine](https://github.com/red-gold/react-social-network/blob/next/src/socialEngine.ts#L20) file.
 ### Features
   - We moved from custom webpack to [create-react-app](https://github.com/facebook/create-react-app).
   - Moving on [redux-saga](https://redux-saga.js.org/) managing async request and side effects.
@@ -154,27 +154,27 @@ There are three main layers:
   - Support Localization by [react-localize-redux](https://github.com/ryandrewjohnson/react-localize-redux). Providing this feature we support variety of languages. To contribute :heart: your language you are able to add your local language. You only need to edit `en.json` from `react-social-network` root project and `src/locale/en.json`. You should name your file according ISO 639-1 Language Codes. For example for Spanish you should name `es.json`. Which `es` is the standard code of Spanish language.
   - [InversifyJS](http://inversify.io/) as IOC container
   - Add auto compile on changing code for `webpack`
-  - Open browser on after compiling on `npm start`. You need to set `PORT=[PORT_NUMBER]` in [config file](https://github.com/Qolzam/react-social-network/blob/next/docs/app/configure/development.env).
+  - Open browser on after compiling on `npm start`. You need to set `PORT=[PORT_NUMBER]` in [config file](https://github.com/red-gold/react-social-network/blob/next/docs/app/configure/development.env).
   - Add reset password, confirm password and authorizing by GitHub, Google and Facebook.
   - Add scroll auto loading for show posts and people pages.
   - Using [Firestore](https://firebase.google.com/docs/firestore/)
   - Supportig `Right To Left`
   - Some cool stuff :)
 ## Can I connect React Social Network to other data platforms ? :bowtie:
-  Your server side is on `PHP`, `Java`,`ASP.NET`, `Python`, etc. Or you are using serverless platforms such as `Google Cloud`, `AWS`, `Azure`, etc. You can connect `React Social Network` to any data platform. You only need to implement the [interfaces of core services](https://github.com/Qolzam/react-social-network/tree/next/src/core/services) like implementation of [firestoreClient](https://github.com/Qolzam/react-social-network/tree/next/src/data/firestoreClient).
+  Your server side is on `PHP`, `Java`,`ASP.NET`, `Python`, etc. Or you are using serverless platforms such as `Google Cloud`, `AWS`, `Azure`, etc. You can connect `React Social Network` to any data platform. You only need to implement the [interfaces of core services](https://github.com/red-gold/react-social-network/tree/next/src/core/services) like implementation of [firestoreClient](https://github.com/red-gold/react-social-network/tree/next/src/data/firestoreClient).
   
   There are a summary steps of creating your own `dataClients`. We assume that we want to implement for `PHP` backend.
   
   * You need to know about [TypeScript](https://www.typescriptlang.org/samples/index.html) and implementing interfaces which I recommend take a look at [this article](https://www.typescriptlang.org/docs/handbook/interfaces.html).
   
-  * You can get help from other [dataClient](https://github.com/Qolzam/react-social-network/tree/next/src/data) implementation for your backend algorithm and also using [core domain](https://github.com/Qolzam/react-social-network/tree/next/src/core/domain) for the backend domain could be helpful.
+  * You can get help from other [dataClient](https://github.com/red-gold/react-social-network/tree/next/src/data) implementation for your backend algorithm and also using [core domain](https://github.com/red-gold/react-social-network/tree/next/src/core/domain) for the backend domain could be helpful.
   
-  1. Create a folder in [data layer](https://github.com/Qolzam/react-social-network/tree/next/src/data) name `phpClient`.
-  2. Create a folder in `/phpClient` folder name `services` then in `services` folder create some folders following [core/services folder](https://github.com/Qolzam/react-social-network/tree/next/src/core/services) such as `services/votes`, `services/posts` and etc.
+  1. Create a folder in [data layer](https://github.com/red-gold/react-social-network/tree/next/src/data) name `phpClient`.
+  2. Create a folder in `/phpClient` folder name `services` then in `services` folder create some folders following [core/services folder](https://github.com/red-gold/react-social-network/tree/next/src/core/services) such as `services/votes`, `services/posts` and etc.
   3. In each folder inside `/phpClient/services/*` folder you should implement following interfaces in `core/services/*` folder in file with appropriate name. For example we need to implement `IPostService` from `core/services/posts/IPostService.ts` in `data/phpClient/services/posts/PostService.ts` file.
   4. After implementing interfaces for services layer. We should register the dependencies for our `phpClient` services. Create a file in `phpClient` folder name `dependecyRegisterar.ts`.
   5. Following `firestoreClient` dependencies, add a function name `usePhp()` and bind dependencies in the the function. For example for `PostService` class add `container.bind<IPostService>(SocialProviderTypes.PostService).to(PostService)`. Here `SocialProviderTypes` has the identifier of each service. To learn more take a look at [inversify docs](http://inversify.io/).
-  6. Finally call registering dependencies function for in [socialEngine](https://github.com/Qolzam/react-social-network/blob/next/src/socialEngine.ts#L22) file.
+  6. Finally call registering dependencies function for in [socialEngine](https://github.com/red-gold/react-social-network/blob/next/src/socialEngine.ts#L22) file.
   7. Enjoy ;)
 
 > :heart_eyes: It also would be great if you could contribute your `clientData` and `backend` with us to be part of this contribution. We would appreciate any conntribution.:thumbsup:
@@ -208,23 +208,23 @@ There are three main layers:
 
 [React Social Network](https://love-social.firebaseapp.com) has been made by love:heart:. I planed to build a back-end for this project and improve the performance as I process all procedures on the front-end side. If you'd like to help,
 check out the [document](https://qolzam.gitbooks.io/react-social-network/).
-I'd greatly appreciate any [contribution](https://github.com/Qolzam/react-social-network/blob/next/CONTRIBUTING.md)
+I'd greatly appreciate any [contribution](https://github.com/red-gold/react-social-network/blob/next/CONTRIBUTING.md)
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/Qolzam/react-social-network/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/red-gold/react-social-network/tags). 
 
 ## Authors
 
   - Amir Movahedi
-  - See also the list of [contributors](https://github.com/Qolzam/react-social-network/contributors) who participated in this project.
+  - See also the list of [contributors](https://github.com/red-gold/react-social-network/contributors) who participated in this project.
 
 ## How To Support
-- [Contribution](https://github.com/Qolzam/react-social-network/blob/next/CONTRIBUTING.md)
+- [Contribution](https://github.com/red-gold/react-social-network/blob/next/CONTRIBUTING.md)
 - Fork || Star
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/Qolzam/react-social-network/blob/next/LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/red-gold/react-social-network/blob/next/LICENSE) file for details
 
 
 ## Acknowledgments
