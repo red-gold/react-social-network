@@ -191,4 +191,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISearchProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(searchStyles)(SearchComponent as any) as any)) as typeof SearchComponent
+const translateWrraper = translate('translations')(SearchComponent)
+
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(searchStyles)(translateWrraper as any) as any)) as typeof SearchComponent
