@@ -10,18 +10,12 @@ import { postComments } from 'models/comments/commentTypes'
 
 /**
  * Firbase comment service
- *
- * @export
- * @class CommentService
- * @implements {ICommentService}
  */
 @injectable()
 export class CommentService implements ICommentService {
 
   /**
    * Add comment
-   *
-   * @memberof CommentService
    */
   public addComment: (comment: Comment)
     => Promise<string> = (comment) => {
@@ -38,8 +32,6 @@ export class CommentService implements ICommentService {
 
   /**
    * Get comments
-   *
-   * @memberof CommentService
    */
   public getComments: (postId: string, next: (resultComments: postComments) => void)
     => () => void = (postId, next) => {
@@ -61,8 +53,6 @@ export class CommentService implements ICommentService {
 
   /**
    * Update comment
-   *
-   * @memberof CommentService
    */
   public updateComment: (comment: Comment)
     => Promise<void> = (comment) => {

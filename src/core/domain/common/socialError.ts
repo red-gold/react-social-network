@@ -7,9 +7,6 @@ export class SocialError extends Error {
   }
     /**
      * Error code
-     *
-     * @type {string}
-     * @memberof SocialError
      */
   public get code (): string {
     return this._code
@@ -17,9 +14,6 @@ export class SocialError extends Error {
 
     /**
      * Error message
-     *
-     * @type {string}
-     * @memberof SocialError
      */
   public get message (): string {
     return this._message
@@ -27,9 +21,6 @@ export class SocialError extends Error {
 
     /**
      * If is error {true} if not {false}
-     *
-     * @type {Boolean}
-     * @memberof SocialError
      */
 
   public get isError (): Boolean {

@@ -1,4 +1,7 @@
-import { Profile } from 'core/domain/users'
+
+import axios from 'axios'
+import jwtDecode from 'jwt-decode'
+import config from 'config'
 
 // - Import react components
 import { firebaseAuth, db } from 'data/firestoreClient'
@@ -11,47 +14,80 @@ import { SocialError } from 'core/domain/common'
 import { OAuthType } from 'core/domain/authorize/oauthType'
 import moment from 'moment/moment'
 import { injectable } from 'inversify'
+import { UserClaim } from 'core/domain/authorize/userClaim'
+import { UserRegisterModel } from 'models/users/userRegisterModel'
 /**
  * Firbase authorize service
- *
- * @export
- * @class AuthorizeService
- * @implements {IAuthorizeService}
  */
 @injectable()
 export class AuthorizeService implements IAuthorizeService {
-
+  constructor() {
+    this.getIdToken = this.getIdToken.bind(this)
+  }
   /**
    * Login the user
    */
-  public async login(email: string, password: string) {
-    try {
-      const result = await firebaseAuth()
-        .signInWithEmailAndPassword(email, password)
-        const {user} = result
-        if (user) {
-          return new LoginUser(user.uid, user.emailVerified)
-          
-        } else {
-          throw new SocialError('AuthorizeService/login', 'User object is empty!')
-        }
+  public login: (email: string, password: string) => Promise<LoginUser> = (email, password) => {
 
+    return new Promise<LoginUser>((resolve, reject) => {
+      axios.post(`${config.settings.api}login`, {
+        userName: email,
+        password: password
+      })
+        .then(({data}) => {
+          this.loginByToken(data.token).then((user) => {
+            resolve(user)
+          })
+        })
+      .catch((error: any) => {
+        const responseError = error.response.data
+        reject(new SocialError(responseError._code || responseError.code, responseError._message ||  responseError.message))
+      })
+    })
+  }
+
+  /**
+   * Login user by token
+   */
+  public async loginByToken(token: any) {
+
+    try {
+      const authedUser = await firebaseAuth().signInWithCustomToken(token)
+      if (authedUser) {
+        const user = authedUser.user!
+        const idToken = await user.getIdToken()
+        localStorage.setItem('firebase.token', idToken)
+        if (authedUser) {
+          const loginUser  = new LoginUser(
+            user.uid, 
+            user.emailVerified,
+            user.providerId, 
+            user.displayName!,
+            user.email!,
+            user.photoURL!,
+            (jwtDecode(token) as any).claims.phoneVerified
+          )
+          return loginUser
+        }
+        
+      }
+      
     } catch (error) {
-      throw new SocialError(error.code, error.message)
+      // Handle Errors here.
+       throw new SocialError(error.code, error.message)
     }
+
   }
 
   /**
    * Logs out the user
-   *
-   * @returns {Promise<void>}
-   * @memberof IAuthorizeService
    */
   public logout: () => Promise<void> = () => {
     return new Promise<void>((resolve, reject) => {
       firebaseAuth()
-        .signOut()
-        .then((result) => {
+      .signOut()
+      .then((result) => {
+        localStorage.removeItem('firebase.token')
           resolve()
         })
         .catch((error: any) => {
@@ -64,64 +100,102 @@ export class AuthorizeService implements IAuthorizeService {
   /**
    * Register a user
    */
-  public async registerUser(registerUser: User) {
-    try {
-     const result = await firebaseAuth()
-      .createUserWithEmailAndPassword(registerUser.email as string, registerUser.password as string)
-      const {user} = result
-      if (user) {
-        const { uid, email } = user
-      const registerResult =  await this.storeUserInformation(uid, email!, registerUser.fullName, '')
-      return registerResult
-        
-      } else {
-        throw new SocialError('AuthorizeService/login', 'User object is empty!')
-      }
-    } catch (error) {
-      throw new SocialError(error.code, error.message)
+  public registerUser: (user: UserRegisterModel) => Promise<RegisterUserResult> = (user) => {
+    return new Promise<RegisterUserResult>((resolve, reject) => {
+      firebaseAuth()
+        .createUserWithEmailAndPassword(user.email as string, user.password as string)
+        .then((signupResult) => {
+          const { uid, email } = signupResult.user!
+          this.storeUserInformation(uid, email!, user.fullName, '', user.email!, user.password!).then(resolve)
+        })
+        .catch((error: any) => { 
+          
+          reject(new SocialError(error.code, error.message))
+        })
+    })
+  }
+
+  /**
+   * Whether user is login or not
+   */
+  public isUserUserVerified() {
+    let phoneVerified = false
+    const token = localStorage.getItem('firebase.token')
+    if (token) {
+      phoneVerified = (jwtDecode(token) as any).claims.phoneVerified
     }
-  
+    return phoneVerified
   }
 
   /**
    * Update user password
-   *
-   * @returns {Promise<void>}
-   * @memberof IAuthorizeService
    */
-  public updatePassword: (newPassword: string) => Promise<void> = (newPassword) => {
+  public updatePassword: (newPassword: string, confirmPassword: string) => Promise<void> = (newPassword, confirmPassword) => {
 
     return new Promise<void>((resolve, reject) => {
       let user = firebaseAuth().currentUser
+      
       if (user) {
-        user.updatePassword(newPassword).then(() => {
-          // Update successful.
-          resolve()
-        }).catch((error: any) => {
-          // An error happened.
-          reject(new SocialError(error.code, error.message))
+        firebaseAuth().currentUser!.getIdToken().then((tokenId) => {
+          axios.post(`${config.settings.api}update-password`, {
+          newPassword,
+          confirmPassword
+        }, {
+            headers: { 'authorization': `Bearer ${tokenId}` }
+          })
+          .then(({data}) => {
+            resolve(data.verifyId)
+          })
+          .catch((error) => reject(new SocialError(error.code, `authorizeSerive/UpdatePassword`)))
         })
+        .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/TokenError`)))
       }
 
     })
   }
 
   /**
-   * On user authorization changed event
-   *
-   * @memberof IAuthorizeService
+   * Get id token
    */
-  public onAuthStateChanged: (callBack: (isVerifide: boolean, user: User) => void) => any = (callBack) => {
-    firebaseAuth().onAuthStateChanged((user: any) => {
-      let isVerifide = false
+  public getUserClaim = (currentUser?: any) => {
+    const scop = this
+    return new Promise<UserClaim>((resolve, reject) => {
+      currentUser.getIdTokenResult().then((result: any) => {
+        const {claims} = result
+        
+        resolve(new UserClaim(
+          currentUser.displayName,
+          currentUser.email,
+          currentUser.emailVerified,
+          currentUser.isAnonymous,
+          currentUser.metadata,
+          currentUser.phoneNumber,
+          currentUser.photoURL,
+          currentUser.providerData,
+          currentUser.providerId,
+          currentUser.refreshToken,
+          currentUser.uid,
+          claims.phoneVerified
+        ))
+      })
+      .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/TokenError`)))
+
+    })
+
+  }
+  
+  /**
+   * On user authorization changed event
+   */
+  public onAuthStateChanged: (callBack: (user: UserClaim) => void) => any = (callBack) => {
+    return firebaseAuth().onAuthStateChanged((user) => {
       if (user) {
-        if (user.emailVerified || user.providerData[0].providerId.trim() !== 'password') {
-          isVerifide = true
-        } else {
-          isVerifide = false
-        }
+        user.getIdToken().then((idToken) => {
+          localStorage.setItem('firebase.token', idToken)
+        })
+        
       }
-      callBack(isVerifide, user)
+        callBack(user as any)
     })
   }
 
@@ -186,13 +260,12 @@ export class AuthorizeService implements IAuthorizeService {
           throw new SocialError('authorizeService/loginWithOAuth', 'None of OAuth type is matched!')
       }
       firebaseAuth().signInWithPopup(provider).then((result) => {
-
-        // The signed-in user info.
         const user = result.user!
+
         const { credential } = result
         const { uid, displayName, email, photoURL } = user
-        const { providerId } = credential!
-        this.storeUserProviderData(uid, email!, displayName!, photoURL!, providerId, 'No Access token provided!')
+        const {providerId } = credential!
+        this.storeUserProviderData(uid, email!, displayName!, photoURL!, providerId, 'No Access Token')
         // this.storeUserInformation(uid,email,displayName,photoURL).then(resolve)
         resolve(new LoginUser(user.uid, true, providerId, displayName!, email!, photoURL!))
 
@@ -211,35 +284,132 @@ export class AuthorizeService implements IAuthorizeService {
   }
 
   /**
-   * Store user information
-   *
-   * @private
-   * @memberof AuthorizeService
+   * Get current user id token
    */
-  private storeUserInformation = (userId: string, email: string, fullName: string, avatar: string) => {
+  public getIdToken: () => Promise<string> = async () => {
+    const currentUser = firebaseAuth().currentUser
+    if (currentUser) {
+     const token = await currentUser.getIdToken()
+     return token
+    }
+   return localStorage.getItem('firebase.token') as string
+  }
+
+  /**
+   * Send sms verfication
+   */
+  public sendSmsVerification = (phoneNumber: string, value: any) => {
+    const scop = this
+    return new Promise<string>((resolve, reject) => {
+     const currentUser = firebaseAuth().currentUser
+     if (currentUser) {
+       currentUser.getIdToken().then((tokenId) => {
+         axios.post(`${config.settings.api}sms-verification`, {
+         phoneNumber,
+         'g-recaptcha-response': value
+       }, {
+           headers: { 'authorization': `Bearer ${tokenId}` }
+         })
+         .then(({data}) => {
+           resolve(data.verifyId)
+         })
+       })
+       .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/TokenError`)))       
+     }
+
+    })
+
+  }
+
+  /**
+   * Send email verfication
+   */
+  public sendResetPasswordVerification = (email: string, value: any) => {
+    const scop = this
+    return new Promise<string>((resolve, reject) => {
+        axios.post(`${config.settings.api}email-verification-code`, {
+        email,
+        'g-recaptcha-response': value
+      })
+        .then(({data}) => {
+          resolve(data.verifyId)
+        })
+      .catch((error) => {
+        const responseError = error.response.data
+        reject(new SocialError(responseError._code || responseError.code, responseError._message ||  responseError.message))
+
+    })
+
+    })
+
+  }
+
+  /**
+   * Confirm verfication code
+   */
+  public confirmVerificationCode = (code: string, verifyId: string, phoneNumber: string) => {
+    return new Promise<any>((resolve, reject) => {
+      firebaseAuth().currentUser!.getIdToken().then((tokenId) => {
+      axios.post(`${config.settings.api}verify-phone`, {
+        code,
+        verifyId,
+        phoneNumber
+      }, {
+          headers: { 'authorization': `Bearer ${tokenId}` }
+        })
+        .then(({data}) => {
+          this.loginByToken(data.token).then((user) => {
+            resolve(user)
+          })
+        })
+      })
+        .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/confirmVerificationCode  ${error.message}`)))
+    })
+  }
+
+  /**
+   * Confirm reset password code
+   */
+  public confirmResetPassword = (code: string, verifyId: string, email: string) => {
+    return new Promise<any>((resolve, reject) => {
+      axios.post(`${config.settings.api}verify-email`, {
+        code,
+        verifyId,
+        email
+      })
+        .then(({data}) => {
+          this.loginByToken(data.token).then((user) => {
+            resolve(user)
+          })
+        })
+        .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/confirmVerificationCode`)))
+    })
+  }
+
+  /**
+   * Store user information
+   */
+  private storeUserInformation = (userId: string, email: string, fullName: string, avatar: string, userName: string, password: string) => {
     return new Promise<RegisterUserResult>((resolve, reject) => {
-      db.doc(`userInfo/${userId}`).set(
-        {
-          id: userId,
-          state: 'active',
-          avatar,
-          fullName,
-          creationDate: moment().unix(),
-          email
-        }
-      )
+      firebaseAuth().currentUser!.getIdToken().then((tokenId) => {
+      axios.post(`${config.settings.api}register`, {
+        userId,
+        email,
+        fullName,
+        avatar,
+        userName,
+        password,
+      },{headers: { 'authorization': `Bearer ${tokenId}` }})
         .then(() => {
           resolve(new RegisterUserResult(userId))
         })
+      })
         .catch((error: any) => reject(new SocialError(error.name, 'firestore/storeUserInformation : ' + error.message)))
     })
   }
 
   /**
    * Store user provider information
-   *
-   * @private
-   * @memberof AuthorizeService
    */
   private storeUserProviderData = (
     userId: string,
@@ -252,14 +422,14 @@ export class AuthorizeService implements IAuthorizeService {
     return new Promise<RegisterUserResult>((resolve, reject) => {
       db.doc(`userProviderInfo/${userId}`)
         .set(
-          {
-            userId,
-            email,
-            fullName,
-            avatar,
-            providerId,
-            accessToken
-          }
+        {
+          userId,
+          email,
+          fullName,
+          avatar,
+          providerId,
+          accessToken
+        }
         )
         .then(() => {
           resolve(new RegisterUserResult(userId))

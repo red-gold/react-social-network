@@ -4,8 +4,14 @@ export interface IStorageService {
 
   /**
    * Storage file service
-   *
-   * @memberof IStorageService
    */
-  uploadFile: (file: any, fileName: string, progress: (percentage: number, status: boolean) => void) => Promise<FileResult>
+  uploadFile: (folderName: string, file: any, fileName: string,
+    onProgress: (percentage: number, status: boolean, fileName: string) => void,
+    onSuccess: (fileResult: FileResult, meta?: any) => void,
+    onFailure: (error: any) => void) => void
+    
+    /**
+     * Delete file
+     */
+    deleteFile: (folderName: string, fileName: string) => Promise<void>
 }

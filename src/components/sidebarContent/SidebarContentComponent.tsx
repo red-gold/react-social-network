@@ -14,7 +14,7 @@ export default class SidebarContentComponent extends Component<ISidebarContentCo
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor (props: ISidebarContentComponentProps) {
     super(props)
@@ -37,7 +37,7 @@ export default class SidebarContentComponent extends Component<ISidebarContentCo
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render () {
     let showCoverStyle = {position: 'fixed', height: '100%', width: '100%', top: '0px', left: '0px', opacity: 1, backgroundColor: 'rgba(255, 255, 255, 0.54)', WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)', willChange: 'opacity', transform: 'translateZ(0px)', transition: 'left 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms', zIndex: '1111', pointerEvents: 'auto'}

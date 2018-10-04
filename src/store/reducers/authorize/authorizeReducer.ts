@@ -17,11 +17,9 @@ export let authorizeReducer = (state = Map(new AuthorizeState()), action: IAutho
   const { payload } = action
   switch (action.type) {
     case AuthorizeActionType.LOGIN:
-    return state
-        .set('uid', payload.uid)
-        .set('authed', true)
-        .set('guest', false)
-        .set('isVerifide', payload.isVerifide)
+    return state.update((value) => {
+      return payload
+    })
 
     case AuthorizeActionType.LOGOUT:
       return state
@@ -34,7 +32,6 @@ export let authorizeReducer = (state = Map(new AuthorizeState()), action: IAutho
       .set('uid', payload.userId)
     case AuthorizeActionType.UPDATE_PASSWORD:
       return state
-      .set('updatePassword', payload.updatePassword)
     default:
       return state
 

@@ -34,6 +34,27 @@ body {
     line-height: 1.5
 }
 
+.recaptcha {
+    div {
+        div {
+            margin: 0 auto;
+        }
+    }
+}
+
+.ReactModal__Overlay {
+    z-index: 1201 !important;
+}
+
+.Linkify {
+    width: 100%;
+    white-space: pre-wrap;
+}
+
+.cookieConsent {
+    z-index: 1200 !important;
+}
+
 /* Change autocomplete styles in WebKit */
 
 input:-webkit-autofill,
@@ -48,6 +69,19 @@ select:-webkit-autofill:focus {
     -webkit-text-fill-color: black;
     -webkit-box-shadow: 0 0 0px 1000px white inset;
     transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Image */
+
+.image-stack {
+    display: block;
+    margin: 0;
+}
+
+.image-stack figcaption {
+    display: block;
+    margin: .2em 0 0;
+    font-weight: normal;
 }
 
 .g__dialog-title {
@@ -128,7 +162,7 @@ select:-webkit-autofill:focus {
 }
 
 .g__greenBox {
-    background-color: #6d9828!important;
+    background-color: #6d9828 !important;
 }
 
 .glob__shadow {
@@ -214,4 +248,308 @@ g__input-underline {
     font-weight: 400;
     line-height: 32px;
     margin: 0
+}
+
+.player-wrapper {
+    padding-top: 56.25%;
+    position: relative;
+}
+
+.react-player {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.sc-chat-window {
+    z-index: 1100;
+}
+
+.sc-header--img {
+    width: 60px;
+}
+
+.emoji-mart {
+    width: 100% !important;
+    font-size: 10px;
+    .emoji-mart-scroll {
+        height: 100% !important;
+    }
+}
+
+.simile-loading {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    .leftEye,
+    .rightEye {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        border-radius: 50%;
+        background: $smile-loading-color;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        -webkit-animation: leftEyeAnimation 3s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+        animation: leftEyeAnimation 3s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    }
+    .rightEye {
+        -webkit-animation: rightEyeAnimation 3s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+        animation: rightEyeAnimation 3s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    }
+    .mouth {
+        width: $mouth-size;
+        height: $mouth-size;
+        border-radius: 50%;
+        border: solid $smile-border-size $smile-loading-mouth-color;
+        border-right: solid $smile-border-size rgba(223, 223, 194, 0);
+        border-left: solid $smile-border-size rgba(223, 223, 194, 0);
+        border-bottom: solid $smile-border-size rgba(223, 223, 194, 0);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%) rotate(360deg);
+        transform: translate(-50%, -50%) rotate(360deg);
+        -webkit-animation: mouthAnimation 3s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+        animation: mouthAnimation 3s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    }
+}
+
+@-webkit-keyframes mouthAnimation {
+    0% {
+        -webkit-transform: translate(-50%, -50%) rotateX(180deg);
+        transform: translate(-50%, -50%) rotateX(180deg);
+    }
+    10% {
+        -webkit-transform: translate(-50%, -50%) rotateZ(360deg);
+        transform: translate(-50%, -50%) rotateZ(360deg);
+    }
+    40% {
+        -webkit-transform: translate(-50%, -50%) rotateZ(320deg);
+        transform: translate(-50%, -50%) rotateZ(320deg);
+    }
+    60% {
+        -webkit-transform: translate(-50%, -50%) rotateZ(900deg);
+        transform: translate(-50%, -50%) rotateZ(900deg);
+    }
+    100% {
+        -webkit-transform: translate(-50%, -50%) rotateZ(900deg);
+        transform: translate(-50%, -50%) rotateZ(900deg);
+    }
+}
+
+@keyframes mouthAnimation {
+    0% {
+        -webkit-transform: translate(-50%, -50%) rotateX(180deg);
+        transform: translate(-50%, -50%) rotateX(180deg);
+    }
+    10% {
+        -webkit-transform: translate(-50%, -50%) rotateZ(360deg);
+        transform: translate(-50%, -50%) rotateZ(360deg);
+    }
+    40% {
+        -webkit-transform: translate(-50%, -50%) rotateZ(320deg);
+        transform: translate(-50%, -50%) rotateZ(320deg);
+    }
+    60% {
+        -webkit-transform: translate(-50%, -50%) rotateZ(900deg);
+        transform: translate(-50%, -50%) rotateZ(900deg);
+    }
+    100% {
+        -webkit-transform: translate(-50%, -50%) rotateZ(900deg);
+        transform: translate(-50%, -50%) rotateZ(900deg);
+    }
+}
+
+@-webkit-keyframes leftEyeAnimation {
+    0% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    50% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    60% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(-150%, -50%);
+        transform: translate(-150%, -50%);
+    }
+    90% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(-150%, -50%);
+        transform: translate(-150%, -50%);
+    }
+    100% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+@keyframes leftEyeAnimation {
+    0% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    50% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    60% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(-150%, -50%);
+        transform: translate(-150%, -50%);
+    }
+    90% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(-150%, -50%);
+        transform: translate(-150%, -50%);
+    }
+    100% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+@-webkit-keyframes rightEyeAnimation {
+    0% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    50% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    60% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(50%, -50%);
+        transform: translate(50%, -50%);
+    }
+    70% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(50%, -50%);
+        transform: translate(50%, -50%);
+    }
+    75% {
+        width: $animate-size;
+        height: 2px;
+        -webkit-transform: translate(50%, -50%);
+        transform: translate(50%, -50%);
+    }
+    80% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(50%, -50%);
+        transform: translate(50%, -50%);
+    }
+    90% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(50%, -50%);
+        transform: translate(50%, -50%);
+    }
+    100% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+@keyframes rightEyeAnimation {
+    0% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    50% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+    60% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(50%, -50%);
+        transform: translate(50%, -50%);
+    }
+    70% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(50%, -50%);
+        transform: translate(50%, -50%);
+    }
+    75% {
+        width: $animate-size;
+        height: 2px;
+        -webkit-transform: translate(50%, -50%);
+        transform: translate(50%, -50%);
+    }
+    80% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(50%, -50%);
+        transform: translate(50%, -50%);
+    }
+    90% {
+        width: $animate-size;
+        height: $animate-size;
+        -webkit-transform: translate(50%, -50%);
+        transform: translate(50%, -50%);
+    }
+    100% {
+        width: $chat-loading-size;
+        height: $chat-loading-size;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+@keyframes pulse-shadow--collection {
+    0% {
+        -webkit-box-shadow: 0 0;
+        box-shadow: 0 0
+    }
+    70% {
+        -webkit-box-shadow: 0 0 5px 10px rgba(255, 255, 255, 0);
+        box-shadow: 0 0 5px 10px rgba(255, 255, 255, 0)
+    }
+    100% {
+        -webkit-box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0)
+    }
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
 }

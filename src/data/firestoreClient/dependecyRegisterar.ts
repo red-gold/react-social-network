@@ -7,7 +7,7 @@ import { CommonService } from './services/common/CommonService'
 import { CommentService } from './services/comments/CommentService'
 import { ICircleService } from 'core/services/circles/ICircleService'
 import { Container } from 'inversify'
-import { IUserService } from 'core/services/users'
+import { IUserService, IUserSettingService } from 'core/services/users'
 import { SocialProviderTypes } from 'core/socialProviderTypes'
 import { UserService } from './services/users/UserService'
 import { IAuthorizeService } from 'core/services/authorize'
@@ -25,6 +25,9 @@ import { NotificationService } from './services/notifications'
 import { FirestoreClientTypes } from './firestoreClientTypes'
 import { IUserTieService } from 'core/services/circles'
 import { UserTieService } from './services/circles/UserTieService'
+import { UserSettingService } from 'data/firestoreClient/services/users/UserSettingService'
+import { IChatService } from 'core/services/chat'
+import { ChatService } from 'data/firestoreClient/services/chat'
 
 /**
  * Register firestore client dependecies
@@ -43,5 +46,7 @@ export const useFirestore = (container: Container) => {
   container.bind<IVoteService>(SocialProviderTypes.VoteService).to(VoteService)
   container.bind<IGraphService>(FirestoreClientTypes.GraphService).to(GraphService)
   container.bind<IUserTieService>(SocialProviderTypes.UserTieService).to(UserTieService)
+  container.bind<IUserSettingService>(SocialProviderTypes.UserSettingService).to(UserSettingService)
+  container.bind<IChatService>(SocialProviderTypes.ChatService).to(ChatService)
 
 }

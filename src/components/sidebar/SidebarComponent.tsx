@@ -25,7 +25,6 @@ export class SidebarComponent extends Component<ISidebarComponentProps,ISidebarC
 
   /**
    * Component constructor
-   * @param  {ISidebarComponentProps} props is an object properties of component
    */
   constructor (props: ISidebarComponentProps) {
     super(props)
@@ -54,8 +53,6 @@ export class SidebarComponent extends Component<ISidebarComponentProps,ISidebarC
 
   /**
    * Handle open sidebar
-   * @param  {boolean} status if is true, sidebar will be open
-   * @param  {string} source is the element that fired the function
    */
   open = (status: boolean, source: string) => {
 
@@ -91,7 +88,6 @@ export class SidebarComponent extends Component<ISidebarComponentProps,ISidebarC
 
       /**
        * Callback function fired to determine sidebar and overlay sidebar status
-       * @param {boolean} if true, the sidebar is open
        */
       this.props.status(true)
 
@@ -136,7 +132,6 @@ export class SidebarComponent extends Component<ISidebarComponentProps,ISidebarC
 
       /**
        * Callback function fired to determine sidebar and overlay sidebar status
-       * @param {boolean} if true, the sidebar is open
        */
       this.props.status(false)
 
@@ -146,7 +141,6 @@ export class SidebarComponent extends Component<ISidebarComponentProps,ISidebarC
 
   /**
    * Handle resize event for window to change sidebar status
-   * @param  {event} evt is the event is passed by winodw resize event
    */
   handleResize = () => {
 
@@ -187,7 +181,6 @@ export class SidebarComponent extends Component<ISidebarComponentProps,ISidebarC
 
   /**
    * Handle keyup event for window to close sidebar
-   * @param  {event} evt is the event is passed by winodw key event
    */
   handleKeyUp = (event: Event) => {
     if (this.state.overlayOpen) {
@@ -225,7 +218,7 @@ export class SidebarComponent extends Component<ISidebarComponentProps,ISidebarC
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render () {
 
@@ -245,10 +238,7 @@ export class SidebarComponent extends Component<ISidebarComponentProps,ISidebarC
 }
 
 /**
- * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
+ * Map dispatch to props 
  */
 const mapDispatchToProps = (dispatch: any, ownProps: ISidebarComponentProps) => {
   return {
@@ -258,9 +248,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: ISidebarComponentProps) => 
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: ISidebarComponentProps) => {
   return {

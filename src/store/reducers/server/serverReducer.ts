@@ -24,6 +24,7 @@ export let serverReducer = (state = Map(new ServerState()), action: IServerActio
 
     /* _____________ CRUD _____________ */
     case ServerActionType.ADD_REQUEST:
+    
       return state
         .setIn(['request', request.id], request)
 

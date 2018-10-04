@@ -4,9 +4,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SvgImage from '@material-ui/icons/Image'
 import { withStyles } from '@material-ui/core/styles'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
 import classNames from 'classnames'
 import {Map, List} from 'immutable'
+import { translate, Trans } from 'react-i18next'
 
 import {
   FacebookShareButton,
@@ -72,7 +73,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor(props: IShareDialogComponentProps) {
     super(props)
@@ -88,11 +89,11 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render() {
 
-    let { classes, translate, shareOpen, onClose, openCopyLink, post, onCopyLink } = this.props
+    let { classes, t, shareOpen, onClose, openCopyLink, post, onCopyLink } = this.props
     return (
       <Dialog
         className={classes.fullPageXs}
@@ -116,7 +117,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
                         size={32}
                         round />
                     </ListItemIcon>
-                    <ListItemText inset primary={translate!('post.facebookButton')} />
+                    <ListItemText inset primary={t!('post.facebookButton')} />
                   </MenuItem>
                 </FacebookShareButton>
               </div>
@@ -132,7 +133,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
                         size={32}
                         round />
                     </ListItemIcon>
-                    <ListItemText inset primary={translate!('post.twitterButton')} />
+                    <ListItemText inset primary={t!('post.twitterButton')} />
                   </MenuItem>
               </TwitterShareButton>
               </div>
@@ -148,7 +149,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
                         size={32}
                         round />
                     </ListItemIcon>
-                    <ListItemText inset primary={translate!('post.linkedinButton')} />
+                    <ListItemText inset primary={t!('post.linkedinButton')} />
                   </MenuItem>
               </LinkedinShareButton>
               </div>
@@ -164,7 +165,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
                         size={32}
                         round />
                     </ListItemIcon>
-                    <ListItemText inset primary={translate!('post.googlePlusButton')} />
+                    <ListItemText inset primary={t!('post.googlePlusButton')} />
                   </MenuItem>
               </GooglePlusShareButton>
               </div>
@@ -172,7 +173,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
                 <ListItemIcon>
                   <SvgLink />
                 </ListItemIcon>
-                <ListItemText inset primary={translate!('post.copyLinkButton')} />
+                <ListItemText inset primary={t!('post.copyLinkButton')} />
               </MenuItem>
             </MenuList>)
             : <div>
@@ -201,9 +202,11 @@ const mapDispatchToProps = (dispatch: any, ownProps: IShareDialogComponentProps)
  */
 const mapStateToProps = (state: any, ownProps: IShareDialogComponentProps) => {
   return {
-    translate: getTranslate(state.get('locale'))
+    
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(ShareDialogComponent as any) as any)
+const translateWrraper = translate('translations')(ShareDialogComponent)
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

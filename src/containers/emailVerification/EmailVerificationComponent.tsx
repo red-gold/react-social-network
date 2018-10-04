@@ -9,7 +9,8 @@ import RaisedButton from '@material-ui/core/Button'
 import Button from '@material-ui/core/Button'
 import config from 'src/config'
 import { withStyles } from '@material-ui/core/styles'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
+import { translate, Trans } from 'react-i18next'
 
 // - Import actions
 import * as authorizeActions from 'src/store/actions/authorizeActions'
@@ -26,6 +27,9 @@ const styles = (theme: any) => ({
   contain: {
     margin: '0 auto'
   },
+  boxRoot: {
+    padding: '20px 40px 36px'
+  },
   paper: {
     minHeight: 370,
     maxWidth: 450,
@@ -38,10 +42,6 @@ const styles = (theme: any) => ({
 
 /**
  * Create component class
- *
- * @export
- * @class EmailVerificationComponent
- * @extends {Component}
  */
 export class EmailVerificationComponent extends Component<IEmailVerificationComponentProps, IEmailVerificationComponentState> {
 
@@ -71,7 +71,7 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor(props: IEmailVerificationComponentProps) {
     super(props)
@@ -82,10 +82,10 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render() {
-    const { translate, classes } = this.props
+    const { t, classes } = this.props
     return (
       <Grid container spacing={24}>
         <Grid item xs={12} className={classes.contain}>
@@ -94,20 +94,20 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
 
           <div className='animate-bottom'>
             <Paper className={classes.paper} elevation={1} >
-              <div style={{ padding: '48px 40px 36px' }}>
+              <div className={classes.boxRoot}>
                 <div style={{
                   paddingLeft: '40px',
                   paddingRight: '40px'
                 }}>
 
-                  <h2 className='zoomOutLCorner animated g__paper-title'>{translate!('emailVerification.title')}</h2>
+                  <h2 className='zoomOutLCorner animated g__paper-title'>{t!('emailVerification.title')}</h2>
                 </div>
                 <p style={this.styles.message as any}>
-                  {translate!('emailVerification.description')}
+                  {t!('emailVerification.description')}
                 </p>
                 <div style={this.styles.buttons}>
-                  <Button variant='raised' style={this.styles.homeButton} color='primary' onClick={() => this.props.homePage()}> {translate!('emailVerification.homeButton')} </Button>
-                  <Button variant='raised' color='primary' onClick={() => this.props.sendEmailVerification()}> {translate!('emailVerification.sendButton')} </Button>
+                  <Button variant='raised' style={this.styles.homeButton} color='primary' onClick={() => this.props.homePage()}> {t!('emailVerification.homeButton')} </Button>
+                  <Button variant='raised' color='primary' onClick={() => this.props.sendEmailVerification()}> {t!('emailVerification.sendButton')} </Button>
                 </div>
                 <div>
                 </div>
@@ -123,9 +123,6 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: Function, ownProps: IEmailVerificationComponentProps) => {
   return {
@@ -138,15 +135,14 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IEmailVerificationComp
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IEmailVerificationComponentProps) => {
   return {
-    translate: getTranslate(state.get('locale'))
+    
   }
 }
 
 // - Connect component to redux store
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(EmailVerificationComponent as any) as any)) as typeof EmailVerificationComponent
+const translateWrraper = translate('translations')(EmailVerificationComponent)
+
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)) as typeof EmailVerificationComponent

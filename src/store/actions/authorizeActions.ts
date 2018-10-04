@@ -1,24 +1,31 @@
 
 // - Import react components
 import { push } from 'react-router-redux'
+import {Map} from 'immutable'
 
 // -Import domain
-import { User } from 'src/core/domain/users'
-import { SocialError } from 'src/core/domain/common'
-import { OAuthType, LoginUser } from 'src/core/domain/authorize'
+import { User } from 'core/domain/users'
+import { SocialError } from 'core/domain/common'
+import { OAuthType, LoginUser } from 'core/domain/authorize'
 
-import { UserRegisterModel } from 'src/models/users/userRegisterModel'
+import { UserRegisterModel } from 'models/users/userRegisterModel'
 
 // - Import action types
 import { AuthorizeActionType } from 'constants/authorizeActionType'
 
 // - Import services
-import { IAuthorizeService } from 'src/core/services/authorize'
+import { IAuthorizeService } from 'core/services/authorize'
 
 // - Import actions
 import * as globalActions from 'store/actions/globalActions'
+import * as serverActions from 'store/actions/serverActions'
+
 import { provider } from 'src/socialEngine'
-import { SocialProviderTypes } from 'src/core/socialProviderTypes'
+import { SocialProviderTypes } from 'core/socialProviderTypes'
+import config from 'src/config'
+import { VerificationType } from 'core/domain/authorize/verificationType'
+import { AuthAPI } from 'api/AuthAPI'
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 
 /* _____________ CRUD State _____________ */
 
@@ -26,10 +33,10 @@ import { SocialProviderTypes } from 'src/core/socialProviderTypes'
  * Loing user
  * @param {string} uids
  */
-export const login = (uid: string, isVerifide: boolean) => {
+export const login = (user: LoginUser) => {
   return {
     type: AuthorizeActionType.LOGIN,
-    payload: { authed: true, isVerifide, uid }
+    payload: Map(user)
   }
 }
 
@@ -56,7 +63,14 @@ export const signup = (user: UserRegisterModel) => {
  * Update user's password
  */
 export const updatePassword = () => {
-  return { type: AuthorizeActionType.UPDATE_PASSWORD }
+  return { type: AuthorizeActionType.UPDATE_PASSWORD}
+}
+
+/**
+ * Subscribe authorize state change
+ */
+export const subcribeAuthorizeStateChange = () => {
+  return { type: AuthorizeActionType.SUBSCRIBE_AUTH_STATE_CHANGE}
 }
 
 /**
@@ -71,12 +85,25 @@ const authorizeService: IAuthorizeService = provider.get<IAuthorizeService>(Soci
  */
 export const dbLogin = (email: string, password: string) => {
   return (dispatch: any, getState: any) => {
+
+    let loginRequest =  AuthAPI.createLoginRequest(email)
+    dispatch(serverActions.sendRequest(loginRequest))
+
     dispatch(globalActions.showNotificationRequest())
+
     return authorizeService.login(email, password).then((result) => {
+
+      loginRequest.status = ServerRequestStatusType.OK
+      dispatch(serverActions.sendRequest(loginRequest))
+
       dispatch(globalActions.showNotificationSuccess())
-      dispatch(login(result.uid, result.emailVerified))
+      dispatch(login(result))
       dispatch(push('/'))
-    }, (error: SocialError) => dispatch(globalActions.showMessage(error.code)))
+    }, (error: SocialError) => {
+      loginRequest.status = ServerRequestStatusType.Error
+      dispatch(serverActions.sendRequest(loginRequest))
+      dispatch(globalActions.showMessage(error.message))
+    })
   }
 }
 
@@ -86,6 +113,7 @@ export const dbLogin = (email: string, password: string) => {
 export const dbLogout = () => {
   return (dispatch: any, getState: any) => {
     return authorizeService.logout().then((result) => {
+      localStorage.removeItem('firebase.token')
       dispatch(logout())
       dispatch(push('/login'))
 
@@ -121,7 +149,7 @@ export const dbSendEmailVerfication = () => {
 export const dbSignup = (user: UserRegisterModel) => {
   return (dispatch: Function, getState: Function) => {
     dispatch(globalActions.showNotificationRequest())
-    let newUser = new User()
+    let newUser = new UserRegisterModel()
     newUser.email = user.email
     newUser.password = user.password
     newUser.fullName = user.fullName
@@ -131,10 +159,14 @@ export const dbSignup = (user: UserRegisterModel) => {
         userId: result.uid,
         ...user
       }))
-      dispatch(dbSendEmailVerfication())
-      dispatch(push('/emailVerification'))
+      if (config.settings.verificationType === VerificationType.email) {
+        dispatch(dbSendEmailVerfication())
+      }
+      dispatch(push('/'))
     })
-      .catch((error: SocialError) => dispatch(globalActions.showMessage(error.code)))
+      .catch((error: SocialError) => {
+        dispatch(globalActions.showMessage(error.message))
+      })
   }
 
 }
@@ -143,16 +175,16 @@ export const dbSignup = (user: UserRegisterModel) => {
  * Change user's password
  * @param {string} newPassword
  */
-export const dbUpdatePassword = (newPassword: string) => {
+export const dbUpdatePassword = (newPassword: string, confirmPassword: string) => {
   return (dispatch: any, getState: any) => {
     dispatch(globalActions.showNotificationRequest())
-
-    return authorizeService.updatePassword(newPassword).then(() => {
+    
+    return authorizeService.updatePassword(newPassword, confirmPassword).then(() => {
 
       // Update successful.
       dispatch(globalActions.showNotificationSuccess())
       dispatch(updatePassword())
-      dispatch(push('/'))
+      dispatch(dbLogout())
     })
       .catch((error: SocialError) => {
         // An error happened.
@@ -200,7 +232,7 @@ export const dbLoginWithOAuth = (type: OAuthType) => {
     return authorizeService.loginWithOAuth(type).then((result: LoginUser) => {
       // Send email verification successful.
       dispatch(globalActions.showNotificationSuccess())
-      dispatch(login(result.uid, true))
+      dispatch(login(result))
       dispatch(push('/'))
     })
       .catch((error: SocialError) => {

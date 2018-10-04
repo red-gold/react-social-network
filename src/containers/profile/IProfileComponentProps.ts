@@ -1,82 +1,61 @@
 import { Post } from 'src/core/domain/posts'
+import { User } from 'core/domain/users'
+import {Map} from 'immutable'
 
 export interface IProfileComponentProps {
 
   /**
    * Router match
-   *
-   * @type {*}
-   * @memberof IProfileComponentProps
    */
   match: any
 
   /**
    * User's post
-   *
-   * @type {{[postId: string]: Post}}
-   * @memberof IProfileComponentProps
    */
-  posts: {[postId: string]: Post}
+  posts: Map<string, any>
+
+  /**
+   * User profile
+   */
+  profile?: User
 
   /**
    * String user full name
-   *
-   * @type {string}
-   * @memberof IProfileComponentProps
    */
   name: string
 
   /**
    * User tag line
-   *
-   * @type {string}
-   * @memberof IProfileComponentProps
    */
   tagLine: string
 
   /**
    * User's avatar address
-   *
-   * @type {string}
-   * @memberof IProfileComponentProps
    */
   avatar: string
 
   /**
    * It's current user profile {true} or not {false}
-   *
-   * @type {boolean}
-   * @memberof IProfileComponentProps
    */
-  isAuthedUser: boolean
+  isCurrentUser: boolean
 
   /**
    * User's banner
-   *
-   * @type {string}
-   * @memberof IProfileComponentProps
    */
   banner: string
 
   /**
    * User identifier
-   *
-   * @type {string}
-   * @memberof IProfileComponentProps
    */
   userId: string
 
   /**
    * Load user's post
-   *
-   * @memberof IProfileComponentProps
    */
-  loadPosts: () => any
+  loadPosts: (page: number) => any
 
   /**
    * Load user's profile
-   *
-   * @memberof IProfileComponentProps
    */
   loadUserInfo: () => any
 
@@ -86,7 +65,17 @@ export interface IProfileComponentProps {
   hasMorePosts: boolean
 
   /**
+   * Post server request identifier
+   */
+  postRequestId?: string
+
+  /**
    * Translate to locale string
    */
-  translate?: (state: any, params?: {}) => any
+  t?: (state: any, params?: {}) => any
+
+  /**
+   * Styles
+   */
+  classes?: any
 }

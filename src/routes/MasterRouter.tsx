@@ -9,6 +9,7 @@ import Loadable from 'react-loadable'
 
 import { IRouterProps } from './IRouterProps'
 import MasterLoadingComponent from 'components/masterLoading/MasterLoadingComponent'
+import { RouteType } from 'routes/routeType'
 
 // - Async Components
 const AsyncHome: any = Loadable({
@@ -16,7 +17,7 @@ const AsyncHome: any = Loadable({
   loading: MasterLoadingComponent,
 })
 const AsyncSignup = Loadable({
-  loader: () => import('containers/signup'),
+  loader: () => import('containers/signupWrapper'),
   loading: MasterLoadingComponent,
 })
 const AsyncEmailVerification = Loadable({
@@ -28,31 +29,92 @@ const AsyncResetPassword = Loadable({
   loading: MasterLoadingComponent,
 })
 const AsyncLogin = Loadable({
-  loader: () => import('containers/login'),
+  loader: () => import('containers/loginWrapper'),
   loading: MasterLoadingComponent,
 })
 const AsyncSetting = Loadable({
-  loader: () => import('containers/setting'),
+  loader: () => import('containers/config'),
   loading: MasterLoadingComponent,
 })
+const AsyncTerms = Loadable({
+  loader: () => import('containers/terms'),
+  loading: MasterLoadingComponent,
+})
+const AsyncSmsVerification = Loadable({
+  loader: () => import('containers/smsVerification'),
+  loading: MasterLoadingComponent,
+})
+const AsyncNewPassword = Loadable({
+  loader: () => import('containers/newPassword'),
+  loading: MasterLoadingComponent,
+})
+
+/**
+ * Routes
+ */
+const routes = [
+  {
+    path: '/signup',
+    component: AsyncSignup
+  },
+  {
+    path: '/emailVerification',
+    component: AsyncEmailVerification,
+  },
+  {
+    path: '/smsVerification',
+    component: AsyncSmsVerification,
+    privateAuth: true
+  },
+  {
+    path: '/settings',
+    component: AsyncSetting,
+    privateAuth: true
+  },
+  {
+    path: '/resetPassword',
+    component: AsyncResetPassword
+  },
+  {
+    path: '/terms',
+    component: AsyncTerms
+  },
+  {
+    path: '/login',
+    component: AsyncLogin,
+    publicAuth: true
+  },
+  {
+    path: '/newPassword',
+    component: AsyncNewPassword,
+    privateAuth: true
+  },
+  {
+    component: AsyncHome,
+    defaultPath: true
+  }
+]
 
 /**
  * Master router
  */
 export class MasterRouter extends Component<IRouterProps, any> {
-  render () {
-    const { enabled, match, data } = this.props
+  render() {
+    const { match } = this.props
     return (
-        enabled ? (
-        <Switch>
-          <Route path='/signup' component={AsyncSignup} />
-          <Route path='/emailVerification' component={AsyncEmailVerification} />
-          <Route path='/settings' component={AsyncSetting} />
-          <Route path='/resetPassword' component={AsyncResetPassword} />
-          <PublicRoute path='/login' component={<AsyncLogin />} />
-          <Route render={() => <AsyncHome uid={data.uid} />} />
-        </Switch>)
-          : ''
+      <Switch>
+        {routes.map((route: RouteType, index) => {
+          if (route.privateAuth) {
+            return <PrivateRoute key={`master-route-private-${index}`} path={route.path} component={route.component} />
+          } else if (route.publicAuth) {
+            return <PublicRoute key={`master-route-public-${index}`} path={route.path} component={route.component} />
+          } else if (route.defaultPath) {
+            return <Route key={`master-route-default-${index}`}  component={route.component} />
+          } else {
+            return <Route key={`master-route-${index}`} path={route.path} component={route.component} />
+          }
+        })}
+      </Switch>
 
     )
   }

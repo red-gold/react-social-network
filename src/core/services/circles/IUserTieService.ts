@@ -1,4 +1,4 @@
-import { User, Profile } from 'core/domain/users'
+import { User } from 'core/domain/users'
 import { UserTie } from 'core/domain/circles'
 
 /**

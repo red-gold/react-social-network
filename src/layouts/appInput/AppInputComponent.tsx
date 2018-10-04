@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 import Divider from '@material-ui/core/Divider'
 import { IAppInputComponentProps } from './IAppInputComponentProps'
 import { IAppInputComponentState } from './IAppInputComponentState'
-import { TextField } from '@material-ui/core'
+import TextField from '@material-ui/core/TextField/TextField'
 
 /**
  * Create component class
@@ -21,7 +21,7 @@ export default class AppInputComponent extends Component<IAppInputComponentProps
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor(props: IAppInputComponentProps) {
     super(props)
@@ -39,7 +39,7 @@ export default class AppInputComponent extends Component<IAppInputComponentProps
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render() {
 

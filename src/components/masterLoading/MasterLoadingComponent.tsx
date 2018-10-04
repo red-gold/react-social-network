@@ -1,17 +1,23 @@
 // - Import react components
 import React, { Component } from 'react'
+import { translate, Trans } from 'react-i18next'
+
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Dialog from '@material-ui/core/Dialog'
 import red from '@material-ui/core/colors/red'
 import { IMasterLoadingComponentProps } from './IMasterLoadingComponentProps'
 import { IMasterLoadingComponentState } from './IMasterLoadingComponentState'
 import Grid from '@material-ui/core/Grid/Grid'
-import { Typography } from '@material-ui/core'
+import { Typography, withStyles } from '@material-ui/core'
+import { connect } from 'react-redux'
+
+import config from 'src/config'
+import { masterLoadingStyles } from './masterLoadingStyles'
 
 // - Import app components
 
 // - Create MasterLoading component class
-export default class MasterLoadingComponent extends Component<IMasterLoadingComponentProps, IMasterLoadingComponentState> {
+export class MasterLoadingComponent extends Component<IMasterLoadingComponentProps, IMasterLoadingComponentState> {
 
   // Constructor
   constructor(props: IMasterLoadingComponentProps) {
@@ -21,8 +27,9 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
   }
 
   loadProgress() {
-    const { error, timedOut, pastDelay } = this.props
+    const { error, timedOut, pastDelay, t, theme } = this.props
     if (error) {
+      console.trace('error', error)
       return (
         <Grid container>
           <Grid item>
@@ -30,7 +37,7 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
           </Grid>
           <Grid item style={{ zIndex: 1 }}>
             <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
-              Unexpected Error Happened ...
+             {t!('masterLoading.unexpectedError')}
           </Typography>
           </Grid>
         </Grid>
@@ -43,7 +50,7 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
           </Grid>
           <Grid item style={{ zIndex: 1 }}>
             <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
-              It takes long time ...
+            {t!('masterLoading.timeout')}
           </Typography>
           </Grid>
         </Grid>
@@ -52,11 +59,11 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
       return (
         <Grid container>
           <Grid item>
-            <CircularProgress size={50} />
+            <CircularProgress style={{color: theme.palette.primary.light}} size={50} />
           </Grid>
           <Grid item style={{ zIndex: 1 }}>
             <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
-              Loading...
+            {t!('masterLoading.loading')}
           </Typography>
           </Grid>
         </Grid>
@@ -65,11 +72,11 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
       return (
         <Grid container>
           <Grid item>
-            <CircularProgress size={50} />
+            <CircularProgress style={{color: theme.palette.primary.light}} size={50} />
           </Grid>
           <Grid item style={{ zIndex: 1 }}>
             <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
-              Loading...
+            {t!('masterLoading.loading')}
           </Typography>
           </Grid>
         </Grid>
@@ -92,3 +99,27 @@ export default class MasterLoadingComponent extends Component<IMasterLoadingComp
   }
 
 }
+
+/**
+ * Map dispatch to props
+ */
+const mapDispatchToProps = (dispatch: any, ownProps: IMasterLoadingComponentProps) => {
+  return {
+
+  }
+}
+
+/**
+ * Map state to props
+ */
+const mapStateToProps = (state: Map<string, any>, ownProps: IMasterLoadingComponentProps) => {
+  return {
+
+  }
+}
+
+// - Connect component to redux store
+const translateWrraper = translate('translations')(MasterLoadingComponent)
+
+const stylesWrappedComponent = withStyles(masterLoadingStyles, {withTheme: true})(translateWrraper as any) as any
+export default connect(mapStateToProps, mapDispatchToProps)(stylesWrappedComponent)

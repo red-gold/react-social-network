@@ -4,33 +4,26 @@ export interface IHomeComponentProps {
 
   /**
    * Current user is authenticated {true} or not {false}
-   *
-   * @type {boolean}
-   * @memberof IHomeComponentProps
    */
   authed?: boolean
 
   /**
    * If user email is verifide {true} or not {false}
-   *
-   * @type {boolean}
-   * @memberof IHomeComponentProps
    */
   isVerifide?: boolean
 
   /**
    * User identifier
-   *
-   * @type {string}
-   * @memberof IHomeComponentProps
    */
   uid?: string
 
   /**
+   * Whether chat is open
+   */
+  isChatOpen?: boolean
+
+  /**
    * Merged all users posts to show in stream
-   *
-   * @type {{[postId: string]: Post}}
-   * @memberof IHomeComponentProps
    */
   mergedPosts?: {[postId: string]: Post}
 
@@ -41,40 +34,25 @@ export interface IHomeComponentProps {
 
   /**
    * Global state
-   *
-   * @type {*}
-   * @memberof IMasterProps
    */
   global?: any
 
   /**
    * Clear user date from store
-   *
-   * @type {Function}
-   * @memberof IMasterProps
    */
   clearData?: Function
 
     /**
      * Set flag {true} which all user data has loaded
-     *
-     * @type {Function}
-     * @memberof IMasterProps
      */
   defaultDataEnable?: Function
     /**
      * Load user data into store
-     *
-     * @type {Function}
-     * @memberof IMasterProps
      */
   loadData?: Function
 
     /**
      * Set flag {false} which user data has not loaded
-     *
-     * @type {Function}
-     * @memberof IMasterProps
      */
   defaultDataDisable?: Function
 
@@ -92,9 +70,6 @@ export interface IHomeComponentProps {
 
   /**
    * If all requierment data loaded {true} or not {false}
-   *
-   * @type {boolean}
-   * @memberof IHomeComponentProps
    */
   loaded?: boolean
 
@@ -111,7 +86,17 @@ export interface IHomeComponentProps {
   /**
    * Translate locale to string
    */
-  translate?: (state: any) => any
+  t?: (state: any) => any
+
+  /**
+   * Open chat
+   */
+  openChat?: () => any
+
+  /**
+   * Close chat
+   */
+  closeChat?: () => any
 
   /**
    * Styles

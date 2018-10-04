@@ -1,0 +1,376 @@
+{
+    "sidebar" : {
+        "home": "主页",
+        "profile": "個人主页",
+        "people": "发现",
+        "settings": "設置",
+        "sendFeedback": "联系我们",
+        "homeCaption": "Home",
+        "peopleCaption": "People",
+        "circlesCaption": "Circles",
+        "followersCaption": "Followers",
+        "twitterCaption": "Twitter",
+        "facebookCaption": "Facebook Page",
+        "instagramCaption": "Instagram",
+        "fun": "Fun",
+        "company": "Company",
+        "sponser": "Sponser",
+        "help": "Help"
+
+    },
+    "header": {
+        "home":"主页",
+        "notificationTooltip": "通知",
+        "recentChatTooltip": "Chat Box",
+        "myAccount": "個人主页",
+        "logout": "退出",
+        "homeCaption": "Home",
+        "peopleCaption": "People",
+        "circlesCaption": "Circles",
+        "followersCaption": "Followers",
+        "searchText": "Find your favorite posts and people ...",
+        "notification": {
+            "emptyCaption": "All caught up!"
+        }
+
+    },
+    "home": {
+        "postWriteButtonText": "分享您的新鲜事",
+        "cookieConsentText": "This site uses cookies. By continuing to browse the site you are agreeing to our use of cookies.",
+        "cookieConsentButton": "Allow All Cookies"
+    },
+    "post": {
+        "edit": "编辑",
+        "delete": "删除",
+        "disableComments": "关闭评论",
+        "disableSharing": "关闭分享",
+        "enableComments": "启用评论",
+        "enableSharing": "启用分享",
+        "public": "公开",
+        "textareaPlaceholder": "分享您的新鲜事",
+        "moreTooltip": "更多",
+        "postButton": "发布",
+        "cancelButton": "取消",
+        "updateButton": "更新",
+        "copyLinkButton": "复制链接",
+        "addVideoTitle": "Add video link",
+        "imageEditorTitle": "Image Editor",
+        "addVideoButton": "OK",
+        "videoInputLinkRequiredError": "Video link is required!",
+        "videoInputLinkInvalidError": "Please enter valid URL address!",
+        "facebookButton": "分享在Facebook",
+        "twitterButton": "分享在Twitter",
+        "linkedinButton": "分享在Linkedin",
+        "googlePlusButton": "分享在Google+",
+        "videoGalleryLabel": "Video Gallery",
+        "imageGalleryLabel": "Image Gallery"
+
+    },
+    "videGallery": {
+        "saveButton": "SAVE",
+        "backButton": "BACK",
+        "maxExceedMessage": "Maximum file size must be 20 MB!"
+    },
+    "imageGallery": {
+        "uploadButton": "上载",
+        "cancelButton": "取消"
+    },
+    "image": {
+        "notLoaded": "照片上载失败"
+    },
+    "comment": {
+        "postButton": "发布",
+        "cancelButton": "取消",
+        "updateButton": "更新",
+        "addCommentPlaceholder": "添加评论 ...",
+        "updateCommentPlaceholder": "写评论 ...",
+        "replyButton": "回复 ",
+        "editButton": "编辑",
+        "deleteButton": "删除"
+    },
+    "profile": {
+        "editProfileButton": "编辑個人主页",
+        "cancelButton": "取消",
+        "updateButton": "更新",
+        "aboutButton": "About",
+        "about": "About",
+        "fullName": "全名",
+        "tagline": "标语",
+        "birthday": "生日",
+        "companyName": "公司名",
+        "twitterId": "Twitter",
+        "facebookId": "Facebook Page",
+        "webUrl": "网址",
+        "contactInfo": "Contact Info",
+        "otherSocial": "Other Social",
+        "personalInformationLabel": "個人资料",
+        "headPostsLabel": "${userName}的发布",
+        "nothingSharedLabel": " 没什么分享",
+        "chooseAvatarDialogTitle": "选择照片",
+        "chooseBanerDialogTitle": "选择封面照片",
+        "twitterExampleLabel": "you twitter user name ex. twitter",
+        "facebookExampleLabel": "your facebook page name ex. facebook"
+    },
+    "people": {
+        "findPeopleTab": "搜索好友",
+        "followingTab": "关注",
+        "followersTab": "粉丝",
+        "suggestionsForYouLabel": "给您的建议",
+        "nothingToShowLabel": "没什么显示! :(",
+        "followingLabel": "关注",
+        "noFollowingLabel": "没什关注者!",
+        "followersLabel": "粉丝",
+        "noFollowersLabel": "没什粉丝!"
+    },
+    "userBox": {
+        "followButton": "关注",
+        "cancelButton": "取消",
+        "numberOfCircleButton": "${circlesCount} 界",
+        "doneButton": "完成",
+        "groupNamePlaceholder": "小组名",
+        "createCircleTooltip": "创建新界",
+        "followingLabel": "Following",
+        "followedLabel": "Followed"
+
+    },
+    "changePassword": {
+        "title": "更改密码",
+        "newPasswordLabel": "新密码",
+        "confirmPasswordLabel": "再次输入新密码",
+        "homeButton": "主页",
+        "changePasswordButton": "保存更改",
+        "newPasswordRequiredError": "这是必填栏",
+        "confirmPasswordRequiredError": "这是必填栏",
+        "confirmPasswordEqualNewPasswordError": "密码应该一致"
+
+    },
+    "circle": {
+        "settingLable": " Circle Setting",
+        "saveButton": "Save",
+        "circleName": "Circle Name",
+        "deleteCircleButton": "Delete Circle"
+    },
+    "feedback": {
+        "textareaPlaceholder": "您感觉怎么样 :) ?",
+        "sadTooltip":  "心碎",
+        "acceptableTooltip":  "可接受",
+        "happyTooltip":  "开心",
+        "awesomeTooltip":  "真棒",
+        "appreciateMessage": "我们非常感谢您的支持 ;)",
+        "sendingMessage": "反馈已发送",
+        "errorMessage": "发送反馈发生问题 :( "
+    },
+    "login": {
+        "title": "登录",
+        "emailLabel": "电子邮件",
+        "passwordLabel": "密码",
+        "emailRequiredError": "这是必填栏",
+        "passwordRequiredError": "这是必填栏",
+        "createAccountButton": "创建新帐户",
+        "createAccountText": "Don't have an account?",
+        "loginButton": "登录",
+        "loginText": "Have an account?",
+        "forgetPasswordMessage": "忘记密码",
+        "resetPasswordLabel": "重设密码",
+        "titleSideLabel": "New Here?",
+        "welcomeLabel": "Welcome Back",
+        "contentSideLabel":"Signup and Discover"
+    },
+    "signup": {
+        "title":"注册",
+        "fullNameLabel": "全名",
+        "emailLabel": "电子邮件",
+        "passwordLabel": "密码",
+        "confirmPasswordLabel": "再次输入新密码",
+        "validNameError":"请输入一个有效的名字",
+        "validEmailError": "请输入一个有效的电子邮件",
+        "emailRequiredError": "这是必填栏",
+        "passwordRequiredError": "这是必填栏",
+        "confirmRequiredError": "这是必填栏",
+        "passwordEqualConfirmError": "密码应该一致.",
+        "confirmEqualPasswordError": "密码应该一致",
+        "loginButton": "登录",
+        "createButton": "创建",
+        "titleSideLabel": "One of us?",
+        "contentSideLabel": "If you already have an account, just sign in. We've missed you.",
+        "termCaption": "By signing up, you agree to our <a href='${href}'>Terms</a>, Data Policy and Cookies Policy."
+
+    },
+    "resetPassword": {
+        "title": "重设密码",
+        "backButton": "返回",
+        "nextButton": "NEXT",
+        "emailDescription": "Set your valid email to receive verification code.",
+        "codeVerifyDescription": "Please enter verification code and click on VERIFY button. We have sent verification code to your email which you will receive after a while. You also can use RESET button if you have trouble with receiving verification code.",
+        "emailLabel": "电子邮件",
+        "codeLabel": "Verification Code",
+        "validEmailError": "Please enter a valid email. Ex. info@email.com.",
+        "requiredEmailError": "Email field is required.",
+        "requiredCodeError": "Verification code field is required!",
+        "validCodeError": "The length of verification code should be four digits.",
+        "capthaExpiredMessage": "Capthcha has been expired!",
+        "capthaRenderErrorMessage": "Error happened in rendering captcha",
+        "resetButton": "RESET",
+        "verifyButton": "VERIFY"
+    },
+    "emailVerification": {
+        "title": "电子邮件验证",
+        "homeButton": "主页",
+        "sendButton": "发送电子邮件验证",
+        "description": "电子邮件验证已发送您的电子邮件 请检查您的收件箱. 如果没还没接收电子邮件验证, 请重发电子邮件验证"
+    },
+    "smsVerification": {
+        "title": "Enter your phone number",
+        "logoutButton": "LOUGOUT",
+        "nextButton": "NEXT",
+        "phoneNumberDescription": "Set your valid number to receive verification code.",
+        "codeVerifyDescription": "Please enter verification code and click on VERIFY button. We have sent verification code to your phone which you will receive after a while. You also can use RESET button if you have trouble with receiving verification code.",
+        "phoneNumberLabel": "Phone Number",
+        "codeLabel": "Verification Code",
+        "validPhoneNumberError": "Please enter a valid phone number. Ex. +989662445843.",
+        "requiredPhoneNumberError": "Phone number field is required.",
+        "requiredCodeError": "Verification code field is required!",
+        "validCodeError": "The length of verification code should be four digits.",
+        "capthaExpiredMessage": "Capthcha has been expired!",
+        "capthaRenderErrorMessage": "Error happened in rendering captcha",
+        "resetButton": "RESET",
+        "verifyButton": "VERIFY"
+    },
+    "common": {
+        "sentRequestMessage": "请求已发送.",
+        "successfulRequestMessage": "请求已成功发送"
+    },
+    "mobileApp": {
+        "googlePlayIcon": "https://play.google.com/intl/en_us/badges/images/generic/${lang}_badge_web_generic.png",
+        "googlePlayAlt": "Get it on Google Play",
+        "appStoreAlt": "Get it on App Store",
+        "getApp": "Get the app."
+    },
+    "yourCircles": {
+        "title": "Your circles"
+    },
+    "userActivity": {
+        "privilegesTitle": "Privileges",
+        "bountiesTitle": "Bounties",
+        "verificationTitle": "Verification",
+        "reputationTitle": "Reputation",
+        "impactTitle": "Impact",
+        "nextBountiesButton": "Next Bounties",
+        "nextPrivilegeCaption": "Next privilege",
+        "currentPrivilegeCaption": "Current privilege",
+        "reputationCaption": "rep.",
+        "allPrivilegesButton": "All Privileges",
+        "likeCaption": "Like",
+        "shareCaption": "Share",
+        "followingCaption": "Following",
+        "followersCaption": "Followers",
+        "startCaption": "Star",
+        "publishCaption": "Publish",
+        "diamondCaption": "Diamond",
+        "storeTitle": "Store",
+        "privileges": "Privileges",
+        "bountyCommingSoon": "Bounty comming soon",
+        "bountyFrom": "Bounty from ${company}",
+        "goal": "Goal: ${rep} reps",
+        "allBounties": "All Bounties"
+    },
+    "terms": {
+        "termsTitle": "Terms",
+        "privacyTitle": "Privacy",
+        "cookieTitle": "Cookie",
+        "signUpTile": "Signup"
+    },
+    "config": {
+        "changePasswordLabel": "Change Password",
+        "notificationLabel": "Notification Setting",
+        "notificationCaption": "Manage your notification if you wish disable/enable.",
+        "homeLabel": "Home",
+        "saveChangesButton": "Save Changes",
+        "notification": {
+            "emailOnVote": "Send email notification on like your post",
+            "emailOnComment": "Send email notification on commenting on your post",
+            "emailOnFollow": "Send email notification on follow you"
+
+        }
+    },
+    "chat": {
+        "recentlyCaption": "Recently" ,
+        "contactsCaption": "Contacts",
+        "groupsCaption": "Groups",
+        "searchText": "Search for enemies or group of enemies :)",
+        "messageText": "Write your message ...",
+        "closeMenu": "Close Chat",
+        "chatLabel": "Chat",
+        "minimizeMenu": "Minimize",
+        "messageMenu": "Maximum",
+        "removeHistoryCaption": "Remove History",
+        "settingCaption": "Setting",
+        "translationLabel": "Translation",
+        "chatRoomSettingTitle": "Chat Room Setting",
+        "outputLabel": "Output",
+        "inputLabel": "Input",
+        "disabledLabel": "Disabled",
+        "close": "Close",
+        "disable": "Disable",
+        "noData": "Nothing to show"
+
+    },
+    "permission": {
+        "titleLabel": "Access Permission",
+        "circles": "Circles",
+        "custom": "Custom",
+        "onlyMe": "Only Me",
+        "public": "Public"
+    },
+    "externalSocial": {
+        "needConfig": " To access to ${social}, please config your ${social} account in <a style='color: blue' href='/${userId}'>Profile </a> page from edit profile dialog.",
+        "instagramLoginButton": "Login To your instagram",
+        "yourAccountCaption": "Your ${account} account",
+        "twitterCaption": "Twitter",
+        "facebookCaption": "Facebook Page",
+        "instagramCaption": "Instagram"
+    },
+    "masterLoading": {
+        "loading": "Loading",
+        "unexpectedError": "Unexpected Error Happened",
+        "timeout": "It takes long time"
+    },
+    "search": {
+        "users": "People",
+        "posts": "Posts",
+        "notFoundUser": "Sorry, no user results for \"${query}\"",
+        "notFoundPost": "Sorry, no post results for \"${query}\"",
+        "searchInPost": "Search in posts for \"${query}\"",
+        "searchInUser": "Search in users for \"${query}\""
+    },
+    "privilege": {
+        "newUser": "New User",
+        "approvedUser": "Approved User",
+        "normal": "Normal"
+    },
+    "footer": {
+        "supportEmail": "Soporte Email"
+    },
+    "album": {
+        "photos": "Photos",
+        "album": "Album",
+        "createAlbum": "Create Album",
+        "addPhoto": "Add Photo",
+        "next": "Next",
+        "back": "Back",
+        "save": "Save",
+        "uploading": "Uploading",
+        "addPhotos": "Add Photos",
+        "saveAlbum": "Save Album",
+        "defaultAlbumName": "Untitle Album",
+        "description": "Description",
+        "albumTitle": "Album Title",
+        "descriptionError": "Description field is required.",
+        "albumNameError": "Title field is required.",
+        "deleteAlbum": "Delete Album",
+        "noExistAlbum": "The album doesn't exist or you do not have enough access to this album !"
+
+    }
+  
+    
+}

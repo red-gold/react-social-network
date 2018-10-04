@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import config from 'src/config'
 import {Map} from 'immutable'
+import { translate, Trans } from 'react-i18next'
 
 // - Material UI
 import { grey } from '@material-ui/core/colors'
@@ -15,7 +16,6 @@ import Button from '@material-ui/core/Button'
 import RaisedButton from '@material-ui/core/Button'
 import EventListener, { withOptions } from 'react-event-listener'
 import { Parallax, Background } from 'react-parallax'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
 // - Import app components
 import ImgCover from 'components/imgCover'
@@ -37,7 +37,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
 
     /**
      * Component constructor
-     * @param  {object} props is an object properties of component
+     *
      */
   constructor (props: IProfileHeaderComponentProps) {
     super(props)
@@ -83,10 +83,10 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
 
     /**
      * Reneder component DOM
-     * @return {react element} return the DOM which rendered by component
+     * 
      */
   render () {
-    const {translate, isAuthedUser, editProfileOpen} = this.props
+    const {t, isAuthedUser, editProfileOpen} = this.props
     const styles = {
       avatar: {
         border: '2px solid rgb(255, 255, 255)'
@@ -144,7 +144,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
                 <Parallax strength={500} className='profile__parallax' bgStyle={{ position: 'relative' }}>
                     <Background>
                         <ImgCover width='100%' height='510px' borderRadius='2px'
-                        fileName={this.props.banner || config.settings.defaultProfileCover} />
+                        src={this.props.banner || config.settings.defaultProfileCover} />
                     </Background>
 
                 </Parallax>
@@ -171,7 +171,7 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
                     <div className='right'>
                         {isAuthedUser ? (<div style={this.state.isSmall ? styles.editButtonSmall : styles.editButton}>
                         <Button variant='raised' onClick={this.props.openEditor}>
-                        {translate!('profile.editProfileButton')}
+                        {t!('profile.editProfileButton')}
                         </Button>
                         </div>) : ''}
                     </div>
@@ -188,9 +188,6 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IProfileHeaderComponentProps) => {
   return {
@@ -200,17 +197,16 @@ const mapDispatchToProps = (dispatch: any, ownProps: IProfileHeaderComponentProp
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IProfileHeaderComponentProps) => {
 
   return {
-    translate: getTranslate(state.get('locale')),
+    
     editProfileOpen: state.getIn(['user', 'openEditProfile'])
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileHeaderComponent as any)
+const translateWrraper = translate('translations')(ProfileHeaderComponent)
+
+export default connect(mapStateToProps, mapDispatchToProps)(translateWrraper as any)

@@ -2,6 +2,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { translate, Trans } from 'react-i18next'
+
 import GridList from '@material-ui/core/GridList'
 import GridListTileBar  from '@material-ui/core/GridListTileBar'
 import GridListTile from '@material-ui/core/GridListTile'
@@ -14,8 +16,9 @@ import SvgDelete from '@material-ui/icons/Delete'
 import { grey } from '@material-ui/core/colors'
 import { withStyles } from '@material-ui/core/styles'
 import uuid from 'uuid'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
 import {Map} from 'immutable'
+import config from 'src/config'
 
 // - Import actions
 import * as imageGalleryActions from 'store/actions/imageGalleryActions'
@@ -29,6 +32,7 @@ import FileAPI from 'api/FileAPI'
 import { IImageGalleryComponentProps } from './IImageGalleryComponentProps'
 import { IImageGalleryComponentState } from './IImageGalleryComponentState'
 import { Image } from 'core/domain/imageGallery'
+import { userSelector } from 'store/reducers/users/userSelector'
 
 const styles = (theme: any) => ({
   fullPageXs: {
@@ -93,7 +97,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor (props: IImageGalleryComponentProps) {
     super(props)
@@ -108,25 +112,26 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
 
   /**
    * Handle set image
-   * @param  {event} evt  passed by on click event on add image
-   * @param  {string} name is the name of the image
    */
-  handleSetImage = (event: any, URL: string,fullPath: string) => {
-    this.props.set!(URL,fullPath)
+  handleSetImage = (event: any, URL: string) => {
+    this.props.set!(URL)
     this.close()
   }
 
   /**
    * Handle delete image
-   * @param  {event} evt  passed by on click event on delete image
-   * @param  {integer} id is the image identifier which selected to delete
    */
-  handleDeleteImage = (event: any, id: string) => {
-    this.props.deleteImage!(id)
+  handleDeleteImage = (event: any, id: string, fileName: string) => {
+    
+    this.props.deleteImage!(id,fileName)
   }
 
   componentDidMount () {
     window.addEventListener('onSendResizedImage', this.handleSendResizedImage)
+    const {loadData} = this.props
+    if (loadData) {
+      loadData()
+    }
   }
   componentWillUnmount () {
     window.removeEventListener('onSendResizedImage', this.handleSendResizedImage)
@@ -134,9 +139,6 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
 
   /**
    * Handle send image resize event that pass the resized image
-   *
-   *
-   * @memberof ImageGallery
    */
   handleSendResizedImage = (event: any) => {
 
@@ -164,11 +166,11 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
   }
 
   imageList = () => {
-    return this.props.images!.map((image: Image, index) => {
+    return this.props.images!.map((image , index) => {
 
       return (
       <GridListTile
-        key={image.id!}
+        key={image!.get('id')!}
       >
         <div>
           <div style={{ overflowY: 'hidden', overflowX: 'auto' }}>
@@ -176,7 +178,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
               <div style={{ display: 'block' }}>
                 <div style={{ display: 'block', marginRight: '8px', transition: 'transform .25s' }}>
                   <li style={{ width: '100%', margin: 0, verticalAlign: 'bottom', position: 'static', display: 'inline-block' }}>
-                    <Img fileName={image.URL} style={{ width: '100%', height: 'auto' }} />
+                    <Img fileName={image!.get('url')} style={{ width: '100%', height: 'auto' }} />
 
                   </li>
                 </div>
@@ -186,10 +188,11 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
           </div>
         </div>
         <GridListTileBar
-              title={<SvgDelete style={this.styles.deleteImage as any} onClick={evt => this.handleDeleteImage(evt, image.id!)} />}
+              title={<SvgDelete style={this.styles.deleteImage as any} onClick={evt => 
+                this.handleDeleteImage(evt, image!.get('id'), image!.get('fileName'))} />}
               titlePosition='top'
               actionIcon={
-                <SvgAddImage style={this.styles.addImage as any} onClick={evt => this.handleSetImage(evt, image.URL,image.fullPath)} />}
+                <SvgAddImage style={this.styles.addImage as any} onClick={evt => this.handleSetImage(evt, image!.get('url'))} />}
               actionPosition='left'
             />
       </GridListTile>)
@@ -198,10 +201,9 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
 
   render () {
 
-    const {translate} = this.props
+    const {t, images} = this.props
     /**
      * Component styles
-     * @type {Object}
      */
 
     return (
@@ -223,12 +225,12 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
               />
               <label htmlFor='raised-button-file'>
                 <Button variant='raised' component='span' style={this.styles.uploadButton as any}>
-                  {translate!('imageGallery.uploadButton')}
+                  {t!('imageGallery.uploadButton')}
         </Button>
               </label>
             </div>
           </GridListTile>
-          {this.imageList()}
+          {images && images.count() > 0 ? this.imageList() : ''}
         </GridList>
       </div>
     )
@@ -237,14 +239,10 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IImageGalleryComponentProps) => {
   return {
-    uploadImage: (image: any, imageName: string) => dispatch(imageGalleryActions.dbUploadImage(image,imageName)),
-    deleteImage: (id: string) => dispatch(imageGalleryActions.dbDeleteImage(id)),
+    deleteImage: (fileId: string, fileName: string) => dispatch(imageGalleryActions.dbDeleteImage(fileId, ownProps.folder, fileName)),
     progressChange : (percent: number,status: boolean) => dispatch(globalActions.progressChange(percent, status))
 
   }
@@ -252,20 +250,18 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImageGalleryComponentProps
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>) => {
   const uid = state.getIn(['authorize', 'uid'])
-  const currentUser = state.getIn(['user', 'info', uid])
+  const currentUser = userSelector.getUserProfileById(state, {userId: uid}).toJS()
   return {
-    translate: getTranslate(state.get('locale')),
-    images: state.getIn(['imageGallery', 'images']),
+    
     avatar: currentUser ? currentUser.avatar : ''
 
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(ImageGalleryComponent as any) as any)
+const translateWrraper = translate('translations')(ImageGalleryComponent as any)
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

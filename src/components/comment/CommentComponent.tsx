@@ -7,8 +7,9 @@ import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import Linkify from 'react-linkify'
 import Popover from '@material-ui/core/Popover'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
 import {Map} from 'immutable'
+import { translate, Trans } from 'react-i18next'
 
 import { Comment } from 'core/domain/comments'
 
@@ -28,7 +29,6 @@ import MenuList from '@material-ui/core/MenuList'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
-import { Manager, Target, Popper } from 'react-popper'
 import { Card, CardActions, CardHeader, CardMedia, CardContent } from '@material-ui/core'
 import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
@@ -45,6 +45,7 @@ import * as userActions from 'store/actions/userActions'
 
 import { ICommentComponentProps } from './ICommentComponentProps'
 import { ICommentComponentState } from './ICommentComponentState'
+import { userSelector } from 'store/reducers/users/userSelector'
 
 const styles = (theme: any) => ({
   textField: {
@@ -164,7 +165,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor (props: ICommentComponentProps) {
     super(props)
@@ -299,19 +300,19 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render () {
 
     /**
      * Comment object from props
      */
-    const { comment, classes, fullName, avatar, translate , editorStatus} = this.props
+    const { comment, classes, fullName, avatar, t , editorStatus} = this.props
 
     const { openMenu, anchorEl } = this.state
 
     const rightIconMenu = (
-      <>
+      <div>
           <IconButton
           buttonRef={(node: any) => {
             this.buttonMenu = node
@@ -344,16 +345,14 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
                   horizontal: 'center',
                 }}
               >
-              <Paper>
                 <MenuList role='menu'>
-                  <MenuItem className={classes.rightIconMenuItem}>{translate!('comment.replyButton')}</MenuItem>
-                  {this.props.isCommentOwner ? (<MenuItem className={classes.rightIconMenuItem} onClick={this.handleEditComment}>{translate!('comment.editButton')}</MenuItem>) : ''}
-                  {(this.props.isCommentOwner || this.props.isPostOwner) ? (<MenuItem className={classes.rightIconMenuItem} onClick={(evt: any) => this.handleDelete(evt, comment.id, comment.postId)}>{translate!('comment.deleteButton')}</MenuItem>) : ''}
+                  <MenuItem className={classes.rightIconMenuItem}>{t!('comment.replyButton')}</MenuItem>
+                  {this.props.isCommentOwner ? (<MenuItem className={classes.rightIconMenuItem} onClick={this.handleEditComment}>{t!('comment.editButton')}</MenuItem>) : ''}
+                  {(this.props.isCommentOwner || this.props.isPostOwner) ? (<MenuItem className={classes.rightIconMenuItem} onClick={(evt: any) => this.handleDelete(evt, comment.id, comment.postId)}>{t!('comment.deleteButton')}</MenuItem>) : ''}
                 </MenuList>
-              </Paper>
               </Popover>
 
-              </>
+              </div>
     )
 
     const Author = () => (
@@ -368,7 +367,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
     const commentBody = (
       <div style={{ outline: 'none', flex: 'auto', flexGrow: 1 }}>
       { editorStatus ? <TextField
-                placeholder={translate!('comment.updateCommentPlaceholder')}
+                placeholder={t!('comment.updateCommentPlaceholder')}
                 multiline
                 autoFocus
                 rowsMax='4'
@@ -386,8 +385,8 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
         <div style={{ display: (editorStatus ? 'flex' : 'none'), flexDirection: 'row-reverse' }}>
           <Button color='primary' disabled={this.state.editDisabled}
             style={{ float: 'right', clear: 'both', zIndex: 5, margin: '0px 5px 5px 0px', fontWeight: 400 }}
-            onClick={this.handleUpdateComment} > {translate!('comment.updateButton')} </Button>
-          <Button color='primary' style={this.styles.cancel as any} onClick={this.handleCancelEdit} > {translate!('comment.cancelButton')} </Button>
+            onClick={this.handleUpdateComment} > {t!('comment.updateButton')} </Button>
+          <Button color='primary' style={this.styles.cancel as any} onClick={this.handleCancelEdit} > {t!('comment.cancelButton')} </Button>
         </div>
       </div>
     )
@@ -416,9 +415,6 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: ICommentComponentProps) => {
   return {
@@ -434,24 +430,23 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentComponentProps) => 
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
-const mapStateToProps = (state: any, ownProps: ICommentComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: ICommentComponentProps) => {
   const commentOwnerId = ownProps.comment.userId
   const uid = state.getIn(['authorize', 'uid'])
   const avatar =  ownProps.comment.userAvatar
   const fullName = ownProps.comment.userDisplayName
   return {
-    translate: getTranslate(state.get('locale')),
+    
     uid: uid,
     isCommentOwner: (uid === commentOwnerId),
-    commentOwner: state.getIn(['user', 'info', commentOwnerId]),
+    commentOwner: userSelector.getUserProfileById(state, {userId: commentOwnerId!}),
     avatar,
     fullName
   }
 }
 
 // - Connect component to redux store
+const translateWrraper = translate('translations')(CommentComponent)
+
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(CommentComponent as any) as any)

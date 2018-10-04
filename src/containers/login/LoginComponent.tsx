@@ -3,6 +3,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import { push } from 'react-router-redux'
+import config from 'src/config'
+
+import { Map } from 'immutable'
+import { translate, Trans } from 'react-i18next'
+import classNames from 'classnames'
+
+// - Material-UI
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import RaisedButton from '@material-ui/core/Button'
@@ -11,8 +18,12 @@ import IconButton from '@material-ui/core/IconButton'
 import Divider from '@material-ui/core/Divider'
 import ActionAndroid from '@material-ui/icons/Android'
 import { withStyles } from '@material-ui/core/styles'
-import config from 'src/config'
-import { localize } from 'react-localize-redux'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Typography from '@material-ui/core/Typography'
+import Hidden from '@material-ui/core/Hidden'
+
+// - Components
+import Footer from 'layouts/footer'
 
 // - Import actions
 import * as authorizeActions from 'src/store/actions/authorizeActions'
@@ -21,33 +32,10 @@ import { ILoginComponentState } from './ILoginComponentState'
 import { OAuthType } from 'src/core/domain/authorize'
 import Grid from '@material-ui/core/Grid/Grid'
 import CommonAPI from 'api/CommonAPI'
-
-const styles = (theme: any) => ({
-  textField: {
-    minWidth: 280,
-    marginTop: 20
-  },
-  contain: {
-    margin: '0 auto'
-  },
-  paper: {
-    minHeight: 370,
-    maxWidth: 450,
-    minWidth: 337,
-    textAlign: 'center',
-    display: 'block',
-    margin: 'auto'
-  },
-  bottomPaper: {
-    display: 'inherit',
-    fontSize: 'small',
-    marginTop: '50px'
-  },
-  link: {
-    color: '#0095ff',
-    display: 'inline-block'
-  }
-})
+import StringAPI from 'api/StringAPI'
+import { ServerRequestType } from 'constants/serverRequestType'
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
+import { loginStyles } from './loginStyles'
 
 // - Create Login component class
 export class LoginComponent extends Component<ILoginComponentProps, ILoginComponentState> {
@@ -66,7 +54,7 @@ export class LoginComponent extends Component<ILoginComponentProps, ILoginCompon
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor(props: ILoginComponentProps) {
     super(props)
@@ -118,18 +106,18 @@ export class LoginComponent extends Component<ILoginComponentProps, ILoginCompon
    * Handle register form
    */
   handleForm = () => {
-    const { translate } = this.props
+    const { t } = this.props
     let error = false
     if (this.state.emailInput === '') {
       this.setState({
-        emailInputError: translate!('login.emailRequiredError')
+        emailInputError: t!('login.emailRequiredError')
       })
       error = true
 
     }
     if (this.state.passwordInput === '') {
       this.setState({
-        passwordInputError: translate!('login.passwordRequiredError')
+        passwordInputError: t!('login.passwordRequiredError')
       })
       error = true
 
@@ -146,11 +134,11 @@ export class LoginComponent extends Component<ILoginComponentProps, ILoginCompon
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render() {
-    const { classes, loginWithOAuth, translate } = this.props
-
+    const { classes, loginWithOAuth, t, loginRequest } = this.props
+    const { emailInput } = this.state
     const OAuthLogin = (
       <div style={this.styles.singinOptions as any}>
         <IconButton
@@ -162,77 +150,76 @@ export class LoginComponent extends Component<ILoginComponentProps, ILoginCompon
         <IconButton
           onClick={() => loginWithOAuth!(OAuthType.GITHUB)}
         > <div className='icon-github icon'></div> </IconButton>
-  
+
       </div>
     )
+    const loginRequestId = StringAPI.createServerRequestId(ServerRequestType.AuthLogin, emailInput)
+    const loginRequestStatus = loginRequest!.get(loginRequestId, { status: ServerRequestStatusType.NoAction }).status
+    const loading = loginRequestStatus === ServerRequestStatusType.Sent
 
     return (
-      <Grid container spacing={24}>
-        <Grid item xs={12} className={classes.contain}>
+      <form className={classes.paper}>
+        <div className={classes.root}>
+         
+          {config.settings.enabledOAuthLogin ? OAuthLogin : ''}
+          <Divider />
+          <TextField
+            className={classes.textField}
+            color='secondary'
+            autoFocus
+            onChange={this.handleInputChange}
+            helperText={this.state.emailInputError}
+            error={this.state.emailInputError.trim() !== ''}
+            name='emailInput'
+            label={t!('login.emailLabel')}
+            type='email'
+            tabIndex={1}
+          /><br />
+          <TextField
+            color='secondary'
+            className={classes.textField}
+            onChange={this.handleInputChange}
+            helperText={this.state.passwordInputError}
+            error={this.state.passwordInputError.trim() !== ''}
+            name='passwordInput'
+            label={t!('login.passwordLabel')}
+            type='password'
+            tabIndex={2}
+          />
+          <br />
+          <br />
+          <div className='login__button-box'>
+            <div className={classes.wrapperButton}>
+              <Button
+                variant='raised'
+                color='secondary'
+                disabled={loading}
+                onClick={this.handleForm}
+                fullWidth
+                tabIndex={3}
+              >
+                {t!('login.loginButton')}
+              </Button>
+              {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
 
-          <h1 className='g__app-name'>{config.settings.appName}</h1>
-
-          <div className='animate-bottom'>
-            <Paper className={classes.paper} elevation={1} >
-              <form>
-                <div style={{ padding: '48px 40px 36px' }}>
-                  <div style={{
-                    paddingLeft: '40px',
-                    paddingRight: '40px'
-                  }}>
-
-                    <h2 className='zoomOutLCorner animated g__paper-title'>{translate!('login.title')}</h2>
-                  </div>
-                  {config.settings.enabledOAuthLogin ? OAuthLogin : ''}
-                
-                  <Divider style={this.styles.divider} />
-                  <TextField
-                    className={classes.textField}
-                    autoFocus
-                    onChange={this.handleInputChange}
-                    helperText={this.state.emailInputError}
-                    error={this.state.emailInputError.trim() !== ''}
-                    name='emailInput'
-                    label={translate!('login.emailLabel')}
-                    type='email'
-                    tabIndex={1}
-                  /><br />
-                  <TextField
-                    className={classes.textField}
-                    onChange={this.handleInputChange}
-                    helperText={this.state.passwordInputError}
-                    error={this.state.passwordInputError.trim() !== ''}
-                    name='passwordInput'
-                    label={translate!('login.passwordLabel')}
-                    type='password'
-                    tabIndex={2}
-                  /><br />
-                  <br />
-                  <br />
-                  <div className='login__button-box'>
-                    <div>
-                      <Button onClick={this.props.signupPage} tabIndex={4}>{translate!('login.createAccountButton')}</Button>
-                    </div>
-                    <div >
-                      <Button variant='raised' color='primary' onClick={this.handleForm} tabIndex={3} >{translate!('login.loginButton')}</Button>
-                    </div>
-                  </div>
-                  <span className={classes.bottomPaper}>{translate!('login.forgetPasswordMessage')} <NavLink to='/resetPassword' className={classes.link}>{translate!('login.resetPasswordLabel')}</NavLink></span>
-                </div>
-              </form>
-            </Paper>
+            </div>
           </div>
-        </Grid>
-      </Grid>
+          <div className={classes.forgotRoot}>
+            <span className={classes.bottomPaper}><NavLink to='/resetPassword' className={classes.forgotText}>{t!('login.forgetPasswordMessage')}</NavLink></span>
+          </div>
+          <Divider />
+          <div className={classes.forgotRoot}>
+            <span className={classes.bottomPaper}>{t!('login.createAccountText')} <NavLink to='/signup' className={classes.link}>{t!('login.createAccountButton')}</NavLink></span>
+          </div>
+
+        </div>
+      </form>
     )
   }
 }
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: ILoginComponentProps) => {
   return {
@@ -249,10 +236,14 @@ const mapDispatchToProps = (dispatch: any, ownProps: ILoginComponentProps) => {
 /**
  * Map state to props
  */
-const mapStateToProps = (state: any, ownProps: ILoginComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: ILoginComponentProps) => {
+  const loginRequest = state.getIn(['server', 'request'], Map({}))
   return {
+    loginRequest
   }
 }
 
 // - Connect component to redux store
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(localize(LoginComponent, 'locale', CommonAPI.getStateSlice) as any) as any)) as typeof LoginComponent
+const translateWrraper = translate('translations')(LoginComponent)
+
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(loginStyles as any)(translateWrraper as any) as any)) as typeof LoginComponent

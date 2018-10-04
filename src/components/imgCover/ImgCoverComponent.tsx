@@ -3,8 +3,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SvgImage from '@material-ui/icons/Image'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
 import {Map} from 'immutable'
+import { translate, Trans } from 'react-i18next'
 
 // - Import app components
 
@@ -53,7 +54,7 @@ export class ImgCoverComponent extends Component<IImgCoverComponentProps,IImgCov
     cover: {
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center'
+      backgroundPosition: 'top center'
     },
     loding: {
       display: 'flex',
@@ -62,7 +63,6 @@ export class ImgCoverComponent extends Component<IImgCoverComponentProps,IImgCov
       width: '100%',
       height: '100px',
       position: 'relative',
-      color: '#cacecd',
       fontWeight: 400
     },
     loadingContent: {
@@ -71,7 +71,6 @@ export class ImgCoverComponent extends Component<IImgCoverComponentProps,IImgCov
       alignItems: 'center'
     },
     loadingImage: {
-      fill: 'aliceblue',
       width: '50px',
       height: '50px'
     }
@@ -79,7 +78,6 @@ export class ImgCoverComponent extends Component<IImgCoverComponentProps,IImgCov
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
    */
   constructor (props: IImgCoverComponentProps) {
     super(props)
@@ -91,45 +89,55 @@ export class ImgCoverComponent extends Component<IImgCoverComponentProps,IImgCov
 
     // Binding functions to `this`
     this.handleLoadImage = this.handleLoadImage.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   /**
    * Will be called on loading image
-   *
-   * @memberof ImgCoverComponent
    */
   handleLoadImage = () => {
     this.setState({
       isImageLoaded: true
     })
   }
+  
+  /**
+   * Handle click
+   */
+  handleClick = (event: any) => {
+
+    const {onClick} = this.props
+    if (onClick) {
+      onClick(event)
+    }
+
+  }
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
    */
   render () {
 
-    let { fileName, style, translate } = this.props
+    let { src, style, t, className, onClick } = this.props
     let { isImageLoaded } = this.state
 
     return (
       <div>
-        <div style={Object.assign({},this.styles.cover,{
-          backgroundImage: 'url(' + (fileName || '') + ')',
+        <div onClick={this.handleClick} className={className} style={(!isImageLoaded ? { display: 'none' } : Object.assign({},this.styles.cover,{
+          backgroundImage: 'url(' + (src || '') + ')',
           width: this.props.width,
           height: this.props.height,
           borderRadius: this.props.borderRadius
-        },style)}>
+        },style) as any)}>
           {this.props.children}
         </div>
-        <div style={Object.assign({},{ backgroundColor: 'blue' },isImageLoaded ? { display: 'none' } : this.styles.loding)}>
+        <div style={(isImageLoaded ? { display: 'none' } : this.styles.loding as any)}>
           <div style={this.styles.loadingContent as any}>
             <SvgImage style={this.styles.loadingImage} />
-            <div>{translate!('image.notLoaded')}</div>
+            <div>{t!('image.notLoaded')}</div>
           </div>
         </div>
-         <img onLoad={this.handleLoadImage} src={fileName || ''} style={{ display: 'none'}} />
+         <img onLoad={this.handleLoadImage} src={src || ''} style={{ display: 'none'}} />
       </div>
     )
   }
@@ -137,9 +145,6 @@ export class ImgCoverComponent extends Component<IImgCoverComponentProps,IImgCov
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IImgCoverComponentProps) => {
   return {
@@ -148,16 +153,14 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImgCoverComponentProps) =>
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IImgCoverComponentProps) => {
   return {
-    translate: getTranslate(state.get('locale'))
-
+    
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(ImgCoverComponent as any)
+const translateWrraper = translate('translations')(ImgCoverComponent)
+
+export default connect(mapStateToProps, mapDispatchToProps)(translateWrraper as any)

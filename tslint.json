@@ -1,10 +1,5 @@
 {
     "extends": ["tslint-react"],
-    "linterOptions": {
-        "exclude": [
-            "node_modules/firebase/firestore/index.ts"
-        ]
-    },
     "rules": {
         "ban": false,
         "class-name": true,
@@ -50,7 +45,7 @@
         ],
         "no-consecutive-blank-lines": true,
         "no-construct": true,
-        "no-debugger": true,
+        "no-debugger": false,
         "no-duplicate-variable": true,
         "no-empty": false,
         "no-eval": true,

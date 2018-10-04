@@ -31,11 +31,42 @@ const styles = (theme: any) => ({
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper
   },
-  closeButton: {color: 'black'},
-  closeIcon: {width: 12, height: 12},
+  closeButton: {
+    color: 'black',
+    top: 20,
+    right: 6
+  },
+  closeIcon: {
+    width: 25, 
+    height: 25,
+    '&:hover': {
+      color: '#868686'
+    }
+  },
   listItem: {
     backgroundColor: 'white',
-    marginBottom: '6px'
+    marginBottom: '6px',
+    boxShadow: '0 1px 2px rgba(0,0,0,.2)',
+    borderRadius: 5
+  },
+  itemGutter: {
+    paddingLeft: 15
+  },
+  description: {
+    color: 'rgba(0,0,0,0.54)',
+    fontSize: 14,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    width: '100%,'
+  },
+  userName: {
+    color: 'rgba(0,0,0,0.87)',
+    fontSize: 16,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    width: '100%',
   }
 })
 
@@ -81,7 +112,7 @@ export class NotifyItemComponent extends Component<INotifyItemComponentProps,INo
 
     /**
      * Component constructor
-     * @param  {object} props is an object properties of component
+     *
      */
   constructor (props: INotifyItemComponentProps) {
     super(props)
@@ -108,14 +139,14 @@ export class NotifyItemComponent extends Component<INotifyItemComponentProps,INo
 
     /**
      * Reneder component DOM
-     * @return {react element} return the DOM which rendered by component
+     * 
      */
   render () {
     let { description, fullName, avatar, isSeen, id, goTo,closeNotify, notifierUserId, url, deleteNotiy, classes } = this.props
 
     return (
 
-        <ListItem key={notifierUserId} dense button className={classes.listItem} style={isSeen ? { opacity: 0.6 } : {}}>
+        <ListItem key={notifierUserId} classes={{gutters: classes.itemGutter}} dense button className={classes.listItem} style={isSeen ? { opacity: 0.6 } : {}}>
               <NavLink
                         to={`/${notifierUserId}`}
                         onClick={(evt) => {
@@ -124,13 +155,13 @@ export class NotifyItemComponent extends Component<INotifyItemComponentProps,INo
                           goTo!(`/${notifierUserId}`)
                         }}
                     >
-                        <UserAvatar fullName={fullName} fileName={avatar} />
+                        <UserAvatar fullName={fullName} size={40} fileName={avatar} />
                     </NavLink>
               <ListItemText primary={<NavLink to={url} onClick={this.handleSeenNotify}>
-                        <div className='user-name'>
+                        <div className={classes.userName}>
                             {fullName}
                         </div>
-                        <div className='description'>
+                        <div className={classes.description}>
                             {description}
                         </div>
                     </NavLink>} />
@@ -147,9 +178,6 @@ export class NotifyItemComponent extends Component<INotifyItemComponentProps,INo
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: INotifyItemComponentProps) => {
   return {
@@ -161,9 +189,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: INotifyItemComponentProps) 
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: INotifyItemComponentProps) => {
   return {

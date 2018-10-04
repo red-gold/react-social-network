@@ -1,6 +1,7 @@
 export enum AuthorizeActionType {
     
     LOGIN = 'LOGIN',
+    SUBSCRIBE_AUTH_STATE_CHANGE = 'SUBSCRIBE_AUTH_STATE_CHANGE',
     LOGOUT = 'LOGOUT',
     SIGNUP = 'SIGNUP',
     UPDATE_PASSWORD = 'UPDATE_PASSWORD'

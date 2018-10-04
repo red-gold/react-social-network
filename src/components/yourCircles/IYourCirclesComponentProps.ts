@@ -11,4 +11,9 @@ export interface IYourCirclesComponentProps {
    * User identifier
    */
   uid?: string
+
+  /**
+   * Translate lovale
+   */
+  t?: (state: string) => any
 }

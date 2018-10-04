@@ -9,8 +9,9 @@ import { grey, cyan } from '@material-ui/core/colors'
 import { push } from 'react-router-redux'
 import AppBar from '@material-ui/core/AppBar'
 import Typography from '@material-ui/core/Typography'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
 import {Map} from 'immutable'
+import { translate, Trans } from 'react-i18next'
 
 // - Import app components
 import FindPeople from 'src/components/findPeople'
@@ -45,7 +46,7 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor (props: IPeopleComponentProps) {
     super(props)
@@ -63,20 +64,20 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
    * Hadle on tab change
    */
   handleChangeTab = (event: any, value: any) => {
-    const {circlesLoaded, goTo, setHeaderTitle} = this.props
+    const {circlesLoaded, goTo, setHeaderTitle, t} = this.props
     this.setState({ tabIndex: value })
     switch (value) {
       case 0:
         goTo!('/people')
-        setHeaderTitle!('People')
+        setHeaderTitle!(t!('header.peopleCaption'))
         break
       case 1:
         goTo!('/people/circles')
-        setHeaderTitle!('Circles')
+        setHeaderTitle!(t!('header.circlesCaption'))
         break
       case 2:
         goTo!('/people/followers')
-        setHeaderTitle!('Followers')
+        setHeaderTitle!(t!('header.followersCaption'))
         break
 
       default:
@@ -85,18 +86,18 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
   }
 
   componentWillMount () {
-    const { setHeaderTitle} = this.props
+    const { setHeaderTitle, t} = this.props
     const {tab} = this.props.match.params
     switch (tab) {
       case undefined:
       case '':
-        setHeaderTitle!('People')
+        setHeaderTitle!(t!('header.peopleCaption'))
         break
       case 'circles':
-        setHeaderTitle!('Circles')
+        setHeaderTitle!(t!('header.circlesCaption'))
         break
       case 'followers':
-        setHeaderTitle!('Followers')
+        setHeaderTitle!(t!('header.followersCaption'))
         break
       default:
         break
@@ -106,7 +107,7 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render () {
   /**
@@ -127,19 +128,19 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
       }
     }
 
-    const {circlesLoaded, goTo, setHeaderTitle, translate} = this.props
+    const {circlesLoaded, goTo, setHeaderTitle, t} = this.props
     const {tabIndex} = this.state
     return (
       <div style={styles.people}>
       <AppBar position='static' color='default'>
-      <Tabs indicatorColor={grey[50]}
+      <Tabs indicatorColor={'secondary'}
       onChange={this.handleChangeTab}
       value={tabIndex} centered
       textColor='primary'
        >
-        <Tab label={translate!('people.findPeopleTab')} />
-        <Tab label={translate!('people.followingTab')} />
-        <Tab label={translate!('people.followersTab')} />
+        <Tab label={t!('people.findPeopleTab')} />
+        <Tab label={t!('people.followingTab')} />
+        <Tab label={t!('people.followersTab')} />
       </Tabs>
       </AppBar>
       {tabIndex === 0 && <TabContainer>{circlesLoaded ? <FindPeople /> : ''}</TabContainer>}
@@ -170,9 +171,6 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IPeopleComponentProps) => {
 
@@ -185,14 +183,11 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPeopleComponentProps) => {
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IPeopleComponentProps) => {
 
   return {
-    translate: getTranslate(state.get('locale')),
+    
     uid: state.getIn(['authorize', 'uid'], 0),
     circlesLoaded: state.getIn(['circle', 'loaded'])
 
@@ -200,4 +195,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IPeopleComponentProp
 }
 
 // - Connect component to redux store
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PeopleComponent as any) as any)
+const translateWrraper = translate('translations')(PeopleComponent)
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(translateWrraper as any) as any)

@@ -8,17 +8,33 @@ import { IServiceProvider } from 'core/factories'
 import { ICommentService } from 'core/services/comments'
 import { ServiceProvide } from 'core/factories/serviceProvide'
 import { injectable } from 'inversify'
+import { SocialProviderTypes } from 'core/socialProviderTypes'
+import { inject } from 'inversify'
+import { IHttpService } from 'core/services/webAPI'
+import algoliasearch from 'algoliasearch'
+import config from 'src/config'
+import { Map, fromJS, List } from 'immutable'
+import { PostIndex } from 'core/domain/posts/postIndex'
+import { PostType } from 'core/domain/posts/postType'
 
 /**
  * Firbase post service
- *
- * @export
- * @class PostService
- * @implements {IPostService}
  */
 @injectable()
 export class PostService implements IPostService {
 
+  constructor(
+    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
+  ) {
+    this.getSearchKey = this.getSearchKey.bind(this)
+    this.searchPosts = this.searchPosts.bind(this)
+    this.getAlbumPosts = this.getAlbumPosts.bind(this)
+    this.getPostsByUserId = this.getPostsByUserId.bind(this)
+  }
+
+  /**
+   * Add post on server
+   */
   public addPost: (post: Post)
     => Promise<string> = (post) => {
       return new Promise<string>((resolve, reject) => {
@@ -41,7 +57,12 @@ export class PostService implements IPostService {
       return new Promise<void>((resolve, reject) => {
         const batch = db.batch()
         const postRef = db.doc(`posts/${post.id}`)
-
+        if (!post.votes) {
+          delete post.votes
+        }
+        if (!post.comments) {
+          delete post.comments
+        }
         batch.update(postRef, { ...post })
         batch.commit().then(() => {
           resolve()
@@ -72,93 +93,52 @@ export class PostService implements IPostService {
     }
 
   /**
-   * Get the posts of tie users with the user with {userId} identifier and it's owen posts
-   */
-  public getPosts: (currentUserId: string, lastPostId: string, page: number, limit: number)
-    => Promise<{ posts: { [postId: string]: Post }[], newLastPostId: string }> = (currentUserId, lastPostId, page = 0, limit = 10) => {
-      return new Promise<{ posts: { [postId: string]: Post }[], newLastPostId: string }>((resolve, reject) => {
-        let postList: { [postId: string]: Post }[] = []
-
-        // Get user ties
-        db.collection('graphs:users').where('leftNode', '==', currentUserId)
-          .get().then((tieUsers) => {
-            if (!(tieUsers.size > 0)) {
-                // Get current user posts
-              this.getPostsByUserId(currentUserId,lastPostId, page, limit).then((result) => {
-                resolve(result)
-              })
-            }
-
-            let userCounter = 0
-            const userIdList: Array<string> = []
-            tieUsers.forEach((item) => {
-              const userId = item.data().rightNode
-              if (!userIdList.includes(userId)) {
-
-              // Get user tie posts
-                this.getPostsByUserId(userId).then((posts) => {
-                  userCounter++
-                  postList = [
-                    ...postList,
-                    ...posts.posts
-                  ]
-                  if (userCounter === tieUsers.size) {
-                  // Get current user posts
-                    this.getPostsByUserId(currentUserId).then((result) => {
-                      postList = [
-                        ...postList,
-                        ...result.posts
-                      ]
-
-                      resolve(this.pagingPosts(postList, lastPostId, limit))
-                    })
-                  }
-                })
-              }
-            })
-          })
-          .catch((error: any) => {
-            reject(new SocialError(error.code, error.message))
-          })
-      })
-    }
-
-  /**
    * Get list of post by user identifier
    */
-  public getPostsByUserId: (userId: string, lastPostId?: string, page?: number, limit?: number)
-    => Promise<{ posts: { [postId: string]: Post }[], newLastPostId: string }> = (userId, lastPostId, page, limit) => {
-      return new Promise<{ posts: { [postId: string]: Post }[], newLastPostId: string }>((resolve, reject) => {
+  public async getPostsByUserId(userId: string, lastPostId?: string, page?: number, limit?: number, searchKey?: string) {
+    return this.searchPosts('', `ownerUserId:${userId}`, lastPostId, page, limit, searchKey)
+  }
 
-        let parsedData: { [postId: string]: Post }[] = []
+  /**
+   * Get list of album post
+   */
+  public async getAlbumPosts(userId: string, lastPostId?: string, page?: number, limit?: number, searchKey?: string) {
+    return this.searchPosts('', `ownerUserId:${userId} AND postTypeId:${PostType.Album}`, lastPostId, page, limit, searchKey)
+  }
 
-        let query = db.collection('posts').where('ownerUserId', '==', userId)
-        if (lastPostId && lastPostId !== '') {
-          query = query.orderBy('id').orderBy('creationDate', 'desc').startAfter(lastPostId)
-        }
-        if (limit) {
-          query = query.limit(limit)
-        }
-        query.get().then((posts) => {
-          let newLastPostId = posts.size > 0 ? posts.docs[posts.docs.length - 1].id : ''
-          posts.forEach((postResult) => {
-            const post = postResult.data() as Post
-            parsedData = [
-              ...parsedData,
-              {
-                [postResult.id]: {
-                  id: postResult.id,
-                  ...post
-                }
-              }
-
-            ]
-          })
-          resolve({ posts: parsedData, newLastPostId })
-        })
-
+  /**
+   * Search in posts
+   */
+  public async searchPosts(query: string, filters: string, lastPostId?: string, page?: number, limit?: number, searchKey?: string) {
+    const searchClient = algoliasearch(config.algolia.appId, config.algolia.apiKey ) // searchKey!)
+    const postIndex = searchClient.initIndex('post')
+    const resultSearch: algoliasearch.Response = await postIndex
+      .search({
+        query,
+        page,
+        filters,
+        hitsPerPage: limit
       })
-    }
+    const pageCount = resultSearch.nbPages - 1
+    const postCount = resultSearch.nbHits
+    let parsedData: Map<string, any> = Map({})
+    let postIds: Map<string, boolean> =  Map({})
+    resultSearch.hits.forEach((post: PostIndex) => {
+      const mapPost = PostIndex.mapToPost(post)
+      parsedData = parsedData.set(mapPost.id!, fromJS({ ...mapPost }))
+      postIds = postIds.set(mapPost.id!, true)
+    })
+    return { posts: parsedData, ids: postIds, newLastPostId: (postCount > 0  && resultSearch.hits.length > 0) ? resultSearch.hits[0].objectID : '', hasMore: !(pageCount === page || page! > pageCount) }
+  }
+
+  /**
+   * Get search key
+   */
+  public async getSearchKey() {
+    // await this._httpService.get('admin/change/user')
+    const result = await this._httpService.get('search/post')
+    return result.data.searchKey
+  }
 
   /**
    * Get post by the post identifier
@@ -169,12 +149,12 @@ export class PostService implements IPostService {
 
         let postsRef = db.doc(`posts/${postId}`)
         postsRef.get().then((snapshot) => {
-          let newPost = snapshot.data() || {}
+          let newPost = (snapshot.data() || {}) as Post
           let post: Post = {
             id: postId,
             ...newPost
           }
-          resolve(post)
+          resolve(fromJS(post))
         })
           .catch((error: any) => {
             reject(new SocialError(error.code, error.message))

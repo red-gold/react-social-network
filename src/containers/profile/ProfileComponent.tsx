@@ -2,17 +2,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+
+import { Map } from 'immutable'
+import config from 'src/config'
+import { translate, Trans } from 'react-i18next'
+
+// - Material-UI
+import withStyles from '@material-ui/core/styles/withStyles'
 import Dialog from '@material-ui/core/Dialog'
 import Button from '@material-ui/core/Button'
 import RaisedButton from '@material-ui/core/Button'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
-import {Map} from 'immutable'
 
 // - Import app components
-import ProfileHeader from 'src/components/profileHeader'
 import StreamComponent from 'containers/stream'
-
-// - Import API
+import UserActivity from 'components/userActivity'
+import ImgCover from 'components/imgCover'
 
 // - Import actions
 import * as postActions from 'src/store/actions/postActions'
@@ -20,12 +24,20 @@ import * as userActions from 'src/store/actions/userActions'
 import * as globalActions from 'src/store/actions/globalActions'
 import { IProfileComponentProps } from './IProfileComponentProps'
 import { IProfileComponentState } from './IProfileComponentState'
-import { Profile } from 'core/domain/users'
+import { User } from 'core/domain/users'
+import { profileStyles } from './profileStyles'
+import { userSelector } from 'store/reducers/users/userSelector'
+import PostStreamComponent from '../postStream'
+import { PostAPI } from 'api/PostAPI'
+import { ServerRequestType } from 'constants/serverRequestType'
+import StringAPI from 'api/StringAPI'
+import { postSelector } from 'store/reducers/posts'
+import ProfileAlbumComponent from 'components/ProfileAlbum'
 
 /**
  * Create component class
  */
-export class ProfileComponent extends Component<IProfileComponentProps,IProfileComponentState> {
+export class ProfileComponent extends Component<IProfileComponentProps, IProfileComponentState> {
 
   static propTypes = {
 
@@ -33,9 +45,9 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
-  constructor (props: IProfileComponentProps) {
+  constructor(props: IProfileComponentProps) {
     super(props)
 
     // Defaul state
@@ -47,78 +59,61 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
 
   }
 
-  componentWillMount () {
-    this.props.loadPosts()
+  componentWillMount() {
     this.props.loadUserInfo()
 
   }
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
-  render () {
+  render() {
 
-    /**
-     * Component styles
-     */
-    const styles = {
-      profile: {
-      },
-      header: {
+    const { loadPosts, hasMorePosts, t, classes, profile, isCurrentUser, posts, postRequestId, userId } = this.props
 
-      },
-      content: {
-
-      },
-      showcover: {
-        height: '450px'
-      },
-      avatar: {
-        border: '2px solid rgb(255, 255, 255)'
-      }
-    }
-    const {loadPosts, hasMorePosts, translate} = this.props
-    const St = StreamComponent as any
-    const posts = Map(this.props.posts)
     return (
-      <div style={styles.profile}>
-        <div style={styles.header}>
-          <ProfileHeader tagLine={this.props.tagLine} avatar={this.props.avatar} isAuthedUser={this.props.isAuthedUser} banner={this.props.banner} fullName={this.props.name} followerCount={0} userId={this.props.userId}/>
+      <>
+        <div className={classes.bannerContainer}>
+
+          <ImgCover height={'384px'} width={'100%'} className={classes.banner}
+            src={(profile && profile.banner) ? profile.banner : config.settings.defaultProfileCover} />
         </div>
-        {posts
-        ? (<div style={styles.content}>
-          <div className='profile__title'>
-            {translate!('profile.headPostsLabel', {userName: this.props.name})}
-               </div>
+        <UserActivity profile={profile!} isCurrentUser={isCurrentUser} />
+        <div style={{ height: '24px' }}></div>
+          <ProfileAlbumComponent userId={userId} isOwner={isCurrentUser}/>
+        <div>
+          {
+            !posts.isEmpty()
+              ? (
+                <div className='profile__title'>
+                  {t!('profile.headPostsLabel', { userName: this.props.name })}
+                </div>
+              )
+              : ''
+          }
           <div style={{ height: '24px' }}></div>
 
-          <St
-          posts={posts}
-          loadStream={loadPosts}
-          hasMorePosts={hasMorePosts}
-          displayWriting={false} />
-        </div>)
-        : (<div className='profile__title'>
-                {translate!('profile.nothingSharedLabel')}
-               </div>)
-        }
+          <PostStreamComponent
+            posts={posts}
+            requestId={postRequestId}
+            loadStream={loadPosts}
+            hasMorePosts={hasMorePosts}
+            displayWriting={false} />
+        </div>
 
-      </div>
+      </>
     )
   }
 }
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IProfileComponentProps) => {
   const { userId } = ownProps.match.params
   return {
-    loadPosts: () => dispatch(postActions.dbGetPostsByUserId(userId)),
+    loadPosts: (page: number) => dispatch(postActions.dbGetPostsByUserId(userId, page)),
     loadUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(userId, 'header'))
 
   }
@@ -126,29 +121,32 @@ const mapDispatchToProps = (dispatch: any, ownProps: IProfileComponentProps) => 
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IProfileComponentProps) => {
   const { userId } = ownProps.match.params
+  const postRequestId = StringAPI.createServerRequestId(ServerRequestType.ProfileGetPosts, userId)
   const uid = state.getIn(['authorize', 'uid'], 0)
-  const hasMorePosts = state.getIn(['post', 'profile', 'hasMoreData'])
-  const posts = state.getIn(['post', 'userPosts', userId])
-  const userProfile = state.getIn(['user', 'info', userId], {}) as Profile
+  const hasMorePosts = state.getIn(['user', 'post', userId, 'hasMoreData'], true)
+  const selectProfilePosts = postSelector.selectProfilePosts()
+  const posts = selectProfilePosts(state, { userId })
+  const userProfile = userSelector.getUserProfileById(state, { userId: userId }).toJS() as User
   return {
-    translate: getTranslate(state.get('locale')),
+    
     avatar: userProfile.avatar,
-    name: userProfile.fullName, 
+    name: userProfile.fullName,
     banner: userProfile.banner,
     tagLine: userProfile.tagLine,
-    isAuthedUser: userId === uid,
     userId,
     posts,
-    hasMorePosts
+    hasMorePosts,
+    postRequestId,
+    profile: userProfile,
+    isCurrentUser: userId === uid
 
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileComponent as any)
+const translateWrraper = translate('translations')(ProfileComponent)
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(profileStyles as any)(translateWrraper as any) as any)

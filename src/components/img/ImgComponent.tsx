@@ -4,8 +4,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import SvgImage from '@material-ui/icons/Image'
 import { withStyles } from '@material-ui/core/styles'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
 import { Map } from 'immutable'
+import { translate, Trans } from 'react-i18next'
 
 // - Import app components
 
@@ -55,7 +56,7 @@ export class ImgComponent extends Component<IImgComponentProps,IImgComponentStat
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor (props: IImgComponentProps) {
     super(props)
@@ -67,13 +68,22 @@ export class ImgComponent extends Component<IImgComponentProps,IImgComponentStat
 
     // Binding functions to `this`
     this.handleLoadImage = this.handleLoadImage.bind(this)
+    this.handleClick = this.handleClick.bind(this)
 
   }
 
   /**
+   * Handle click on image
+   */
+  handleClick = (event: any) => {
+    const {onClick} = this.props
+    if (onClick) {
+      onClick(event)
+    }
+  }
+
+  /**
    * Will be called on loading image
-   *
-   * @memberof Img
    */
   handleLoadImage = () => {
     this.setState({
@@ -83,20 +93,20 @@ export class ImgComponent extends Component<IImgComponentProps,IImgComponentStat
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render () {
 
-    let { fileName, style, translate } = this.props
+    let { fileName, style, t } = this.props
     let { isImageLoaded } = this.state
     const {classes} = this.props
     return (
       <div>
-        <img className={classes.image} onLoad={this.handleLoadImage} src={fileName || ''} style={isImageLoaded ? style : { display: 'none' }} />
+        <img className={classes.image} onClick={this.handleClick} onLoad={this.handleLoadImage} src={fileName || ''} style={isImageLoaded ? style : { display: 'none' }} />
         <div style={Object.assign({},{ backgroundColor: 'white' }, isImageLoaded ? { display: 'none' } : this.styles.loding)}>
           <div style={this.styles.loadingContent as any}>
             <SvgImage style={this.styles.loadingImage} />
-            <div>{translate!('image.notLoaded')}</div>
+            <div>{t!('image.notLoaded')}</div>
           </div>
         </div>
       </div>
@@ -106,9 +116,6 @@ export class ImgComponent extends Component<IImgComponentProps,IImgComponentStat
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IImgComponentProps) => {
   return {
@@ -118,17 +125,16 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImgComponentProps) => {
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IImgComponentProps) => {
   return {
-    translate: getTranslate(state.get('locale')),
+    
     avatarURL: state.getIn(['imageGallery', 'imageURLList']),
     imageRequests: state.getIn(['imageGallery', 'imageRequests'])
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(ImgComponent as any)as any)
+const translateWrraper = translate('translations')(ImgComponent)
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any)as any)

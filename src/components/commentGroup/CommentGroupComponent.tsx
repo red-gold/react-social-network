@@ -5,8 +5,10 @@ import _ from 'lodash'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import moment from 'moment/moment'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
 import { Map } from 'immutable'
+import * as R from 'ramda'
+import { translate, Trans } from 'react-i18next'
 
 import Paper from '@material-ui/core/Paper'
 import Button from '@material-ui/core/Button'
@@ -20,7 +22,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon'
 import { grey, teal } from '@material-ui/core/colors'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { withStyles } from '@material-ui/core/styles'
-import { Manager, Target, Popper } from 'react-popper'
 import { Card, CardActions, CardHeader, CardMedia, CardContent } from '@material-ui/core'
 import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
@@ -40,7 +41,7 @@ import { ServerRequestModel } from 'models/server'
 import StringAPI from 'api/StringAPI'
 import { ServerRequestType } from 'constants/serverRequestType'
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { Profile } from 'core/domain/users'
+import { userSelector } from 'store/reducers/users/userSelector'
 
 const styles = (theme: any) => ({
   textField: {
@@ -58,7 +59,10 @@ const styles = (theme: any) => ({
     border: 'none',
     width: '100%',
     outline: 'none',
-    resize: 'none'
+    resize: 'none',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
   },
   author: {
     fontSize: '10px',
@@ -74,6 +78,12 @@ const styles = (theme: any) => ({
   },
   postButton: {
     flexDirection: 'row-reverse'
+  },
+  cardHeaderContent: {
+    flex: '1 1 auto',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
   }
 })
 
@@ -149,7 +159,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor (props: ICommentGroupComponentProps) {
     super(props)
@@ -191,8 +201,6 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
 
   /**
    * When comment text changed
-   * @param  {event} evt is an event passed by change comment text callback funciton
-   * @param  {string} data is the comment text which user writes
    */
   handleChange = (event: any) => {
     const data = event.target.value
@@ -258,6 +266,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
         <Paper key={comment.id! + '-index:' + index} elevation={0} className='animate2-top10'>
           <Card elevation={0}>
             <CardHeader
+            classes={{content: classes.cardHeaderContent}}
             className={classes.header}
               title={<Author />}
               avatar={<UserAvatar fullName={commentFullName!} fileName={commentAvatar!} size={24} />}
@@ -273,12 +282,42 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
     }
   }
 
+  shouldComponentUpdate(nextProps: ICommentGroupComponentProps, nextState: ICommentGroupComponentState) {
+    let shouldUpdate = false
+    
+    if (!R.equals(this.state, nextState)) {
+      shouldUpdate = true
+    }
+
+    if (nextProps.open !== this.props.open) {
+      shouldUpdate = true
+    }
+
+    if (nextProps.disableComments !== this.props.disableComments) {
+      shouldUpdate = true
+    }
+
+    if (nextProps.commentsRequestStatus !== this.props.commentsRequestStatus) {
+      shouldUpdate = true
+    }
+
+    if (!nextProps.commentSlides!.equals(this.props.commentSlides!)) {
+      shouldUpdate = true
+    }
+
+    if (!nextProps.comments!.equals(this.props.comments!)) {
+      shouldUpdate = true
+    }
+
+    return shouldUpdate
+  }
+
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render () {
-    const { classes, postId, fullName, avatar, commentsRequestStatus, open, commentSlides, translate } = this.props
+    const { classes, postId, fullName, avatar, commentsRequestStatus, open, commentSlides, t } = this.props
     const comments: Map<string, Comment> = this.props.comments || Map({})
     /**
      * Comment list box
@@ -293,7 +332,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
               avatar={<UserAvatar fullName={fullName!} fileName={avatar!} size={24} />}
               subheader={<TextField
                 autoFocus
-                placeholder={translate!('comment.addCommentPlaceholder')}
+                placeholder={t!('comment.addCommentPlaceholder')}
                 multiline
                 rowsMax='4'
                 InputProps={{
@@ -310,7 +349,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
             </CardHeader>
                 <CardActions className={classes.postButton} >
           <Button color='primary' disabled={this.state.postDisable} onClick={this.handlePostComment}>
-        {translate!('comment.postButton')}
+        {t!('comment.postButton')}
         </Button>
                   </CardActions>
           </Card>
@@ -324,7 +363,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
       <CommentListComponent comments={comments!} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments} postId={postId}/>
     </Paper>)
     : '')
-    const loadComments = ((commentsRequestStatus === ServerRequestStatusType.OK) || !comments.isEmpty() ? showComments : <LinearProgress style={this.styles.progressbar} variant='indeterminate' />)
+    const loadComments = ((commentsRequestStatus === ServerRequestStatusType.Sent)  ?  <LinearProgress style={this.styles.progressbar} variant='indeterminate' /> : showComments)
     /**
      * Return Elements
      */
@@ -360,9 +399,6 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: ICommentGroupComponentProps) => {
   return {
@@ -377,27 +413,24 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentGroupComponentProps
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: ICommentGroupComponentProps) => {
   const { ownerPostUserId, postId } = ownProps
   const uid = state.getIn(['authorize', 'uid'], 0)
   const requestId = StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId)
   const commentsRequestStatus = state.getIn(['server', 'request', requestId])
-  const commentSlides = state.getIn(['post', 'userPosts', ownerPostUserId, postId, 'comments'])
-  const user = state.getIn(['user', 'info', uid])
+  const commentSlides = state.getIn(['post', 'entities', ownerPostUserId, postId, 'comments'], Map({}))
+  const user = userSelector.getUserProfileById(state, {userId: uid}).toJS()
   return {
-    translate: getTranslate(state.get('locale')),
+    
     commentsRequestStatus : commentsRequestStatus ? commentsRequestStatus.status : ServerRequestStatusType.NoAction,
     commentSlides,
-    avatar: user ? user.avatar : '',
-    fullName: user ? user.fullName : '',
-    userInfo: state.getIn(['user', 'info'])
+    avatar: user.avatar || '',
+    fullName: user.fullName || ''
 
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(CommentGroupComponent as any) as any)
+const translateWrraper = translate('translations')(CommentGroupComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

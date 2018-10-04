@@ -3,68 +3,73 @@ export interface IHomeHeaderComponentProps {
 
   /**
    * Sidebar is open {true} or not {false}
-   *
-   * @type {boolean}
-   * @memberof IHomeHeaderComponentProps
    */
   drawerStatus: boolean
 
   /**
    * Logout user
-   *
-   * @memberof IHomeHeaderComponentProps
    */
   logout?: () => void
 
   /**
    * Handle on resize window event
-   *
-   * @memberof IHomeHeaderComponentProps
    */
   handleResize?: (event: any) => void
 
   /**
    * Number of notifications
-   *
-   * @memberof IHomeHeaderComponentProps
    */
   notifyCount?: number
 
   /**
    * User full name
-   *
-   * @type {string}
-   * @memberof IHomeHeaderComponentProps
    */
   fullName?: string
 
   /**
+   * Location
+   */
+  location?: any
+
+  /**
+   * History router
+   */
+  history?: any
+
+  /**
    * User's avatar URL address
-   *
-   * @type {string}
-   * @memberof IHomeHeaderComponentProps
    */
   avatar?: string
 
   /**
    * Top bar title
-   *
-   * @type {string}
-   * @memberof IHomeHeaderComponentProps
    */
   title?: string
 
   /**
    * Toggle sidebar
-   *
-   * @memberof IHomeHeaderComponentProps
    */
   onToggleDrawer: () => void
+
+  /**
+   * Set current chat
+   */
+  setCurrentChat?: (receiverId: string) => any
+
+  /**
+   * Redirect to URL
+   */
+  goTo?: (url: string) => any
 
   /**
    * Material ui theme style
    */
   classes?: any
+
+  /**
+   * Window width
+   */
+  width?: any
     
   /**
    * Theme
@@ -72,7 +77,22 @@ export interface IHomeHeaderComponentProps {
   theme?: any
 
   /**
+   * Whether recent chat is open
+   */
+  recentChatOpen?: boolean
+
+  /**
+   * Open recent chat
+   */
+  openRecentChat?: () => any
+
+  /**
+   * Close recent chat
+   */
+  closeRecentChat?: () => any
+
+  /**
    * Translate to locale string
    */
-  translate?: (state: any) => any
+  t?: (state: any) => any
 }

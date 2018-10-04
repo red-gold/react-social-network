@@ -14,8 +14,6 @@ import { IVoteAction } from './IVoteAction'
 
 /**
  * Vote actions
- * @param {object} state
- * @param {object} action
  */
 export let voteReducer = (state = Map(new VoteState()), action: IVoteAction) => {
   let { payload } = action

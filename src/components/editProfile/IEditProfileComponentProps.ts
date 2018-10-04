@@ -1,58 +1,70 @@
-import { Profile } from 'core/domain/users'
+import { User } from 'core/domain/users'
+import {Map, List} from 'immutable'
 
 export interface IEditProfileComponentProps {
 
   /**
    * User profile
-   *
-   * @type {Profile}
-   * @memberof IEditProfileComponentProps
    */
-  info?: Profile
+  info?: User
 
   /**
    * User profile banner addresss
-   *
-   * @type {string}
-   * @memberof IEditProfileComponentProps
    */
   banner: string
 
   /**
    * User avatar address
-   *
-   * @type {string}
-   * @memberof IEditProfileComponentProps
    */
   avatar: string
 
   /**
    * User full name
-   *
-   * @type {string}
-   * @memberof IEditProfileComponentProps
    */
   fullName: string
 
   /**
    * Edit profile dialog is open {true} or not {false}
-   *
-   * @type {boolean}
-   * @memberof IEditProfileComponentProps
    */
   open?: boolean
 
   /**
    * Update user profile
-   *
-   * @memberof IEditProfileComponentProps
    */
-  update?: (profile: Profile) => void
+  update?: (profile: User) => void
+
+  /**
+   * Upload avatar
+   */
+  uploadAvatar?: (image: any, imageName: string) => any
+
+  /**
+   * Upload cover
+   */
+  uploadCover?: (image: any, imageName: string) => any
+
+  /**
+   * Avatar list
+   */
+  avatarImages?: List<Map<string, any>>
+
+  /**
+   * Cover list
+   */
+  coverImages?: List<Map<string, any>>
+
+  /**
+   * Load avatar list
+   */
+  loadAvatarList?: (userId: string) => any
+
+  /**
+   * Load cover list
+   */
+  loadCoverList?: (userId: string) => any
 
   /**
    * On edit profile dialog close event
-   *
-   * @memberof IEditProfileComponentProps
    */
   onRequestClose?: () => void
 
@@ -64,7 +76,7 @@ export interface IEditProfileComponentProps {
   /**
    * Translate to locale string
    */
-  translate?: (state: any) => any
+  t?: (state: any) => any
 
   /**
    * Current locale language

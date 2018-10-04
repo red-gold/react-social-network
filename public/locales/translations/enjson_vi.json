@@ -1,0 +1,376 @@
+{
+    "sidebar" : {
+        "home": "Trang chủ",
+        "profile": "Trang cá nhân",
+        "people": "Mọi người",
+        "settings": "Cài đặt",
+        "sendFeedback": "Gửi phản hồi",
+        "homeCaption": "Trang chủ",
+        "peopleCaption": "Mọi người",
+        "circlesCaption": "Vòng kết nối",
+        "followersCaption": "Người theo dõi",
+        "twitterCaption": "Twitter",
+        "facebookCaption": "Trang Facebook",
+        "instagramCaption": "Instagram",
+        "fun": "Giải trí",
+        "company": "Công ty",
+        "sponser": "Nhà tài trợ",
+        "help": "Trợ giúp"
+
+    },
+    "header": {
+        "home":"Trang chủ",
+        "notificationTooltip": "Thông báo",
+        "recentChatTooltip": "Trò chuyện",
+        "myAccount": "Tài khoản của tôi",
+        "logout": "Đăng xuất",
+        "homeCaption": "Trang chủ",
+        "peopleCaption": "Mọi người",
+        "circlesCaption": "Vòng kết nối",
+        "followersCaption": "Người theo dõi",
+        "searchText": "Tìm kiếm bài đăng yêu thích và mọi người",
+        "notification": {
+            "emptyCaption": "Đã nắm bắt tất cả thông báo"
+        }
+
+    },
+    "home": {
+        "postWriteButtonText": "Bạn có tin gì mới?",
+        "cookieConsentText": "Trang web này sử dụng cookie. Bằng việc tiếp tục duyệt trang web, bạn đồng ý với chính sách về cookie của chúng tôi",
+        "cookieConsentButton": "Cho phép tất cả cookie"
+    },
+    "post": {
+        "edit": "Chỉnh sửa",
+        "delete": "Xóa",
+        "disableComments": "Tắt tính năng nhận xét",
+        "disableSharing": "Tắt tính năng chia sẻ ",
+        "enableComments": "Bật tính năng nhận xét",
+        "enableSharing": "Bật tính năng chia sẻ ",
+        "public": "Công khai",
+        "textareaPlaceholder": "Bạn có tin gì mới?",
+        "moreTooltip": "Thêm",
+        "postButton": "ĐĂNG",
+        "cancelButton": "HỦY BỎ",
+        "updateButton": "CẬP NHẬT",
+        "copyLinkButton": "Sao chép liên kết",
+        "addVideoTitle": "Thêm liên kết video",
+        "imageEditorTitle": "Chỉnh sửa ảnh",
+        "addVideoButton": "OK",
+        "videoInputLinkRequiredError": "Liên kết video là bắt buộc!",
+        "videoInputLinkInvalidError": "Vui lòng nhập địa chỉ URL hợp lệ!",
+        "facebookButton": "Chia sẻ trên Facebook",
+        "twitterButton": "Chia sẻ trên Twitter",
+        "linkedinButton": "Chia sẻ trên LinkedIn",
+        "googlePlusButton": "Chia sẻ trên Google+",
+        "videoGalleryLabel": "Thư viện video",
+        "imageGalleryLabel": "Thư viện hình ảnh"
+
+    },
+    "videGallery": {
+        "saveButton": "LƯU",
+        "backButton": "TRỞ VỀ",
+        "maxExceedMessage": "Kích thước tệp tối đa là 20 MB!"
+    },
+    "imageGallery": {
+        "uploadButton": "TẢI LÊN",
+        "cancelButton": "HỦY BỎ"
+    },
+    "image": {
+        "notLoaded": "Hình ảnh chưa được tải"
+    },
+    "comment": {
+        "postButton": "ĐĂNG",
+        "cancelButton": "HỦY BỎ",
+        "updateButton": "CẬP NHẬT",
+        "addCommentPlaceholder": "Thêm nhận xét",
+        "updateCommentPlaceholder": "Viết nhận xét",
+        "replyButton": "Phản hồi",
+        "editButton": "Chỉnh sửa",
+        "deleteButton": "Xóa"
+    },
+    "profile": {
+        "editProfileButton": "Chỉnh sửa hồ sơ",
+        "cancelButton": "HỦY BỎ",
+        "updateButton": "CẬP NHẬT",
+        "aboutButton": "Giới thiệu",
+        "about": "Giới thiệu",
+        "fullName": "Tên đầy đủ",
+        "tagline": "Khẩu hiệu cá nhân",
+        "birthday": "Sinh nhật",
+        "companyName": "Tên công ty",
+        "twitterId": "Twitter",
+        "facebookId": "Trang Facebook",
+        "webUrl": "Địa chỉ trang web",
+        "contactInfo": "Thông tin liên hệ",
+        "otherSocial": "Trang xã hội khác",
+        "personalInformationLabel": "Thông tin cá nhân",
+        "headPostsLabel": "Bài đăng",
+        "nothingSharedLabel": "Không có gì được chia sẻ",
+        "chooseAvatarDialogTitle": "Chọn ảnh đại diện",
+        "chooseBanerDialogTitle": "Chọn ảnh bìa",
+        "twitterExampleLabel": "you twitter user name ex. twitter",
+        "facebookExampleLabel": "your facebook page name ex. facebook"
+    },
+    "people": {
+        "findPeopleTab": "TÌM LIÊN HỆ",
+        "followingTab": "ĐANG THEO DÕI",
+        "followersTab": "NGƯỜI THEO DÕI",
+        "suggestionsForYouLabel": "Gợi ý cho bạn",
+        "nothingToShowLabel": "Không có gì để hiện thị! :(",
+        "followingLabel": "Đang theo dõi",
+        "noFollowingLabel": "Chưa theo dõi người dùng!",
+        "followersLabel": "Người theo dõi",
+        "noFollowersLabel": "Chưa có người theo dõi"
+    },
+    "userBox": {
+        "followButton": "THEO DÕI",
+        "cancelButton": "HỦY BỎ",
+        "numberOfCircleButton": "Vòng kết nối",
+        "doneButton": "XONG",
+        "groupNamePlaceholder": "Tên nhóm",
+        "createCircleTooltip": "Tạo vòng kết nối",
+        "followingLabel": "Đang theo dõi",
+        "followedLabel": "Theo dõi (note)"
+
+    },
+    "changePassword": {
+        "title": "Thay đổi mật khẩu",
+        "newPasswordLabel": "Mật khẩu mới",
+        "confirmPasswordLabel": "Xác nhận mật khẩu",
+        "homeButton": "TRANG CHỦ",
+        "changePasswordButton": "THAY ĐỔI PASSWORD",
+        "newPasswordRequiredError": "Trường này bắt buộc",
+        "confirmPasswordRequiredError": "Trường này bắt buộc",
+        "confirmPasswordEqualNewPasswordError": "Mật khẩu và xác nhận mật khẩu phải khớp. "
+
+    },
+    "circle": {
+        "settingLable": "Cài đặt vòng kết nối",
+        "saveButton": "Lưu",
+        "circleName": "Tên vòng kết nối",
+        "deleteCircleButton": "Xóa vòng kết nối"
+    },
+    "feedback": {
+        "textareaPlaceholder": "Cảm nhận của bạn về trang web này :)?",
+        "sadTooltip":  "Tồi",
+        "acceptableTooltip":  "Tạm được",
+        "happyTooltip":  "Tốt",
+        "awesomeTooltip":  "Tuyệt vời",
+        "appreciateMessage": "Chúng tôi luôn đánh giá cao sự hỗ trợ của bạn ;)",
+        "sendingMessage": "Phản hồi của bạn đang được gửi!",
+        "errorMessage": "Lỗi trong quá trình gửi phản hồi :("
+    },
+    "login": {
+        "title": "Đăng nhập",
+        "emailLabel": "Thư điện tử",
+        "passwordLabel": "Mật khẩu",
+        "emailRequiredError": "Trường này bắt buộc",
+        "passwordRequiredError": "Trường này bắt buộc",
+        "createAccountButton": "Đăng ký",
+        "createAccountText": "Bạn chưa có tài khoản? ",
+        "loginButton": "Đăng nhập",
+        "loginText": "Đã có tài khoản?",
+        "forgetPasswordMessage": "Quên mật khẩu?",
+        "resetPasswordLabel": "Cài đặt lại mật khẩu",
+        "titleSideLabel": "Bạn là người dùng mới?",
+        "welcomeLabel": "Chào mừng bạn trở lại!",
+        "contentSideLabel":"Đăng ký và Trải nghiệm"
+    },
+    "signup": {
+        "title":"Đăng ký",
+        "fullNameLabel": "Tên đầy đủ",
+        "emailLabel": "Thư điện tử",
+        "passwordLabel": "Mật khẩu",
+        "confirmPasswordLabel": "Xác nhận mật khẩu",
+        "validNameError":"Vui lòng nhập tên hợp lệ",
+        "validEmailError": "Vui lòng nhập thư diện tử hợp lệ",
+        "emailRequiredError": "Trường này bắt buộc",
+        "passwordRequiredError": "Trường này bắt buộc",
+        "confirmRequiredError": "Trường này bắt buộc",
+        "passwordEqualConfirmError": "Trường này phải khớp với xác nhận mật khẩu. ",
+        "confirmEqualPasswordError": "Trường này phải khớp với mật khẩu.",
+        "loginButton": "ĐĂNG NHẬP",
+        "createButton": "TẠO TÀI KHOẢN",
+        "titleSideLabel": "Bạn là một trong số chúng tôi?",
+        "contentSideLabel": "Nếu bạn đã có tài khoản, vui lòng đăng nhập. Chúng tôi nhớ bạn. ",
+        "termCaption": "Với việc đăng ký, bạn đòng ý với các điều khoản, chính sách dữ liệu, chính sach cookie của chúng tôi. "
+
+    },
+    "resetPassword": {
+        "title": "Cài đặt lại mật khẩu",
+        "backButton": "Trở về",
+        "nextButton": "Tiếp tục",
+        "emailDescription": "Vui lòng nhập thư điện tử hợp lệ đẻ nhận mã xác nhận.",
+        "codeVerifyDescription": "Please enter verification code and click on VERIFY button. We have sent verification code to your email which you will receive after a while. You also can use RESET button if you have trouble with receiving verification code.",
+        "emailLabel": "Email",
+        "codeLabel": "Verification Code",
+        "validEmailError": "Please enter a valid email. Ex. info@email.com.",
+        "requiredEmailError": "Email field is required.",
+        "requiredCodeError": "Verification code field is required!",
+        "validCodeError": "The length of verification code should be four digits.",
+        "capthaExpiredMessage": "Capthcha has been expired!",
+        "capthaRenderErrorMessage": "Error happened in rendering captcha",
+        "resetButton": "RESET",
+        "verifyButton": "VERIFY"
+    },
+    "emailVerification": {
+        "title": "Email Verification",
+        "homeButton": "HOME",
+        "sendButton": "Send Email Verification",
+        "description": "An verificiation email has been already sent to you. Please check your inbox. If you couldn't see the emai, please resend email verification."
+    },
+    "smsVerification": {
+        "title": "Enter your phone number",
+        "logoutButton": "LOUGOUT",
+        "nextButton": "NEXT",
+        "phoneNumberDescription": "Set your valid number to receive verification code.",
+        "codeVerifyDescription": "Please enter verification code and click on VERIFY button. We have sent verification code to your phone which you will receive after a while. You also can use RESET button if you have trouble with receiving verification code.",
+        "phoneNumberLabel": "Phone Number",
+        "codeLabel": "Verification Code",
+        "validPhoneNumberError": "Please enter a valid phone number. Ex. +989662445843.",
+        "requiredPhoneNumberError": "Phone number field is required.",
+        "requiredCodeError": "Verification code field is required!",
+        "validCodeError": "The length of verification code should be four digits.",
+        "capthaExpiredMessage": "Capthcha has been expired!",
+        "capthaRenderErrorMessage": "Error happened in rendering captcha",
+        "resetButton": "RESET",
+        "verifyButton": "VERIFY"
+    },
+    "common": {
+        "sentRequestMessage": "Request has been sent.",
+        "successfulRequestMessage": "Request has been successful."
+    },
+    "mobileApp": {
+        "googlePlayIcon": "https://play.google.com/intl/en_us/badges/images/generic/${lang}_badge_web_generic.png",
+        "googlePlayAlt": "Get it on Google Play",
+        "appStoreAlt": "Get it on App Store",
+        "getApp": "Get the app."
+    },
+    "yourCircles": {
+        "title": "Your circles"
+    },
+    "userActivity": {
+        "privilegesTitle": "Privileges",
+        "bountiesTitle": "Bounties",
+        "verificationTitle": "Verification",
+        "reputationTitle": "Reputation",
+        "impactTitle": "Impact",
+        "nextBountiesButton": "Next Bounties",
+        "nextPrivilegeCaption": "Next privilege",
+        "currentPrivilegeCaption": "Current privilege",
+        "reputationCaption": "rep.",
+        "allPrivilegesButton": "All Privileges",
+        "likeCaption": "Like",
+        "shareCaption": "Share",
+        "followingCaption": "Following",
+        "followersCaption": "Followers",
+        "startCaption": "Star",
+        "publishCaption": "Publish",
+        "diamondCaption": "Diamond",
+        "storeTitle": "Store",
+        "privileges": "Privileges",
+        "bountyCommingSoon": "Bounty comming soon",
+        "bountyFrom": "Bounty from ${company}",
+        "goal": "Goal: ${rep} reps",
+        "allBounties": "All Bounties"
+    },
+    "terms": {
+        "termsTitle": "Terms",
+        "privacyTitle": "Privacy",
+        "cookieTitle": "Cookie",
+        "signUpTile": "Signup"
+    },
+    "config": {
+        "changePasswordLabel": "Change Password",
+        "notificationLabel": "Notification Setting",
+        "notificationCaption": "Manage your notification if you wish disable/enable.",
+        "homeLabel": "Home",
+        "saveChangesButton": "Save Changes",
+        "notification": {
+            "emailOnVote": "Send email notification on like your post",
+            "emailOnComment": "Send email notification on commenting on your post",
+            "emailOnFollow": "Send email notification on follow you"
+
+        }
+    },
+    "chat": {
+        "recentlyCaption": "Recently" ,
+        "contactsCaption": "Contacts",
+        "groupsCaption": "Groups",
+        "searchText": "Search for enemies or group of enemies :)",
+        "messageText": "Write your message ...",
+        "closeMenu": "Close Chat",
+        "chatLabel": "Chat",
+        "minimizeMenu": "Minimize",
+        "messageMenu": "Maximum",
+        "removeHistoryCaption": "Remove History",
+        "settingCaption": "Setting",
+        "translationLabel": "Translation",
+        "chatRoomSettingTitle": "Chat Room Setting",
+        "outputLabel": "Output",
+        "inputLabel": "Input",
+        "disabledLabel": "Disabled",
+        "close": "Close",
+        "disable": "Disable",
+        "noData": "Nothing to show"
+
+    },
+    "permission": {
+        "titleLabel": "Access Permission",
+        "circles": "Circles",
+        "custom": "Custom",
+        "onlyMe": "Only Me",
+        "public": "Public"
+    },
+    "externalSocial": {
+        "needConfig": " To access to ${social}, please config your ${social} account in <a style='color: blue' href='/${userId}'>Profile </a> page from edit profile dialog.",
+        "instagramLoginButton": "Login To your instagram",
+        "yourAccountCaption": "Your ${account} account",
+        "twitterCaption": "Twitter",
+        "facebookCaption": "Facebook Page",
+        "instagramCaption": "Instagram"
+    },
+    "masterLoading": {
+        "loading": "Loading",
+        "unexpectedError": "Unexpected Error Happened",
+        "timeout": "It takes long time"
+    },
+    "search": {
+        "users": "People",
+        "posts": "Posts",
+        "notFoundUser": "Sorry, no user results for \"${query}\"",
+        "notFoundPost": "Sorry, no post results for \"${query}\"",
+        "searchInPost": "Search in posts for \"${query}\"",
+        "searchInUser": "Search in users for \"${query}\""
+    },
+    "privilege": {
+        "newUser": "New User",
+        "approvedUser": "Approved User",
+        "normal": "Normal"
+    },
+    "footer": {
+        "supportEmail": "Soporte Email"
+    },
+    "album": {
+        "photos": "Photos",
+        "album": "Album",
+        "createAlbum": "Create Album",
+        "addPhoto": "Add Photo",
+        "next": "Next",
+        "back": "Back",
+        "save": "Save",
+        "uploading": "Uploading",
+        "addPhotos": "Add Photos",
+        "saveAlbum": "Save Album",
+        "defaultAlbumName": "Untitle Album",
+        "description": "Description",
+        "albumTitle": "Album Title",
+        "descriptionError": "Description field is required.",
+        "albumNameError": "Title field is required.",
+        "deleteAlbum": "Delete Album",
+        "noExistAlbum": "The album doesn't exist or you do not have enough access to this album !"
+
+    }
+  
+    
+}

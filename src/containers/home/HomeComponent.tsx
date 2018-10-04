@@ -6,13 +6,18 @@ import _ from 'lodash'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
 import config from 'src/config'
+import jwtDecode from 'jwt-decode'
 import classNames from 'classnames'
+import IdleTimer from 'react-idle-timer'
+import CookieConsent, { Cookies } from 'react-cookie-consent'
+import { translate, Trans } from 'react-i18next'
 
 import { withStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
 import Menu from '@material-ui/core/Menu'
+import Portal from '@material-ui/core/Portal'
 import MenuList from '@material-ui/core/MenuList'
 import MenuItem from '@material-ui/core/MenuItem'
 import ListItem from '@material-ui/core/ListItem'
@@ -20,12 +25,7 @@ import ListIcon from '@material-ui/core/ListItemIcon'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
-import SvgArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
-import SvgHome from '@material-ui/icons/Home'
-import SvgFeedback from '@material-ui/icons/Feedback'
-import SvgSettings from '@material-ui/icons/Settings'
-import SvgAccountCircle from '@material-ui/icons/AccountCircle'
-import SvgPeople from '@material-ui/icons/People'
+
 import List from '@material-ui/core/List'
 import Typography from '@material-ui/core/Typography'
 import IconButton from '@material-ui/core/IconButton'
@@ -44,113 +44,31 @@ import People from 'containers/people'
 
 // - Import API
 
-// - Import actions
-// - Import actions
-import {
-  authorizeActions,
-  imageGalleryActions,
-  postActions,
-  commentActions,
-  voteActions,
-  userActions,
-  globalActions,
-  circleActions,
-  notifyActions
-} from 'src/store/actions'
+// - Import Actions
+import * as chatActions from 'store/actions/chatActions'
+import * as postActions from 'store/actions/postActions'
+import * as globalActions from 'store/actions/globalActions'
 
 import { IHomeComponentProps } from './IHomeComponentProps'
 import { IHomeComponentState } from './IHomeComponentState'
-
-const drawerWidth = 220
-const styles = (theme: any) => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    zIndex: 1,
-    overflow: 'hidden',
-  },
-  appFrame: {
-    position: 'relative',
-    display: 'flex',
-    width: '100%',
-    height: '100%',
-  },
-  navIconHide: {
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
-    },
-  },
-  drawerHeader: theme.mixins.toolbar,
-  drawerPaper: {
-    maxWidth: drawerWidth,
-    width: drawerWidth,
-    [theme.breakpoints.up('md')]: {
-      width: drawerWidth,
-      position: 'relative',
-      height: '100%',
-    },
-  },
-  drawerPaperLarge: {
-    width: drawerWidth,
-    [theme.breakpoints.up('md')]: {
-      width: drawerWidth,
-      height: '100%',
-    },
-    top: 70,
-    backgroundColor: '#fafafa',
-    borderRight: 0
-  },
-  menu: {
-    height: '100%',
-  },
-  content: {
-    backgroundColor: 'transparent',
-    width: '100%',
-    flexGrow: 1,
-    padding: theme.spacing.unit * 1,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    height: 'calc(100% - 56px)',
-    marginTop: 56,
-    [theme.breakpoints.up('sm')]: {
-      height: 'calc(100% - 64px)',
-      marginTop: 64,
-    },
-  },
-  'content-left': {
-    marginLeft: 0,
-  },
-  'content-right': {
-    marginRight: 0,
-  },
-  contentShift: {
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  'contentShift-left': {
-    marginLeft: 0,
-    [theme.breakpoints.up('md')]: {
-      marginLeft: drawerWidth
-    }
-  },
-  'contentShift-right': {
-    marginRight: 0,
-    [theme.breakpoints.up('md')]: {
-      marginRight: drawerWidth
-    }
-  }
-})
+import { VerificationType } from 'core/domain/authorize/verificationType'
+import { homeStyles } from './homeStyles'
+import ChatComponent from 'components/chat'
+import { menuItems } from './menuItems'
 
 // - Create Home component class
 export class HomeComponent extends Component<IHomeComponentProps, IHomeComponentState> {
 
+  idleTimer: any
+  /**
+   * Portal Container
+   */
+  container: any = null
+
   // Constructor
   constructor(props: IHomeComponentProps) {
     super(props)
+    this.idleTimer = React.createRef()
 
     // Default state
     this.state = {
@@ -158,7 +76,9 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
     }
 
     // Binding function to `this`
-
+    this.toggleChat = this.toggleChat.bind(this)
+    this.onActive = this.onActive.bind(this)
+    this.onIdle = this.onIdle.bind(this)
   }
 
   /**
@@ -168,81 +88,95 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
     this.setState({ drawerOpen: !this.state.drawerOpen })
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { global, clearData, loadData, authed, defaultDataEnable, isVerifide, goTo } = this.props
+    let phoneVerified = false
+    const token = localStorage.getItem('firebase.token')
+    if (token) {
+
+      phoneVerified = (jwtDecode(token) as any).phoneVerified
+    }
     if (!authed) {
       goTo!('/login')
       return
     }
-    if (!isVerifide) {
-      goTo!('/emailVerification')
+    if (!isVerifide && !phoneVerified) {
+      if (config.settings.verificationType === VerificationType.email) {
+        goTo!('/emailVerification')
 
-    } else if (!global.get('defaultLoadDataStatus')) {
+      } else {
+        goTo!('/smsVerification')
+      }
 
-      clearData!()
+    } else if (!global.defaultLoadDataStatus) {
+
       loadData!()
-      defaultDataEnable!()
     }
   }
 
   /**
+   * Toggle chat window to open/close
+   */
+  toggleChat() {
+    const { isChatOpen, openChat, closeChat } = this.props
+    if (isChatOpen) {
+      closeChat!()
+    } else {
+      openChat!()
+    }
+  }
+
+  onActive(event: any) {
+    console.log('user is active', event)
+    console.log('time remaining', this.idleTimer.current.getRemainingTime())
+  }
+
+  onIdle(event: any) {
+    console.log('user is idle', event, this.idleTimer)
+    console.log('last active', this.idleTimer.current.getLastActiveTime())
+  }
+
+  /**
    * Render DOM component
-   *
-   * @returns DOM
-   *
-   * @memberof Home
    */
   render() {
     const HR = HomeRouter
-    const { loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback, translate, classes, theme } = this.props
+    const { loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback, t, classes, theme, isChatOpen } = this.props
     const { drawerOpen } = this.state
-    const drawer = (
-      <>
 
-      <NavLink to='/'>
-        <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
-          <ListItemIcon>
-            <SvgHome />
-          </ListItemIcon>
-          <ListItemText inset primary={translate!('sidebar.home')} />
-        </MenuItem>
-      </NavLink>
-      <NavLink to={`/${this.props.uid}`}>
-        <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
-          <ListItemIcon>
-            <SvgAccountCircle />
-          </ListItemIcon>
-          <ListItemText inset primary={translate!('sidebar.profile')} />
-        </MenuItem>
-      </NavLink>
-      <NavLink to='/people'>
-        <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
-          <ListItemIcon>
-            <SvgPeople />
-          </ListItemIcon>
-          <ListItemText inset primary={translate!('sidebar.people')} />
-        </MenuItem>
-      </NavLink>
-      <Divider />
-      <NavLink to='/settings'>
-        <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
-          <ListItemIcon>
-            <SvgSettings />
-          </ListItemIcon>
-          <ListItemText inset primary={translate!('sidebar.settings')} />
-        </MenuItem>
-      </NavLink>
-      <MenuItem onClick={() => showSendFeedback!()} style={{ color: 'rgb(117, 117, 117)' }}>
-        <ListItemIcon>
-          <SvgFeedback />
-        </ListItemIcon>
-        <ListItemText inset primary={translate!('sidebar.sendFeedback')} />
-      </MenuItem>
-      </>
+    const drawer = (
+      <div>
+        {
+          menuItems(this.props.uid!, t!, showSendFeedback!).map((item, index) => {
+            if (item.path) {
+              return (<NavLink key={`home-menu-${index}`} to={item.path}>
+                <MenuItem style={{color: 'rgb(117, 117, 117)'}}>
+                  <ListItemIcon>
+                    {item.icon!}
+                  </ListItemIcon>
+                  <ListItemText key={`home-menu-${index}`} inset primary={item.label} />
+                </MenuItem>
+              </NavLink>)
+            } else if (item.onClick) {
+              return (
+                <MenuItem key={`home-menu-${index}`} onClick={item.onClick} style={{ color: 'rgb(117, 117, 117)' }}>
+                  <ListItemIcon>
+                    {item.icon!}
+                  </ListItemIcon>
+                  <ListItemText inset primary={item.label} />
+                </MenuItem>
+              )
+            } else if (item.divider) {
+              return <Divider key={`home-menu-divider${index}`} />
+            }
+
+          })
+        }
+      </div>
     )
 
     const anchor = theme.direction === 'rtl' ? 'right' : 'left'
-    return (
+    const mainElement = (
       <div className={classes.root}>
         <div className={classes.appFrame}>
           <HomeHeader onToggleDrawer={this.handleDrawerToggle} drawerStatus={this.state.drawerOpen} />
@@ -259,8 +193,10 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
               }}
             >
               <div>
-                <div className={classes.drawerHeader} />
-                <MenuList style={{ color: 'rgb(117, 117, 117)', width: '210px' }}>
+                <div className={classes.drawerHeader} >
+                  <img src={config.settings.logoHead} alt={config.settings.appName} className={classes.logo} />
+                </div>
+                <MenuList style={{ color: 'rgb(117, 117, 117)', width: '210px', paddingTop: '0px' }}>
                   <Divider />
                   {drawer}
                 </MenuList>
@@ -288,12 +224,35 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
               [classes[`contentShift-${anchor}`]]: drawerOpen,
             })}
           >
-          
-            <HR enabled={loaded!} data={{ mergedPosts, loadDataStream, hasMorePosts }} />
+            {loaded && authed ? <HR /> : ''}
           </main>
         </div>
-      </div>
 
+        <ChatComponent open={isChatOpen!} onToggle={this.toggleChat} />
+        <CookieConsent
+          location='bottom'
+          buttonText={t!('home.cookieConsentButton')}
+          cookieName='social-consent'
+          style={{ background: '#2B373B' }}
+          buttonStyle={{ color: '#4e503b', fontSize: '13px' }}
+          expires={150}
+        >
+          {t!('home.cookieConsentText')}{' '}
+        </CookieConsent>
+
+      </div>
+    )
+    return (
+      <IdleTimer
+        ref={this.idleTimer}
+        element={document}
+        onActive={this.onActive}
+        onIdle={this.onIdle}
+        timeout={1000 * 6}>
+
+        {mainElement}
+
+      </IdleTimer>
     )
   }
 }
@@ -302,27 +261,9 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
 const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
 
   return {
-    loadDataStream:
-      (page: number, limit: number) => dispatch(postActions.dbGetPosts(page, limit)),
-    loadData: () => {
-      dispatch(postActions.dbGetPosts())
-      dispatch(imageGalleryActions.dbGetImageGallery())
-      dispatch(userActions.dbGetUserInfo())
-      dispatch(notifyActions.dbGetNotifications())
-      dispatch(circleActions.dbGetCircles())
-      dispatch(circleActions.dbGetUserTies())
-      dispatch(circleActions.dbGetFollowers())
-
-    },
-    clearData: () => {
-      dispatch(imageGalleryActions.clearAllData())
-      dispatch(postActions.clearAllData())
-      dispatch(userActions.clearAllData())
-      dispatch(notifyActions.clearAllNotifications())
-      dispatch(circleActions.clearAllCircles())
-      dispatch(globalActions.clearTemp())
-
-    },
+    openChat: () => dispatch(chatActions.openChat()),
+    closeChat: () => dispatch(chatActions.closeChat()),
+    loadData: () => dispatch(globalActions.loadInitialData()),
     defaultDataDisable: () => {
       dispatch(globalActions.defaultDataDisable())
     },
@@ -332,41 +273,30 @@ const mapDispatchToProps = (dispatch: any, ownProps: IHomeComponentProps) => {
     goTo: (url: string) => dispatch(push(url)),
     showSendFeedback: () => dispatch(globalActions.showSendFeedback()),
     hideSendFeedback: () => dispatch(globalActions.hideSendFeedback())
-
   }
 
 }
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IHomeComponentProps) => {
+  const isChatOpen = state.getIn(['chat', 'chatOpen'])
   const uid = state.getIn(['authorize', 'uid'], {})
   const global = state.get('global', {})
-  let mergedPosts = Map({})
   const circles = state.getIn(['circle', 'circleList'], {})
-  const followingUsers: Map<string, any> = state.getIn(['circle', 'userTies'], {})
-  const posts = state.getIn(['post', 'userPosts', uid ], {})
-  const hasMorePosts = state.getIn(['post', 'stream', 'hasMoreData' ], true)
-  followingUsers.forEach((user, userId) => {
-    let newPosts = state.getIn(['post', 'userPosts', userId], {})
-   mergedPosts = mergedPosts.merge(newPosts)
-  })
-  mergedPosts = mergedPosts.merge(posts)
+
   return {
+    isChatOpen,
+    uid,
     authed: state.getIn(['authorize', 'authed'], false),
     isVerifide: state.getIn(['authorize', 'isVerifide'], false),
-    translate: getTranslate(state.get('locale')),
-    currentLanguage: getActiveLanguage(state.get('locale')).code,
-    mergedPosts,
     global,
-    hasMorePosts,
-    loaded: state.getIn(['user', 'loaded']) && state.getIn(['imageGallery', 'loaded']) && state.getIn(['notify', 'loaded']) && state.getIn(['circle', 'loaded'])
+    loaded: state.getIn(['user', 'loaded']) && state.getIn(['imageGallery', 'loaded']) && state.getIn(['notify', 'loaded']) && state.getIn(['circle', 'loaded']) && state.getIn(['global', 'defaultLoadDataStatus'])
   }
 }
 
 // - Connect component to redux store
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any, { withTheme: true })(HomeComponent as any) as any)) as typeof HomeComponent
+const translateWrraper = translate('translations')(HomeComponent)
+
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyles as any, { withTheme: true })(translateWrraper as any) as any)) as typeof HomeComponent

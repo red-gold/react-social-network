@@ -2,7 +2,7 @@
 import moment from 'moment/moment'
 import _ from 'lodash'
 import { Reducer, Action } from 'redux'
-import { Map, fromJS } from 'immutable'
+import { Map } from 'immutable'
 
 // - Import action types
 import { PostActionType } from 'constants/postActionType'
@@ -17,7 +17,7 @@ const updatePost = (state: any, payload: any) => {
   const updatePostOwnerId = post.get('ownerUserId')
   const updatePostId = post.get('id')
   return state
-      .setIn(['userPosts', updatePostOwnerId, updatePostId], Map(post))
+    .setIn(['entities', updatePostId], post)
 }
 
 const updatePostComments = (state: any, payload: any) => {
@@ -25,7 +25,8 @@ const updatePostComments = (state: any, payload: any) => {
   const updatePostOwnerId = post.get('ownerUserId')
   const updatePostId = post.get('id')
   return state
-      .setIn(['userPosts', updatePostOwnerId, updatePostId, 'comments'], post.get('comments'))
+    .setIn(['entities', updatePostId, 'comments'], post.get('comments'))
+    .setIn(['entities', updatePostId, 'commentCounter'], post.get('commentCounter'))
 }
 
 const updatePostVotes = (state: any, payload: any) => {
@@ -33,13 +34,26 @@ const updatePostVotes = (state: any, payload: any) => {
   const updatePostOwnerId = post.get('ownerUserId')
   const updatePostId = post.get('id')
   return state
-      .setIn(['userPosts', updatePostOwnerId, updatePostId, 'votes'],  post.get('votes'))
+    .setIn(['entities', updatePostId, 'votes'], post.get('votes'))
+    .setIn(['entities', updatePostId, 'score'], post.get('score'))
+}
+
+const addSearchPosts = (state: any, action: any) => {
+  const { meta, payload } = action
+  if (meta && meta.overwrite) {
+    return state
+      .setIn(['search', 'list'], payload.postIds)
+      .set('loaded', true)
+
+  } else {
+    return state
+      .mergeDeepIn(['search', 'list'], payload.postIds)
+      .set('loaded', true)
+  }
 }
 
 /**
  * Post reducer
- * @param {object} state
- * @param {object} action
  */
 export let postReducer = (state = Map(new PostState()), action: IPostAction) => {
   const { payload } = action
@@ -47,13 +61,17 @@ export let postReducer = (state = Map(new PostState()), action: IPostAction) => 
     case PostActionType.CLEAR_ALL_DATA_POST:
       return Map(new PostState())
 
+    case PostActionType.SET_POST_SEARCH_KEY:
+      return state
+        .set('searchKey', payload.searchKey)
+
     case PostActionType.ADD_IMAGE_POST:
       return state
-        .setIn(['userPosts', payload.uid, payload.post.id], Map(payload.post))
+        .setIn(['entities', payload.post.get('id')], payload.post)
 
     case PostActionType.ADD_POST:
       return state
-        .setIn(['userPosts', payload.uid, payload.post.id], fromJS({...payload.post}))
+        .setIn(['entities', payload.post.get('id')], payload.post)
 
     case PostActionType.UPDATE_POST: return updatePost(state, payload)
     case PostActionType.UPDATE_POST_COMMENTS: return updatePostComments(state, payload)
@@ -61,12 +79,31 @@ export let postReducer = (state = Map(new PostState()), action: IPostAction) => 
 
     case PostActionType.DELETE_POST:
       return state
-        .deleteIn(['userPosts', payload.uid, payload.id])
+        .deleteIn(['entities', payload.id])
 
     case PostActionType.ADD_LIST_POST:
       return state
-        .mergeDeepIn(['userPosts'], payload.userPosts)
+        .mergeDeepIn(['entities'], payload.entities)
         .set('loaded', true)
+
+    case PostActionType.ADD_LIST_STREAM_POST:
+      return state
+        .mergeIn(['stream', 'list'], payload.postIds)
+        .set('loaded', true)
+
+    case PostActionType.ADD_LIST_SEARCH_POST: return addSearchPosts(state, action)
+
+    case PostActionType.HAS_MORE_POST_SEARCH:
+      return state
+        .setIn(['search', 'hasMoreData'], true)
+
+    case PostActionType.NO_MORE_POST_SEARCH:
+      return state
+        .setIn(['search', 'hasMoreData'], false)
+
+    case PostActionType.ADD_LIST_POST_INSTAGRAM:
+      return state
+        .mergeDeepIn(['instagram'], payload.posts)
 
     case PostActionType.HAS_MORE_DATA_STREAM:
       return state
@@ -76,29 +113,21 @@ export let postReducer = (state = Map(new PostState()), action: IPostAction) => 
       return state
         .setIn(['stream', 'hasMoreData'], false)
 
-    case PostActionType.REQUEST_PAGE_STREAM:
+    case PostActionType.SET_PAGE_STREAM:
       return state
         .setIn(['stream', 'lastPageRequest'], payload.page)
+
+    case PostActionType.INCREASE_PAGE_STREAM:
+      return state
+        .setIn(['stream', 'lastPageRequest'], state.getIn(['stream', 'lastPageRequest'], 0) + 1)
 
     case PostActionType.LAST_POST_STREAM:
       return state
         .setIn(['stream', 'lastPostId'], payload.lastPostId)
 
-    case PostActionType.HAS_MORE_DATA_PROFILE:
+    case PostActionType.LAST_POST_SEARCH:
       return state
-        .setIn(['profile', 'hasMoreData'], true)
-
-    case PostActionType.NOT_MORE_DATA_PROFILE:
-      return state
-        .setIn(['profile', payload.userId, 'hasMoreData'], false)
-
-    case PostActionType.REQUEST_PAGE_PROFILE:
-      return state
-        .setIn(['profile', payload.userId, 'lastPageRequest'], payload.page)
-
-    case PostActionType.LAST_POST_PROFILE:
-      return state
-        .setIn(['profile', payload.userId, 'lastPostId'], payload.lastPostId)
+        .setIn(['search', 'lastPostId'], payload.lastPostId)
 
     default:
       return state

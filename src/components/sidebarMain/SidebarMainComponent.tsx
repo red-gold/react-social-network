@@ -14,7 +14,7 @@ export default class SidebarMainComponent extends Component<ISidebarMainComponen
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor (props: ISidebarMainComponentProps) {
     super(props)
@@ -25,7 +25,7 @@ export default class SidebarMainComponent extends Component<ISidebarMainComponen
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render () {
     return (

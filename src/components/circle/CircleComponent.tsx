@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import { Map, List as ImuList } from 'immutable'
+import { translate, Trans } from 'react-i18next'
 
 // - Material UI
 import ListItemText from '@material-ui/core/ListItemText'
@@ -16,12 +17,12 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import TextField from '@material-ui/core/TextField'
 import MenuList from '@material-ui/core/MenuList'
 import MenuItem from '@material-ui/core/MenuItem'
+import Popover from '@material-ui/core/Popover'
 import { withStyles } from '@material-ui/core/styles'
-import { Manager, Target, Popper } from 'react-popper'
 import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import classNames from 'classnames'
-import IconButtonElement from 'layouts/iconButtonElement'
+import IconButtonElement from 'layouts/IconButtonElement'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -34,7 +35,6 @@ import SvgClose from '@material-ui/icons/Close'
 import AppBar from '@material-ui/core/AppBar'
 import Paper from '@material-ui/core/Paper'
 import Collapse from '@material-ui/core/Collapse'
-import Popover from '@material-ui/core/Popover'
 
 // - Import app components
 import UserAvatar from 'components/userAvatar'
@@ -47,7 +47,6 @@ import * as circleActions from 'store/actions/circleActions'
 import { ICircleComponentProps } from './ICircleComponentProps'
 import { ICircleComponentState } from './ICircleComponentState'
 import { Circle, UserTie } from 'core/domain/circles'
-import { Profile } from 'core/domain/users/profile'
 
 const styles = (theme: any) => ({
   root: {
@@ -108,7 +107,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor(props: ICircleComponentProps) {
     super(props)
@@ -154,6 +153,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
       disabledSave: (!value || value.trim() === '')
     })
   }
+
   /**
    * Handle close menu
    */
@@ -234,11 +234,11 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render() {
 
-    const { circle, classes } = this.props
+    const { circle, classes, t } = this.props
     const { anchorElMenu } = this.state
     /**
      * Right icon menue of circle
@@ -269,16 +269,16 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
             },
           }}
         >
-          <Paper>
             <MenuList role='menu'>
-              <MenuItem onClick={this.handleDeleteCircle} > Delete Circle </MenuItem>
-              <MenuItem onClick={this.props.openCircleSettings}> Setting </MenuItem>
+              <MenuItem onClick={this.handleDeleteCircle} > {t!('circle.deleteCircleButton')} </MenuItem>
+              <MenuItem onClick={this.props.openCircleSettings}> {t!('circle.settingLable')} </MenuItem>
             </MenuList>
-          </Paper>
         </Popover>
       </div>
-    )
 
+    )
+    let circleName = this.props.circle.get('name')
+    circleName = circleName === 'Following' ? t!('userBox.followingLabel') : circleName
     const circleTitle = (
       <div>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -290,10 +290,10 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
             flex: '1 1',
             font: '500 20px Roboto,RobotoDraft,Helvetica,Arial,sans-serif'
           }}>
-            Circle settings
-        </div>
+            {t!('circle.settingLable')}
+          </div>
           <div style={{ marginTop: '-9px' }}>
-            <Button color='primary' disabled={this.state.disabledSave} onClick={this.handleUpdateCircle} > SAVE </Button>
+            <Button color='primary' disabled={this.state.disabledSave} onClick={this.handleUpdateCircle} > {t!('circle.saveButton')} </Button>
           </div>
         </div>
         <Divider />
@@ -309,7 +309,7 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
           <ListItemIcon className={classes.icon}>
             <SvgGroup />
           </ListItemIcon>
-          <ListItemText inset primary={<span style={this.styles as any}>{this.props.circle.get('name')}</span>} />
+          <ListItemText inset primary={<span style={this.styles as any}>{circleName}</span>} />
           <ListItemSecondaryAction>
             {circle.get('isSystem') ? null : rightIconMenu}
           </ListItemSecondaryAction>
@@ -333,8 +333,8 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
             <TextField
               fullWidth
               autoFocus
-              placeholder='Circle name'
-              label='Circle name'
+              placeholder={t!('circle.circleName')}
+              label={t!('circle.circleName')}
               onChange={this.handleChangeCircleName}
               value={this.state.circleName}
             />
@@ -347,9 +347,6 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: ICircleComponentProps) => {
   let { uid } = ownProps
@@ -365,9 +362,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICircleComponentProps) => {
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: ICircleComponentProps) => {
   const userTies: Map<string, any> = state.getIn(['circle', 'userTies'])
@@ -384,12 +378,14 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ICircleComponentProp
     }
   })
   return {
+    
     usersOfCircle,
-    openSetting: state.getIn(['circle', 'openSetting', circleId], false),
-    userInfo: state.getIn(['user', 'info'])
+    openSetting: state.getIn(['circle', 'openSetting', circleId], false)
 
   }
 }
 
 // - Connect component to redux store
+const translateWrraper = translate('translations')(CircleComponent)
+
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(CircleComponent as any) as any)

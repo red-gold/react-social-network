@@ -1,4 +1,4 @@
-import { User,Profile } from 'src/core/domain/users'
+import { User } from 'src/core/domain/users'
 import { Map, fromJS, List } from 'immutable'
 
 /**
@@ -11,7 +11,7 @@ export class UserState {
     /**
      * The list of users information
      */
-  info: Map<string,  Profile> = Map({})
+  info: Map<string,  any> = Map({})
 
     /**
      * If users profile are loaded
@@ -26,5 +26,5 @@ export class UserState {
   /**
    * People data storage
    */
-  people?: Map<string, any> = Map({hasMoreData: true, lastPageRequest: -1, lastUserId: ''})
+  people?: Map<string, any> = Map({hasMoreData: true, lastPageRequest: 0, lastUserId: ''})
 }

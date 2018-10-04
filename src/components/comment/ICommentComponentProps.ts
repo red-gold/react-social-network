@@ -1,5 +1,5 @@
 import { Comment } from 'core/domain/comments'
-import { Profile } from 'core/domain/users'
+import { User } from 'core/domain/users'
 export interface ICommentComponentProps {
 
   /**
@@ -13,7 +13,7 @@ export interface ICommentComponentProps {
   /**
    * Comment owner
    */
-  commentOwner?: Profile
+  commentOwner?: User
 
   /**
    * Open profile editor
@@ -105,6 +105,6 @@ export interface ICommentComponentProps {
   /**
    * Translate to locale string
    */
-  translate?: (state: any) => any
+  t?: (state: any) => any
 
 }

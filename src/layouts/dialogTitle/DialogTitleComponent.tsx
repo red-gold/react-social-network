@@ -51,7 +51,7 @@ export default class DialogTitleComponent extends Component<IDialogTitleComponen
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor (props: IDialogTitleComponentProps) {
     super(props)
@@ -66,7 +66,7 @@ export default class DialogTitleComponent extends Component<IDialogTitleComponen
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render () {
 

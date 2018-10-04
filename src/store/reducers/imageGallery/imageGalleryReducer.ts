@@ -20,24 +20,68 @@ export let imageGalleryReducer = (state = Map(new ImageGalleryState()), action: 
 
   switch (action.type) {
     /* ----------------- CRUD ----------------- */
-    case ImageGalleryActionType.ADD_IMAGE_GALLERY:
+    case ImageGalleryActionType.ADD_IMAGE:
       return state
-        .mergeIn(['images'], List([payload]))
+        .setIn(['entities', payload.image.get('id')], payload.image)
 
-    case ImageGalleryActionType.ADD_IMAGE_LIST_GALLERY:
+    case ImageGalleryActionType.ADD_IMAGE_LIST:
       return state
-        .set('images', List(payload))
+        .mergeDeepIn(['entities'], payload.entities)
+        .set('loaded', true)
+
+    case ImageGalleryActionType.ADD_ALBUM_IMAGE_LIST:
+      return state
+        .mergeDeepIn(['album', payload.albumId, 'list'], payload.imageIds)
+        .set('loaded', true)
+
+    case ImageGalleryActionType.ADD_AVATAR_IMAGE_LIST:
+      return state
+        .mergeDeepIn(['avatar', payload.userId, 'list'], payload.imageIds)
+        .set('loaded', true)
+
+    case ImageGalleryActionType.ADD_COVER_IMAGE_LIST:
+      return state
+        .mergeDeepIn(['cover', payload.userId, 'list'], payload.imageIds)
+        .set('loaded', true)
+
+    case ImageGalleryActionType.HAS_MORE_DATA_ALBUM_IMAGE:
+      return state
+        .setIn(['album', payload.albumId, 'hasMoreData'], true)
+
+    case ImageGalleryActionType.NO_MORE_DATA_ALBUM_IMAGE:
+      return state
+        .setIn(['album', payload.albumId, 'hasMoreData'], false)
+
+    case ImageGalleryActionType.LAST_ALBUM_IMAGE_ID:
+      return state
+        .setIn(['album', payload.albumId, 'lastImageId'], payload.imageId)
+
+    case ImageGalleryActionType.ADD_ALBUM_ID_LIST:
+      return state
+        .mergeDeepIn(['entities'], payload.entities)
         .set('loaded', true)
 
     case ImageGalleryActionType.DELETE_IMAGE:
-      return state
-        .update('images', (images: List<Image>) => {
-         return images.filter((image) => image!.id !== payload)
-        })
+      return state.deleteIn(['entities', payload.imageId])
 
     case ImageGalleryActionType.SET_IMAGE_URL:
       return state
         .setIn(['imageURLList', payload.name], payload.url)
+
+    case ImageGalleryActionType.ADD_VIDEO_GALLERY:
+      return state
+        .update('videos', (videoList: List<any>) => videoList.push(payload))
+
+    case ImageGalleryActionType.ADD_VIDEO_LIST_GALLERY:
+      return state
+        .set('videos', List(payload))
+        .set('loaded', true)
+
+    case ImageGalleryActionType.DELETE_VIDEO:
+      return state
+        .update('videos', (videos: List<Image>) => {
+          return videos.filter((video) => video!.id !== payload)
+        })
 
     case ImageGalleryActionType.SEND_IMAGE_REQUEST:
       return state

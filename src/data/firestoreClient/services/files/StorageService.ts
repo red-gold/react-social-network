@@ -7,43 +7,49 @@ import { injectable } from 'inversify'
 export class StorageService implements IStorageService {
 
   /**
-   * Upload image on the server
-   * @param {file} file
-   * @param {string} fileName
+   * Upload file on the server
    */
-  public uploadFile = (file: any, fileName: string, progress: (percentage: number, status: boolean) => void) => {
+  public uploadFile = (folderName: string, file: any, fileName: string,
+    onProgress: (percentage: number, status: boolean, fileName: string, meta?: any) => void,
+    onSuccess: (fileResult: FileResult, meta?: any) => void,
+    onFailure: (error: any) => void
+  ) => {
 
-    return new Promise<FileResult>((resolve, reject) => {
-      // Create a storage refrence
-      let storegeFile = storageRef.child(`images/${fileName}`)
+    // Create a storage refrence
+    let storegeFile = storageRef.child(`${folderName}/${fileName}`)
 
-      // Upload file
-      let task = storegeFile.put(file)
-      task.then((result) => {
-        result.ref.getDownloadURL()
-          .then((downloadURL) => {
-            resolve(new FileResult(downloadURL, result.metadata.fullPath))
-          })
-          .catch((error) => {
-            reject(error)
-          })
-      }).catch((error) => {
-        reject(error)
+    // Upload file
+    let task = storegeFile.put(file)
+
+    // Upload storage bar
+    task.on('state_changed', (snapshot: any) => {
+      let percentage: number = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      onProgress(percentage, true, fileName)
+    }, (error) => {
+      onFailure(error)
+      console.log('========== Upload Image ============')
+      console.log(error)
+      console.log('====================================')
+
+    }, () => {
+      onProgress(100, false, fileName)
+      task.snapshot.ref.getDownloadURL().then((downloadURL) => {
+        onSuccess(new FileResult(downloadURL), { url: downloadURL })
+
       })
 
-      // Upload storage bar
-      task.on('state_changed', (snapshot: any) => {
-        let percentage: number = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        progress(percentage, true)
-      }, (error) => {
-        console.log('========== Upload Image ============')
-        console.log(error)
-        console.log('====================================')
-
-      }, () => {
-        progress(100, false)
-      })
     })
-
   }
+
+  /**
+   * Delete file
+   */
+  public deleteFile = async (folderName: string, fileName: string) => {
+    // Create a reference to the file to delete
+    var fileRef = storageRef.child(`${folderName}/${fileName}`)
+
+    // Delete the file
+    await fileRef.delete()
+  }
+
 }

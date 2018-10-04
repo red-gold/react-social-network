@@ -4,9 +4,6 @@ import firebase from 'firebase'
 
 /**
  * Graph service interface
- *
- * @export
- * @interface IGraphService
  */
 export interface IGraphService {
   /**

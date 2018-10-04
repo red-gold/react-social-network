@@ -16,6 +16,10 @@ import { IVoteService } from 'src/core/services/votes'
 import { Post } from 'src/core/domain/posts'
 import { SocialProviderTypes } from 'src/core/socialProviderTypes'
 import { provider } from 'src/socialEngine'
+import * as userActions from 'store/actions/userActions'
+import { UserSettingType } from 'core/services/users/userSettingType'
+import { NotificationType } from 'core/domain/notifications/notificationType'
+import { userSelector } from 'store/reducers/users/userSelector'
 
 /**
  * Get service providers
@@ -26,49 +30,45 @@ const voteService: IVoteService = provider.get<IVoteService>(SocialProviderTypes
 
 /**
  *  Add vote to database
- * @param  {string} postId is the identifier of the post which user vote
- * @param  {string} ownerPostUserId is the identifier of the post owner which user vote
  */
 export const dbAddVote = (postId: string,ownerPostUserId: string) => {
   return (dispatch: any, getState: Function) => {
 
     const state: Map<string, any> = getState()
     let uid: string = state.getIn(['authorize', 'uid'])
-    const currentUser = state.getIn(['user', 'info', uid])
+    const currentUser = userSelector.getUserProfileById(state, {userId: uid}).toJS()
     let vote: Vote = {
       postId: postId,
       creationDate: moment().unix(),
       userDisplayName: currentUser.fullName,
       userAvatar: currentUser.avatar,
-      userId: uid
+      userId: uid,
+      receiverId: ownerPostUserId
     }
-    const post: Map<string, any> = state.getIn(['post', 'userPosts', ownerPostUserId, postId])
-    const score = Number(post.get('score', 0)) + 1
-     const votedPost = post
-     .set('score', score)
-     .setIn(['votes',uid], true)
-    dispatch(postActions.updatePost(votedPost))
-
-    return voteService.addVote(vote).then((voteKey: string) => {
-      if (uid !== ownerPostUserId) {
-        dispatch(notifyActions.dbAddNotification(
-          {
-            description: 'Vote on your post.',
-            url: `/${ownerPostUserId}/posts/${postId}`,
-            notifyRecieverUserId: ownerPostUserId,notifierUserId: uid,
-            isSeen: false
-          }))
-      }
-
-    })
-    .catch((error) => {
-      const score = post.get('score', 0) - 1
+    const post: Map<string, any> = state.getIn(['post', 'entities', postId])
+   if (post) {
+     const score = Number(post.get('score', 0)) + 1
       const votedPost = post
-     .set('score', score)
-     .setIn(['votes',uid], false)
-      dispatch(postActions.updatePost(votedPost))
-      dispatch(globalActions.showMessage(error.message))
-    })
+      .set('score', score)
+      .setIn(['votes',uid], true)
+      
+     dispatch(postActions.updatePostVotes(votedPost))
+ 
+     return voteService.addVote(vote).then((voteKey: string) => {
+       dispatch(userActions.increaseVoteCountUser(uid))
+ 
+     })
+     .catch((error) => {
+       const score = post.get('score', 0) - 1
+       const votedPost = post
+      .set('score', score)
+      .setIn(['votes',uid], false)
+      
+       dispatch(postActions.updatePostVotes(votedPost))
+       dispatch(globalActions.showMessage(error.message))
+     })
+     
+   }
   }
 }
 
@@ -85,7 +85,7 @@ export const dbGetVotes = (userId: string, postId: string) => {
       .getVotes(postId)
       .then((postVotes: { [postId: string]: { [voteId: string]: Vote } }) => {
         dispatch(addVoteList(postVotes))
-        const post: Post = state.getIn(['post', 'userPosts', userId, postId])
+        const post: Post = state.getIn(['post', 'entities', postId])
         if (!post) {
           return
         }
@@ -101,26 +101,26 @@ export const dbGetVotes = (userId: string, postId: string) => {
 
 /**
  * Delete a vote from database
- * @param  {string} id of vote
- * @param {string} postId is the identifier of the post which vote belong to
  */
 export const dbDeleteVote = (postId: string, ownerPostUserId: string) => {
   return (dispatch: any, getState: Function) => {
     const state: Map<string, any> = getState()
     let uid: string = state.getIn(['authorize', 'uid'])
-    const post: Map<string, any> = state.getIn(['post', 'userPosts', ownerPostUserId, postId])
+    const post: Map<string, any> = state.getIn(['post', 'entities', postId])
     const score = post.get('score', 0) - 1
     const votedPost = post
      .set('score', score)
      .setIn(['votes',uid], false)
-    dispatch(postActions.updatePost(votedPost))
-    return voteService.deleteVote(uid, postId).then(x => x)
+    dispatch(postActions.updatePostVotes(votedPost))
+    return voteService.deleteVote(uid, postId).then(x => {
+      dispatch(userActions.decreaseVoteCountUser(uid))
+    })
     .catch((error: any) => {
       const score = post.get('score', 0) + 1
       const votedPost = post
      .set('score', score)
      .setIn(['votes',uid], true)
-      dispatch(postActions.updatePost(votedPost))
+      dispatch(postActions.updatePostVotes(votedPost))
       dispatch(globalActions.showMessage(error.message))
     })
   }

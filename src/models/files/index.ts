@@ -1,1 +1,7 @@
-export { FileResult } from './fileResult'
+import { FileResult } from './fileResult'
+import { FileResultStatus } from './fileResultStatus'
+
+export {
+    FileResult,
+    FileResultStatus
+}

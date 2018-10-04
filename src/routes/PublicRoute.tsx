@@ -7,15 +7,15 @@ import {Map} from 'immutable'
 export class PublicRoute extends Component<IRoute, any> {
 
   render () {
-    const {authed, path, component} = this.props
+    const {authed, path, component: Component, ...rest} = this.props
     return (
-    <Route path={path} render={() => {
-      return (
-          authed
-            ? <Redirect to='/' />
-            : (() => component)()
-      )
-    }} />
+      <Route {...rest} render={(props) => (
+        authed
+          ? <Redirect to={{
+            pathname: '/'
+          }} />
+          : <Component {...props} />
+      )} />
     )
   }
 }

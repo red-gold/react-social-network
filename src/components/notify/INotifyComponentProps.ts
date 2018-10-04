@@ -1,4 +1,3 @@
-import { Profile } from 'core/domain/users'
 import { Notification } from 'core/domain/notifications'
 import {Map} from 'immutable'
 export interface INotifyComponentProps {
@@ -11,7 +10,7 @@ export interface INotifyComponentProps {
   /**
    * Users' profile
    */
-  info?: Map<string, Profile>
+  info?: Map<string, any>
 
   /**
    * Close notification
@@ -32,5 +31,10 @@ export interface INotifyComponentProps {
    * Material ui styles
    */
   classes?: any
+  
+  /**
+   * Translate to locale string
+   */
+  t?: (state: any, param?: {}) => any
 
 }

@@ -1,4 +1,3 @@
-import { localeReducer as locale } from 'react-localize-redux'
 import {
   combineReducers
 } from 'redux-immutable'
@@ -14,11 +13,12 @@ import { postReducer } from './posts'
 import { userReducer } from './users'
 import { voteReducer } from './votes'
 import { serverReducer } from './server'
+import { userSettingReducer } from './userSetting'
+import { chatReducer } from './chat'
 import { routerReducer, routerMiddleware } from 'react-router-redux'
 
 // - Reducers
 export const rootReducer = combineReducers({
-    locale,
     imageGallery: imageGalleryReducer,
     post: postReducer,
     circle: circleReducer,
@@ -29,5 +29,7 @@ export const rootReducer = combineReducers({
     router: routerReducer,
     user: userReducer,
     notify: notificationReducer,
-    global: globalReducer
+    global: globalReducer,
+    userSetting: userSettingReducer,
+    chat: chatReducer
   } as any)

@@ -6,14 +6,25 @@ import createHistory from 'history/createBrowserHistory'
 import createSagaMiddleware, { END } from 'redux-saga'
 import { rootReducer } from 'store/reducers'
 import { fromJS } from 'immutable'
+import jwtDecode from 'jwt-decode'
+
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory()
-
-// - Build the middleware for intercepting and dispatching navigation actions
 const sagaMiddleware = createSagaMiddleware()
+const token = localStorage.getItem('firebase.token')
+let uid = ''
+let authed = false
+if (token) {
+  uid = (jwtDecode(token) as any)['user_id']
+  authed = true
+}
 // - initial state
 let initialState = {
-
+  authorize: {
+    authed: authed,
+    guest: !authed ,
+    uid
+  }
 }
 
 // - Config and create store of redux

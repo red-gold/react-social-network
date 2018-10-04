@@ -9,10 +9,6 @@ import { injectable } from 'inversify'
 
 /**
  * Firbase circle service
- *
- * @export
- * @class CircleService
- * @implements {ICircleService}
  */
 @injectable()
 export class CircleService implements ICircleService {

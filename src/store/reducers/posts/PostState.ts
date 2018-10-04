@@ -11,25 +11,18 @@ export class PostState {
 
     /**
      * The list of user posts
-     *
-     * @type {*}
-     * @memberof PostState
      */
   userPosts = Map({})
 
     /**
      * If user posts are loaded {true} or not {false}
-     *
-     * @type {Boolean}
-     * @memberof PostState
      */
   loaded: Boolean = false
 
   /**
    * Stream data storage
    */
-  stream?: Map<string,any> =
-  Map({hasMoreData: true, lastPageRequest: -1, lastPostId: ''})
+  stream?: Map<string,any> = Map({list: Map({})})
 
   /**
    * Profile posts data storage

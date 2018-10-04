@@ -3,6 +3,7 @@
 import { Notification } from 'src/core/domain/notifications'
 import { SocialError } from 'src/core/domain/common'
 import { Map, fromJS } from 'immutable'
+import moment from 'moment/moment'
 
 // - Import action types
 import { NotificationActionType } from 'constants/notificationActionType'
@@ -14,6 +15,7 @@ import * as userActions from 'store/actions/userActions'
 import { INotificationService } from 'src/core/services/notifications'
 import { SocialProviderTypes } from 'src/core/socialProviderTypes'
 import { provider } from 'src/socialEngine'
+import { authorizeSelector } from 'store/reducers/authorize'
 
 /**
  * Get service providers
@@ -27,13 +29,18 @@ const notificationService: INotificationService = provider.get<INotificationServ
  */
 export const dbAddNotification = (newNotify: Notification) => {
   return (dispatch: any, getState: Function) => {
-
+    const state: Map<string, any> = getState()
+    const currentUset = authorizeSelector.getCurrentUser(state)
     let notify: Notification = {
       isSeen: false,
       description: newNotify.description,
       url: newNotify.url,
       notifierUserId: newNotify.notifierUserId,
-      notifyRecieverUserId: newNotify.notifyRecieverUserId
+      notifierProfile: Map(currentUset).toJS(),
+      notifyRecieverUserId: newNotify.notifyRecieverUserId,
+      emailNotification: newNotify.emailNotification === true,
+      type: newNotify.type,
+      creationDate: moment().unix()
     }
 
     return notificationService.addNotification(notify)
@@ -49,20 +56,8 @@ export const dbAddNotification = (newNotify: Notification) => {
  * Get all notificaitions from database
  */
 export const dbGetNotifications = () => {
-  return (dispatch: Function , getState: Function) => {
-    const state: Map<string, any>  = getState()
-    let uid: string = state.getIn(['authorize', 'uid'])
-    if (uid) {
-      return notificationService.getNotifications(uid,
-        (notifications: { [notifyId: string]: Notification} ) => {
-          Object.keys(notifications).forEach((key => {
-            if (!state.getIn(['user', 'info', 'notifications', 'key','notifierUserId'])) {
-              dispatch(userActions.dbGetUserInfoByUserId(notifications[key].notifierUserId,''))
-            }
-          }))
-          dispatch(addNotifyList(fromJS(notifications)))
-        })
-    }
+  return {
+    type: NotificationActionType.DB_FETCH_NOTIFICATIONS
   }
 }
 
@@ -97,9 +92,7 @@ export const dbSeenNotification = (id: string) => {
     let notify: Map<string, any> = state.getIn(['notify', 'userNotifies', id])
 
     let updatedNotification: Notification = {
-      description: notify.get('description'),
-      url: notify.get('url'),
-      notifierUserId: notify.get('notifierUserId'),
+      ...notify.toJS(),
       notifyRecieverUserId: uid,
       isSeen: true
     }

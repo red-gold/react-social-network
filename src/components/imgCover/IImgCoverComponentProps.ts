@@ -2,46 +2,41 @@ export interface IImgCoverComponentProps {
 
   /**
    * Image file name
-   *
-   * @type {string}
-   * @memberof IImgCoverComponentProps
    */
-  fileName: string
+  src: string
 
-    /**
-     * Image style sheet
-     *
-     * @type {{}}
-     * @memberof IImgCoverComponentProps
-     */
+  /**
+   * Handle click evenr
+   */
+  onClick?: (event?: any, obj?: any) => void
+
+  /**
+   * Image style 
+   */
   style?: {}
 
   /**
    * Image with
-   *
-   * @type {string}
-   * @memberof IImgCoverComponentProps
    */
   width?: string
 
   /**
    * Image height
-   *
-   * @type {string}
-   * @memberof IImgCoverComponentProps
    */
   height?: string
 
   /**
    * Image border radius
-   *
-   * @type {string}
-   * @memberof IImgCoverComponentProps
    */
   borderRadius?: string
 
   /**
+   * Class name
+   */
+  className?: any
+
+  /**
    * Translate to locale string
    */
-  translate?: (state: any) => any
+  t?: (state: any) => any
 }

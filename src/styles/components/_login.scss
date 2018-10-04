@@ -1,4 +1,9 @@
 .login__button-box {
-    display: flex;
-    justify-content: space-around;
+    margin: 0;
+    border: 0;
+    display: inline-flex;
+    padding: 0;
+    position: relative;
+    min-width: 0;
+    flex-direction: column;
 }

@@ -1,0 +1,376 @@
+{
+    "sidebar" : {
+        "home": "Inicio",
+        "profile": "Perfil",
+        "people": "Usuarios",
+        "settings": "Configuración",
+        "sendFeedback": "Enviar comentarios",
+        "homeCaption": "Home",
+        "peopleCaption": "People",
+        "circlesCaption": "Circles",
+        "followersCaption": "Followers",
+        "twitterCaption": "Twitter",
+        "facebookCaption": "Facebook Page",
+        "instagramCaption": "Instagram",
+        "fun": "Diversión",
+        "company": "Empresas",
+        "sponser": "Patrocinador",
+        "help": "Ayuda"
+
+    },
+    "header": {
+        "home":"Inicio",
+        "notificationTooltip": "Notificaciones",
+        "recentChatTooltip": "Chat",
+        "myAccount": "Mi cuenta",
+        "logout": "Salir",
+        "homeCaption": "Inicio",
+        "peopleCaption": "Usuarios",
+        "circlesCaption": "Grupos",
+        "followersCaption": "Seguidores",
+        "searchText": "Encuentre sus publicaciones y personas favoritas ....",
+        "notification": {
+            "emptyCaption": "Sin contenido"
+        }
+
+    },
+    "home": {
+        "postWriteButtonText": "¿Qué hay de nuevo?",
+        "cookieConsentText": "Este sitio usa cookies. Al continuar navegando, acepta nuestro uso de cookies.",
+        "cookieConsentButton": "Permitir todas las cookies"
+    },
+    "post": {
+        "edit": "Editar",
+        "delete": "Eliminar",
+        "disableComments": "Desactivar Comentarios",
+        "disableSharing": "Desactivar Compartir",
+        "enableComments": "Habilitar comentarios",
+        "enableSharing": "Habilitar Compartir",
+        "public": "público",
+        "textareaPlaceholder": "¿Que hay de nuevo?",
+        "moreTooltip": "más",
+        "postButton": "PUBLICAR",
+        "cancelButton": "CANCELAR",
+        "updateButton": "ACTUALIZAR",
+        "copyLinkButton": "Copiar enlace",
+        "addVideoTitle": "Añadir enlace de vídeo",
+        "imageEditorTitle": "Editor de Imagen",
+        "addVideoButton": "SI",
+        "videoInputLinkRequiredError": "¡Se requiere un enlace de video!",
+        "videoInputLinkInvalidError": "Por favor ingrese una dirección URL válida!",
+        "facebookButton": "Compartir en Facebook",
+        "twitterButton": "Compartir en Twitter",
+        "linkedinButton": "Compartir en Linkedin",
+        "googlePlusButton": "Compartir en Google+",
+        "videoGalleryLabel": "Galería de Vídeo",
+        "imageGalleryLabel": "Galería de imagenes"
+
+    },
+    "videGallery": {
+        "saveButton": "GUARDAR",
+        "backButton": "ATRAS",
+        "maxExceedMessage": "El tamaño máximo de archivo debe ser 20 MB!"
+    },
+    "imageGallery": {
+        "uploadButton": "SUBIR",
+        "cancelButton": "CANCELAR"
+    },
+    "image": {
+        "notLoaded": "La imagen no se ha cargado!"
+    },
+    "comment": {
+        "postButton": "COMENTAR",
+        "cancelButton": "CANCELAR",
+        "updateButton": "ACTUALIZAR",
+        "addCommentPlaceholder": "Añadir un comentario ...",
+        "updateCommentPlaceholder": "Escriba su comentario ...",
+        "replyButton": "Respuesta",
+        "editButton": "Editar",
+        "deleteButton": "Eliminar"
+    },
+    "profile": {
+        "editProfileButton": "Editar Perfil",
+        "cancelButton": "CANCELAR",
+        "updateButton": "ACTUALIZAR",
+        "aboutButton": "Sobre",
+        "about": "Sobre",
+        "fullName": "Nombre Completo",
+        "tagline": "Estado",
+        "birthday": "Cumpleaños",
+        "companyName": "Nombre Empresa",
+        "twitterId": "Twitter",
+        "facebookId": "Facebook Page",
+        "webUrl": "Enlace de su Web",
+        "contactInfo": "Datos de contacto",
+        "otherSocial": "Otro Social",
+        "personalInformationLabel": "Información personal",
+        "headPostsLabel": "${userName} realizo una publicación",
+        "nothingSharedLabel": " Nada compartido",
+        "chooseAvatarDialogTitle": "Eliga una imagen de avatar",
+        "chooseBanerDialogTitle": "Eliga una imagen de fondo",
+        "twitterExampleLabel": "tu nombre de usuario de twitter, ex. twitter",
+        "facebookExampleLabel": "El nombre de tu página de Facebook. facebook"
+    },
+    "people": {
+        "findPeopleTab": "ENCONTRAR SOCIAL",
+        "followingTab": "SIGUIENDO",
+        "followersTab": "SEGUIDORES",
+        "suggestionsForYouLabel": "Sugerencias para usted",
+        "nothingToShowLabel": "Nada que mostrar! :(",
+        "followingLabel": "Siguiendo",
+        "noFollowingLabel": "¡Ningún usuario le sigue",
+        "followersLabel": "Seguidores",
+        "noFollowersLabel": "¡Sin seguidores!"
+    },
+    "userBox": {
+        "followButton": "SEGUIR",
+        "cancelButton": "CANCELAR",
+        "numberOfCircleButton": "${circlesCount} Grupos",
+        "doneButton": "HECHO",
+        "groupNamePlaceholder": "Nombre de grupo",
+        "createCircleTooltip": "Crear grupo",
+        "followingLabel": "Siguiendo",
+        "followedLabel": "Seguido"
+
+    },
+    "changePassword": {
+        "title": "Modificar contraseña",
+        "newPasswordLabel": "Nueva contraseña",
+        "confirmPasswordLabel": "Confirmar contraseña",
+        "homeButton": "INICIO",
+        "changePasswordButton": "MODIFICAR CONTRASEÑA",
+        "newPasswordRequiredError": "Este campo es requerido",
+        "confirmPasswordRequiredError": "Este campo es requerido",
+        "confirmPasswordEqualNewPasswordError": "La contraseña y confirmar contraseña deben ser iguales"
+
+    },
+    "circle": {
+        "settingLable": " Configuración de Grupo",
+        "saveButton": "Guardar",
+        "circleName": "Nombre del Grupo",
+        "deleteCircleButton": "Eliminar Grupo"
+    },
+    "feedback": {
+        "textareaPlaceholder": "Su opinión nos importa ;)",
+        "sadTooltip":  "Triste",
+        "acceptableTooltip":  "Aceptable",
+        "happyTooltip":  "Contento",
+        "awesomeTooltip":  "Increíble",
+        "appreciateMessage": "Apreciamos su amable apoyo como siempre ;)",
+        "sendingMessage": "Sus comentarios se están enviando!",
+        "errorMessage": "Error al enviar comentarios :( "
+    },
+    "login": {
+        "title": "Registrarse",
+        "emailLabel": "Email",
+        "passwordLabel": "Contraseña",
+        "emailRequiredError": "Este campo es requerido",
+        "passwordRequiredError": "Este campo es requerido",
+        "createAccountButton": "Regístrate",
+        "createAccountText": "No tienes una cuenta?",
+        "loginButton": "Iniciar sesión",
+        "loginText": "¿Tener una cuenta?",
+        "forgetPasswordMessage": "¿Se te olvidó tu contraseña?",
+        "resetPasswordLabel": "Restablecer su contraseña.",
+        "titleSideLabel": "¿Nuevo aquí?",
+        "welcomeLabel": "Piensa Diferente",
+        "contentSideLabel":"Registrarse y descubrir"
+    },
+    "signup": {
+        "title":"Regístrarse",
+        "fullNameLabel": "Nombre Completo",
+        "emailLabel": "Email",
+        "passwordLabel": "Contraseña",
+        "confirmPasswordLabel": "Confirmar contraseña",
+        "validNameError":"Por favor ingrese un nombre valido.",
+        "validEmailError": "Se necesita un correo electrónico válido.",
+        "emailRequiredError": "Este campo es requerido.",
+        "passwordRequiredError": "Este campo es requerido.",
+        "confirmRequiredError": "Este campo es requerido.",
+        "passwordEqualConfirmError": "Este campo debe ser igual para confirmar la contraseña.",
+        "confirmEqualPasswordError": "Este campo debe ser igual a la contraseña.",
+        "loginButton": "INICIAR SESIÓN",
+        "createButton": "CREAR",
+        "titleSideLabel": "¿Uno de nosotros?",
+        "contentSideLabel": "Si ya dispone de una cuenta, solo inicie sesión.",
+        "termCaption": "Al registrarse, aceptas nuestras <a href='${href}'> Condiciones</a>, Política de Datos y Política de Cookies."
+
+    },
+    "resetPassword": {
+        "title": "Restablecer la contraseña",
+        "backButton": "ATRAS",
+        "nextButton": "SIGUIENTE",
+        "emailDescription": "Establezca su correo electrónico válido para recibir el código de verificación.",
+        "codeVerifyDescription": "Por favor ingrese el código de verificación y haga clic en el botón VERIFICAR. Hemos enviado un código de verificación a su correo electrónico que recibirá después de un tiempo. También puede utilizar el botón RESET si tiene problemas para recibir el código de verificación.",
+        "emailLabel": "Email",
+        "codeLabel": "Código de verificación",
+        "validEmailError": "Por favor introduzca una dirección de correo electrónico válida.",
+        "requiredEmailError": "El campo de correo electrónico es obligatorio.",
+        "requiredCodeError": "¡Se requiere el campo de código de verificación!",
+        "validCodeError": "La longitud del código de verificación debe ser de cuatro dígitos.",
+        "capthaExpiredMessage": "¡Capthcha ha expirado!",
+        "capthaRenderErrorMessage": "Se produjo un error al procesar el captcha",
+        "resetButton": "REINICIAR",
+        "verifyButton": "VERIFICAR"
+    },
+    "emailVerification": {
+        "title": "Verificación de Email",
+        "homeButton": "INICIO",
+        "sendButton": "Enviar verificación por email",
+        "description": "Ya le hemos enviado un EMAIL de verificación. Por favor mire su bandeja de entrada. Si no pudo ver el correo electrónico, vuelva a enviar la verificación por EMAIL."
+    },
+    "smsVerification": {
+        "title": "Ingrese su número telefónico",
+        "logoutButton": "CERRAR SESIÓN",
+        "nextButton": "SIGUIENTE",
+        "phoneNumberDescription": "Establezca su número válido para recibir el código de verificación.",
+        "codeVerifyDescription": "Por favor ingrese el código de verificación y haga clic en el botón VERIFICAR. Hemos enviado un código de verificación a su teléfono que recibirá después de un tiempo. También puede utilizar el botón RESET si tiene problemas para recibir el código de verificación.",
+        "phoneNumberLabel": "Número de teléfono",
+        "codeLabel": "Código de verificación",
+        "validPhoneNumberError": "Por favor ingrese un número de teléfono válido. Ex. +34662459178.",
+        "requiredPhoneNumberError": "Se requiere un campo de número de teléfono.",
+        "requiredCodeError": "¡Se requiere el campo de código de verificación!",
+        "validCodeError": "La longitud del código de verificación debe ser de cuatro dígitos.",
+        "capthaExpiredMessage": "¡Capthcha ha expirado!",
+        "capthaRenderErrorMessage": "Se produjo un error al procesar el captcha",
+        "resetButton": "REINICIAR",
+        "verifyButton": "VERIFICAR"
+    },
+    "common": {
+        "sentRequestMessage": "La solicitud ha sido enviada.",
+        "successfulRequestMessage": "La solicitud ha sido correcta."
+    },
+    "mobileApp": {
+        "googlePlayIcon": "https://play.google.com/intl/en_us/badges/images/generic/${lang}_badge_web_generic.png",
+        "googlePlayAlt": "Consiguelo en google play",
+        "appStoreAlt": "Consíguelo en el App Store",
+        "getApp": "Obtener la aplicación."
+    },
+    "yourCircles": {
+        "title": "Sus grupos"
+    },
+    "userActivity": {
+        "privilegesTitle": "Privilegios",
+        "bountiesTitle": "Gratificación",
+        "verificationTitle": "Verificación",
+        "reputationTitle": "Reputación",
+        "impactTitle": "Impacto",
+        "nextBountiesButton": "Siguientes gratificaciones",
+        "nextPrivilegeCaption": "Siguientes privilegios",
+        "currentPrivilegeCaption": "Privilegio actual",
+        "reputationCaption": "rep.",
+        "allPrivilegesButton": "Todos los privilegios",
+        "likeCaption": "Me gusta",
+        "shareCaption": "Compartidos",
+        "followingCaption": "Siguiendo",
+        "followersCaption": "Seguidores",
+        "startCaption": "Estrella",
+        "publishCaption": "Publicados",
+        "diamondCaption": "Diamante",
+        "storeTitle": "Wabpuntos",
+        "privileges": "Privileges",
+        "bountyCommingSoon": "Regalo En breve",
+        "bountyFrom": "Regalo de ${company}",
+        "goal": "Incentivo",
+        "allBounties": "Todos los regalos"
+    },
+    "terms": {
+        "termsTitle": "Terminos",
+        "privacyTitle": "Privacidad",
+        "cookieTitle": "Cookie",
+        "signUpTile": "Registrarse"
+    },
+    "config": {
+        "changePasswordLabel": "Modificar Contraseña",
+        "notificationLabel": "Ajustes de Notificación",
+        "notificationCaption": "Administre su notificación si desea deshabilitar / habilitar.",
+        "homeLabel": "Inicio",
+        "saveChangesButton": "Guardar cambios",
+        "notification": {
+            "emailOnVote": "Enviar notificaciones por correo electrónico cuando alguien hace me gusta en su publicación",
+            "emailOnComment": "Enviar notificaciones por correo electrónico al comentar su publicación",
+            "emailOnFollow": "Enviar notificación por correo electrónico cuando alguien comienza a seguirle"
+
+        }
+    },
+    "chat": {
+        "recentlyCaption": "Recientemente" ,
+        "contactsCaption": "Contactos",
+        "groupsCaption": "Grupos",
+        "searchText": "Buscar amigos o grupos de amigos :)",
+        "messageText": "escribir su mensaje ...",
+        "closeMenu": "Cerrar chat",
+        "chatLabel": "Chat",
+        "minimizeMenu": "Minimizar",
+        "messageMenu": "Maximum",
+        "removeHistoryCaption": "Eliminar historial",
+        "settingCaption": "Configuración",
+        "translationLabel": "Traducciones",
+        "chatRoomSettingTitle": "Configuración chat",
+        "outputLabel": "Salida",
+        "inputLabel": "Entrada",
+        "disabledLabel": "Desconectado",
+        "close": "Cerrar",
+        "disable": "Desconectar",
+        "noData": "Nothing to show"
+
+    },
+    "permission": {
+        "titleLabel": "Permiso de privacidad",
+        "circles": "Grupos",
+        "custom": "Personalizado",
+        "onlyMe": "Solo yo",
+        "public": "Público"
+    },
+    "externalSocial": {
+        "needConfig": " Para acceder a ${social}, por favor configure su ${social} cuenta en <a style='color: blue' href='/${userId}'>Perfil </a> página desde el diálogo de edición de perfil.",
+        "instagramLoginButton": "Iniciar sesión en su Instagram",
+        "yourAccountCaption": "Su cuenta ${account} ",
+        "twitterCaption": "Twitter",
+        "facebookCaption": "Página Facebbok",
+        "instagramCaption": "Instagram"
+    },
+    "masterLoading": {
+        "loading": "Cargando",
+        "unexpectedError": "Se produjo un error inesperado",
+        "timeout": "Lleva mucho tiempo"
+    },
+    "search": {
+        "users": "Usuarios",
+        "posts": "Publicaciones",
+        "notFoundUser": "Lo sentimos, no hay resultados de usuario para \"${query}\"",
+        "notFoundPost": "Lo sentimos, no hay resultados para \"${query}\"",
+        "searchInPost": "Buscar en publicaciones para \"${query}\"",
+        "searchInUser": "Buscar en usuarios para \"${query}\""
+    },
+    "privilege": {
+        "newUser": "Nuevo usuario",
+        "approvedUser": "Usuario aprobado",
+        "normal": "Normal"
+    },
+    "footer": {
+        "supportEmail": "Soporte Email"
+    },
+    "album": {
+        "photos": "Fotos",
+        "album": "Álbum",
+        "createAlbum": "Crear nuevo álbum",
+        "addPhoto": "Añadir foto",
+        "next": "Siguiente",
+        "back": "Atras",
+        "save": "Guardar",
+        "uploading": "Cargando",
+        "addPhotos": "Añadir fotos",
+        "saveAlbum": "Guardar álbum",
+        "defaultAlbumName": "Álbum sin título",
+        "description": "Descripción",
+        "albumTitle": "Título del álbum",
+        "descriptionError": "El campo de descripción es obligatorio.",
+        "albumNameError": "El campo de título es obligatorio.",
+        "deleteAlbum": "Eliminar álbum",
+        "noExistAlbum": "¡El álbum no existe o no tienes suficiente acceso a este álbum!"
+
+    }
+  
+    
+}

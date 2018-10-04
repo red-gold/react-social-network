@@ -71,5 +71,5 @@ export interface IProfileHeaderComponentProps {
   /**
    * Translate to locale string
    */
-  translate?: (state: any) => any
+  t?: (state: any) => any
 }

@@ -15,10 +15,32 @@ const convertImageToCanvas = (image: HTMLImageElement | HTMLCanvasElement | HTML
 }
 
 /**
+ * Check maximum file size in Mega Byte
+ */
+const checkMaxFileSize = (fileSize: number, maxSize: number) => {
+  const fileSizeMB = Number((fileSize / (1024 * 1024)).toFixed(2))
+  return fileSizeMB > maxSize
+}
+
+/**
+ * Capture video
+ */
+const captureVideo = (video: HTMLVideoElement, scaleFactor: number | null) => {
+	if (scaleFactor == null) {
+		scaleFactor = 1
+	}
+	const width = video.videoWidth * scaleFactor
+	const height = video.videoHeight * scaleFactor
+	const canvas = document.createElement('canvas')
+	canvas.width  = width
+	canvas.height = height
+	const ctx = canvas.getContext('2d')
+		ctx!.drawImage(video, 0, 0, width, height)
+    return canvas
+} 
+
+/**
  * Constraint image size
- * @param {file} file
- * @param {number} maxWidth
- * @param {number} maxHeight
  */
 const constraintImage = (file: File,fileName: string, maxWidth?: number, maxHeight?: number) => {
     // Ensure it's an image
@@ -93,6 +115,8 @@ export default {
   dataURLToBlob,
   convertImageToCanvas,
   getExtension,
-  constraintImage
+  constraintImage,
+  captureVideo,
+  checkMaxFileSize
 
 }

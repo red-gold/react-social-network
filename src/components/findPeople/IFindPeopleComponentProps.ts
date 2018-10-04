@@ -1,19 +1,27 @@
-import { Profile } from 'core/domain/users/profile'
 import { UserTie } from 'core/domain/circles'
+import {Map, List} from 'immutable'
 
 export interface IFindPeopleComponentProps {
 
   /**
    * Load users' profile
-   *
-   * @memberof IFindPeopleComponentProps
    */
   loadPeople?: (page: number, limit: number) => any
 
   /**
+   * Current page number
+   */
+  page?: number
+
+  /**
+   * Increase page
+   */
+  increasePage?: () => any
+
+  /**
    * Users' profile
    */
-  peopleInfo?: Map<string, UserTie>
+  peopleInfo?: List<Map<string, any>>
 
   /**
    * If there are more people {true} or not {false}
@@ -23,6 +31,6 @@ export interface IFindPeopleComponentProps {
   /**
    * Translate to locale string
    */
-  translate?: (state: any) => any
+  t?: (state: any) => any
 
 }

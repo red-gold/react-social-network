@@ -1,6 +1,6 @@
 // - Import image gallery action types
 import { GlobalActionType } from 'constants/globalActionType'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+import i18n from 'locales/i18n'
 import { Map } from 'immutable'
 
 // - Import actions
@@ -14,6 +14,7 @@ import { ServerRequestType } from 'constants/serverRequestType'
 import StringAPI from 'src/api/StringAPI'
 import { ServerRequestModel } from 'src/models/server'
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
+import { DialogType } from 'models/common/dialogType'
 
 /**
  * Get service providers
@@ -51,8 +52,8 @@ export let dbSendFeed = (newFeed: Feed) => {
 export const showNotificationRequest = () => {
   return (dispatch: Function, getState: Function) => {
     const state: Map<string, any> = getState()
-    const translate =  getTranslate(state.get('locale'))
-    return dispatch(showMessage(String(translate('common.sentRequestMessage'))))
+    
+    return dispatch(showMessage(i18n.t('common.sentRequestMessage')))
   }
 }
 
@@ -60,26 +61,44 @@ export const showNotificationRequest = () => {
 export const showNotificationSuccess = () => {
   return (dispatch: Function, getState: Function) => {
     const state: Map<string, any>  = getState()
-    const translate =  getTranslate(state.get('locale'))
-    return dispatch(showMessage(String(translate('common.successfulRequestMessage'))))
+    return dispatch(showMessage(i18n.t('common.successfulRequestMessage')))
   }
 }
 
 // - Internal request------------------
 
 /**
- * Progress change
+ * Set search request
  */
-export const progressChange = (percent: number, visible: Boolean) => {
+export const setSearchRequest = (percent: number, visible: Boolean) => {
   return {
     type: GlobalActionType.PROGRESS_CHANGE,
     payload: { percent, visible }
   }
-
 }
 
 /**
  * Progress change
+ */
+export const progressChange = (percent: number, visible: boolean) => {
+  return {
+    type: GlobalActionType.PROGRESS_CHANGE,
+    payload: { percent, visible}
+  }
+}
+
+/**
+ * Progress change with key
+ */
+export const progressChangeWithKey = (percent: number, visible: boolean, progressKey: string, meta?: any) => {
+  return {
+    type: GlobalActionType.PROGRESS_CHANGE_WITH_KEY,
+    payload: { percent, visible , progressKey, meta}
+  }
+}
+
+/**
+ * Initialize locale
  */
 export const initLocale = () => {
   return {
@@ -270,6 +289,51 @@ export const loadDataGuest = () => {
   return (dispatch: any, getState: Function) => {
   }
 
+}
+
+/**
+ * Load twitter media
+ */
+export const dbLoadTwitterMedia = (accessToken: string) => {
+ return {
+   type: GlobalActionType.LOAD_TWITTER_MEDIA,
+   payload: {accessToken}
+ }
+
+}
+
+// - Clear loaded data
+export const clearLoadedData = () => {
+  return {
+    type: GlobalActionType.CLEAR_LOADED_DATA
+  }
+}
+
+// - Load initial data
+export const loadInitialData = () => {
+  return {
+    type: GlobalActionType.LOAD_INITIAL_DATA
+  }
+}
+
+/**
+ *  Open dialog
+ */
+export const openDialog = (type: DialogType) => {
+  return {
+    type: GlobalActionType.OPEN_DIALOG,
+    payload: {type}
+  }
+}
+
+/**
+ * Close dialog
+ */
+export const closeDialog = (type: DialogType) => {
+  return {
+    type: GlobalActionType.CLOSE_DIALOG,
+    payload: {type}
+  }
 }
 
 /**

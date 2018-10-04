@@ -1,20 +1,59 @@
-
+import {ResetPasswordStepType} from './resetPasswordStepType'
 export interface IResetPasswordComponentState {
 
   /**
-   * Email input value
-   *
-   * @type {string}
-   * @memberof IResetPasswordComponentState
+   * Phone number input value
    */
-  emailInput: string
+  email: string
 
   /**
-   * Email input error text
-   *
-   * @type {string}
-   * @memberof IResetPasswordComponentState
+   * Phone number error
    */
-  emailInputError: string
+  emailError: string
+
+  /**
+   * Verification code input value
+   */
+  code: string
+
+  /**
+   * Verification code error
+   */
+  codeError: string
+
+  /**
+   * Whether OK button is disabled
+   */
+  isNextDisabled: boolean
+
+  /**
+   * Whether verify button is disabled
+   */
+  isVerifyDisabled: boolean
+
+  /**
+   * Step type of sms verification
+   */
+  step: ResetPasswordStepType
+
+  /**
+   * Phone verrification identifier
+   */
+  verifyId: string
+
+  /**
+   * Whether loading is enabled
+   */
+    loading: boolean
+
+  /**
+   * Whether captcha got success
+   */
+  isCaptchaSuccess: boolean
+
+  /**
+   * Captcha verifier
+   */
+  captchaVerifier: any
 
 }

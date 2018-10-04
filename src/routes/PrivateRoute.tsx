@@ -7,15 +7,16 @@ import { Map } from 'immutable'
 export class PrivateRoute extends Component<IRoute, any> {
 
   render () {
-    const {authed, path, component} = this.props
+    const {authed, path, component: Component, ...rest} = this.props
     return (
-    <Route path={path} render={() => {
-      return (
-          authed
-            ? (() => component)()
-            : <Redirect to='/login' />
-      )
-    }} />
+      <Route {...rest} render={(props) => (
+        authed
+          ? <Component {...props} />
+          : <Redirect to={{
+              pathname: '/login',
+              state: { from: props.location }
+            }} />
+      )} />
     )
   }
 }

@@ -3,52 +3,18 @@ import { BaseDomain } from 'core/domain/common'
 export class LoginUser extends BaseDomain {
 
   constructor (
-     private _uid: string,
-     private _emailVerified: boolean,
-     private _providerId: string = '',
-     private _displayName: string = '',
-     private _email: string = '',
-     private _avatarURL: string = ''
+     public uid: string,
+     public emailVerified: boolean,
+     public providerId: string = '',
+     public displayName: string = '',
+     public email: string = '',
+     public avatarURL: string = '',
+     public phoneVerified: boolean = false,
+     public authed: boolean = true,
+     public guest: boolean = false
 
     ) {
     super()
-  }
-
-    /**
-     * User identifier
-     *
-     * @type {string}
-     * @memberof LoginUser
-     */
-  public get uid (): string {
-    return this._uid
-  }
-
-  /**
-   * If user's email is verifide {true} or not {false}
-   *
-   * @readonly
-   * @type {boolean}
-   * @memberof LoginUser
-   */
-  public get emailVerified (): boolean {
-    return this._emailVerified
-  }
-
-  public get providerId (): string {
-    return this._providerId
-  }
-
-  public get displayName (): string {
-    return this._displayName
-  }
-
-  public get email (): string {
-    return this.email
-  }
-
-  public get avatarURL (): string {
-    return this._avatarURL
   }
 
 }

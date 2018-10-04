@@ -13,5 +13,8 @@ export const SocialProviderTypes = {
   NotificationService: Symbol('NotificationService'),
   PostService: Symbol('PostService'),
   UserService: Symbol('UserService'),
-  VoteService: Symbol('VoteService')
+  UserSettingService: Symbol('UserSettingService'),
+  ChatService: Symbol('ChatService'),
+  VoteService: Symbol('VoteService'),
+  Httpervice: Symbol('Httpervice'),
 }

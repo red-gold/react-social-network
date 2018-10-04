@@ -9,10 +9,6 @@ import { Post } from 'core/domain/posts/post'
 
 /**
  * Firbase vote service
- *
- * @export
- * @class VoteService
- * @implements {IVoteService}
  */
 @injectable()
 export class VoteService implements IVoteService {
@@ -25,26 +21,6 @@ export class VoteService implements IVoteService {
         .set({...vote})
         voteRef.then((result) => {
           resolve()
-          /**
-           * Add score
-           */
-          db.runTransaction((transaction) => {
-            return transaction.get(postRef).then((postDoc) => {
-              if (postDoc.exists) {
-                const post = postDoc.data() as Post
-                let {votes, score} = post
-                if (!votes) {
-                  votes = {}
-                }
-                if (!score) {
-                  score = 0
-                }
-                const newScore = score + 1
-                votes[vote.userId] = true
-                transaction.update(postRef, { votes: { ...votes}, score: newScore })
-              }
-            })
-          })
         })
         .catch((error: any) => {
           reject(new SocialError(error.code,error.message))
@@ -79,26 +55,7 @@ export class VoteService implements IVoteService {
         batch.delete(voteRef)
         batch.commit().then(() => {
           resolve()
-          /**
-           * Remove score
-           */
-          db.runTransaction((transaction) => {
-            return transaction.get(postRef).then((postDoc) => {
-              if (postDoc.exists) {
-                const post = postDoc.data() as Post
-                let {votes, score} = post
-                if (!votes) {
-                  votes = {}
-                }
-                if (!score) {
-                  score = 0
-                }
-                const newScore = score - 1
-                votes[userId] = false
-                transaction.update(postRef, { votes: { ...votes}, score: newScore })
-              }
-            })
-          })
+          
         })
         .catch((error) => {
           reject(new SocialError(error.code,error.message))

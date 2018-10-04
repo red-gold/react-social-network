@@ -29,7 +29,7 @@ export class UserBoxListComponent extends Component<IUserBoxListComponentProps,I
 
     /**
      * Component constructor
-     * @param  {object} props is an object properties of component
+     *
      */
   constructor (props: IUserBoxListComponentProps) {
     super(props)
@@ -48,9 +48,10 @@ export class UserBoxListComponent extends Component<IUserBoxListComponentProps,I
     const users = this.props.users
     const userBoxList: any[] = []
     if (users) {
-       users.forEach((user: UserTie, key: string) => {
-        if (uid !== key) {
-          userBoxList.push(<UserBox key={key} userId={key} user={user}/>)
+       users.forEach((user) => {
+         const userId = user!.get('userId') as string
+        if (uid !== userId) {
+          userBoxList.push(<UserBox key={userId} userId={userId} user={user!}/>)
         }
       })
     }
@@ -59,7 +60,7 @@ export class UserBoxListComponent extends Component<IUserBoxListComponentProps,I
 
     /**
      * Reneder component DOM
-     * @return {react element} return the DOM which rendered by component
+     * 
      */
   render () {
 
@@ -79,9 +80,6 @@ export class UserBoxListComponent extends Component<IUserBoxListComponentProps,I
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: Function, ownProps: IUserBoxListComponentProps) => {
   return {
@@ -91,9 +89,6 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IUserBoxListComponentP
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: any, ownProps: IUserBoxListComponentProps) => {
   const uid = state.getIn(['authorize', 'uid'], 0)

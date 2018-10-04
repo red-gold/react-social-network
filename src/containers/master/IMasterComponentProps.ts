@@ -1,73 +1,44 @@
 import { User } from 'src/core/domain/users'
+import { UserClaim } from 'core/domain/authorize/userClaim'
 export interface IMasterComponentProps {
     /**
      * Close gloal message
-     *
-     * @type {Function}
-     * @memberof IMasterProps
      */
   closeMessage: Function
     /**
      * Show progress bar information
-     *
-     * @type {*}
-     * @memberof IMasterProps
      */
   progress: any
     /**
      * Login a user
-     *
-     * @type {Function}
-     * @memberof IMasterProps
      */
-  login: (userId: string, isVerifide: boolean) => any
+  login: (user: UserClaim) => any
     /**
      * Global state
-     *
-     * @type {*}
-     * @memberof IMasterProps
      */
   global: any
     /**
      * Set flag {false} which user data has not loaded
-     *
-     * @type {Function}
-     * @memberof IMasterProps
      */
   defaultDataDisable: Function
     /**
      * Logout current user
-     *
-     * @type {Function}
-     * @memberof IMasterProps
      */
   logout: Function
     /**
      * Clear user date from store
-     *
-     * @type {Function}
-     * @memberof IMasterProps
      */
   clearData: Function
     /**
      * Prepare default data for a guest user
-     *
-     * @type {Function}
-     * @memberof IMasterProps
      */
   loadDataGuest: Function
     /**
      * Set flag {true} which all user data has loaded
-     *
-     * @type {Function}
-     * @memberof IMasterProps
      */
   defaultDataEnable: Function
     /**
      * Load user data into store
-     *
-     * @type {Function}
-     * @memberof IMasterProps
      */
   loadData: Function
     /**
@@ -118,5 +89,10 @@ export interface IMasterComponentProps {
    * Hide global message
    */
   hideMessage?: () => any
+
+  /**
+   * Subscibe auth state change
+   */
+  subscribeAuthStateChange?: () => any
 
 }

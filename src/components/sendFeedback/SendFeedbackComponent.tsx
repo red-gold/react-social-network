@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import {Map} from 'immutable'
+import config from 'src/config'
+import { translate, Trans } from 'react-i18next'
 
 // - Material UI
 import Paper from '@material-ui/core/Paper'
@@ -14,7 +16,7 @@ import SvgSad from '@material-ui/icons/Face'
 import SvgClose from '@material-ui/icons/Clear'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Tooltip from '@material-ui/core/Tooltip'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
 import { withStyles } from '@material-ui/core/styles'
 
 // - Import app components
@@ -29,11 +31,11 @@ import { ISendFeedbackComponentProps } from './ISendFeedbackComponentProps'
 import { ISendFeedbackComponentState } from './ISendFeedbackComponentState'
 import { FeedType } from 'core/domain/common/feedType'
 import { ServerRequestModel } from 'models/server'
-import { Profile } from 'core/domain/users'
 import StringAPI from 'api/StringAPI'
 import { ServerRequestType } from 'constants/serverRequestType'
 import { User } from 'core/domain/users'
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
+import { userSelector } from 'store/reducers/users/userSelector'
 
 const styles = (theme: any) => ({
   fullPageXs: {
@@ -53,7 +55,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor (props: ISendFeedbackComponentProps) {
     super(props)
@@ -86,16 +88,16 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
   handleSendFeed = (feedType: FeedType) => {
     const { sendFeed, currentUser } = this.props
     const { feedText } = this.state
-    sendFeed!(new Feed('', feedText, feedType, currentUser))
+    sendFeed!(new Feed('', feedText, feedType, currentUser as any))
   }
 
   mainForm = () => {
-    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequestType, translate } = this.props
+    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequestType, t } = this.props
     const { feedText } = this.state
     return (
       <div className='main-box'>
         <TextField
-          placeholder={translate!('feedback.textareaPlaceholder')}
+          placeholder={t!('feedback.textareaPlaceholder')}
           multiline
           onChange={this.handleFeedText}
           rows={2}
@@ -105,7 +107,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
         />
         <br />
         <div className='buttons'>
-        <Tooltip title={translate!('feedback.sadTooltip')} placement='bottom-start'>
+        <Tooltip title={t!('feedback.sadTooltip')} placement='bottom-start'>
           <IconButton
             className='flaticon-sad-2 icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Sad)}
@@ -113,21 +115,21 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
           </IconButton>
           </Tooltip>
 
-          <Tooltip title={translate!('feedback.acceptableTooltip')} placement='bottom-start'>
+          <Tooltip title={t!('feedback.acceptableTooltip')} placement='bottom-start'>
           <IconButton
             className='flaticon-neutral icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Acceptable)}
           >
           </IconButton>
           </Tooltip>
-          <Tooltip title={translate!('feedback.happyTooltip')} placement='bottom-start'>
+          <Tooltip title={t!('feedback.happyTooltip')} placement='bottom-start'>
           <IconButton
             className='flaticon-happy-2 icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Happy)}
           >
           </IconButton>
           </Tooltip>
-          <Tooltip title={translate!('feedback.awesomeTooltip')} placement='bottom-start'>
+          <Tooltip title={t!('feedback.awesomeTooltip')} placement='bottom-start'>
           <IconButton
             className='flaticon-happy icon__svg'
             onClick={() => this.handleSendFeed(FeedType.Awesome)}
@@ -139,14 +141,15 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
   }
 
   loadingForm = () => {
-    const {translate} = this.props
+    const {t, theme} = this.props
     return (
     <div className='loading'>
     <p>
-    {translate!('feedback.sendingMessage')}
+    {t!('feedback.sendingMessage')}
       </p>
       <div className='icon'>
       <CircularProgress
+      style={{color: theme.palette.primary.light}}
         color='secondary'
         size={50}
         variant='determinate'
@@ -157,13 +160,13 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
   }
 
   successForm = () => {
-    const {translate} = this.props
-    return (<div className='success'>{translate!('feedback.appreciateMessage')}</div>)
+    const {t} = this.props
+    return (<div className='success'>{t!('feedback.appreciateMessage')}</div>)
   }
 
   errorForm = () => {
-    const {translate} = this.props
-    return (<div className='error'>{translate!('feedback.errorMessage')}</div>)
+    const {t} = this.props
+    return (<div className='error'>{t!('feedback.errorMessage')}</div>)
   }
 
   getFeedbackForm = () => {
@@ -191,7 +194,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render () {
     const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequestType, classes } = this.props
@@ -219,9 +222,6 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: Function, ownProps: ISendFeedbackComponentProps) => {
   return {
@@ -232,21 +232,18 @@ const mapDispatchToProps = (dispatch: Function, ownProps: ISendFeedbackComponent
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: ISendFeedbackComponentProps) => {
 
   const request = state.getIn(['server', 'request'])
   const uid = state.getIn(['authorize', 'uid'])
   const requestId = StringAPI.createServerRequestId(ServerRequestType.CommonSendFeedback, uid)
-  const currentUser: User =  { ...state.getIn(['user', 'info', uid], {}), userId: uid }
+  const currentUser: User =  { ...userSelector.getUserProfileById(state, {userId: uid}).toJS(), userId: uid }
   const sendFeedbackStatus = state.getIn(['global', 'sendFeedbackStatus'])
   const sendFeedbackRequestType = state.getIn(['server', 'request', requestId])
 
   return {
-    translate: getTranslate(state.get('locale')),
+    
     sendFeedbackStatus,
     sendFeedbackRequestType: sendFeedbackRequestType ? sendFeedbackRequestType.status : ServerRequestStatusType.NoAction,
     currentUser
@@ -254,4 +251,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISendFeedbackCompone
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles as any)(SendFeedbackComponent as any)) as any)
+const translateWrraper = translate('translations')(SendFeedbackComponent)
+
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles as any, {withTheme: true})(translateWrraper as any)) as any)

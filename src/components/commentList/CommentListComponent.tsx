@@ -51,7 +51,7 @@ export class CommentListComponent extends Component<ICommentListComponentProps, 
 
   /**
    * Component constructor
-   * @param  {object} props is an object properties of component
+   *
    */
   constructor (props: ICommentListComponentProps) {
     super(props)
@@ -104,7 +104,7 @@ export class CommentListComponent extends Component<ICommentListComponentProps, 
 
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
+   * 
    */
   render () {
     const {classes, postId} = this.props
@@ -121,9 +121,6 @@ export class CommentListComponent extends Component<ICommentListComponentProps, 
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: ICommentListComponentProps) => {
   return {
@@ -133,9 +130,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentListComponentProps)
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: ICommentListComponentProps) => {
   const commentsEditorStatus = state.getIn(['comment', 'editorStatus', ownProps.postId ], {})

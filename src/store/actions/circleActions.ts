@@ -22,6 +22,9 @@ import StringAPI from 'src/api/StringAPI'
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 import { ServerRequestType } from 'constants/serverRequestType'
 import { ServerRequestModel } from 'src/models/server/serverRequestModel'
+import { UserSettingType } from 'core/services/users/userSettingType'
+import { NotificationType } from 'core/domain/notifications/notificationType'
+import { userSelector } from 'store/reducers/users/userSelector'
 
 /**
  * Get service providers
@@ -63,12 +66,11 @@ export const dbFollowUser = (followingCircleId: string, userFollowing: UserTie) 
   return (dispatch: Function, getState: Function) => {
     const state: Map<string, any>  = getState()
     let uid: string = state.getIn(['authorize', 'uid'])
-    let user: User = { ...state.getIn(['user', 'info', uid]), userId: uid }
+    let user: User = { ...userSelector.getUserProfileById(state,{userId: uid}).toJS(), userId: uid }
 
     // Set server request status to {Sent} for following user
     const followReqestModel = createFollowRequest(userFollowing.userId!)
     dispatch(serverActions.sendRequest(followReqestModel))
-
     // Call server API
     return userTieService.tieUseres(
       { userId: user.userId!, fullName: user.fullName, avatar: user.avatar, approved: false },
@@ -76,6 +78,7 @@ export const dbFollowUser = (followingCircleId: string, userFollowing: UserTie) 
       [followingCircleId]
     )
       .then(() => {
+        dispatch(userActions.increaseFollowCountUser(uid))
         let userTie: Map<string, any> = Map(new UserTie(
           userFollowing.userId!,
           moment().unix(),
@@ -90,16 +93,6 @@ export const dbFollowUser = (followingCircleId: string, userFollowing: UserTie) 
         // Set server request status to {OK} for following user
         followReqestModel.status = ServerRequestStatusType.OK
         dispatch(serverActions.sendRequest(followReqestModel))
-
-        // Send notification
-        dispatch(notifyActions.dbAddNotification(
-          {
-            description: `${user.fullName} follow you.`,
-            url: `/${uid}`,
-            notifyRecieverUserId: userFollowing.userId as string,
-            notifierUserId: uid,
-            isSeen: false
-          }))
 
       }, (error: SocialError) => {
         dispatch(globalActions.showMessage(error.message))
@@ -118,7 +111,7 @@ export let dbUpdateUserInCircles = (circleIdList: List<string>, userFollowing: U
   return (dispatch: any, getState: Function) => {
     const state: Map<string, any>  = getState()
     let uid: string = state.getIn(['authorize', 'uid'])
-    let user: User = { ...state.getIn(['user', 'info', uid]), userId: uid }
+    let user: User = { ...userSelector.getUserProfileById(state,{userId: uid}).toJS(), userId: uid }
 
     // Set server request status to {Sent}
     const addToCircleRequest = createAddToCircleRequest(userFollowing.userId!)
@@ -169,7 +162,6 @@ export let dbUpdateUserInCircles = (circleIdList: List<string>, userFollowing: U
  */
 export let dbDeleteFollowingUser = (userFollowingId: string) => {
   return (dispatch: any, getState: Function) => {
-
     const state: Map<string, any>  = getState()
     let uid: string = state.getIn(['authorize', 'uid'])
 
@@ -182,6 +174,7 @@ export let dbDeleteFollowingUser = (userFollowingId: string) => {
     // Call server API
     return userTieService.removeUsersTie(uid, userFollowingId)
       .then(() => {
+        dispatch(userActions.decreaseFollowCountUser(uid))
         dispatch(deleteFollowingUser(userFollowingId))
 
         dispatch(globalActions.hideMasterLoading())
@@ -254,41 +247,17 @@ export const dbDeleteCircle = (circleId: string) => {
  *  Get all circles from data base belong to current user
  */
 export const dbGetCircles = () => {
-  return (dispatch: any, getState: Function) => {
-    const state: Map<string, any>  = getState()
-    let uid: string = state.getIn(['authorize', 'uid'])
-    if (uid) {
-
-      return circleService.getCircles(uid)
-        .then((circles: { [circleId: string]: Circle }) => {
-          dispatch(addCircles(circles))
-        })
-        .catch((error: SocialError) => {
-          dispatch(globalActions.showMessage(error.message))
-        })
-
-    }
-  }
+ return {
+   type: CircleActionType.DB_FETCH_CIRCLES
+ }
 }
 
 /**
  *  Get all user ties from data base
  */
 export const dbGetUserTies = () => {
-  return (dispatch: any, getState: Function) => {
-    const state: Map<string, any>  = getState()
-    let uid: string = state.getIn(['authorize', 'uid'])
-    if (uid) {
-      userTieService.getUserTies(uid).then((result) => {
-
-        dispatch(userActions.addPeopleInfo(result as any))
-        dispatch(addUserTies(result))
-
-      })
-        .catch((error: SocialError) => {
-          dispatch(globalActions.showMessage(error.message))
-        })
-    }
+  return {
+    type: CircleActionType.DB_FETCH_USER_TIES
   }
 }
 
@@ -296,26 +265,13 @@ export const dbGetUserTies = () => {
  *  Get all followers
  */
 export const dbGetFollowers = () => {
-  return (dispatch: any, getState: Function) => {
-    const state: Map<string, any>  = getState()
-    let uid: string = state.getIn(['authorize', 'uid'])
-    if (uid) {
-      userTieService.getUserTieSender(uid).then((result) => {
-
-        dispatch(userActions.addPeopleInfo(result as any))
-        dispatch(addUserTieds(result))
-
-      })
-        .catch((error: SocialError) => {
-          dispatch(globalActions.showMessage(error.message))
-        })
-    }
+  return {
+    type: CircleActionType.DB_FETCH_USER_TIEDS
   }
 }
 
 /**
  * Get all user circles from data base by user id
- * @param uid user identifier
  */
 export const dbGetCirclesByUserId = (uid: string) => {
   return (dispatch: any, getState: Function) => {

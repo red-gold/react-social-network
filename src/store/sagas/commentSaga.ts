@@ -41,7 +41,7 @@ function* setComments(ownerId: string, postId: string, comments: postComments) {
          */
         yield put(commentActions.addCommentList(comments))
         let commentsCount: number
-        const post: Map<string, any> = yield select(postSelector.getPost, ownerId, postId)
+        const post: Map<string, any> = yield select(postSelector.getPost, {userId: ownerId, postId})
         if (post) {
         const desiredComments = comments[postId]
         if (desiredComments) {
@@ -49,7 +49,7 @@ function* setComments(ownerId: string, postId: string, comments: postComments) {
           let sortedObjects = yield CommentAPI.sortCommentsByDate(desiredComments)
          const updatedPost =  post.set('comments', Map(sortedObjects))
                                   .set('commentCounter', commentsCount)
-          yield put(postActions.updatePost(updatedPost))
+          yield put(postActions.updatePostComments(updatedPost))
         }
     }
 }

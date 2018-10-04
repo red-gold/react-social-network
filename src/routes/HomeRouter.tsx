@@ -1,15 +1,20 @@
 // - Import react components
 import PrivateRoute from './PrivateRoute'
+import PublicRoute from './PublicRoute'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
-import { getTranslate, getActiveLanguage } from 'react-localize-redux'
+
 import Loadable from 'react-loadable'
 import { Map } from 'immutable'
 
 import { IRouterProps } from './IRouterProps'
 import MasterLoadingComponent from 'components/masterLoading/MasterLoadingComponent'
+import { RouteType } from 'routes/routeType'
 
+/**
+ * Loadable components
+ */
 // - Async Components
 const AsyncStream = Loadable({
   loader: () => import('containers/stream'),
@@ -27,37 +32,116 @@ const AsyncPeople = Loadable({
   loader: () => import('containers/people'),
   loading: MasterLoadingComponent,
 })
+const AsyncExternalSocial = Loadable({
+  loader: () => import('containers/externalSocial'),
+  loading: MasterLoadingComponent,
+})
+const AsyncSearchUser = Loadable({
+  loader: () => import('containers/searchUser'),
+  loading: MasterLoadingComponent,
+})
+const AsyncSearchPost = Loadable({
+  loader: () => import('containers/searchPost'),
+  loading: MasterLoadingComponent,
+})
+const AsyncSearch = Loadable({
+  loader: () => import('containers/search'),
+  loading: MasterLoadingComponent,
+})
+const AsyncPhotoMaster = Loadable({
+  loader: () => import('containers/photoMaster'),
+  loading: MasterLoadingComponent,
+})
+const AsyncCompany = Loadable({
+  loader: () => import('containers/company'),
+  loading: MasterLoadingComponent,
+})
+const AsyncHelp = Loadable({
+  loader: () => import('containers/help'),
+  loading: MasterLoadingComponent,
+})
+const AsyncSponser = Loadable({
+  loader: () => import('containers/sponser'),
+  loading: MasterLoadingComponent,
+})
+const AsyncFun = Loadable({
+  loader: () => import('containers/fun'),
+  loading: MasterLoadingComponent,
+})
+
+/**
+ * Routes
+ */
+const routes = [
+  {
+    path: '/people/:tab?',
+    component: AsyncPeople,
+    privateAuth: true
+  },
+  {
+    path: '/tag/:tag',
+    component: AsyncStream,
+    privateAuth: true
+  },
+  {
+    path: '/:userId/posts/:postId/:tag?',
+    component: AsyncPostPage
+  },
+  {
+    path: '/search/post',
+    component: AsyncSearchPost
+  },
+  {
+    path: '/company',
+    component: AsyncCompany
+  },
+  {
+    path: '/help',
+    component: AsyncHelp
+  },
+  {
+    path: '/u/:userId/album/:albumId',
+    component: AsyncPhotoMaster
+  },
+  {
+    path: '/search/user',
+    component: AsyncSearchUser
+  },
+  {
+    path: '/search',
+    component: AsyncSearch
+  },
+  {
+    path: '/:userId',
+    component: AsyncProfile
+  },
+  {
+    path: '/',
+    component: AsyncStream,
+    privateAuth: true
+  }
+]
 
 /**
  * Home Router
  */
 export class HomeRouter extends Component<IRouterProps, any> {
-  render () {
-    const { enabled, match, data, translate } = this.props
-    const St = AsyncStream
+  render() {
+    const { match, data, t } = this.props
     return (
-          enabled ? (
-          <Switch>
-            <PrivateRoute path='/people/:tab?' component={<AsyncPeople />} />
-
-            <PrivateRoute path='/tag/:tag' component={(
-            <div><St displayWriting={false} homeTitle={`#${match.params.tag}`} posts={data.mergedPosts} /></div>
-            )} />
-            <Route path='/:userId/posts/:postId/:tag?' component={AsyncPostPage} />
-            <Route path='/:userId' component={AsyncProfile} />
-            <PrivateRoute path='/' component={(
-            <div>
-            <St
-            homeTitle={translate!('header.home')}
-            posts={data.mergedPosts}
-            loadStream={data.loadDataStream}
-            hasMorePosts={data.hasMorePosts}
-            displayWriting={true} />
-            </div>
-            )} />
-          </Switch>
-          )
-          : ''
+      <Switch>
+        {routes.map((route: RouteType, index) => {
+          if (route.privateAuth) {
+            return <PrivateRoute key={`home-route-private-${index}`} path={route.path} component={route.component} />
+          } else if (route.publicAuth) {
+            return <PublicRoute key={`home-route-public-${index}`} path={route.path} component={route.component} />
+          } else if (route.defaultPath) {
+            return <Route key={`home-route-default-${index}`}  component={route.component} />
+          } else {
+            return <Route key={`home-route-${index}`} path={route.path} component={route.component} />
+          }
+        })}
+      </Switch>
 
     )
   }
@@ -75,8 +159,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IRouterProps) => {
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IRouterProps) => {
   return {
-    translate: getTranslate(state.get('locale')),
-    currentLanguage: getActiveLanguage(state.get('locale')).code,
+     
   }
 }
 

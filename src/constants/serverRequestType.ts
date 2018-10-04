@@ -4,6 +4,13 @@ export enum ServerRequestType {
     CircleCreateTieUser = 'CircleCreateTieUser',
     CircleDeleteFollowingUser = 'CircleDeleteFollowingUser',
     CommonSendFeedback = 'CommonSendFeedback',
-    CommentGetComments = 'CommentGetComments'
+    CommentGetComments = 'CommentGetComments',
+    StreamGetPosts = 'StreamGetPosts',
+    SearchPosts = 'SearchPosts',
+    ProfileGetPosts = 'ProfileGetPosts',
+    ProfileGetAlbums = 'ProfileGetAlbums',
+    AuthLogin = 'AuthLogin',
+    UserFetchRequest = 'UserFetchRequest',
+    GalleryCreateAlbum = 'GalleryCreateAlbum'
 
 }

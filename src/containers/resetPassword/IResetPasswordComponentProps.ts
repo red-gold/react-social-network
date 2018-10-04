@@ -1,18 +1,21 @@
+import { LoginUser } from 'core/domain/authorize'
+
 export interface IResetPasswordComponentProps {
 
   /**
-   * Reset password
-   *
-   * @memberof IResetPasswordComponentProps
+   * Logout user
    */
-  resetPassword?: (email: string) => any
+  logout?: () => void
 
   /**
-   * Redirect to login page
-   *
-   * @memberof IResetPasswordComponentProps
+   * Redirect to home
    */
-  loginPage?: () => void
+  home?: () => void
+
+  /**
+   * Redirect to reset password page
+   */
+  updatePassword?: () => void
 
   /**
    * Styles
@@ -22,5 +25,15 @@ export interface IResetPasswordComponentProps {
   /**
    * Translate to locale string
    */
-  translate?: (state: any, param?: {}) => any
+  t?: (state: any, param?: {}) => any
+
+  /**
+   * Show global message
+   */
+  showMessage?: (message: string) => any
+
+  /**
+   * Login user
+   */
+  login?: (user: LoginUser) => any
 }

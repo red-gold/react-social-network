@@ -1,22 +1,61 @@
 import { LanguageType } from 'store/reducers/locale/langugeType'
+import { VerificationType } from 'core/domain/authorize/verificationType'
 
 export const environment = {
   firebase: {
-    apiKey: 'AIzaSyAHOZ7rWGDODCwJMB3WIt63CAIa90qI-jg',
-    authDomain: 'test-4515a.firebaseapp.com',
-    databaseURL: 'https://test-4515a.firebaseio.com',
-    projectId: 'test-4515a',
-    storageBucket: 'test-4515a.appspot.com',
-    messagingSenderId: '964743099489'
+    apiKey: 'AIzaSyCk35d9IYhVhymcsvIFHArPOLIbxxvfRVs',
+    authDomain: 'test-e28bf.firebaseapp.com',
+    databaseURL: 'https://test-e28bf.firebaseio.com',
+    projectId: 'test-e28bf',
+    storageBucket: 'test-e28bf.appspot.com',
+    messagingSenderId: '279832856094'
+  },
+  algolia: {
+    appId: 'JJ7GX95B11',
+    apiKey: 'db4f59806d1f0f47bc9daa0dc7e0ea48'
+  },
+  data: {
+    imageFolderPath: 'images',
+    videoFolderPath: 'videos',
+    avatarFolderPath: 'avatar',
+    coverFolderPath: 'cover',
+    thumbnailFolderPath: 'thumbnail',
+    videoThumbnailPath: 'video_thumbnail',
+    locale: 'https://raw.githubusercontent.com/red-gold/react-social-locales/master/src/social'
+  },
+  dataFormat: {
+    postVersion: '1.0.0'
+  },
+  exteranlSocial: {
+    instagramClientId: '1b410d1afea843eeacf00e3507621683'
   },
   settings: {
     enabledOAuthLogin: true,
-    appName: 'Green',
-    defaultProfileCover: 'https://firebasestorage.googleapis.com/v0/b/open-social-33d92.appspot.com/o/images%2F751145a1-9488-46fd-a97e-04018665a6d3.JPG?alt=media&token=1a1d5e21-5101-450e-9054-ea4a20e06c57',
-    defaultLanguage: LanguageType.English
+    appName: 'React Social',
+    supportEmail: 'amir.gholzam@live.com',
+    appIcon: require('assets/images/appIcon.png'),
+    logo: require('assets/images/logo.png'),
+    defaultLanguage: LanguageType.English,
+    defaultVideoThumbnails: require('assets/images/defaultVideoThumbnails.png'),
+    verificationType: VerificationType.phone,
+    companyName: 'Red Gold',
+    defaultProfileCover: require('assets/images/coversocial.png'),
+    publicCover: require('assets/images/public-cover.jpg'),
+    raisedLogo: require('assets/images/raised-logo.png'),
+    loginCover: require('assets/images/login-cover.jpg'),
+    signupCover: require('assets/images/signup-cover.jpg'),
+    logoHead: require('assets/images/logo-head.png'),
+    androidAppLink: 'https://github.com/Qolzam/react-mobile-social',
+    iosAppLink: 'https://github.com/Qolzam/react-mobile-social',
+    api: 'https://test-e28bf.firebaseapp.com/api/',
+    maxVideoFileSize: 20,
+    maxGalley: 10
   },
-  theme: {
-    primaryColor: '#00b1b3',
-    secondaryColor: '#4d545d'
+  header: {
+    title: 'React Social',
+    meta: [
+      {name: 'description', content: 'The React Social Network is an open source project relying on React a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network. The structure of this project give the ability to developer to develop their project on their own idea and environment.' }
+    ],
+
   }
 }

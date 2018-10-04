@@ -10,8 +10,6 @@ import { injectable } from 'inversify'
  * Firbase notification service
  *
  * @export
- * @class NotificationService
- * @implements {INotificationService}
  */
 @injectable()
 export class NotificationService implements INotificationService {
@@ -27,9 +25,9 @@ export class NotificationService implements INotificationService {
   }
 
   public getNotifications: (userId: string, callback: (resultNotifications: {[notifyId: string]: Notification}) => void)
-    => void = (userId,callback) => {
+    => any = (userId,callback) => {
       let notificationsRef = db.doc(`users/${userId}`).collection('notifications')
-      notificationsRef.onSnapshot((snapshot) => {
+     return notificationsRef.onSnapshot((snapshot) => {
         let parsedData: { [notifyId: string]: Notification } = {}
         snapshot.forEach((result) => {
           parsedData[result.id] = {

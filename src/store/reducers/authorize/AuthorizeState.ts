@@ -17,32 +17,32 @@ export class AuthorizeState {
     /**
      * If user is authed {true} or not {false}
      *
-     * @type {Boolean}
+     * @type {boolean}
      * @memberof AuthorizeState
      */
-  authed: Boolean = false
+  authed: boolean = false
 
   /**
    * If user is verifide {true} or not {false}
    *
-   * @type {Boolean}
+   * @type {boolean}
    * @memberof AuthorizeState
    */
-  isVerifide: Boolean = false
+  isVerifide: boolean = false
 
     /**
      * If user password is updated {true} or not {false}
      *
-     * @type {Boolean}
+     * @type {boolean}
      * @memberof AuthorizeState
      */
-  updatePassword: Boolean = false
+  updatePassword: boolean = false
 
     /**
      * If the user is guest {true} or not {false}
      *
-     * @type {Boolean}
+     * @type {boolean}
      * @memberof AuthorizeState
      */
-  guest: Boolean = false
+  guest: boolean = false
 }

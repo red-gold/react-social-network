@@ -8,7 +8,7 @@ For how-to questions and other non-issues, please use [Gitter](https://gitter.im
 
 ## Opening an Issue
 
-If you think you have found a bug, or have a new feature idea, please start by making sure it hasn't already been [reported or fixed](https://github.com/Qolzam/react-social-network/issues?utf8=%E2%9C%93&q=is:open+is:closed). You can search through existing issues and PRs to see if someone has reported one similar to yours.
+If you think you have found a bug, or have a new feature idea, please start by making sure it hasn't already been [reported or fixed](https://github.com/red-gold/react-social-network/issues?utf8=%E2%9C%93&q=is:open+is:closed). You can search through existing issues and PRs to see if someone has reported one similar to yours.
 
 Next, create a new issue that briefly explains the problem, and provides a bit of background as to the circumstances that triggered it, and steps to reproduce it.
 
@@ -19,7 +19,7 @@ For code issues please include:
 * A code example or link to a repo, gist or running site.
 
 For visual or layout problems, images or animated gifs can help explain your issue.
-It's even better with a live reproduction test case. Have a look at the [`ISSUE_TEMPLATE.md`](https://github.com/Qolzam/react-social-network/blob/master/.github/ISSUE_TEMPLATE.md) file for a live playground example.
+It's even better with a live reproduction test case. Have a look at the [`ISSUE_TEMPLATE.md`](https://github.com/red-gold/react-social-network/blob/master/.github/ISSUE_TEMPLATE.md) file for a live playground example.
 
 ### Issue Guidelines
 
@@ -41,7 +41,7 @@ When adding new features or modifying existing code, please attempt to include t
 
 ### Branch Structure
 
-All stable releases are tagged ([view tags](https://github.com/Qolzam/react-social-network/tags)). At any given time, `master` represents the latest development version of the library.
+All stable releases are tagged ([view tags](https://github.com/red-gold/react-social-network/tags)). At any given time, `master` represents the latest development version of the library.
 
 #### `master` is unsafe
 
@@ -51,7 +51,7 @@ We will do our best to keep `master` in good shape, with tests passing at all ti
 
 Please create a new branch from an up to date master on your fork. (Note, urgent hotfixes should be branched off the latest stable release rather than master)
 
-1. Fork the [react-social-network](https://github.com/Qolzam/react-social-network) repository on Github
+1. Fork the [react-social-network](https://github.com/red-gold/react-social-network) repository on Github
 2. Clone your fork to your local machine `git clone --depth 1 git@github.com:<yourname>/react-social-network.git`
 3. Create a branch `git checkout -b my-topic-branch`
 4. Make your changes, lint, then push to github with `git push --set-upstream origin my-topic-branch`.
@@ -59,7 +59,7 @@ Please create a new branch from an up to date master on your fork. (Note, urgent
 
 If you have an existing local repository, please update it before you start, to minimize the chance of merge conflicts.
 ```js
-git remote add upstream git@github.com:Qolzam/react-social-network.git
+git remote add upstream git@github.com:red-gold/react-social-network.git
 git checkout master
 git pull upstream master
 git checkout -b my-topic-branch
@@ -67,7 +67,7 @@ git checkout -b my-topic-branch
 
 ### Testing & documentation site
 
-The documentation site is built with [GitBook](https://www.gitbook.com/book/qolzam/react-social-network/details), so you just need to edit `*.md` files. You can easily edit whole documentation files form `docs` folder.
+The documentation site is built with [GitBook](https://www.gitbook.com/book/red-gold/react-social-network/details), so you just need to edit `*.md` files. You can easily edit whole documentation files form `docs` folder.
 
 Test coverage is limited at present, but where possible, please add tests for any changes you make. Tests can be run with `npm test`.
 
@@ -79,4 +79,4 @@ Finally, when you submit a pull request, linting is run again by Continuous Inte
 
 ## License
 
-By contributing your code to the qolzam/react-social-network GitHub repository, you agree to license your contribution under the MIT license.
+By contributing your code to the red-gold/react-social-network GitHub repository, you agree to license your contribution under the MIT license.

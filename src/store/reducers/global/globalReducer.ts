@@ -5,18 +5,29 @@ import { GlobalState } from './GlobalState'
 import { IGlobalAction } from './IGlobalAction'
 import { Map, fromJS } from 'immutable'
 
-/**
- * Global reducer
- * @param {object} state
- * @param {object} action
- */
-export const globalReducer = (state = Map(new GlobalState()), action: IGlobalAction) => {
-  const { payload } = action
-  switch (action.type) {
-    case GlobalActionType.PROGRESS_CHANGE:
-      return state
+const progressChange = (state: Map<string, any> , payload: any) => {
+ return state
         .setIn(['progress', 'percent'], payload.percent)
         .setIn(['progress', 'visible'], payload.visible)
+}
+
+const progressChangeWithKey = (state: Map<string, any> , payload: any) => {
+  return state
+        .setIn(['progress', payload.progressKey, 'percent'], payload.percent)
+        .setIn(['progress', payload.progressKey, 'visible'], payload.visible)
+        .setIn(['progress', payload.progressKey, 'meta'], payload.meta)
+
+}
+
+/**
+ * Global reducer
+ */
+export const globalReducer = (state: Map<string, any> = Map(new GlobalState()), action: IGlobalAction) => {
+  const { payload } = action
+  switch (action.type) {
+    case GlobalActionType.PROGRESS_CHANGE: return progressChange(state, payload)
+
+    case GlobalActionType.PROGRESS_CHANGE_WITH_KEY: return progressChangeWithKey(state, payload)
 
     case GlobalActionType.DEFAULT_DATA_DISABLE:
       return state
@@ -45,6 +56,14 @@ export const globalReducer = (state = Map(new GlobalState()), action: IGlobalAct
     case GlobalActionType.SET_HEADER_TITLE:
       return state
         .set('headerTitle', action.payload)
+
+    case GlobalActionType.OPEN_DIALOG:
+      return state
+        .setIn(['dialog', action.payload.type, 'open'], true)
+
+    case GlobalActionType.CLOSE_DIALOG:
+      return state
+        .setIn(['dialog', action.payload.type, 'open'], false)
 
     case GlobalActionType.SHOW_SEND_FEEDBACK:
       return state

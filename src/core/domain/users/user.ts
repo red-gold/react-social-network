@@ -1,53 +1,33 @@
 import { BaseDomain } from 'core/domain/common'
+import { UserPermissionType } from 'core/domain/common/userPermissionType'
 
 export class User extends BaseDomain {
 
-    /**
-     * Full name of user
-     *
-     * @type {string}
-     * @memberof User
-     */
-  public fullName: string
-
-    /**
-     * User avatar address
-     *
-     * @type {string}
-     * @memberof User
-     */
-  public avatar: string
-
-    /**
-     * Email of the user
-     *
-     * @type {string}
-     * @memberof User
-     */
-  public email?: string | null
-
-    /**
-     * Password of the user
-     *
-     * @type {string}
-     * @memberof User
-     */
-  public password?: string | null
-
-    /**
-     * User identifier
-     *
-     * @type {string}
-     * @memberof User
-     */
-  public userId?: string | null
-
-    /**
-     * User creation date
-     *
-     * @type {number}
-     * @memberof User
-     */
-  public creationDate: number
+    constructor (
+        public avatar: string,
+        public fullName: string,
+        public banner: string,
+        public tagLine: string,
+        public creationDate: number,
+        public email?: string | null,
+        public birthday?: number,
+        public webUrl?: string,
+        public companyName?: string,
+        public twitterId?: string,
+        public voteCount?: number,
+        public shareCount?: number,
+        public followCount?: number,
+        public followerCount?: number,
+        public postCount?: number,
+        public userId?: string,
+        public facebookId?: string,
+        public instagramId?: string,
+        public accessUserList?: Array<string>,
+        public permission: UserPermissionType = UserPermissionType.Public
+        
+      ) {
+        super()
+    
+      }
 
 }

@@ -1,0 +1,376 @@
+{
+    "sidebar" : {
+        "home": "Home",
+        "profile": "Profile",
+        "people": "People",
+        "settings": "Settings",
+        "sendFeedback": "Send Feedback",
+        "homeCaption": "Home",
+        "peopleCaption": "People",
+        "circlesCaption": "Circles",
+        "followersCaption": "Followers",
+        "twitterCaption": "Twitter",
+        "facebookCaption": "Facebook Page",
+        "instagramCaption": "Instagram",
+        "fun": "Fun",
+        "company": "Company",
+        "sponser": "Sponser",
+        "help": "Help"
+
+    },
+    "header": {
+        "home":"Home",
+        "notificationTooltip": "Notifications",
+        "recentChatTooltip": "Chat Box",
+        "myAccount": "My Account",
+        "logout": "Logout",
+        "homeCaption": "Home",
+        "peopleCaption": "People",
+        "circlesCaption": "Circles",
+        "followersCaption": "Followers",
+        "searchText": "Find your favorite posts and people ...",
+        "notification": {
+            "emptyCaption": "All caught up!"
+        }
+
+    },
+    "home": {
+        "postWriteButtonText": "What's new with you?",
+        "cookieConsentText": "This site uses cookies. By continuing to browse the site you are agreeing to our use of cookies.",
+        "cookieConsentButton": "Allow All Cookies"
+    },
+    "post": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "disableComments": "Disable Comments",
+        "disableSharing": "Disable Sharing",
+        "enableComments": "Enable Comments",
+        "enableSharing": "Enable Sharing",
+        "public": "public",
+        "textareaPlaceholder": "What's new with you?",
+        "moreTooltip": "more",
+        "postButton": "POST",
+        "cancelButton": "CANCEL",
+        "updateButton": "UPDATE",
+        "copyLinkButton": "Copy Link",
+        "addVideoTitle": "Add video link",
+        "imageEditorTitle": "Image Editor",
+        "addVideoButton": "OK",
+        "videoInputLinkRequiredError": "Video link is required!",
+        "videoInputLinkInvalidError": "Please enter valid URL address!",
+        "facebookButton": "Share in Facebook",
+        "twitterButton": "Share in Twitter",
+        "linkedinButton": "Share in Linkedin",
+        "googlePlusButton": "Share in Google+",
+        "videoGalleryLabel": "Video Gallery",
+        "imageGalleryLabel": "Image Gallery"
+
+    },
+    "videGallery": {
+        "saveButton": "SAVE",
+        "backButton": "BACK",
+        "maxExceedMessage": "Maximum file size must be 20 MB!"
+    },
+    "imageGallery": {
+        "uploadButton": "UPLOAD",
+        "cancelButton": "CANCEL"
+    },
+    "image": {
+        "notLoaded": "Image has not loaded!"
+    },
+    "comment": {
+        "postButton": "POST",
+        "cancelButton": "CANCEL",
+        "updateButton": "UPDATE",
+        "addCommentPlaceholder": "Add a comment ...",
+        "updateCommentPlaceholder": "Write your comment ...",
+        "replyButton": "Reply",
+        "editButton": "Edit",
+        "deleteButton": "Delete"
+    },
+    "profile": {
+        "editProfileButton": "Edit Profile",
+        "cancelButton": "CANCEL",
+        "updateButton": "UPDATE",
+        "aboutButton": "About",
+        "about": "About",
+        "fullName": "Full Name",
+        "tagline": "Tagline",
+        "birthday": "Birthday",
+        "companyName": "Company Name",
+        "twitterId": "Twitter",
+        "facebookId": "Facebook Page",
+        "webUrl": "Web address",
+        "contactInfo": "Contact Info",
+        "otherSocial": "Other Social",
+        "personalInformationLabel": "Personal Information",
+        "headPostsLabel": "${userName}'s posts",
+        "nothingSharedLabel": " Nothing shared",
+        "chooseAvatarDialogTitle": "Choose an avatar image",
+        "chooseBanerDialogTitle": "Choose an baner image",
+        "twitterExampleLabel": "you twitter user name ex. twitter",
+        "facebookExampleLabel": "your facebook page name ex. facebook"
+    },
+    "people": {
+        "findPeopleTab": "FIND PEOPLE",
+        "followingTab": "FOLLOWING",
+        "followersTab": "FOLLOWERS",
+        "suggestionsForYouLabel": "Suggestions for you",
+        "nothingToShowLabel": "Nothing to show! :(",
+        "followingLabel": "Following",
+        "noFollowingLabel": "No following user!",
+        "followersLabel": "Followers",
+        "noFollowersLabel": "No followers!"
+    },
+    "userBox": {
+        "followButton": "FOLLOW",
+        "cancelButton": "CANCEL",
+        "numberOfCircleButton": "${circlesCount} Circles",
+        "doneButton": "DONE",
+        "groupNamePlaceholder": "Group Name",
+        "createCircleTooltip": "Create Circle",
+        "followingLabel": "Following",
+        "followedLabel": "Followed"
+
+    },
+    "changePassword": {
+        "title": "Change Password",
+        "newPasswordLabel": "New password",
+        "confirmPasswordLabel": "Confirm password",
+        "homeButton": "HOME",
+        "changePasswordButton": "CHANGE PASSWORD",
+        "newPasswordRequiredError": "This field is required",
+        "confirmPasswordRequiredError": "This field is required",
+        "confirmPasswordEqualNewPasswordError": "Password and confirm password should be equal!"
+
+    },
+    "circle": {
+        "settingLable": " Circle Setting",
+        "saveButton": "Save",
+        "circleName": "Circle Name",
+        "deleteCircleButton": "Delete Circle"
+    },
+    "feedback": {
+        "textareaPlaceholder": "What do you feel :) ?",
+        "sadTooltip":  "Sad",
+        "acceptableTooltip":  "Acceptable",
+        "happyTooltip":  "Happy",
+        "awesomeTooltip":  "Awesome",
+        "appreciateMessage": "We appreciate your kind support as always ;)",
+        "sendingMessage": "Your feedback is sending!",
+        "errorMessage": "Error in sending feedback :( "
+    },
+    "login": {
+        "title": "Sign in",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "emailRequiredError": "This field is required.",
+        "passwordRequiredError": "This field is required.",
+        "createAccountButton": "Sign up",
+        "createAccountText": "Don't have an account?",
+        "loginButton": "Log in",
+        "loginText": "Have an account?",
+        "forgetPasswordMessage": "Forgot password?",
+        "resetPasswordLabel": "reset your password.",
+        "titleSideLabel": "New Here?",
+        "welcomeLabel": "Welcome Back",
+        "contentSideLabel":"Signup and Discover"
+    },
+    "signup": {
+        "title":"Sign up",
+        "fullNameLabel": "Full Name",
+        "emailLabel": "Email",
+        "passwordLabel": "Password",
+        "confirmPasswordLabel": "Confirm Password",
+        "validNameError":"Please enter a valid name.",
+        "validEmailError": "Please enter a valid email.",
+        "emailRequiredError": "This field is required.",
+        "passwordRequiredError": "This field is required.",
+        "confirmRequiredError": "This field is required.",
+        "passwordEqualConfirmError": "This field sould be equal to confirm password.",
+        "confirmEqualPasswordError": "This field sould be equal to password.",
+        "loginButton": "LOGIN",
+        "createButton": "CREATE",
+        "titleSideLabel": "One of us?",
+        "contentSideLabel": "If you already have an account, just sign in. We've missed you.",
+        "termCaption": "By signing up, you agree to our <a href='${href}'>Terms</a>, Data Policy and Cookies Policy."
+
+    },
+    "resetPassword": {
+        "title": "Reset Password",
+        "backButton": "BACK",
+        "nextButton": "NEXT",
+        "emailDescription": "Set your valid email to receive verification code.",
+        "codeVerifyDescription": "Please enter verification code and click on VERIFY button. We have sent verification code to your email which you will receive after a while. You also can use RESET button if you have trouble with receiving verification code.",
+        "emailLabel": "Email",
+        "codeLabel": "Verification Code",
+        "validEmailError": "Please enter a valid email. Ex. info@email.com.",
+        "requiredEmailError": "Email field is required.",
+        "requiredCodeError": "Verification code field is required!",
+        "validCodeError": "The length of verification code should be four digits.",
+        "capthaExpiredMessage": "Capthcha has been expired!",
+        "capthaRenderErrorMessage": "Error happened in rendering captcha",
+        "resetButton": "RESET",
+        "verifyButton": "VERIFY"
+    },
+    "emailVerification": {
+        "title": "Email Verification",
+        "homeButton": "HOME",
+        "sendButton": "Send Email Verification",
+        "description": "An verificiation email has been already sent to you. Please check your inbox. If you couldn't see the emai, please resend email verification."
+    },
+    "smsVerification": {
+        "title": "Enter your phone number",
+        "logoutButton": "LOUGOUT",
+        "nextButton": "NEXT",
+        "phoneNumberDescription": "Set your valid number to receive verification code.",
+        "codeVerifyDescription": "Please enter verification code and click on VERIFY button. We have sent verification code to your phone which you will receive after a while. You also can use RESET button if you have trouble with receiving verification code.",
+        "phoneNumberLabel": "Phone Number",
+        "codeLabel": "Verification Code",
+        "validPhoneNumberError": "Please enter a valid phone number. Ex. +989662445843.",
+        "requiredPhoneNumberError": "Phone number field is required.",
+        "requiredCodeError": "Verification code field is required!",
+        "validCodeError": "The length of verification code should be four digits.",
+        "capthaExpiredMessage": "Capthcha has been expired!",
+        "capthaRenderErrorMessage": "Error happened in rendering captcha",
+        "resetButton": "RESET",
+        "verifyButton": "VERIFY"
+    },
+    "common": {
+        "sentRequestMessage": "Request has been sent.",
+        "successfulRequestMessage": "Request has been successful."
+    },
+    "mobileApp": {
+        "googlePlayIcon": "https://play.google.com/intl/en_us/badges/images/generic/${lang}_badge_web_generic.png",
+        "googlePlayAlt": "Get it on Google Play",
+        "appStoreAlt": "Get it on App Store",
+        "getApp": "Get the app."
+    },
+    "yourCircles": {
+        "title": "Your circles"
+    },
+    "userActivity": {
+        "privilegesTitle": "Privileges",
+        "bountiesTitle": "Bounties",
+        "verificationTitle": "Verification",
+        "reputationTitle": "Reputation",
+        "impactTitle": "Impact",
+        "nextBountiesButton": "Next Bounties",
+        "nextPrivilegeCaption": "Next privilege",
+        "currentPrivilegeCaption": "Current privilege",
+        "reputationCaption": "rep.",
+        "allPrivilegesButton": "All Privileges",
+        "likeCaption": "Like",
+        "shareCaption": "Share",
+        "followingCaption": "Following",
+        "followersCaption": "Followers",
+        "startCaption": "Star",
+        "publishCaption": "Publish",
+        "diamondCaption": "Diamond",
+        "storeTitle": "Store",
+        "privileges": "Privileges",
+        "bountyCommingSoon": "Bounty comming soon",
+        "bountyFrom": "Bounty from ${company}",
+        "goal": "Goal: ${rep} reps",
+        "allBounties": "All Bounties"
+    },
+    "terms": {
+        "termsTitle": "Terms",
+        "privacyTitle": "Privacy",
+        "cookieTitle": "Cookie",
+        "signUpTile": "Signup"
+    },
+    "config": {
+        "changePasswordLabel": "Change Password",
+        "notificationLabel": "Notification Setting",
+        "notificationCaption": "Manage your notification if you wish disable/enable.",
+        "homeLabel": "Home",
+        "saveChangesButton": "Save Changes",
+        "notification": {
+            "emailOnVote": "Send email notification on like your post",
+            "emailOnComment": "Send email notification on commenting on your post",
+            "emailOnFollow": "Send email notification on follow you"
+
+        }
+    },
+    "chat": {
+        "recentlyCaption": "Recently" ,
+        "contactsCaption": "Contacts",
+        "groupsCaption": "Groups",
+        "searchText": "Search for enemies or group of enemies :)",
+        "messageText": "Write your message ...",
+        "closeMenu": "Close Chat",
+        "chatLabel": "Chat",
+        "minimizeMenu": "Minimize",
+        "messageMenu": "Maximum",
+        "removeHistoryCaption": "Remove History",
+        "settingCaption": "Setting",
+        "translationLabel": "Translation",
+        "chatRoomSettingTitle": "Chat Room Setting",
+        "outputLabel": "Output",
+        "inputLabel": "Input",
+        "disabledLabel": "Disabled",
+        "close": "Close",
+        "disable": "Disable",
+        "noData": "Nothing to show"
+
+    },
+    "permission": {
+        "titleLabel": "Access Permission",
+        "circles": "Circles",
+        "custom": "Custom",
+        "onlyMe": "Only Me",
+        "public": "Public"
+    },
+    "externalSocial": {
+        "needConfig": " To access to ${social}, please config your ${social} account in <a style='color: blue' href='/${userId}'>Profile </a> page from edit profile dialog.",
+        "instagramLoginButton": "Login To your instagram",
+        "yourAccountCaption": "Your ${account} account",
+        "twitterCaption": "Twitter",
+        "facebookCaption": "Facebook Page",
+        "instagramCaption": "Instagram"
+    },
+    "masterLoading": {
+        "loading": "Loading",
+        "unexpectedError": "Unexpected Error Happened",
+        "timeout": "It takes long time"
+    },
+    "search": {
+        "users": "People",
+        "posts": "Posts",
+        "notFoundUser": "Sorry, no user results for \"${query}\"",
+        "notFoundPost": "Sorry, no post results for \"${query}\"",
+        "searchInPost": "Search in posts for \"${query}\"",
+        "searchInUser": "Search in users for \"${query}\""
+    },
+    "privilege": {
+        "newUser": "New User",
+        "approvedUser": "Approved User",
+        "normal": "Normal"
+    },
+    "footer": {
+        "supportEmail": "Soporte Email"
+    },
+    "album": {
+        "photos": "Photos",
+        "album": "Album",
+        "createAlbum": "Create Album",
+        "addPhoto": "Add Photo",
+        "next": "Next",
+        "back": "Back",
+        "save": "Save",
+        "uploading": "Uploading",
+        "addPhotos": "Add Photos",
+        "saveAlbum": "Save Album",
+        "defaultAlbumName": "Untitle Album",
+        "description": "Description",
+        "albumTitle": "Album Title",
+        "descriptionError": "Description field is required.",
+        "albumNameError": "Title field is required.",
+        "deleteAlbum": "Delete Album",
+        "noExistAlbum": "The album doesn't exist or you do not have enough access to this album !"
+
+    }
+  
+    
+}

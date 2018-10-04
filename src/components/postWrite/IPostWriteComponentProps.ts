@@ -1,5 +1,7 @@
 import { Post } from 'core/domain/posts'
 import {Map} from 'immutable'
+import { Album } from 'core/domain/imageGallery/album'
+
 export interface IPostWriteComponentProps {
 
     /**
@@ -33,17 +35,11 @@ export interface IPostWriteComponentProps {
 
   /**
    * The post has image {true} or not {false}
-   *
-   * @type {boolean}
-   * @memberof IPostWriteComponentProps
    */
   postImageState?: boolean
 
   /**
    * User avatar address
-   *
-   * @type {string}
-   * @memberof IPostWriteComponentProps
    */
   ownerAvatar?: string
 
@@ -59,17 +55,38 @@ export interface IPostWriteComponentProps {
 
   /**
    * Save a post
-   *
-   * @memberof IPostWriteComponentProps
    */
   post?: (post: Post, callback: Function) => any
 
   /**
    * Update a post
-   *
-   * @memberof IPostWriteComponentProps
    */
   update?: (post: Map<string, any>, callback: Function) => any
+
+  /**
+   * Open album
+   */
+  openAlbum?: () => any
+
+  /**
+   * Close album
+   */
+  closeAlbum?: () => any
+
+  /**
+   * Progress change
+   */
+  progress?: Map<string, any>
+
+  /**
+   * Whether album dialog is open
+   */
+  albumDialogOpen?: boolean
+  
+  /**
+   * Handle upload image
+   */
+  uploadImage?: (image: any, imageName: string) => any
 
   /**
    * Styles
@@ -79,5 +96,5 @@ export interface IPostWriteComponentProps {
   /**
    * Translate to locale string
    */
-  translate?: (state: any) => any
+  t?: (state: any) => any
 }

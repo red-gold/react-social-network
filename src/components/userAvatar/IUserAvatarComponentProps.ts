@@ -12,6 +12,12 @@ export interface IUserAvatarComponentProps {
      * Avatar style
      */
   style?: {}
+
+  /**
+   * Design theme
+   */
+  theme?: any
+
     /**
      * Avatar size
      */
@@ -20,4 +26,6 @@ export interface IUserAvatarComponentProps {
      * Trigger on touch tap
      */
   onClick?: (event: any) => any
+
+  className?: any
 }

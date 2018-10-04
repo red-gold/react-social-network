@@ -1,5 +1,4 @@
 import { Comment } from 'core/domain/comments'
-import { Profile } from 'core/domain/users'
 import { Circle, UserTie } from 'core/domain/circles'
 import {Map} from 'immutable'
 
@@ -59,4 +58,9 @@ export interface ICircleComponentProps {
    * Styles
    */
   classes?: any
+
+  /**
+   * Translate to locale string
+   */
+  t?: (state: any, param?: {}) => any
 }

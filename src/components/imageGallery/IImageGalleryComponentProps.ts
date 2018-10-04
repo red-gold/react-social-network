@@ -5,37 +5,38 @@ export interface IImageGalleryComponentProps {
 
   /**
    * Select image from image gallery
-   *
-   * @type {(URL: string,fullPath: string)}
-   * @memberof IImageGalleryComponentProps
    */
-  set: (URL: string,fullPath: string) => void
+  set: (URL: string) => void
 
   /**
    * Delete an image
-   *
-   * @memberof IImageGalleryComponentProps
    */
-  deleteImage?: (imageId: string) => void
+  deleteImage?: (imageId: string, fileName: string) => void
 
   /**
    * Upload image to the server
-   *
-   * @memberof IImageGalleryComponentProps
    */
   uploadImage?: (image: any, imageName: string) => any
 
   /**
    * Close image gallery
-   *
-   * @memberof IImageGalleryComponentProps
    */
   close: () => void
 
   /**
+   * Load image list data
+   */
+  loadData: () => void
+
+  /**
+   * Folder name
+   */
+  folder: string
+
+  /**
    * List of image in image gallery
    */
-  images?: List<Image>
+  images?: List<Map<string, any>>
 
   /**
    * Styles
@@ -45,5 +46,5 @@ export interface IImageGalleryComponentProps {
   /**
    * Translate to locale string
    */
-  translate?: (state: any) => any
+  t?: (state: any) => any
 }

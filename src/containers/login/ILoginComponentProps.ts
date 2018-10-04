@@ -1,4 +1,5 @@
 import { OAuthType } from 'src/core/domain/authorize'
+import {Map} from 'immutable'
 export interface ILoginComponentProps {
 
   /**
@@ -16,6 +17,11 @@ export interface ILoginComponentProps {
   loginWithOAuth?: (type: OAuthType) => any
 
   /**
+   * Login request
+   */
+  loginRequest?: Map<string, any>
+
+  /**
    * Redirect to signup page
    *
    * @memberof ILoginComponentProps
@@ -30,5 +36,5 @@ export interface ILoginComponentProps {
   /**
    * Translate to locale string
    */
-  translate?: (state: any, param?: {}) => any
+  t?: (state: any, param?: {}) => any
 }

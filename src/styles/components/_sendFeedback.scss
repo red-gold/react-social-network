@@ -1,5 +1,4 @@
 .sendFeedback__content {
-
     position: fixed;
     right: 5px;
     bottom: 5px;
@@ -7,10 +6,9 @@
     .paper {
         height: 100%;
         text-align: center;
-        
     }
     .main-box {
-       padding:  26px 26px 0px 26px;
+        padding: 26px 26px 0px 26px;
     }
     .buttons {
         margin-top: 20px;
@@ -19,8 +17,8 @@
     }
     .close {
         position: absolute;
-        top: 13px;
-        right: 13px;
+        top: -5px;
+        right: -3px;
     }
     .success {
         padding: 30px;
@@ -28,7 +26,7 @@
     .error {
         padding: 30px;
     }
-    .loading{
+    .loading {
         padding: 18px 0px 0px 0px;
         .icon {
             justify-content: center;
