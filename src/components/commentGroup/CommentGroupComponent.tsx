@@ -432,5 +432,5 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ICommentGroupCompone
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(CommentGroupComponent)
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)
+const translateWrraper = translate('translations')(CommentGroupComponent as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any))

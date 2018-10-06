@@ -1,5 +1,5 @@
 import {Map} from 'immutable'
-import { Component, connect } from 'react-redux'
+import { connect } from 'react-redux'
 
 import * as imageGalleryActions from 'store/actions/imageGalleryActions'
 import * as postActions from 'store/actions/postActions'
@@ -10,6 +10,7 @@ import { Post } from 'core/domain/posts'
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
 import { globalSelector } from 'store/reducers/global/globalSelector'
 import { User } from 'core/domain/users'
+import { Component } from 'react'
 
 /**
  * Map dispatch to props

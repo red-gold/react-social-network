@@ -1,6 +1,6 @@
 // - Import react components
 import React, { Component, RefObject } from 'react'
-import { connect, Dispatch } from 'react-redux'
+import { connect } from 'react-redux'
 
 import { Map } from 'immutable'
 import debounce from 'lodash/debounce'
@@ -85,7 +85,7 @@ export class ChatMessageComponent extends Component<IChatMessageProps, IChatMess
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: IChatMessageProps) => {
+const mapDispatchToProps = (dispatch: any, ownProps: IChatMessageProps) => {
 
   return {
   }

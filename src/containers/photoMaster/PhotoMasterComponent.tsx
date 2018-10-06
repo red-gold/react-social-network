@@ -342,6 +342,6 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps, IPhotoMas
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(PhotoMasterComponent)
+const translateWrraper = translate('translations')(PhotoMasterComponent as any)
 
 export default withRouter<any>(connectPhotoMaster(withStyles(photoMasterStyles as any)(translateWrraper as any) as any)) as typeof PhotoMasterComponent

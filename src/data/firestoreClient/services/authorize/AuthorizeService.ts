@@ -1,7 +1,7 @@
 
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
-import config from 'config'
+import config from 'src/config'
 
 // - Import react components
 import { firebaseAuth, db } from 'data/firestoreClient'

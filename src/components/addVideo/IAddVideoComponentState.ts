@@ -1,5 +1,7 @@
 
 export interface IAddVideoComponentState {
+  [key: string]: any
+
     /**
      * Video link
      */

@@ -314,6 +314,6 @@ export class PostStreamComponent extends Component<IPostStreamProps, IPostStream
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(PostStreamComponent)
+const translateWrraper = translate('translations')(PostStreamComponent as any)
 
 export default withRouter<any>(connectPostStream(withStyles(postStreamStyles as any)(translateWrraper as any) as any)) as typeof PostStreamComponent

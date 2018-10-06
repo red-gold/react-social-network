@@ -1,5 +1,6 @@
 
 export interface ISearchBoxState {
+  [key: string]: any
 
   /**
    * Search text

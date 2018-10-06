@@ -7,7 +7,8 @@ import * as commentActions from 'store/actions/commentActions'
 import { push } from 'react-router-redux'
 import { userSelector } from 'store/reducers/users/userSelector'
 
-import { Component, connect } from 'react-redux'
+import {connect } from 'react-redux'
+import { Component } from 'react'
 
 /**
  * Map dispatch to props

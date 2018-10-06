@@ -31,7 +31,6 @@ import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 
 /**
  * Loing user
- * @param {string} uids
  */
 export const login = (user: LoginUser) => {
   return {

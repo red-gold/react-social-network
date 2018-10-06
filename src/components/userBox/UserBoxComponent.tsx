@@ -223,6 +223,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IUserBoxComponentPro
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(UserBoxComponent)
+const translateWrraper = translate('translations')(UserBoxComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any))

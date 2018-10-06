@@ -1,7 +1,10 @@
 {
 
     "compilerOptions": {
-        "types": ["reflect-metadata"],
+        "types": [
+            "jasmine",
+            "node",
+            "reflect-metadata"],
         "allowSyntheticDefaultImports": true, // see below
         "baseUrl": "./src/", // enables you to import relative to this folder
         "paths": {

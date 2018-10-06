@@ -297,6 +297,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IHomeComponentProps)
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(HomeComponent)
+const translateWrraper = translate('translations')(HomeComponent as any)
 
 export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyles as any, { withTheme: true })(translateWrraper as any) as any)) as typeof HomeComponent

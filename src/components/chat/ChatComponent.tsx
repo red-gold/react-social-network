@@ -1,6 +1,6 @@
 // - Import react components
 import React, { Component, RefObject } from 'react'
-import { connect, Dispatch } from 'react-redux'
+import { connect } from 'react-redux'
 
 import { Map } from 'immutable'
 import debounce from 'lodash/debounce'
@@ -208,7 +208,7 @@ export class ChatComponent extends Component<IChatProps, IChatState> {
   /**
    * Handle select emoji
    */
-  handleSelectEmoji = (emoji: EmojiData, event: any) => {
+  handleSelectEmoji = (emoji: any, event: any) => {
     this.setState((prevState, props) => {
       const { messageText } = prevState
       return { messageText: messageText + emoji.native }
@@ -546,7 +546,7 @@ export class ChatComponent extends Component<IChatProps, IChatState> {
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: IChatProps) => {
+const mapDispatchToProps = (dispatch: any, ownProps: IChatProps) => {
 
   return {
     sendMessage: (message: Message) => dispatch(chatActions.dbCreateChatMessage(message)),

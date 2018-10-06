@@ -1,6 +1,6 @@
 
 export interface IHomeHeaderComponentState {
-
+  [key: string]: any 
   /**
    * Popover menu on avatar is open {true} or not {false}
    */

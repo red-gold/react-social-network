@@ -1,4 +1,4 @@
-import { Component, connect } from 'react-redux'
+import { connect } from 'react-redux'
 import { postSelector } from 'store/reducers/posts'
 
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
@@ -27,6 +27,7 @@ import { gallerySelector } from 'store/reducers/imageGallery/gallerySelector'
 import { globalSelector } from 'store/reducers/global/globalSelector'
 import { DialogType } from 'models/common/dialogType'
 import { Post } from 'core/domain/posts'
+import { Component } from 'react'
 
 /**
  * Map dispatch to props

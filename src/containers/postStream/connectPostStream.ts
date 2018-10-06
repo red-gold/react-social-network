@@ -1,5 +1,5 @@
 import {Map} from 'immutable'
-import { Component, connect } from 'react-redux'
+import { connect } from 'react-redux'
 
 import * as imageGalleryActions from 'store/actions/imageGalleryActions'
 import * as postActions from 'store/actions/postActions'
@@ -13,6 +13,7 @@ import { User } from 'core/domain/users'
 
 import { serverSelector } from 'store/reducers/server/serverSelector'
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
+import { Component } from 'react'
 
 /**
  * Map dispatch to props

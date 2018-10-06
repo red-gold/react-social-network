@@ -1,4 +1,4 @@
-import { Component, connect } from 'react-redux'
+import { connect } from 'react-redux'
 
 import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
 import { Map } from 'immutable'
@@ -10,6 +10,7 @@ import { ServerRequestType } from 'constants/serverRequestType'
 import { User } from 'core/domain/users'
 import { IHelpProps } from './IHelpProps'
 import { userSelector } from 'store/reducers/users/userSelector'
+import { Component } from 'react'
 
 /**
  * Map dispatch to props

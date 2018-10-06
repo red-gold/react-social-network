@@ -1,5 +1,6 @@
 
 export interface IChatState {
+  [key: string]: any
   newMessageCount: number
   searchText: string
   messageText: string

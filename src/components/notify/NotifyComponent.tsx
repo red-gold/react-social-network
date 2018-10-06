@@ -213,6 +213,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: INotifyComponentProp
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(NotifyComponent)
+const translateWrraper = translate('translations')(NotifyComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

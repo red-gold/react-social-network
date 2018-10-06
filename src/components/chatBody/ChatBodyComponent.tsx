@@ -1,6 +1,6 @@
 // - Import react components
 import React, { Component, RefObject } from 'react'
-import { connect, Dispatch } from 'react-redux'
+import { connect } from 'react-redux'
 
 import { Map } from 'immutable'
 import moment from 'moment/moment'
@@ -97,7 +97,7 @@ export class ChatBodyComponent extends Component<IChatBodyProps, IChatBodyState>
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: Dispatch<any>, ownProps: IChatBodyProps) => {
+const mapDispatchToProps = (dispatch: any, ownProps: IChatBodyProps) => {
 
   return {
   }

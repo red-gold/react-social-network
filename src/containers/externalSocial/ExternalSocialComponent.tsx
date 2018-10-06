@@ -232,6 +232,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IExternalSocialProps
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ExternalSocialComponent)
+const translateWrraper = translate('translations')(ExternalSocialComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(externalSocialStyles as any)(translateWrraper as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(externalSocialStyles as any)(translateWrraper as any))

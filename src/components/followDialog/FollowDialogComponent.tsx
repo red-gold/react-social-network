@@ -405,6 +405,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IFollowDialogProps) 
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(FollowDialogComponent)
+const translateWrraper = translate('translations')(FollowDialogComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(followDialogStyles as any)(translateWrraper as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(followDialogStyles as any)(translateWrraper as any))
