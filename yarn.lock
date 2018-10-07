@@ -11111,6 +11111,13 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-addons-perf@^15.4.2:
+  version "15.4.2"
+  resolved "https://registry.yarnpkg.com/react-addons-perf/-/react-addons-perf-15.4.2.tgz#110bdcf5c459c4f77cb85ed634bcd3397536383b"
+  dependencies:
+    fbjs "^0.8.4"
+    object-assign "^4.1.0"
+
 react-addons-test-utils@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.6.2.tgz#c12b6efdc2247c10da7b8770d185080a7b047156"
