@@ -2,7 +2,7 @@
 import { User } from 'src/core/domain/users'
 import { Circle, UserTie } from 'src/core/domain/circles'
 import { SocialError } from 'src/core/domain/common'
-import * as moment from 'moment/moment'
+import moment from 'moment/moment'
 import { Map, List } from 'immutable'
 
 // - Import action types

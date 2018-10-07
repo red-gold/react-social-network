@@ -1,8 +1,9 @@
-import configureStoreDev from './configureStore.dev'
-import configureStoreProd from './configureStore.prod'
+import configureStoreDev from './dev.configureStore'
+import configureStoreProd from './prod.configureStore'
+import configureStoreTest from './test.configureStore'
 
 const store = process.env.NODE_ENV === 'production'
 ? configureStoreProd
-: configureStoreDev
+: (process.env.NODE_ENV === 'test' ? configureStoreTest : configureStoreDev)
 
 export default store

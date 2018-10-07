@@ -17,7 +17,7 @@ i18n
     backend: {
       loadPath: `locales/{{ns}}/enjson_{{lng}}.json`,
     },
-    debug: true,
+    debug: false,
     interpolation: {
       escapeValue: false, // not needed for react!!
     },

@@ -11,9 +11,11 @@
     "start": "npm-run-all -p watch-css start-js",
     "build-js": "react-scripts-ts build",
     "build": "GENERATE_SOURCEMAP=false npm-run-all build-css build-js",
-    "test": "react-scripts-ts test --env=jsdom --modulePaths=src",
+    "test": "NODE_ENV=test react-scripts-ts test --env=jsdom --modulePaths=src --moduleNameMapper='{\"^src/(.*)$\": \"<rootDir>/src/$1\", \"^models/(.*)$\": \"<rootDir>/src/models/$1\", \"^locales/(.*)$\": \"<rootDir>/src/locales/$1\", \"^config$\": \"<rootDir>/src/config/index\"}'",
     "eject": "react-scripts-ts eject",
-    "deploy:firebase": "npm run build && firebase deploy"
+    "deploy:firebase": "npm run build && firebase deploy",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "author": "Amir Movahedi",
   "license": "MIT",
@@ -26,6 +28,7 @@
     "@types/i18next": "^11.9.0",
     "@types/i18next-browser-languagedetector": "^2.0.1",
     "@types/i18next-xhr-backend": "^1.4.1",
+    "@types/jest": "^23.3.3",
     "@types/jwt-decode": "^2.2.1",
     "@types/query-string": "^6.1.0",
     "@types/ramda": "^0.25.35",
@@ -39,7 +42,7 @@
     "@types/react-resize-detector": "^2.2.0",
     "@types/react-swipeable-views": "^0.12.2",
     "@types/recompose": "^0.26.1",
-    "@types/redux-devtools":  "^3.0.44",
+    "@types/redux-devtools": "^3.0.44",
     "@types/redux-devtools-dock-monitor": "^1.1.33",
     "@types/redux-devtools-log-monitor": "^1.0.34",
     "@types/redux-immutable": "^3.0.38",
@@ -145,7 +148,7 @@
     "@types/react-tap-event-plugin": "0.0.30",
     "@types/redux-logger": "^3.0.6",
     "@types/uuid": "^3.4.3",
-    "react-scripts-ts": "https://github.com/kdela/create-react-app-typescript",
+    "react-scripts-ts": "https://github.com/Qolzam/create-react-app-typescript",
     "redux-devtools": "^3.4.1",
     "redux-devtools-dock-monitor": "^1.1.3",
     "redux-devtools-extension": "^2.13.5",
@@ -155,7 +158,13 @@
     "ts-node": "^5.0.1",
     "tslint": "^5.9.1",
     "tslint-config-standard": "^6.0.1",
-    "typescript": "^2.8.1"
+    "typescript": "^2.8.1",
+    "@storybook/react": "^3.4.11",
+    "@storybook/addon-actions": "^3.4.11",
+    "@storybook/addon-links": "^3.4.11",
+    "@storybook/addons": "^3.4.11",
+    "babel-core": "^6.26.3",
+    "babel-runtime": "^6.26.0"
   },
   "directories": {
     "doc": "docs"
@@ -180,13 +189,19 @@
   "bugs": {
     "url": "https://github.com/Qolzam/react-social-network/issues"
   },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
   "jest": {
-    "moduleNameMapper": {
-      "^src/(.*)$": "<rootDir>/src/$1",
-      "^models/(.*)$": "<rootDir>/src/models/$1",
-      "^locales/(.*)$": "<rootDir>/src/locales/$1",
-      "^config$": "<rootDir>/src/config/index",
-      "^lib/(.*)$": "<rootDir>/common/$1"
-    }
+    "collectCoverageFrom": [
+      "!<rootDir>/src/store/configureStore.test.ts",
+      "<rootDir>/src/**/*.test.{ts,tsx}",
+      "!<rootDir>/src/node_modules/",
+      "!<rootDir>/src/index.ts",
+      "!<rootDir>/src/registerServiceWorker.js"
+    ]
   }
 }

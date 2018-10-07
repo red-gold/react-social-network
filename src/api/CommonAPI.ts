@@ -1,4 +1,4 @@
-import * as moment from 'moment/moment'
+import moment from 'moment/moment'
 import {Map, List} from 'immutable'
 import { RegexPattern } from 'constants/RegexPattern'
 import * as R from 'ramda'
