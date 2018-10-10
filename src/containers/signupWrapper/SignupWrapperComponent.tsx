@@ -81,6 +81,7 @@ export class SignupWrapperComponent extends Component<ISignupWrapperProps, ISign
               </div>
             </div>
           </div>
+          <div style={{height: 30}}></div>
           <Footer />
 
         </div>

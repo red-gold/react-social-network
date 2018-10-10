@@ -62,7 +62,7 @@ export class FooterComponent extends Component<IFooterComponentProps, IFooterCom
     return (
 
       <div className={classes.root}>
-        {CommonAPI.isMobile() ? <div style={{height: 90}}></div> : mobileElement}
+        {/* {CommonAPI.isMobile() ? <div style={{height: 90}}></div> : mobileElement} */}
 
         <div className={classes.content}>
           <Grid item xs={12} sm={9} md={9} lg={9}>

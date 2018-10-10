@@ -82,6 +82,7 @@ export class LoginWrapperComponent extends Component<ILoginWrapperProps, ILoginW
              
             </div>
           </div>
+          <div style={{height: 30}}></div>          
           <Footer />
 
         </div>

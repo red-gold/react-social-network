@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { TextFieldProps } from '@material-ui/core/TextField'
 
-export interface ITextFieldComponentProps extends TextFieldProps {
+export interface ITextFieldComponentProps  {
 
     /**
      * Input props

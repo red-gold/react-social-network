@@ -16,7 +16,6 @@ import Divider from '@material-ui/core/Divider'
 import { translate, Trans } from 'react-i18next'
 
 // - Components
-import Footer from 'layouts/footer'
 
 // - Import actions
 import * as authorizeActions from 'src/store/actions/authorizeActions'
@@ -273,7 +272,7 @@ export class SignupComponent extends Component<ISignupComponentProps, ISignupCom
             <Button variant='raised' className={classes.signupButton} color='secondary' fullWidth onClick={this.handleForm}>{t!('signup.createButton')}</Button>
         </div>
         <Typography className={classes.caption} variant='caption' component='p'>
-          {t!('signup.termCaption', { href: '/terms' })}
+          {t!('signup.termCaption')} <NavLink to='/terms'> {t!('signup.termCaptionLink')} </NavLink>
         </Typography>
         <Divider />
           <div >

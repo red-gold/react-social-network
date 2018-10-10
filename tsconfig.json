@@ -3,10 +3,8 @@
     "compilerOptions": {
         "esModuleInterop": true,
         "types": [
-            "jasmine",
             "node",
             "jest",
-            "ts-jest",
             "reflect-metadata"],
         "allowSyntheticDefaultImports": true, // see below
         "baseUrl": "./src/", // enables you to import relative to this folder

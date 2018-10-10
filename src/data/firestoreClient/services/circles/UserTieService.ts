@@ -1,5 +1,5 @@
 // - Import react components
-import { datumString } from 'aws-sdk/clients/athena'
+
 import firebase, { firebaseAuth, db } from 'data/firestoreClient'
 import moment from 'moment/moment'
 

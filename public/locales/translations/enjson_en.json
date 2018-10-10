@@ -193,7 +193,8 @@
         "createButton": "CREATE",
         "titleSideLabel": "One of us?",
         "contentSideLabel": "If you already have an account, just sign in. We've missed you.",
-        "termCaption": "By signing up, you agree to our <a href='{{href}}'>Terms</a>, Data Policy and Cookies Policy."
+        "termCaption": "By signing up, you agree to our, ",
+        "termCaptionLink": "Terms, Data Policy and Cookies Policy."
 
     },
     "resetPassword": {

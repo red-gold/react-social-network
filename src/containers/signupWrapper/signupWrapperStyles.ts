@@ -121,14 +121,14 @@ export const signupWrapperStyles = (theme: any) => ({
         boxShadow: ' 0 20px 40px rgba(0,0,0,.1)',
         textAlign: 'center',
         borderRadius: 5,
-        width: 435,
+        maxWidth: 429,
         overflow: 'hidden',
         [theme.breakpoints.down('xs')]: {
             boxShadow: 'unset',
-            margin: 0,
             padding: 0,
             width: '100% !important',
-            borderRadius: 0
+            borderRadius: 0,
+            margin: '0 auto'
         },
         [theme.breakpoints.down('sm')]: {
             width: 428
