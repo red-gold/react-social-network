@@ -612,7 +612,7 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
           </DialogContent>
           <DialogActions className={classes.fixedDownStickyXS}>
             <Button onClick={this.props.onRequestClose} > {t!('profile.cancelButton')} </Button>
-            <Button variant='raised' color='primary' onClick={this.handleUpdate} style={this.styles.updateButton}> {t!('profile.updateButton')} </Button>
+            <Button variant='contained' color='primary' onClick={this.handleUpdate} style={this.styles.updateButton}> {t!('profile.updateButton')} </Button>
           </DialogActions>
         </Dialog>
 

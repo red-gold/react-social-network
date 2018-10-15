@@ -139,7 +139,7 @@ export class TermsComponent extends Component<ITermsProps, ITermsState> {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant='title' color='inherit' noWrap>
+            <Typography variant='h6' color='inherit' noWrap>
                 {selectedItem === TermsType.Terms ? t!('terms.termsTitle') : selectedText}
               </Typography>
           </Toolbar>

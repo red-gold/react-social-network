@@ -25,12 +25,13 @@ The structure of this project give the ability to developer to develop their pro
 </p>
 
 ## 🌟New Upgrade :
-React Social Network is moving a head with [
-  * [Algolia](https://www.algolia.com/) Text Full Search 
-  * Gallery and photo album post
-  * Chat with friends
-  * Faster, More secure and reliable 
-   **React Social Network** on `v0.7.0` branch. Any contribution would be greatly appreciated by :heart:.
+React Social Network is moving a head with 
+* [Algolia](https://www.algolia.com/) Text Full Search 
+* Gallery and photo album post
+* Chat with friends
+* Faster, more secure and reliable 
+
+**React Social Network** on `v0.7.0` branch. Any contribution would be greatly appreciated by :heart:.
  
 >You should consult the [CHANGELOG](https://github.com/Qolzam/react-social-network/blob/v0.7.0/CHANGELOG.md) and related issues for more information
 

@@ -191,7 +191,7 @@ export class LoginComponent extends Component<ILoginComponentProps, ILoginCompon
           <div className='login__button-box'>
             <div className={classes.wrapperButton}>
               <Button
-                variant='raised'
+                variant='contained'
                 color='secondary'
                 disabled={loading}
                 onClick={this.handleForm}

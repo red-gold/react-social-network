@@ -112,7 +112,7 @@ export class NotificationSettingComponent extends Component<INotificationSetting
     return (
       <Grid container spacing={24} className={classes.notification}>
         <Grid item sm={12} xs={12} md={3} lg={4} xl={4} className={classes.headerCaption}>
-          <Typography variant='title' > {t!('config.notificationLabel')} </Typography>
+          <Typography variant='h6' > {t!('config.notificationLabel')} </Typography>
 
           <Typography variant='caption' > {t!('config.notificationCaption')} </Typography>
         </Grid>

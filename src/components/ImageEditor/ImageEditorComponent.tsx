@@ -169,7 +169,7 @@ export class ImageEditorComponent extends Component<IImageEditorComponentProps, 
         maxWidth='sm'
       >
         <DialogTitle disableTypography className={classes.dialogTitle} >
-          <Typography variant='title' className={classes.titleText}>
+          <Typography variant='h6' className={classes.titleText}>
             {t!('post.imageEditorTitle')}
           </Typography>
           <IconButton onClick={() => this.rotate(-90)}>

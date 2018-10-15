@@ -55,7 +55,7 @@ export class CircleActivityComponent extends Component<ICircleActivityComponentP
               />
               <div className={classes.textProgress}>
                   <Typography
-                      variant='headline'
+                      variant='h5'
                       color='secondary'>{percent}</Typography>
                   <Typography
                       variant='caption'

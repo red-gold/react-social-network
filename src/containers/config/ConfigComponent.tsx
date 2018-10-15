@@ -138,7 +138,7 @@ export class ConfigComponent extends Component<IConfigProps, IConfigState> {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant='title' color='inherit' noWrap>
+            <Typography variant='h6' color='inherit' noWrap>
                 {selectedItem === ConfigComponentType.ChangePassword ? t!('config.changePasswordLabel') : selectedText}
               </Typography>
           </Toolbar>

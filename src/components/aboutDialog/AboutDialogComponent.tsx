@@ -130,7 +130,7 @@ export class AboutDialogComponent extends Component<IAboutDialogProps, IAboutDia
     const aboutElem = (
       <div className={classes.rootInfo}>
 
-        <Typography variant='title' color='inherit' className={classes.title}>
+        <Typography variant='h6' color='inherit' className={classes.title}>
           {t!('profile.about')} {' '}  {targetUser.fullName}
         </Typography>
         <Paper className={classes.paperInfo}>
@@ -146,7 +146,7 @@ export class AboutDialogComponent extends Component<IAboutDialogProps, IAboutDia
 
     const otherSocialElem = (
       <div className={classes.rootInfo}>
-        <Typography variant='title' color='inherit' className={classes.title}>
+        <Typography variant='h6' color='inherit' className={classes.title}>
           {t!('profile.otherSocial')}
         </Typography>
         <Paper className={classes.paperInfo}>
@@ -172,7 +172,7 @@ export class AboutDialogComponent extends Component<IAboutDialogProps, IAboutDia
               <IconButton onClick={onClose}>
                 <BackIcon />
               </IconButton>
-              <Typography variant='title' color='inherit' className={classes.flex}>
+              <Typography variant='h6' color='inherit' className={classes.flex}>
                 {targetUser.fullName}
               </Typography>
               <UserAvatarComponent
@@ -190,7 +190,7 @@ export class AboutDialogComponent extends Component<IAboutDialogProps, IAboutDia
               || !StringAPI.isEmpty(targetUser.companyName)) && aboutElem}
 
             {/* <div className={classes.rootInfo}>
-              <Typography variant='title' color='inherit' className={classes.title}>
+              <Typography variant={'h6'} color='inherit' className={classes.title}>
                 {translate!('profile.contactInfo')}
               </Typography>
             </div> */}

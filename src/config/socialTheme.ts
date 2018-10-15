@@ -8,6 +8,9 @@ import deepOrange from '@material-ui/core/colors/deepOrange'
 import orange from '@material-ui/core/colors/orange'
 
 export const socialTheme: ThemeOptions = {
+	typography: {
+		useNextVariants: true,
+	  },
 	palette: {
 		primary: deepOrange,
 		secondary: orange,

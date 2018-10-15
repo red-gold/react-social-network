@@ -332,7 +332,7 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps, IPhotoMas
       return (
         <Paper className={classes.noAlbumRoot}>
           <VisibilityOffIcon className={classes.noAlbumIcon}/>
-          <Typography variant={'body2'} className={classes.noAlbumText}>
+          <Typography variant='body1' className={classes.noAlbumText}>
             {t!('album.noExistAlbum')}
           </Typography>
         </Paper>

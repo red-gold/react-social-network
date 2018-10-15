@@ -343,7 +343,7 @@ export class SmsVerificationComponent extends Component<ISmsVerificationComponen
                     <Button className={classes.logoutButton} onClick={logout}>{t!('smsVerification.logoutButton')}</Button>
                   </div>
                   <div className={classes.wrapper}>
-                    <Button variant='raised' color='primary' className={classes.nextButton} disabled={isNextDisabled || !isCaptchaSuccess || loading} onClick={this.handleNextPhoneNumber}>{t!('smsVerification.verifyButton')} </Button>
+                    <Button variant='contained' color='primary' className={classes.nextButton} disabled={isNextDisabled || !isCaptchaSuccess || loading} onClick={this.handleNextPhoneNumber}>{t!('smsVerification.verifyButton')} </Button>
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>
                 </div>
@@ -374,7 +374,7 @@ export class SmsVerificationComponent extends Component<ISmsVerificationComponen
                   </div>
                   <div>
                   <div className={classes.wrapper}>
-                    <Button variant='raised' color='primary' className={classes.nextButton} disabled={isVerifyDisabled || loading} onClick={this.handleVerifyCode}>{t!('smsVerification.verifyButton')} </Button>
+                    <Button variant='contained' color='primary' className={classes.nextButton} disabled={isVerifyDisabled || loading} onClick={this.handleVerifyCode}>{t!('smsVerification.verifyButton')} </Button>
                     {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                   </div>
                   </div>

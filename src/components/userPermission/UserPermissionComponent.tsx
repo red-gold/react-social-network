@@ -104,7 +104,7 @@ export class UserPermissionComponent extends Component<IUserPermissionProps, IUs
         maxWidth='md'
       >
         <DialogActions className={classes.dialogAction}>
-          <Typography variant={'title'} component={'div'} className={classes.galleryDialogTitle}>
+          <Typography variant={'h6'} component={'div'} className={classes.galleryDialogTitle}>
             <IconButton className={classes.header} onClick={onClose}>
               <BackIcon />
             </IconButton>

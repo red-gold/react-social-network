@@ -280,7 +280,7 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
                                 />
                             </div>
                             <Typography
-                                variant='headline'
+                                variant='h5'
                                 className={classes.userNameText}>
                                 {profile.fullName}
                             </Typography>
@@ -312,7 +312,7 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
 
                     {/* <div className={classes.card} style={boxesStyle ? boxesStyle[1] : {}}>
                         <Paper className={classes.paperContainer}>
-                            <Typography variant='title'
+                            <Typography variant='h6'
                                 className={classes.title}>
                                 {translate!('userActivity.privilegesTitle')}
                             </Typography>
@@ -339,7 +339,7 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
 
                     <div className={classes.card} style={boxesStyle ? boxesStyle[1] : {}}>
                         <Paper className={classNames(classes.paperContainer, classes.paperBackground1)}>
-                            <Typography variant='title'
+                            <Typography variant='h6'
                                 className={classNames(classes.title, classes.titleSpecial)}>
                                 {t!('userActivity.reputationTitle')}
                             </Typography>
@@ -361,7 +361,7 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
 
                     <div className={classes.card} style={boxesStyle ? boxesStyle[2] : {}}>
                         <Paper className={classes.paperContainer}>
-                            <Typography variant='title'
+                            <Typography variant='h6'
                                 className={classes.title}>
                                 {t!('userActivity.impactTitle')}
                             </Typography>
@@ -404,7 +404,7 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
 
                     <div className={classes.card} style={boxesStyle ? boxesStyle[3] : {}}>
                         <Paper className={classes.paperContainer}>
-                            <Typography variant='title'
+                            <Typography variant='h6'
                                 className={classes.title}>
                                 {t!('userActivity.privilegesTitle')}
                             </Typography>
@@ -431,7 +431,7 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
 
                     <div className={classes.card} style={boxesStyle ? boxesStyle[4] : {}}>
                         <Paper className={classes.paperContainer}>
-                            <Typography variant='title'
+                            <Typography variant='h6'
                                 className={classes.title}>
                                 {t!('userActivity.bountiesTitle')}
                             </Typography>

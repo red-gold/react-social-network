@@ -81,7 +81,7 @@ export class TimelineComponent extends Component<ITimelineComponentProps, ITimel
             <IconButton color='inherit' onClick={onClose} aria-label='Close'>
               <VpnKeyIcon />
             </IconButton>
-            <Typography variant='title' color='inherit' className={classes.flex}>
+            <Typography variant='h6' color='inherit' className={classes.flex}>
               {title}
             </Typography>
             <IconButton color='inherit' onClick={onClose} aria-label='Close'>
@@ -90,7 +90,7 @@ export class TimelineComponent extends Component<ITimelineComponentProps, ITimel
           </Toolbar>
         </AppBar>
 
-        <Typography variant='body2' color='inherit' className={classes.description}>
+        <Typography variant='body1' color='inherit' className={classes.description}>
         Privileges manage your accessibility on features and what you can do on Poll Social . Following privileges guidline gaining more reputation and privileges.
             </Typography>
         <Table classes={{

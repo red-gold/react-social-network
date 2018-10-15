@@ -367,7 +367,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
 
           {/* Header title */}
           {(isWidthDown('xs', this.props.width) && isSearchPage) ? '' : <img src={config.settings.appIcon} className={classes.appIcon} alt={config.settings.appName} />}
-          {/* <Typography variant='title' style={{ marginLeft: '15px', color: theme.palette.secondary.main }} >
+          {/* <Typography variant='h6' style={{ marginLeft: '15px', color: theme.palette.secondary.main }} >
             {config.settings.appName}
           </Typography> */}
           <div className='homeHeader__title-root'>

@@ -106,7 +106,7 @@ export class WebPageComponent extends Component<IWebPageProps, IWebPageState> {
             <IconButton color='inherit' onClick={onClose} aria-label='Close'>
               <VpnKeyIcon />
             </IconButton>
-            <Typography variant='title' color='inherit' className={classes.flex}>
+            <Typography variant='h6' color='inherit' className={classes.flex}>
               {title}
             </Typography>
             <IconButton color='inherit' onClick={onClose} aria-label='Close'>

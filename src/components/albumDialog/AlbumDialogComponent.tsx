@@ -513,7 +513,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps, IAlbumDia
                   <AddPhotoIcon />
                   {t!('album.addPhotos')}
                 </Button>
-              </label>) : <Typography variant={'title'}> {t!('album.saveAlbum')} </Typography>}
+              </label>) : <Typography variant={'h6'}> {t!('album.saveAlbum')} </Typography>}
           </Paper>
           <SwipeableViews
             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}

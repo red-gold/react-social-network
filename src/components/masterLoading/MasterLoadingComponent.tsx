@@ -36,7 +36,7 @@ export class MasterLoadingComponent extends Component<IMasterLoadingComponentPro
             <CircularProgress style={{ color: red[500] }} size={50} />
           </Grid>
           <Grid item style={{ zIndex: 1 }}>
-            <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
+            <Typography variant='h6' color='primary' style={{ marginLeft: '15px' }} >
              {t!('masterLoading.unexpectedError')}
           </Typography>
           </Grid>
@@ -49,7 +49,7 @@ export class MasterLoadingComponent extends Component<IMasterLoadingComponentPro
             <CircularProgress style={{ color: red[500] }} size={50} />
           </Grid>
           <Grid item style={{ zIndex: 1 }}>
-            <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
+            <Typography variant='h6' color='primary' style={{ marginLeft: '15px' }} >
             {t!('masterLoading.timeout')}
           </Typography>
           </Grid>
@@ -62,7 +62,7 @@ export class MasterLoadingComponent extends Component<IMasterLoadingComponentPro
             <CircularProgress style={{color: theme.palette.primary.light}} size={50} />
           </Grid>
           <Grid item style={{ zIndex: 1 }}>
-            <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
+            <Typography variant='h6' color='primary' style={{ marginLeft: '15px' }} >
             {t!('masterLoading.loading')}
           </Typography>
           </Grid>
@@ -75,7 +75,7 @@ export class MasterLoadingComponent extends Component<IMasterLoadingComponentPro
             <CircularProgress style={{color: theme.palette.primary.light}} size={50} />
           </Grid>
           <Grid item style={{ zIndex: 1 }}>
-            <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
+            <Typography variant='h6' color='primary' style={{ marginLeft: '15px' }} >
             {t!('masterLoading.loading')}
           </Typography>
           </Grid>

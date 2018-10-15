@@ -173,7 +173,7 @@ export class ChatRoomSettingComponent extends Component<IChatRoomSettingProps, I
     outputLang  = outputLang ? this.findLanguage(outputLang) : null
     const translateElement = (
       <div className={classes.settingBox}>
-        <Typography variant={'subheading'}>
+        <Typography variant='subtitle1'>
           {t!('chat.translationLabel')}
         </Typography>
         <Divider />
@@ -235,7 +235,7 @@ export class ChatRoomSettingComponent extends Component<IChatRoomSettingProps, I
             <IconButton className={classes.backIcon} onClick={onClose}>
               <BackIcon />
             </IconButton>
-            <Typography className={classes.header} variant={'subheading'}>
+            <Typography className={classes.header} variant='subtitle1'>
               {t!('chat.chatLabel')}
             </Typography>
           </ListItem>

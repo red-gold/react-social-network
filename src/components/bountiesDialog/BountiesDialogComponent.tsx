@@ -86,7 +86,7 @@ export class BountiesDialogComponent extends Component<IBountiesDialogComponentP
                             <IconButton color='inherit' onClick={this.handleClose} aria-label='Close' className={classes.iconClose}>
                                 <CloseIcon />
                             </IconButton>
-                            <Typography variant='title' color='inherit' className={classNames(classes.flex, classes.dialogTitle)}>
+                            <Typography variant='h6' color='inherit' className={classNames(classes.flex, classes.dialogTitle)}>
                                 All Your Bounties
                             </Typography>
                         </Toolbar>

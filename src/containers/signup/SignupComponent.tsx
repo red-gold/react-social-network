@@ -269,7 +269,7 @@ export class SignupComponent extends Component<ISignupComponentProps, ISignupCom
         <br />
         <br />
         <div className={classes.signupButtonRoot}>
-            <Button variant='raised' className={classes.signupButton} color='secondary' fullWidth onClick={this.handleForm}>{t!('signup.createButton')}</Button>
+            <Button variant='contained' className={classes.signupButton} color='secondary' fullWidth onClick={this.handleForm}>{t!('signup.createButton')}</Button>
         </div>
         <Typography className={classes.caption} variant='caption' component='p'>
           {t!('signup.termCaption')} <NavLink to='/terms'> {t!('signup.termCaptionLink')} </NavLink>

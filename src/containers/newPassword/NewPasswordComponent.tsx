@@ -201,7 +201,7 @@ export class NewPasswordComponent extends Component<INewPasswordComponentProps,I
                   <Button onClick={this.props.homePage} > {t!('changePassword.homeButton')} </Button>
                 </div>
                 <div>
-                  <Button variant='raised' color='primary' onClick={this.handleForm}> {t!('changePassword.changePasswordButton')} </Button>
+                  <Button variant='contained' color='primary' onClick={this.handleForm}> {t!('changePassword.changePasswordButton')} </Button>
 
                 </div>
               </div>

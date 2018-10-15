@@ -259,7 +259,7 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps, IVideoGalleryS
               type='file'
             />
             <label htmlFor='raised-button-file'>
-              <Button variant='raised' component='span' style={this.styles.uploadButton as any}>
+              <Button variant='contained' component='span' style={this.styles.uploadButton as any}>
                 {t!('imageGallery.uploadButton')}
               </Button>
             </label>

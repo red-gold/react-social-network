@@ -316,7 +316,7 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
                       <Button className={classes.backButton} onClick={logout}>{t!('resetPassword.backButton')}</Button>
                     </div>
                     <div className={classes.wrapper}>
-                      <Button variant='raised' color='primary' className={classes.nextButton} disabled={isNextDisabled || !isCaptchaSuccess || loading} onClick={this.handleNextEmail}>{t!('resetPassword.verifyButton')} </Button>
+                      <Button variant='contained' color='primary' className={classes.nextButton} disabled={isNextDisabled || !isCaptchaSuccess || loading} onClick={this.handleNextEmail}>{t!('resetPassword.verifyButton')} </Button>
                       {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
                     </div>
                   </div>
@@ -346,7 +346,7 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
                       <Button className={classes.nextButton} onClick={logout}>{t!('resetPassword.resetButton')}</Button>
                     </div>
                     <div>
-                      <Button variant='raised' color='primary' className={classes.nextButton} disabled={isVerifyDisabled} onClick={this.handleVerifyCode}>{t!('resetPassword.verifyButton')} </Button>
+                      <Button variant='contained' color='primary' className={classes.nextButton} disabled={isVerifyDisabled} onClick={this.handleVerifyCode}>{t!('resetPassword.verifyButton')} </Button>
                     </div>
                   </div>
                   <Typography className={classes.caption} variant='caption' component='p'>

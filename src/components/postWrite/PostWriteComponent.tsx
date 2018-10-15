@@ -783,7 +783,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
 
         >
           <DialogActions classes={{ action: classes.galleryAction }} className={classes.galleryActions}>
-            <Typography variant={'title'} component={'div'} className={classes.galleryDialogTitle}>
+            <Typography variant={'h6'} component={'div'} className={classes.galleryDialogTitle}>
               <VideoGalleryIcon style={{ color: 'rgb(230, 35, 35)', margin: '0 10px', width: 24, height: 24 }} />
               {t!('post.videoGalleryLabel')}
             </Typography>

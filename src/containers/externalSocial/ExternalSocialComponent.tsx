@@ -74,7 +74,7 @@ export class ExternalSocialComponent extends Component<IExternalSocialProps, IEx
     const { t, classes } = this.props
     return (
       <>
-        <Typography className={classes.title} variant={'title'} >
+        <Typography className={classes.title} variant={'h6'} >
           {t!('externalSocial.yourAccountCaption', { account: t!('externalSocial.twitterCaption') })}
         </Typography>
       <Timeline
@@ -101,7 +101,7 @@ export class ExternalSocialComponent extends Component<IExternalSocialProps, IEx
     const width = window.innerWidth > 550 ? 550 : 400
     return (
       <>
-        <Typography className={classes.title} variant={'title'} >
+        <Typography className={classes.title} variant={'h6'} >
           {t!('externalSocial.yourAccountCaption', { account: t!('externalSocial.facebookCaption') })}
         </Typography>
         <FacebookPage
@@ -140,7 +140,7 @@ export class ExternalSocialComponent extends Component<IExternalSocialProps, IEx
     )
     return (
       <>
-        <Typography className={classes.title} variant={'title'} >
+        <Typography className={classes.title} variant={'h6'} >
           {t!('externalSocial.yourAccountCaption', { account: t!('externalSocial.instagramCaption') })}
         </Typography>
         {instagramPosts.count() > 0 ? <PostStreamComponent displayWriting={false} posts={instagramPosts} /> : loginElement}
@@ -155,7 +155,7 @@ export class ExternalSocialComponent extends Component<IExternalSocialProps, IEx
     const { classes, t, social, currentUser } = this.props
     return (
       <Paper className={classes.noConfigPaper}>
-        <Typography className={classes.needConfigText} variant={'subheading'}>
+        <Typography className={classes.needConfigText} variant='subtitle1'>
           <InfoIcon className={classes.infoIcon} />{t!('externalSocial.needConfig', { social, userId: currentUser ? currentUser!.userId : 0 })}
         </Typography>
       </Paper>
