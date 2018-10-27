@@ -1,2 +1,2 @@
-import EmailVerificationComponent from './EmailVerificationComponent'
-export default EmailVerificationComponent
+import SmsVerificationComponent from './EmailVerificationComponent'
+export default SmsVerificationComponent

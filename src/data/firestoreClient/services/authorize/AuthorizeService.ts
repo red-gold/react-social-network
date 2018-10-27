@@ -34,15 +34,15 @@ export class AuthorizeService implements IAuthorizeService {
         userName: email,
         password: password
       })
-        .then(({data}) => {
+        .then(({ data }) => {
           this.loginByToken(data.token).then((user) => {
             resolve(user)
           })
         })
-      .catch((error: any) => {
-        const responseError = error.response.data
-        reject(new SocialError(responseError._code || responseError.code, responseError._message ||  responseError.message))
-      })
+        .catch((error: any) => {
+          const responseError = error.response.data
+          reject(new SocialError(responseError._code || responseError.code, responseError._message || responseError.message))
+        })
     })
   }
 
@@ -58,10 +58,10 @@ export class AuthorizeService implements IAuthorizeService {
         const idToken = await user.getIdToken()
         localStorage.setItem('firebase.token', idToken)
         if (authedUser) {
-          const loginUser  = new LoginUser(
-            user.uid, 
+          const loginUser = new LoginUser(
+            user.uid,
             user.emailVerified,
-            user.providerId, 
+            user.providerId,
             user.displayName!,
             user.email!,
             user.photoURL!,
@@ -69,12 +69,12 @@ export class AuthorizeService implements IAuthorizeService {
           )
           return loginUser
         }
-        
+
       }
-      
+
     } catch (error) {
       // Handle Errors here.
-       throw new SocialError(error.code, error.message)
+      throw new SocialError(error.code, error.message)
     }
 
   }
@@ -85,9 +85,9 @@ export class AuthorizeService implements IAuthorizeService {
   public logout: () => Promise<void> = () => {
     return new Promise<void>((resolve, reject) => {
       firebaseAuth()
-      .signOut()
-      .then((result) => {
-        localStorage.removeItem('firebase.token')
+        .signOut()
+        .then((result) => {
+          localStorage.removeItem('firebase.token')
           resolve()
         })
         .catch((error: any) => {
@@ -108,8 +108,8 @@ export class AuthorizeService implements IAuthorizeService {
           const { uid, email } = signupResult.user!
           this.storeUserInformation(uid, email!, user.fullName, '', user.email!, user.password!).then(resolve)
         })
-        .catch((error: any) => { 
-          
+        .catch((error: any) => {
+
           reject(new SocialError(error.code, error.message))
         })
     })
@@ -134,21 +134,21 @@ export class AuthorizeService implements IAuthorizeService {
 
     return new Promise<void>((resolve, reject) => {
       let user = firebaseAuth().currentUser
-      
+
       if (user) {
         firebaseAuth().currentUser!.getIdToken().then((tokenId) => {
           axios.post(`${config.settings.api}update-password`, {
-          newPassword,
-          confirmPassword
-        }, {
-            headers: { 'authorization': `Bearer ${tokenId}` }
-          })
-          .then(({data}) => {
-            resolve(data.verifyId)
-          })
-          .catch((error) => reject(new SocialError(error.code, `authorizeSerive/UpdatePassword`)))
+            newPassword,
+            confirmPassword
+          }, {
+              headers: { 'authorization': `Bearer ${tokenId}` }
+            })
+            .then(({ data }) => {
+              resolve(data.verifyId)
+            })
+            .catch((error) => reject(new SocialError(error.code, `authorizeSerive/UpdatePassword`)))
         })
-        .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/TokenError`)))
+          .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/TokenError`)))
       }
 
     })
@@ -161,8 +161,8 @@ export class AuthorizeService implements IAuthorizeService {
     const scop = this
     return new Promise<UserClaim>((resolve, reject) => {
       currentUser.getIdTokenResult().then((result: any) => {
-        const {claims} = result
-        
+        const { claims } = result
+
         resolve(new UserClaim(
           currentUser.displayName,
           currentUser.email,
@@ -178,12 +178,12 @@ export class AuthorizeService implements IAuthorizeService {
           claims.phoneVerified
         ))
       })
-      .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/TokenError`)))
+        .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/TokenError`)))
 
     })
 
   }
-  
+
   /**
    * On user authorization changed event
    */
@@ -193,16 +193,14 @@ export class AuthorizeService implements IAuthorizeService {
         user.getIdToken().then((idToken) => {
           localStorage.setItem('firebase.token', idToken)
         })
-        
+
       }
-        callBack(user as any)
+      callBack(user as any)
     })
   }
 
   /**
    * Reset user password
-   *
-   * @memberof AuthorizeService
    */
   public resetPassword: (email: string) => Promise<void> = (email) => {
     return new Promise<void>((resolve, reject) => {
@@ -219,26 +217,26 @@ export class AuthorizeService implements IAuthorizeService {
 
   /**
    * Send verfication email to user email
-   *
-   * @memberof AuthorizeService
    */
-  public sendEmailVerification: () => Promise<void> = () => {
-    return new Promise<void>((resolve, reject) => {
-      let auth = firebaseAuth()
-      const user = auth.currentUser
-
-      if (user) {
-        user.sendEmailVerification().then(() => {
-          resolve()
-        }).catch((error: any) => {
-          // An error happened.
-          reject(new SocialError(error.code, error.message))
-        })
-      } else {
-        reject(new SocialError('authorizeService/nullException', 'User was null!'))
+  public sendEmailVerification = async (value: any) => {
+    const scop = this
+    debugger
+    const currentUser = firebaseAuth().currentUser
+    if (currentUser) {
+      const tokenId = await currentUser.getIdToken()
+      try {
+        const result = await axios.post(`${config.settings.api}email-verification`, {
+          'g-recaptcha-response': value
+        }, {
+            headers: { 'authorization': `Bearer ${tokenId}` }
+          })
+        return result.data.verifyId
+      } catch (error) {
+        console.trace('error', error)
+        throw new SocialError(error.code, `authorizeSerive/sendEmailVerification`)
       }
 
-    })
+    }
   }
 
   public loginWithOAuth: (type: OAuthType) => Promise<LoginUser> = (type) => {
@@ -264,7 +262,7 @@ export class AuthorizeService implements IAuthorizeService {
 
         const { credential } = result
         const { uid, displayName, email, photoURL } = user
-        const {providerId } = credential!
+        const { providerId } = credential!
         this.storeUserProviderData(uid, email!, displayName!, photoURL!, providerId, 'No Access Token')
         // this.storeUserInformation(uid,email,displayName,photoURL).then(resolve)
         resolve(new LoginUser(user.uid, true, providerId, displayName!, email!, photoURL!))
@@ -289,10 +287,10 @@ export class AuthorizeService implements IAuthorizeService {
   public getIdToken: () => Promise<string> = async () => {
     const currentUser = firebaseAuth().currentUser
     if (currentUser) {
-     const token = await currentUser.getIdToken()
-     return token
+      const token = await currentUser.getIdToken()
+      return token
     }
-   return localStorage.getItem('firebase.token') as string
+    return localStorage.getItem('firebase.token') as string
   }
 
   /**
@@ -301,21 +299,21 @@ export class AuthorizeService implements IAuthorizeService {
   public sendSmsVerification = (phoneNumber: string, value: any) => {
     const scop = this
     return new Promise<string>((resolve, reject) => {
-     const currentUser = firebaseAuth().currentUser
-     if (currentUser) {
-       currentUser.getIdToken().then((tokenId) => {
-         axios.post(`${config.settings.api}sms-verification`, {
-         phoneNumber,
-         'g-recaptcha-response': value
-       }, {
-           headers: { 'authorization': `Bearer ${tokenId}` }
-         })
-         .then(({data}) => {
-           resolve(data.verifyId)
-         })
-       })
-       .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/TokenError`)))       
-     }
+      const currentUser = firebaseAuth().currentUser
+      if (currentUser) {
+        currentUser.getIdToken().then((tokenId) => {
+          axios.post(`${config.settings.api}sms-verification`, {
+            phoneNumber,
+            'g-recaptcha-response': value
+          }, {
+              headers: { 'authorization': `Bearer ${tokenId}` }
+            })
+            .then(({ data }) => {
+              resolve(data.verifyId)
+            })
+        })
+          .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/TokenError`)))
+      }
 
     })
 
@@ -327,44 +325,64 @@ export class AuthorizeService implements IAuthorizeService {
   public sendResetPasswordVerification = (email: string, value: any) => {
     const scop = this
     return new Promise<string>((resolve, reject) => {
-        axios.post(`${config.settings.api}email-verification-code`, {
+      axios.post(`${config.settings.api}email-verification-code`, {
         email,
         'g-recaptcha-response': value
       })
-        .then(({data}) => {
+        .then(({ data }) => {
           resolve(data.verifyId)
         })
-      .catch((error) => {
-        const responseError = error.response.data
-        reject(new SocialError(responseError._code || responseError.code, responseError._message ||  responseError.message))
+        .catch((error) => {
+          const responseError = error.response.data
+          reject(new SocialError(responseError._code || responseError.code, responseError._message || responseError.message))
 
-    })
+        })
 
     })
 
   }
 
   /**
-   * Confirm verfication code
+   * Confirm phone code verfication 
    */
-  public confirmVerificationCode = (code: string, verifyId: string, phoneNumber: string) => {
+  public confirmVerificationPhone = (code: string, verifyId: string, phoneNumber: string) => {
     return new Promise<any>((resolve, reject) => {
       firebaseAuth().currentUser!.getIdToken().then((tokenId) => {
-      axios.post(`${config.settings.api}verify-phone`, {
-        code,
-        verifyId,
-        phoneNumber
-      }, {
-          headers: { 'authorization': `Bearer ${tokenId}` }
-        })
-        .then(({data}) => {
-          this.loginByToken(data.token).then((user) => {
-            resolve(user)
+        axios.post(`${config.settings.api}verify-phone`, {
+          code,
+          verifyId,
+          phoneNumber
+        }, {
+            headers: { 'authorization': `Bearer ${tokenId}` }
           })
-        })
+          .then(({ data }) => {
+            this.loginByToken(data.token).then((user) => {
+              resolve(user)
+            })
+          })
       })
-        .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/confirmVerificationCode  ${error.message}`)))
+        .catch((error: any) => reject(new SocialError(error.code, `authorizeSerive/confirmVerificationPhone  ${error.message}`)))
     })
+  }
+
+  /**
+   * Confirm email code verfication
+   */
+  public confirmVerificationEmail = async (code: string, verifyId: string) => {
+    try {
+      const tokenId = await firebaseAuth().currentUser!.getIdToken()
+      const result = await axios.post(`${config.settings.api}verify-email`, {
+          code,
+          verifyId
+        }, {
+            headers: { 'authorization': `Bearer ${tokenId}` }
+          })
+
+        const user = await this.loginByToken(result.data.token)
+          return user!
+    } catch (error) {
+      throw new SocialError(error.code, `authorizeSerive/confirmVerificationEmail  ${error.message}`)
+    }
   }
 
   /**
@@ -372,12 +390,12 @@ export class AuthorizeService implements IAuthorizeService {
    */
   public confirmResetPassword = (code: string, verifyId: string, email: string) => {
     return new Promise<any>((resolve, reject) => {
-      axios.post(`${config.settings.api}verify-email`, {
+      axios.post(`${config.settings.api}verify-reset-password`, {
         code,
         verifyId,
         email
       })
-        .then(({data}) => {
+        .then(({ data }) => {
           this.loginByToken(data.token).then((user) => {
             resolve(user)
           })
@@ -392,17 +410,17 @@ export class AuthorizeService implements IAuthorizeService {
   private storeUserInformation = (userId: string, email: string, fullName: string, avatar: string, userName: string, password: string) => {
     return new Promise<RegisterUserResult>((resolve, reject) => {
       firebaseAuth().currentUser!.getIdToken().then((tokenId) => {
-      axios.post(`${config.settings.api}register`, {
-        userId,
-        email,
-        fullName,
-        avatar,
-        userName,
-        password,
-      },{headers: { 'authorization': `Bearer ${tokenId}` }})
-        .then(() => {
-          resolve(new RegisterUserResult(userId))
-        })
+        axios.post(`${config.settings.api}register`, {
+          userId,
+          email,
+          fullName,
+          avatar,
+          userName,
+          password,
+        }, { headers: { 'authorization': `Bearer ${tokenId}` } })
+          .then(() => {
+            resolve(new RegisterUserResult(userId))
+          })
       })
         .catch((error: any) => reject(new SocialError(error.name, 'firestore/storeUserInformation : ' + error.message)))
     })
@@ -422,14 +440,14 @@ export class AuthorizeService implements IAuthorizeService {
     return new Promise<RegisterUserResult>((resolve, reject) => {
       db.doc(`userProviderInfo/${userId}`)
         .set(
-        {
-          userId,
-          email,
-          fullName,
-          avatar,
-          providerId,
-          accessToken
-        }
+          {
+            userId,
+            email,
+            fullName,
+            avatar,
+            providerId,
+            accessToken
+          }
         )
         .then(() => {
           resolve(new RegisterUserResult(userId))

@@ -124,11 +124,11 @@ export const dbLogout = () => {
 /**
  * Send email verification
  */
-export const dbSendEmailVerfication = () => {
+export const dbSendEmailVerfication = (value: any) => {
   return (dispatch: any, getState: any) => {
     dispatch(globalActions.showNotificationRequest())
 
-    return authorizeService.sendEmailVerification().then(() => {
+    return authorizeService.sendEmailVerification(value).then(() => {
       // Send email verification successful.
       dispatch(globalActions.showNotificationSuccess())
       dispatch(push('/'))
@@ -158,9 +158,6 @@ export const dbSignup = (user: UserRegisterModel) => {
         userId: result.uid,
         ...user
       }))
-      if (config.settings.verificationType === VerificationType.email) {
-        dispatch(dbSendEmailVerfication())
-      }
       dispatch(push('/'))
     })
       .catch((error: SocialError) => {

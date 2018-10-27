@@ -37,7 +37,7 @@ export const environment = {
     logo: require('assets/images/logo.png'),
     defaultLanguage: LanguageType.English,
     defaultVideoThumbnails: require('assets/images/defaultVideoThumbnails.png'),
-    verificationType: VerificationType.phone,
+    verificationType: VerificationType.email,
     companyName: 'Red Gold',
     defaultProfileCover: require('assets/images/coversocial.png'),
     publicCover: require('assets/images/public-cover.jpg'),

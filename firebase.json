@@ -49,6 +49,10 @@
                 "function": "publicAuth"
             },
             {
+                "source": "/api/verify-reset-password",
+                "function": "publicAuth"
+            },
+            {
                 "source": "/api/verify-email",
                 "function": "publicAuth"
             },

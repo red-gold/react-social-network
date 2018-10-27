@@ -1,3 +1,5 @@
 .settings__button-box{
-    @extend .login__button-box
+    flex-direction: row;
+    margin-top: 20px;
+    @extend .login__button-box;
 }

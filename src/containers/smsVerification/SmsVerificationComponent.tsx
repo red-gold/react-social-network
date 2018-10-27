@@ -263,7 +263,7 @@ export class SmsVerificationComponent extends Component<ISmsVerificationComponen
     this.setState({
       loading: true
     })
-    this._authorizeService.confirmVerificationCode(code, verifyId, `+${phoneNumber.replace(/\D/g, '')}`).then((user: LoginUser) => {
+    this._authorizeService.confirmVerificationPhone(code, verifyId, `+${phoneNumber.replace(/\D/g, '')}`).then((user: LoginUser) => {
       login!(user)
       home!()
     }).catch((error) => {

@@ -1249,3 +1249,7 @@ g__input-underline::after {
   text-shadow: none;
   background-color: transparent;
   border: 0; }
+
+.settings__button-box {
+  flex-direction: row;
+  margin-top: 20px; }

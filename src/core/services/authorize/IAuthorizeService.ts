@@ -51,7 +51,7 @@ export interface IAuthorizeService {
   /**
    * Send email verification
    */
-  sendEmailVerification: () => Promise<void>
+  sendEmailVerification: (value: any) => Promise<string>
 
   /**
    * Login user by OAuth authentication
@@ -69,9 +69,14 @@ export interface IAuthorizeService {
   sendResetPasswordVerification: (email: string, value: any) => Promise<string>
 
   /**
-   * Confirm verfication code
+   * Confirm verfication phone
    */
-  confirmVerificationCode: (code: string, verifyId: string, phoneNumber: string) => Promise<any>
+  confirmVerificationPhone: (code: string, verifyId: string, phoneNumber: string) => Promise<any>
+
+  /**
+   * Confirm verfication email
+   */
+  confirmVerificationEmail: (code: string, verifyId: string) => Promise<any>
 
   /**
    * Confirm verfication code

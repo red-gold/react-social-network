@@ -91,24 +91,23 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
   componentDidMount() {
     const { global, clearData, loadData, authed, defaultDataEnable, isVerifide, goTo } = this.props
     let phoneVerified = false
+    let emailVerified = false
     const token = localStorage.getItem('firebase.token')
     if (token) {
 
       phoneVerified = (jwtDecode(token) as any).phoneVerified
+      console.trace('token', (jwtDecode(token) as any))
     }
     if (!authed) {
       goTo!('/login')
       return
     }
-    if (!isVerifide && !phoneVerified) {
-      if (config.settings.verificationType === VerificationType.email) {
+      if (config.settings.verificationType === VerificationType.email && !emailVerified) {
         goTo!('/emailVerification')
 
-      } else {
+      } else if (config.settings.verificationType === VerificationType.email && !phoneVerified) {
         goTo!('/smsVerification')
-      }
-
-    } else if (!global.defaultLoadDataStatus) {
+      } else if (!global.defaultLoadDataStatus) {
 
       loadData!()
     }
