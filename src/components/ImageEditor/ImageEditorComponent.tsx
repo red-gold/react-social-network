@@ -240,6 +240,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IImageEditorComponen
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ImageEditorComponent)
+const translateWrraper = translate('translations')(ImageEditorComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any, {withTheme: true})(translateWrraper as any) as any)

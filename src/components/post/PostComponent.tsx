@@ -515,6 +515,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   }
 }
 
-const translateWrraper = translate('translations')(PostComponent)
+const translateWrraper = translate('translations')(PostComponent as any)
 
 export default connectPost(withStyles(postStyles as any)(translateWrraper as any) as any)

@@ -234,8 +234,8 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
    */
   checkPageLocation(nextLocation: any) {
     const { location } = this.props
-    const nextParams: { q: string } = queryString.parse(nextLocation.search)
-    const params: { q: string } = queryString.parse(location.search)
+    const nextParams: { q: string } = queryString.parse(nextLocation.search) as any
+    const params: { q: string } = queryString.parse(location.search)  as any
     const isPreviousSearch = (params !== undefined && params.q !== undefined)
     const nextState = {
       isSearchPage: (nextParams !== undefined && nextParams.q !== undefined),
@@ -439,7 +439,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IHomeHeaderComponent
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(HomeHeaderComponent)
+const translateWrraper = translate('translations')(HomeHeaderComponent as any)
 const withStylesComponent = withStyles(homeHeaderStyles, { withTheme: true })(translateWrraper as any) as any
 const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(withStylesComponent)
 export default withRouter<any>(withWidth()(connectedComponent as any)) as typeof HomeHeaderComponent

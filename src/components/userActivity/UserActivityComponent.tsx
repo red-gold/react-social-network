@@ -487,7 +487,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IUserActivityCompone
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(UserActivityComponent)
+const translateWrraper = translate('translations')(UserActivityComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)
     (withStyles(userActivityStyles as any)(translateWrraper as any) as any)

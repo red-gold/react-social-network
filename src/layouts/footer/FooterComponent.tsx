@@ -107,6 +107,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IFooterComponentProp
   }
 }
 
-const translateWrraper = translate('translations')(FooterComponent)
+const translateWrraper = translate('translations')(FooterComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(footerStyles as any)(translateWrraper as any) as any)

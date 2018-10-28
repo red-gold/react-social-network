@@ -62,13 +62,13 @@ export class SearchUserComponent extends Component<ISearchUserProps, ISearchUser
 
   executeSearch(location: any) {
     const { search } = this.props
-    const params: { q: string } = queryString.parse(location.search)
+    const params: { q: string } = queryString.parse(location.search) as any
     search!(params.q, this.nextPage, 10)
     this.nextPage++
   }
 
   searchParam = () => {
-    const params: { q: string } = queryString.parse(location.search)
+    const params: { q: string } = queryString.parse(location.search) as any
     return params.q
   }
 
@@ -122,6 +122,6 @@ export class SearchUserComponent extends Component<ISearchUserProps, ISearchUser
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(SearchUserComponent)
+const translateWrraper = translate('translations')(SearchUserComponent as any)
 
 export default withRouter<any>(connectSearchUser(withStyles(searchUserStyles as any)(translateWrraper as any) as any)) as typeof SearchUserComponent

@@ -76,13 +76,13 @@ export class SearchPostComponent extends Component<ISearchPostProps, ISearchPost
 
   executeSearch(location: any) {
     const {search } = this.props
-    const params: {q: string} = queryString.parse(location.search)
+    const params: {q: string} = queryString.parse(location.search) as any
     search!(params.q, this.currentPage, 10)
     this.currentPage++
   }
 
   searchParam = () => {
-    const params: {q: string} = queryString.parse(location.search)
+    const params: {q: string} = queryString.parse(location.search) as any
     return params.q
   }
 
@@ -129,6 +129,6 @@ export class SearchPostComponent extends Component<ISearchPostProps, ISearchPost
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(SearchPostComponent)
+const translateWrraper = translate('translations')(SearchPostComponent as any)
 
 export default withRouter<any>(connectSearchPost(withStyles(searchPostStyles as any)(translateWrraper as any) as any)) as typeof SearchPostComponent

@@ -135,6 +135,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IImgComponentProps) 
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ImgComponent)
+const translateWrraper = translate('translations')(ImgComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any)as any)

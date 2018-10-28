@@ -192,5 +192,5 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IAddVideoComponentPr
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(AddVideoComponent)
+const translateWrraper = translate('translations')(AddVideoComponent as any)
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

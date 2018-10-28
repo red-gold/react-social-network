@@ -69,6 +69,6 @@ export class HelpComponent extends Component<IHelpProps, IHelpState> {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(HelpComponent)
+const translateWrraper = translate('translations')(HelpComponent as any)
 
 export default withRouter<any>(connectHelp(withStyles(helpStyles as any)(translateWrraper as any) as any)) as typeof HelpComponent

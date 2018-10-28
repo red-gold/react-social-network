@@ -251,6 +251,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISendFeedbackCompone
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(SendFeedbackComponent)
+const translateWrraper = translate('translations')(SendFeedbackComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles as any, {withTheme: true})(translateWrraper as any)) as any)

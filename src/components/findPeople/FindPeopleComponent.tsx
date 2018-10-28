@@ -99,6 +99,6 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(FindPeopleComponent)
+const translateWrraper = translate('translations')(FindPeopleComponent as any)
 
 export default connectFindPeople(translateWrraper as any)

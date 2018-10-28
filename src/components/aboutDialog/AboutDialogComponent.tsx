@@ -230,6 +230,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(AboutDialogComponent)
+const translateWrraper = translate('translations')(AboutDialogComponent as any)
 const componentWithStyles: any = withStyles(aboutDialogStyles as any, { withTheme: true })(translateWrraper as any)
 export default connect(makeMapStateToProps, mapDispatchToProps)(componentWithStyles)

@@ -689,6 +689,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(EditProfileComponent)
+const translateWrraper = translate('translations')(EditProfileComponent as any)
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

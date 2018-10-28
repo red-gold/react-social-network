@@ -119,7 +119,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IMasterLoadingCompon
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(MasterLoadingComponent)
+const translateWrraper = translate('translations')(MasterLoadingComponent as any)
 
 const stylesWrappedComponent = withStyles(masterLoadingStyles, {withTheme: true})(translateWrraper as any) as any
 export default connect(mapStateToProps, mapDispatchToProps)(stylesWrappedComponent)

@@ -72,13 +72,13 @@ export class PhotoAlbumComponent extends Component<IPhotoAlbumProps, IPhotoAlbum
 
   executeSearch(location: any) {
     const {search } = this.props
-    const params: {q: string} = queryString.parse(location.search)
+    const params: {q: string} = queryString.parse(location.search) as any
     search!(params.q, this.currentPage, 10)
     this.currentPage++
   }
 
   searchParam = () => {
-    const params: {q: string} = queryString.parse(location.search)
+    const params: {q: string} = queryString.parse(location.search) as any
     return params.q
   }
 
@@ -110,6 +110,6 @@ export class PhotoAlbumComponent extends Component<IPhotoAlbumProps, IPhotoAlbum
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(PhotoAlbumComponent)
+const translateWrraper = translate('translations')(PhotoAlbumComponent as any)
 
 export default withRouter<any>(connectPhotoAlbum(withStyles(photoAlbumStyles as any)(translateWrraper as any) as any)) as typeof PhotoAlbumComponent

@@ -312,6 +312,6 @@ const mapStateToProps = (state: any, ownProps: ISignupComponentProps) => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(SignupComponent)
+const translateWrraper = translate('translations')(SignupComponent as any)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any) as any)
