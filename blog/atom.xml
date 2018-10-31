@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://your-docusaurus-test-site.com/react-social-network/blog</id>
+    <id>https://red-gold.github.io/react-social-network/blog</id>
     <title>React Social Blog</title>
     <updated>2018-10-30T06:00:00Z</updated>
     <generator>Feed for Node.js</generator>
-    <link rel="alternate" href="https://your-docusaurus-test-site.com/react-social-network/blog"/>
+    <link rel="alternate" href="https://red-gold.github.io/react-social-network/blog"/>
     <subtitle>The best place to stay up-to-date with the latest React Social news and events.</subtitle>
-    <logo>https://your-docusaurus-test-site.com/react-social-network/img/logos/logo-10246.png</logo>
+    <logo>https://red-gold.github.io/react-social-network/img/logos/logo-10246.png</logo>
     <rights>Copyright © 2018 Red Gold</rights>
     <entry>
         <title type="html"><![CDATA[Welcome]]></title>
-        <id>https://your-docusaurus-test-site.com/react-social-network/blog/2018/10/30/blog-post.html</id>
-        <link href="https://your-docusaurus-test-site.com/react-social-network/blog/2018/10/30/blog-post.html">
+        <id>https://red-gold.github.io/react-social-network/blog/2018/10/30/blog-post.html</id>
+        <link href="https://red-gold.github.io/react-social-network/blog/2018/10/30/blog-post.html">
         </link>
         <updated>2018-10-30T06:00:00Z</updated>
         <summary type="html"><![CDATA[<p>Great to have you here! We are trying to provide a smart comperehensive social media.</p>

@@ -2,21 +2,21 @@
 <rss version="2.0">
     <channel>
         <title>React Social Blog</title>
-        <link>https://your-docusaurus-test-site.com/react-social-network/blog</link>
+        <link>https://red-gold.github.io/react-social-network/blog</link>
         <description>The best place to stay up-to-date with the latest React Social news and events.</description>
         <lastBuildDate>Tue, 30 Oct 2018 06:00:00 GMT</lastBuildDate>
         <docs>http://blogs.law.harvard.edu/tech/rss</docs>
         <generator>Feed for Node.js</generator>
         <image>
             <title>React Social Blog</title>
-            <url>https://your-docusaurus-test-site.com/react-social-network/img/logos/logo-10246.png</url>
-            <link>https://your-docusaurus-test-site.com/react-social-network/blog</link>
+            <url>https://red-gold.github.io/react-social-network/img/logos/logo-10246.png</url>
+            <link>https://red-gold.github.io/react-social-network/blog</link>
         </image>
         <copyright>Copyright © 2018 Red Gold</copyright>
         <item>
             <title><![CDATA[Welcome]]></title>
-            <link>https://your-docusaurus-test-site.com/react-social-network/blog/2018/10/30/blog-post.html</link>
-            <guid>https://your-docusaurus-test-site.com/react-social-network/blog/2018/10/30/blog-post.html</guid>
+            <link>https://red-gold.github.io/react-social-network/blog/2018/10/30/blog-post.html</link>
+            <guid>https://red-gold.github.io/react-social-network/blog/2018/10/30/blog-post.html</guid>
             <pubDate>Tue, 30 Oct 2018 06:00:00 GMT</pubDate>
             <description><![CDATA[<p>Great to have you here! We are trying to provide a smart comperehensive social media.</p>
 ]]></description>
