@@ -54,11 +54,15 @@
             },
             {
                 "source": "/api/verify-email",
-                "function": "publicAuth"
+                "function": "auth"
             },
             {
                 "source": "/api/email-verification-code",
                 "function": "publicAuth"
+            },
+            {
+                "source": "/api/email-verification",
+                "function": "auth"
             },
             {
                 "source": "/api/register",

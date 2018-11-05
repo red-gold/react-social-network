@@ -120,7 +120,7 @@ export class SmsVerificationComponent extends Component<ISmsVerificationComponen
       phoneNumberError: '',
       code: '',
       codeError: '',
-      countryCode: 'es',
+      countryCode: 'vn',
       isNextDisabled: true,
       isVerifyDisabled: true,
       verifyId: '',

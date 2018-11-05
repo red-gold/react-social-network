@@ -96,16 +96,18 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
     if (token) {
 
       phoneVerified = (jwtDecode(token) as any).phoneVerified
+      emailVerified = (jwtDecode(token) as any).emailVerified
       console.trace('token', (jwtDecode(token) as any))
     }
     if (!authed) {
       goTo!('/login')
       return
     }
+
       if (config.settings.verificationType === VerificationType.email && !emailVerified) {
         goTo!('/emailVerification')
 
-      } else if (config.settings.verificationType === VerificationType.email && !phoneVerified) {
+      } else if (config.settings.verificationType === VerificationType.phone && !phoneVerified) {
         goTo!('/smsVerification')
       } else if (!global.defaultLoadDataStatus) {
 
