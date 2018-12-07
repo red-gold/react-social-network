@@ -25,7 +25,7 @@ export let commentReducer = (state = Map(new CommentState()), action: ICommentAc
     /* _____________ CRUD _____________ */
     case CommentActionType.ADD_COMMENT:
       return state
-        .setIn(['postComments', payload.postId, payload.id], payload)
+        .setIn(['postComments', payload.get('postId'), payload.get('id')], payload)
 
     case CommentActionType.ADD_COMMENT_LIST:
       return state

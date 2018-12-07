@@ -1,7 +1,7 @@
 // - Import domain
 import { Post } from 'src/core/domain/posts'
 import { SocialError } from 'src/core/domain/common'
-import { Map } from 'immutable'
+import { Map, fromJS } from 'immutable'
 
 // - Import utility components
 import moment from 'moment/moment'
@@ -28,7 +28,7 @@ const postService: IPostService = provider.get<IPostService>(SocialProviderTypes
  */
 export let dbAddPost = (newPost: Post, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
-    const state: Map<string, any>  = getState()
+    const state: Map<string, any> = getState()
     let uid: string = state.getIn(['authorize', 'uid'])
     let post: Post = {
       postTypeId: 0,
@@ -71,7 +71,7 @@ export const dbAddImagePost = (newPost: Post, callBack: Function) => {
   return (dispatch: any, getState: Function) => {
 
     dispatch(globalActions.showTopLoading())
-    const state: Map<string, any>  = getState()
+    const state: Map<string, any> = getState()
     let uid: string = state.getIn(['authorize', 'uid'])
     let post: Post = {
       postTypeId: 1,
@@ -142,7 +142,7 @@ export const dbDeletePost = (id: string) => {
 
     dispatch(globalActions.showTopLoading())
 
-    const state: Map<string, any>  = getState()
+    const state: Map<string, any> = getState()
     // Get current user id
     let uid: string = state.getIn(['authorize', 'uid'])
 
@@ -164,7 +164,7 @@ export const dbDeletePost = (id: string) => {
  */
 export const dbGetPosts = (page: number = 0, limit: number = 10) => {
   return (dispatch: any, getState: Function) => {
-    const state: Map<string, any>  = getState()
+    const state: Map<string, any> = getState()
     const stream: Map<string, any> = state.getIn(['post', 'stream'])
     const lastPageRequest = stream.get('lastPageRequest')
     const lastPostId = stream.get('lastPostId')
@@ -178,22 +178,14 @@ export const dbGetPosts = (page: number = 0, limit: number = 10) => {
 
         // Store last post Id
         dispatch(lastPostStream(result.newLastPostId))
-
-        let parsedData: { [userId: string]: {[postId: string]: Post} } = {}
+        let parsedData: Map<string, Map<string, any>> = Map({})
         result.posts.forEach((post) => {
           const postId = Object.keys(post)[0]
           const postData = post[postId]
           const ownerId = postData.ownerUserId!
-          parsedData = {
-            ...parsedData,
-            [ownerId]: {
-              ...parsedData[ownerId],
-              [postId]: {
-                ...postData
-              }
-            }
-          }
+          parsedData = parsedData.setIn([ownerId, postId], fromJS(postData))
         })
+
         dispatch(addPosts(parsedData))
       })
         .catch((error: SocialError) => {
@@ -209,10 +201,10 @@ export const dbGetPosts = (page: number = 0, limit: number = 10) => {
  */
 export const dbGetPostsByUserId = (userId: string, page: number = 0, limit: number = 10) => {
   return (dispatch: any, getState: Function) => {
-    const state: Map<string, any>  = getState()
-    const {profile} = state.get('post')
-    const lastPageRequest = state.getIn(['post','profile', userId, 'lastPageRequest'], -1 )
-    const lastPostId = state.getIn(['post','profile', userId, 'lastPostId'], '' )
+    const state: Map<string, any> = getState()
+    const { profile } = state.get('post')
+    const lastPageRequest = state.getIn(['post', 'profile', userId, 'lastPageRequest'], -1)
+    const lastPostId = state.getIn(['post', 'profile', userId, 'lastPostId'], '')
 
     let uid: string = state.getIn(['authorize', 'uid'])
 
@@ -226,20 +218,12 @@ export const dbGetPostsByUserId = (userId: string, page: number = 0, limit: numb
         // Store last post Id
         dispatch(lastPostProfile(userId, result.newLastPostId))
 
-        let parsedData: { [userId: string]: {[postId: string]: Post} } = {}
+        let parsedData: Map<string, Map<string, any>> = Map({})
         result.posts.forEach((post) => {
           const postId = Object.keys(post)[0]
           const postData = post[postId]
           const ownerId = postData.ownerUserId!
-          parsedData = {
-            ...parsedData,
-            [ownerId]: {
-              ...parsedData[ownerId],
-              [postId]: {
-                ...postData
-              }
-            }
-          }
+          parsedData = parsedData.setIn([ownerId, postId], fromJS(postData))
         })
         dispatch(addPosts(parsedData))
       })
@@ -324,7 +308,7 @@ export const deletePost = (uid: string, id: string) => {
 /**
  * Add a list of post
  */
-export const addPosts = (userPosts: { [userId: string]: {[postId: string]: Post} }) => {
+export const addPosts = (userPosts: Map<string, Map<string, any>>) => {
   return {
     type: PostActionType.ADD_LIST_POST,
     payload: { userPosts }
@@ -377,7 +361,7 @@ export const notMoreDataStream = () => {
 export const requestPageStream = (page: number) => {
   return {
     type: PostActionType.REQUEST_PAGE_STREAM,
-    payload: { page}
+    payload: { page }
   }
 
 }
@@ -388,7 +372,7 @@ export const requestPageStream = (page: number) => {
 export const lastPostStream = (lastPostId: string) => {
   return {
     type: PostActionType.LAST_POST_STREAM,
-    payload: { lastPostId}
+    payload: { lastPostId }
   }
 
 }
@@ -409,7 +393,7 @@ export const hasMoreDataProfile = () => {
 export const notMoreDataProfile = (userId: string) => {
   return {
     type: PostActionType.NOT_MORE_DATA_PROFILE,
-    payload: {userId}
+    payload: { userId }
   }
 
 }
@@ -420,7 +404,7 @@ export const notMoreDataProfile = (userId: string) => {
 export const requestPageProfile = (userId: string, page: number) => {
   return {
     type: PostActionType.REQUEST_PAGE_PROFILE,
-    payload: {userId, page}
+    payload: { userId, page }
   }
 
 }
@@ -431,7 +415,7 @@ export const requestPageProfile = (userId: string, page: number) => {
 export const lastPostProfile = (userId: string, lastPostId: string) => {
   return {
     type: PostActionType.LAST_POST_PROFILE,
-    payload: { userId, lastPostId}
+    payload: { userId, lastPostId }
   }
 
 }

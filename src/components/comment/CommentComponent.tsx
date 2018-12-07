@@ -28,7 +28,6 @@ import MenuList from '@material-ui/core/MenuList'
 import MenuItem from '@material-ui/core/MenuItem'
 import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
-import { Manager, Target, Popper } from 'react-popper'
 import { Card, CardActions, CardHeader, CardMedia, CardContent } from '@material-ui/core'
 import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
@@ -311,7 +310,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
     const { openMenu, anchorEl } = this.state
 
     const rightIconMenu = (
-      <>
+      <div>
           <IconButton
           buttonRef={(node: any) => {
             this.buttonMenu = node
@@ -322,13 +321,6 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
           >
             <MoreVertIcon className={classes.moreIcon} />
           </IconButton>
-        {/* <Popper
-          placement='bottom-start'
-          eventsEnabled={openMenu!}
-          className={classNames({ [classes.popperClose]: !openMenu! }, { [classes.popperOpen]: openMenu! })}
-        >
-          <ClickAwayListener onClickAway={this.handleCloseCommentMenu}>
-            <Grow in={openMenu!} > */}
             <Popover
                 open={openMenu!}
                 anchorEl={anchorEl}
@@ -353,7 +345,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
               </Paper>
               </Popover>
 
-              </>
+              </div>
     )
 
     const Author = () => (

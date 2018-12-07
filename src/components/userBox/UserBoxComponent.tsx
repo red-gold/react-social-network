@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import moment from 'moment/moment'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import classNames from 'classnames'
 import {Map, List as ImuList} from 'immutable'
@@ -178,7 +178,8 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
       return
     }
     if (!isFollowed) {
-      followUser!(followingCircle!.get('id'), { avatar, userId, fullName })
+      debugger
+      followUser!(followingCircle![0], { avatar, userId, fullName })
     } else {
       this.onRequestOpenAddCircle()
     }
@@ -286,8 +287,8 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
 
     if (selectedCircles.count() === userBelongCircles!.count()) {
       for (let circleIndex: number = 0; circleIndex < selectedCircles.count(); circleIndex++) {
-        const selectedCircleId = selectedCircles.get(circleIndex)
-        if (!(userBelongCircles!.indexOf(selectedCircleId) > -1)) {
+        const selectedCircleId = selectedCircles.get(circleIndex, '')
+        if (!(userBelongCircles!.indexOf(selectedCircleId!) > -1)) {
           isChanged = true
           break
         }

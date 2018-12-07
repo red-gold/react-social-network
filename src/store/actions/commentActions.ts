@@ -56,7 +56,7 @@ export const dbAddComment = (ownerPostUserId: string, newComment: Comment, callB
 
     return commentService.addComment(comment)
       .then((commentKey: string) => {
-        dispatch(addComment({ id: commentKey!, ...comment }))
+        dispatch(addComment(Map({ id: commentKey!, ...comment })))
         callBack()
         dispatch(globalActions.hideTopLoading())
 
@@ -140,7 +140,7 @@ export const dbDeleteComment = (id?: string | null, postId?: string) => {
  * Add comment
  * @param {Comment} data
  */
-export const addComment = (comment: Comment) => {
+export const addComment = (comment: Map<string, any>) => {
 
   return {
     type: CommentActionType.ADD_COMMENT,
@@ -163,7 +163,7 @@ export const updateComment = (comment: Comment) => {
  * Add comment list
  * @param {[postId: string]: {[commentId: string] : Comment}} postComments an array of comments
  */
-export const addCommentList = (postComments: { [postId: string]: { [commentId: string]: Comment } }) => {
+export const addCommentList = (postComments: Map<string, Map<string, any>>) => {
 
   return {
     type: CommentActionType.ADD_COMMENT_LIST,

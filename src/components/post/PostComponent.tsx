@@ -2,13 +2,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import Linkify from 'react-linkify'
 import copy from 'copy-to-clipboard'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import { Map } from 'immutable'
+import * as R from 'ramda'
 
 // - Material UI
 import Card from '@material-ui/core/Card'
@@ -37,7 +38,6 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import { withStyles } from '@material-ui/core/styles'
-import { Manager, Target, Popper } from 'react-popper'
 import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import classNames from 'classnames'
@@ -191,7 +191,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
 
   /**
    * Toggle on show/hide comment
-   * @param  {event} evt passed by clicking on comment slide show
    */
   handleOpenComments = () => {
     const { getPostComments, commentList, post } = this.props
@@ -208,8 +207,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   /**
    * Open post write
    *
-   *
-   * @memberof StreamComponent
    */
   handleOpenPostWrite = () => {
     this.setState({
@@ -220,8 +217,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   /**
    * Close post write
    *
-   *
-   * @memberof StreamComponent
    */
   handleClosePostWrite = () => {
     this.setState({
@@ -232,8 +227,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   /**
    * Delete a post
    *
-   *
-   * @memberof Post
    */
   handleDelete = () => {
     const { post } = this.props
@@ -263,8 +256,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   /**
    * Show copy link
    *
-   *
-   * @memberof Post
    */
   handleCopyLink = () => {
     const {translate} = this.props
@@ -277,8 +268,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   /**
    * Open share post
    *
-   *
-   * @memberof Post
    */
   handleOpenShare = () => {
     const {post} = this.props
@@ -291,8 +280,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   /**
    * Close share post
    *
-   *
-   * @memberof Post
    */
   handleCloseShare = () => {
     this.setState({
@@ -305,8 +292,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   /**
    * Handle vote on a post
    *
-   *
-   * @memberof Post
    */
   handleVote = () => {
     if (this.props.currentUserVote) {
@@ -337,50 +322,66 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
     })
   }
 
+  shouldComponentUpdate(nextProps: IPostComponentProps ,nextState: IPostComponentState) {
+    let shouldUpdate = false
+
+    if (!nextProps.post.equals(this.props.post)) {
+      shouldUpdate = true
+    }
+
+    if (nextProps.commentList && !nextProps.commentList!.equals(this.props.commentList!)) {
+      shouldUpdate = true
+    }
+
+    if (this.props.getPostComments !== nextProps.getPostComments) {
+      shouldUpdate = true
+    }
+
+    if (!R.equals(this.state, nextState)) {
+      shouldUpdate = true
+    }
+
+    return shouldUpdate
+  }
+
   /**
    * Reneder component DOM
-   * @return {react element} return the DOM which rendered by component
    */
   render () {
     const { post, setHomeTitle, goTo, fullName, isPostOwner, commentList, classes , translate} = this.props
     const { postMenuAnchorEl, isPostMenuOpen } = this.state
     const rightIconMenu = (
-      <Manager>
-        <Target>
-          <IconButton
-            aria-owns={isPostMenuOpen! ? 'post-menu' : ''}
-            aria-haspopup='true'
-            onClick={this.openPostMenu.bind(this)}
-          >
-            <MoreVertIcon />
-          </IconButton>
-
-        </Target>
-        <Popper
-          placement='bottom-start'
-          eventsEnabled={isPostMenuOpen!}
-          className={classNames({ [classes.popperClose]: !isPostMenuOpen }, { [classes.popperOpen]: isPostMenuOpen })}
+      <div>
+        <IconButton
+          onClick={this.openPostMenu.bind(this)}
         >
-          <ClickAwayListener onClickAway={this.closePostMenu}>
-            <Grow in={isPostMenuOpen} >
-              <Paper>
-                <MenuList role='menu'>
-                  <MenuItem onClick={this.handleOpenPostWrite} > {translate!('post.edit')} </MenuItem>
-                  <MenuItem onClick={this.handleDelete} > {translate!('post.delete')} </MenuItem>
-                  <MenuItem
-                    onClick={() => this.props.toggleDisableComments!(!post.get('disableComments'))} >
-                    {post.get('disableComments') ? translate!('post.enableComments') : translate!('post.disableComments')}
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => this.props.toggleSharingComments!(!post.get('disableSharing'))} >
-                    {post.get('disableSharing') ? translate!('post.enableSharing') : translate!('post.disableSharing')}
-                  </MenuItem>
-                </MenuList>
-              </Paper>
-            </Grow>
-          </ClickAwayListener>
-        </Popper>
-      </Manager>
+          <MoreVertIcon />
+        </IconButton>
+
+          <Menu
+            open={isPostMenuOpen!}
+            anchorEl={postMenuAnchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            onClose={this.closePostMenu}>
+            <MenuItem onClick={this.handleOpenPostWrite} > {translate!('post.edit')} </MenuItem>
+            <MenuItem onClick={this.handleDelete} > {translate!('post.delete')} </MenuItem>
+            <MenuItem
+              onClick={() => this.props.toggleDisableComments!(!post.get('disableComments'))} >
+              {post.get('disableComments') ? translate!('post.enableComments') : translate!('post.disableComments')}
+            </MenuItem>
+            <MenuItem
+              onClick={() => this.props.toggleSharingComments!(!post.get('disableSharing'))} >
+              {post.get('disableSharing') ? translate!('post.enableSharing') : translate!('post.disableSharing')}
+            </MenuItem>
+          </Menu>
+      </div>
     )
 
     const { 
@@ -393,7 +394,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
       disableComments, 
       commentCounter, 
       disableSharing ,
-    } = post.toJS()
+    } = post.toJS() as any
     // Define variables
     return (
       <Card key={`post-component-${id}`}>
@@ -488,9 +489,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: IPostComponentProps) => {
   const { post } = ownProps
@@ -513,9 +511,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPostComponentProps) => {
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IPostComponentProps) => {
 

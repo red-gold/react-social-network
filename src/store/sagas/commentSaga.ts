@@ -22,8 +22,8 @@ const commentService: ICommentService = provider.get<ICommentService>(SocialProv
  * Creating channel event and subscribing get comments service
  */
 function fetchCommentsChannel(postId: string) {  
-    return eventChannel<postComments>((emmiter) => {
-        const unsubscribe = commentService.getComments(postId, (comments: postComments) => { 
+    return eventChannel<Map<string, Map<string, any>>>((emmiter) => {
+        const unsubscribe = commentService.getComments(postId, (comments: Map<string, Map<string, any>>) => { 
              emmiter(comments)
          })
          return () => {
@@ -35,7 +35,7 @@ function fetchCommentsChannel(postId: string) {
 /**
  * Set comments in store
  */
-function* setComments(ownerId: string, postId: string, comments: postComments) {
+function* setComments(ownerId: string, postId: string, comments: Map<string, Map<string, any>>) {
         /**
          * Workout getting the number of post's comment and getting three last comments
          */
@@ -61,7 +61,7 @@ function* dbFetchComments(ownerId: string, postId: string) {
    const currentUser =  yield select(authorizeSelector.getCurrentUser)
    const getCommentsRequest = CommentAPI.createGetCommentsRequest(postId)
    yield put(serverActions.sendRequest(getCommentsRequest))
-     const channelSubscription: Channel<postComments> =  yield call(fetchCommentsChannel, postId)
+     const channelSubscription: Channel<Map<string, Map<string, any>>> =  yield call(fetchCommentsChannel, postId)
 
      let comments = yield take(channelSubscription)
      getCommentsRequest.status = ServerRequestStatusType.OK

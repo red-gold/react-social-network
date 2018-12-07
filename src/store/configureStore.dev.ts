@@ -2,13 +2,14 @@
 import { createStore, applyMiddleware, compose, Store } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
-import { routerMiddleware } from 'react-router-redux'
 import createHistory from 'history/createBrowserHistory'
 import createSagaMiddleware, { END } from 'redux-saga'
 import { createLogger } from 'redux-logger'
 import { rootReducer } from 'store/reducers'
-import { fromJS, Iterable, Map } from 'immutable'
+import { fromJS, Map } from 'immutable'
 import DevTools from './devTools'
+import { routerMiddleware, connectRouter } from 'connected-react-router/immutable'
+
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory()
 
@@ -30,7 +31,7 @@ let initialState = {
 const composeEnhancers = composeWithDevTools({
       // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
     })
-let store: Store<any> = createStore(rootReducer, fromJS(initialState), composeEnhancers(
+let store: Store<any> = createStore(rootReducer(history), fromJS(initialState), composeEnhancers(
   applyMiddleware(logger,thunk, routerMiddleware(history), sagaMiddleware)
 ))
 

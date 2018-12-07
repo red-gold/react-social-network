@@ -3,22 +3,16 @@ import {Map} from 'immutable'
 
 /**
  * Circle state
- *
- * @export
- * @class CircleState
  */
 export class CircleState {
+  [key: string]: any
   /**
    * The list of users belong to users circle
-   *
-   * @memberof CircleState
    */
   userTies: Map<string, UserTie> = Map({})
 
   /**
    * The list of users belong to users circle
-   *
-   * @memberof CircleState
    */
   userTieds: Map<string, UserTie> = Map({})
 
@@ -49,8 +43,6 @@ export class CircleState {
 
   /**
    * If user circles are loaded {true} or not {false}
-   *
-   * @memberof CircleState
    */
   loaded: boolean = false
 

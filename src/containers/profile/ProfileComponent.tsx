@@ -80,7 +80,7 @@ export class ProfileComponent extends Component<IProfileComponentProps,IProfileC
     }
     const {loadPosts, hasMorePosts, translate} = this.props
     const St = StreamComponent as any
-    const posts = Map(this.props.posts)
+    const posts = this.props.posts
     return (
       <div style={styles.profile}>
         <div style={styles.header}>

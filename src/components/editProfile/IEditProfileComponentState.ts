@@ -1,27 +1,20 @@
 
 export interface IEditProfileComponentState {
 
+  [key: string]: any
+
   /**
    * Full name input value
-   *
-   * @type {string}
-   * @memberof IEditProfileComponentState
    */
   fullNameInput: string
 
   /**
    * Full name input error message
-   *
-   * @type {string}
-   * @memberof IEditProfileComponentState
    */
   fullNameInputError: string
 
   /**
    * Tag line input value
-   *
-   * @type {string}
-   * @memberof IEditProfileComponentState
    */
   tagLineInput: string
 
@@ -35,17 +28,11 @@ export interface IEditProfileComponentState {
 
   /**
    * User's banner URL
-   *
-   * @type {string}
-   * @memberof IEditProfileComponentState
    */
   banner: string
 
   /**
    * User's avatar URL address
-   *
-   * @type {string}
-   * @memberof IEditProfileComponentState
    */
   avatar: string
 

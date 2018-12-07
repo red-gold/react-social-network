@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import config from 'src/config'
 import classNames from 'classnames'
@@ -197,7 +197,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
     const { loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback, translate, classes, theme } = this.props
     const { drawerOpen } = this.state
     const drawer = (
-      <>
+      <div>
 
       <NavLink to='/'>
         <MenuItem style={{ color: 'rgb(117, 117, 117)' }}>
@@ -238,7 +238,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
         </ListItemIcon>
         <ListItemText inset primary={translate!('sidebar.sendFeedback')} />
       </MenuItem>
-      </>
+      </div>
     )
 
     const anchor = theme.direction === 'rtl' ? 'right' : 'left'

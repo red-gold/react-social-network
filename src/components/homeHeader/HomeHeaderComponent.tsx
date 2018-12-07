@@ -20,7 +20,6 @@ import Hidden from '@material-ui/core/Hidden'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
-import { Manager, Target, Popper } from 'react-popper'
 import { withStyles } from '@material-ui/core/styles'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import config from 'src/config'
@@ -87,8 +86,6 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
   /**
    * Handle close notification menu
    *
-   *
-   * @memberof HomeHeader
    */
   handleCloseNotify = () => {
     this.setState({
@@ -105,8 +102,6 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
   /**
    * Handle notification touch
    *
-   *
-   * @memberof HomeHeader
    */
   handleNotifyTouchTap = (event: any) => {
     // This prevents ghost click.
@@ -121,8 +116,6 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
   /**
    * Handle touch on user avatar for popover
    *
-   *
-   * @memberof HomeHeader
    */
   handleAvatarTouchTap = (event: any) => {
     this.setState({
@@ -134,8 +127,6 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
   /**
    * Handle logout user
    *
-   *
-   * @memberof HomeHeader
    */
   handleLogout = () => {
     this.props.logout!()
@@ -144,8 +135,6 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
   /**
    * Handle close popover
    *
-   *
-   * @memberof HomeHeader
    */
   handleRequestClose = () => {
     this.setState({
@@ -188,7 +177,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
             <SvgDehaze color='primary' style={{ cursor: 'pointer' }} />
           </IconButton>
           {/* Header title */}
-          <Typography variant='title' color='primary' style={{ marginLeft: '15px' }} >
+          <Typography variant='h6' color='primary' style={{ marginLeft: '15px' }} >
             {config.settings.appName}
           </Typography>
           <div className='homeHeader__title-root'>
@@ -199,7 +188,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
 
           {/* Notification */}
           <div className='homeHeader__right'>
-            <Manager>
+            {/* <Manager>
               <Target>
                 {this.props.notifyCount! > 0 ? (
                   <Tooltip title={translate!('header.notificationTooltip')}>
@@ -215,8 +204,22 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
                     </IconButton>
                   </Tooltip>)}
               </Target>
-              <Notify open={this.state.openNotifyMenu} anchorEl={this.state.anchorEl} onRequestClose={this.handleCloseNotify} />
-            </Manager>
+            </Manager> */}
+
+            {this.props.notifyCount! > 0 ? (
+              <Tooltip title={translate!('header.notificationTooltip')}>
+            <IconButton onClick={this.handleNotifyTouchTap}>
+              <div className='homeHeader__notify'>
+                <div className='title'>{this.props.notifyCount}</div>
+              </div>
+            </IconButton>
+          </Tooltip>)
+          : (<Tooltip title={translate!('header.notificationTooltip')}>
+            <IconButton onClick={this.handleNotifyTouchTap}>
+              <NotificationsIcon style={{color: theme.palette.common.white}} />
+            </IconButton>
+          </Tooltip>)}
+          <Notify open={this.state.openNotifyMenu} anchorEl={this.state.anchorEl} onRequestClose={this.handleCloseNotify} />
 
             {/* User avatar*/}
             <UserAvatarComponent

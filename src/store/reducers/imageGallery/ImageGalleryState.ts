@@ -8,6 +8,8 @@ import {Map, Collection, List} from 'immutable'
  * @class ImageGalleryState
  */
 export class ImageGalleryState  {
+
+  [key: string]: any
     
       /**
        * Image gallery is open {true} or not {false}

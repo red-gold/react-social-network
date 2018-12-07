@@ -8,7 +8,7 @@ import {Map} from 'immutable'
  * @class ServerState
  */
 export class ServerState {
-
+  [key: string]: any
     /**
      * The list of posts server
      * @memberof ServerState

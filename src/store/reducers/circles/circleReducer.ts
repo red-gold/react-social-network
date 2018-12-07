@@ -136,11 +136,10 @@ export let circleReducer = (state = Map(new CircleState()), action: ICircleActio
 /**
  * Map user ties selected to selected circles
  */
-const getSelectedCircles = (userTies: { [userId: string]: UserTie }) => {
+const getSelectedCircles = (userTies: Map<string, any>) => {
   let selectedCircles: Map<string, List<string>> = Map({})
-  Object.keys(userTies).forEach((userId: string) => {
-    const userTie = (userTies as { [userId: string]: UserTie })[userId]
-    selectedCircles = selectedCircles.set(userTie.userId!, List(userTie.circleIdList!))
+  userTies.forEach((userTie) => {
+    selectedCircles = selectedCircles.set(userTie.get('userId'), List(userTie.get('circleIdList')))
   })
 
   return selectedCircles

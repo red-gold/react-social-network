@@ -1,6 +1,7 @@
 // - Import react components
 import { firebaseAuth, db } from 'data/firestoreClient'
 import _ from 'lodash'
+import {Map, fromJS} from 'immutable'
 
 import { SocialError } from 'core/domain/common'
 import { ICommentService } from 'core/services/comments'
@@ -41,16 +42,13 @@ export class CommentService implements ICommentService {
    *
    * @memberof CommentService
    */
-  public getComments: (postId: string, next: (resultComments: postComments) => void)
-    => () => void = (postId, next) => {
+  public getComments = (postId: string, next: (resultComments: Map<string, Map<string, any>>) => void) => {
       let commentsRef = db.collection(`comments`).where('postId', '==', postId)
     const unsubscribe = commentsRef.onSnapshot((snapshot) => {
-        let parsedData: {[postId: string]: {[commentId: string]: Comment}} = {[postId]: {}}
+        let parsedData: Map<string, Map<string, any>> = Map({})
         snapshot.forEach((result) => {
-          parsedData[postId][result.id] = {
-            id: result.id,
-            ...result.data() as Comment
-          }
+          parsedData = parsedData.setIn([postId, result.id], fromJS({id: result.id,
+            ...result.data()}))
         })
         if (next) {
           next(parsedData)

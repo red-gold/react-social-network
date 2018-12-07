@@ -8,6 +8,7 @@ import { Map, fromJS, List } from 'immutable'
  * @class UserState
  */
 export class UserState {
+  [key: string]: any
     /**
      * The list of users information
      */

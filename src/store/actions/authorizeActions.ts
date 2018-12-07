@@ -1,6 +1,6 @@
 
 // - Import react components
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 
 // -Import domain
 import { User } from 'src/core/domain/users'

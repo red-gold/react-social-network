@@ -30,7 +30,7 @@ import SvgRemoveImage from '@material-ui/icons/RemoveCircle'
 import SvgCamera from '@material-ui/icons/PhotoCamera'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { withStyles } from '@material-ui/core/styles'
-import { Manager, Target, Popper } from 'react-popper'
+import Menu from '@material-ui/core/Menu'
 import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import classNames from 'classnames'
@@ -125,6 +125,10 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
        * Whether menu is open
        */
       menuOpen: false,
+      /**
+       * Menu anchor element
+       */
+      menuAnchorEl: null,
       /**
        * If it's true post button will be disabled
        */
@@ -265,6 +269,26 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
   }
 
   /**
+   * Handle open more menu
+   */
+  handleOpenMenu = (event: any) => {
+    this.setState({
+      menuOpen: true,
+      menuAnchorEl: event.currentTarget
+    })
+  }
+
+  /**
+   * Handle close more menu
+   */
+  handleCloseMenu = () => {
+    this.setState({
+      menuOpen: false,
+      menuAnchorEl: null
+    })
+  }
+
+  /**
    * Set post image url
    */
   onRequestSetImage = (url: string, fullPath: string) => {
@@ -312,24 +336,6 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
   handleOpenGallery = () => {
     this.setState({
       galleryOpen: true
-    })
-  }
-
-  /**
-   * Handle open more menu
-   */
-  handleOpenMenu = () => {
-    this.setState({
-      menuOpen: true
-    })
-  }
-
-  /**
-   * Handle close more menu
-   */
-  handleCloseMenu = () => {
-    this.setState({
-      menuOpen: false
     })
   }
 
@@ -381,36 +387,34 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
   render() {
 
     const { classes, translate } = this.props
-    const { menuOpen } = this.state
+    const { menuOpen, menuAnchorEl } = this.state
 
     const rightIconMenu = (
-      <Manager>
-        <Target>
-          <Tooltip id='tooltip-icon' title={translate!('post.moreTooltip')} placement='bottom-start'>
-            <IconButton
-              onClick={this.handleOpenMenu}
-            >
-              <MoreVertIcon />
-            </IconButton>
-          </Tooltip>
-        </Target>
-        <Popper
-          placement='bottom-start'
-          eventsEnabled={menuOpen}
-          className={classNames({ [classes.popperClose]: !menuOpen }, { [classes.popperOpen]: menuOpen })}
-        >
-          <ClickAwayListener onClickAway={this.handleCloseMenu}>
-            <Grow in={menuOpen} >
-              <Paper>
-                <MenuList role='menu'>
-                  <MenuItem onClick={this.handleToggleComments} style={{ fontSize: '14px' }}>{!this.state.disableComments ? 'Disable comments' : 'Enable comments'} </MenuItem>
-                  <MenuItem onClick={this.handleToggleSharing} style={{ fontSize: '14px' }}>{!this.state.disableSharing ? 'Disable sharing' : 'Enable sharing'}</MenuItem>
-                </MenuList>
-              </Paper>
-            </Grow>
-          </ClickAwayListener>
-        </Popper>
-      </Manager>
+      <div>
+        <Tooltip id='tooltip-icon' title={translate!('post.moreTooltip')} placement='bottom-start'>
+          <IconButton
+            onClick={this.handleOpenMenu}
+          >
+            <MoreVertIcon />
+          </IconButton>
+        </Tooltip>
+        <Menu
+          open={menuOpen}
+          anchorEl={menuAnchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+          onClose={this.handleCloseMenu}>
+          <MenuItem onClick={this.handleToggleComments} style={{ fontSize: '14px' }}>{!this.state.disableComments ? translate!('post.disableComments') : translate!('post.enableComments')} </MenuItem>
+          <MenuItem onClick={this.handleToggleSharing} style={{ fontSize: '14px' }}>{!this.state.disableSharing ? translate!('post.disableSharing') : translate!('post.disableSharing')}</MenuItem>
+
+        </Menu>
+      </div>
     )
     let postAvatar = <UserAvatarComponent fullName={this.props.ownerDisplayName!} fileName={this.props.ownerAvatar!} size={36} />
 

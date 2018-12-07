@@ -35,4 +35,9 @@ export interface IPostWriteComponentState {
    */
   menuOpen: boolean
 
+  /**
+   * Menu anchor element
+   */
+  menuAnchorEl: any
+
 }

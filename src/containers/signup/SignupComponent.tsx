@@ -1,7 +1,7 @@
 // - Import react components
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { NavLink, withRouter } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
@@ -244,7 +244,7 @@ export class SignupComponent extends Component<ISignupComponentProps, ISignupCom
                     <Button onClick={this.props.loginPage}>{translate!('signup.loginButton')}</Button>
                   </div>
                   <div>
-                    <Button variant='raised' color='primary' onClick={this.handleForm}>{translate!('signup.createButton')}</Button>
+                    <Button variant='contained' color='primary' onClick={this.handleForm}>{translate!('signup.createButton')}</Button>
 
                   </div>
                 </div>

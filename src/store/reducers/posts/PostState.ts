@@ -8,7 +8,7 @@ import { Map, fromJS, List } from 'immutable'
  * @class PostState
  */
 export class PostState {
-
+  [key: string]: any
     /**
      * The list of user posts
      *

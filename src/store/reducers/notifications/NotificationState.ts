@@ -9,6 +9,8 @@ import {Map} from 'immutable'
  */
 export class NotificationState  {
 
+  [key: string]: any
+
     /**
      * The list of users notification
      */

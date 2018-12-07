@@ -3,7 +3,7 @@ import { User } from 'src/core/domain/users'
 import { Circle, UserTie } from 'src/core/domain/circles'
 import { SocialError } from 'src/core/domain/common'
 import * as moment from 'moment/moment'
-import { Map, List } from 'immutable'
+import { Map, List, fromJS } from 'immutable'
 
 // - Import action types
 import { CircleActionType } from 'constants/circleActionType'
@@ -219,7 +219,7 @@ export const dbUpdateCircle = (newCircle: Circle) => {
     // Write the new data simultaneously in the list
     let circle: Map<string, any> = state.getIn(['circle', 'circleList', newCircle.id!])
     circle = circle.set('name', newCircle.name)
-    return circleService.updateCircle(uid, newCircle.id!, circle.toJS())
+    return circleService.updateCircle(uid, newCircle.id!, circle.toJS() as any)
       .then(() => {
         circle = circle.set('id', newCircle.id)
         dispatch(updateCircle(circle))
@@ -261,7 +261,7 @@ export const dbGetCircles = () => {
 
       return circleService.getCircles(uid)
         .then((circles: { [circleId: string]: Circle }) => {
-          dispatch(addCircles(circles))
+          dispatch(addCircles(fromJS(circles)))
         })
         .catch((error: SocialError) => {
           dispatch(globalActions.showMessage(error.message))
@@ -282,7 +282,7 @@ export const dbGetUserTies = () => {
       userTieService.getUserTies(uid).then((result) => {
 
         dispatch(userActions.addPeopleInfo(result as any))
-        dispatch(addUserTies(result))
+        dispatch(addUserTies(fromJS(result)))
 
       })
         .catch((error: SocialError) => {

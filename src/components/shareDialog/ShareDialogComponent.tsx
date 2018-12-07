@@ -177,7 +177,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
             </MenuList>)
             : <div>
               <TextField autoFocus fullWidth={true} id='text-field-default' defaultValue={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`} />
-              <Typography className={classNames('animate-top', classes.clipboard)} variant='headline' component='h2'>
+              <Typography className={classNames('animate-top', classes.clipboard)} variant='h5' component='h2'>
                 Link has been copied to clipboard ...
         </Typography>
             </div>}

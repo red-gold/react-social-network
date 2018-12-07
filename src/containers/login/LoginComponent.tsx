@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import RaisedButton from '@material-ui/core/Button'
@@ -214,7 +214,7 @@ export class LoginComponent extends Component<ILoginComponentProps, ILoginCompon
                       <Button onClick={this.props.signupPage} tabIndex={4}>{translate!('login.createAccountButton')}</Button>
                     </div>
                     <div >
-                      <Button variant='raised' color='primary' onClick={this.handleForm} tabIndex={3} >{translate!('login.loginButton')}</Button>
+                      <Button variant='contained' color='primary' onClick={this.handleForm} tabIndex={3} >{translate!('login.loginButton')}</Button>
                     </div>
                   </div>
                   <span className={classes.bottomPaper}>{translate!('login.forgetPasswordMessage')} <NavLink to='/resetPassword' className={classes.link}>{translate!('login.resetPasswordLabel')}</NavLink></span>
@@ -255,4 +255,4 @@ const mapStateToProps = (state: any, ownProps: ILoginComponentProps) => {
 }
 
 // - Connect component to redux store
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(localize(LoginComponent, 'locale', CommonAPI.getStateSlice) as any) as any)) as typeof LoginComponent
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(localize(LoginComponent as any, 'locale', CommonAPI.getStateSlice) as any) as any)) as typeof LoginComponent

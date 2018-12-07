@@ -222,7 +222,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
                 type='file'
               />
               <label htmlFor='raised-button-file'>
-                <Button variant='raised' component='span' style={this.styles.uploadButton as any}>
+                <Button variant='contained' component='span' style={this.styles.uploadButton as any}>
                   {translate!('imageGallery.uploadButton')}
         </Button>
               </label>

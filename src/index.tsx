@@ -10,7 +10,7 @@ import config from 'src/config'
 
 import { Provider } from 'react-redux'
 import configureStore from 'store/configureStore'
-import { ConnectedRouter } from 'react-router-redux'
+import { ConnectedRouter } from 'connected-react-router/immutable'
 
 // - Actions
 import * as localeActions from 'store/actions/localeActions'
@@ -39,24 +39,27 @@ configureStore.store.dispatch(globalActions.initLocale())
 
 // Needed for onClick
 // http://stackoverflow.com/a/34015469/988941
-try { injectTapEventPlugin() } catch (e) {}
+try { injectTapEventPlugin() } catch (e) { }
 
 const theme = createMuiTheme({
-  palette: {
-	  primary: { main: config.theme.primaryColor },
-	  secondary: { main: config.theme.secondaryColor }
-  }
+	palette: {
+		primary: { main: config.theme.primaryColor },
+		secondary: { main: config.theme.secondaryColor },
+	},
+	typography: {
+		useNextVariants: true,
+	},
 })
 
 const supportsHistory = 'pushState' in window.history
 ReactDOM.render(
-			<Provider store={configureStore.store}>
-				<ConnectedRouter history={configureStore.history}>
-					<MuiThemeProvider theme={theme}>
-						<Master />
-					</MuiThemeProvider>
-				</ConnectedRouter>
-			</Provider>,
+	<Provider store={configureStore.store}>
+		<ConnectedRouter history={configureStore.history}>
+			<MuiThemeProvider theme={theme}>
+				<Master />
+			</MuiThemeProvider>
+		</ConnectedRouter>
+	</Provider>,
 	document.getElementById('app') as HTMLElement
-  )
+)
 registerServiceWorker()

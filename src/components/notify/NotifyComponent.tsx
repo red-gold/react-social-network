@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { Manager, Target, Popper } from 'react-popper'
+import Popover from '@material-ui/core/Popover'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Grow from '@material-ui/core/Grow'
 import { withStyles } from '@material-ui/core/styles'
@@ -150,31 +150,32 @@ export class NotifyComponent extends Component<INotifyComponentProps, INotifyCom
      )
     const items = this.notifyItemList()
     return (
-      <Popper
-        placement='bottom-start'
-        eventsEnabled={open}
-        className={classNames({ [classes.popperClose]: !open }, { [classes.popperOpen]: open })}
-      >
+      <Popover
+      open={open}
+      anchorEl={anchorEl}
+      onClose={onRequestClose}
+      PaperProps={{ className: classNames(classes.paper) }}
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'center',
+      }}
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+    >
+      <Paper className={classNames(classes.root, { [classes.overflowHidden]: !open })} elevation={4} >
 
-        <ClickAwayListener onClickAway={onRequestClose}>
-          <Grow in={open} >
-          <Paper className={classNames(classes.root, { [classes.overflowHidden]: !open })} elevation={4} >
+        {items.length > 0 ? <List className={classes.list} >{items}</List> : noNotify}
 
-                {items.length > 0 ? <List className={classes.list} >{items}</List> : noNotify}
-
-              </Paper>
-          </Grow>
-        </ClickAwayListener>
-      </Popper>
+      </Paper>
+    </Popover>
     )
   }
 }
 
 /**
  * Map dispatch to props
- * @param  {func} dispatch is the function to dispatch action to reducers
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapDispatchToProps = (dispatch: any, ownProps: INotifyComponentProps) => {
   return {
@@ -184,9 +185,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: INotifyComponentProps) => {
 
 /**
  * Map state to props
- * @param  {object} state is the obeject from redux store
- * @param  {object} ownProps is the props belong to component
- * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: INotifyComponentProps) => {
   return {

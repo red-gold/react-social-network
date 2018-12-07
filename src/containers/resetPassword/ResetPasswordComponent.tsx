@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import config from 'src/config'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 
@@ -141,7 +141,7 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
                   <Button onClick={this.props.loginPage}>{translate!('resetPassword.backButton')}</Button>
                 </div>
                 <div>
-                  <Button variant='raised' color='primary' onClick={this.handleForm}>{translate!('resetPassword.resetPasswordButton')} </Button>
+                  <Button variant='contained' color='primary' onClick={this.handleForm}>{translate!('resetPassword.resetPasswordButton')} </Button>
                 </div>
               </div>
               <Typography className={classes.caption} variant='caption' component='p'>

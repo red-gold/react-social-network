@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import RaisedButton from '@material-ui/core/Button'
@@ -106,8 +106,8 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
                   {translate!('emailVerification.description')}
                 </p>
                 <div style={this.styles.buttons}>
-                  <Button variant='raised' style={this.styles.homeButton} color='primary' onClick={() => this.props.homePage()}> {translate!('emailVerification.homeButton')} </Button>
-                  <Button variant='raised' color='primary' onClick={() => this.props.sendEmailVerification()}> {translate!('emailVerification.sendButton')} </Button>
+                  <Button variant='contained' style={this.styles.homeButton} color='primary' onClick={() => this.props.homePage()}> {translate!('emailVerification.homeButton')} </Button>
+                  <Button variant='contained' color='primary' onClick={() => this.props.sendEmailVerification()}> {translate!('emailVerification.sendButton')} </Button>
                 </div>
                 <div>
                 </div>

@@ -9,6 +9,8 @@ import {Map} from 'immutable'
  */
 export class CommentState {
 
+  [key: string]: any
+
     /**
      * The list of comments on the posts
      */

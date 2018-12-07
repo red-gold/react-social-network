@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import { grey, cyan } from '@material-ui/core/colors'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import AppBar from '@material-ui/core/AppBar'
 import Typography from '@material-ui/core/Typography'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
@@ -132,7 +132,7 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
     return (
       <div style={styles.people}>
       <AppBar position='static' color='default'>
-      <Tabs indicatorColor={grey[50]}
+      <Tabs 
       onChange={this.handleChangeTab}
       value={tabIndex} centered
       textColor='primary'

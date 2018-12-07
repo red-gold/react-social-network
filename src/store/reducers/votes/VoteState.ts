@@ -7,7 +7,7 @@ import { Vote } from 'src/core/domain/votes'
  * @class VoteState
  */
 export class VoteState {
-
+  [key: string]: any
     /**
      * The list of posts vote
      *

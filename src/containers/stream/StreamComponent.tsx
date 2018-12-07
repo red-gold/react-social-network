@@ -138,24 +138,24 @@ export class StreamComponent extends Component<IStreamComponentProps, IStreamCom
     let posts: Map<string, Map<string, any>> = this.props.posts
     let { tag } = match.params
     if (posts === undefined || !(posts.keySeq().count() > 0)) {
-      
+
       return (
-        
+
         <h1>
           'Nothing has shared.'
                 </h1>
 
-)
-} else {
-  
-  let postBack = { divided: false, oddPostList: [], evenPostList: [] }
-  let parsedPosts: ImuList<any> = ImuList()
-  posts.forEach((post: Map<string, any>) => {
+      )
+    } else {
+
+      let postBack = { divided: false, oddPostList: [], evenPostList: [] }
+      let parsedPosts: ImuList<any> = ImuList()
+      posts.forEach((post: Map<string, any>) => {
         if (tag) {
           let regex = new RegExp('#' + tag, 'g')
           let postMatch = String(post.get('body', '')).match(regex)
           if (postMatch !== null) {
-            parsedPosts =  parsedPosts.push(post)
+            parsedPosts = parsedPosts.push(post)
           }
         } else {
           parsedPosts = parsedPosts.push(post)
@@ -164,22 +164,22 @@ export class StreamComponent extends Component<IStreamComponentProps, IStreamCom
       const sortedPosts = PostAPI.sortImuObjectsDate(parsedPosts)
       if (sortedPosts.count() > 6) {
         postBack.divided = true
-        
+
       } else {
         postBack.divided = false
       }
       let index = 0
       sortedPosts.forEach((post) => {
-        
+
         let newPost: any = (
           <div key={`${post!.get('id')!}-stream-div`}>
-          
+
             {index > 1 || (!postBack.divided && index > 0) ? <div style={{ height: '16px' }}></div> : ''}
             <PostComponent key={`${post!.get('id')}-stream-div-post`} post={post! as any} />
 
           </div>
         )
-        
+
         if ((index % 2) === 1 && postBack.divided) {
           postBack.oddPostList.push(newPost as never)
         } else {
@@ -285,8 +285,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: IStreamComponentProps) => {
  * @return {object}          props of component
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IStreamComponentProps) => {
-const uid = state.getIn(['authorize', 'uid'])
-const user = state.getIn(['user', 'info', uid])
+  const uid = state.getIn(['authorize', 'uid'])
+  const user = state.getIn(['user', 'info', uid])
   return {
     translate: getTranslate(state.get('locale')),
     avatar: user ? user.avatar : '',

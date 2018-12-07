@@ -7,6 +7,8 @@ import { Map, fromJS, List } from 'immutable'
  */
 export class GlobalState {
 
+  [key: string]: any
+
  /**
   * Set percent of loading progress and visibility for Master component
   *

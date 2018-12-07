@@ -13,7 +13,7 @@ import { Map } from 'immutable'
  * @param {object} state
  * @param {object} action
  */
-export let authorizeReducer = (state = Map(new AuthorizeState()), action: IAuthorizeAction) => {
+export let authorizeReducer = (state = Map(new AuthorizeState() as any), action: IAuthorizeAction) => {
   const { payload } = action
   switch (action.type) {
     case AuthorizeActionType.LOGIN:
