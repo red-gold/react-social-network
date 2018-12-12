@@ -28,12 +28,14 @@ import { UserTieService } from './services/circles/UserTieService'
 import { UserSettingService } from 'data/firestoreClient/services/users/UserSettingService'
 import { IChatService } from 'core/services/chat'
 import { ChatService } from 'data/firestoreClient/services/chat'
+import { IPermissionService } from 'core/services/security/IPermissionService'
+import { PermissionService } from './services/security/permissionService'
 
 /**
  * Register firestore client dependecies
- * @param container DI container
  */
 export const useFirestore = (container: Container) => {
+  container.bind<IPermissionService>(SocialProviderTypes.PermissionService).to(PermissionService)
   container.bind<IAuthorizeService>(SocialProviderTypes.AuthorizeService).to(AuthorizeService)
   container.bind<ICircleService>(SocialProviderTypes.CircleService).to(CircleService)
   container.bind<ICommentService>(SocialProviderTypes.CommentService).to(CommentService)

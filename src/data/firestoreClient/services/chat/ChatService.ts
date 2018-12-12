@@ -102,7 +102,7 @@ export class ChatService implements IChatService {
   public subscribeChatMessages: (chatRoomId: string,
     callback: (messages: Map<string, any>) => void)
     => any = (chatRoomId, callback) => {
-      const currentDate = moment().unix()
+      const currentDate = moment.utc().valueOf()
 
       let messagesRef = db
         .collection('chatroom')

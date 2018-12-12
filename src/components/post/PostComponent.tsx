@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import PropTypes from 'prop-types'
 import moment from 'moment/moment'
 import Linkify from 'react-linkify'
@@ -65,6 +65,7 @@ import { UserPermissionType } from 'core/domain/common/userPermissionType'
 import { postStyles } from './postStyles'
 import { connectPost } from './connectPost'
 import ReadMoreComponent from 'components/readMore'
+import { Post } from 'core/domain/posts'
 
 // - Create component class
 export class PostComponent extends Component<IPostComponentProps, IPostComponentState> {
@@ -365,7 +366,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
       </div>
     )
 
-    const rawPost = post.toJS()
+    const rawPost = post.toJS() as Post
 
     const {
       ownerUserId,
@@ -392,7 +393,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
           title={<NavLink to={`/${ownerUserId}`}>{ownerDisplayName}</NavLink>}
           subheader={creationDate ? (version === config.dataFormat.postVersion
              ? moment(creationDate).local().fromNow() 
-             : moment.unix(creationDate!).fromNow()) + ` | ` + `${this.getPermissionLabel()}` : <LinearProgress color='primary' />}
+             : moment(creationDate!).local().fromNow()) + ` | ` + `${this.getPermissionLabel()}` : <LinearProgress color='primary' />}
           avatar={<NavLink to={`/${ownerUserId}`}><UserAvatar fullName={ownerDisplayName!} fileName={ownerAvatar!} size={36} /></NavLink>}
           action={isPostOwner ? rightIconMenu : ''}
         >
@@ -433,7 +434,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
             }
 
         <CardContent className={classes.postBody}>
-        <ReadMoreComponent body={body} >
+        <ReadMoreComponent body={body!} >
           <Linkify properties={{ target: '_blank', style: { color: 'blue' }, onClick: (event:  React.MouseEvent<HTMLAnchorElement>) => event.stopPropagation()}}>
             {reactStringReplace(body, /#(\w+)/g, (match: string, i: string) => (
               <NavLink
@@ -469,7 +470,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
                 checked={this.props.currentUserVote}
               />
             </IconButton>
-              <div className={classes.voteCounter}> {score > 0 ? score : ''} </div>
+              <div className={classes.voteCounter}> {score! > 0 ? score : ''} </div>
           </div>
 
           <div style={{ display: 'inherit' }}><IconButton
@@ -489,7 +490,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
 
         </CardActions>
 
-        <CommentGroup open={this.state.openComments} comments={commentList} ownerPostUserId={ownerUserId!} onToggleRequest={this.handleOpenComments} isPostOwner={this.props.isPostOwner!} disableComments={disableComments!} postId={id} />
+        <CommentGroup open={this.state.openComments} comments={commentList} ownerPostUserId={ownerUserId!} onToggleRequest={this.handleOpenComments} isPostOwner={this.props.isPostOwner!} disableComments={disableComments!} postId={id!} />
 
         <ShareDialog
           onClose={this.handleCloseShare}

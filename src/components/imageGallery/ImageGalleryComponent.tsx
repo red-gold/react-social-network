@@ -33,6 +33,7 @@ import { IImageGalleryComponentProps } from './IImageGalleryComponentProps'
 import { IImageGalleryComponentState } from './IImageGalleryComponentState'
 import { Image } from 'core/domain/imageGallery'
 import { userSelector } from 'store/reducers/users/userSelector'
+import { User } from 'core/domain/users'
 
 const styles = (theme: any) => ({
   fullPageXs: {
@@ -253,7 +254,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImageGalleryComponentProps
  */
 const mapStateToProps = (state: Map<string, any>) => {
   const uid = state.getIn(['authorize', 'uid'])
-  const currentUser = userSelector.getUserProfileById(state, {userId: uid}).toJS()
+  const currentUser = userSelector.getUserProfileById(state, {userId: uid}).toJS() as User
   return {
     
     avatar: currentUser ? currentUser.avatar : ''

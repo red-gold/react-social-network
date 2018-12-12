@@ -5,19 +5,10 @@ import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { translate, Trans } from 'react-i18next'
 
-import Menu from '@material-ui/core/Menu'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import Grow from '@material-ui/core/Grow'
 import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
 import List from '@material-ui/core/List'
 import Popover from '@material-ui/core/Popover'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import { Map } from 'immutable'
 
 // - Import app components
@@ -25,11 +16,9 @@ import NotifyItem from 'components/notifyItem'
 // - Import API
 
 // - Import actions
-import * as userActions from 'store/actions/userActions'
 
 import { INotifyComponentProps } from './INotifyComponentProps'
 import { INotifyComponentState } from './INotifyComponentState'
-import { Notification } from 'core/domain/notifications'
 
 import CommonAPI from 'api/CommonAPI'
 

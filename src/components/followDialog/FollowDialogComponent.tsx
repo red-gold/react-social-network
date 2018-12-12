@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import moment from 'moment/moment'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 
 import classNames from 'classnames'
 import { Map, List as ImuList } from 'immutable'
@@ -244,7 +244,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps, IFollow
     if (selectedCircles.count() === userBelongCircles!.count()) {
       for (let circleIndex: number = 0; circleIndex < selectedCircles.count(); circleIndex++) {
         const selectedCircleId = selectedCircles.get(circleIndex)
-        if (!(userBelongCircles!.indexOf(selectedCircleId) > -1)) {
+        if (!(userBelongCircles!.indexOf(selectedCircleId!) > -1)) {
           isChanged = true
           break
         }
@@ -387,7 +387,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IFollowDialogProps) 
   const selectedCircles = state.getIn(['circle', 'selectedCircles', ownProps.userId], [])
 
   const isSelecteCirclesOpen = state.getIn(['circle', 'openSelecteCircles', ownProps.userId], [])
-  const userBox = userSelector.getUserProfileById(state, { userId: ownProps.userId }).toJS()
+  const userBox = userSelector.getUserProfileById(state, { userId: ownProps.userId }).toJS() as User
   return {
     
     isSelecteCirclesOpen,

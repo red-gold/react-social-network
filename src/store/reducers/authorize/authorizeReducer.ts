@@ -13,7 +13,7 @@ import { Map } from 'immutable'
  * @param {object} state
  * @param {object} action
  */
-export let authorizeReducer = (state = Map(new AuthorizeState()), action: IAuthorizeAction) => {
+export let authorizeReducer = (state = Map(new AuthorizeState() as any), action: IAuthorizeAction) => {
   const { payload } = action
   switch (action.type) {
     case AuthorizeActionType.LOGIN:
@@ -30,6 +30,9 @@ export let authorizeReducer = (state = Map(new AuthorizeState()), action: IAutho
     case AuthorizeActionType.SIGNUP:
       return state
       .set('uid', payload.userId)
+    case AuthorizeActionType.SET_USER_REGISTER_TOKEN:
+      return state
+      .set('registerToken', payload.token)
     case AuthorizeActionType.UPDATE_PASSWORD:
       return state
     default:

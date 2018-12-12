@@ -276,7 +276,7 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
                                     className={classes.userAvatar}
                                     fullName={profile.fullName}
                                     fileName={profile.avatar}
-                                    size={140}
+                                    size={110}
                                 />
                             </div>
                             <Typography
@@ -424,7 +424,7 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
                                 />
                             </div>
 
-                            <Button color={'primary'} disabled onClick={this.handleOpenPrivileges}> {t!('userActivity.allPrivilegesButton')}</Button>
+                            <Button color={'primary'} className={classes.allPrivilegesButton} disabled onClick={this.handleOpenPrivileges}> {t!('userActivity.allPrivilegesButton')}</Button>
 
                         </Paper>
                     </div>

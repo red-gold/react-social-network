@@ -3,6 +3,7 @@
  * We use symbols as identifiers but you can also use classes and or string literals.
  */
 export const SocialProviderTypes = {
+  PermissionService: Symbol('PermissionService'),
   AuthorizeService: Symbol('AuthorizeService'),
   UserTieService: Symbol('UserTieService'),
   CircleService: Symbol('CircleService'),

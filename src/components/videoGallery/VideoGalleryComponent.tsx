@@ -38,6 +38,7 @@ import { IVideoGalleryProps } from './IVideoGalleryProps'
 import { IVideoGalleryState } from './IVideoGalleryState'
 import { Image, VideoFile } from 'core/domain/imageGallery'
 import { userSelector } from 'store/reducers/users/userSelector'
+import { User } from 'core/domain/users'
 
 /**
  * Create ImageGallery component class
@@ -315,7 +316,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IVideoGalleryProps) => {
  */
 const mapStateToProps = (state: Map<string, any>) => {
   const uid = state.getIn(['authorize', 'uid'])
-  const currentUser = userSelector.getUserProfileById(state, { userId: uid }).toJS()
+  const currentUser = userSelector.getUserProfileById(state, { userId: uid }).toJS() as User
   return {
     
     videos: state.getIn(['imageGallery', 'videos'], Map({})),

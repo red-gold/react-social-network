@@ -238,7 +238,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISendFeedbackCompone
   const request = state.getIn(['server', 'request'])
   const uid = state.getIn(['authorize', 'uid'])
   const requestId = StringAPI.createServerRequestId(ServerRequestType.CommonSendFeedback, uid)
-  const currentUser: User =  { ...userSelector.getUserProfileById(state, {userId: uid}).toJS(), userId: uid }
+  const currentUser: User =  { ...userSelector.getUserProfileById(state, {userId: uid}).toJS(), userId: uid } as User
   const sendFeedbackStatus = state.getIn(['global', 'sendFeedbackStatus'])
   const sendFeedbackRequestType = state.getIn(['server', 'request', requestId])
 

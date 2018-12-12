@@ -17,7 +17,7 @@ import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
  * @param {object} state
  * @param {object} action
  */
-export let serverReducer = (state = Map(new ServerState()), action: IServerAction) => {
+export let serverReducer = (state = Map(new ServerState() as any), action: IServerAction) => {
   let { payload } = action
   const request = (payload ? payload.request : {}) as ServerRequestModel
   switch (action.type) {
@@ -41,7 +41,7 @@ export let serverReducer = (state = Map(new ServerState()), action: IServerActio
         .setIn(['request', request.id, 'status'], ServerRequestStatusType.OK)
 
     case ServerActionType.CLEAR_ALL_DATA_REQUEST:
-      return Map(new ServerState())
+      return Map(new ServerState() as any)
 
     default:
       return state

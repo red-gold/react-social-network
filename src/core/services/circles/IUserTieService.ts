@@ -1,12 +1,10 @@
-import { User } from 'core/domain/users'
+import {Map} from 'immutable'
 import { UserTie } from 'core/domain/circles'
 
 /**
  * User tie service interface
- *
- * @export
- * @interface IUserTieService
  */
+
 export interface IUserTieService {
 
   /**
@@ -31,11 +29,11 @@ export interface IUserTieService {
    * Get user ties
    */
   getUserTies: (userId: string)
-    => Promise<{[userId: string]: UserTie}>
+    => Promise<Map<string, any>>
 
   /**
    * Get the users who tied current user
    */
   getUserTieSender: (userId: string)
-    => Promise<{[userId: string]: UserTie}>
+    => Promise<Map<string, any>>
 }

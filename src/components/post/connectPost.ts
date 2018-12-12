@@ -4,7 +4,7 @@ import * as voteActions from 'store/actions/voteActions'
 import * as postActions from 'store/actions/postActions'
 import * as globalActions from 'store/actions/globalActions'
 import * as commentActions from 'store/actions/commentActions'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { userSelector } from 'store/reducers/users/userSelector'
 
 import {connect } from 'react-redux'

@@ -1,6 +1,6 @@
 // - Import react components
 import React, { Component } from 'react'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import classNames from 'classnames'

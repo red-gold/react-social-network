@@ -4,15 +4,11 @@ export interface ILoginComponentProps {
 
   /**
    * Login a user
-   *
-   * @memberof ILoginComponentProps
    */
   login?: (email: string , password: string) => any
 
   /**
    * Login user with OAuth
-   *
-   * @memberof ILoginComponentProps
    */
   loginWithOAuth?: (type: OAuthType) => any
 
@@ -23,8 +19,6 @@ export interface ILoginComponentProps {
 
   /**
    * Redirect to signup page
-   *
-   * @memberof ILoginComponentProps
    */
   signupPage?: () => any
 

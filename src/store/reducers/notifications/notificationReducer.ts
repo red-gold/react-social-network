@@ -17,7 +17,7 @@ import { INotificationAction } from './INotificationAction'
  * @param {object} state
  * @param {object} action
  */
-export let notificationReducer = (state = Map(new NotificationState()), action: INotificationAction) => {
+export let notificationReducer = (state = Map(new NotificationState() as any), action: INotificationAction) => {
   let { payload } = action
   switch (action.type) {
 
@@ -40,7 +40,7 @@ export let notificationReducer = (state = Map(new NotificationState()), action: 
     .deleteIn(['userNotifies', payload])
 
     case NotificationActionType.CLEAR_ALL_DATA_NOTIFY:
-      return Map(new NotificationState())
+      return Map(new NotificationState() as any)
 
     default:
       return state

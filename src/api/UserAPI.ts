@@ -5,7 +5,7 @@ import { ServerRequestModel } from 'models/server'
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 
 /**
- * Creat user search requesta
+ * Creat user search request
  */
 const createUserSearchRequest = (userId: string) => {
   const requestId = StringAPI.createServerRequestId(ServerRequestType.UserFetchRequest, userId)

@@ -108,7 +108,7 @@ function* dbDeleteImage(fileId: string, folderName: string, fileName: string) {
   const uid = authedUser.get('uid')
   if (uid) {
     try {
-      yield call(galleryService.deleteImage, `${folderName}/${uid}`, fileName)
+      yield call(galleryService.deleteImage, `${uid}/${folderName}`, fileName)
       yield put(imageGalleryActions.deleteImage(fileId))
 
     } catch (error) {
@@ -127,7 +127,7 @@ function* dbSaveVideo(videoURL: string, videoThumbnails: string) {
   if (uid) {
 
     let video: VideoFile = {
-      creationDate: moment().unix(),
+      creationDate: moment.utc().valueOf(),
       deleteDate: '',
       URL: videoURL,
       videoThumbnails,
@@ -151,7 +151,7 @@ function* dbUploadVideo(file: any, fileName: string, videoThumbnails: string) {
   const uid = authedUser.get('uid')
   if (uid) {
 
-    const folderName = `${config.data.videoFolderPath}/${uid}`
+    const folderName = `${uid}/${config.data.videoFolderPath}`
     const uploadFileChannel = yield call(createUploadChannel, file, fileName, folderName)
 
     while (true) {
@@ -185,7 +185,7 @@ function* dbUploadVideoThumbnail(file: any, fileName: string) {
   const uid = authedUser.get('uid')
   if (uid) {
 
-    const folderName = `${config.data.videoThumbnailPath}/${uid}`
+    const folderName = `${uid}/${config.data.videoThumbnailPath}`
     const uploadFileChannel = yield call(createUploadChannel, file, fileName, folderName)
 
     while (true) {
@@ -236,7 +236,7 @@ function* dbUploadImage(file: any, rootName: string, fileName: string) {
   const uid = authedUser.get('uid')
   if (uid) {
 
-    const folderName = `${rootName}/${uid}`
+    const folderName = `${uid}/${rootName}`
     const uploadFileChannel = yield call(createUploadChannel, file, fileName, folderName)
 
     while (true) {

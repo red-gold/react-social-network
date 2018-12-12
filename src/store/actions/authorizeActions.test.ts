@@ -10,7 +10,7 @@ describe('Authorize Acitons', () => {
       'http://avatar', true,true,false)
       const expectedAction = {
         type: AuthorizeActionType.LOGIN,
-        payload: Map(user)
+        payload: Map(user as any)
       }
       expect(authorizeActions.login(user)).toEqual(expectedAction)
     })

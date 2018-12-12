@@ -6,11 +6,11 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import 'reflect-metadata'
 import 'typeface-roboto'
 import config from 'src/config'
-import 'moment/locale/es'
+// import 'moment/locale/es'
 import 'locales/i18n'
 import { Provider } from 'react-redux'
 import configureStore from 'store/configureStore'
-import { ConnectedRouter } from 'react-router-redux'
+import { ConnectedRouter } from 'connected-react-router'
 import { I18nextProvider } from 'react-i18next'
 
 // - Actions

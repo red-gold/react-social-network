@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import config from 'src/config'
 
 import FlagIcon from 'layouts/flagIcon'
@@ -167,7 +167,7 @@ export class SmsVerificationComponent extends Component<ISmsVerificationComponen
       if (value && (value as string).length > 3 && !asYouType.country) {
         phoneNumberError = t!('smsVerification.validPhoneNumberError')
       }
-      const countryCode = (asYouType.country || 'es').toLocaleLowerCase()
+      const countryCode = (asYouType.country || 'ir').toLocaleLowerCase()
       this.setState({
         phoneNumber,
         countryCode,

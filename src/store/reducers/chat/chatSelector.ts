@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 import { authorizeSelector } from 'store/reducers/authorize'
 import { userSelector } from 'store/reducers/users/userSelector'
 import { ChatMessageModel } from 'models/chat/chatMessageModel'
+import { User } from 'src/core/domain/users'
 
 const getActiveChatRoom: (state: Map<string, any>, props: any) => Map<string, any> = (state: Map<string, any>, props: any) => {
     const currentChatRoom: Map<string, any> = state.getIn(['chat', 'currentChat', 'chatRoom'], Map({}))
@@ -49,7 +50,7 @@ const selectCurrentMessages = () => {
            new ChatMessageModel(
             message.get('id'),
             message.get('senderId') === currentAuthed.get('uid') ? true : false,
-            receiverUser.toJS(),
+            receiverUser.toJS() as User,
             message.get('type'),
             message.get('message'),
             message.get('creationDate'),

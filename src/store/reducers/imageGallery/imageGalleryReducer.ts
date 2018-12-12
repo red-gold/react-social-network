@@ -15,7 +15,7 @@ import { ImageGalleryState } from './ImageGalleryState'
 /**
  *  Image gallery reducer
  */
-export let imageGalleryReducer = (state = Map(new ImageGalleryState()), action: IImageGalleryAction) => {
+export let imageGalleryReducer = (state = Map(new ImageGalleryState() as any), action: IImageGalleryAction) => {
   const { payload } = action
 
   switch (action.type) {
@@ -88,7 +88,7 @@ export let imageGalleryReducer = (state = Map(new ImageGalleryState()), action: 
         .mergeIn(['imageRequests'], payload)
 
     case ImageGalleryActionType.CLEAT_ALL_DATA_IMAGE_GALLERY:
-      return Map(new ImageGalleryState())
+      return Map(new ImageGalleryState() as any)
 
     default:
       return state

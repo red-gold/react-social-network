@@ -70,7 +70,7 @@ export const dbSaveImage = (imageURL: string) => {
     const state: Map<string, any>  = getState()
     let uid: string = state.getIn(['authorize', 'uid'])
     let image: Image = {
-      creationDate: moment().unix(),
+      creationDate: moment.utc().valueOf(),
       deleteDate: '',
       URL: imageURL,
       ownerUserId: uid,

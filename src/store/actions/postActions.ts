@@ -19,6 +19,7 @@ import * as userActions from 'store/actions/userActions'
 import { userSelector } from 'store/reducers/users/userSelector'
 import { UserPermissionType } from 'core/domain/common/userPermissionType'
 import { UserActionType } from 'constants/userActionType'
+import { User } from 'core/domain/users'
 
 /**
  * Get service providers
@@ -35,7 +36,7 @@ export let dbAddPost = (newPost: Post, callBack: Function) => {
     
     const state: Map<string, any>  = getState()
     let uid: string = state.getIn(['authorize', 'uid'])
-    const currentUser = userSelector.getUserProfileById(state, {userId: uid}).toJS()
+    const currentUser = userSelector.getUserProfileById(state, {userId: uid}).toJS() as User
     let post: Post = {
       postTypeId: newPost.postTypeId || 0,
       creationDate: moment().utc().valueOf(),
@@ -83,7 +84,7 @@ export const dbUpdatePost = (updatedPost: Map<string, any>, callBack: Function) 
 
     dispatch(globalActions.showTopLoading())
 
-    return postService.updatePost(updatedPost.toJS()).then(() => {
+    return postService.updatePost(updatedPost.toJS() as Post).then(() => {
 
       dispatch(updatePost(updatedPost))
       callBack()

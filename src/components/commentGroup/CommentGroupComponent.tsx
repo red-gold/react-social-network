@@ -42,6 +42,7 @@ import StringAPI from 'api/StringAPI'
 import { ServerRequestType } from 'constants/serverRequestType'
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 import { userSelector } from 'store/reducers/users/userSelector'
+import { User } from 'core/domain/users'
 
 const styles = (theme: any) => ({
   textField: {
@@ -259,7 +260,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
             <NavLink to={`/${comment.userId!}`}> <span className={classes.author}>{comment.userDisplayName}</span></NavLink><span style={{
               fontWeight: 400,
               fontSize: '8px'
-            }}>{moment.unix(comment.creationDate!).fromNow()}</span>
+            }}>{moment(comment.creationDate!).local().fromNow()}</span>
           </div>
         )
         return (
@@ -420,7 +421,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ICommentGroupCompone
   const requestId = StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId)
   const commentsRequestStatus = state.getIn(['server', 'request', requestId])
   const commentSlides = state.getIn(['post', 'entities', ownerPostUserId, postId, 'comments'], Map({}))
-  const user = userSelector.getUserProfileById(state, {userId: uid}).toJS()
+  const user = userSelector.getUserProfileById(state, {userId: uid}).toJS() as User
   return {
     
     commentsRequestStatus : commentsRequestStatus ? commentsRequestStatus.status : ServerRequestStatusType.NoAction,

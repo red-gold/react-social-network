@@ -1,25 +1,25 @@
+import {Map} from 'immutable'
 export interface ISignupComponentProps {
 
   /**
    * Display error
-   *
-   * @memberof ISignupComponentState
    */
   showError?: (message: string) => any
 
     /**
      * Register user
-     *
-     * @memberof ISignupComponentState
      */
   register?: (data: any) => any
 
     /**
      * Login
-     *
-     * @memberof ISignupComponentState
      */
   loginPage?: () => any
+
+  /**
+   * Signup request status
+   */
+  signupRequest?: Map<string, any>
 
   /**
    * Styles

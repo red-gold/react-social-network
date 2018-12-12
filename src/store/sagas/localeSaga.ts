@@ -17,13 +17,6 @@ function* initLocalization() {
         ]
 
         return languages
-    // yield put(initialize(languages))
-    //     // To set a different default active language set the `defaultLanguage` option.
-    // yield put(initialize(languages, { defaultLanguage: config.settings.defaultLanguage }))
-    // const englishLocale = require('locales/en.json')
-    // const spanishLocale = require('locales/es.json')
-    // yield put(addTranslationForLanguage(englishLocale, LanguageType.English))
-    // yield put(addTranslationForLanguage(spanishLocale, LanguageType.Spanish))
 }
 
 export default function* localeSaga() {

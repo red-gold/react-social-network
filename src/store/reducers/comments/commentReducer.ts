@@ -18,7 +18,7 @@ import { ICommentAction } from './ICommentAction'
  * @param state
  * @param action
  */
-export let commentReducer = (state = Map(new CommentState()), action: ICommentAction) => {
+export let commentReducer = (state = Map(new CommentState() as any), action: ICommentAction) => {
   let { payload } = action
   switch (action.type) {
 
@@ -49,7 +49,7 @@ export let commentReducer = (state = Map(new CommentState()), action: ICommentAc
         .setIn(['editorStatus', payload.postId, payload.id], true)
 
     case CommentActionType.CLEAR_ALL_DATA_COMMENT:
-      return Map(new CommentState())
+      return Map(new CommentState() as any)
     default:
       return state
 

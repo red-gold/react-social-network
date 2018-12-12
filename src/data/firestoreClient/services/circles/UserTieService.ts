@@ -2,9 +2,10 @@
 
 import firebase, { firebaseAuth, db } from 'data/firestoreClient'
 import moment from 'moment/moment'
+import { Map, List } from 'immutable'
 
 import { SocialError } from 'core/domain/common'
-import {  UserProvider, User } from 'core/domain/users'
+import { UserProvider, User } from 'core/domain/users'
 import { IUserTieService } from 'core/services/circles'
 import { inject, injectable } from 'inversify'
 import { FirestoreClientTypes } from '../../firestoreClientTypes'
@@ -105,68 +106,66 @@ export class UserTieService implements IUserTieService {
   /**
    * Get user ties
    */
-  public getUserTies: (userId: string)
-    => Promise<{ [userId: string]: UserTie }> = (userId) => {
-      return new Promise<{ [userId: string]: UserTie }>((resolve, reject) => {
-        this._graphService
-          .getGraphs(
-            'users',
-            userId,
-            'TIE')
-          .then((result) => {
+  public getUserTies = async (userId: string) => {
+    try {
+      const result = await this._graphService
+        .getGraphs(
+          'users',
+          userId,
+          'TIE')
 
-            let parsedData: { [userId: string]: UserTie } = {}
-            result.forEach((node) => {
-              const leftUserInfo: UserTie = node.LeftMetadata
-              const rightUserInfo: UserTie = node.rightMetadata
-              const metadata: { creationDate: number, circleIds: string[] } = node.graphMetadata
-              parsedData = {
-                ...parsedData,
-                [rightUserInfo.userId!]: {
-                  ...rightUserInfo,
-                  circleIdList: metadata ? Object.keys(metadata.circleIds) : []
-                }
-              }
-            })
-            resolve(parsedData)
-          })
-          .catch((error: any) => reject(new SocialError(error.code, 'firestore/getUserTies :' + error.message)))
+      let parsedData: Map<string, any> = Map({})
+      result.forEach((node) => {
+        const leftUserInfo: UserTie = node.LeftMetadata
+        const rightUserInfo: UserTie = node.rightMetadata
+        const metadata: { creationDate: number, circleIds: string[] } = node.graphMetadata
+        parsedData.set(rightUserInfo.userId!,
+          Map({
+            ...rightUserInfo,
+            circleIdList: metadata ? List(Object.keys(metadata.circleIds)) : List([])
+          }))
       })
+      return parsedData
+
+    } catch (error) {
+      throw new SocialError(error.code, 'firestore/getUserTies :' + error.message)
     }
+  }
 
   /**
    * Get the users who tied current user
    */
-  public getUserTieSender: (userId: string)
-    => Promise<{ [userId: string]: UserTie }> = (userId) => {
-      return new Promise<{ [userId: string]: UserTie }>((resolve, reject) => {
-        this._graphService
-          .getGraphs(
-            'users',
-            null,
-            'TIE',
-            userId
-          )
-          .then((result) => {
-            let parsedData: { [userId: string]: UserTie } = {}
+  public getUserTieSender = async (userId: string) => {
 
-            result.forEach((node) => {
-              const leftUserInfo: UserTie = node.LeftMetadata
-              const rightUserInfo: UserTie = node.rightMetadata
-              const metada: { creationDate: number, circleIds: string[] } = node.graphMetadata
-              parsedData = {
-                ...parsedData,
-                [leftUserInfo.userId!]: {
-                  ...leftUserInfo,
-                  circleIdList: []
-                }
-              }
-            })
-            resolve(parsedData)
-          })
-          .catch((error: any) => reject(new SocialError(error.code, 'firestore/getUserTieSender :' + error.message)))
+    try {
+      const result = await this._graphService
+        .getGraphs(
+          'users',
+          null,
+          'TIE',
+          userId
+        )
+
+      let parsedData: Map<string, any> = Map({})
+
+      result.forEach((node) => {
+        const leftUserInfo: UserTie = node.LeftMetadata
+        const rightUserInfo: UserTie = node.rightMetadata
+        const metada: { creationDate: number, circleIds: string[] } = node.graphMetadata
+        parsedData.set(leftUserInfo.userId!,
+          Map({
+            ...leftUserInfo,
+            circleIdList: List([])
+          }))
       })
+      return parsedData
+
+    } catch (error) {
+
+      throw new SocialError(error.code, 'firestore/getUserTieSender :' + error.message)
     }
+
+  }
 
   /**
    * Get user ties with second user identifier

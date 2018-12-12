@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import config from 'src/config'
 
 import { Map } from 'immutable'

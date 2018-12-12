@@ -7,11 +7,11 @@ import 'reflect-metadata'
 import 'typeface-roboto'
 import registerServiceWorker from './registerServiceWorker'
 import config from 'src/config'
-import 'moment/locale/es'
+// import 'moment/locale/es'
 import 'locales/i18n'
 import { Provider } from 'react-redux'
 import configureStore from 'store/configureStore'
-import { ConnectedRouter } from 'react-router-redux'
+import { ConnectedRouter } from 'connected-react-router/immutable'
 import { I18nextProvider } from 'react-i18next'
 import i18n from './locales/i18n'
 
@@ -49,6 +49,11 @@ try { injectTapEventPlugin() } catch (e) { }
 const theme = createMuiTheme(socialTheme)
 
 const supportsHistory = 'pushState' in window.history
+configureStore.store.dispatch(authorizeActions.fetchUserRegisterToken({
+	fullName: 'amir',
+	email: 'amir.gholzam@live.com',
+	password: 'hello'
+}))
 ReactDOM.render(
 	<Provider store={configureStore.store}>
 	<I18nextProvider

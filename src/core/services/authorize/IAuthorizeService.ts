@@ -1,4 +1,4 @@
-import { User } from 'core/domain/users'
+
 import { LoginUser, RegisterUserResult, OAuthType } from 'core/domain/authorize'
 import { UserClaim } from 'core/domain/authorize/userClaim'
 import { UserRegisterModel } from 'models/users'
@@ -8,14 +8,14 @@ import { UserRegisterModel } from 'models/users'
  */
 export interface IAuthorizeService {
 
-    /**
-     * Login the user
-     */
+  /**
+   * Login the user
+   */
   login: (email: string, password: string) => Promise<LoginUser>
 
-   /**
-    * Logs out the user
-    */
+  /**
+   * Logs out the user
+   */
   logout: () => Promise<void>
 
   /**
@@ -24,18 +24,23 @@ export interface IAuthorizeService {
   isUserUserVerified: () => boolean
 
   /**
-   * Get idToken
+   * Get user claim
    */
   getUserClaim: () => Promise<UserClaim>
 
-    /**
-     * Update user password
-     */
+  /**
+   * Update user password
+   */
   updatePassword: (newPassword: string, confirmPassword: string) => Promise<void>
 
-    /**
-     * Register new user
-     */
+  /**
+   * Get register new user token
+   */
+  getUserRegisterToken: (user: UserRegisterModel) => Promise<string>
+
+  /**
+   * Register new user
+   */
   registerUser: (user: UserRegisterModel) => Promise<RegisterUserResult>
 
   /**
@@ -82,9 +87,4 @@ export interface IAuthorizeService {
    * Confirm verfication code
    */
   confirmResetPassword: (code: string, verifyId: string, email: string) => Promise<any>
-
-  /**
-   * Get current user id token
-   */
-  getIdToken: () =>  Promise<string>
 }

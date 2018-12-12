@@ -1,7 +1,7 @@
 // - Import react components
 import React, { Component } from 'react'
 import { NavLink, withRouter } from 'react-router-dom'
-import {push} from 'react-router-redux'
+import {push} from 'connected-react-router'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
 import { Map } from 'immutable'
@@ -17,23 +17,12 @@ import ChatIcon from '@material-ui/icons/Chat'
 import { grey, blue } from '@material-ui/core/colors'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
-import Popover from '@material-ui/core/Popover'
 import AppBar from '@material-ui/core/AppBar'
-import MenuList from '@material-ui/core/MenuList'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
-import Paper from '@material-ui/core/Paper'
 import Hidden from '@material-ui/core/Hidden'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import Grow from '@material-ui/core/Grow'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControl from '@material-ui/core/FormControl'
-import TextField from '@material-ui/core/TextField'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import Tooltip from '@material-ui/core/Tooltip'
-import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 import Badge from '@material-ui/core/Badge'
 import SearchIcon from '@material-ui/icons/Search'
@@ -45,7 +34,6 @@ import Notify from 'components/notify'
 import RecentChatComponent from 'components/recentChat'
 
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
 import * as chatActions from 'store/actions/chatActions'
 import * as authorizeActions from 'store/actions/authorizeActions'
 
@@ -54,6 +42,7 @@ import { IHomeHeaderComponentState } from './IHomeHeaderComponentState'
 import { userSelector } from 'store/reducers/users/userSelector'
 import { homeHeaderStyles } from './homeHeaderStyles'
 import SearchBoxComponent from 'components/searchBox'
+import { User } from 'core/domain/users'
 
 // - Create HomeHeader component class
 export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IHomeHeaderComponentState> {
@@ -427,7 +416,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IHomeHeaderComponent
     ? userNotifies
       .filter((notification) => !notification.get('isSeen', false)).count()
     : 0
-  const user = selectUser(state, { userId: uid }).toJS()
+  const user = selectUser(state, { userId: uid }).toJS() as User
   return {
     
     avatar: user.avatar || '',

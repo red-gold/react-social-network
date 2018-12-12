@@ -12,7 +12,6 @@ export const homeHeaderStyles = (theme: any) => ({
       borderLeftColor: theme.palette.common.white
     },
     appIcon: {
-      width: 40,
       height: 40,
       marginLeft: 10
     },

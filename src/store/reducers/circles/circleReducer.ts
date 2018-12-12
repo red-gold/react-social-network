@@ -37,11 +37,11 @@ const updateCircle = (state: any , payload: any) => {
  * @param state
  * @param action
  */
-export let circleReducer = (state = Map(new CircleState()), action: ICircleAction) => {
+export let circleReducer = (state = Map(new CircleState() as any), action: ICircleAction) => {
   const { payload } = action
   switch (action.type) {
     case CircleActionType.CLEAR_ALL_CIRCLES:
-      return Map(new CircleState())
+      return Map(new CircleState() as any)
 
     case CircleActionType.ADD_CIRCLE: return addCircle(state, payload)
     case CircleActionType.UPDATE_CIRCLE: return updateCircle(state, payload)
@@ -136,7 +136,10 @@ export let circleReducer = (state = Map(new CircleState()), action: ICircleActio
 /**
  * Map user ties selected to selected circles
  */
-const getSelectedCircles = (userTies: { [userId: string]: UserTie }) => {
+const getSelectedCircles = (userTies: Map<string, any>) => {
+  if (userTies.isEmpty()) {
+    return Map({})
+  }
   let selectedCircles: Map<string, List<string>> = Map({})
   Object.keys(userTies).forEach((userId: string) => {
     const userTie = (userTies as { [userId: string]: UserTie })[userId]

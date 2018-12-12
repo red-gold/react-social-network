@@ -55,11 +55,11 @@ const addSearchPosts = (state: any, action: any) => {
 /**
  * Post reducer
  */
-export let postReducer = (state = Map(new PostState()), action: IPostAction) => {
+export let postReducer = (state = Map(new PostState() as any), action: IPostAction) => {
   const { payload } = action
   switch (action.type) {
     case PostActionType.CLEAR_ALL_DATA_POST:
-      return Map(new PostState())
+      return Map(new PostState() as any)
 
     case PostActionType.SET_POST_SEARCH_KEY:
       return state

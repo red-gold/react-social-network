@@ -11,7 +11,7 @@ import { AuthorizeActionType } from 'constants/authorizeActionType'
 import * as authorizeActions from 'store/actions/authorizeActions'
 import * as globalActions from 'store/actions/globalActions'
 import { LoginUser } from 'core/domain/authorize/loginUser'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 /**
  * Get service providers
  */
@@ -57,6 +57,17 @@ function* onLogoutUser() {
 }
 
 /**
+ * Get user register token
+ */
+function* getUserRegisterToken(action: any) {
+    const {user} = action.payload
+
+    const token = yield call(authorizeService.getUserRegisterToken, user)
+    debugger
+    yield put(authorizeActions.setUserRegisterToken(token))
+}
+
+/**
  * On auth state change
  */
 function* onAuthStateChanged() {
@@ -86,7 +97,8 @@ function* onAuthStateChanged() {
 
 export default function* authorizeSaga() {
     yield all([
-      takeLatest(AuthorizeActionType.SUBSCRIBE_AUTH_STATE_CHANGE, onAuthStateChanged)
+      takeLatest(AuthorizeActionType.SUBSCRIBE_AUTH_STATE_CHANGE, onAuthStateChanged),
+      takeLatest(AuthorizeActionType.FETCH_USER_REGISTER_TOKEN, getUserRegisterToken)
     ])
   }
   

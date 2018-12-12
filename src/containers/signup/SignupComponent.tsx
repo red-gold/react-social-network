@@ -1,7 +1,8 @@
 // - Import react components
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import {Map} from 'immutable'
+import { push } from 'connected-react-router'
 import { NavLink, withRouter } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
@@ -27,58 +28,11 @@ import StringAPI from 'src/api/StringAPI'
 import { ISignupComponentProps } from './ISignupComponentProps'
 import { ISignupComponentState } from './ISignupComponentState'
 import { UserRegisterModel } from 'src/models/users/userRegisterModel'
-import { Grid } from '@material-ui/core'
-
-const styles = (theme: any) => ({
-  root: {
-    padding: '20px 40px 36px',
-    [theme.breakpoints.down('xs')]: {
-      padding: '0px 40px 36px'
-
-    },
-  },
-  textField: {
-    minWidth: 280,
-    marginTop: 20
-
-  },
-  contain: {
-    margin: '0 auto',
-    marginTop: 50
-  },
-  paper: {
-    minHeight: 370,
-    maxWidth: 450,
-    minWidth: 337,
-    textAlign: 'center',
-    display: 'block',
-    margin: 'auto'
-  },
-  caption: {
-    marginTop: 30,
-    marginBottom: 15
-  },
-  logo: {
-    height: 60
-  },
-  link: {
-    color: theme.palette.primary.main,
-    display: 'inline-block'
-  },
-  bottomPaper: {
-    display: 'inherit',
-    fontSize: 'small',
-    marginTop: 15,
-    marginBottom: 15
-  },
-  signupButton: {
-    maxWidth: 280,
-    minWidth: 280,
-  },
-  signupButtonRoot: {
-
-  }
-})
+import CircularProgress from '@material-ui/core/CircularProgress'
+import Grid from '@material-ui/core/Grid'
+import { ServerRequestStatusType } from 'src/store/actions/serverRequestStatusType'
+import { ServerRequestType } from 'src/constants/serverRequestType'
+import { signupStyles } from './signupStyles'
 
 // - Create Signup component class
 export class SignupComponent extends Component<ISignupComponentProps, ISignupComponentState> {
@@ -220,8 +174,11 @@ export class SignupComponent extends Component<ISignupComponentProps, ISignupCom
    */
   render() {
 
-    const { classes, t } = this.props
-
+    const { classes, t,  signupRequest } = this.props
+    const {emailInput} = this.state
+    const signupRequestId = StringAPI.createServerRequestId(ServerRequestType.AuthSignup, emailInput)
+    const signupRequestStatus = signupRequest!.get(signupRequestId, { status: ServerRequestStatusType.NoAction }).status
+    const loading = signupRequestStatus === ServerRequestStatusType.Sent
     return (
       <div className={classes.root}>
         <TextField
@@ -269,7 +226,21 @@ export class SignupComponent extends Component<ISignupComponentProps, ISignupCom
         <br />
         <br />
         <div className={classes.signupButtonRoot}>
-            <Button variant='contained' className={classes.signupButton} color='secondary' fullWidth onClick={this.handleForm}>{t!('signup.createButton')}</Button>
+        <div className={classes.wrapperButton}>
+              <Button
+                variant='contained'
+                className={classes.signupButton}
+                color='secondary'
+                disabled={loading}
+                onClick={this.handleForm}
+                fullWidth
+                tabIndex={3}
+              >
+                {t!('signup.createButton')}
+              </Button>
+              {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+
+            </div>
         </div>
         <Typography className={classes.caption} variant='caption' component='p'>
           {t!('signup.termCaption')} <NavLink to='/terms'> {t!('signup.termCaptionLink')} </NavLink>
@@ -305,13 +276,14 @@ const mapDispatchToProps = (dispatch: any, ownProps: ISignupComponentProps) => {
 /**
  * Map state to props
  */
-const mapStateToProps = (state: any, ownProps: ISignupComponentProps) => {
+const mapStateToProps = (state: Map<string, any>, ownProps: ISignupComponentProps) => {
+  const signupRequest = state.getIn(['server', 'request'], Map({}))
   return {
-    
+    signupRequest
   }
 }
 
 // - Connect component to redux store
 const translateWrraper = translate('translations')(SignupComponent as any)
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any) as any)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(signupStyles as any)(translateWrraper as any) as any) as any)

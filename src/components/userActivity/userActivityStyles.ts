@@ -72,7 +72,7 @@ export const userActivityStyles = (theme: any) => ({
         width: 30
     },
     content: {
-        padding: '15px 15px 15px 15px',
+        padding: '15px 15px 1px 15px',
     },
     buttonBounties: {
         minWidth: 0,
@@ -105,6 +105,9 @@ export const userActivityStyles = (theme: any) => ({
     },
     allPrivileges: {
         
+    },
+    allPrivilegesButton: {
+        fontSize: '0.715rem'
     },
     borderAnimation: {
       WebkitAnimation: 'pulse-shadow--collection 2s infinite',

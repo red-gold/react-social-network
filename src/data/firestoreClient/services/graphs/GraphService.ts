@@ -116,7 +116,7 @@ export class GraphService implements IGraphService {
     => Promise<firebase.firestore.QuerySnapshot> = (collection, leftNode, edgeType, rightNode) => {
       return new Promise<firebase.firestore.QuerySnapshot>((resolve,reject) => {
         let graphsRef = db.collection(`graphs:${collection}`) as any
-
+        
         if (leftNode != null) {
           graphsRef = graphsRef.where('leftNode', '==', leftNode)
         }

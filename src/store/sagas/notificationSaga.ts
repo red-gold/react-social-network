@@ -12,7 +12,7 @@ import { UserClaim } from 'core/domain/authorize/userClaim'
 import * as notificatioActions from 'store/actions/notifyActions'
 import * as globalActions from 'store/actions/globalActions'
 import { LoginUser } from 'core/domain/authorize/loginUser'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { NotificationActionType } from 'constants/notificationActionType'
 import * as userActions from 'store/actions/userActions'
 /**

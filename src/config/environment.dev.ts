@@ -11,8 +11,8 @@ export const environment = {
     messagingSenderId: '279832856094'
   },
   algolia: {
-    appId: 'JJ7GX95B11',
-    apiKey: 'db4f59806d1f0f47bc9daa0dc7e0ea48'
+    appId: 'TOS20M7VT1',
+    apiKey: 'c283440030db1f9446e8b410f7352479'
   },
   data: {
     imageFolderPath: 'images',

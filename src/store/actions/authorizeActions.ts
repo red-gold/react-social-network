@@ -1,6 +1,6 @@
 
 // - Import react components
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import {Map} from 'immutable'
 
 // -Import domain
@@ -22,8 +22,6 @@ import * as serverActions from 'store/actions/serverActions'
 
 import { provider } from 'src/socialEngine'
 import { SocialProviderTypes } from 'core/socialProviderTypes'
-import config from 'src/config'
-import { VerificationType } from 'core/domain/authorize/verificationType'
 import { AuthAPI } from 'api/AuthAPI'
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 
@@ -35,7 +33,27 @@ import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
 export const login = (user: LoginUser) => {
   return {
     type: AuthorizeActionType.LOGIN,
-    payload: Map(user)
+    payload: Map(user as any)
+  }
+}
+
+/**
+ * Fetch user registeration token
+ */
+export const fetchUserRegisterToken = (user: UserRegisterModel) => {
+  return {
+    type: AuthorizeActionType.SET_USER_REGISTER_TOKEN,
+    payload: {user}
+  }
+}
+
+/**
+ * Set user registeration token
+ */
+export const setUserRegisterToken = (token: string) => {
+  return {
+    type: AuthorizeActionType.SET_USER_REGISTER_TOKEN,
+    payload: {token}
   }
 }
 
@@ -112,7 +130,7 @@ export const dbLogin = (email: string, password: string) => {
 export const dbLogout = () => {
   return (dispatch: any, getState: any) => {
     return authorizeService.logout().then((result) => {
-      localStorage.removeItem('firebase.token')
+      localStorage.removeItem('red-gold.scure.token')
       dispatch(logout())
       dispatch(push('/login'))
 
@@ -142,18 +160,25 @@ export const dbSendEmailVerfication = (value: any) => {
 }
 
 /**
- *
- * @param user for registering
+ * Register user
  */
 export const dbSignup = (user: UserRegisterModel) => {
   return (dispatch: Function, getState: Function) => {
+
+    let signupRequest =  AuthAPI.createSignupRequest(user.email)
+    dispatch(serverActions.sendRequest(signupRequest))
+
     dispatch(globalActions.showNotificationRequest())
+
     let newUser = new UserRegisterModel()
     newUser.email = user.email
     newUser.password = user.password
     newUser.fullName = user.fullName
 
     return authorizeService.registerUser(newUser).then((result) => {
+      signupRequest.status = ServerRequestStatusType.OK
+      dispatch(serverActions.sendRequest(signupRequest))
+
       dispatch(signup({
         userId: result.uid,
         ...user
@@ -161,6 +186,8 @@ export const dbSignup = (user: UserRegisterModel) => {
       dispatch(push('/'))
     })
       .catch((error: SocialError) => {
+        signupRequest.status = ServerRequestStatusType.Error
+      dispatch(serverActions.sendRequest(signupRequest))
         dispatch(globalActions.showMessage(error.message))
       })
   }

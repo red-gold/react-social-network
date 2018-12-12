@@ -58,7 +58,7 @@ export let userReducer = (state: Map<string, any> = Map(new UserState()), action
         .mergeIn(['entities', payload.uid], payload.info)
 
     case UserActionType.CLEAR_ALL_DATA_USER:
-      return Map(new UserState())
+      return Map(new UserState() as any)
 
     case UserActionType.HAS_MORE_DATA_PROFILE:
       return state

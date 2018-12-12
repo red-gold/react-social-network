@@ -28,6 +28,7 @@ import CommentAPI from 'src/api/CommentAPI'
 import { UserSettingType } from 'core/services/users/userSettingType'
 import { NotificationType } from 'core/domain/notifications/notificationType'
 import { userSelector } from 'store/reducers/users/userSelector'
+import { User } from 'core/domain/users'
 
 /**
  * Get service providers
@@ -46,10 +47,10 @@ export const dbAddComment = (ownerPostUserId: string, newComment: Comment, callB
 
     const state: Map<string, any> = getState()
     let uid: string = state.getIn(['authorize', 'uid'])
-    const currentUser = userSelector.getUserProfileById(state, {userId: uid}).toJS()
+    const currentUser = userSelector.getUserProfileById(state, {userId: uid}).toJS() as User
     let comment: Comment = {
       score: 0,
-      creationDate: moment().unix(),
+      creationDate: moment.utc().valueOf(),
       userDisplayName: currentUser.fullName,
       userAvatar: currentUser.avatar,
       userId: uid,

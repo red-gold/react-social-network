@@ -3,7 +3,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import Snackbar from '@material-ui/core/Snackbar'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import { Helmet } from 'react-helmet'
@@ -148,9 +148,9 @@ const mapDispatchToProps = (dispatch: any, ownProps: IMasterComponentProps) => {
  * @param {object} state
  */
 const mapStateToProps = (state: Map<string, any>) => {
-  const authorize = Map(state.get('authorize', {})).toJS()
+  const authorize = Map(state.get('authorize', {})).toJS() as any
   const global = Map(state.get('global', {})).toJS()
-  const { sendFeedbackStatus, progress } = global
+  const { sendFeedbackStatus, progress } = global as any
   return {
     sendFeedbackStatus,
     progress,

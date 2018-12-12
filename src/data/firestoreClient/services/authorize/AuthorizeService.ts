@@ -13,16 +13,20 @@ import { SocialError } from 'core/domain/common'
 
 import { OAuthType } from 'core/domain/authorize/oauthType'
 import moment from 'moment/moment'
-import { injectable } from 'inversify'
+import { injectable, inject } from 'inversify'
 import { UserClaim } from 'core/domain/authorize/userClaim'
 import { UserRegisterModel } from 'models/users/userRegisterModel'
+import { SocialProviderTypes } from 'src/core/socialProviderTypes'
+import { IHttpService } from 'src/core/services/webAPI'
 /**
  * Firbase authorize service
  */
 @injectable()
 export class AuthorizeService implements IAuthorizeService {
-  constructor() {
-    this.getIdToken = this.getIdToken.bind(this)
+  
+  constructor(
+    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
+  ) {
   }
   /**
    * Login the user
@@ -56,7 +60,7 @@ export class AuthorizeService implements IAuthorizeService {
       if (authedUser) {
         const user = authedUser.user!
         const idToken = await user.getIdToken()
-        localStorage.setItem('firebase.token', idToken)
+        localStorage.setItem('red-gold.scure.token', idToken)
         if (authedUser) {
           const loginUser = new LoginUser(
             user.uid,
@@ -87,7 +91,7 @@ export class AuthorizeService implements IAuthorizeService {
       firebaseAuth()
         .signOut()
         .then((result) => {
-          localStorage.removeItem('firebase.token')
+          localStorage.removeItem('red-gold.scure.token')
           resolve()
         })
         .catch((error: any) => {
@@ -100,19 +104,31 @@ export class AuthorizeService implements IAuthorizeService {
   /**
    * Register a user
    */
-  public registerUser: (user: UserRegisterModel) => Promise<RegisterUserResult> = (user) => {
-    return new Promise<RegisterUserResult>((resolve, reject) => {
-      firebaseAuth()
-        .createUserWithEmailAndPassword(user.email as string, user.password as string)
-        .then((signupResult) => {
-          const { uid, email } = signupResult.user!
-          this.storeUserInformation(uid, email!, user.fullName, '', user.email!, user.password!).then(resolve)
-        })
-        .catch((error: any) => {
+  public getUserRegisterToken = async (user: UserRegisterModel) => {
+    try {
+      const token =  this._httpService.postWithoutAuth(`${config.settings.api}user-register-token`, {
+        user: {...user}
+      })
+      return token
+    } catch (error) {
+      throw new SocialError(error.code, error.message)
+    }
+  }
 
-          reject(new SocialError(error.code, error.message))
-        })
-    })
+  /**
+   * Register a user
+   */
+  public registerUser = async (user: UserRegisterModel) => {
+    try {
+      const signupResult = await firebaseAuth()
+        .createUserWithEmailAndPassword(user.email as string, user.password as string)
+        
+          const { uid, email } = signupResult.user!
+          const result = await this.storeUserInformation(uid, email!, user.fullName, '', user.email!, user.password!)
+          return result
+    } catch (error) {
+      throw new SocialError(error.code, error.message)
+    }
   }
 
   /**
@@ -120,7 +136,7 @@ export class AuthorizeService implements IAuthorizeService {
    */
   public isUserUserVerified() {
     let phoneVerified = false
-    const token = localStorage.getItem('firebase.token')
+    const token = localStorage.getItem('red-gold.scure.token')
     if (token) {
       phoneVerified = (jwtDecode(token) as any).claims.phoneVerified
     }
@@ -191,7 +207,7 @@ export class AuthorizeService implements IAuthorizeService {
     return firebaseAuth().onAuthStateChanged((user) => {
       if (user) {
         user.getIdToken().then((idToken) => {
-          localStorage.setItem('firebase.token', idToken)
+          localStorage.setItem('red-gold.scure.token', idToken)
         })
 
       }
@@ -220,7 +236,6 @@ export class AuthorizeService implements IAuthorizeService {
    */
   public sendEmailVerification = async (value: any) => {
     const scop = this
-    debugger
     const currentUser = firebaseAuth().currentUser
     if (currentUser) {
       const tokenId = await currentUser.getIdToken()
@@ -279,18 +294,6 @@ export class AuthorizeService implements IAuthorizeService {
       })
 
     })
-  }
-
-  /**
-   * Get current user id token
-   */
-  public getIdToken: () => Promise<string> = async () => {
-    const currentUser = firebaseAuth().currentUser
-    if (currentUser) {
-      const token = await currentUser.getIdToken()
-      return token
-    }
-    return localStorage.getItem('firebase.token') as string
   }
 
   /**

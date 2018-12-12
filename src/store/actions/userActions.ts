@@ -108,7 +108,7 @@ export const dbUpdateUserInfo = (newProfile: User) => {
       profile = profile.set('accessUserList', newProfile.accessUserList)
     }
 
-    return userService.updateUserProfile(uid,profile.toJS()).then(() => {
+    return userService.updateUserProfile(uid,profile.toJS() as User ).then(() => {
 
       dispatch(updateUserInfo(uid, profile))
       dispatch(closeEditProfile())

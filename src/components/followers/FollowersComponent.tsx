@@ -82,7 +82,7 @@ const mapStateToProps = (state: Map<string, any>,ownProps: IFollowersComponentPr
 
   const uid = state.getIn(['authorize', 'uid'], 0)
   const circles: { [circleId: string]: Circle } = state.getIn(['circle', 'circleList'], {})
-  const followers = state.getIn(['circle', 'userTieds'], {})
+  const followers = state.getIn(['circle', 'userTieds'], Map({}))
   return{
     
     followers

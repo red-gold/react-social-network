@@ -116,7 +116,7 @@ export class ChatComponent extends Component<IChatProps, IChatState> {
    */
   sendMessage(message: any) {
     const { messageText } = this.state
-    const currentDate = moment().unix()
+    const currentDate = moment.utc().valueOf()
     const { currentUser, receiverUser, sendMessage, currentChatRoom } = this.props
     let translation: string | undefined = undefined
 
@@ -563,7 +563,7 @@ const makeMapStateToProps = () => {
   const selectCurrentMessages = chatSelector.selectCurrentMessages()
   const selectCurrentUser = authorizeSelector.selectCurrentUser()
   const mapStateToProps = (state: Map<string, any>, ownProps: IChatProps) => {
-    const receiverUser: User = selectCurrentReceiver(state, {}).toJS()
+    const receiverUser: User = selectCurrentReceiver(state, {}).toJS() as User
     const followers = state.getIn(['circle', 'userTieds'], Map({}))
     return {
       

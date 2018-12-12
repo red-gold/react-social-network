@@ -2,7 +2,7 @@
 import React, { Component, Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {push} from 'react-router-redux'
+import {push} from 'connected-react-router'
 import classNames from 'classnames'
 import PropTypes from 'prop-types'
 import EventListener, { withOptions } from 'react-event-listener'
@@ -55,6 +55,7 @@ import { albumStreamStyles } from './albumStreamStyles'
 import { userSelector } from 'store/reducers/users/userSelector'
 import { ArrayAPI } from 'api/ArrayAPI'
 import { PostType } from 'core/domain/posts/postType'
+import { User } from 'core/domain/users'
 
 // - Create component class
 export class AlbumStreamComponent extends Component<IAlbumStreamProps, IAlbumStreamState> {
@@ -263,7 +264,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IAlbumStreamProps) => {
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IAlbumStreamProps) => {
   const uid = state.getIn(['authorize', 'uid'])
-  const currentUser = userSelector.getUserProfileById(state, { userId: uid }).toJS()
+  const currentUser = userSelector.getUserProfileById(state, { userId: uid }).toJS() as User
   const streamRequestStatus = state.getIn(['server', 'request', ownProps.requestId])
   return {
     streamRequestStatus: streamRequestStatus ? streamRequestStatus.status : ServerRequestStatusType.NoAction,

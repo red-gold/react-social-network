@@ -40,7 +40,7 @@ export class UserService implements IUserService {
                 reject(reject(new SocialError(`firestore/providerdata`, 'firestore/getUserProfile : Provider data or email of provider data is empty!')))
               }
               const { avatar, fullName, email } = providerData
-              const userProfile = new User(avatar, fullName && fullName !== '' ? fullName : email, '', '', moment().unix(), email, -1, '', '', '')
+              const userProfile = new User(avatar, fullName && fullName !== '' ? fullName : email, '', '', moment.utc().valueOf(), email, -1, '', '', '')
               resolve(userProfile)
               this.updateUserProfile(userId, userProfile)
             })

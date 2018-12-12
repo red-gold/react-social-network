@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import _ from 'lodash'
 import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 
 import config from 'src/config'
 import jwtDecode from 'jwt-decode'
@@ -89,10 +89,10 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
   }
 
   componentDidMount() {
-    const { global, clearData, loadData, authed, defaultDataEnable, isVerifide, goTo } = this.props
+    const { global, clearData, loadData, authed, defaultDataEnable, goTo } = this.props
     let phoneVerified = false
     let emailVerified = false
-    const token = localStorage.getItem('firebase.token')
+    const token = localStorage.getItem('red-gold.scure.token')
     if (token) {
 
       phoneVerified = (jwtDecode(token) as any).phoneVerified
@@ -103,11 +103,11 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
       goTo!('/login')
       return
     }
-
-      if (config.settings.verificationType === VerificationType.email && !emailVerified) {
+    const isVerified = emailVerified || phoneVerified
+      if (config.settings.verificationType === VerificationType.email && !isVerified) {
         goTo!('/emailVerification')
 
-      } else if (config.settings.verificationType === VerificationType.phone && !phoneVerified) {
+      } else if (config.settings.verificationType === VerificationType.phone && !isVerified) {
         goTo!('/smsVerification')
       } else if (!global.defaultLoadDataStatus) {
 

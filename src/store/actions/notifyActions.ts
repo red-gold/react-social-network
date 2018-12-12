@@ -16,6 +16,7 @@ import { INotificationService } from 'src/core/services/notifications'
 import { SocialProviderTypes } from 'src/core/socialProviderTypes'
 import { provider } from 'src/socialEngine'
 import { authorizeSelector } from 'store/reducers/authorize'
+import { User } from 'core/domain/users'
 
 /**
  * Get service providers
@@ -36,11 +37,11 @@ export const dbAddNotification = (newNotify: Notification) => {
       description: newNotify.description,
       url: newNotify.url,
       notifierUserId: newNotify.notifierUserId,
-      notifierProfile: Map(currentUset).toJS(),
+      notifierProfile: Map(currentUset).toJS() as User,
       notifyRecieverUserId: newNotify.notifyRecieverUserId,
       emailNotification: newNotify.emailNotification === true,
       type: newNotify.type,
-      creationDate: moment().unix()
+      creationDate: moment.utc().valueOf()
     }
 
     return notificationService.addNotification(notify)
@@ -92,7 +93,7 @@ export const dbSeenNotification = (id: string) => {
     let notify: Map<string, any> = state.getIn(['notify', 'userNotifies', id])
 
     let updatedNotification: Notification = {
-      ...notify.toJS(),
+      ...(notify.toJS() as Notification),
       notifyRecieverUserId: uid,
       isSeen: true
     }

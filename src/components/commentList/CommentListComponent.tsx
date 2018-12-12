@@ -73,14 +73,14 @@ export class CommentListComponent extends Component<ICommentListComponentProps, 
    */
   commentList = () => {
     let comments = Map<string, Comment>(this.props.comments)
-    let commentsEditorStatus = Map<string, boolean>(this.props.commentsEditorStatus!)
+    let commentsEditorStatus = Map<string, boolean>(this.props.commentsEditorStatus as any)
     if (!comments.isEmpty()) {
 
       let parsedComments: Comment[] = []
       comments.forEach((comment, commentId) => {
         parsedComments.push({
           id: commentId,
-          ...Map(comment!).toJS()
+          ...comment!
         })
       })
       let sortedComments = PostAPI.sortObjectsDate(parsedComments)

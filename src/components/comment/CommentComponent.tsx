@@ -360,7 +360,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
         <NavLink to={`/${userId}`}> <span style={this.styles.author as any}>{comment.userDisplayName}</span></NavLink><span style={{
           fontWeight: 400,
           fontSize: '8px'
-        }}>{moment.unix(comment.creationDate!).fromNow()}</span>
+        }}>{moment(comment.creationDate!).local().fromNow()}</span>
       </div>
     )
     const { userId } = comment

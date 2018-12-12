@@ -1,9 +1,8 @@
 // - Import react components
 import React, { Component } from 'react'
-import moment from 'moment/moment'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 
 import classNames from 'classnames'
 import { Map, List as ImuList } from 'immutable'
@@ -11,29 +10,7 @@ import { translate, Trans } from 'react-i18next'
 
 // - Material UI
 import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import RaisedButton from '@material-ui/core/Button'
-import MenuList from '@material-ui/core/MenuList'
-import MenuItem from '@material-ui/core/MenuItem'
-import Checkbox from '@material-ui/core/Checkbox'
-import TextField from '@material-ui/core/TextField'
-import Tooltip from '@material-ui/core/Tooltip'
 import { withStyles } from '@material-ui/core/styles'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import Divider from '@material-ui/core/Divider'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import SvgAdd from '@material-ui/icons/Add'
-import MessageIcon from '@material-ui/icons/Message'
-import IconButton from '@material-ui/core/IconButton'
-import { grey } from '@material-ui/core/colors'
 
 // - Import app components
 import UserAvatar from 'components/userAvatar'
@@ -47,10 +24,6 @@ import * as circleActions from 'store/actions/circleActions'
 import { IUserBoxComponentProps } from './IUserBoxComponentProps'
 import { IUserBoxComponentState } from './IUserBoxComponentState'
 import { User } from 'core/domain/users'
-import { UserTie, Circle } from 'core/domain/circles'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { ServerRequestModel } from 'models/server'
 import { userSelector } from 'store/reducers/users/userSelector'
 import FollowDialogComponent from 'components/followDialog'
 
@@ -188,7 +161,7 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
             </div>
           </div>
           <div style={this.styles.followButton as any}>
-            <FollowDialogComponent userId={userId} user={user && user.toJS()}/>
+            <FollowDialogComponent userId={userId} user={user && user.toJS() as User}/>
           </div>
         </div>
       </Paper>
@@ -214,7 +187,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IUserBoxComponentPro
   const uid = state.getIn(['authorize', 'uid'])
   const request = state.getIn(['server', 'request'])
 
-  const userBox = userSelector.getUserProfileById(state, { userId: ownProps.userId }).toJS()
+  const userBox = userSelector.getUserProfileById(state, { userId: ownProps.userId }).toJS() as User
   return {
     
     avatar: userBox.avatar || '',

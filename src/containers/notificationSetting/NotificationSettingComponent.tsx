@@ -5,7 +5,7 @@ import config from 'src/config'
 
 import classNames from 'classnames'
 import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { Map } from 'immutable'
 import { translate, Trans } from 'react-i18next'
 

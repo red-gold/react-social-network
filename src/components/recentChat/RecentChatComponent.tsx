@@ -185,7 +185,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IRecentChatProps) => {
  * Map state to props
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IRecentChatProps) => {
-  const followers = state.getIn(['circle', 'userTieds'], {})
+  const followers = state.getIn(['circle', 'userTieds'], Map({}))
 
   return {
     

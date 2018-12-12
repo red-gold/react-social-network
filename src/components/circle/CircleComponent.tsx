@@ -1,7 +1,7 @@
 // - Import react components
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { Map, List as ImuList } from 'immutable'
 import { translate, Trans } from 'react-i18next'
 

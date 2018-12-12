@@ -53,6 +53,10 @@
                 "function": "publicAuth"
             },
             {
+                "source": "/api/user-register-token",
+                "function": "publicAuth"
+            },
+            {
                 "source": "/api/verify-email",
                 "function": "auth"
             },
