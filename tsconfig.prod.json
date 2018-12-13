@@ -36,7 +36,7 @@
         "suppressImplicitAnyIndexErrors": true,
         "noUnusedLocals": false,
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "emitDecoratorMetadata": true 
 
     },
     "include": [

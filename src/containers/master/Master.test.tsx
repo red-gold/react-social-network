@@ -5,25 +5,33 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import 'reflect-metadata'
 import 'typeface-roboto'
-import config from 'src/config'
 // import 'moment/locale/es'
 import 'locales/i18n'
 import { Provider } from 'react-redux'
 import configureStore from 'store/configureStore'
-import { ConnectedRouter } from 'connected-react-router'
+import { ConnectedRouter } from 'connected-react-router/immutable'
 import { I18nextProvider } from 'react-i18next'
+import i18n from 'locales/i18n'
 
 // - Actions
 import * as localeActions from 'store/actions/localeActions'
 import * as globalActions from 'store/actions/globalActions'
 
+// - Import app components
+import Master from 'containers/master'
+// import { App } from 'components/AWS'
+// App css
+import 'styles/app.css'
+
 /**
  * Execute startup functions
  */
-import '../../socialEngine'
+import 'socialEngine'
 import rootSaga from 'store/sagas/rootSaga'
 import * as authorizeActions from 'store/actions/authorizeActions'
 import { socialTheme } from 'config/socialTheme'
+import MasterComponent from './MasterComponent';
+import { StaticRouter, MemoryRouter } from 'react-router';
 
 configureStore.runSaga(rootSaga)
 
@@ -40,21 +48,20 @@ try { injectTapEventPlugin() } catch (e) { }
 
 const theme = createMuiTheme(socialTheme)
 
-import MasterComponent from './MasterComponent'
-import i18n from 'locales/i18n'
+const supportsHistory = 'pushState' in window.history
 describe('renders without crashing', () => {
   test('Master Componet', () => {
     const div = document.createElement('div')
     ReactDOM.render(
-    <Provider store={configureStore.store}>
+      <Provider store={configureStore.store}>
       <I18nextProvider
             i18n={i18n}
           >
-        <ConnectedRouter history={configureStore.history}>
+        <MemoryRouter>
           <MuiThemeProvider theme={theme}>
             <MasterComponent />
           </MuiThemeProvider>
-        </ConnectedRouter>
+        </MemoryRouter>
         </I18nextProvider>
       </Provider>
       , div)
