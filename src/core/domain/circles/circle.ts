@@ -32,11 +32,15 @@ export class Circle extends BaseDomain {
      * @type {string}
      * @memberof User
      */
-  public name: string
+  public name?: string
 
   /**
    * Whether it's configured by system
    */
-  public isSystem: boolean
+  public isSystem?: boolean
+
+  constructor() {
+    super()
+  }
 
 }

@@ -412,7 +412,7 @@ export class ChatComponent extends Component<IChatProps, IChatState> {
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
-          <FormControl fullWidth component='li' className={classes.searchField}>
+          <FormControl fullWidth component='div' className={classes.searchField}>
             <Input
               className={classes.searchInput}
               id='adornment-search'

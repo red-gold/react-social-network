@@ -115,4 +115,4 @@ export class TimelineComponent extends Component<ITimelineComponentProps, ITimel
 }
 
 // - Connect component to redux store
-export default withStyles(timelineStyles as any)(TimelineComponent as any) as typeof TimelineComponent
+export default withStyles(timelineStyles as any)(TimelineComponent as any)

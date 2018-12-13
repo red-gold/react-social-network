@@ -131,4 +131,4 @@ export class SearchPostComponent extends Component<ISearchPostProps, ISearchPost
 // - Connect component to redux store
 const translateWrraper = translate('translations')(SearchPostComponent as any)
 
-export default withRouter<any>(connectSearchPost(withStyles(searchPostStyles as any)(translateWrraper as any) as any)) as typeof SearchPostComponent
+export default withRouter<any>(connectSearchPost(withStyles(searchPostStyles as any)(translateWrraper as any) as any))

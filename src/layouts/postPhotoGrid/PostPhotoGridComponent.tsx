@@ -73,4 +73,4 @@ export class PostPhotoGridComponent extends Component<IPostPhotoGridProps, IPost
 }
 
 // - Connect component to redux store
-export default withStyles(postPhotoGridStyles as any)(PostPhotoGridComponent as any) as typeof PostPhotoGridComponent
+export default withStyles(postPhotoGridStyles as any)(PostPhotoGridComponent as any)

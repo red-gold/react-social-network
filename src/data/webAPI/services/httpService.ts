@@ -9,12 +9,10 @@ import { IPermissionService } from 'src/core/services/security/IPermissionServic
 @injectable()
 export class HttpService implements IHttpService {
 
-    private _permissionService: IPermissionService
+    @inject(SocialProviderTypes.PermissionService) private _permissionService: IPermissionService
 
     constructor(
-        @inject(SocialProviderTypes.PermissionService) permissionService: IPermissionService
     ) { 
-        this._permissionService = permissionService
         this.get = this.get.bind(this)
         this.post = this.post.bind(this)
     }

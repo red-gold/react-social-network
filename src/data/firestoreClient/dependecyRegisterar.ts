@@ -14,7 +14,7 @@ import { IAuthorizeService } from 'core/services/authorize'
 import { AuthorizeService } from './services/authorize/AuthorizeService'
 import { CircleService } from './services/circles/CircleService'
 import { ICommentService } from 'core/services/comments'
-import { ICommonService } from 'core/services/common'
+import { ICommonService } from 'src/core/services/common/ICommonService'
 import { IStorageService } from 'core/services/files'
 import { IImageGalleryService } from 'core/services/imageGallery'
 import { INotificationService } from 'core/services/notifications'
@@ -29,7 +29,7 @@ import { UserSettingService } from 'data/firestoreClient/services/users/UserSett
 import { IChatService } from 'core/services/chat'
 import { ChatService } from 'data/firestoreClient/services/chat'
 import { IPermissionService } from 'core/services/security/IPermissionService'
-import { PermissionService } from './services/security/permissionService'
+import { PermissionService } from './services/security/PermissionService'
 
 /**
  * Register firestore client dependecies
@@ -39,7 +39,7 @@ export const useFirestore = (container: Container) => {
   container.bind<IAuthorizeService>(SocialProviderTypes.AuthorizeService).to(AuthorizeService)
   container.bind<ICircleService>(SocialProviderTypes.CircleService).to(CircleService)
   container.bind<ICommentService>(SocialProviderTypes.CommentService).to(CommentService)
-  container.bind<ICommonService>(SocialProviderTypes.CommonService).to(CommonService)
+  container.bind<ICommonService>(SocialProviderTypes.CommonService).to(CommonService).inSingletonScope()
   container.bind<IStorageService>(SocialProviderTypes.StorageService).to(StorageService)
   container.bind<IImageGalleryService>(SocialProviderTypes.ImageGalleryService).to(ImageGalleryService)
   container.bind<INotificationService>(SocialProviderTypes.NotificationService).to(NotificationService)

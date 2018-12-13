@@ -1,6 +1,5 @@
 //#region Interfaces
 
-import { IServiceProvider } from 'core/factories'
 import { injectable } from 'inversify'
 import {
   IAuthorizeService,
@@ -26,17 +25,11 @@ import {
   VoteService,
   StorageService
 } from 'data/firestoreClient/services'
+import { IServiceProvider } from './IServiceProvider';
 
 //#endregion
 @injectable()
 export class ServiceProvide implements IServiceProvider {
-
-  /**
-   * Create instant for Authorize Service
-   */
-  createAuthorizeService: () => IAuthorizeService = () => {
-    return new AuthorizeService()
-  }
 
   /**
    * Create instant for Circle Service

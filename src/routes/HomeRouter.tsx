@@ -163,4 +163,4 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IRouterProps) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeRouter as any) as any) as typeof HomeRouter
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HomeRouter as any) as any)

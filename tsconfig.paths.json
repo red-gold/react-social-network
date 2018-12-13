@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./src/", // enables you to import relative to this folder
+        "isolatedModules": false,
+        "paths": {
+            "src/*": ["*"],
+            "core/*": ["core/*"],
+            "routes/*": ["routes/*"],
+            "data/*": ["data/*"],
+            "components/*": ["components/*"],
+            "store/*": ["store/*"],
+            "api/*": ["api/*"],
+            "layouts/*": ["layouts/*"],
+            "models/*": ["models/*"]
+        },
+        }
+}

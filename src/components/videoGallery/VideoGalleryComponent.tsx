@@ -90,7 +90,7 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps, IVideoGalleryS
    */
   fileInputRef: RefObject<HTMLInputElement>
   videoRef: RefObject<HTMLVideoElement>
-  blobFile: Blob
+  blobFile: any
   file: any
 
   /**

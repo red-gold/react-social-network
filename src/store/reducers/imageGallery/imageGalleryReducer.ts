@@ -70,7 +70,7 @@ export let imageGalleryReducer = (state = Map(new ImageGalleryState() as any), a
 
     case ImageGalleryActionType.ADD_VIDEO_GALLERY:
       return state
-        .update('videos', (videoList: List<any>) => videoList.push(payload))
+        .update('videos', (videoList: any) => videoList.push(payload))
 
     case ImageGalleryActionType.ADD_VIDEO_LIST_GALLERY:
       return state
@@ -79,8 +79,8 @@ export let imageGalleryReducer = (state = Map(new ImageGalleryState() as any), a
 
     case ImageGalleryActionType.DELETE_VIDEO:
       return state
-        .update('videos', (videos: List<Image>) => {
-          return videos.filter((video) => video!.id !== payload)
+        .update('videos', (videos: any) => {
+          return videos.filter((video: any) => video!.id !== payload)
         })
 
     case ImageGalleryActionType.SEND_IMAGE_REQUEST:

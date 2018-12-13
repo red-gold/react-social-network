@@ -17,8 +17,8 @@ import { UserPermissionType } from 'core/domain/common/userPermissionType'
 @injectable()
 export class CommonService implements ICommonService {
 
+  @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
   constructor( 
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
   ) {
     this.getTwitterMedia = this.getTwitterMedia.bind(this)
   }

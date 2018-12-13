@@ -72,4 +72,4 @@ export class SponserComponent extends Component<ISponserProps, ISponserState> {
 // - Connect component to redux store
 const translateWrraper = translate('translations')(SponserComponent as any)
 
-export default withRouter<any>(connectSponser(withStyles(sponserStyles as any)(translateWrraper as any) as any)) as typeof SponserComponent
+export default withRouter<any>(connectSponser(withStyles(sponserStyles as any)(translateWrraper as any) as any))

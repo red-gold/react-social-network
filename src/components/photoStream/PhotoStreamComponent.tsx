@@ -146,4 +146,4 @@ export class PhotoStreamComponent extends Component<IPhotoStreamProps, IPhotoStr
 // - Connect component to redux store
 const translateWrraper = translate('translations')(PhotoStreamComponent as any)
 
-export default withRouter<any>(connectPhotoStream(withStyles(photoStreamStyles as any)(translateWrraper as any) as any)) as typeof PhotoStreamComponent
+export default withRouter<any>(connectPhotoStream(withStyles(photoStreamStyles as any)(translateWrraper as any) as any))

@@ -112,7 +112,7 @@ export class UserPermissionComponent extends Component<IUserPermissionProps, IUs
           </Typography>
         </DialogActions>
         <DialogContent className={classes.dialogContent}>
-          <FormControl component='fieldset' required className={classes.formControl}>
+          <FormControl component='div' required className={classes.formControl}>
             <RadioGroup
               aria-label='selectedValue'
               name='selectedValue'

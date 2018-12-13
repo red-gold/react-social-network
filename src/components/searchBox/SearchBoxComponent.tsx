@@ -178,7 +178,7 @@ export class SearchBoxComponent extends Component<ISearchBoxProps, ISearchBoxSta
     )
 
     return (
-        <FormControl fullWidth component='li' className={classes.searchField}>
+        <FormControl fullWidth component='div' className={classes.searchField}>
           <Input
             className={classes.searchInput}
             onBlur={this.handleCloseList}

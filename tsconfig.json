@@ -1,54 +1,51 @@
 {
-
-    "compilerOptions": {
-        "esModuleInterop": true,
-        "types": [
-            "node",
-            "jest",
-            "reflect-metadata"],
-        "allowSyntheticDefaultImports": true, // see below
-        "baseUrl": "./src/", // enables you to import relative to this folder
-        "paths": {
-            "src/*": ["*"],
-            "core/*": ["core/*"],
-            "routes/*": ["routes/*"],
-            "data/*": ["data/*"],
-            "components/*": ["components/*"],
-            "store/*": ["store/*"],
-            "api/*": ["api/*"],
-            "layouts/*": ["layouts/*"],
-            "models/*": ["models/*"]
-        },
-        "outDir": "build/dist",
-        "module": "esnext",
-        "target": "es5",
-        "lib": ["es7", "dom"],
-        "sourceMap": true,
-        "allowJs": true,
-        "jsx": "react",
-        "moduleResolution": "node",
-        "rootDir": "src",
-        "forceConsistentCasingInFileNames": true,
-        "noImplicitReturns": false,
-        "noImplicitThis": true,
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "noUnusedLocals": false,
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
-
-    },
-    "include": [
-        "src/**/*"
+  "extends": "./tsconfig.paths.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "types": [
+      "node",
+      "jest",
+      "reflect-metadata"
     ],
-    "exclude": [
-        "node_modules",
-        "build",
-        "scripts",
-        "acceptance-tests",
-        "webpack",
-        "jest",
-        "src/setupTests.ts"
-    ]
+    "allowSyntheticDefaultImports": true,
+    "outDir": "build/dist",
+    "module": "esnext",
+    "target": "es5",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "sourceMap": true,
+    "allowJs": true,
+    "jsx": "preserve",
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": false,
+    "noImplicitThis": true,
+    "noImplicitAny": true,
+    "isolatedModules": true,
+    "strictNullChecks": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "strictPropertyInitialization": false,
+    "noUnusedLocals": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": false,
+    "strict": true,
+    "resolveJsonModule": true,
+    "noEmit": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "scripts",
+    "acceptance-tests",
+    "webpack",
+    "jest",
+    "src/setupTests.ts"
+  ]
 }

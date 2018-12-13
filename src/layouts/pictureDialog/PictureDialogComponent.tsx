@@ -98,4 +98,4 @@ export class PictureDialogComponent extends Component<IPictureDialogProps, IPict
 }
 
 // - Connect component to redux store
-export default withStyles(pictureDialogStyles as any)(PictureDialogComponent as any) as typeof PictureDialogComponent
+export default withStyles(pictureDialogStyles as any)(PictureDialogComponent as any)

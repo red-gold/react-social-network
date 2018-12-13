@@ -24,8 +24,8 @@ import { IHttpService } from 'src/core/services/webAPI'
 @injectable()
 export class AuthorizeService implements IAuthorizeService {
   
+  @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
   constructor(
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
   ) {
   }
   /**

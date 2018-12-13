@@ -418,4 +418,4 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISmsVerificationComp
 // - Connect component to redux store
 const translateWrraper = translate('translations')(SmsVerificationComponent as any)
 
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)) as typeof SmsVerificationComponent
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any))

@@ -6,13 +6,14 @@ import { SocialError } from 'core/domain/common'
 import { IImageGalleryService } from 'core/services/imageGallery'
 import { Image, FileGallery } from 'core/domain/imageGallery'
 import { IStorageService } from 'core/services/files'
-import { IServiceProvider, ServiceProvide } from 'core/factories'
 import { injectable } from 'inversify'
 import { Photo } from 'core/domain/imageGallery/photo'
 import { UserPermissionType } from 'core/domain/common/userPermissionType'
 import CommonAPI from 'api/CommonAPI'
 import { Post } from 'core/domain/posts/post'
 import { fromJS, Map } from 'immutable'
+import { IServiceProvider } from 'src/core/factories/IServiceProvider';
+import { ServiceProvide } from 'src/core/factories/serviceProvide';
 
 /**
  * Firbase image gallery service

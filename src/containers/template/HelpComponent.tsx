@@ -1,11 +1,5 @@
 // - Import react components
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import InfiniteScroll from 'react-infinite-scroll-component'
-
-import { Map } from 'immutable'
-import queryString from 'query-string'
 import { translate, Trans } from 'react-i18next'
 
 // - Material UI
@@ -68,4 +62,4 @@ export class HelpComponent extends Component<IHelpProps, IHelpState> {
 // - Connect component to redux store
 const translateWrraper = translate('translations')(HelpComponent as any)
 
-export default withRouter<any>(connectHelp(withStyles(helpStyles as any)(translateWrraper as any) as any)) as typeof HelpComponent
+export default withRouter<any>(connectHelp(withStyles(helpStyles as any)(translateWrraper as any) as any))

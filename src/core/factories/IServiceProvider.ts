@@ -12,11 +12,6 @@ import {
 
 export interface IServiceProvider {
 
-   /**
-    * Create authorize service
-    */
-  createAuthorizeService: () => IAuthorizeService
-
   /**
    * Create instant for Circle Service
    */

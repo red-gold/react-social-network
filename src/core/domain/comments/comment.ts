@@ -10,7 +10,7 @@ export class Comment extends BaseDomain {
   /**
    * Post identifier that comment belong to
    */
-  public postId: string
+  public postId?: string
 
   /**
    * Comment text

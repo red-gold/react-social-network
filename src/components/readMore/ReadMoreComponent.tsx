@@ -68,4 +68,4 @@ class ReadMoreComponent extends Component<IReadMoreProps, IReadMoreState> {
   }
 }
 
-export default withStyles(readMoreStyles as any)(ReadMoreComponent as any) as typeof ReadMoreComponent
+export default withStyles(readMoreStyles as any)(ReadMoreComponent as any)

@@ -71,7 +71,7 @@ export class PostAlbumComponent extends Component<IPostAlbumProps, IPostAlbumSta
                 {
                   <PostPhotoGridComponent 
                   images={gridImages} 
-                  onClick={(event, imageIndex) => this.handleImageClick(imageIndex, toggleLightbox)} />
+                  onClick={(event: any, imageIndex: number) => this.handleImageClick(imageIndex, toggleLightbox)} />
                 }
         
                   <div className={classNames(classes.titleContainer, { [classes.noDisplay]: !(currentAlbum && currentAlbum.album!.title) })}>
@@ -96,4 +96,4 @@ export class PostAlbumComponent extends Component<IPostAlbumProps, IPostAlbumSta
 }
 
 // - Connect component to redux store
-export default withStyles(postAlbumStyles as any)(PostAlbumComponent as any) as typeof PostAlbumComponent
+export default withStyles(postAlbumStyles as any)(PostAlbumComponent as any)

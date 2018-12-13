@@ -19,8 +19,8 @@ import * as R from 'ramda'
 @injectable()
 export class UserService implements IUserService {
 
+  @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
   constructor(
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
   ) {
     this.getSearchKey = this.getSearchKey.bind(this)
     this.searchUser = this.searchUser.bind(this)

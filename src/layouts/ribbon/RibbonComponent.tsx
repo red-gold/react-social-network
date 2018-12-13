@@ -57,4 +57,4 @@ export class RibbonComponent extends Component<IRibbonComponentProps, IRibbonCom
 }
 
 // - Connect component to redux store
-export default withStyles(ribbonStyles as any)(RibbonComponent as any) as typeof RibbonComponent
+export default withStyles(ribbonStyles as any)(RibbonComponent as any)

@@ -10,31 +10,31 @@ export class FileGallery extends BaseDomain {
   /**
    * Image creation date
    */
-  public creationDate: number
+  public creationDate!: number
 
   /**
    * Image delete date
    */
-  public deleteDate: string
+  public deleteDate!: string
 
   /**
    * Image URL address
    */
-  public URL: string
+  public URL!: string
 
   /**
    * Image owner identifier
    */
-  public ownerUserId: string
+  public ownerUserId!: string
 
   /**
    * Last edit date
    */
-  public lastEditDate: number
+  public lastEditDate!: number
 
   /**
    * If the image was deleted {true} or not {false}
    */
-  public deleted: boolean
+  public deleted!: boolean
 
 }

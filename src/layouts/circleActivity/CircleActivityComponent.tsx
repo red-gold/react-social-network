@@ -73,4 +73,4 @@ export class CircleActivityComponent extends Component<ICircleActivityComponentP
 }
 
 // - Connect component to redux store
-export default withStyles(circleActivityStyles as any)(CircleActivityComponent as any) as typeof CircleActivityComponent
+export default withStyles(circleActivityStyles as any)(CircleActivityComponent as any)

@@ -126,4 +126,4 @@ export class WebPageComponent extends Component<IWebPageProps, IWebPageState> {
 }
 
 // - Connect component to redux store
-export default withStyles(webPageStyles as any)(WebPageComponent as any) as typeof WebPageComponent
+export default withStyles(webPageStyles as any)(WebPageComponent as any)

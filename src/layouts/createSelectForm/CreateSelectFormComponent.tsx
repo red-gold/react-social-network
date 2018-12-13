@@ -1,20 +1,11 @@
 // - Import react components
 import React, { Component } from 'react'
-import classNames from 'classnames'
-import CreatableSelect from 'react-select/lib/Creatable'
 
 // - Material-UI
 import { withStyles } from '@material-ui/core/styles'
-import Input from '@material-ui/core/Input/Input'
-import {InputProps} from '@material-ui/core/Input/Input'
-import InputLabel from '@material-ui/core/InputLabel/InputLabel'
-import InputAdornment from '@material-ui/core/InputAdornment/InputAdornment'
 import { ICreateSelectFormProps } from './ICreateSelectFormProps'
-import { ICreateSelectFormState } from './ICreateSelectFormState'
 import { createSelectFormStyles } from './createSelectFormStyles'
 import { FieldProps, FormikValues } from 'formik'
-import CreateSelect from 'layouts/createSelect'
-import { ICreateSelectProps } from 'layouts/createSelect/ICreateSelectProps'
 
 class CreateSelectForm extends React.Component<
 FieldProps<FormikValues> & ICreateSelectFormProps 
@@ -59,4 +50,4 @@ FieldProps<FormikValues> & ICreateSelectFormProps
 
   }
 }
-export default withStyles(createSelectFormStyles)(CreateSelectForm as any) as typeof CreateSelectForm
+export default withStyles(createSelectFormStyles)(CreateSelectForm as any)

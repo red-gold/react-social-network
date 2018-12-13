@@ -19,8 +19,8 @@ import { UserTie } from 'core/domain/circles'
 @injectable()
 export class UserTieService implements IUserTieService {
 
+  @inject(FirestoreClientTypes.GraphService) private _graphService: IGraphService
   constructor(
-    @inject(FirestoreClientTypes.GraphService) private _graphService: IGraphService
   ) {
   }
 

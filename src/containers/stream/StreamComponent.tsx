@@ -118,4 +118,4 @@ export class StreamComponent extends Component<IStreamComponentProps, IStreamCom
 // - Connect component to redux store
 const translateWrraper = translate('translations')(StreamComponent as any)
 
-export default withRouter<any>(connectStream(withStyles(streamStyles)(translateWrraper as any) as any)) as typeof StreamComponent
+export default withRouter<any>(connectStream(withStyles(streamStyles)(translateWrraper as any) as any))

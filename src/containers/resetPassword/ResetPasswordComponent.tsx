@@ -389,4 +389,4 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IResetPasswordCompon
 // - Connect component to redux store
 const translateWrraper = translate('translations')(ResetPasswordComponent as any)
 
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any))) as typeof ResetPasswordComponent
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any)))

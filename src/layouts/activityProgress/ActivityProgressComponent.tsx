@@ -52,4 +52,4 @@ export class ActivityProgressComponent extends Component<IActivityProgressCompon
 }
 
 // - Connect component to redux store
-export default withStyles(activityProgressStyles as any)(ActivityProgressComponent as any) as typeof ActivityProgressComponent
+export default withStyles(activityProgressStyles as any)(ActivityProgressComponent as any)

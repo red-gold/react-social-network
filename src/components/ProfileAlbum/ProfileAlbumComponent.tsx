@@ -208,4 +208,4 @@ export class ProfileAlbumComponent extends Component<IProfileAlbumProps, IProfil
 // - Connect component to redux store
 const translateWrraper = translate('translations')(ProfileAlbumComponent as any)
 
-export default withRouter<any>(connectProfileAlbum(withStyles(profileAlbumStyles as any, {withTheme: true})(translateWrraper as any) as any)) as typeof ProfileAlbumComponent
+export default withRouter<any>(connectProfileAlbum(withStyles(profileAlbumStyles as any, {withTheme: true})(translateWrraper as any) as any))

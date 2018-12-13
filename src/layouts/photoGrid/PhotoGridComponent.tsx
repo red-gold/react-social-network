@@ -141,4 +141,4 @@ export class PhotoGridComponent extends Component<IPhotoGridProps, IPhotoGridSta
 }
 
 // - Connect component to redux store
-export default withStyles(photoGridStyles as any)(PhotoGridComponent as any) as typeof PhotoGridComponent
+export default withStyles(photoGridStyles as any)(PhotoGridComponent as any)

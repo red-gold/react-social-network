@@ -124,4 +124,4 @@ export class SearchUserComponent extends Component<ISearchUserProps, ISearchUser
 // - Connect component to redux store
 const translateWrraper = translate('translations')(SearchUserComponent as any)
 
-export default withRouter<any>(connectSearchUser(withStyles(searchUserStyles as any)(translateWrraper as any) as any)) as typeof SearchUserComponent
+export default withRouter<any>(connectSearchUser(withStyles(searchUserStyles as any)(translateWrraper as any) as any))

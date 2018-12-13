@@ -20,8 +20,8 @@ import { PostType } from 'core/domain/posts/postType'
 @injectable()
 export class PostService implements IPostService {
 
+  @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
   constructor(
-    @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
   ) {
     this.getSearchKey = this.getSearchKey.bind(this)
     this.searchPosts = this.searchPosts.bind(this)
