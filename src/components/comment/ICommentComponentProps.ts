@@ -55,6 +55,20 @@ export interface ICommentComponentProps {
   update?: (comment: Comment) => any
 
   /**
+   * Redirect to {url} route
+   *
+   * @memberof IPostComponentProps
+   */
+  goTo?: (url: string) => any
+
+  /**
+   * Set tile of top bar
+   *
+   * @memberof IPostComponentProps
+   */
+  setHomeTitle?: (title: string) => any
+
+  /**
    * Delete comment
    *
    * @memberof ICommentComponentProps

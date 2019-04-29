@@ -9,6 +9,7 @@ import Linkify from 'react-linkify'
 import Popover from '@material-ui/core/Popover'
 import { getTranslate, getActiveLanguage } from 'react-localize-redux'
 import {Map} from 'immutable'
+import { push } from 'connected-react-router'
 
 import { Comment } from 'core/domain/comments'
 
@@ -32,6 +33,7 @@ import { Card, CardActions, CardHeader, CardMedia, CardContent } from '@material
 import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import classNames from 'classnames'
+import reactStringReplace from 'react-string-replace'
 
 // - Import app components
 import UserAvatar from 'components/userAvatar'
@@ -41,6 +43,7 @@ import UserAvatar from 'components/userAvatar'
 // - Import actions
 import * as commentActions from 'store/actions/commentActions'
 import * as userActions from 'store/actions/userActions'
+import * as globalActions from 'store/actions/globalActions'
 
 import { ICommentComponentProps } from './ICommentComponentProps'
 import { ICommentComponentState } from './ICommentComponentState'
@@ -305,7 +308,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
     /**
      * Comment object from props
      */
-    const { comment, classes, fullName, avatar, translate , editorStatus} = this.props
+    const { comment, classes, fullName, avatar, translate , editorStatus, goTo, setHomeTitle} = this.props
 
     const { openMenu, anchorEl } = this.state
 
@@ -373,7 +376,27 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
                 onChange={this.handleOnChange}
                 className={classes.textField}
                 fullWidth={true}
-              /> : <div className={classNames('animate2-top10', classes.commentBody)}>{this.state.text}</div>}
+              /> : <div className={classNames('animate2-top10', classes.commentBody)}>{
+                
+                <Linkify properties={{ target: '_blank', style: { color: 'blue' } }}>
+                  {reactStringReplace(this.state.text, /#(\w+)/g, (match: string, i: string) => (
+                    <NavLink
+                      style={{ color: 'green' }}
+                      key={match + i}
+                      to={`/tag/${match}`}
+                      onClick={evt => {
+                        evt.preventDefault()
+                        goTo!(`/tag/${match}`)
+                        setHomeTitle!(`#${match}`)
+                      }}
+                    >
+                      #{match}
+        
+                    </NavLink>
+
+                  ))}
+                </Linkify>}
+                </div>}
 
         <div style={{ display: (editorStatus ? 'flex' : 'none'), flexDirection: 'row-reverse' }}>
           <Button color='primary' disabled={this.state.editDisabled}
@@ -418,9 +441,11 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentComponentProps) => 
     update: (comment: Comment) => {
       dispatch(commentActions.dbUpdateComment(comment))
     },
+    goTo: (url: string) => dispatch(push(url)),
     openEditor: () => dispatch(commentActions.openCommentEditor({ id: ownProps.comment.id, postId: ownProps.comment.postId })),
     closeEditor: () => dispatch(commentActions.closeCommentEditor({ id: ownProps.comment.id, postId: ownProps.comment.postId })),
-    getUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(ownProps.comment.userId!, ''))
+    setHomeTitle: (title: string) => dispatch(globalActions.setHeaderTitle(title || '')),
+    getUserInfo: () => dispatch(userActions.dbGetUserInfoByUserId(ownProps.comment.userId!, '')),
   }
 }
 
