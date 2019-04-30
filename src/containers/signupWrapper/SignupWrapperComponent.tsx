@@ -5,35 +5,12 @@ import { NavLink, withRouter } from 'react-router-dom'
 import { push } from 'connected-react-router'
 import config from 'src/config'
 
-import ReactMarkdown from 'react-markdown'
 import { Map } from 'immutable'
 import { translate, Trans } from 'react-i18next'
 
 // - Material-UI
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import Button from '@material-ui/core/Button'
-import List from '@material-ui/core/List'
-import MenuItem from '@material-ui/core/MenuItem'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import DraftsIcon from '@material-ui/icons/Drafts'
-import StarIcon from '@material-ui/icons/Star'
-import SendIcon from '@material-ui/icons/Autorenew'
-import CookieIcon from '@material-ui/icons/Fingerprint'
-import PrivacyIcon from '@material-ui/icons/Https'
-import SignupWrapperIcon from '@material-ui/icons/Assignment'
-import IconButton from '@material-ui/core/IconButton'
-import Hidden from '@material-ui/core/Hidden'
-import MenuIcon from '@material-ui/icons/Menu'
 
 // - Components
 import Footer from 'layouts/footer'
@@ -43,12 +20,9 @@ import SignupComponent from '../signup'
 import * as authorizeActions from 'src/store/actions/authorizeActions'
 import { ISignupWrapperProps } from './ISignupWrapperProps'
 import { ISignupWrapperState } from './ISignupWrapperState'
-import { OAuthType } from 'src/core/domain/authorize'
-import Grid from '@material-ui/core/Grid/Grid'
-import CommonAPI from 'api/CommonAPI'
-import Paper from '@material-ui/core/Paper'
-import { localeDocs } from 'locales/localeDocs'
 import { signupWrapperStyles } from './signupWrapperStyles'
+import { authorizeSelector } from 'src/store/reducers/authorize/authorizeSelector'
+import VerifySignupComponent from 'src/components/verifySignup/VerifySignupComponent';
 
 // - Create Login component class
 export class SignupWrapperComponent extends Component<ISignupWrapperProps, ISignupWrapperState> {
@@ -66,7 +40,7 @@ export class SignupWrapperComponent extends Component<ISignupWrapperProps, ISign
    * Reneder component DOM
    */
   render() {
-    const { classes, t, loginPage, currentLanguage, theme, children } = this.props
+    const { classes, currentStep} = this.props
 
     return (
       <div className={classes.root}>
@@ -77,11 +51,16 @@ export class SignupWrapperComponent extends Component<ISignupWrapperProps, ISign
           <div className={classNames(classes.centerRoot, 'animate-bottom')}>
             <div className={classes.centerContainer}>
               <div className={classNames(classes.contain, classes.pageItem)}>
-                <SignupComponent />
+              {
+                currentStep === 0 
+                ? <SignupComponent />
+                : <VerifySignupComponent />
+              }
+                
               </div>
             </div>
           </div>
-          <div style={{height: 30}}></div>
+          <div style={{height: 130}}></div>
           <Footer />
 
         </div>
@@ -101,16 +80,19 @@ const mapDispatchToProps = (dispatch: any, ownProps: ISignupWrapperProps) => {
   }
 }
 
-/**
- * Map state to props
- */
-const mapStateToProps = (state: Map<string, any>, ownProps: ISignupWrapperProps) => {
-  return {
-    
+
+const makeMapStateToProps = () => {
+  const selectSignupStep = authorizeSelector.selectSignupStep()
+  const mapStateToProps = (state: Map<string, any>, ownProps: ISignupWrapperProps) => {
+
+    return {
+      currentStep: selectSignupStep(state)
+    }
   }
+  return mapStateToProps
 }
 
 // - Connect component to redux store
 const translateWrraper = translate('translations')(SignupWrapperComponent as any)
 
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(signupWrapperStyles as any, { withTheme: true })(SignupWrapperComponent as any) as any))
+export default withRouter<any>(connect(makeMapStateToProps, mapDispatchToProps)(withStyles(signupWrapperStyles as any, { withTheme: true })(SignupWrapperComponent as any) as any))

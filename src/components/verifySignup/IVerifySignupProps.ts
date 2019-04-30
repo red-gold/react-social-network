@@ -1,6 +1,6 @@
 import {Map} from 'immutable'
 import { UserRegisterModel } from 'src/models/users'
-export interface ISignupComponentProps {
+export interface IVerifySignupProps {
 
   /**
    * Display error
@@ -8,9 +8,9 @@ export interface ISignupComponentProps {
   showError?: (message: string) => any
 
     /**
-     * Register user
+     * Verify user registeration
      */
-  register?: (data: UserRegisterModel, captchaVerifier: string) => any
+  verify?: (code: string) => any
 
     /**
      * Login

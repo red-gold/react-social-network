@@ -1,4 +1,6 @@
 export enum VerificationType {
-    email,
-    phone
+    Phone,
+    Email,
+    Provide,
+    None
 }

@@ -128,6 +128,20 @@ export const defaultDataDisable = () => {
 }
 
 /**
+ * Show message
+ */
+export const showMessage = (message: string) => {
+  if (!message || message === '' || (message && message.trim() === '')) {
+    message = 'Bad request'
+  }
+  return {
+    type: GlobalActionType.SHOW_MESSAGE_GLOBAL,
+    payload: {message}
+  }
+
+}
+
+/**
  * Hide global message
  */
 export const hideMessage = () => {
@@ -139,16 +153,26 @@ export const hideMessage = () => {
 }
 
 /**
- * Show message
- * @param {string} message
+ * Show message by reference
  */
-export const showMessage = (message: string) => {
+export const showMessageByReference = (message: string, referenceKey: string, showGlobal?: boolean) => {
   if (!message || message === '' || (message && message.trim() === '')) {
     message = 'Bad request'
   }
   return {
-    type: GlobalActionType.SHOW_MESSAGE_GLOBAL,
-    payload: message
+    type: GlobalActionType.SHOW_MESSAGE_BY_REFERENCE,
+    payload: {message, referenceKey, showGlobal}
+  }
+
+}
+
+/**
+ * Hide message by reference
+ */
+export const hideMessageByReference = () => {
+  hideTopLoading()
+  return {
+    type: GlobalActionType.HIDE_MESSAG_BY_REFERENCE
   }
 
 }
@@ -335,6 +359,7 @@ export const closeDialog = (type: DialogType) => {
     payload: {type}
   }
 }
+
 
 /**
  * Create send feedback serevr request model

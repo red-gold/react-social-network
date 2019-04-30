@@ -6,16 +6,11 @@ import ReCAPTCHA from 'react-google-recaptcha'
 import {Map} from 'immutable'
 
 // - Material UI
-import Button from '@material-ui/core/Button'
-import grey from '@material-ui/core/colors/grey'
-import TextField from '@material-ui/core/TextField'
 import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
 
 // - Import app components
 
 // - Import API
-import StringAPI from 'api/StringAPI'
 
 // - Import actions
 import { IRecaptchaComponentProps } from './IRecaptchaComponentProps'

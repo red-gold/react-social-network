@@ -3,12 +3,12 @@ import { VerificationType } from 'core/domain/authorize/verificationType'
 
 export const environment = {
   firebase: {
-    apiKey: 'AIzaSyCk35d9IYhVhymcsvIFHArPOLIbxxvfRVs',
-    authDomain: 'test-e28bf.firebaseapp.com',
-    databaseURL: 'https://test-e28bf.firebaseio.com',
-    projectId: 'test-e28bf',
-    storageBucket: 'test-e28bf.appspot.com',
-    messagingSenderId: '279832856094'
+    apiKey: 'AIzaSyBrE1ESWPE4PvWnqNhW4d_P_wC6k9dNCHw',
+    authDomain: 'red-gold.firebaseapp.com',
+    databaseURL: 'https://red-gold.firebaseio.com',
+    projectId: 'red-gold',
+    storageBucket: 'red-gold.appspot.com',
+    messagingSenderId: '659592156778'
   },
   algolia: {
     appId: 'TOS20M7VT1',
@@ -37,7 +37,7 @@ export const environment = {
     logo: require('assets/images/logo.png'),
     defaultLanguage: LanguageType.English,
     defaultVideoThumbnails: require('assets/images/defaultVideoThumbnails.png'),
-    verificationType: VerificationType.email,
+    verificationType: VerificationType.Email,
     companyName: 'Red Gold',
     defaultProfileCover: require('assets/images/coversocial.png'),
     publicCover: require('assets/images/public-cover.jpg'),

@@ -18,6 +18,7 @@ import { UserClaim } from 'core/domain/authorize/userClaim'
 import { UserRegisterModel } from 'models/users/userRegisterModel'
 import { SocialProviderTypes } from 'src/core/socialProviderTypes'
 import { IHttpService } from 'src/core/services/webAPI'
+import { AuthKeywordsEnum } from 'src/models/authorize/authKeywordsEnum';
 /**
  * Firbase authorize service
  */
@@ -31,9 +32,9 @@ export class AuthorizeService implements IAuthorizeService {
   /**
    * Login the user
    */
-  public login: (email: string, password: string) => Promise<LoginUser> = (email, password) => {
+  public login = (email: string, password: string) => {
 
-    return new Promise<LoginUser>((resolve, reject) => {
+    return new Promise<LoginUser | null>((resolve, reject) => {
       axios.post(`${config.settings.api}login`, {
         userName: email,
         password: password
@@ -53,7 +54,7 @@ export class AuthorizeService implements IAuthorizeService {
   /**
    * Login user by token
    */
-  public async loginByToken(token: any) {
+  public async loginByToken(token: string) {
 
     try {
       const authedUser = await firebaseAuth().signInWithCustomToken(token)
@@ -74,7 +75,9 @@ export class AuthorizeService implements IAuthorizeService {
           return loginUser
         }
 
+        
       }
+      return null
 
     } catch (error) {
       // Handle Errors here.
@@ -104,10 +107,27 @@ export class AuthorizeService implements IAuthorizeService {
   /**
    * Register a user
    */
-  public getUserRegisterToken = async (user: UserRegisterModel) => {
+  public getUserRegisterToken = async (user: UserRegisterModel, captchaVerifier: string) => {
     try {
-      const token =  this._httpService.postWithoutAuth(`${config.settings.api}user-register-token`, {
-        user: {...user}
+      const token =  await this._httpService.postWithoutAuth(`user-register-token`, {
+        user: {...user},
+        verifyType: config.settings.verificationType,
+        'g-recaptcha-response': captchaVerifier
+      })
+      return token[AuthKeywordsEnum.TokenVerificaitonSecretData]
+    } catch (error) {
+      throw new SocialError(error.code, error.message)
+    }
+  }
+
+  /**
+   * Verify user register code
+   */
+  public verifyUserRegisterCode = async (code: string, registerToken: string) => {
+    try {
+      const token =  this._httpService.postWithoutAuth(`verify-register-user`, {
+        code,
+        [AuthKeywordsEnum.TokenVerificaitonSecretData]: registerToken
       })
       return token
     } catch (error) {

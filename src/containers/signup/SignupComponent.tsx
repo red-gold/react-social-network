@@ -12,7 +12,6 @@ import { withStyles } from '@material-ui/core/styles'
 import config from 'src/config'
 
 import Typography from '@material-ui/core/Typography'
-import Hidden from '@material-ui/core/Hidden'
 import Divider from '@material-ui/core/Divider'
 import { translate, Trans } from 'react-i18next'
 
@@ -29,10 +28,10 @@ import { ISignupComponentProps } from './ISignupComponentProps'
 import { ISignupComponentState } from './ISignupComponentState'
 import { UserRegisterModel } from 'src/models/users/userRegisterModel'
 import CircularProgress from '@material-ui/core/CircularProgress'
-import Grid from '@material-ui/core/Grid'
 import { ServerRequestStatusType } from 'src/store/actions/serverRequestStatusType'
 import { ServerRequestType } from 'src/constants/serverRequestType'
 import { signupStyles } from './signupStyles'
+import RecaptchaComponent from 'src/components/recaptcha';
 
 // - Create Signup component class
 export class SignupComponent extends Component<ISignupComponentProps, ISignupComponentState> {
@@ -104,12 +103,39 @@ export class SignupComponent extends Component<ISignupComponentProps, ISignupCom
     }
   }
 
+
+  /**
+   * Handle success result of solving captcha
+   */
+  handleSuccessCaptcha = (value: any) => {
+    this.setState({
+      captchaVerifier: value,
+      isCaptchaSuccess: true
+    })
+  }
+
+  /**
+   * Handle expired captcha
+   */
+  handleExpiredCaptcha = () => {
+    const { showError, t } = this.props
+    showError!(t!('resetPassword.capthaExpiredMessage'))
+  }
+
+  /**
+   * Handle error capthcha render
+   */
+  handleErrorCapthaRender = () => {
+    const { showError, t } = this.props
+    showError!(t!('resetPassword.capthaRenderErrorMessage'))
+  }
+
   /**
    * Handle register form
    */
   handleForm = () => {
 
-    const { fullNameInput, emailInput, passwordInput, confirmInput } = this.state
+    const { fullNameInput, emailInput, passwordInput, confirmInput, captchaVerifier } = this.state
     const { register, t } = this.props
 
     let error = false
@@ -163,7 +189,7 @@ export class SignupComponent extends Component<ISignupComponentProps, ISignupCom
         email: emailInput,
         password: passwordInput,
         fullName: fullNameInput
-      })
+      }, captchaVerifier)
     }
 
   }
@@ -223,7 +249,11 @@ export class SignupComponent extends Component<ISignupComponentProps, ISignupCom
           type='password'
           InputLabelProps={{color: 'secondary'}}
         />
-        <br />
+       <div style={{height: 30}} />
+        <RecaptchaComponent 
+        onSuccess={this.handleSuccessCaptcha} 
+        onExpired={this.handleExpiredCaptcha} 
+        onRenderError={this.handleErrorCapthaRender} />
         <br />
         <div className={classes.signupButtonRoot}>
         <div className={classes.wrapperButton}>
@@ -264,8 +294,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: ISignupComponentProps) => {
     showError: (message: string) => {
       dispatch(globalActions.showMessage(message))
     },
-    register: (userRegister: UserRegisterModel) => {
-      dispatch(authorizeActions.dbSignup(userRegister))
+    register: (userRegister: UserRegisterModel, captchaVerifier: string) => {
+      dispatch(authorizeActions.fetchUserRegisterToken(userRegister, captchaVerifier))
     },
     loginPage: () => {
       dispatch(push('/login'))

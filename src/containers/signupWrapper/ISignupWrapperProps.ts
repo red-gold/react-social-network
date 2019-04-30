@@ -1,5 +1,11 @@
+import { SignupStepEnum } from "src/models/authorize/signupStepEnum"
 
 export interface ISignupWrapperProps {
+
+  /**
+   * Current step
+   */
+  currentStep?: SignupStepEnum
 
   /**
    * Styles

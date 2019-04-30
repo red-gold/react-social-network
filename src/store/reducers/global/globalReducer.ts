@@ -5,12 +5,18 @@ import { GlobalState } from './GlobalState'
 import { IGlobalAction } from './IGlobalAction'
 import { Map, fromJS } from 'immutable'
 
+/**
+ * Progress change
+ */
 const progressChange = (state: Map<string, any> , payload: any) => {
  return state
         .setIn(['progress', 'percent'], payload.percent)
         .setIn(['progress', 'visible'], payload.visible)
 }
 
+/**
+ * Progress change by keu
+ */
 const progressChangeWithKey = (state: Map<string, any> , payload: any) => {
   return state
         .setIn(['progress', payload.progressKey, 'percent'], payload.percent)
@@ -18,6 +24,54 @@ const progressChangeWithKey = (state: Map<string, any> , payload: any) => {
         .setIn(['progress', payload.progressKey, 'meta'], payload.meta)
 
 }
+
+/**
+ * Show global message
+ */
+const showGlobalMessage = (state: Map<string, any> , action: any) => {
+  const {payload} = action
+  const { message} = payload
+  return state
+  .set('message', message)
+  .set('messageOpen', true)
+} 
+
+/**
+ * Show message by reference
+ */
+const showMessageByReference = (state: Map<string, any> , action: any) => {
+  const {payload} = action
+  const {refrenceKey, message} = payload
+  if (refrenceKey && refrenceKey !== undefined && refrenceKey !== null) {
+    return state
+      .setIn(['messageByRef', refrenceKey], message)
+      .setIn(['messageByRefeOpen', refrenceKey], true)
+  }
+  return state
+} 
+
+/**
+ * Hide global message
+ */
+const hideGlobalMessage = (state: Map<string, any> , action: any) => {
+  return state
+  .set('message', '')
+  .set('messageOpen', false)
+} 
+
+/**
+ * Hide message by reference
+ */
+const hideMessageByReference = (state: Map<string, any> , action: any) => {
+  const {payload} = action
+  const {refrenceKey} = payload
+  if (refrenceKey && refrenceKey !== undefined && refrenceKey !== null) {
+    return state
+      .setIn(['messageByRef', refrenceKey], '')
+      .setIn(['messageByRefeOpen', refrenceKey], false)
+  }
+  return state
+} 
 
 /**
  * Global reducer
@@ -37,21 +91,13 @@ export const globalReducer = (state: Map<string, any> = Map(new GlobalState()), 
       return state
         .set('defaultLoadDataStatus', true)
 
-    case GlobalActionType.SHOW_MESSAGE_GLOBAL:
-      return state
-        .set('message', action.payload)
-        .set('messageOpen', true)
+    case GlobalActionType.SHOW_MESSAGE_GLOBAL: return showGlobalMessage(state, action)
 
-    case GlobalActionType.SHOW_NORMAL_MESSAGE_GLOBAL:
-      return state
-        .set('message', action.payload)
-        .set('messageOpen', true)
+    case GlobalActionType.HIDE_MESSAGE_GLOBAL: return hideGlobalMessage(state, action)
 
-    case GlobalActionType.HIDE_MESSAGE_GLOBAL:
-      return state
-        .set('message', action.payload)
-        .set('messageOpen', false)
-        .set('messageColor', '')
+    case GlobalActionType.SHOW_MESSAGE_BY_REFERENCE: return showMessageByReference(state, action)
+
+    case GlobalActionType.HIDE_MESSAG_BY_REFERENCE: return hideMessageByReference(state, action)
 
     case GlobalActionType.SET_HEADER_TITLE:
       return state
@@ -102,7 +148,6 @@ export const globalReducer = (state: Map<string, any> = Map(new GlobalState()), 
     case GlobalActionType.CLEAR_ALL_GLOBAL:
       return state
         .set('sendFeedbackStatus', false)
-
     default:
       return state
   }

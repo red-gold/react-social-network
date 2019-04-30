@@ -49,11 +49,7 @@ try { injectTapEventPlugin() } catch (e) { }
 const theme = createMuiTheme(socialTheme)
 
 const supportsHistory = 'pushState' in window.history
-configureStore.store.dispatch(authorizeActions.fetchUserRegisterToken({
-	fullName: 'amir',
-	email: 'amir.gholzam@live.com',
-	password: 'hello'
-}))
+
 ReactDOM.render(
 	<Provider store={configureStore.store}>
 	<I18nextProvider

@@ -16,31 +16,15 @@ import { translate, Trans } from 'react-i18next'
 
 import { withStyles } from '@material-ui/core/styles'
 import Drawer from '@material-ui/core/Drawer'
-import Menu from '@material-ui/core/Menu'
-import Portal from '@material-ui/core/Portal'
 import MenuList from '@material-ui/core/MenuList'
 import MenuItem from '@material-ui/core/MenuItem'
-import ListItem from '@material-ui/core/ListItem'
-import ListIcon from '@material-ui/core/ListItemIcon'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
-
-import List from '@material-ui/core/List'
-import Typography from '@material-ui/core/Typography'
-import IconButton from '@material-ui/core/IconButton'
 import Hidden from '@material-ui/core/Hidden'
-import MenuIcon from '@material-ui/icons/Menu'
 
 // - Import app components
-import Sidebar from 'src/components/sidebar'
-import StreamComponent from 'containers/stream'
 import HomeHeader from 'src/components/homeHeader'
-import SidebarContent from 'src/components/sidebarContent'
-import SidebarMain from 'src/components/sidebarMain'
-import Profile from 'containers/profile'
-import PostPage from 'containers/postPage'
-import People from 'containers/people'
 
 // - Import API
 
@@ -90,24 +74,21 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
 
   componentDidMount() {
     const { global, clearData, loadData, authed, defaultDataEnable, goTo } = this.props
-    let phoneVerified = false
-    let emailVerified = false
+    let isVerified = false
     const token = localStorage.getItem('red-gold.scure.token')
     if (token) {
 
-      phoneVerified = (jwtDecode(token) as any).phoneVerified
-      emailVerified = (jwtDecode(token) as any).emailVerified
+      isVerified = (jwtDecode(token) as any).isVerified
       console.trace('token', (jwtDecode(token) as any))
     }
     if (!authed) {
       goTo!('/login')
       return
     }
-    const isVerified = emailVerified || phoneVerified
-      if (config.settings.verificationType === VerificationType.email && !isVerified) {
+      if (config.settings.verificationType === VerificationType.Email && !isVerified) {
         goTo!('/emailVerification')
 
-      } else if (config.settings.verificationType === VerificationType.phone && !isVerified) {
+      } else if (config.settings.verificationType === VerificationType.Phone && !isVerified) {
         goTo!('/smsVerification')
       } else if (!global.defaultLoadDataStatus) {
 
@@ -127,13 +108,11 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
     }
   }
 
-  onActive(event: any) {
-    console.log('user is active', event)
+  onActive() {
     console.log('time remaining', this.idleTimer.current.getRemainingTime())
   }
 
-  onIdle(event: any) {
-    console.log('user is idle', event, this.idleTimer)
+  onIdle() {
     console.log('last active', this.idleTimer.current.getLastActiveTime())
   }
 

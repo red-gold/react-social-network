@@ -49,7 +49,7 @@
                 "function": "publicAuth"
             },
             {
-                "source": "/api/verify-reset-password",
+                "source": "/api/verify-reset-password-code",
                 "function": "publicAuth"
             },
             {
@@ -57,32 +57,24 @@
                 "function": "publicAuth"
             },
             {
-                "source": "/api/verify-email",
-                "function": "auth"
-            },
-            {
-                "source": "/api/email-verification-code",
+                "source": "/api/create-verification-code",
                 "function": "publicAuth"
             },
             {
-                "source": "/api/email-verification",
-                "function": "auth"
+                "source": "/api/reset-password-code",
+                "function": "publicAuth"
             },
             {
-                "source": "/api/register",
-                "function": "auth"
+                "source": "/api/verify-register-user",
+                "function": "publicAuth"
+            },
+            {
+                "source": "/api/update-password",
+                "function": "publicAuth"
             },
             {
                 "source": "/chatLangauge",
                 "function": "chatLangauge"
-            },
-            {
-                "source": "/api/update-password",
-                "function": "auth"
-            },
-            {
-                "source": "/api/verify-phone",
-                "function": "auth"
             },
             {
                 "source": "/api/search/post",

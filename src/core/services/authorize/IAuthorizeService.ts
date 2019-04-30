@@ -11,7 +11,12 @@ export interface IAuthorizeService {
   /**
    * Login the user
    */
-  login: (email: string, password: string) => Promise<LoginUser>
+  login: (email: string, password: string) => Promise<LoginUser | null>
+
+  /**
+   * Login by token
+   */
+  loginByToken: (token: string) => Promise<LoginUser | null>
 
   /**
    * Logs out the user
@@ -34,9 +39,14 @@ export interface IAuthorizeService {
   updatePassword: (newPassword: string, confirmPassword: string) => Promise<void>
 
   /**
-   * Get register new user token
+   * Get register user token
    */
-  getUserRegisterToken: (user: UserRegisterModel) => Promise<string>
+  getUserRegisterToken: (user: UserRegisterModel, captchaVerifier: string) => Promise<string>
+
+  /**
+   * Verify user register code
+   */
+  verifyUserRegisterCode: (code: string, registerToken: string) => Promise<string>
 
   /**
    * Register new user

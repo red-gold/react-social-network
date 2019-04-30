@@ -5,7 +5,6 @@ import { NavLink, withRouter } from 'react-router-dom'
 import { push } from 'connected-react-router'
 import config from 'src/config'
 
-import FlagIcon from 'layouts/flagIcon'
 import { parse, format, AsYouType, isValidNumber } from 'libphonenumber-js'
 import classnames from 'classnames'
 import { translate, Trans } from 'react-i18next'
@@ -15,18 +14,14 @@ import { Map } from 'immutable'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import green from '@material-ui/core/colors/green'
 import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
-import RaisedButton from '@material-ui/core/Button'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
-import IInputAdornment from '@material-ui/core/InputAdornment'
 import FormControl from '@material-ui/core/FormControl'
 import FormHelperText from '@material-ui/core/FormHelperText'
-import IconButton from '@material-ui/core/IconButton'
 
 // - Components
 import Captcha from 'components/recaptcha'
@@ -43,62 +38,7 @@ import { IAuthorizeService } from 'core/services'
 import { provider } from 'socialEngine'
 import { SocialProviderTypes } from 'core/socialProviderTypes'
 import { LoginUser } from 'core/domain/authorize/loginUser'
-
-const styles = (theme: any) => ({
-  textField: {
-    minWidth: 280,
-    marginTop: 20
-
-  },
-  wrapper: {
-    margin: theme.spacing.unit,
-    position: 'relative',
-  },
-  buttonProgress: {
-    color: green[500],
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12,
-  },
-  caption: {
-    marginTop: 30
-  },
-  formControl: {
-    minWidth: 280
-  },
-  noDisplay: {
-    display: 'none'
-  },
-  loading: {
-    position: 'absolute',
-    top: '45%',
-    left: '45%'
-  },
-  contain: {
-    margin: '0 auto',
-    marginTop: 50
-  },
-  paper: {
-    minHeight: 370,
-    maxWidth: 450,
-    minWidth: 337,
-    textAlign: 'center',
-    display: 'block',
-    margin: 'auto'
-  },
-  logo: {
-    height: 50,
-    marginBottom: 30
-  },
-  boxRoot: {
-    padding: '20px 40px 36px'
-  },
-  backButton: {
-    margin: 8
-  }
-})
+import { resetPasswordStyles } from './resetPasswordStyles'
 
 /**
  * Create component class
@@ -389,4 +329,4 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IResetPasswordCompon
 // - Connect component to redux store
 const translateWrraper = translate('translations')(ResetPasswordComponent as any)
 
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any)))
+export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(resetPasswordStyles as any)(translateWrraper as any)))

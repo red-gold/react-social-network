@@ -32,9 +32,10 @@ export let authorizeReducer = (state = Map(new AuthorizeState() as any), action:
       .set('uid', payload.userId)
     case AuthorizeActionType.SET_USER_REGISTER_TOKEN:
       return state
-      .set('registerToken', payload.token)
-    case AuthorizeActionType.UPDATE_PASSWORD:
+      .setIn(['ui','registerToken'], payload.token)
+    case AuthorizeActionType.SET_SIGNUP_STEP:
       return state
+      .setIn(['ui','signupStep'], payload.step)
     default:
       return state
 

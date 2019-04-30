@@ -223,7 +223,7 @@ function* watchChatMessages(action: { type: ChatActionType, payload: any }) {
   const uid = authedUser.get('uid')
   if (uid) {
     try {
-      yield call(dbFetchChatMessages, uid, receiverId)
+      yield call(dbFetchChatMessages as any, uid, receiverId)
     } catch (error) {
       yield put(globalActions.showMessage(error.message))
 

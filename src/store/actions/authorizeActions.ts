@@ -24,6 +24,7 @@ import { provider } from 'src/socialEngine'
 import { SocialProviderTypes } from 'core/socialProviderTypes'
 import { AuthAPI } from 'api/AuthAPI'
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
+import { SignupStepEnum } from 'src/models/authorize/signupStepEnum';
 
 /* _____________ CRUD State _____________ */
 
@@ -40,10 +41,10 @@ export const login = (user: LoginUser) => {
 /**
  * Fetch user registeration token
  */
-export const fetchUserRegisterToken = (user: UserRegisterModel) => {
+export const fetchUserRegisterToken = (user: UserRegisterModel, captchaVerifier: string) => {
   return {
-    type: AuthorizeActionType.SET_USER_REGISTER_TOKEN,
-    payload: {user}
+    type: AuthorizeActionType.ASYNC_FETCH_USER_REGISTER_TOKEN,
+    payload: {user, captchaVerifier}
   }
 }
 
@@ -54,6 +55,16 @@ export const setUserRegisterToken = (token: string) => {
   return {
     type: AuthorizeActionType.SET_USER_REGISTER_TOKEN,
     payload: {token}
+  }
+}
+
+/**
+ * Verify user registeration code
+ */
+export const asyncVerifyUserRegisterCode = (code: string) => {
+  return {
+    type: AuthorizeActionType.ASYNC_VERITY_USER_REGISTER_CODE,
+    payload: {code}
   }
 }
 
@@ -84,6 +95,16 @@ export const updatePassword = () => {
 }
 
 /**
+ * Set signup component step
+ */
+export const setSignupStep = (step: SignupStepEnum ) => {
+  return { 
+    type: AuthorizeActionType.SET_SIGNUP_STEP,
+    payload: {step}
+  }
+}
+
+/**
  * Subscribe authorize state change
  */
 export const subcribeAuthorizeStateChange = () => {
@@ -110,11 +131,15 @@ export const dbLogin = (email: string, password: string) => {
 
     return authorizeService.login(email, password).then((result) => {
 
+      if (!result) {
+        throw new SocialError('authService/loginuser/null', 'Login was not successful')
+      }
+
       loginRequest.status = ServerRequestStatusType.OK
       dispatch(serverActions.sendRequest(loginRequest))
 
       dispatch(globalActions.showNotificationSuccess())
-      dispatch(login(result))
+      dispatch(login(result!))
       dispatch(push('/'))
     }, (error: SocialError) => {
       loginRequest.status = ServerRequestStatusType.Error
@@ -157,41 +182,6 @@ export const dbSendEmailVerfication = (value: any) => {
 
       })
   }
-}
-
-/**
- * Register user
- */
-export const dbSignup = (user: UserRegisterModel) => {
-  return (dispatch: Function, getState: Function) => {
-
-    let signupRequest =  AuthAPI.createSignupRequest(user.email)
-    dispatch(serverActions.sendRequest(signupRequest))
-
-    dispatch(globalActions.showNotificationRequest())
-
-    let newUser = new UserRegisterModel()
-    newUser.email = user.email
-    newUser.password = user.password
-    newUser.fullName = user.fullName
-
-    return authorizeService.registerUser(newUser).then((result) => {
-      signupRequest.status = ServerRequestStatusType.OK
-      dispatch(serverActions.sendRequest(signupRequest))
-
-      dispatch(signup({
-        userId: result.uid,
-        ...user
-      }))
-      dispatch(push('/'))
-    })
-      .catch((error: SocialError) => {
-        signupRequest.status = ServerRequestStatusType.Error
-      dispatch(serverActions.sendRequest(signupRequest))
-        dispatch(globalActions.showMessage(error.message))
-      })
-  }
-
 }
 
 /**
