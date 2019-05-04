@@ -1,45 +1,36 @@
 // - Impoer react components
-import React, { Component, RefObject } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import classNames from 'classnames'
-import config from 'src/config'
-import { translate, Trans } from 'react-i18next'
+import Button from '@material-ui/core/Button';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import { withStyles } from '@material-ui/core/styles';
+import Zoom from '@material-ui/core/Zoom';
+import AddVideoIcon from '@material-ui/icons/AddToQueue';
+import SvgDelete from '@material-ui/icons/Delete';
+import FileAPI from 'api/FileAPI';
+import classNames from 'classnames';
+import Img from 'components/img';
+import { VideoFile } from 'core/domain/imageGallery';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import PropTypes from 'prop-types';
+import React, { Component, RefObject } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import config from 'src/config';
+import * as globalActions from 'store/actions/globalActions';
+import * as imageGalleryActions from 'store/actions/imageGalleryActions';
+import { userSelector } from 'store/reducers/users/userSelector';
+import uuid from 'uuid';
+
+import { IVideoGalleryProps } from './IVideoGalleryProps';
+import { IVideoGalleryState } from './IVideoGalleryState';
+import { videoGalleryStyles } from './videoGalleryStyles';
 
 // - Material UI
-import GridList from '@material-ui/core/GridList'
-import GridListTileBar from '@material-ui/core/GridListTileBar'
-import GridListTile from '@material-ui/core/GridListTile'
-import IconButton from '@material-ui/core/IconButton'
-import StarBorder from '@material-ui/icons/StarBorder'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import SvgUpload from '@material-ui/icons/CloudUpload'
-import AddVideoIcon from '@material-ui/icons/AddToQueue'
-import SvgDelete from '@material-ui/icons/Delete'
-import { grey } from '@material-ui/core/colors'
-import Zoom from '@material-ui/core/Zoom'
-import { withStyles } from '@material-ui/core/styles'
-import uuid from 'uuid'
-
-import { Map } from 'immutable'
-
 // - Import actions
-import * as imageGalleryActions from 'store/actions/imageGalleryActions'
-import * as globalActions from 'store/actions/globalActions'
-
 // - Import app components
-import Img from 'components/img'
-
 // - Import API
-import FileAPI from 'api/FileAPI'
-import { videoGalleryStyles } from './videoGalleryStyles'
-import { IVideoGalleryProps } from './IVideoGalleryProps'
-import { IVideoGalleryState } from './IVideoGalleryState'
-import { Image, VideoFile } from 'core/domain/imageGallery'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { User } from 'core/domain/users'
-
 /**
  * Create ImageGallery component class
  */
@@ -163,8 +154,6 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps, IVideoGalleryS
     const videoNode = this.videoRef.current
     let canPlay: any = videoNode!.canPlayType(type)
     if (canPlay === '') { canPlay = 'no' }
-    const message = 'Can play type "' + type + '": ' + canPlay
-    const isError = canPlay === 'no'
     var fileURL = URL.createObjectURL(this.file)
     videoNode!.src = fileURL
 
@@ -217,7 +206,6 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps, IVideoGalleryS
     const { uploadVideo } = this.props
     const { fileName } = this.state
     const videoCanvas = FileAPI.captureVideo(this.videoRef.current!, null)
-    const scope = this
 
     videoCanvas.toBlob((blobFile) => {
 
@@ -237,7 +225,7 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps, IVideoGalleryS
   render() {
 
     const { t, videos, classes } = this.props
-    const { fileName, isPreview, isSaveDisabled } = this.state
+    const {  isPreview, isSaveDisabled } = this.state
 
     /**
      * Album element
@@ -326,6 +314,6 @@ const mapStateToProps = (state: Map<string, any>) => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(VideoGalleryComponent as any)
+const translateWrraper = withTranslation('translations')(VideoGalleryComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(videoGalleryStyles as any)(translateWrraper as any) as any)

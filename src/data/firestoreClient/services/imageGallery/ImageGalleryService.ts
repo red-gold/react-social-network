@@ -1,20 +1,18 @@
-import { FileResult } from 'models/files/fileResult'
-// - Import react components
-import { firebaseAuth, storageRef, db } from 'data/firestoreClient'
-
-import { SocialError } from 'core/domain/common'
-import { IImageGalleryService } from 'core/services/imageGallery'
-import { Image, FileGallery } from 'core/domain/imageGallery'
-import { IStorageService } from 'core/services/files'
-import { injectable } from 'inversify'
-import { Photo } from 'core/domain/imageGallery/photo'
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
-import CommonAPI from 'api/CommonAPI'
-import { Post } from 'core/domain/posts/post'
-import { fromJS, Map } from 'immutable'
+import CommonAPI from 'api/CommonAPI';
+import { SocialError } from 'core/domain/common';
+import { FileGallery, Image } from 'core/domain/imageGallery';
+import { Photo } from 'core/domain/imageGallery/photo';
+import { Post } from 'core/domain/posts/post';
+import { IStorageService } from 'core/services/files';
+import { IImageGalleryService } from 'core/services/imageGallery';
+import { db, storageRef } from 'data/firestoreClient';
+import { fromJS, Map } from 'immutable';
+import { injectable } from 'inversify';
+import { FileResult } from 'models/files/fileResult';
 import { IServiceProvider } from 'src/core/factories/IServiceProvider';
 import { ServiceProvide } from 'src/core/factories/serviceProvide';
 
+// - Import react components
 /**
  * Firbase image gallery service
  */
@@ -114,7 +112,7 @@ export class ImageGalleryService implements IImageGalleryService {
     })
     
     const imagesBatch$ = batch.commit()
-    const [postAlbumResult, imagesBatchResult] = await Promise.all([postAlbum$, imagesBatch$])
+     await Promise.all([postAlbum$, imagesBatch$])
     let imageIds: Map<string, boolean> = Map({})
     let mappedImages: Map<string, any> = Map({})
     images.forEach((image) => {

@@ -1,10 +1,8 @@
 // - Import react components
-import firebase, { firebaseAuth, db } from 'data/firestoreClient'
-import moment from 'moment/moment'
-
-import { SocialError } from 'core/domain/common'
-import { IUserSettingService } from 'core/services/users'
-import { injectable } from 'inversify'
+import { SocialError } from 'core/domain/common';
+import { IUserSettingService } from 'core/services/users';
+import { db } from 'data/firestoreClient';
+import { injectable } from 'inversify';
 
 /**
  * Firbase userSetting service

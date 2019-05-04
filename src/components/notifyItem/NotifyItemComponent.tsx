@@ -1,30 +1,24 @@
 // - Import react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
-import { push } from 'connected-react-router'
-import SvgClose from '@material-ui/icons/Close'
-import { grey } from '@material-ui/core/colors'
-import { withStyles } from '@material-ui/core/styles'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import { withStyles } from '@material-ui/core/styles';
+import SvgClose from '@material-ui/icons/Close';
+import UserAvatar from 'components/userAvatar';
+import { push } from 'connected-react-router';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import * as notifyActions from 'store/actions/notifyActions';
+
+import { INotifyItemComponentProps } from './INotifyItemComponentProps';
+import { INotifyItemComponentState } from './INotifyItemComponentState';
 
 // - Import app components
-import UserAvatar from 'components/userAvatar'
-
 // - Import API
 
 // - Import actions
-import * as notifyActions from 'store/actions/notifyActions'
-
-import { INotifyItemComponentProps } from './INotifyItemComponentProps'
-import { INotifyItemComponentState } from './INotifyItemComponentState'
-
 const styles = (theme: any) => ({
   root: {
     width: '100%',

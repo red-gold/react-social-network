@@ -1,72 +1,51 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
-import { push } from 'connected-react-router'
-import PropTypes from 'prop-types'
-import moment from 'moment/moment'
-import Linkify from 'react-linkify'
-import copy from 'copy-to-clipboard'
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardMedia from '@material-ui/core/CardMedia';
+import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
+import SvgComment from '@material-ui/icons/Comment';
+import SvgFavorite from '@material-ui/icons/Favorite';
+import SvgFavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SvgPlay from '@material-ui/icons/PlayCircleFilled';
+import SvgShare from '@material-ui/icons/Share';
+import classNames from 'classnames';
+import CommentGroup from 'components/commentGroup';
+import Img from 'components/img';
+import PostWrite from 'components/postWrite';
+import ReadMoreComponent from 'components/readMore';
+import ShareDialog from 'components/shareDialog';
+import UserAvatar from 'components/userAvatar';
+import copy from 'copy-to-clipboard';
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
+import { Post } from 'core/domain/posts';
+import { PostType } from 'core/domain/posts/postType';
+import PostAlbumComponent from 'layouts/postAlbum';
+import moment from 'moment/moment';
+import * as R from 'ramda';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import Linkify from 'react-linkify';
+import ReactPlayer from 'react-player';
+import { NavLink } from 'react-router-dom';
+import reactStringReplace from 'react-string-replace';
+import config from 'src/config';
 
-import ReactPlayer from 'react-player'
-import { Map } from 'immutable'
-import * as R from 'ramda'
-import config from 'src/config'
+import { connectPost } from './connectPost';
+import { IPostComponentProps } from './IPostComponentProps';
+import { IPostComponentState } from './IPostComponentState';
+import { postStyles } from './postStyles';
+
 // - Material UI
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardMedia from '@material-ui/core/CardMedia'
-import CardContent from '@material-ui/core/CardContent'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import Typography from '@material-ui/core/Typography'
-import SvgShare from '@material-ui/icons/Share'
-import SvgFavorite from '@material-ui/icons/Favorite'
-import SvgComment from '@material-ui/icons/Comment'
-import SvgFavoriteBorder from '@material-ui/icons/FavoriteBorder'
-import Checkbox from '@material-ui/core/Checkbox'
-import Button from '@material-ui/core/Button'
-import Divider from '@material-ui/core/Divider'
-import { grey } from '@material-ui/core/colors'
-import Paper from '@material-ui/core/Paper'
-import Menu from '@material-ui/core/Menu'
-import MenuList from '@material-ui/core/MenuList'
-import MenuItem from '@material-ui/core/MenuItem'
-import TextField from '@material-ui/core/TextField'
-import Dialog from '@material-ui/core/Dialog'
-import IconButton from '@material-ui/core/IconButton'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import { withStyles } from '@material-ui/core/styles'
-import Grow from '@material-ui/core/Grow'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import classNames from 'classnames'
-import SvgPlay from '@material-ui/icons/PlayCircleFilled'
-import { translate, Trans } from 'react-i18next'
-
-import reactStringReplace from 'react-string-replace'
-
 // - Import app components
-import CommentGroup from 'components/commentGroup'
-import ShareDialog from 'components/shareDialog'
-import PostWrite from 'components/postWrite'
-import Img from 'components/img'
-
-import PostAlbumComponent from 'layouts/postAlbum'
-import UserAvatar from 'components/userAvatar'
-
 // - Import actions
-import { IPostComponentProps } from './IPostComponentProps'
-import { IPostComponentState } from './IPostComponentState'
-import { PostType } from 'core/domain/posts/postType'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
-import { postStyles } from './postStyles'
-import { connectPost } from './connectPost'
-import ReadMoreComponent from 'components/readMore'
-import { Post } from 'core/domain/posts'
-
 // - Create component class
 export class PostComponent extends Component<IPostComponentProps, IPostComponentState> {
 
@@ -230,7 +209,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
    */
   handleOpenShare = () => {
     const { post } = this.props
-    copy(`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`)
+    copy(`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`)
     this.setState({
       shareOpen: true
     })
@@ -330,7 +309,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
    * Reneder component DOM
    */
   render() {
-    const { post, setHomeTitle, goTo, fullName, isPostOwner, commentList, classes, t } = this.props
+    const { post, setHomeTitle, goTo, isPostOwner, commentList, classes, t } = this.props
     const { postMenuAnchorEl, isPostMenuOpen, showVideo } = this.state
     const rightIconMenu = (
       <div>
@@ -393,7 +372,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
           title={<NavLink to={`/${ownerUserId}`}>{ownerDisplayName}</NavLink>}
           subheader={creationDate ? (version === config.dataFormat.postVersion
              ? moment(creationDate).local().fromNow() 
-             : moment(creationDate!).local().fromNow()) + ` | ` + `${this.getPermissionLabel()}` : <LinearProgress color='primary' />}
+             : moment(creationDate!).local().fromNow()) + ` | ${this.getPermissionLabel()}` : <LinearProgress color='primary' />}
           avatar={<NavLink to={`/${ownerUserId}`}><UserAvatar fullName={ownerDisplayName!} fileName={ownerAvatar!} size={36} /></NavLink>}
           action={isPostOwner ? rightIconMenu : ''}
         >
@@ -436,7 +415,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
         <CardContent className={classes.postBody}>
         <ReadMoreComponent body={body!} >
           <Linkify properties={{ target: '_blank', style: { color: 'blue' }, onClick: (event:  React.MouseEvent<HTMLAnchorElement>) => event.stopPropagation()}}>
-            {reactStringReplace(body, /#(\w+)/g, (match: string, i: string) => (
+            {reactStringReplace(body, /#(\w+)/g, (match: string, i: number) => (
               <NavLink
                 style={{ color: 'green' }}
                 key={match + i}
@@ -516,6 +495,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   }
 }
 
-const translateWrraper = translate('translations')(PostComponent as any)
+const translateWrraper = withTranslation('translations')(PostComponent as any)
 
 export default connectPost(withStyles(postStyles as any)(translateWrraper as any) as any)

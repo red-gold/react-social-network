@@ -1,5 +1,3 @@
-import config from 'src/config'
-
 export const loginWrapperStyles = (theme: any) => ({
     logo: {
         fill: 'currentColor',

@@ -1,39 +1,29 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import withStyles from '@material-ui/core/styles/withStyles';
+import StringAPI from 'api/StringAPI';
+import ImgCover from 'components/imgCover';
+import ProfileAlbumComponent from 'components/ProfileAlbum';
+import UserActivity from 'components/userActivity';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import config from 'src/config';
+import * as postActions from 'src/store/actions/postActions';
+import * as userActions from 'src/store/actions/userActions';
+import { postSelector } from 'store/reducers/posts';
+import { userSelector } from 'store/reducers/users/userSelector';
 
-import { Map } from 'immutable'
-import config from 'src/config'
-import { translate, Trans } from 'react-i18next'
+import PostStreamComponent from '../postStream';
+import { IProfileComponentProps } from './IProfileComponentProps';
+import { IProfileComponentState } from './IProfileComponentState';
+import { profileStyles } from './profileStyles';
 
 // - Material-UI
-import withStyles from '@material-ui/core/styles/withStyles'
-import Dialog from '@material-ui/core/Dialog'
-import Button from '@material-ui/core/Button'
-import RaisedButton from '@material-ui/core/Button'
-
 // - Import app components
-import StreamComponent from 'containers/stream'
-import UserActivity from 'components/userActivity'
-import ImgCover from 'components/imgCover'
-
 // - Import actions
-import * as postActions from 'src/store/actions/postActions'
-import * as userActions from 'src/store/actions/userActions'
-import * as globalActions from 'src/store/actions/globalActions'
-import { IProfileComponentProps } from './IProfileComponentProps'
-import { IProfileComponentState } from './IProfileComponentState'
-import { User } from 'core/domain/users'
-import { profileStyles } from './profileStyles'
-import { userSelector } from 'store/reducers/users/userSelector'
-import PostStreamComponent from '../postStream'
-import { PostAPI } from 'api/PostAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import StringAPI from 'api/StringAPI'
-import { postSelector } from 'store/reducers/posts'
-import ProfileAlbumComponent from 'components/ProfileAlbum'
-
 /**
  * Create component class
  */
@@ -147,6 +137,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IProfileComponentPro
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ProfileComponent as any)
+const translateWrraper = withTranslation('translations')(ProfileComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(profileStyles as any)(translateWrraper as any))

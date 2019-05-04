@@ -1,18 +1,13 @@
 // - Import react components
-import moment from 'moment/moment'
-import _ from 'lodash'
-import { Map, List } from 'immutable'
+import { CircleActionType } from 'constants/circleActionType';
+import { List, Map } from 'immutable';
+import { UserTie } from 'src/core/domain/circles';
+
+import { CircleState } from './CircleState';
+import { ICircleAction } from './ICircleAction';
 
 // - Import domain
-import { User } from 'src/core/domain/users'
-import { Circle, UserTie } from 'src/core/domain/circles'
-
 // - Import action types
-import { CircleActionType } from 'constants/circleActionType'
-
-import { CircleState } from './CircleState'
-import { ICircleAction } from './ICircleAction'
-
 /**
  * Add circle
  */

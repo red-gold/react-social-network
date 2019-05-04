@@ -1,8 +1,7 @@
+import { PostAPI } from 'api/PostAPI';
+import { List, Map } from 'immutable';
+import { createSelector } from 'reselect';
 
-import { Map, List } from 'immutable'
-import { createSelector } from 'reselect'
-import { authorizeSelector } from 'store/reducers/authorize'
-import { PostAPI } from 'api/PostAPI'
 
 /****************************
  * Get from store

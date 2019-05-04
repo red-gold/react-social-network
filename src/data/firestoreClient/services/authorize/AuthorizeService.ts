@@ -1,24 +1,20 @@
+import axios from 'axios';
+import { LoginUser, RegisterUserResult } from 'core/domain/authorize';
+import { OAuthType } from 'core/domain/authorize/oauthType';
+import { UserClaim } from 'core/domain/authorize/userClaim';
+import { SocialError } from 'core/domain/common';
+import { IAuthorizeService } from 'core/services/authorize';
+import { db, firebaseAuth } from 'data/firestoreClient';
+import { inject, injectable } from 'inversify';
+import jwtDecode from 'jwt-decode';
+import { UserRegisterModel } from 'models/users/userRegisterModel';
+import config from 'src/config';
+import { IHttpService } from 'src/core/services/webAPI';
+import { SocialProviderTypes } from 'src/core/socialProviderTypes';
+import { AuthKeywordsEnum } from 'src/models/authorize/authKeywordsEnum';
 
-import axios from 'axios'
-import jwtDecode from 'jwt-decode'
-import config from 'src/config'
 
 // - Import react components
-import { firebaseAuth, db } from 'data/firestoreClient'
-
-import { IAuthorizeService } from 'core/services/authorize'
-import { User, UserProvider } from 'core/domain/users'
-import { LoginUser, RegisterUserResult } from 'core/domain/authorize'
-import { SocialError } from 'core/domain/common'
-
-import { OAuthType } from 'core/domain/authorize/oauthType'
-import moment from 'moment/moment'
-import { injectable, inject } from 'inversify'
-import { UserClaim } from 'core/domain/authorize/userClaim'
-import { UserRegisterModel } from 'models/users/userRegisterModel'
-import { SocialProviderTypes } from 'src/core/socialProviderTypes'
-import { IHttpService } from 'src/core/services/webAPI'
-import { AuthKeywordsEnum } from 'src/models/authorize/authKeywordsEnum';
 /**
  * Firbase authorize service
  */
@@ -194,7 +190,6 @@ export class AuthorizeService implements IAuthorizeService {
    * Get id token
    */
   public getUserClaim = (currentUser?: any) => {
-    const scop = this
     return new Promise<UserClaim>((resolve, reject) => {
       currentUser.getIdTokenResult().then((result: any) => {
         const { claims } = result
@@ -255,7 +250,6 @@ export class AuthorizeService implements IAuthorizeService {
    * Send verfication email to user email
    */
   public sendEmailVerification = async (value: any) => {
-    const scop = this
     const currentUser = firebaseAuth().currentUser
     if (currentUser) {
       const tokenId = await currentUser.getIdToken()
@@ -310,7 +304,12 @@ export class AuthorizeService implements IAuthorizeService {
         let email = error.email
         // The firebase.auth.AuthCredential type that was used.
         let credential = error.credential
-
+        return {
+          errorCode,
+          errorMessage,
+          email,
+          credential
+        }
       })
 
     })
@@ -320,7 +319,6 @@ export class AuthorizeService implements IAuthorizeService {
    * Send sms verfication
    */
   public sendSmsVerification = (phoneNumber: string, value: any) => {
-    const scop = this
     return new Promise<string>((resolve, reject) => {
       const currentUser = firebaseAuth().currentUser
       if (currentUser) {
@@ -346,7 +344,6 @@ export class AuthorizeService implements IAuthorizeService {
    * Send email verfication
    */
   public sendResetPasswordVerification = (email: string, value: any) => {
-    const scop = this
     return new Promise<string>((resolve, reject) => {
       axios.post(`${config.settings.api}email-verification-code`, {
         email,

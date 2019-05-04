@@ -1,4 +1,4 @@
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
 
 export class Photo {
     constructor(

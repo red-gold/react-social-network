@@ -1,28 +1,17 @@
-import { connect } from 'react-redux'
-import { postSelector } from 'store/reducers/posts'
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import { DialogType } from 'models/common/dialogType';
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import { globalActions, userActions } from 'src/store/actions';
+import * as imageGalleryActions from 'src/store/actions/imageGalleryActions';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { globalSelector } from 'store/reducers/global/globalSelector';
+import { userSelector } from 'store/reducers/users/userSelector';
 
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { Map } from 'immutable'
-import { IProfileAlbumProps } from './IProfileAlbumProps'
+import { IProfileAlbumProps } from './IProfileAlbumProps';
 
 // - Import actions
-import {
-  authorizeActions,
-  postActions,
-  userActions,
-  globalActions,
-} from 'src/store/actions'
-import * as imageGalleryActions from 'src/store/actions/imageGalleryActions'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { User } from 'core/domain/users'
-import { serverSelector } from 'store/reducers/server/serverSelector'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { globalSelector } from 'store/reducers/global/globalSelector'
-import { DialogType } from 'models/common/dialogType'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { Component } from 'react'
-
 /**
  * Map dispatch to props
  */
@@ -44,7 +33,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: IProfileAlbumProps) => {
 const makeMapStateToProps = () => {
   const selectCurrentUser = authorizeSelector.selectCurrentUser()
   const selectMoreAlbum = userSelector.selectMoreAlbum()
-  const selectRequest = serverSelector.selectRequest()
   const selectAlbumDialogState = globalSelector.selectDialogState()
   const selectProgress = globalSelector.selectProgress()
   const selectAlbumPosts = userSelector.selectAlbumPosts()

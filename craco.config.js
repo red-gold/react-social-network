@@ -1,8 +1,16 @@
 const path = require("path");
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt');
-const logWebpackConfigPlugin = require("./craco-plugin-log-webpack-config");
+const logWebpackConfigPlugin = require('./craco-plugin-log-webpack-config')
 module.exports = function (args) {
   return {
+    eslint: {
+      enable: true /* (default value) */,
+      mode: "extends" /* (default value) */ || "file",
+      configure: { /* Any eslint configuration options: https://eslint.org/docs/user-guide/configuring */ },
+      configure: (eslintConfig, { env, paths }) => { 
+        eslintConfig = {...eslintConfig, rules: {'no-useless-constructor': 'off'}}
+        return eslintConfig; 
+      }
+  },
     webpack: {
       alias: {
         "src": path.resolve(__dirname, "src/"),
@@ -23,7 +31,7 @@ module.exports = function (args) {
       }
     },
     plugins: [
-      { plugin: logWebpackConfigPlugin, options: { preText: "Will log the webpack config:" } }
+      { plugin: logWebpackConfigPlugin, options: { } }
     ]
   }
 }

@@ -24,7 +24,7 @@
     "noImplicitReturns": false,
     "noImplicitThis": true,
     "noImplicitAny": true,
-    "isolatedModules": true,
+    "isolatedModules": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "strictPropertyInitialization": false,

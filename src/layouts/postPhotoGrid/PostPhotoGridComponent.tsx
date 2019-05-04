@@ -1,17 +1,15 @@
 // - Import react components
-import React, { Component } from 'react'
-import classNames from 'classnames'
+import CardMedia from '@material-ui/core/CardMedia';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import Img from 'components/img';
+import React, { Component } from 'react';
+
+import { IPostPhotoGridProps } from './IPostPhotoGridProps';
+import { IPostPhotoGridState } from './IPostPhotoGridState';
+import { postPhotoGridStyles } from './postPhotoGridStyles';
 
 // - Material UI
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import CardMedia from '@material-ui/core/CardMedia'
-import { IPostPhotoGridProps } from './IPostPhotoGridProps'
-import { IPostPhotoGridState } from './IPostPhotoGridState'
-import { postPhotoGridStyles } from './postPhotoGridStyles'
-
-import Img from 'components/img'
-
 /**
  * Create component class
  */
@@ -54,7 +52,7 @@ export class PostPhotoGridComponent extends Component<IPostPhotoGridProps, IPost
             {images.map((item, index) => {
               if (index !== 0) {
                 return <CardMedia key={item.id} onClick={(event) => this.handleClick(event, index)} image={item.url} className={classes.mediaCard} />
-              }
+              } return ''
             })}
           </div>
         </div>

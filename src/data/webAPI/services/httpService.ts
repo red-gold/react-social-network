@@ -50,8 +50,8 @@ export class HttpService implements IHttpService {
     /**
      * Http get by token id
      */
-    public async getWithoutAuth(url: string, params?: any) {
-        const idToken: string = await this._permissionService.getIdToken()
+    public async getWithoutAuth(url: string) {
+        await this._permissionService.getIdToken()
         const result = await axios
             .get(`${config.settings.api}${url}`)
         return result

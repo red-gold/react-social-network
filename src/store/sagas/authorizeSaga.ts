@@ -1,17 +1,18 @@
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { provider } from 'src/socialEngine'
-import { take, fork, select, put, call, cancelled, all,takeEvery, takeLatest } from 'redux-saga/effects'
-import { eventChannel, Channel } from 'redux-saga'
-import { IAuthorizeService } from 'core/services'
-import { UserClaim } from 'core/domain/authorize/userClaim'
-import { AuthorizeActionType } from 'constants/authorizeActionType'
-import * as authorizeActions from 'store/actions/authorizeActions'
-import * as globalActions from 'store/actions/globalActions'
-import * as serverActions from 'store/actions/serverActions'
-import { LoginUser } from 'core/domain/authorize/loginUser'
-import { AuthAPI } from 'src/api/AuthAPI'
-import { ServerRequestStatusType } from '../actions/serverRequestStatusType';
+import { AuthorizeActionType } from 'constants/authorizeActionType';
+import { LoginUser } from 'core/domain/authorize/loginUser';
+import { UserClaim } from 'core/domain/authorize/userClaim';
+import { IAuthorizeService } from 'core/services';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { Channel, eventChannel } from 'redux-saga';
+import { all, call, cancelled, put, select, take, takeLatest } from 'redux-saga/effects';
+import { AuthAPI } from 'src/api/AuthAPI';
 import { SignupStepEnum } from 'src/models/authorize/signupStepEnum';
+import { provider } from 'src/socialEngine';
+import * as authorizeActions from 'store/actions/authorizeActions';
+import * as globalActions from 'store/actions/globalActions';
+import * as serverActions from 'store/actions/serverActions';
+
+import { ServerRequestStatusType } from '../actions/serverRequestStatusType';
 import { authorizeSelector } from '../reducers/authorize';
 
 /**
@@ -115,7 +116,7 @@ function* onAuthStateChanged() {
          while (true) {
             let currentUser: any = yield take(channelSubscription)
             if (currentUser && !currentUser.noUser) {
-                const tokenId: string =  yield currentUser.getIdToken()
+                 yield currentUser.getIdToken()
                     const userClaim: UserClaim =  yield call(authorizeService.getUserClaim as any, currentUser )
                     yield call(onLoginUser, userClaim)
                     yield put(globalActions.defaultDataEnable())

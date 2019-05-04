@@ -1,31 +1,24 @@
 // - Import domain
-import { User } from 'src/core/domain/users'
-import { Circle, UserTie } from 'src/core/domain/circles'
-import { SocialError } from 'src/core/domain/common'
-import moment from 'moment/moment'
-import { Map, List } from 'immutable'
+import { CircleActionType } from 'constants/circleActionType';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { List, Map } from 'immutable';
+import moment from 'moment/moment';
+import StringAPI from 'src/api/StringAPI';
+import { Circle, UserTie } from 'src/core/domain/circles';
+import { SocialError } from 'src/core/domain/common';
+import { User } from 'src/core/domain/users';
+import { ICircleService, IUserTieService } from 'src/core/services/circles';
+import { SocialProviderTypes } from 'src/core/socialProviderTypes';
+import { ServerRequestModel } from 'src/models/server/serverRequestModel';
+import { provider } from 'src/socialEngine';
+import * as globalActions from 'store/actions/globalActions';
+import * as serverActions from 'store/actions/serverActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import * as userActions from 'store/actions/userActions';
+import { userSelector } from 'store/reducers/users/userSelector';
 
 // - Import action types
-import { CircleActionType } from 'constants/circleActionType'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as userActions from 'store/actions/userActions'
-import * as notifyActions from 'store/actions/notifyActions'
-import * as serverActions from 'store/actions/serverActions'
-
-import { ICircleService } from 'src/core/services/circles'
-import { SocialProviderTypes } from 'src/core/socialProviderTypes'
-import { provider } from 'src/socialEngine'
-import { IUserTieService } from 'src/core/services/circles'
-import StringAPI from 'src/api/StringAPI'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { ServerRequestModel } from 'src/models/server/serverRequestModel'
-import { UserSettingType } from 'core/services/users/userSettingType'
-import { NotificationType } from 'core/domain/notifications/notificationType'
-import { userSelector } from 'store/reducers/users/userSelector'
-
 /**
  * Get service providers
  */

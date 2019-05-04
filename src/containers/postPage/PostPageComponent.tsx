@@ -1,25 +1,20 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { Map } from 'immutable'
+import withStyles from '@material-ui/core/styles/withStyles';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PostComponent from 'src/components/post';
+import * as postActions from 'src/store/actions/postActions';
+import * as userActions from 'src/store/actions/userActions';
+
+import { IPostPageProps } from './IPostPageProps';
+import { IPostPageState } from './IPostPageState';
+import { postPageStyles } from './postPageStyles';
 
 // - Import app components
-import Stream from 'containers/stream'
-import PostComponent from 'src/components/post'
-
 // - Import API
 
 // - Import actions
-import * as postActions from 'src/store/actions/postActions'
-import * as userActions from 'src/store/actions/userActions'
-
-import { IPostPageProps } from './IPostPageProps'
-import { IPostPageState } from './IPostPageState'
-import PostStreamComponent from '../postStream'
-import withStyles from '@material-ui/core/styles/withStyles'
-import { postPageStyles } from './postPageStyles'
-
 /**
  * Create component class
  */

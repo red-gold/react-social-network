@@ -1,46 +1,28 @@
 // - Import react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Map } from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import Popover from '@material-ui/core/Popover';
+import { withStyles } from '@material-ui/core/styles';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import BackIcon from '@material-ui/icons/ArrowBack';
+import classNames from 'classnames';
+import { recentChatStyles } from 'components/recentChat/recentChatStyles';
+import RecentChatItem from 'components/recentChatItem';
+import { Map } from 'immutable';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+
+import { IRecentChatProps } from './IRecentChatProps';
+import { IRecentChatState } from './IRecentChatState';
 
 // - Material-UI
-import classNames from 'classnames'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import Grow from '@material-ui/core/Grow'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Paper from '@material-ui/core/Paper'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
-import Popover from '@material-ui/core/Popover'
-import Hidden from '@material-ui/core/Hidden'
-import IconButton from '@material-ui/core/IconButton'
-import BackIcon from '@material-ui/icons/ArrowBack'
-
 // - Import app components
-import RecentChatItem from 'components/recentChatItem'
 // - Import API
 
 // - Import actions
-import * as userActions from 'store/actions/userActions'
-
-import { IRecentChatProps } from './IRecentChatProps'
-import { IRecentChatState } from './IRecentChatState'
-import { Notification } from 'core/domain/notifications'
-
-import { recentChatStyles } from 'components/recentChat/recentChatStyles'
-import { UserTie } from 'core/domain/circles'
-
 /**
  * Create component class
  */
@@ -83,10 +65,7 @@ export class RecentChatComponent extends Component<IRecentChatProps, IRecentChat
   }
 
   notifyItemList = () => {
-    let { info, onRequestClose, followers } = this.props
-    if (followers) {
-      const userChatList: Map<string, Map<string, any>> = followers
-    }
+    let { onRequestClose, followers } = this.props
 
     let parsedDOM: any[] = []
     if (followers) {
@@ -196,6 +175,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IRecentChatProps) =>
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(RecentChatComponent as any)
+const translateWrraper = withTranslation('translations')(RecentChatComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(recentChatStyles as any)(translateWrraper as any))

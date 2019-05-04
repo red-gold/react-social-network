@@ -1,45 +1,39 @@
 // - Import external components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'connected-react-router'
-import config from 'src/config'
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Grid from '@material-ui/core/Grid';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import classnames from 'classnames';
+import Captcha from 'components/recaptcha';
+import { push } from 'connected-react-router';
+import { LoginUser } from 'core/domain/authorize/loginUser';
+import { IAuthorizeService } from 'core/services';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { Map } from 'immutable';
+import Footer from 'layouts/footer';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { provider } from 'socialEngine';
+import config from 'src/config';
+import * as authorizeActions from 'store/actions/authorizeActions';
+import * as globalActions from 'store/actions/globalActions';
 
-import { parse, format, AsYouType, isValidNumber } from 'libphonenumber-js'
-import classnames from 'classnames'
-import { translate, Trans } from 'react-i18next'
-import { Map } from 'immutable'
+import { IResetPasswordComponentProps } from './IResetPasswordComponentProps';
+import { IResetPasswordComponentState } from './IResetPasswordComponentState';
+import { ResetPasswordStepType } from './resetPasswordStepType';
+import { resetPasswordStyles } from './resetPasswordStyles';
 
 // - Material UI
-import CircularProgress from '@material-ui/core/CircularProgress'
-import green from '@material-ui/core/colors/green'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormControl from '@material-ui/core/FormControl'
-import FormHelperText from '@material-ui/core/FormHelperText'
-
 // - Components
-import Captcha from 'components/recaptcha'
-import Footer from 'layouts/footer'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as authorizeActions from 'store/actions/authorizeActions'
-
-import { IResetPasswordComponentProps } from './IResetPasswordComponentProps'
-import { IResetPasswordComponentState } from './IResetPasswordComponentState'
-import { ResetPasswordStepType } from './resetPasswordStepType'
-import { IAuthorizeService } from 'core/services'
-import { provider } from 'socialEngine'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { LoginUser } from 'core/domain/authorize/loginUser'
-import { resetPasswordStyles } from './resetPasswordStyles'
-
 /**
  * Create component class
  */
@@ -82,7 +76,6 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
     const target = event.target
     let value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
-    const asYouType = new AsYouType()
 
     if (name === 'email') {
 
@@ -121,7 +114,7 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
    * Handle register form
    */
   handleNextEmail = () => {
-    const { t, showMessage } = this.props
+    const { showMessage } = this.props
     const { email, isCaptchaSuccess, captchaVerifier } = this.state
     if (email && email.trim() !== '' && isCaptchaSuccess) {
       this.setState({
@@ -327,6 +320,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IResetPasswordCompon
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ResetPasswordComponent as any)
+const translateWrraper = withTranslation('translations')(ResetPasswordComponent as any)
 
 export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(resetPasswordStyles as any)(translateWrraper as any)))

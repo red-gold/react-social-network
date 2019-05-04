@@ -1,49 +1,45 @@
 // - Import react components
-import React, { Component } from 'react'
-import { NavLink, withRouter } from 'react-router-dom'
-import {push} from 'connected-react-router'
-import { connect } from 'react-redux'
-import classNames from 'classnames'
-import { Map } from 'immutable'
+import AppBar from '@material-ui/core/AppBar';
+import Badge from '@material-ui/core/Badge';
+import { blue } from '@material-ui/core/colors';
+import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Tooltip from '@material-ui/core/Tooltip';
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+import BackIcon from '@material-ui/icons/ArrowBack';
+import ChatIcon from '@material-ui/icons/Chat';
+import SvgDehaze from '@material-ui/icons/Dehaze';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import SearchIcon from '@material-ui/icons/Search';
+import classNames from 'classnames';
+import Notify from 'components/notify';
+import RecentChatComponent from 'components/recentChat';
+import SearchBoxComponent from 'components/searchBox';
+import UserAvatarComponent from 'components/userAvatar';
+import { push } from 'connected-react-router';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import queryString from 'query-string';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { NavLink, withRouter } from 'react-router-dom';
+import config from 'src/config';
+import * as authorizeActions from 'store/actions/authorizeActions';
+import * as chatActions from 'store/actions/chatActions';
+import { userSelector } from 'store/reducers/users/userSelector';
 
-import config from 'src/config'
-import queryString from 'query-string'
-import withWidth, { isWidthUp, isWidthDown } from '@material-ui/core/withWidth'
-import { translate, Trans } from 'react-i18next'
+import { homeHeaderStyles } from './homeHeaderStyles';
+import { IHomeHeaderComponentProps } from './IHomeHeaderComponentProps';
+import { IHomeHeaderComponentState } from './IHomeHeaderComponentState';
 
 // - Material UI
-import SvgDehaze from '@material-ui/icons/Dehaze'
-import ChatIcon from '@material-ui/icons/Chat'
-import { grey, blue } from '@material-ui/core/colors'
-import Toolbar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
-import AppBar from '@material-ui/core/AppBar'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
-import Hidden from '@material-ui/core/Hidden'
-import NotificationsIcon from '@material-ui/icons/Notifications'
-import Tooltip from '@material-ui/core/Tooltip'
-import { withStyles } from '@material-ui/core/styles'
-import Badge from '@material-ui/core/Badge'
-import SearchIcon from '@material-ui/icons/Search'
-import BackIcon from '@material-ui/icons/ArrowBack'
-
 // - Import components
-import UserAvatarComponent from 'components/userAvatar'
-import Notify from 'components/notify'
-import RecentChatComponent from 'components/recentChat'
-
 // - Import actions
-import * as chatActions from 'store/actions/chatActions'
-import * as authorizeActions from 'store/actions/authorizeActions'
-
-import { IHomeHeaderComponentProps } from './IHomeHeaderComponentProps'
-import { IHomeHeaderComponentState } from './IHomeHeaderComponentState'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { homeHeaderStyles } from './homeHeaderStyles'
-import SearchBoxComponent from 'components/searchBox'
-import { User } from 'core/domain/users'
-
 // - Create HomeHeader component class
 export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IHomeHeaderComponentState> {
 
@@ -130,7 +126,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
    * Handle close recent chat menu
    */
   handleCloseRecentChat = () => {
-    const { recentChatOpen, closeRecentChat } = this.props
+    const { closeRecentChat } = this.props
     closeRecentChat!()
   }
 
@@ -172,7 +168,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
   handleRecentChatTouchTap = (event: any) => {
     // This prevents ghost click.
     event.preventDefault()
-    const { recentChatOpen, openRecentChat } = this.props
+    const { openRecentChat } = this.props
     openRecentChat!()
     this.setState({
       anchorElRecentChat: event.currentTarget
@@ -243,7 +239,6 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
 
   componentDidMount() {
     const { history } = this.props
-    const scope = this
     this.unlisten = history.listen((location: any, action: any) => {
       this.checkPageLocation(location)
     })
@@ -257,7 +252,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
   // Render app DOM component
   render() {
     const { classes, t, theme, recentChatOpen } = this.props
-    const { searchText, isSearchPage, previousLocation } = this.state
+    const { isSearchPage, previousLocation } = this.state
     const anchor = theme.direction === 'rtl' ? 'right' : 'left'
 
     const rightHeader = (
@@ -428,7 +423,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IHomeHeaderComponent
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(HomeHeaderComponent as any)
+const translateWrraper = withTranslation('translations')(HomeHeaderComponent as any)
 const withStylesComponent = withStyles(homeHeaderStyles, { withTheme: true })(translateWrraper)
 const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(withStylesComponent)
 export default withRouter<any>(withWidth()(connectedComponent) as any)

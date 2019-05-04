@@ -1,9 +1,8 @@
+import { GlobalActionType } from 'constants/globalActionType';
+import { all, takeLatest } from 'redux-saga/effects';
+import { LanguageType } from 'store/reducers/locale/langugeType';
 
-import { take, fork, select, put, call, cancelled, all, takeLatest } from 'redux-saga/effects'
-import { eventChannel, Channel } from 'redux-saga'
-import { LanguageType } from 'store/reducers/locale/langugeType'
-import config from 'src/config'
-import { GlobalActionType } from 'constants/globalActionType'
+
 /***************************** Subroutines ************************************/
 
 /**
@@ -15,7 +14,7 @@ function* initLocalization() {
         { name: 'French', code: LanguageType.French },
         { name: 'Spanish', code: LanguageType.Spanish }
         ]
-
+        yield
         return languages
 }
 

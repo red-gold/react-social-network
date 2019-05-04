@@ -1,9 +1,9 @@
-import { Map, fromJS, List } from 'immutable'
-import { createSelector } from 'reselect'
-import { authorizeSelector } from 'store/reducers/authorize'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { ChatMessageModel } from 'models/chat/chatMessageModel'
-import { User } from 'src/core/domain/users'
+import { List, Map } from 'immutable';
+import { ChatMessageModel } from 'models/chat/chatMessageModel';
+import { createSelector } from 'reselect';
+import { User } from 'src/core/domain/users';
+import { authorizeSelector } from 'store/reducers/authorize';
+import { userSelector } from 'store/reducers/users/userSelector';
 
 const getActiveChatRoom: (state: Map<string, any>, props: any) => Map<string, any> = (state: Map<string, any>, props: any) => {
     const currentChatRoom: Map<string, any> = state.getIn(['chat', 'currentChat', 'chatRoom'], Map({}))

@@ -6,6 +6,7 @@
  */
 export class UserProvider {
 
+  // eslint-disable-next-line
   constructor (
        public userId: string,
        public email: string,

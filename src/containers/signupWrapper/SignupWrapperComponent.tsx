@@ -1,29 +1,25 @@
 // - Import external components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'connected-react-router'
-import config from 'src/config'
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { push } from 'connected-react-router';
+import { Map } from 'immutable';
+import Footer from 'layouts/footer';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import VerifySignupComponent from 'src/components/verifySignup/VerifySignupComponent';
+import config from 'src/config';
+import { authorizeSelector } from 'src/store/reducers/authorize/authorizeSelector';
 
-import { Map } from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import SignupComponent from '../signup';
+import { ISignupWrapperProps } from './ISignupWrapperProps';
+import { ISignupWrapperState } from './ISignupWrapperState';
+import { signupWrapperStyles } from './signupWrapperStyles';
 
 // - Material-UI
-import classNames from 'classnames'
-import { withStyles } from '@material-ui/core/styles'
-
 // - Components
-import Footer from 'layouts/footer'
-import SignupComponent from '../signup'
-
 // - Import actions
-import * as authorizeActions from 'src/store/actions/authorizeActions'
-import { ISignupWrapperProps } from './ISignupWrapperProps'
-import { ISignupWrapperState } from './ISignupWrapperState'
-import { signupWrapperStyles } from './signupWrapperStyles'
-import { authorizeSelector } from 'src/store/reducers/authorize/authorizeSelector'
-import VerifySignupComponent from 'src/components/verifySignup/VerifySignupComponent';
-
 // - Create Login component class
 export class SignupWrapperComponent extends Component<ISignupWrapperProps, ISignupWrapperState> {
 
@@ -93,6 +89,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(SignupWrapperComponent as any)
+const translateWrraper = withTranslation('translations')(SignupWrapperComponent as any)
 
-export default withRouter<any>(connect(makeMapStateToProps, mapDispatchToProps)(withStyles(signupWrapperStyles as any, { withTheme: true })(SignupWrapperComponent as any) as any))
+export default withRouter<any>(connect(makeMapStateToProps, mapDispatchToProps)(withStyles(signupWrapperStyles as any, { withTheme: true })(translateWrraper as any) as any))

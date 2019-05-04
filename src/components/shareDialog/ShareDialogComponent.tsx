@@ -1,38 +1,31 @@
 // - Import react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import SvgImage from '@material-ui/icons/Image'
-import { withStyles } from '@material-ui/core/styles'
-
-import classNames from 'classnames'
-import {Map, List} from 'immutable'
-import { translate, Trans } from 'react-i18next'
-
+import { Dialog, ListItemIcon, ListItemText, MenuItem, MenuList, Paper, TextField, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import SvgLink from '@material-ui/icons/Link';
+import classNames from 'classnames';
+import { List } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 import {
-  FacebookShareButton,
   FacebookIcon,
-
-  TwitterShareButton,
-  TwitterIcon,
-
-  GooglePlusShareButton,
+  FacebookShareButton,
   GooglePlusIcon,
-
+  GooglePlusShareButton,
+  LinkedinIcon,
   LinkedinShareButton,
-  LinkedinIcon
-} from 'react-share'
+  TwitterIcon,
+  TwitterShareButton,
+} from 'react-share';
+
+import { IShareDialogComponentProps } from './IShareDialogComponentProps';
+import { IShareDialogComponentState } from './IShareDialogComponentState';
 
 // - Import app components
 
 // - Import API
 
 // - Import actions
-import { IShareDialogComponentProps } from './IShareDialogComponentProps'
-import { IShareDialogComponentState } from './IShareDialogComponentState'
-import { Dialog, Paper, MenuList, MenuItem, ListItemIcon, ListItemText, TextField, Typography } from '@material-ui/core'
-import SvgLink from '@material-ui/icons/Link'
-
 const styles = (theme: any) => ({
   image: {
     verticalAlign: 'top',
@@ -107,7 +100,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <FacebookShareButton
                   onShareWindowClose={onClose}
-                  url={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
+                  url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
                   quote={post.get('body')}
                   hashtag={post.get('tags', List<string>([])).count() > 0 ?  `#${post.getIn(['tags', 0], 'hashtag') }` : null}
                   >
@@ -124,7 +117,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <TwitterShareButton
                   onShareWindowClose={onClose}
-                  url={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
+                  url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
                   quote={post.get('body')}
                   hashtag={`#${post.getIn(['tags', 0], '')}`}>
                   <MenuItem >
@@ -140,7 +133,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <LinkedinShareButton
                   onShareWindowClose={onClose}
-                  url={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
+                  url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
                   quote={post.get('body')}
                   hashtag={`#${post.getIn(['tags', 0], '')}`}>
                   <MenuItem >
@@ -156,7 +149,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               <div>
                 <GooglePlusShareButton
                   onShareWindowClose={onClose}
-                  url={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
+                  url={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`}
                   quote={post.get('body')}
                   hashtag={`#${post.getIn(['tags', 0], '')}`}>
                   <MenuItem >
@@ -177,7 +170,7 @@ export class ShareDialogComponent extends Component<IShareDialogComponentProps, 
               </MenuItem>
             </MenuList>)
             : <div>
-              <TextField autoFocus fullWidth={true} id='text-field-default' defaultValue={`${location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`} />
+              <TextField autoFocus fullWidth={true} id='text-field-default' defaultValue={`${window.location.origin}/${post.get('ownerUserId')}/posts/${post.get('id')}`} />
               <Typography className={classNames('animate-top', classes.clipboard)} variant='h5' component='h2'>
                 Link has been copied to clipboard ...
         </Typography>
@@ -207,6 +200,6 @@ const mapStateToProps = (state: any, ownProps: IShareDialogComponentProps) => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ShareDialogComponent as any)
+const translateWrraper = withTranslation('translations')(ShareDialogComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

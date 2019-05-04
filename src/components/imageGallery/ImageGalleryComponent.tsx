@@ -1,40 +1,30 @@
 // - Impoer react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { translate, Trans } from 'react-i18next'
+import Button from '@material-ui/core/Button';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import { withStyles } from '@material-ui/core/styles';
+import SvgAddImage from '@material-ui/icons/AddAPhoto';
+import SvgDelete from '@material-ui/icons/Delete';
+import FileAPI from 'api/FileAPI';
+import Img from 'components/img';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import * as globalActions from 'store/actions/globalActions';
+import * as imageGalleryActions from 'store/actions/imageGalleryActions';
+import { userSelector } from 'store/reducers/users/userSelector';
+import uuid from 'uuid';
 
-import GridList from '@material-ui/core/GridList'
-import GridListTileBar  from '@material-ui/core/GridListTileBar'
-import GridListTile from '@material-ui/core/GridListTile'
-import IconButton from '@material-ui/core/IconButton'
-import StarBorder from '@material-ui/icons/StarBorder'
-import Button from '@material-ui/core/Button'
-import SvgUpload from '@material-ui/icons/CloudUpload'
-import SvgAddImage from '@material-ui/icons/AddAPhoto'
-import SvgDelete from '@material-ui/icons/Delete'
-import { grey } from '@material-ui/core/colors'
-import { withStyles } from '@material-ui/core/styles'
-import uuid from 'uuid'
-
-import {Map} from 'immutable'
-import config from 'src/config'
+import { IImageGalleryComponentProps } from './IImageGalleryComponentProps';
+import { IImageGalleryComponentState } from './IImageGalleryComponentState';
 
 // - Import actions
-import * as imageGalleryActions from 'store/actions/imageGalleryActions'
-import * as globalActions from 'store/actions/globalActions'
-
 // - Import app components
-import Img from 'components/img'
-
 // - Import API
-import FileAPI from 'api/FileAPI'
-import { IImageGalleryComponentProps } from './IImageGalleryComponentProps'
-import { IImageGalleryComponentState } from './IImageGalleryComponentState'
-import { Image } from 'core/domain/imageGallery'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { User } from 'core/domain/users'
-
 const styles = (theme: any) => ({
   fullPageXs: {
     [theme.breakpoints.down('xs')]: {
@@ -155,7 +145,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
 
     const extension = FileAPI.getExtension(event.target.files[0].name)
     let fileName = (`${uuid()}.${extension}`)
-    let image = FileAPI.constraintImage(event.target.files[0], fileName)
+    FileAPI.constraintImage(event.target.files[0], fileName)
 
   }
 
@@ -263,6 +253,6 @@ const mapStateToProps = (state: Map<string, any>) => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ImageGalleryComponent as any)
+const translateWrraper = withTranslation('translations')(ImageGalleryComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

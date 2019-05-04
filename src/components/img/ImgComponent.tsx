@@ -1,22 +1,19 @@
 // - Import react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import SvgImage from '@material-ui/icons/Image'
-import { withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles';
+import SvgImage from '@material-ui/icons/Image';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 
-import { Map } from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { IImgComponentProps } from './IImgComponentProps';
+import { IImgComponentState } from './IImgComponentState';
 
 // - Import app components
 
 // - Import API
 
 // - Import actions
-import * as imageGalleryActions from 'store/actions/imageGalleryActions'
-import { IImgComponentProps } from './IImgComponentProps'
-import { IImgComponentState } from './IImgComponentState'
-
 const styles = (theme: any) => ({
   image: {
     verticalAlign: 'top',
@@ -102,7 +99,7 @@ export class ImgComponent extends Component<IImgComponentProps,IImgComponentStat
     const {classes} = this.props
     return (
       <div>
-        <img className={classes.image} onClick={this.handleClick} onLoad={this.handleLoadImage} src={fileName || ''} style={isImageLoaded ? style : { display: 'none' }} />
+        <img alt={fileName || ''} className={classes.image} onClick={this.handleClick} onLoad={this.handleLoadImage} src={fileName || ''} style={isImageLoaded ? style : { display: 'none' }} />
         <div style={Object.assign({},{ backgroundColor: 'white' }, isImageLoaded ? { display: 'none' } : this.styles.loding)}>
           <div style={this.styles.loadingContent as any}>
             <SvgImage style={this.styles.loadingImage} />
@@ -135,6 +132,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IImgComponentProps) 
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ImgComponent as any)
+const translateWrraper = withTranslation('translations')(ImgComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any)as any)

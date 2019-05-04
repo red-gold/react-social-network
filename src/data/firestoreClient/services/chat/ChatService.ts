@@ -1,15 +1,14 @@
 // - Import react components
-import firebase, { firebaseAuth, db, functions } from 'data/firestoreClient'
-import { take, fork, select, put, call, cancelled, all, takeEvery, takeLatest } from 'redux-saga/effects'
-import moment from 'moment/moment'
-import { Map, fromJS } from 'immutable'
-
-import { SocialError } from 'core/domain/common'
-import { IChatService } from 'core/services/chat'
-import { injectable } from 'inversify'
-import { Message } from 'core/domain/chat/message'
-import { ChatRoom } from 'core/domain/chat/chatRoom'
-import { ChatRoomType } from 'core/domain/chat/ChatRoomType'
+import { ChatRoom } from 'core/domain/chat/chatRoom';
+import { ChatRoomType } from 'core/domain/chat/ChatRoomType';
+import { Message } from 'core/domain/chat/message';
+import { SocialError } from 'core/domain/common';
+import { IChatService } from 'core/services/chat';
+import firebase, { db, functions } from 'data/firestoreClient';
+import { fromJS, Map } from 'immutable';
+import { injectable } from 'inversify';
+import moment from 'moment/moment';
+import { call } from 'redux-saga/effects';
 
 /**
  * Firbase userSetting service
@@ -48,7 +47,7 @@ export class ChatService implements IChatService {
   public getPeerChatRoom: (firstUserId: string, secondUserId: string)
     => Promise<Map<string, any>> = (firstUserId, secondUserId) => {
       return new Promise<Map<string, any>>((resolve, reject) => {
-        let chatRoomRef = db.collection('chatroom')
+         db.collection('chatroom')
           .where(`connections.${firstUserId}`, '==', true)
           .where(`connections.${secondUserId}`, '==', true)
           .where(`type`, '==', ChatRoomType.Peer)

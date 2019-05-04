@@ -7,9 +7,7 @@ import { ISearchPostProps } from './ISearchPostProps'
 
 // - Import actions
 import {
-  authorizeActions,
   postActions,
-  userActions,
   globalActions,
 } from 'src/store/actions'
 import StringAPI from 'api/StringAPI'
@@ -22,7 +20,7 @@ import { Component } from 'react'
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any, ownProps: ISearchPostProps) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     search:
       (query: string, page: number, limit: number) => dispatch(postActions.dbSearchPosts(query, page, limit)),
@@ -39,7 +37,7 @@ const makeMapStateToProps = () => {
   const selectRequest = serverSelector.selectRequest()
   const selectStreamPosts = postSelector.selectSearchPosts()
 
-  const mapStateToProps = (state: Map<string, any>, ownProps: ISearchPostProps) => {
+  const mapStateToProps = (state: Map<string, any>) => {
     const currentUser = selectCurrentUser(state).toJS() as User
     const requestId = StringAPI.createServerRequestId(ServerRequestType.SearchPosts, currentUser.userId!)
     const searchRequestStatus = selectRequest(state, {requestId})

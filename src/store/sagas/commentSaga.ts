@@ -1,17 +1,16 @@
-import { ICommentService } from 'core/services/comments'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { provider } from 'src/socialEngine'
-import { take, fork, select, put, call, cancelled, all } from 'redux-saga/effects'
-import { CommentActionType } from 'constants/commentActionType'
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import {serverActions, commentActions, postActions} from 'store/actions'
-import CommentAPI from 'api/CommentAPI'
-import { postComments } from 'models/comments/commentTypes'
-import { eventChannel, Channel } from 'redux-saga'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { Post } from 'core/domain/posts'
-import { postSelector } from 'store/reducers/posts/postSelector'
-import {Map} from 'immutable'
+import CommentAPI from 'api/CommentAPI';
+import { CommentActionType } from 'constants/commentActionType';
+import { ICommentService } from 'core/services/comments';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { Map } from 'immutable';
+import { postComments } from 'models/comments/commentTypes';
+import { Channel, eventChannel } from 'redux-saga';
+import { all, call, cancelled, fork, put, select, take } from 'redux-saga/effects';
+import { provider } from 'src/socialEngine';
+import { commentActions, postActions, serverActions } from 'store/actions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { postSelector } from 'store/reducers/posts/postSelector';
+
 /**
  * Get service providers
  */
@@ -58,7 +57,6 @@ function* setComments(ownerId: string, postId: string, comments: postComments) {
  * Fetch comments from the server
  */
 function* dbFetchComments(ownerId: string, postId: string) {
-   const currentUser =  yield select(authorizeSelector.getCurrentUser)
    const getCommentsRequest = CommentAPI.createGetCommentsRequest(postId)
    yield put(serverActions.sendRequest(getCommentsRequest))
      const channelSubscription: Channel<postComments> =  yield call(fetchCommentsChannel, postId)

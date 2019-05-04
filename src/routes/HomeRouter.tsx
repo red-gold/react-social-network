@@ -1,16 +1,15 @@
 // - Import react components
-import PrivateRoute from './PrivateRoute'
-import PublicRoute from './PublicRoute'
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
+import MasterLoadingComponent from 'components/masterLoading/MasterLoadingComponent';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import Loadable from 'react-loadable';
+import { connect } from 'react-redux';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { RouteType } from 'routes/routeType';
 
-import Loadable from 'react-loadable'
-import { Map } from 'immutable'
-
-import { IRouterProps } from './IRouterProps'
-import MasterLoadingComponent from 'components/masterLoading/MasterLoadingComponent'
-import { RouteType } from 'routes/routeType'
+import { IRouterProps } from './IRouterProps';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 
 /**
  * Loadable components
@@ -30,10 +29,6 @@ const AsyncPostPage = Loadable({
 })
 const AsyncPeople = Loadable({
   loader: () => import('containers/people'),
-  loading: MasterLoadingComponent,
-})
-const AsyncExternalSocial = Loadable({
-  loader: () => import('containers/externalSocial'),
   loading: MasterLoadingComponent,
 })
 const AsyncSearchUser = Loadable({
@@ -58,14 +53,6 @@ const AsyncCompany = Loadable({
 })
 const AsyncHelp = Loadable({
   loader: () => import('containers/help'),
-  loading: MasterLoadingComponent,
-})
-const AsyncSponser = Loadable({
-  loader: () => import('containers/sponser'),
-  loading: MasterLoadingComponent,
-})
-const AsyncFun = Loadable({
-  loader: () => import('containers/fun'),
   loading: MasterLoadingComponent,
 })
 
@@ -127,7 +114,6 @@ const routes = [
  */
 export class HomeRouter extends Component<IRouterProps, any> {
   render() {
-    const { match, data, t } = this.props
     return (
       <Switch>
         {routes.map((route: RouteType, index) => {

@@ -1,31 +1,26 @@
 // - Import react components
-import React, { Component } from 'react'
-import classNames from 'classnames'
+import AppBar from '@material-ui/core/AppBar';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Slide from '@material-ui/core/Slide';
+import { withStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table/Table';
+import TableBody from '@material-ui/core/TableBody/TableBody';
+import TableCell from '@material-ui/core/TableCell/TableCell';
+import TableRow from '@material-ui/core/TableRow/TableRow';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import DoneIcon from '@material-ui/icons/Done';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import classNames from 'classnames';
+import React, { Component } from 'react';
+
+import { ITimelineComponentProps } from './ITimelineComponentProps';
+import { ITimelineComponentState } from './ITimelineComponentState';
+import { timelineStyles } from './timelineStyles';
 
 // - Material UI
-import { withStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
-import Dialog from '@material-ui/core/Dialog'
-import Divider from '@material-ui/core/Divider'
-import AppBar from '@material-ui/core/AppBar'
-import Paper from '@material-ui/core/Paper'
-import Toolbar from '@material-ui/core/Toolbar'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import CloseIcon from '@material-ui/icons/Close'
-import VpnKeyIcon from '@material-ui/icons/VpnKey'
-import DoneIcon from '@material-ui/icons/Done'
-import Slide from '@material-ui/core/Slide'
-import Table from '@material-ui/core/Table/Table'
-import TableBody from '@material-ui/core/TableBody/TableBody'
-import TableCell from '@material-ui/core/TableCell/TableCell'
-import TableHead from '@material-ui/core/TableHead/TableHead'
-import TableRow from '@material-ui/core/TableRow/TableRow'
-
-import { timelineStyles } from './timelineStyles'
-import { ITimelineComponentProps } from './ITimelineComponentProps'
-import { ITimelineComponentState } from './ITimelineComponentState'
-
 function Transition(props: any) {
   return <Slide direction='up' {...props} />
 }

@@ -1,5 +1,3 @@
-import config from 'src/config'
-
 export const homeHeaderStyles = (theme: any) => ({
     root: {
       backgroundColor: '#a5792a'

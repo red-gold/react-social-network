@@ -1,14 +1,13 @@
-import {Map} from 'immutable'
-import { IPostComponentProps } from './IPostComponentProps'
-import * as voteActions from 'store/actions/voteActions'
-import * as postActions from 'store/actions/postActions'
-import * as globalActions from 'store/actions/globalActions'
-import * as commentActions from 'store/actions/commentActions'
-import { push } from 'connected-react-router'
-import { userSelector } from 'store/reducers/users/userSelector'
+import { push } from 'connected-react-router';
+import { Map } from 'immutable';
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import * as commentActions from 'store/actions/commentActions';
+import * as globalActions from 'store/actions/globalActions';
+import * as postActions from 'store/actions/postActions';
+import * as voteActions from 'store/actions/voteActions';
 
-import {connect } from 'react-redux'
-import { Component } from 'react'
+import { IPostComponentProps } from './IPostComponentProps';
 
 /**
  * Map dispatch to props
@@ -39,7 +38,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: IPostComponentProps) => {
   
     const voteCount = ownProps.post.get('score', 0)
     const commentList: { [commentId: string]: Comment } = state.getIn(['comment', 'postComments', ownProps.post.get('id')], Map({}))
-    const user = userSelector.getUserProfileById(state, { userId: ownProps.post.get('ownerUserId') }).toJS()
   
     return {
       

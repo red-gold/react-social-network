@@ -1,37 +1,32 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import AppBar from '@material-ui/core/AppBar/AppBar';
+import Button from '@material-ui/core/Button/Button';
+import Dialog from '@material-ui/core/Dialog/Dialog';
+import Grid from '@material-ui/core/Grid/Grid';
+import IconButton from '@material-ui/core/IconButton/IconButton';
+import Slide from '@material-ui/core/Slide';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Toolbar from '@material-ui/core/Toolbar/Toolbar';
+import Typography from '@material-ui/core/Typography/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import classNames from 'classnames';
+import BountyBox from 'components/bountyBox';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import * as globalActions from 'store/actions/globalActions';
 
-import {Map} from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { bountiesDialogStyles } from './bountiesDialogStyles';
+import { IBountiesDialogComponentProps } from './IBountiesDialogComponentProps';
+import { IBountiesDialogComponentState } from './IBountiesDialogComponentState';
 
 // - Material-UI
-import CloseIcon from '@material-ui/icons/Close'
-import Slide from '@material-ui/core/Slide'
-
 // - Import app components
-import {bountiesDialogStyles} from './bountiesDialogStyles'
-
 // - Import API
 
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-
-import { IBountiesDialogComponentProps } from './IBountiesDialogComponentProps'
-import { IBountiesDialogComponentState } from './IBountiesDialogComponentState'
-import BountyBox from 'components/bountyBox'
-import classNames from 'classnames'
-import Button from '@material-ui/core/Button/Button'
-import Grid from '@material-ui/core/Grid/Grid'
-import Paper from '@material-ui/core/Paper/Paper'
-import Dialog from '@material-ui/core/Dialog/Dialog'
-import AppBar from '@material-ui/core/AppBar/AppBar'
-import Toolbar from '@material-ui/core/Toolbar/Toolbar'
-import IconButton from '@material-ui/core/IconButton/IconButton'
-import Typography from '@material-ui/core/Typography/Typography'
-import withStyles from '@material-ui/core/styles/withStyles'
-
 const image1 = 'https://i.stack.imgur.com/rp3Cv.png'
 const image2 = 'https://i.stack.imgur.com/EN0AX.png'
 const image3 = 'https://i.stack.imgur.com/SqKnG.png'
@@ -69,7 +64,7 @@ export class BountiesDialogComponent extends Component<IBountiesDialogComponentP
    */
   render () {
 
-    const { setHeaderTitle, t, classes, text} = this.props
+    const { classes, text} = this.props
     return (
         <div>
                 <Button
@@ -191,7 +186,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IBountiesDialogCompo
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(BountiesDialogComponent as any)
+const translateWrraper = withTranslation('translations')(BountiesDialogComponent as any)
 
-export default withRouter<any>(connect<any>(mapStateToProps as any, mapDispatchToProps)
-(withStyles(bountiesDialogStyles as any)(translateWrraper as any))) as typeof BountiesDialogComponent
+export default withRouter<any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(bountiesDialogStyles as any)(translateWrraper as any))) as typeof BountiesDialogComponent

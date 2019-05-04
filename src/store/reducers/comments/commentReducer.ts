@@ -1,18 +1,12 @@
 // - Import react components
-import moment from 'moment/moment'
-import _ from 'lodash'
-import { Map } from 'immutable'
+import { CommentActionType } from 'constants/commentActionType';
+import { Map } from 'immutable';
+
+import { CommentState } from './CommentState';
+import { ICommentAction } from './ICommentAction';
 
 // - Import domain
-import { User } from 'src/core/domain/users'
-import { Comment } from 'src/core/domain/comments'
-
 // - Import action types
-import { CommentActionType } from 'constants/commentActionType'
-
-import { CommentState } from './CommentState'
-import { ICommentAction } from './ICommentAction'
-
 /**
  * Comment reducer
  * @param state

@@ -1,44 +1,31 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import BackIcon from '@material-ui/icons/ArrowBack';
+import OutIcon from '@material-ui/icons/CallMade';
+import InIcon from '@material-ui/icons/CallReceived';
+import classNames from 'classnames';
+import { Map } from 'immutable';
+import * as Ramda from 'ramda';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import * as chatActions from 'store/actions/chatActions';
 
-import { Map } from 'immutable'
-import config from 'src/config'
-import classNames from 'classnames'
-import * as Ramda from 'ramda'
-const languages = require('locales/languages.json')
-import { translate, Trans } from 'react-i18next'
+import { chatRoomSettingStyles } from './chatRoomSettingStyles';
+import { IChatRoomSettingProps } from './IChatRoomSettingProps';
+import { IChatRoomSettingState } from './IChatRoomSettingState';
 
 // - Material UI
-import Button from '@material-ui/core/Button'
-import { grey } from '@material-ui/core/colors'
-import TextField from '@material-ui/core/TextField'
-import { withStyles } from '@material-ui/core/styles'
-import Grid from '@material-ui/core/Grid'
-import Typography from '@material-ui/core/Typography'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import IconButton from '@material-ui/core/IconButton'
-import BackIcon from '@material-ui/icons/ArrowBack'
-import OutIcon from '@material-ui/icons/CallMade'
-import InIcon from '@material-ui/icons/CallReceived'
-import TranslateIcon from '@material-ui/icons/Translate'
-import Divider from '@material-ui/core/Divider'
-
 // - Import app components
-import UserAvatar from 'components/userAvatar'
-
 // - Import API
-import StringAPI from 'api/StringAPI'
-
 // - Import actions
-import * as chatActions from 'store/actions/chatActions'
-
-import { IChatRoomSettingProps } from './IChatRoomSettingProps'
-import { IChatRoomSettingState } from './IChatRoomSettingState'
-import { chatRoomSettingStyles } from './chatRoomSettingStyles'
+const languages = require('locales/languages.json')
 
 /**
  * React component class
@@ -89,7 +76,6 @@ export class ChatRoomSettingComponent extends Component<IChatRoomSettingProps, I
    * Handle data on input change
    */
   handleInputChange = (event: any) => {
-    const { t } = this.props
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
@@ -165,8 +151,8 @@ export class ChatRoomSettingComponent extends Component<IChatRoomSettingProps, I
    */
   render() {
 
-    const { classes, t, open, onClose, leftSideClose, rightSideDisabled, room , currentUser} = this.props
-    const { disabledOk, dropdownDisplayed } = this.state
+    const { classes, t, onClose, leftSideClose, rightSideDisabled, room , currentUser} = this.props
+    const { dropdownDisplayed } = this.state
     let inputLang = Ramda.path(['translation', (currentUser.userId! || (currentUser as any).id!), 'input'], room) as string | null
     let outputLang = Ramda.path(['translation', (currentUser.userId! || (currentUser as any).id!), 'output'], room) as string | null
     inputLang  = inputLang ? this.findLanguage(inputLang) : null
@@ -266,6 +252,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IChatRoomSettingProp
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ChatRoomSettingComponent as any)
+const translateWrraper = withTranslation('translations')(ChatRoomSettingComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(chatRoomSettingStyles as any)(translateWrraper as any) as any)

@@ -1,13 +1,11 @@
+import { AuthorizeActionType } from 'constants/authorizeActionType';
+import { Map } from 'immutable';
+
+import { AuthorizeState } from './AuthorizeState';
+import { IAuthorizeAction } from './IAuthorizeAction';
+
 // - Import react components
-import { Reducer, Action } from 'redux'
-
 // - Import action types
-import { AuthorizeActionType } from 'constants/authorizeActionType'
-
-import { IAuthorizeAction } from './IAuthorizeAction'
-import { AuthorizeState } from './AuthorizeState'
-import { Map } from 'immutable'
-
 /**
  *  Authorize reducer
  * @param {object} state

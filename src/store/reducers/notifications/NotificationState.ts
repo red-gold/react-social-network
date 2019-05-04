@@ -1,5 +1,4 @@
-import { Notification } from 'src/core/domain/notifications'
-import {Map} from 'immutable'
+import { Map } from 'immutable';
 
 /**
  * Notification state

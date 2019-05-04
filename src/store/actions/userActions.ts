@@ -1,22 +1,17 @@
 // - Import react components
-import { provider } from 'src/socialEngine'
-import { Map, List } from 'immutable'
+import { UserActionType } from 'constants/userActionType';
+import { Map } from 'immutable';
+import { SocialError } from 'src/core/domain/common';
+import { User } from 'src/core/domain/users';
+import { IUserService } from 'src/core/services/users';
+import { SocialProviderTypes } from 'src/core/socialProviderTypes';
+import { provider } from 'src/socialEngine';
+import * as globalActions from 'store/actions/globalActions';
+import { userSelector } from 'store/reducers/users/userSelector';
 
 // - Import domain
-import { User } from 'src/core/domain/users'
-import { SocialError } from 'src/core/domain/common'
-
 // - Import action types
-import { UserActionType } from 'constants/userActionType'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-
-import { IUserService } from 'src/core/services/users'
-import { SocialProviderTypes } from 'src/core/socialProviderTypes'
-import config from 'src/config'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { authorizeSelector } from 'store/reducers/authorize'
 /**
  * Get service providers
  */
@@ -124,7 +119,6 @@ export const dbGetPeopleInfo = (page: number, limit: number) => {
   return (dispatch: any, getState: Function) => {
     const state: Map<string, any>  = getState()
     const people: Map<string, any> = state.getIn(['user', 'people'])
-    const lastPageRequest = people.get('lastPageRequest')
     const lastUserId = people.get('lastUserId')
 
     let uid: string = state.getIn(['authorize', 'uid'])

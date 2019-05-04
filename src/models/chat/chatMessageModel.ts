@@ -1,5 +1,5 @@
-import { User } from 'core/domain/users'
-import { MessageType } from 'core/domain/chat/MessageType'
+import { MessageType } from 'core/domain/chat/MessageType';
+import { User } from 'core/domain/users';
 
 export class ChatMessageModel {
     constructor(

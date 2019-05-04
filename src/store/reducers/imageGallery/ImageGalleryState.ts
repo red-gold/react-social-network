@@ -1,5 +1,5 @@
-import { Image } from 'src/core/domain/imageGallery'
-import {Map, Collection, List} from 'immutable'
+import { List } from 'immutable';
+import { Image } from 'src/core/domain/imageGallery';
 
 /**
  * ImageGallery state

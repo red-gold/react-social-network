@@ -1,17 +1,10 @@
-import { connect } from 'react-redux'
+import { Map } from 'immutable';
+import { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { Map } from 'immutable'
+import { IFunProps } from './IFunProps';
 
 // - Import actions
-import * as userActions from 'src/store/actions/userActions'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { User } from 'core/domain/users'
-import { IFunProps } from './IFunProps'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { Component } from 'react'
-
 /**
  * Map dispatch to props
  */
@@ -21,10 +14,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: IFunProps) => {
 }
 
 const makeMapStateToProps = () => {
-  const selectCurrentUser = authorizeSelector.selectCurrentUser()
 
   const mapStateToProps = (state: Map<string, any>, ownProps: IFunProps) => {
-    const currentUser = selectCurrentUser(state).toJS() as User
     return {
       
     }

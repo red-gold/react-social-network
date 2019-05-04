@@ -1,17 +1,17 @@
 // - Import react components
-import firebase, { firebaseAuth, db, firebaseRef } from 'data/firestoreClient'
-import moment from 'moment/moment'
-import algoliasearch from 'algoliasearch'
-import config from 'src/config'
-import { SocialError } from 'core/domain/common'
-import { User, UserProvider } from 'core/domain/users'
-import { IUserService } from 'core/services/users'
-import { injectable, inject } from 'inversify'
-import { Map, fromJS } from 'immutable'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { IHttpService } from 'core/services/webAPI/IHttpService'
-import { UserIndex } from 'core/domain/users/userIndex'
-import * as R from 'ramda'
+import algoliasearch from 'algoliasearch';
+import { SocialError } from 'core/domain/common';
+import { User, UserProvider } from 'core/domain/users';
+import { UserIndex } from 'core/domain/users/userIndex';
+import { IUserService } from 'core/services/users';
+import { IHttpService } from 'core/services/webAPI/IHttpService';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import firebase, { db } from 'data/firestoreClient';
+import { fromJS, Map } from 'immutable';
+import { inject, injectable } from 'inversify';
+import moment from 'moment/moment';
+import * as R from 'ramda';
+import config from 'src/config';
 
 /**
  * Firbase user service
@@ -78,7 +78,7 @@ export class UserService implements IUserService {
     => Promise<void> = (userId) => {
       return new Promise<void>((resolve, reject) => {
         const voteRef = db.collection('userInfo').doc(userId)
-        var transaction = db.runTransaction(t => {
+        db.runTransaction(t => {
           return t.get(voteRef)
             .then(doc => {
               if (doc.exists) {
@@ -107,7 +107,7 @@ export class UserService implements IUserService {
     => Promise<void> = (userId) => {
       return new Promise<void>((resolve, reject) => {
         const voteRef = db.collection('userInfo').doc(userId)
-        var transaction = db.runTransaction(t => {
+         db.runTransaction(t => {
           return t.get(voteRef)
             .then(doc => {
               if (doc.exists) {
@@ -136,7 +136,7 @@ export class UserService implements IUserService {
     => Promise<void> = (userId) => {
       return new Promise<void>((resolve, reject) => {
         const userInfoRef = db.collection('userInfo').doc(userId)
-        var transaction = db.runTransaction(t => {
+         db.runTransaction(t => {
           return t.get(userInfoRef)
             .then(doc => {
               if (doc.exists) {
@@ -201,7 +201,7 @@ export class UserService implements IUserService {
     => Promise<void> = (userId) => {
       return new Promise<void>((resolve, reject) => {
         const userInfoRef = db.collection('userInfo').doc(userId)
-        var transaction = db.runTransaction(t => {
+         db.runTransaction(t => {
           return t.get(userInfoRef)
             .then(doc => {
               if (doc.exists) {
@@ -237,7 +237,6 @@ export class UserService implements IUserService {
         hitsPerPage: limit
       })
     const pageCount = resultSearch.nbPages - 1
-    const userCount = resultSearch.nbHits
     let parsedData: Map<string, any> = Map({})
     let userIds: Map<string, boolean> = Map({})
     resultSearch.hits.forEach((user) => {

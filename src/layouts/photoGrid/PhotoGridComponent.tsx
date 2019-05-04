@@ -1,28 +1,18 @@
 // - Import react components
-import React, { Component } from 'react'
-import classNames from 'classnames'
-import Lightbox from 'src/lib/react-lit/index.js'
-import ClearIcon from '@material-ui/icons/Clear'
-import StackGrid, { transitions, easings } from 'react-stack-grid'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@material-ui/core/IconButton';
+import withStyles from '@material-ui/core/styles/withStyles';
+import ClearIcon from '@material-ui/icons/Clear';
+import ImgCoverComponent from 'components/imgCover';
+import React, { Component } from 'react';
+import StackGrid, { easings, transitions } from 'react-stack-grid';
+import Lightbox from 'src/lib/react-lit/index.js';
+
+import { IPhotoGridProps } from './IPhotoGridProps';
+import { IPhotoGridState } from './IPhotoGridState';
+import { photoGridStyles } from './photoGridStyles';
 
 // - Material UI
-import withStyles from '@material-ui/core/styles/withStyles'
-import Dialog from '@material-ui/core/Dialog'
-import Button from '@material-ui/core/Button'
-import RaisedButton from '@material-ui/core/Button'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import GridList from '@material-ui/core/GridList'
-import GridListTile from '@material-ui/core/GridListTile'
-import GridListTileBar from '@material-ui/core/GridListTileBar'
-import IconButton from '@material-ui/core/IconButton'
-import StarBorderIcon from '@material-ui/icons/StarBorder'
-
-import { photoGridStyles } from './photoGridStyles'
-import { IPhotoGridProps } from './IPhotoGridProps'
-import { IPhotoGridState } from './IPhotoGridState'
-import PictureDialogComponent from 'layouts/pictureDialog'
-import ImgCoverComponent from 'components/imgCover'
-
 /**
  * Create component class
  */
@@ -123,8 +113,7 @@ export class PhotoGridComponent extends Component<IPhotoGridProps, IPhotoGridSta
    * Reneder component DOM
    */
   render() {
-    const { images, classes, cols, onDelete } = this.props
-    const { pictureDialogOpen } = this.state
+    const { images, classes } = this.props
     return (
       <Lightbox
         images={images}

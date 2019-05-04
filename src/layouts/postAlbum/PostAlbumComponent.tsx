@@ -1,25 +1,20 @@
 // - Import react components
-import React, { Component } from 'react'
-import classNames from 'classnames'
-import ReactPhotoGrid from 'src/lib/reactPhotoGrid.js'
-import Lightbox from 'src/lib/react-lit/index.js'
-import { NavLink } from 'react-router-dom'
-import * as R from 'ramda'
+import withStyles from '@material-ui/core/styles/withStyles';
+import Typography from '@material-ui/core/Typography';
+import NoAlbumIcon from '@material-ui/icons/SettingsSystemDaydream';
+import classNames from 'classnames';
+import PostPhotoGridComponent from 'layouts/postPhotoGrid';
+import * as R from 'ramda';
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import Lightbox from 'src/lib/react-lit/index.js';
+import { isArray } from 'util';
+
+import { IPostAlbumProps } from './IPostAlbumProps';
+import { IPostAlbumState } from './IPostAlbumState';
+import { postAlbumStyles } from './postAlbumStyles';
 
 // - Material UI
-import withStyles from '@material-ui/core/styles/withStyles'
-import GridList from '@material-ui/core/GridList'
-import GridListTile from '@material-ui/core/GridListTile'
-import Typography from '@material-ui/core/Typography'
-import NoAlbumIcon from '@material-ui/icons/SettingsSystemDaydream'
-
-import Img from 'components/img'
-import { postAlbumStyles } from './postAlbumStyles'
-import { IPostAlbumProps } from './IPostAlbumProps'
-import { IPostAlbumState } from './IPostAlbumState'
-import { isArray } from 'util'
-import PostPhotoGridComponent from 'layouts/postPhotoGrid'
-
 /**
  * Create component class
  */

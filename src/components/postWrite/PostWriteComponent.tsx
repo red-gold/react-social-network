@@ -1,69 +1,57 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import { grey } from '@material-ui/core/colors';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
+import Typography from '@material-ui/core/Typography';
+import CloseIcon from '@material-ui/icons/Close';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SvgCamera from '@material-ui/icons/PhotoCamera';
+import SvgPlay from '@material-ui/icons/PlayCircleFilled';
+import SvgRemoveImage from '@material-ui/icons/RemoveCircle';
+import SvgAddVideo from '@material-ui/icons/VideoCall';
+import VideoGalleryIcon from '@material-ui/icons/VideoLibrary';
+import FileAPI from 'api/FileAPI';
+import * as PostAPI from 'api/PostAPI';
+import StringAPI from 'api/StringAPI';
+import classNames from 'classnames';
+import AddVideo from 'components/addVideo';
+import AlbumDialogComponent from 'components/albumDialog';
+import Img from 'components/img';
+import PostImageUploadComponent from 'components/postImageUpload';
+import UserAvatarComponent from 'components/userAvatar';
+import UserPermissionComponent from 'components/userPermission';
+import VideoGalleryComponent from 'components/videoGallery';
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
+import { Album } from 'core/domain/imageGallery/album';
+import { PostType } from 'core/domain/posts/postType';
+import { fromJS, List as ImuList, Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import uuid from 'uuid';
 
-import { Map, fromJS, List as ImuList } from 'immutable'
-import uuid from 'uuid'
-import { translate, Trans } from 'react-i18next'
+import { connectPostWrite } from './connectPostWrite';
+import { IPostWriteComponentProps } from './IPostWriteComponentProps';
+import { IPostWriteComponentState } from './IPostWriteComponentState';
+import { postWriteStyles } from './postWriteStyles';
 
 // - Material-UI
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Button from '@material-ui/core/Button'
-import { grey } from '@material-ui/core/colors'
-import IconButton from '@material-ui/core/IconButton'
-import TextField from '@material-ui/core/TextField'
-import Menu from '@material-ui/core/Menu'
-import Tooltip from '@material-ui/core/Tooltip'
-import MenuItem from '@material-ui/core/MenuItem'
-import Divider from '@material-ui/core/Divider'
-import SvgRemoveImage from '@material-ui/icons/RemoveCircle'
-import SvgCamera from '@material-ui/icons/PhotoCamera'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import { withStyles } from '@material-ui/core/styles'
-import classNames from 'classnames'
-import SvgAddVideo from '@material-ui/icons/VideoCall'
-import VideoGalleryIcon from '@material-ui/icons/VideoLibrary'
-import SvgPlay from '@material-ui/icons/PlayCircleFilled'
-import CloseIcon from '@material-ui/icons/Close'
-import Grid from '@material-ui/core/Grid'
-
 // - Import app components
-import Img from 'components/img'
-import UserAvatarComponent from 'components/userAvatar'
-import VideoGalleryComponent from 'components/videoGallery'
-import AddVideo from 'components/addVideo'
-import UserPermissionComponent from 'components/userPermission'
-import PostImageUploadComponent from 'components/postImageUpload'
-
 // - Import API
-import * as PostAPI from 'api/PostAPI'
-import StringAPI from 'api/StringAPI'
-
 // - Import actions
-import { IPostWriteComponentProps } from './IPostWriteComponentProps'
-import { IPostWriteComponentState } from './IPostWriteComponentState'
-import { Post } from 'core/domain/posts'
-import { PostType } from 'core/domain/posts/postType'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { postWriteStyles } from './postWriteStyles'
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
-import FileAPI from 'api/FileAPI'
-import { DialogType } from 'models/common/dialogType'
-import { globalSelector } from 'store/reducers/global/globalSelector'
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { User } from 'core/domain/users/user'
-import { Album } from 'core/domain/imageGallery/album'
-import AlbumDialogComponent from 'components/albumDialog'
-import { connectPostWrite } from './connectPostWrite'
-
 // - Create PostWrite component class
 export class PostWriteComponent extends Component<IPostWriteComponentProps, IPostWriteComponentState> {
 
@@ -262,13 +250,11 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
       postType,
       accessUserList,
       permission,
-      album,
       galleryOpen,
       selectedPhotos
     } = this.state
 
     const {
-      id,
       ownerAvatar,
       ownerDisplayName,
       edit,
@@ -501,7 +487,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
    */
   onUploadAlbumChange = (event: any) => {
     const { uploadImage } = this.props
-    const {galleryOpen, album, selectedPhotos} = this.state
+    const {galleryOpen, selectedPhotos} = this.state
     if (uploadImage) {
       const files: File[] = event.currentTarget.files
       const parsedFiles: { src: string, fileName: string }[] = []
@@ -564,7 +550,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
   render() {
 
     const { classes, t, progress, albumDialogOpen } = this.props
-    const { menuOpen, videoLinkOpen, video, image, postType,
+    const { menuOpen, videoLinkOpen,image, postType,
       galleryOpen, selectedPhotos,
       videoThumbnails, permissionOpen, permission, menuAnchorEl } = this.state
       const albumOpen = (albumDialogOpen !== undefined) ? albumDialogOpen : false
@@ -790,6 +776,6 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(PostWriteComponent as any)
+const translateWrraper = withTranslation('translations')(PostWriteComponent as any)
 
 export default connectPostWrite(withStyles(postWriteStyles)(translateWrraper as any) as any)

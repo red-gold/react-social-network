@@ -1,6 +1,7 @@
 {
     "extends": "./tsconfig.paths.json",
     "compilerOptions": {
+        "isolatedModules": false,
         "esModuleInterop": true,
         "types": [
             "node",

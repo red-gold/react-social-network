@@ -1,19 +1,20 @@
-import { take, fork, select, put, call, cancelled, all, takeLatest, takeEvery } from 'redux-saga/effects'
-import { Map, fromJS } from 'immutable'
-import { provider } from 'socialEngine'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import * as serverActions from 'store/actions/serverActions'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { IUserService } from 'core/services'
-import { UserActionType } from 'constants/userActionType'
-import { authorizeSelector } from 'store/reducers/authorize'
-import * as userActions from 'store/actions/userActions'
-import * as globalActions from 'store/actions/globalActions'
-import { User } from 'core/domain/users'
-import { globalSelector } from 'store/reducers/global/globalSelector'
-import { UserAPI } from 'api/UserAPI'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { circleSelector } from 'store/reducers/circles/circleSelector'
+import { UserAPI } from 'api/UserAPI';
+import { UserActionType } from 'constants/userActionType';
+import { User } from 'core/domain/users';
+import { IUserService } from 'core/services';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { Map } from 'immutable';
+import { all, call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
+import { provider } from 'socialEngine';
+import * as globalActions from 'store/actions/globalActions';
+import * as serverActions from 'store/actions/serverActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import * as userActions from 'store/actions/userActions';
+import { authorizeSelector } from 'store/reducers/authorize';
+import { circleSelector } from 'store/reducers/circles/circleSelector';
+import { globalSelector } from 'store/reducers/global/globalSelector';
+import { userSelector } from 'store/reducers/users/userSelector';
+
 /**
  * Get service providers
  */

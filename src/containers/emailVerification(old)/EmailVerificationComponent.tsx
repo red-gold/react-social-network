@@ -1,23 +1,20 @@
 // - Import external components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'connected-react-router'
-import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
-import RaisedButton from '@material-ui/core/Button'
-import Button from '@material-ui/core/Button'
-import config from 'src/config'
-import { withStyles } from '@material-ui/core/styles'
+import { Grid } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import { push } from 'connected-react-router';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import config from 'src/config';
+import * as authorizeActions from 'src/store/actions/authorizeActions';
 
-import { translate, Trans } from 'react-i18next'
+import { IEmailVerificationComponentProps } from './IEmailVerificationComponentProps';
+import { IEmailVerificationComponentState } from './IEmailVerificationComponentState';
 
 // - Import actions
-import * as authorizeActions from 'src/store/actions/authorizeActions'
-import { IEmailVerificationComponentProps } from './IEmailVerificationComponentProps'
-import { IEmailVerificationComponentState } from './IEmailVerificationComponentState'
-import { Grid } from '@material-ui/core'
-
 const styles = (theme: any) => ({
   textField: {
     minWidth: 280,
@@ -70,16 +67,6 @@ export class EmailVerificationComponent extends Component<IEmailVerificationComp
 
   }
 
-  /**
-   * Component constructor
-   *
-   */
-  constructor(props: IEmailVerificationComponentProps) {
-    super(props)
-
-    // Binding function to `this`
-
-  }
 
   /**
    * Reneder component DOM
@@ -144,6 +131,6 @@ const mapStateToProps = (state: any, ownProps: IEmailVerificationComponentProps)
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(EmailVerificationComponent as any)
+const translateWrraper = withTranslation('translations')(EmailVerificationComponent as any)
 
 export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any))

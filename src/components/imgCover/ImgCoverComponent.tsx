@@ -1,21 +1,18 @@
 // - Import react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import SvgImage from '@material-ui/icons/Image'
+import SvgImage from '@material-ui/icons/Image';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 
-import {Map} from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { IImgCoverComponentProps } from './IImgCoverComponentProps';
+import { IImgCoverComponentState } from './IImgCoverComponentState';
 
 // - Import app components
 
 // - Import API
 
 // - Import actions
-import * as imageGalleryActions from 'store/actions/imageGalleryActions'
-import { IImgCoverComponentProps } from './IImgCoverComponentProps'
-import { IImgCoverComponentState } from './IImgCoverComponentState'
-
 /**
  * Create component class
  */
@@ -118,7 +115,7 @@ export class ImgCoverComponent extends Component<IImgCoverComponentProps,IImgCov
    */
   render () {
 
-    let { src, style, t, className, onClick } = this.props
+    let { src, style, t, className } = this.props
     let { isImageLoaded } = this.state
 
     return (
@@ -137,7 +134,7 @@ export class ImgCoverComponent extends Component<IImgCoverComponentProps,IImgCov
             <div>{t!('image.notLoaded')}</div>
           </div>
         </div>
-         <img onLoad={this.handleLoadImage} src={src || ''} style={{ display: 'none'}} />
+         <img alt='...' onLoad={this.handleLoadImage} src={src || ''} style={{ display: 'none'}} />
       </div>
     )
   }
@@ -161,6 +158,6 @@ const mapStateToProps = (state: any, ownProps: IImgCoverComponentProps) => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ImgCoverComponent as any)
+const translateWrraper = withTranslation('translations')(ImgCoverComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(translateWrraper)

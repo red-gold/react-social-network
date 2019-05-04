@@ -1,27 +1,23 @@
 // - Import external components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'connected-react-router'
-import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
-import RaisedButton from '@material-ui/core/Button'
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
-import config from 'src/config'
+import { Grid } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import classNames from 'classnames';
+import Footer from 'layouts/footer';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import config from 'src/config';
+import * as authorizeActions from 'src/store/actions/authorizeActions';
 
-import { translate, Trans } from 'react-i18next'
+import { INewPasswordComponentProps } from './INewPasswordComponentProps';
+import { INewPasswordComponentState } from './INewPasswordComponentState';
 
 // - Components
-import Footer from 'layouts/footer'
-
 // - Import actions
-import * as authorizeActions from 'src/store/actions/authorizeActions'
-import { INewPasswordComponentProps } from './INewPasswordComponentProps'
-import { INewPasswordComponentState } from './INewPasswordComponentState'
-import { Grid } from '@material-ui/core'
-import classNames from 'classnames'
-
 const styles = (theme: any) => ({
   textField: {
     minWidth: 280,
@@ -241,6 +237,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: INewPasswordComponen
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(NewPasswordComponent as any)
+const translateWrraper = withTranslation('translations')(NewPasswordComponent as any)
 
 export default withRouter<any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any))) 

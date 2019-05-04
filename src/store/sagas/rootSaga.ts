@@ -1,15 +1,16 @@
-import { all, fork } from 'redux-saga/effects'
-import commentSaga from './commentSaga'
-import localeSaga from './localeSaga'
-import userSaga from './userSaga'
-import authorizeSaga from './authorizeSaga'
-import commonSaga from './commonSaga'
-import postSaga from './postSaga'
-import gallerySaga from './gallerySaga'
-import notificationSaga from './notificationSaga'
-import circleSaga from './circleSaga'
-import userSettingSaga from './userSettingSaga'
-import chatSaga from './chatSaga'
+import { all } from 'redux-saga/effects';
+
+import authorizeSaga from './authorizeSaga';
+import chatSaga from './chatSaga';
+import circleSaga from './circleSaga';
+import commentSaga from './commentSaga';
+import commonSaga from './commonSaga';
+import gallerySaga from './gallerySaga';
+import localeSaga from './localeSaga';
+import notificationSaga from './notificationSaga';
+import postSaga from './postSaga';
+import userSaga from './userSaga';
+import userSettingSaga from './userSettingSaga';
 
 export default function* root() {
     yield all([

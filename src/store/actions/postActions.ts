@@ -1,26 +1,22 @@
 // - Import domain
-import { Post } from 'src/core/domain/posts'
-import { SocialError } from 'src/core/domain/common'
-import { Map, fromJS, List } from 'immutable'
-import config from 'src/config'
+import { PostActionType } from 'constants/postActionType';
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
+import { User } from 'core/domain/users';
+import { fromJS, Map } from 'immutable';
+import moment from 'moment/moment';
+import config from 'src/config';
+import { SocialError } from 'src/core/domain/common';
+import { Post } from 'src/core/domain/posts';
+import { IPostService } from 'src/core/services/posts';
+import { SocialProviderTypes } from 'src/core/socialProviderTypes';
+import { provider } from 'src/socialEngine';
+import * as globalActions from 'store/actions/globalActions';
+import * as userActions from 'store/actions/userActions';
+import { userSelector } from 'store/reducers/users/userSelector';
+
 // - Import utility components
-import moment from 'moment/moment'
-
 // - Import action types
-import { PostActionType } from 'constants/postActionType'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-
-import { IPostService } from 'src/core/services/posts'
-import { SocialProviderTypes } from 'src/core/socialProviderTypes'
-import { provider } from 'src/socialEngine'
-import * as userActions from 'store/actions/userActions'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
-import { UserActionType } from 'constants/userActionType'
-import { User } from 'core/domain/users'
-
 /**
  * Get service providers
  */

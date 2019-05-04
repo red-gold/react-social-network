@@ -1,18 +1,15 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import {Map} from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import List from '@material-ui/core/List';
+import CircleComponent from 'components/circle';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 
-import List from '@material-ui/core/List'
+import { IYourCirclesComponentProps } from './IYourCirclesComponentProps';
+import { IYourCirclesComponentState } from './IYourCirclesComponentState';
 
 // - Import app components
-import CircleComponent from 'components/circle'
-import { IYourCirclesComponentProps } from './IYourCirclesComponentProps'
-import { IYourCirclesComponentState } from './IYourCirclesComponentState'
-import { Circle } from 'core/domain/circles'
-
 // - Import API
 
 // - Import actions
@@ -47,7 +44,7 @@ export class YourCirclesComponent extends Component<IYourCirclesComponentProps,I
     let parsedCircles: any[] = []
 
     if (circles) {
-      circles.map((circle, key) => {
+      circles.forEach((circle, key) => {
         parsedCircles.push(<CircleComponent key={key} circle={circle!} id={key!} uid={uid!} />)
       })
     }
@@ -104,6 +101,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IYourCirclesComponen
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(YourCirclesComponent as any)
+const translateWrraper = withTranslation('translations')(YourCirclesComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(translateWrraper as any)

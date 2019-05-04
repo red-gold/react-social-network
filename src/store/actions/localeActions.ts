@@ -1,6 +1,5 @@
+import { LanguageType } from 'store/reducers/locale/langugeType';
 
-import { LanguageType } from 'store/reducers/locale/langugeType'
-import config from 'src/config'
 
 /**
  *  Set active language for translation

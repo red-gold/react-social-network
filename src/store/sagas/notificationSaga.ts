@@ -1,20 +1,17 @@
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { provider } from 'src/socialEngine'
-import { take, fork, select, put, call, cancelled, all,takeEvery, takeLatest } from 'redux-saga/effects'
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { eventChannel, Channel } from 'redux-saga'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import {Map, fromJS} from 'immutable'
-import { Notification } from 'src/core/domain/notifications'
-import { INotificationService } from 'core/services'
-import { UserClaim } from 'core/domain/authorize/userClaim'
-import * as notificatioActions from 'store/actions/notifyActions'
-import * as globalActions from 'store/actions/globalActions'
-import { LoginUser } from 'core/domain/authorize/loginUser'
-import { push } from 'connected-react-router'
-import { NotificationActionType } from 'constants/notificationActionType'
-import * as userActions from 'store/actions/userActions'
+import { NotificationActionType } from 'constants/notificationActionType';
+import { UserClaim } from 'core/domain/authorize/userClaim';
+import { INotificationService } from 'core/services';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { fromJS, Map } from 'immutable';
+import { Channel, eventChannel } from 'redux-saga';
+import { all, call, cancelled, put, select, take, takeLatest } from 'redux-saga/effects';
+import { Notification } from 'src/core/domain/notifications';
+import { provider } from 'src/socialEngine';
+import * as notificatioActions from 'store/actions/notifyActions';
+import * as userActions from 'store/actions/userActions';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { userSelector } from 'store/reducers/users/userSelector';
+
 /**
  * Get service providers
  */

@@ -1,49 +1,37 @@
 // - Import react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import _ from 'lodash'
-import { NavLink } from 'react-router-dom'
-import { connect } from 'react-redux'
-import moment from 'moment/moment'
+import { Card, CardActions, CardHeader } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import { teal } from '@material-ui/core/colors';
+import Divider from '@material-ui/core/Divider';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import StringAPI from 'api/StringAPI';
+import classNames from 'classnames';
+import CommentListComponent from 'components/commentList';
+import UserAvatar from 'components/userAvatar';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { Comment } from 'core/domain/comments';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import _ from 'lodash';
+import moment from 'moment/moment';
+import PropTypes from 'prop-types';
+import * as R from 'ramda';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import * as commentActions from 'store/actions/commentActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { userSelector } from 'store/reducers/users/userSelector';
 
-import { Map } from 'immutable'
-import * as R from 'ramda'
-import { translate, Trans } from 'react-i18next'
-
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Divider from '@material-ui/core/Divider'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import { grey, teal } from '@material-ui/core/colors'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import { withStyles } from '@material-ui/core/styles'
-import { Card, CardActions, CardHeader, CardMedia, CardContent } from '@material-ui/core'
-import Grow from '@material-ui/core/Grow'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import classNames from 'classnames'
+import { ICommentGroupComponentProps } from './ICommentGroupComponentProps';
+import { ICommentGroupComponentState } from './ICommentGroupComponentState';
 
 // - Import actions
-import * as commentActions from 'store/actions/commentActions'
-
 // - Import app components
-import CommentListComponent from 'components/commentList'
-import UserAvatar from 'components/userAvatar'
-
-import { ICommentGroupComponentProps } from './ICommentGroupComponentProps'
-import { ICommentGroupComponentState } from './ICommentGroupComponentState'
-import { Comment } from 'core/domain/comments'
-import { ServerRequestModel } from 'models/server'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { User } from 'core/domain/users'
-
 const styles = (theme: any) => ({
   textField: {
     fontWeight: 400,
@@ -225,7 +213,7 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
    * @return {DOM} list of comments' DOM
    */
   commentList = () => {
-    const {classes, postId} = this.props
+    const {classes} = this.props
     let comments = Map(this.props.commentSlides!).toJS()
     if (comments) {
       comments = _.fromPairs(_.toPairs(comments)
@@ -433,5 +421,5 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ICommentGroupCompone
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(CommentGroupComponent as any)
+const translateWrraper = withTranslation('translations')(CommentGroupComponent as any)
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any))

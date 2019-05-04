@@ -1,32 +1,22 @@
 //#region Interfaces
-
-import { injectable } from 'inversify'
+import { ICircleService, ICommentService, INotificationService, IStorageService, IVoteService } from 'core/services';
 import {
-  IAuthorizeService,
-  ICircleService,
-  ICommentService,
-  ICommonService,
-  INotificationService,
-  IPostService,
-  IVoteService,
-  IStorageService
-} from 'core/services'
+  CircleService,
+  CommentService,
+  NotificationService,
+  StorageService,
+  VoteService,
+} from 'data/firestoreClient/services';
+import { injectable } from 'inversify';
+
+import { IServiceProvider } from './IServiceProvider';
+
 
 //#endregion
 
 //#region Service implemented classes
 
 // - Firebase services
-import {
-  AuthorizeService,
-  CircleService,
-  CommentService,
-  NotificationService,
-  VoteService,
-  StorageService
-} from 'data/firestoreClient/services'
-import { IServiceProvider } from './IServiceProvider';
-
 //#endregion
 @injectable()
 export class ServiceProvide implements IServiceProvider {

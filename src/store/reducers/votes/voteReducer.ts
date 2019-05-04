@@ -1,17 +1,12 @@
 // - Import react components
-import moment from 'moment/moment'
-import _ from 'lodash'
-import { Map } from 'immutable'
+import { VoteActionType } from 'constants/voteActionType';
+import { Map } from 'immutable';
+
+import { IVoteAction } from './IVoteAction';
+import { VoteState } from './VoteState';
 
 // - Import action types
-import { VoteActionType } from 'constants/voteActionType'
-
 // Import domain
-import { Vote } from 'src/core/domain/votes'
-
-import { VoteState } from './VoteState'
-import { IVoteAction } from './IVoteAction'
-
 /**
  * Vote actions
  */

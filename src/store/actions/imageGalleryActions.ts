@@ -1,25 +1,20 @@
 // - Import react componetns
-import moment from 'moment/moment'
-import { Map } from 'immutable'
-import config from 'src/config'
+import { ImageGalleryActionType } from 'constants/imageGalleryActionType';
+import { Photo } from 'core/domain/imageGallery/photo';
+import { Post } from 'core/domain/posts';
+import { Map } from 'immutable';
+import moment from 'moment/moment';
+import config from 'src/config';
+import { SocialError } from 'src/core/domain/common';
+import { Image, VideoFile } from 'src/core/domain/imageGallery';
+import { IImageGalleryService } from 'src/core/services/imageGallery';
+import { SocialProviderTypes } from 'src/core/socialProviderTypes';
+import { provider } from 'src/socialEngine';
+import * as globalActions from 'store/actions/globalActions';
 
 // - Import domain
-import { Image, VideoFile } from 'src/core/domain/imageGallery'
-import { SocialError } from 'src/core/domain/common'
-
 // - Import action types
-import { ImageGalleryActionType } from 'constants/imageGalleryActionType'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-
-import { IImageGalleryService } from 'src/core/services/imageGallery'
-import { FileResult } from 'src/models/files/fileResult'
-import { SocialProviderTypes } from 'src/core/socialProviderTypes'
-import { provider } from 'src/socialEngine'
-import { Post } from 'core/domain/posts'
-import { Photo } from 'core/domain/imageGallery/photo'
-
 /**
  * Get service providers
  */

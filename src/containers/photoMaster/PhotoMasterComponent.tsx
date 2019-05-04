@@ -1,67 +1,39 @@
 // - Import react components
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import classNames from 'classnames'
-import PropTypes from 'prop-types'
-import uuid from 'uuid'
-import { translate, Trans } from 'react-i18next'
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import IconButton from '@material-ui/core/IconButton';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import Paper from '@material-ui/core/Paper';
+import Popover from '@material-ui/core/Popover';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Typography from '@material-ui/core/Typography';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import FileAPI from 'api/FileAPI';
+import AlbumDialogComponent from 'components/albumDialog';
+import PhotoStreamComponent from 'components/photoStream';
+import { fromJS } from 'immutable';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { withRouter } from 'react-router-dom';
+import UserAvatarComponent from 'src/components/userAvatar';
+import uuid from 'uuid';
+
+import { connectPhotoMaster } from './connectPhotoMaster';
+import { IPhotoMasterProps } from './IPhotoMasterProps';
+import { IPhotoMasterState } from './IPhotoMasterState';
+import { photoMasterStyles } from './photoMasterStyles';
 
 // - Material-UI
-import Button from '@material-ui/core/Button'
-import withStyles from '@material-ui/core/styles/withStyles'
-import { grey, teal } from '@material-ui/core/colors'
-import SvgCamera from '@material-ui/icons/PhotoCamera'
-import Paper from '@material-ui/core/Paper'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import Typography from '@material-ui/core/Typography'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import Card from '@material-ui/core/Card'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
-import IconButton from '@material-ui/core/IconButton'
-
-import { Map, List as ImuList, fromJS } from 'immutable'
-import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum'
-import MenuList from '@material-ui/core/MenuList'
-import MenuItem from '@material-ui/core/MenuItem'
-import Popover from '@material-ui/core/Popover'
-
 // - Import app components
-import PostComponent from 'src/components/post'
-import PostWriteComponent from 'src/components/postWrite'
-import UserAvatarComponent from 'src/components/userAvatar'
-import PostPhotoMasterComponent from 'src/containers/postStream'
-import LoadMoreProgressComponent from 'src/layouts/loadMoreProgress'
-import AlbumDialogComponent from 'components/albumDialog'
-
 // - Import API
-import * as PostAPI from 'src/api/PostAPI'
-
 // - Import actions
-import * as globalActions from 'src/store/actions/globalActions'
-
-import { IPhotoMasterProps } from './IPhotoMasterProps'
-import { IPhotoMasterState } from './IPhotoMasterState'
-import { Post } from 'src/core/domain/posts'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { photoMasterStyles } from './photoMasterStyles'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { connectPhotoMaster } from './connectPhotoMaster'
-import PhotoStreamComponent from 'components/photoStream'
-import FileAPI from 'api/FileAPI'
-
 // - Create component class
 export class PhotoMasterComponent extends Component<IPhotoMasterProps, IPhotoMasterState> {
 
@@ -233,9 +205,7 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps, IPhotoMas
    */
   render() {
 
-    const { images, t, classes, loadImages, 
-      requestId, 
-      currentUser, 
+    const { images, t, classes,
       currentAlbum, 
       albumDialogOpen,
       isOwner, 
@@ -342,6 +312,6 @@ export class PhotoMasterComponent extends Component<IPhotoMasterProps, IPhotoMas
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(PhotoMasterComponent as any)
+const translateWrraper = withTranslation('translations')(PhotoMasterComponent as any)
 
 export default withRouter<any>(connectPhotoMaster(withStyles(photoMasterStyles as any)(translateWrraper as any) as any))

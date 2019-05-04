@@ -1,24 +1,14 @@
 // - Import react components
-import React, { Component } from 'react'
-import classNames from 'classnames'
-import ReactDOM from 'react-dom'
-import Lightbox from 'react-image-lightbox'
+import Backdrop, { BackdropProps } from '@material-ui/core/Backdrop';
+import { withStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import Lightbox from 'react-image-lightbox';
+
+import { IPictureDialogProps } from './IPictureDialogProps';
+import { IPictureDialogState } from './IPictureDialogState';
+import { pictureDialogStyles } from './pictureDialogStyles';
 
 // - Material UI
-import { withStyles } from '@material-ui/core/styles'
-import Slide from '@material-ui/core/Slide'
-import DialogContent from '@material-ui/core/DialogContent'
-import Backdrop, { BackdropProps } from '@material-ui/core/Backdrop'
-
-import { pictureDialogStyles } from './pictureDialogStyles'
-import { IPictureDialogProps } from './IPictureDialogProps'
-import { IPictureDialogState } from './IPictureDialogState'
-import ImgCoverComponent from 'src/components/imgCover'
-import ImgComponent from 'src/components/img'
-
-function Transition(props: any) {
-  return <Slide direction='up' {...props} />
-}
 
 export class BackDropIOSWorkaround extends React.PureComponent<BackdropProps> {
   protected onTouchMove(event: React.TouchEvent<HTMLDivElement>): void {
@@ -69,7 +59,7 @@ export class PictureDialogComponent extends Component<IPictureDialogProps, IPict
    * Reneder component DOM
    */
   render() {
-    const { classes, onClose, open, images } = this.props
+    const {onClose, open, images } = this.props
     const {photoIndex} = this.state
 
     return (

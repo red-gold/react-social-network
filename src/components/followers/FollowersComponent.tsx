@@ -1,18 +1,14 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import UserBoxList from 'components/userBoxList';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 
-import {Map} from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { IFollowersComponentProps } from './IFollowersComponentProps';
+import { IFollowersComponentState } from './IFollowersComponentState';
 
 // - Import app components
-import UserBoxList from 'components/userBoxList'
-
-import { IFollowersComponentProps } from './IFollowersComponentProps'
-import { IFollowersComponentState } from './IFollowersComponentState'
-import { Circle } from 'core/domain/circles'
-
 // - Import API
 
 // - Import actions
@@ -69,7 +65,7 @@ export class FollowersComponent extends Component<IFollowersComponentProps,IFoll
   /**
    * Map dispatch to props
    */
-const mapDispatchToProps = (dispatch: any,ownProps: IFollowersComponentProps) => {
+const mapDispatchToProps = () => {
   return{
 
   }
@@ -78,10 +74,8 @@ const mapDispatchToProps = (dispatch: any,ownProps: IFollowersComponentProps) =>
   /**
    * Map state to props
    */
-const mapStateToProps = (state: Map<string, any>,ownProps: IFollowersComponentProps) => {
+const mapStateToProps = (state: Map<string, any>) => {
 
-  const uid = state.getIn(['authorize', 'uid'], 0)
-  const circles: { [circleId: string]: Circle } = state.getIn(['circle', 'circleList'], {})
   const followers = state.getIn(['circle', 'userTieds'], Map({}))
   return{
     
@@ -90,6 +84,6 @@ const mapStateToProps = (state: Map<string, any>,ownProps: IFollowersComponentPr
 }
 
   // - Connect component to redux store
-const translateWrraper = translate('translations')(FollowersComponent as any)
+const translateWrraper = withTranslation('translations')(FollowersComponent as any)
 
 export default connect(mapStateToProps,mapDispatchToProps)(translateWrraper)

@@ -1,31 +1,23 @@
 // - Import react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
-import { push } from 'connected-react-router'
-import SvgClose from '@material-ui/icons/Close'
-import { grey } from '@material-ui/core/colors'
-import { withStyles } from '@material-ui/core/styles'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import { withStyles } from '@material-ui/core/styles';
+import { recentChatItemStyles } from 'components/recentChatItem/recentChatItemStyles';
+import UserAvatar from 'components/userAvatar';
+import { push } from 'connected-react-router';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import * as chatActions from 'store/actions/chatActions';
+
+import { IRecentChatItemProps } from './IRecentChatItemProps';
+import { IRecentChatItemState } from './IRecentChatItemState';
 
 // - Import app components
-import UserAvatar from 'components/userAvatar'
-
 // - Import API
 
 // - Import actions
-import * as chatActions from 'store/actions/chatActions'
-
-import { IRecentChatItemProps } from './IRecentChatItemProps'
-import { IRecentChatItemState } from './IRecentChatItemState'
-import { recentChatItemStyles } from 'components/recentChatItem/recentChatItemStyles'
-
 /**
  * Create component class
  */
@@ -98,7 +90,7 @@ export class RecentChatItemComponent extends Component<IRecentChatItemProps, IRe
    * Handle setting current chat
    */
   handleSetCurrentChat() {
-    const { setCurrentChat, followerId, getChatOnce, subscribeChat, closeRecentChat } = this.props
+    const { setCurrentChat, followerId, closeRecentChat } = this.props
     setCurrentChat!(followerId)
     closeRecentChat!()
 
@@ -109,7 +101,7 @@ export class RecentChatItemComponent extends Component<IRecentChatItemProps, IRe
    * 
    */
   render() {
-    let { description, fullName, avatar, isSeen, id, goTo, closeRecentChat, followerId, url, setCurrentChat, classes } = this.props
+    let { description, fullName, avatar, isSeen, goTo, closeRecentChat, followerId, classes } = this.props
 
     return (
 
@@ -142,7 +134,7 @@ export class RecentChatItemComponent extends Component<IRecentChatItemProps, IRe
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: any, ownProps: IRecentChatItemProps) => {
+const mapDispatchToProps = (dispatch: any) => {
   return {
     goTo: (url: string) => dispatch(push(url)),
     setCurrentChat: (userId: string) => dispatch(chatActions.activePeerChatRoom(userId)),
@@ -154,10 +146,10 @@ const mapDispatchToProps = (dispatch: any, ownProps: IRecentChatItemProps) => {
 /**
  * Map state to props
  */
-const mapStateToProps = (state: any, ownProps: IRecentChatItemProps) => {
+const mapStateToProps = () => {
   return {
   }
 }
 
 // - Connect component to redux store
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(recentChatItemStyles as any)(RecentChatItemComponent as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(recentChatItemStyles)(RecentChatItemComponent as any))

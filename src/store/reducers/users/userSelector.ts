@@ -1,4 +1,4 @@
-import { Map, fromJS, List } from 'immutable'
+import { Map, List } from 'immutable'
 import { createSelector } from 'reselect'
 import { PostAPI } from 'api/PostAPI'
 

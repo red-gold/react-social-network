@@ -1,5 +1,4 @@
-import { User } from 'src/core/domain/users'
-import { Map, fromJS, List } from 'immutable'
+import { Map } from 'immutable';
 
 /**
  * User state

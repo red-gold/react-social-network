@@ -1,15 +1,15 @@
 // - Import react components
-import { firebaseAuth, db } from 'data/firestoreClient'
-import {Map, fromJS} from 'immutable'
-import { SocialError, Feed } from 'core/domain/common'
-import { ICommonService } from 'core/services/common'
-import { injectable, inject } from 'inversify'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { IHttpService } from 'core/services/webAPI'
-import axios from 'axios'
-import { Post } from 'core/domain/posts'
-import { PostType } from 'core/domain/posts/postType'
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
+import axios from 'axios';
+import { Feed, SocialError } from 'core/domain/common';
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
+import { Post } from 'core/domain/posts';
+import { PostType } from 'core/domain/posts/postType';
+import { ICommonService } from 'core/services/common';
+import { IHttpService } from 'core/services/webAPI';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { db } from 'data/firestoreClient';
+import { fromJS, Map } from 'immutable';
+import { inject, injectable } from 'inversify';
 
 /**
  * Firbase common service

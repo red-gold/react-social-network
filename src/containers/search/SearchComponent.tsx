@@ -1,46 +1,25 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
+import AppBar from '@material-ui/core/AppBar';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import { push } from 'connected-react-router';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import * as globalActions from 'src/store/actions/globalActions';
 
-import { Map } from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { ISearchProps } from './ISearchProps';
+import { ISearchState } from './ISearchState';
+import { searchStyles } from './searchStyles';
 
 // - Material UI
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import withStyles from '@material-ui/core/styles/withStyles'
-import { grey, cyan } from '@material-ui/core/colors'
-import { push } from 'connected-react-router'
-import AppBar from '@material-ui/core/AppBar'
-import Typography from '@material-ui/core/Typography'
-import SearchIcon from '@material-ui/icons/Search'
-import GroupIcon from '@material-ui/icons/Group'
-
 // - Import app components
-import FindPeople from 'src/components/findPeople'
-import Following from 'src/components/following'
-import Followers from 'src/components/followers'
-import YourCircles from 'src/components/yourCircles'
-
 // - Import API
 
 // - Import actions
-import * as circleActions from 'src/store/actions/circleActions'
-import * as globalActions from 'src/store/actions/globalActions'
-import { ISearchProps } from './ISearchProps'
-import { ISearchState } from './ISearchState'
-
-import SearchUserComponent from '../searchUser'
-import { searchStyles } from './searchStyles'
-const TabContainer = (props: any) => {
-  return (
-    <Typography component='div' style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  )
-}
 
 /**
  * Create component class
@@ -130,7 +109,7 @@ export class SearchComponent extends Component<ISearchProps, ISearchState> {
       }
     }
 
-    const { goTo, setHeaderTitle, t, children, classes } = this.props
+    const {  t, children, classes } = this.props
     const { tabIndex } = this.state
     return (
       <div style={styles.people}>
@@ -155,7 +134,7 @@ export class SearchComponent extends Component<ISearchProps, ISearchState> {
    * Get tab index by navigation name
    */
   private getTabIndexByNav: (navName: string) => number = (navName: string) => {
-    let tabIndex = 0
+  
     switch (navName) {
       case 'people':
         return 1
@@ -191,6 +170,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISearchProps) => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(SearchComponent as any)
+const translateWrraper = withTranslation('translations')(SearchComponent as any)
 
 export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(searchStyles)(translateWrraper as any)))

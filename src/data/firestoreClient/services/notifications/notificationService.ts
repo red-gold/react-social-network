@@ -1,10 +1,9 @@
 // - Import react components
-import { firebaseAuth, db } from 'data/firestoreClient'
-
-import { SocialError } from 'core/domain/common'
-import { Notification } from 'core/domain/notifications'
-import { INotificationService } from 'core/services/notifications'
-import { injectable } from 'inversify'
+import { SocialError } from 'core/domain/common';
+import { Notification } from 'core/domain/notifications';
+import { INotificationService } from 'core/services/notifications';
+import { db } from 'data/firestoreClient';
+import { injectable } from 'inversify';
 
 /**
  * Firbase notification service

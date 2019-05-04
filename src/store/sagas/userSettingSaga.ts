@@ -1,12 +1,12 @@
-import { take, fork, select, put, call, cancelled, all,takeEvery, takeLatest } from 'redux-saga/effects'
-import * as userSettingActions from 'store/actions/userSettingActions'
-import * as globalActions from 'store/actions/globalActions'
-import {UserSettingActionType} from 'constants/userSettingActionType'
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { IUserSettingService } from 'core/services/users'
-import { provider } from 'socialEngine'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import {Map} from 'immutable'
+import { UserSettingActionType } from 'constants/userSettingActionType';
+import { IUserSettingService } from 'core/services/users';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { Map } from 'immutable';
+import { all, call, put, select, takeLatest } from 'redux-saga/effects';
+import { provider } from 'socialEngine';
+import * as globalActions from 'store/actions/globalActions';
+import * as userSettingActions from 'store/actions/userSettingActions';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 
 /**
  * Get service providers

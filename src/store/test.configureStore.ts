@@ -1,18 +1,17 @@
 // - Import external components
-import { createStore, applyMiddleware, compose, Store } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension'
-import thunk from 'redux-thunk'
-import createHistory from 'history/createBrowserHistory'
-import createSagaMiddleware, { END } from 'redux-saga'
-import { createLogger } from 'redux-logger'
-import { rootReducer } from 'store/reducers'
-import { fromJS, Map } from 'immutable'
-import DevTools from './devTools'
-import jwtDecode from 'jwt-decode'
-import { routerMiddleware, connectRouter } from 'connected-react-router/immutable'
+import { routerMiddleware } from 'connected-react-router/immutable';
+import {createBrowserHistory} from 'history';
+import { fromJS, Map } from 'immutable';
+import jwtDecode from 'jwt-decode';
+import { applyMiddleware, createStore, Store } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { createLogger } from 'redux-logger';
+import createSagaMiddleware, { END } from 'redux-saga';
+import thunk from 'redux-thunk';
+import { rootReducer } from 'store/reducers';
 
 // Create a history of your choosing (we're using a browser history in this case)
-export const history = createHistory()
+export const history = createBrowserHistory()
 
 // Logger option for transforming immutable js
 const logger = createLogger({

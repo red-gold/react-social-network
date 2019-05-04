@@ -1,74 +1,31 @@
 // - Impoer react components
-import React, { Component } from 'react'
-import PropTypes, { object } from 'prop-types'
-import { connect } from 'react-redux'
-import Dropzone from 'react-dropzone'
-import moment from 'moment/moment'
-import uuid from 'uuid'
+import AppBar from '@material-ui/core/AppBar';
+import Dialog from '@material-ui/core/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import Slide from '@material-ui/core/Slide';
+import { withStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import BackIcon from '@material-ui/icons/ArrowBack';
+import StringAPI from 'api/StringAPI';
+import UserAvatarComponent from 'components/userAvatar';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import moment from 'moment/moment';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
 
-import { Map } from 'immutable'
-import config from 'src/config'
-import BackIcon from '@material-ui/icons/ArrowBack'
-import { translate, Trans } from 'react-i18next'
+import { aboutDialogStyles } from './aboutDialogStyles';
+import { IAboutDialogProps } from './IAboutDialogProps';
+import { IAboutDialogState } from './IAboutDialogState';
 
 // - Material-UI
-import GridList from '@material-ui/core/GridList'
-import GridListTile from '@material-ui/core/GridListTile'
-import GridListTileBar from '@material-ui/core/GridListTileBar'
-import ListSubheader from '@material-ui/core/ListSubheader'
-import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/Info'
-import StarBorder from '@material-ui/icons/StarBorder'
-import MobileStepper from '@material-ui/core/MobileStepper'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
-import SwipeableViews from 'react-swipeable-views'
-import SvgUpload from '@material-ui/icons/CloudUpload'
-import SvgAddImage from '@material-ui/icons/AddAPhoto'
-import SvgDelete from '@material-ui/icons/Delete'
-import { grey } from '@material-ui/core/colors'
-import { withStyles } from '@material-ui/core/styles'
-import Dialog from '@material-ui/core/Dialog'
-import Slide from '@material-ui/core/Slide'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import AddPhotoIcon from '@material-ui/icons/AddPhotoAlternate'
-import TextField from '@material-ui/core/TextField'
-import withMobileDialog from '@material-ui/core/withMobileDialog/withMobileDialog'
-import CloseIcon from '@material-ui/icons/Close'
-import PhoneIcon from '@material-ui/icons/Phone'
-import LockIcon from '@material-ui/icons/VpnLock'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-
 // - Import actions
-import * as imageGalleryActions from 'store/actions/imageGalleryActions'
-import * as globalActions from 'store/actions/globalActions'
-
 // - Import app components
-import Img from 'components/img'
-import UserPermissionComponent from 'components/userPermission'
-import UserAvatarComponent from 'components/userAvatar'
-
 // - Import API
-import { IAboutDialogProps } from './IAboutDialogProps'
-import { IAboutDialogState } from './IAboutDialogState'
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { User } from 'core/domain/users'
-import { aboutDialogStyles } from './aboutDialogStyles'
-import StringAPI from 'api/StringAPI'
-
-const tutorialSteps = [
-  {
-    label: '',
-  },
-  {
-    label: ''
-  }
-]
 
 function Transition(props: any) {
   return <Slide direction='up' {...props} />
@@ -110,7 +67,7 @@ export class AboutDialogComponent extends Component<IAboutDialogProps, IAboutDia
    * Infor render
    */
   infoRender = (title: string, content: string) => {
-    const { t, classes } = this.props
+    const { classes } = this.props
     return (
       <div className={classes.infoItem}>
         <div className={classes.subtitleInfo}>
@@ -125,7 +82,7 @@ export class AboutDialogComponent extends Component<IAboutDialogProps, IAboutDia
 
   render() {
 
-    const { t, classes, theme, open, onClose, targetUser, currentLanguage } = this.props
+    const { t, classes,open, onClose, targetUser } = this.props
 
     const aboutElem = (
       <div className={classes.rootInfo}>
@@ -230,6 +187,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(AboutDialogComponent as any)
+const translateWrraper = withTranslation('translations')(AboutDialogComponent as any)
 const componentWithStyles: any = withStyles(aboutDialogStyles as any, { withTheme: true })(translateWrraper as any)
 export default connect(makeMapStateToProps, mapDispatchToProps)(componentWithStyles)

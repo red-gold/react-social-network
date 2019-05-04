@@ -1,24 +1,22 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import { withStyles } from '@material-ui/core/styles';
+import { IAuthorizeService } from 'core/services';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { connect } from 'react-redux';
+import { provider } from 'socialEngine';
 
-import ReCAPTCHA from 'react-google-recaptcha'
-import {Map} from 'immutable'
+import { IRecaptchaComponentProps } from './IRecaptchaComponentProps';
+import { IRecaptchaComponentState } from './IRecaptchaComponentState';
 
 // - Material UI
-import { withStyles } from '@material-ui/core/styles'
-
 // - Import app components
 
 // - Import API
 
 // - Import actions
-import { IRecaptchaComponentProps } from './IRecaptchaComponentProps'
-import { IRecaptchaComponentState } from './IRecaptchaComponentState'
-import { IAuthorizeService } from 'core/services'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { provider } from 'socialEngine'
-
 const styles = (theme: any) => ({
   dialogTitle: {
     padding: 0
@@ -56,7 +54,6 @@ export class RecaptchaComponent extends Component<IRecaptchaComponentProps, IRec
    * Captha element widget reference
    */
   setCaptchaRef = (ref: any) => {
-    const { onSuccess, onExpired, onRenderError } = this.props
 
   }
 

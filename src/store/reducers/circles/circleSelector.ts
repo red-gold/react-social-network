@@ -1,6 +1,5 @@
-import {Map} from 'immutable'
-import { createSelector } from 'reselect'
-import { authorizeSelector } from 'store/reducers/authorize'
+import { Map } from 'immutable';
+import { createSelector } from 'reselect';
 
 const getFollowingUsers = (state: Map<string, any>) => {
     return state.getIn(['circle', 'userTies'])

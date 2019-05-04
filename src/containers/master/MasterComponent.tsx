@@ -1,39 +1,24 @@
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Snackbar from '@material-ui/core/Snackbar';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { Helmet } from 'react-helmet';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import MasterLoading from 'src/components/masterLoading';
+import SendFeedback from 'src/components/sendFeedback';
+import config from 'src/config';
+import MasterRouter from 'src/routes/MasterRouter';
+import { globalActions } from 'src/store/actions';
+
+import { IMasterComponentProps } from './IMasterComponentProps';
+import { IMasterComponentState } from './IMasterComponentState';
+
 
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Route, Switch, NavLink, withRouter, Redirect } from 'react-router-dom'
-import { push } from 'connected-react-router'
-import Snackbar from '@material-ui/core/Snackbar'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import { Helmet } from 'react-helmet'
-import { Map } from 'immutable'
-import config from 'src/config'
-
 // - Import components
 
-import MasterLoading from 'src/components/masterLoading'
-import SendFeedback from 'src/components/sendFeedback'
-import MasterRouter from 'src/routes/MasterRouter'
-import { IMasterComponentProps } from './IMasterComponentProps'
-import { IMasterComponentState } from './IMasterComponentState'
-import { IAuthorizeService } from 'src/core/services/authorize'
-
 // - Import actions
-import {
-  authorizeActions,
-  imageGalleryActions,
-  postActions,
-  commentActions,
-  voteActions,
-  userActions,
-  globalActions,
-  circleActions,
-  notifyActions
-} from 'src/store/actions'
-import { UserClaim } from 'core/domain/authorize/userClaim'
-import { LoginUser } from 'core/domain/authorize/loginUser'
-
 /* ------------------------------------ */
 
 // - Create Master component class
@@ -79,8 +64,7 @@ export class MasterComponent extends Component<IMasterComponentProps, IMasterCom
    */
   public render() {
 
-    const { progress, global, loaded, guest, uid, sendFeedbackStatus, hideMessage } = this.props
-    const { loading, isVerifide } = this.state
+    const { progress, global, uid, sendFeedbackStatus, hideMessage } = this.props
 
     const header = (
       <Helmet>

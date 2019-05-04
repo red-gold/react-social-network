@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import classNames from 'classnames'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 import { withStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
@@ -119,7 +119,7 @@ export class NotifyComponent extends Component<INotifyComponentProps, INotifyCom
   }
 
   notifyItemList = () => {
-    let { info, onRequestClose } = this.props
+    let { onRequestClose } = this.props
     let notifications: Map<string, any> = this.props.notifications!
     let parsedDOM: any[] = []
     if (notifications) {
@@ -202,6 +202,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: INotifyComponentProp
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(NotifyComponent as any)
+const translateWrraper = withTranslation('translations')(NotifyComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

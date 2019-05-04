@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import {Map} from 'immutable'
 import config from 'src/config'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 // - Material UI
 import Button from '@material-ui/core/Button'
@@ -15,7 +15,6 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContentText from '@material-ui/core/DialogContentText'
 
 // - Import app components
 
@@ -81,7 +80,6 @@ export class AddVideoComponent extends Component<IAddVideoComponentProps, IAddVi
    * Handle data on input change
    */
   handleInputChange = (event: any) => {
-    const {t} = this.props
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
@@ -192,5 +190,5 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IAddVideoComponentPr
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(AddVideoComponent as any)
+const translateWrraper = withTranslation('translations')(AddVideoComponent as any)
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

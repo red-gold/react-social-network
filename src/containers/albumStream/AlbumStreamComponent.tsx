@@ -1,62 +1,33 @@
 // - Import react components
-import React, { Component, Fragment } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import {push} from 'connected-react-router'
-import classNames from 'classnames'
-import PropTypes from 'prop-types'
-import EventListener, { withOptions } from 'react-event-listener'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import debounce from 'lodash/debounce'
-import { translate, Trans } from 'react-i18next'
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import withStyles from '@material-ui/core/styles/withStyles';
+import NoAlbumIcon from '@material-ui/icons/SettingsSystemDaydream';
+import StringAPI from 'api/StringAPI';
+import classNames from 'classnames';
+import { push } from 'connected-react-router';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import LoadMoreProgressComponent from 'src/layouts/loadMoreProgress';
+import PictureDialogComponent from 'src/layouts/pictureDialog';
+import * as globalActions from 'src/store/actions/globalActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { userSelector } from 'store/reducers/users/userSelector';
+
+import { albumStreamStyles } from './albumStreamStyles';
+import { IAlbumStreamProps } from './IAlbumStreamProps';
+import { IAlbumStreamState } from './IAlbumStreamState';
 
 // - Material-UI
-import GridList from '@material-ui/core/GridList'
-import GridListTile from '@material-ui/core/GridListTile'
-import GridListTileBar from '@material-ui/core/GridListTileBar'
-import ListSubheader from '@material-ui/core/ListSubheader'
-import IconButton from '@material-ui/core/IconButton'
-import Button from '@material-ui/core/Button'
-import withStyles from '@material-ui/core/styles/withStyles'
-import { grey, teal } from '@material-ui/core/colors'
-import SvgCamera from '@material-ui/icons/PhotoCamera'
-import OpenInNewIcon from '@material-ui/icons/OpenInNew'
-import Paper from '@material-ui/core/Paper'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-
-import { Map, List as ImuList } from 'immutable'
-import NoAlbumIcon from '@material-ui/icons/SettingsSystemDaydream'
-
 // - Import app components
-import PostComponent from 'src/components/post'
-import PostWriteComponent from 'src/components/postWrite'
-import PictureDialogComponent from 'src/layouts/pictureDialog'
-import UserAvatarComponent from 'src/components/userAvatar'
-import LoadMoreProgressComponent from 'src/layouts/loadMoreProgress'
-
 // - Import API
-import * as PostAPI from 'src/api/PostAPI'
-
 // - Import actions
-import * as globalActions from 'src/store/actions/globalActions'
-
-import { IAlbumStreamProps } from './IAlbumStreamProps'
-import { IAlbumStreamState } from './IAlbumStreamState'
-import { Post } from 'src/core/domain/posts'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { albumStreamStyles } from './albumStreamStyles'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { ArrayAPI } from 'api/ArrayAPI'
-import { PostType } from 'core/domain/posts/postType'
-import { User } from 'core/domain/users'
-
 // - Create component class
 export class AlbumStreamComponent extends Component<IAlbumStreamProps, IAlbumStreamState> {
 
@@ -120,7 +91,7 @@ export class AlbumStreamComponent extends Component<IAlbumStreamProps, IAlbumStr
    * Loader
    */
   loader = () => {
-    const { streamRequestStatus, loadStream } = this.props
+    const { streamRequestStatus } = this.props
     if (streamRequestStatus && streamRequestStatus !== ServerRequestStatusType.Sent) {
 
       const { loadStream } = this.props
@@ -145,7 +116,7 @@ export class AlbumStreamComponent extends Component<IAlbumStreamProps, IAlbumStr
    * Handle click album
    */
   hanleClickAlbum = (postId: string) => {
-    const {posts, userId, goTo} = this.props
+    const {userId, goTo} = this.props
 
     if (userId && goTo) {
       goTo(`/u/${userId}/album/${postId}`)
@@ -173,7 +144,7 @@ export class AlbumStreamComponent extends Component<IAlbumStreamProps, IAlbumStr
       return (
         <GridListTile key={`album-dialog-tile-${post!.get('id')}`} cols={1} classes={{tile: classNames({[classes.noAlbum]: StringAPI.isEmpty(imgSrc)})}}>
         { !StringAPI.isEmpty(imgSrc)
-          ? <img src={imgSrc} onClick={() => this.hanleClickAlbum(post!.get('id'))} />
+          ? <img alt='' src={imgSrc} onClick={() => this.hanleClickAlbum(post!.get('id'))} />
           : (
             <div>
               <NoAlbumIcon  className={classes.noAlbumIcon} />
@@ -197,7 +168,7 @@ export class AlbumStreamComponent extends Component<IAlbumStreamProps, IAlbumStr
    * Render Grid tile
    */
   gridTile = () => {
-    const { t, posts, classes } = this.props
+    const { classes } = this.props
     const albumList = this.albumList()
     return (
       <div className={classes.gridTileRoot}>
@@ -220,7 +191,7 @@ export class AlbumStreamComponent extends Component<IAlbumStreamProps, IAlbumStr
    */
   render() {
 
-    const { hasMoreAlbum, t, classes, streamRequestStatus, posts } = this.props
+    const { hasMoreAlbum,classes, posts } = this.props
     const { picutreDialogOpen, pictureDialogImages } = this.state
 
     return (
@@ -276,6 +247,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IAlbumStreamProps) =
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(AlbumStreamComponent as any)
+const translateWrraper = withTranslation('translations')(AlbumStreamComponent as any)
 
 export default withRouter<any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(albumStreamStyles as any)(translateWrraper as any)))

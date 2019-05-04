@@ -1,17 +1,12 @@
-import { connect } from 'react-redux'
+import { Map } from 'immutable';
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import * as userActions from 'src/store/actions/userActions';
+import { userSelector } from 'store/reducers/users/userSelector';
 
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { Map } from 'immutable'
+import { IFindPeopleComponentProps } from './IFindPeopleComponentProps';
 
 // - Import actions
-import * as userActions from 'src/store/actions/userActions'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { User } from 'core/domain/users'
-import { IFindPeopleComponentProps } from './IFindPeopleComponentProps'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { Component } from 'react'
-
 /**
  * Map dispatch to props
  */
@@ -23,13 +18,11 @@ const mapDispatchToProps = (dispatch: any, ownProps: IFindPeopleComponentProps) 
 }
 
 const makeMapStateToProps = () => {
-  const selectCurrentUser = authorizeSelector.selectCurrentUser()
   const selectHasMorePeople = userSelector.selectMoreFindPeople()
   const selectFindPeople = userSelector.selectFindPeople()
   const selectPage = userSelector.selectFindPeoplePage()
 
-  const mapStateToProps = (state: Map<string, any>, ownProps: IFindPeopleComponentProps) => {
-    const currentUser = selectCurrentUser(state).toJS() as User
+  const mapStateToProps = (state: Map<string, any>) => {
     const hasMorePeople = selectHasMorePeople(state)
     const info = selectFindPeople(state)
     const page = selectPage(state)

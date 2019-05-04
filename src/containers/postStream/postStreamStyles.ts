@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-computed-key */
 
 export const postStreamStyles = (theme: any) => ({
     root: {

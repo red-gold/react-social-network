@@ -1,45 +1,32 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import IconButton from '@material-ui/core/IconButton';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import BackIcon from '@material-ui/icons/ArrowBack';
+import { userPermissionStyles } from 'components/userPermission/userPermissionStyles';
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { authorizeSelector } from 'store/reducers/authorize';
+import { circleSelector } from 'store/reducers/circles/circleSelector';
 
-import { Map } from 'immutable'
-import config from 'src/config'
-import { translate, Trans } from 'react-i18next'
+import { IUserPermissionProps } from './IUserPermissionProps';
+import { IUserPermissionState } from './IUserPermissionState';
 
 // - Material UI
-import Button from '@material-ui/core/Button'
-import { grey } from '@material-ui/core/colors'
-import TextField from '@material-ui/core/TextField'
-import { withStyles } from '@material-ui/core/styles'
-import Dialog from '@material-ui/core/Dialog'
-import BackIcon from '@material-ui/icons/ArrowBack'
-import Hidden from '@material-ui/core/Hidden'
-import IconButton from '@material-ui/core/IconButton'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import Typography from '@material-ui/core/Typography'
-import Radio from '@material-ui/core/Radio'
-import RadioGroup from '@material-ui/core/RadioGroup'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import FormControl from '@material-ui/core/FormControl'
-import FormLabel from '@material-ui/core/FormLabel'
-
 // - Import app components
 
 // - Import API
-import StringAPI from 'api/StringAPI'
-
 // - Import actions
-import { IUserPermissionProps } from './IUserPermissionProps'
-import { IUserPermissionState } from './IUserPermissionState'
-import { userPermissionStyles } from 'components/userPermission/userPermissionStyles'
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
-import { circleSelector } from 'store/reducers/circles/circleSelector'
-import { authorizeSelector } from 'store/reducers/authorize'
-
 /**
  * React component class
  */
@@ -67,7 +54,7 @@ export class UserPermissionComponent extends Component<IUserPermissionProps, IUs
    * Handle add link
    */
   handleSetPermission = (selectedValue: UserPermissionType) => {
-    const { onAddAccessList, onClose, followingIds, currentUser } = this.props
+    const { onAddAccessList, followingIds, currentUser } = this.props
     let accessList: string[] = []
     if (selectedValue === UserPermissionType.Circles && followingIds && currentUser && currentUser.userId) {
       accessList = followingIds
@@ -80,7 +67,6 @@ export class UserPermissionComponent extends Component<IUserPermissionProps, IUs
    * Handle data on input change
    */
   handleInputChange = (event: any) => {
-    const { t } = this.props
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
     const name = target.name
@@ -95,7 +81,7 @@ export class UserPermissionComponent extends Component<IUserPermissionProps, IUs
   render() {
 
     const { classes, t, open, onClose } = this.props
-    const { disabledOk, selectedValue } = this.state
+    const { selectedValue } = this.state
     return (
       <Dialog
         PaperProps={{ className: classes.fullPageXs }}
@@ -170,7 +156,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: IUserPermissionProps) => {
 const makeMapStateToProps = () => {
   const selectFollowingIds = circleSelector.selectFollowingIds()
   const selectCurrentUser = authorizeSelector.selectCurrentUser()
-  const mapStateToProps = (state: Map<string, any>, ownProps: IUserPermissionProps) => {
+  const mapStateToProps = (state: Map<string, any>) => {
     const followingIds = selectFollowingIds(state)
     const currentUser = selectCurrentUser(state).toJS()
     return {
@@ -183,6 +169,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(UserPermissionComponent as any)
+const translateWrraper = withTranslation('translations')(UserPermissionComponent as any)
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(userPermissionStyles as any)(translateWrraper as any) as any)

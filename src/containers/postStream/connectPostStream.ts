@@ -1,19 +1,15 @@
-import {Map} from 'immutable'
-import { connect } from 'react-redux'
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import { DialogType } from 'models/common/dialogType';
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import * as globalActions from 'store/actions/globalActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { globalSelector } from 'store/reducers/global/globalSelector';
+import { serverSelector } from 'store/reducers/server/serverSelector';
 
-import * as imageGalleryActions from 'store/actions/imageGalleryActions'
-import * as postActions from 'store/actions/postActions'
-import * as globalActions from 'store/actions/globalActions'
-import { IPostStreamProps } from './IPostStreamProps'
-import { DialogType } from 'models/common/dialogType'
-import { Post } from 'core/domain/posts'
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { globalSelector } from 'store/reducers/global/globalSelector'
-import { User } from 'core/domain/users'
-
-import { serverSelector } from 'store/reducers/server/serverSelector'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { Component } from 'react'
+import { IPostStreamProps } from './IPostStreamProps';
 
 /**
  * Map dispatch to props

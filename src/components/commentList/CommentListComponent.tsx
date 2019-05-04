@@ -1,27 +1,19 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import {Map} from 'immutable'
+import List from '@material-ui/core/List';
+import { withStyles } from '@material-ui/core/styles';
+import * as PostAPI from 'api/PostAPI';
+import CommentComponent from 'components/comment';
+import { Comment } from 'core/domain/comments';
+import { Map } from 'immutable';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { ICommentListComponentProps } from './ICommentListComponentProps';
+import { ICommentListComponentState } from './ICommentListComponentState';
 
 // - Material UI
-import { withStyles } from '@material-ui/core/styles'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-
 // - Import app components
-import CommentComponent from 'components/comment'
-
-import * as PostAPI from 'api/PostAPI'
-
-import { ICommentListComponentProps } from './ICommentListComponentProps'
-import { ICommentListComponentState } from './ICommentListComponentState'
-import { Comment } from 'core/domain/comments'
-
 // - Import actions
 
 const styles = (theme: any) => ({

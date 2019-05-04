@@ -1,71 +1,46 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import SvgCamera from '@material-ui/icons/PhotoCamera';
+import ImageEditor from 'components/ImageEditor';
+import ImageGallery from 'components/imageGallery';
+import ImgCover from 'components/imgCover';
+import UserAvatarComponent from 'components/userAvatar';
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import AppInput from 'layouts/appInput';
+import AppDialogTitle from 'layouts/dialogTitle';
+import moment from 'moment/moment';
+import React, { Component } from 'react';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import MomentLocaleUtils, { formatDate, parseDate } from 'react-day-picker/moment';
+import EventListener from 'react-event-listener';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import config from 'src/config';
+import * as imageGalleryActions from 'store/actions/imageGalleryActions';
+import * as userActions from 'store/actions/userActions';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { gallerySelector } from 'store/reducers/imageGallery/gallerySelector';
 
-import moment from 'moment/moment'
-import DayPickerInput from 'react-day-picker/DayPickerInput'
-import MomentLocaleUtils, {
-  formatDate,
-  parseDate,
-} from 'react-day-picker/moment'
-import { Map } from 'immutable'
-import config from 'src/config'
-import { translate, Trans } from 'react-i18next'
-
-import { grey } from '@material-ui/core/colors'
-import IconButton from '@material-ui/core/IconButton'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import SvgCamera from '@material-ui/icons/PhotoCamera'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import MenuList from '@material-ui/core/MenuList'
-import MenuItem from '@material-ui/core/MenuItem'
-import Button from '@material-ui/core/Button'
-import RaisedButton from '@material-ui/core/Button'
-import EventListener, { withOptions } from 'react-event-listener'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import Divider from '@material-ui/core/Divider'
-import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControl from '@material-ui/core/FormControl'
-import { withStyles } from '@material-ui/core/styles'
+import { IEditProfileComponentProps } from './IEditProfileComponentProps';
+import { IEditProfileComponentState } from './IEditProfileComponentState';
 
 // - Import app components
-import ImgCover from 'components/imgCover'
-import UserAvatarComponent from 'components/userAvatar'
-import ImageGallery from 'components/imageGallery'
-import AppDialogTitle from 'layouts/dialogTitle'
-import AppInput from 'layouts/appInput'
-import ImageEditor from 'components/ImageEditor'
-
 // - Import API
-import FileAPI from 'api/FileAPI'
-
 // - Import actions
-import * as userActions from 'store/actions/userActions'
-import * as globalActions from 'store/actions/globalActions'
-import * as imageGalleryActions from 'store/actions/imageGalleryActions'
-
-import { IEditProfileComponentProps } from './IEditProfileComponentProps'
-import { IEditProfileComponentState } from './IEditProfileComponentState'
-import { User } from 'core/domain/users'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { gallerySelector } from 'store/reducers/imageGallery/gallerySelector'
-
 const styles = (theme: any) => ({
   dialogTitle: {
     padding: 0
@@ -455,21 +430,8 @@ export class EditProfileComponent extends Component<IEditProfileComponentProps, 
   render() {
 
     const { classes, t, currentLanguage, uploadAvatar, uploadCover, coverImages, avatarImages } = this.props
-    const { defaultBirthday, webUrl, twitterId, companyName, isImageEditorOpen, banner, originalBanner, facebookId } = this.state
-    const iconButtonElement = (
-      <IconButton style={this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton}>
-        <MoreVertIcon style={{ ...(this.state.isSmall ? this.styles.iconButtonSmall : this.styles.iconButton), color: grey[400] }} viewBox='10 0 24 24' />
-      </IconButton>
-    )
-
-    const RightIconMenu = () => (
-      <div>
-        {iconButtonElement}
-        <MenuItem style={{ fontSize: '14px' }}>Reply</MenuItem>
-        <MenuItem style={{ fontSize: '14px' }}>Edit</MenuItem>
-        <MenuItem style={{ fontSize: '14px' }}>Delete</MenuItem>
-      </div>
-    )
+    const { defaultBirthday, webUrl, twitterId, companyName, isImageEditorOpen, originalBanner, facebookId } = this.state
+  
 
     return (
 
@@ -689,6 +651,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(EditProfileComponent as any)
+const translateWrraper = withTranslation('translations')(EditProfileComponent as any)
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

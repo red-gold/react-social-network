@@ -1,20 +1,13 @@
 // - Import react components
-import moment from 'moment/moment'
-import _ from 'lodash'
-import { Reducer, Action } from 'redux'
-import { Map } from 'immutable'
+import { PostActionType } from 'constants/postActionType';
+import { Map } from 'immutable';
+
+import { IPostAction } from './IPostAction';
+import { PostState } from './PostState';
 
 // - Import action types
-import { PostActionType } from 'constants/postActionType'
-
-import { PostState } from './PostState'
-import { IPostAction } from './IPostAction'
-import { Post } from 'src/core/domain/posts/post'
-import CommonAPI from 'src/api/CommonAPI'
-
 const updatePost = (state: any, payload: any) => {
   const post: Map<string, any> = payload.post
-  const updatePostOwnerId = post.get('ownerUserId')
   const updatePostId = post.get('id')
   return state
     .setIn(['entities', updatePostId], post)
@@ -22,7 +15,6 @@ const updatePost = (state: any, payload: any) => {
 
 const updatePostComments = (state: any, payload: any) => {
   const post: Map<string, any> = payload.post
-  const updatePostOwnerId = post.get('ownerUserId')
   const updatePostId = post.get('id')
   return state
     .setIn(['entities', updatePostId, 'comments'], post.get('comments'))
@@ -31,7 +23,6 @@ const updatePostComments = (state: any, payload: any) => {
 
 const updatePostVotes = (state: any, payload: any) => {
   const post: Map<string, any> = payload.post
-  const updatePostOwnerId = post.get('ownerUserId')
   const updatePostId = post.get('id')
   return state
     .setIn(['entities', updatePostId, 'votes'], post.get('votes'))

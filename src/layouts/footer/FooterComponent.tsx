@@ -1,24 +1,17 @@
 // - Import react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
-import config from 'src/config'
+import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import config from 'src/config';
 
-import { Map } from 'immutable'
-import { withStyles } from '@material-ui/core/styles'
-import { translate, Trans } from 'react-i18next'
+import { footerStyles } from './footerStyles';
+import { IFooterComponentProps } from './IFooterComponentProps';
+import { IFooterComponentState } from './IFooterComponentState';
 
 // - Material-UI
-import Grid from '@material-ui/core/Grid'
-import Divider from '@material-ui/core/Divider'
-
-import { IFooterComponentProps } from './IFooterComponentProps'
-import { IFooterComponentState } from './IFooterComponentState'
-import { appStoreDownload } from 'locales/appStoreDownload'
-import CommonAPI from 'api/CommonAPI'
-import { footerStyles } from './footerStyles'
-
 /**
  * Create component class
  */
@@ -44,21 +37,8 @@ export class FooterComponent extends Component<IFooterComponentProps, IFooterCom
    * 
    */
   render() {
-    const { classes, t, currentLanguage } = this.props
+    const { classes, t } = this.props
 
-    const mobileElement = (
-      <div className={classes.getAppRoot}>
-        <p className={classes.getApp}>{t!('mobileApp.getApp')}</p>
-        <div className={classes.getAppIconRoot}>
-          <a className={classes.iosAppLink} target='_blank' href={config.settings.iosAppLink}>
-            <img className={classes.appStoreIcon} alt={t!('mobileApp.appStoreAlt')} src={appStoreDownload[currentLanguage!]} />
-          </a>
-          <a target='_blank' href={config.settings.androidAppLink}>
-            <img className={classes.googlePlayIcon} alt={t!('mobileApp.googlePlayAlt')} src={t!('mobileApp.googlePlayIcon', { lang: currentLanguage })} />
-          </a>
-        </div>
-      </div>
-    )
     return (
 
       <div className={classes.root}>
@@ -101,12 +81,12 @@ const mapDispatchToProps = (dispatch: any, ownProps: IFooterComponentProps) => {
 /**
  * Map state to props
  */
-const mapStateToProps = (state: Map<string, any>, ownProps: IFooterComponentProps) => {
+const mapStateToProps = () => {
   return {
 
   }
 }
 
-const translateWrraper = translate('translations')(FooterComponent as any)
+const translateWrraper = withTranslation('translations')(FooterComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(footerStyles as any)(translateWrraper as any) as any)

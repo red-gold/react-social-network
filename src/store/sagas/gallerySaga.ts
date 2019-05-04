@@ -1,37 +1,33 @@
-import { take, fork, select, put, call, cancelled, all, takeLatest, takeEvery } from 'redux-saga/effects'
-import { Map, fromJS } from 'immutable'
-import * as serverActions from 'store/actions/serverActions'
-import { provider } from 'socialEngine'
-import * as imageGalleryActions from 'store/actions/imageGalleryActions'
-import * as globalActions from 'store/actions/globalActions'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { ImageGalleryActionType } from 'constants/imageGalleryActionType'
-import { postSelector } from 'store/reducers/posts'
-import { authorizeSelector } from 'store/reducers/authorize'
-import { Post } from 'core/domain/posts'
-import { PostAPI } from 'api/PostAPI'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { IImageGalleryService } from 'core/services/imageGallery/IImageGalleryService'
-import config from 'src/config'
-import { eventChannel, END } from 'redux-saga'
-import { FileResult, FileResultStatus } from 'models/files'
-import { SocialError } from 'core/domain/common'
-import { VideoFile } from 'core/domain/imageGallery'
-import moment from 'moment/moment'
-import { IPostService } from 'core/services/posts/IPostService'
-import { GalleryAPI } from 'api/GalleryAPI'
-import { Photo } from 'core/domain/imageGallery/photo'
-import { DialogType } from 'models/common/dialogType'
-import * as postActions from 'store/actions/postActions'
-import { userActions } from 'store/actions'
-import { gallerySelector } from 'store/reducers/imageGallery/gallerySelector'
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
+import { GalleryAPI } from 'api/GalleryAPI';
+import { ImageGalleryActionType } from 'constants/imageGalleryActionType';
+import { SocialError } from 'core/domain/common';
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
+import { VideoFile } from 'core/domain/imageGallery';
+import { Photo } from 'core/domain/imageGallery/photo';
+import { Post } from 'core/domain/posts';
+import { IImageGalleryService } from 'core/services/imageGallery/IImageGalleryService';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { fromJS, Map } from 'immutable';
+import { DialogType } from 'models/common/dialogType';
+import { FileResult, FileResultStatus } from 'models/files';
+import moment from 'moment/moment';
+import { END, eventChannel } from 'redux-saga';
+import { all, call, put, select, take, takeEvery, takeLatest } from 'redux-saga/effects';
+import { provider } from 'socialEngine';
+import config from 'src/config';
+import { userActions } from 'store/actions';
+import * as globalActions from 'store/actions/globalActions';
+import * as imageGalleryActions from 'store/actions/imageGalleryActions';
+import * as postActions from 'store/actions/postActions';
+import * as serverActions from 'store/actions/serverActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { authorizeSelector } from 'store/reducers/authorize';
+import { gallerySelector } from 'store/reducers/imageGallery/gallerySelector';
 
 /**
  * Get service providers
  */
 const galleryService: IImageGalleryService = provider.get<IImageGalleryService>(SocialProviderTypes.ImageGalleryService)
-const postService: IPostService = provider.get<IPostService>(SocialProviderTypes.PostService)
 
 /***************************** Subroutines ************************************/
 
@@ -359,7 +355,7 @@ function* watchUploadVideo(action: { type: ImageGalleryActionType, payload: any 
 function* watchFetchAlbumImages(action: { type: ImageGalleryActionType, payload: any }) {
   const { userId, albumId } = action.payload
   const lastImageId = yield select(gallerySelector.getAlbumLastImageId, {albumId})
-  const images = yield call(fetchAlbumImages, userId, albumId, lastImageId, 10)
+   yield call(fetchAlbumImages, userId, albumId, lastImageId, 10)
 }
 
 /**
@@ -368,7 +364,7 @@ function* watchFetchAlbumImages(action: { type: ImageGalleryActionType, payload:
 function* watchFetchAvatarImages(action: { type: ImageGalleryActionType, payload: any }) {
   const { userId } = action.payload
   const lastImageId = '' // yield select(gallerySelector.getAlbumLastImageId, {albumId})
-  const images = yield call(fetchAvatarImages, userId, 'avatar', lastImageId, 100)
+   yield call(fetchAvatarImages, userId, 'avatar', lastImageId, 100)
 }
 
 /**
@@ -377,7 +373,7 @@ function* watchFetchAvatarImages(action: { type: ImageGalleryActionType, payload
 function* watchFetchCoverImages(action: { type: ImageGalleryActionType, payload: any }) {
   const { userId } = action.payload
   const lastImageId = '' // yield select(gallerySelector.getAlbumLastImageId, {albumId})
-  const images = yield call(fetchCoverImages, userId, 'cover', lastImageId, 100)
+   yield call(fetchCoverImages, userId, 'cover', lastImageId, 100)
 }
 
 /**

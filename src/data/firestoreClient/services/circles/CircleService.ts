@@ -1,11 +1,9 @@
 // - Import react components
-import { firebaseAuth, db } from 'data/firestoreClient'
-
-import { SocialError } from 'core/domain/common'
-import { ICircleService } from 'core/services/circles'
-import { Circle, UserTie } from 'core/domain/circles'
-import { User } from 'core/domain/users'
-import { injectable } from 'inversify'
+import { Circle } from 'core/domain/circles';
+import { SocialError } from 'core/domain/common';
+import { ICircleService } from 'core/services/circles';
+import { db } from 'data/firestoreClient';
+import { injectable } from 'inversify';
 
 /**
  * Firbase circle service

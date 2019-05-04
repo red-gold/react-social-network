@@ -1,23 +1,19 @@
 // - Import react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import Avatar from '@material-ui/core/Avatar'
-import { Map } from 'immutable'
-import config from 'src/config'
+import { withStyles } from '@material-ui/core';
+import Avatar from '@material-ui/core/Avatar';
+import { userAvatarStyles } from 'components/userAvatar/userAvatarStyles';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { IUserAvatarComponentProps } from './IUserAvatarComponentProps';
+import { IUserAvatarComponentState } from './IUserAvatarComponentState';
 
 // - Import app components
 
 // - Import API
 
 // - Import actions
-import * as imageGalleryActions from 'store/actions/imageGalleryActions'
-
-import { IUserAvatarComponentProps } from './IUserAvatarComponentProps'
-import { IUserAvatarComponentState } from './IUserAvatarComponentState'
-import { withStyles } from '@material-ui/core'
-import { userAvatarStyles } from 'components/userAvatar/userAvatarStyles'
-
 /**
  * Create component class
  */

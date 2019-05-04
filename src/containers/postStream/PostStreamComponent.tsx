@@ -1,54 +1,39 @@
 // - Import react components
-import React, { Component, Fragment } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import classNames from 'classnames'
-import PropTypes from 'prop-types'
-import EventListener, { withOptions } from 'react-event-listener'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import debounce from 'lodash/debounce'
+import { grey } from '@material-ui/core/colors';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Paper from '@material-ui/core/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
+import SvgCamera from '@material-ui/icons/PhotoCamera';
+import { ArrayAPI } from 'api/ArrayAPI';
+import StringAPI from 'api/StringAPI';
+import classNames from 'classnames';
+import { PostType } from 'core/domain/posts/postType';
+import { Map } from 'immutable';
+import debounce from 'lodash/debounce';
+import React, { Component, Fragment } from 'react';
+import EventListener from 'react-event-listener';
+import { withTranslation } from 'react-i18next';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { withRouter } from 'react-router-dom';
+import PostComponent from 'src/components/post';
+import PostWriteComponent from 'src/components/postWrite';
+import UserAvatarComponent from 'src/components/userAvatar';
+import LoadMoreProgressComponent from 'src/layouts/loadMoreProgress';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+
+import { connectPostStream } from './connectPostStream';
+import { IPostStreamProps } from './IPostStreamProps';
+import { IPostStreamState } from './IPostStreamState';
+import { postStreamStyles } from './postStreamStyles';
 
 // - Material-UI
-import Button from '@material-ui/core/Button'
-import withStyles from '@material-ui/core/styles/withStyles'
-import { grey, teal } from '@material-ui/core/colors'
-import SvgCamera from '@material-ui/icons/PhotoCamera'
-import Paper from '@material-ui/core/Paper'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 // import InfiniteScroll from 'react-infinite-scroller'
 
-import { Map, List as ImuList } from 'immutable'
-import { translate, Trans } from 'react-i18next'
-
 // - Import app components
-import PostComponent from 'src/components/post'
-import PostWriteComponent from 'src/components/postWrite'
-import UserAvatarComponent from 'src/components/userAvatar'
-import LoadMoreProgressComponent from 'src/layouts/loadMoreProgress'
-
 // - Import API
-import * as PostAPI from 'src/api/PostAPI'
-
 // - Import actions
-import * as globalActions from 'src/store/actions/globalActions'
-
-import { IPostStreamProps } from './IPostStreamProps'
-import { IPostStreamState } from './IPostStreamState'
-import { Post } from 'src/core/domain/posts'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { postStreamStyles } from './postStreamStyles'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { ArrayAPI } from 'api/ArrayAPI'
-import { PostType } from 'core/domain/posts/postType'
-import { connectPostStream } from './connectPostStream'
-
 /**
  * Handle window width changed
  */
@@ -174,7 +159,7 @@ export class PostStreamComponent extends Component<IPostStreamProps, IPostStream
    * Loader
    */
   loader = () => {
-    const { streamRequestStatus, loadStream } = this.props
+    const { streamRequestStatus } = this.props
     if (streamRequestStatus && streamRequestStatus !== ServerRequestStatusType.Sent) {
 
       const { loadStream } = this.props
@@ -280,9 +265,7 @@ export class PostStreamComponent extends Component<IPostStreamProps, IPostStream
    */
   render() {
 
-    const { tag, displayWriting, hasMorePosts,
-      postWriteDilogOpen, 
-      t, classes, streamRequestStatus, posts } = this.props
+    const { hasMorePosts, classes, posts } = this.props
 
     return (
       <InfiniteScroll
@@ -314,6 +297,6 @@ export class PostStreamComponent extends Component<IPostStreamProps, IPostStream
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(PostStreamComponent as any)
+const translateWrraper = withTranslation('translations')(PostStreamComponent as any)
 
 export default withRouter<any>(connectPostStream(withStyles(postStreamStyles as any)(translateWrraper as any) as any))

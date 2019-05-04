@@ -1,79 +1,53 @@
 // - Import react components
-import React, { Component, RefObject } from 'react'
-import { connect } from 'react-redux'
+import FormControl from '@material-ui/core/FormControl';
+import Grid from '@material-ui/core/Grid';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
+import Popover from '@material-ui/core/Popover';
+import { withStyles } from '@material-ui/core/styles';
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
+import BackIcon from '@material-ui/icons/ArrowBack';
+import MenuIcon from '@material-ui/icons/Menu';
+import MoreIcon from '@material-ui/icons/MoreVert';
+import SearchIcon from '@material-ui/icons/Search';
+import SendIcon from '@material-ui/icons/Send';
+import EmojiIcon from '@material-ui/icons/SentimentSatisfied';
+import classNames from 'classnames';
+import ChatBodyComponent from 'components/chatBody';
+import ChatRoomSettingComponent from 'components/chatRoomSetting';
+import UserAvatar from 'components/userAvatar';
+import { Message } from 'core/domain/chat/message';
+import { MessageType } from 'core/domain/chat/MessageType';
+import { User } from 'core/domain/users';
+import { Picker } from 'emoji-mart';
+import { Map } from 'immutable';
+import debounce from 'lodash/debounce';
+import moment from 'moment/moment';
+import * as Ramda from 'ramda';
+import React, { Component } from 'react';
+import EventListener from 'react-event-listener';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import * as chatActions from 'store/actions/chatActions';
+import { authorizeSelector } from 'store/reducers/authorize';
+import { chatSelector } from 'store/reducers/chat/chatSelector';
+import uuid from 'uuid';
 
-import { Map } from 'immutable'
-import debounce from 'lodash/debounce'
-import moment from 'moment/moment'
-import { emojify } from 'react-emojione'
-import { Picker, EmojiData } from 'emoji-mart'
-import EventListener, { withOptions } from 'react-event-listener'
-import classNames from 'classnames'
-import uuid from 'uuid'
-import { translate, Trans } from 'react-i18next'
+import { chatStyles } from './chatStyles';
+import { IChatProps } from './IChatProps';
+import { IChatState } from './IChatState';
 
 // - Material-UI
-import { withStyles } from '@material-ui/core/styles'
-import withWidth, { isWidthUp, isWidthDown } from '@material-ui/core/withWidth'
-import BackIcon from '@material-ui/icons/ArrowBack'
-import Hidden from '@material-ui/core/Hidden'
-import Popover from '@material-ui/core/Popover'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import Avatar from '@material-ui/core/Avatar'
-import ImageIcon from '@material-ui/icons/Image'
-import WorkIcon from '@material-ui/icons/Work'
-import BeachAccessIcon from '@material-ui/icons/BeachAccess'
-import IconButton from '@material-ui/core/IconButton'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import Grow from '@material-ui/core/Grow'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControl from '@material-ui/core/FormControl'
-import TextField from '@material-ui/core/TextField'
-import Menu from '@material-ui/core/Menu'
-import Grid from '@material-ui/core/Grid'
-import MenuItem from '@material-ui/core/MenuItem'
-import SearchIcon from '@material-ui/icons/Search'
-import SendIcon from '@material-ui/icons/Send'
-import MenuIcon from '@material-ui/icons/Menu'
-import MoreIcon from '@material-ui/icons/MoreVert'
-import EmojiIcon from '@material-ui/icons/SentimentSatisfied'
-import * as Ramda from 'ramda'
-
 // - Import app components
-import ActivityProgress from 'layouts/activityProgress'
-import ChatBodyComponent from 'components/chatBody'
-import UserAvatar from 'components/userAvatar'
-
 // - Import API
 
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as chatActions from 'store/actions/chatActions'
-
-import { IChatProps } from './IChatProps'
-import { IChatState } from './IChatState'
-import { chatStyles } from './chatStyles'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { chatSelector } from 'store/reducers/chat/chatSelector'
-import { Message } from 'core/domain/chat/message'
-import { authorizeSelector } from 'store/reducers/authorize'
-import { MessageType } from 'core/domain/chat/MessageType'
-import { User } from 'core/domain/users'
-import ChatRoomSettingComponent from 'components/chatRoomSetting'
-
-const emojiOptions = {
-  style: {
-    height: 15,
-    margin: 2,
-  }
-}
 
 /**
  * Create component class
@@ -240,7 +214,6 @@ export class ChatComponent extends Component<IChatProps, IChatState> {
   handleResize = () => {
 
     let width = window.innerWidth
-    const { smallSize } = this.state
     if (width < 599.95) {
       this.setState({
         smallSize: true
@@ -265,7 +238,6 @@ export class ChatComponent extends Component<IChatProps, IChatState> {
    * Handle contact menu
    */
   handleContactMenu = () => {
-    const { smallSize } = this.state
     const { openRecentChat, width } = this.props
     if (isWidthDown('xs', width!)) {
       openRecentChat!()
@@ -347,7 +319,7 @@ export class ChatComponent extends Component<IChatProps, IChatState> {
   render() {
 
     const { t, classes, open, onToggle, chatMessages, receiverUser, currentUser, currentChatRoom } = this.props
-    const { newMessageCount, smallSize, searchText, anchorElCurrentUser, anchorElEmoji, isMinimized,
+    const { smallSize, searchText, anchorElCurrentUser, anchorElEmoji, isMinimized,
       messageText, leftSideDisabled, rightSideDisabled, settingDisplyed } = this.state
 
     /**
@@ -579,6 +551,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ChatComponent as any)
+const translateWrraper = withTranslation('translations')(ChatComponent as any)
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(withWidth({ resizeInterval: 200 })(withStyles(chatStyles as any)(translateWrraper as any) as any) as any)

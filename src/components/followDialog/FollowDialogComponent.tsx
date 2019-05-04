@@ -1,59 +1,42 @@
 // - Import react components
-import React, { Component } from 'react'
-import moment from 'moment/moment'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { push } from 'connected-react-router'
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import { grey } from '@material-ui/core/colors';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
+import SvgAdd from '@material-ui/icons/Add';
+import StringAPI from 'api/StringAPI';
+import { followDialogStyles } from 'components/followDialog/followDialogStyles';
+import { push } from 'connected-react-router';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { UserTie } from 'core/domain/circles';
+import { User } from 'core/domain/users';
+import { List as ImuList, Map } from 'immutable';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import * as circleActions from 'store/actions/circleActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { userSelector } from 'store/reducers/users/userSelector';
 
-import classNames from 'classnames'
-import { Map, List as ImuList } from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { IFollowDialogProps } from './IFollowDialogProps';
+import { IFollowDialogState } from './IFollowDialogState';
 
 // - Material UI
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import RaisedButton from '@material-ui/core/Button'
-import MenuList from '@material-ui/core/MenuList'
-import MenuItem from '@material-ui/core/MenuItem'
-import Checkbox from '@material-ui/core/Checkbox'
-import TextField from '@material-ui/core/TextField'
-import Tooltip from '@material-ui/core/Tooltip'
-import { withStyles } from '@material-ui/core/styles'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import Divider from '@material-ui/core/Divider'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import SvgAdd from '@material-ui/icons/Add'
-import MessageIcon from '@material-ui/icons/Message'
-import IconButton from '@material-ui/core/IconButton'
-import { grey } from '@material-ui/core/colors'
-
 // - Import app components
-import UserAvatar from 'components/userAvatar'
-
 // - Import API
-import StringAPI from 'api/StringAPI'
-
 // - Import actions
-import * as circleActions from 'store/actions/circleActions'
-
-import { IFollowDialogProps } from './IFollowDialogProps'
-import { IFollowDialogState } from './IFollowDialogState'
-import { User } from 'core/domain/users'
-import { UserTie, Circle } from 'core/domain/circles'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { ServerRequestModel } from 'models/server'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { followDialogStyles } from 'components/followDialog/followDialogStyles'
-
 /**
  * Create component class
  */
@@ -79,7 +62,6 @@ export class FollowDialogComponent extends Component<IFollowDialogProps, IFollow
    */
   constructor(props: IFollowDialogProps) {
     super(props)
-    const { userBelongCircles, circles, userId } = this.props
     // Defaul state
     this.state = {
       /**
@@ -111,7 +93,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps, IFollow
    * Handle follow user
    */
   handleDoneAddCircle = () => {
-    const { userId, user, addUserToCircle, selectedCircles, deleteFollowingUser, avatar, fullName } = this.props
+    const { userId, addUserToCircle, selectedCircles, deleteFollowingUser, avatar, fullName } = this.props
     const { disabledDoneCircles } = this.state
     if (!disabledDoneCircles) {
       if (selectedCircles!.count() > 0) {
@@ -128,7 +110,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps, IFollow
   onFollowUser = (event: any) => {
     // This prevents ghost click
     event.preventDefault()
-    const { isFollowed, followUser, followingCircle, userId, user, followRequest, avatar, fullName } = this.props
+    const { isFollowed, followUser, followingCircle, userId, followRequest, avatar, fullName } = this.props
 
     if (followRequest && followRequest.status === ServerRequestStatusType.Sent) {
       return
@@ -189,7 +171,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps, IFollow
   }
 
   handleSelectCircle = (event: object, isInputChecked: boolean, circleId: string) => {
-    const { userBelongCircles, circles, setSelectedCircles, selectedCircles, userId } = this.props
+    const { setSelectedCircles, selectedCircles, userId } = this.props
     let newSelectedCircles = selectedCircles!
     if (isInputChecked) {
       newSelectedCircles = selectedCircles!.push(circleId)
@@ -209,7 +191,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps, IFollow
    * Create a circle list of user which belong to
    */
   circleList = () => {
-    let { circles, userId, userBelongCircles, selectedCircles, classes, t } = this.props
+    let { circles, userId, selectedCircles, classes, t } = this.props
     const circleDomList: any[] = []
     if (circles) {
 
@@ -239,7 +221,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps, IFollow
    */
   selectedCircleChange = (selectedCircles: ImuList<string>) => {
     let isChanged = false
-    const { userBelongCircles, circles } = this.props
+    const { userBelongCircles } = this.props
 
     if (selectedCircles.count() === userBelongCircles!.count()) {
       for (let circleIndex: number = 0; circleIndex < selectedCircles.count(); circleIndex++) {
@@ -349,14 +331,14 @@ export class FollowDialogComponent extends Component<IFollowDialogProps, IFollow
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: Function, ownProps: IFollowDialogProps) => {
+const mapDispatchToProps = (dispatch: Function) => {
   return {
     createCircle: (name: string) => dispatch(circleActions.dbAddCircle(name)),
     addUserToCircle: (circleIds: ImuList<string>, user: UserTie) => dispatch(circleActions.dbUpdateUserInCircles(circleIds, user)),
     followUser: (circleId: string, userFollowing: UserTie) => dispatch(circleActions.dbFollowUser(circleId, userFollowing)),
     deleteFollowingUser: (followingId: string) => dispatch(circleActions.dbDeleteFollowingUser(followingId)),
     setSelectedCircles: (userId: string, circleList: string[]) => dispatch(circleActions.setSelectedCircles(userId, circleList)),
-    removeSelectedCircles: (userId: string, circleList: string[]) => dispatch(circleActions.removeSelectedCircles(userId)),
+    removeSelectedCircles: (userId: string) => dispatch(circleActions.removeSelectedCircles(userId)),
     openSelectCircles: (userId: string) => dispatch(circleActions.openSelectCircleBox(userId)),
     closeSelectCircles: (userId: string) => dispatch(circleActions.closeSelectCircleBox(userId)),
     goTo: (url: string) => dispatch(push(url))
@@ -369,8 +351,6 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IFollowDialogProps) =>
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IFollowDialogProps) => {
 
-  const uid = state.getIn(['authorize', 'uid'])
-  const request = state.getIn(['server', 'request'])
 
   const circles: Map<string, Map<string, any>> = state.getIn(['circle', 'circleList'], Map({}))
   const userBelongCircles: ImuList<any> = state.getIn(['circle', 'userTies', ownProps.userId, 'circleIdList'], ImuList())
@@ -380,10 +360,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IFollowDialogProps) 
     .toArray()[0]
   const followRequestId = StringAPI.createServerRequestId(ServerRequestType.CircleFollowUser, ownProps.userId)
   const followRequest = state.getIn(['server', 'request', followRequestId])
-  const addToCircleRequestId = StringAPI.createServerRequestId(ServerRequestType.CircleAddToCircle, ownProps.userId)
-  const addToCircleRequest = state.getIn(['server', 'request', addToCircleRequestId])
-  const deleteFollowingUserRequestId = StringAPI.createServerRequestId(ServerRequestType.CircleDeleteFollowingUser, ownProps.userId)
-  const deleteFollowingUserRequest = state.getIn(['server', 'request', deleteFollowingUserRequestId])
   const selectedCircles = state.getIn(['circle', 'selectedCircles', ownProps.userId], [])
 
   const isSelecteCirclesOpen = state.getIn(['circle', 'openSelecteCircles', ownProps.userId], [])
@@ -405,6 +381,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IFollowDialogProps) 
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(FollowDialogComponent as any)
+const translateWrraper = withTranslation('translations')(FollowDialogComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(followDialogStyles as any)(translateWrraper as any))

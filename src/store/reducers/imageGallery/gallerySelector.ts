@@ -1,6 +1,6 @@
-import { Map, fromJS, List } from 'immutable'
-import { createSelector } from 'reselect'
-import { PostAPI } from 'api/PostAPI'
+import { PostAPI } from 'api/PostAPI';
+import { List, Map } from 'immutable';
+import { createSelector } from 'reselect';
 
 const getImages = (state: Map<string, any>) => {
     return state.getIn(['imageGallery', 'entities'], Map({})) as Map<string, any>

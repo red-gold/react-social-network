@@ -1,18 +1,16 @@
 // - Import react components
-import { firebaseAuth, db } from 'data/firestoreClient'
-
-import { SocialError } from 'core/domain/common'
-import { Post } from 'core/domain/posts'
-import { IPostService } from 'core/services/posts'
-import { injectable } from 'inversify'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { inject } from 'inversify'
-import { IHttpService } from 'core/services/webAPI'
-import algoliasearch from 'algoliasearch'
-import config from 'src/config'
-import { Map, fromJS, List } from 'immutable'
-import { PostIndex } from 'core/domain/posts/postIndex'
-import { PostType } from 'core/domain/posts/postType'
+import algoliasearch from 'algoliasearch';
+import { SocialError } from 'core/domain/common';
+import { Post } from 'core/domain/posts';
+import { PostIndex } from 'core/domain/posts/postIndex';
+import { PostType } from 'core/domain/posts/postType';
+import { IPostService } from 'core/services/posts';
+import { IHttpService } from 'core/services/webAPI';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { db } from 'data/firestoreClient';
+import { fromJS, Map } from 'immutable';
+import { inject, injectable } from 'inversify';
+import config from 'src/config';
 
 /**
  * Firbase post service

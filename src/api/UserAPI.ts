@@ -1,8 +1,7 @@
-import { List, Map } from 'immutable'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { ServerRequestModel } from 'models/server'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
+import StringAPI from 'api/StringAPI';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { ServerRequestModel } from 'models/server';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 
 /**
  * Creat user search request

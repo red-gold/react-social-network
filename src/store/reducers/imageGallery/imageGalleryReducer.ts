@@ -1,17 +1,12 @@
 // - Import react components
-import _ from 'lodash'
-import { Map, List } from 'immutable'
+import { ImageGalleryActionType } from 'constants/imageGalleryActionType';
+import { List, Map } from 'immutable';
+
+import { IImageGalleryAction } from './IImageGalleryAction';
+import { ImageGalleryState } from './ImageGalleryState';
 
 // - Import domain
-import { User } from 'src/core/domain/users'
-import { Image } from 'src/core/domain/imageGallery'
-
 // - Import image gallery action types
-import { ImageGalleryActionType } from 'constants/imageGalleryActionType'
-
-import { IImageGalleryAction } from './IImageGalleryAction'
-import { ImageGalleryState } from './ImageGalleryState'
-
 /**
  *  Image gallery reducer
  */

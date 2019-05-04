@@ -1,20 +1,17 @@
 // - Import react components
-import _ from 'lodash'
-import { Map } from 'immutable'
+import { UserSettingActionType } from 'constants/userSettingActionType';
+import { Map } from 'immutable';
+
+import { IUserSettingAction } from './IUserSettingAction';
 
 // - Import action types
-import { UserSettingActionType } from 'constants/userSettingActionType'
-
 // Import domain
-
-import { IUserSettingAction } from './IUserSettingAction'
 
 /**
  * UserSetting actions
  */
 export let userSettingReducer = (state = Map({}), action: IUserSettingAction) => {
   let { payload } = action
-  const request = (payload ? payload.request : {})
   switch (action.type) {
 
     case UserSettingActionType.SET_USER_SETTING:

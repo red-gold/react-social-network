@@ -1,52 +1,37 @@
 // - Import react components
-import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
-import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import moment from 'moment/moment'
-import Linkify from 'react-linkify'
-import Popover from '@material-ui/core/Popover'
+import { Card, CardHeader } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import Paper from '@material-ui/core/Paper';
+import Popover from '@material-ui/core/Popover';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import classNames from 'classnames';
+import UserAvatar from 'components/userAvatar';
+import { Comment } from 'core/domain/comments';
+import { Map } from 'immutable';
+import moment from 'moment/moment';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { findDOMNode } from 'react-dom';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import * as commentActions from 'store/actions/commentActions';
+import * as userActions from 'store/actions/userActions';
+import { userSelector } from 'store/reducers/users/userSelector';
 
-import {Map} from 'immutable'
-import { translate, Trans } from 'react-i18next'
-
-import { Comment } from 'core/domain/comments'
+import { ICommentComponentProps } from './ICommentComponentProps';
+import { ICommentComponentState } from './ICommentComponentState';
 
 // - Import material UI libraries
-import Divider from '@material-ui/core/Divider'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
-import { grey } from '@material-ui/core/colors'
-import IconButton from '@material-ui/core/IconButton'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import MenuList from '@material-ui/core/MenuList'
-import MenuItem from '@material-ui/core/MenuItem'
-import TextField from '@material-ui/core/TextField'
-import { withStyles } from '@material-ui/core/styles'
-import { Card, CardActions, CardHeader, CardMedia, CardContent } from '@material-ui/core'
-import Grow from '@material-ui/core/Grow'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
-import classNames from 'classnames'
-
 // - Import app components
-import UserAvatar from 'components/userAvatar'
-
 // - Import API
 
 // - Import actions
-import * as commentActions from 'store/actions/commentActions'
-import * as userActions from 'store/actions/userActions'
-
-import { ICommentComponentProps } from './ICommentComponentProps'
-import { ICommentComponentState } from './ICommentComponentState'
-import { userSelector } from 'store/reducers/users/userSelector'
-
 const styles = (theme: any) => ({
   textField: {
     fontWeight: 400,
@@ -447,6 +432,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ICommentComponentPro
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(CommentComponent as any)
+const translateWrraper = withTranslation('translations')(CommentComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(CommentComponent as any))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any))

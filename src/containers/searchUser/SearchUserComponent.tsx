@@ -1,35 +1,26 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import InfiniteScroll from 'react-infinite-scroll-component'
+import withStyles from '@material-ui/core/styles/withStyles';
+import Typography from '@material-ui/core/Typography';
+import classNames from 'classnames';
+import UserBoxList from 'components/userBoxList';
+import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
+import queryString from 'query-string';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { withRouter } from 'react-router-dom';
 
-import { Map } from 'immutable'
-import queryString from 'query-string'
-import { translate, Trans } from 'react-i18next'
+import SearchComponent from '../search';
+import { connectSearchUser } from './connectSearchUser';
+import { ISearchUserProps } from './ISearchUserProps';
+import { ISearchUserState } from './ISearchUserState';
+import { searchUserStyles } from './searchUserStyles';
 
 // - Material UI
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import withStyles from '@material-ui/core/styles/withStyles'
-
 // - Import app components
-import UserBoxList from 'components/userBoxList'
-import LoadMoreProgressComponent from 'layouts/loadMoreProgress'
-
 // - Import API
 
 // - Import actions
-import * as userActions from 'store/actions/userActions'
-import { ISearchUserProps } from './ISearchUserProps'
-import { ISearchUserState } from './ISearchUserState'
-import { UserTie } from 'core/domain/circles/userTie'
-import { connectSearchUser } from './connectSearchUser'
-import SearchComponent from '../search'
-import classNames from 'classnames'
-import { searchUserStyles } from './searchUserStyles'
-import { withRouter } from 'react-router-dom'
-
 /**
  * Create component class
  */
@@ -68,7 +59,7 @@ export class SearchUserComponent extends Component<ISearchUserProps, ISearchUser
   }
 
   searchParam = () => {
-    const params: { q: string } = queryString.parse(location.search) as any
+    const params: { q: string } = queryString.parse(window.location.search) as any
     return params.q
   }
 
@@ -122,6 +113,6 @@ export class SearchUserComponent extends Component<ISearchUserProps, ISearchUser
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(SearchUserComponent as any)
+const translateWrraper = withTranslation('translations')(SearchUserComponent as any)
 
 export default withRouter<any>(connectSearchUser(withStyles(searchUserStyles as any)(translateWrraper as any) as any))

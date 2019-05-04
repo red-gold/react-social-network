@@ -1,17 +1,12 @@
 // - Import react components
-import moment from 'moment/moment'
-import _ from 'lodash'
-import { Map } from 'immutable'
+import { NotificationActionType } from 'constants/notificationActionType';
+import { Map } from 'immutable';
+
+import { INotificationAction } from './INotificationAction';
+import { NotificationState } from './NotificationState';
 
 // - Import domain
-import { Notification } from 'src/core/domain/notifications'
-
 // - Import action types
-import { NotificationActionType } from 'constants/notificationActionType'
-
-import { NotificationState } from './NotificationState'
-import { INotificationAction } from './INotificationAction'
-
 /**
  * Notify actions
  * @param {object} state

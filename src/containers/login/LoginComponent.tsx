@@ -1,42 +1,30 @@
 // - Import external components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'connected-react-router'
-import config from 'src/config'
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import StringAPI from 'api/StringAPI';
+import { push } from 'connected-react-router';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { NavLink, withRouter } from 'react-router-dom';
+import config from 'src/config';
+import { OAuthType } from 'src/core/domain/authorize';
+import * as authorizeActions from 'src/store/actions/authorizeActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 
-import { Map } from 'immutable'
-import { translate, Trans } from 'react-i18next'
-import classNames from 'classnames'
+import { ILoginComponentProps } from './ILoginComponentProps';
+import { ILoginComponentState } from './ILoginComponentState';
+import { loginStyles } from './loginStyles';
 
 // - Material-UI
-import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
-import RaisedButton from '@material-ui/core/Button'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import Divider from '@material-ui/core/Divider'
-import ActionAndroid from '@material-ui/icons/Android'
-import { withStyles } from '@material-ui/core/styles'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Typography from '@material-ui/core/Typography'
-import Hidden from '@material-ui/core/Hidden'
-
 // - Components
-import Footer from 'layouts/footer'
-
 // - Import actions
-import * as authorizeActions from 'src/store/actions/authorizeActions'
-import { ILoginComponentProps } from './ILoginComponentProps'
-import { ILoginComponentState } from './ILoginComponentState'
-import { OAuthType } from 'src/core/domain/authorize'
-import Grid from '@material-ui/core/Grid/Grid'
-import CommonAPI from 'api/CommonAPI'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { loginStyles } from './loginStyles'
-
 // - Create Login component class
 export class LoginComponent extends Component<ILoginComponentProps, ILoginComponentState> {
 
@@ -244,6 +232,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ILoginComponentProps
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(LoginComponent as any)
+const translateWrraper = withTranslation('translations')(LoginComponent as any)
 
 export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(loginStyles as any)(translateWrraper as any) as any))

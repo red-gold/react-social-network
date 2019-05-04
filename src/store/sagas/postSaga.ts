@@ -1,24 +1,20 @@
-import { take, fork, select, put, call, cancelled, all, takeLatest, takeEvery } from 'redux-saga/effects'
-import algoliasearch from 'algoliasearch'
-import config from 'src/config'
-import { Map, fromJS, List } from 'immutable'
-import { provider } from 'socialEngine'
-import * as postActions from 'store/actions/postActions'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { IPostService } from 'core/services/posts/IPostService'
-import { PostActionType } from 'constants/postActionType'
-import { postSelector } from 'store/reducers/posts'
-import { authorizeSelector } from 'store/reducers/authorize'
-import { Post } from 'core/domain/posts'
-import { PostAPI } from 'api/PostAPI'
-import * as serverActions from 'store/actions/serverActions'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import * as globalActions from 'store/actions/globalActions'
-import { PostIndex } from 'core/domain/posts/postIndex'
-import { circleSelector } from 'store/reducers/circles/circleSelector'
-import * as userActions from 'store/actions/userActions'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { UserActionType } from 'constants/userActionType'
+import { PostAPI } from 'api/PostAPI';
+import { PostActionType } from 'constants/postActionType';
+import { UserActionType } from 'constants/userActionType';
+import { IPostService } from 'core/services/posts/IPostService';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { Map } from 'immutable';
+import { all, call, put, select, takeEvery, takeLatest } from 'redux-saga/effects';
+import { provider } from 'socialEngine';
+import * as globalActions from 'store/actions/globalActions';
+import * as postActions from 'store/actions/postActions';
+import * as serverActions from 'store/actions/serverActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import * as userActions from 'store/actions/userActions';
+import { authorizeSelector } from 'store/reducers/authorize';
+import { circleSelector } from 'store/reducers/circles/circleSelector';
+import { postSelector } from 'store/reducers/posts';
+import { userSelector } from 'store/reducers/users/userSelector';
 
 /**
  * Get service providers
@@ -165,7 +161,7 @@ function* watchFetchPostStream(action: { type: PostActionType, payload: any }) {
   const uid = authedUser.get('uid')
   try {
     const searchKey = yield getSearchKey()
-    const lastPageRequest = yield select(postSelector.getStreamPage)
+    yield select(postSelector.getStreamPage)
     const lastPostId = yield select(postSelector.getStreamLastPostId)
 
     if (uid) {
@@ -215,7 +211,7 @@ function* watchFetchPostByUserId(action: { type: PostActionType, payload: any })
   const { page, limit, userId } = payload
   try {
     const searchKey =  yield getSearchKey()
-    const lastPageRequest = yield select(postSelector.getProfileLastPostRequest, {userId})
+    yield select(postSelector.getProfileLastPostRequest, {userId})
     const lastPostId = yield select(postSelector.getProfileLatPostId, {userId})
     
     const uid = authedUser.get('uid')
@@ -240,7 +236,7 @@ function* watchFetchAlbumPosts(action: { type: PostActionType, payload: any }) {
   const { limit, userId, page } = payload
   try {
     const searchKey = yield getSearchKey()
-    const lastPageRequest = yield select(userSelector.getAlbumLastPageRequest, {userId})
+    yield select(userSelector.getAlbumLastPageRequest, {userId})
     const lastPostId = yield select(userSelector.getAlbumLatPostId, {userId})
     
     const uid = authedUser.get('uid')
@@ -251,10 +247,6 @@ function* watchFetchAlbumPosts(action: { type: PostActionType, payload: any }) {
     yield put(globalActions.showMessage(error.message))
   }
 
-}
-
-function* watchGetPostSearchKey(action: { type: PostActionType, payload: any }) {
-  yield call(getPostSearchKey)
 }
 
 export default function* postSaga() {

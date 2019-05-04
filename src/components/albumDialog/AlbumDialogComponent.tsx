@@ -1,73 +1,56 @@
 // - Impoer react components
-import React, { Component } from 'react'
-import PropTypes, { object } from 'prop-types'
-import { connect } from 'react-redux'
-import Dropzone from 'react-dropzone'
-import moment from 'moment/moment'
-import uuid from 'uuid'
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Dialog from '@material-ui/core/Dialog';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import IconButton from '@material-ui/core/IconButton';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import MobileStepper from '@material-ui/core/MobileStepper';
+import Paper from '@material-ui/core/Paper';
+import Slide from '@material-ui/core/Slide';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import AddPhotoIcon from '@material-ui/icons/AddPhotoAlternate';
+import CloseIcon from '@material-ui/icons/Close';
+import SvgDelete from '@material-ui/icons/Delete';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LockIcon from '@material-ui/icons/VpnLock';
+import FileAPI from 'api/FileAPI';
+import StringAPI from 'api/StringAPI';
+import { albumDialogStyles } from 'components/albumDialog/albumDialogStyles';
+import UserPermissionComponent from 'components/userPermission';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
+import { Album } from 'core/domain/imageGallery/album';
+import { Photo } from 'core/domain/imageGallery/photo';
+import { Post } from 'core/domain/posts/post';
+import { PostType } from 'core/domain/posts/postType';
+import { User } from 'core/domain/users/user';
+import { Map } from 'immutable';
+import moment from 'moment/moment';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import SwipeableViews from 'react-swipeable-views';
+import config from 'src/config';
+import * as globalActions from 'store/actions/globalActions';
+import * as imageGalleryActions from 'store/actions/imageGalleryActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { serverSelector } from 'store/reducers/server/serverSelector';
+import uuid from 'uuid';
 
-import { Map } from 'immutable'
-import config from 'src/config'
-import { translate, Trans } from 'react-i18next'
+import { IAlbumDialogProps } from './IAlbumDialogProps';
+import { IAlbumDialogState } from './IAlbumDialogState';
 
 // - Material-UI
-import GridList from '@material-ui/core/GridList'
-import GridListTile from '@material-ui/core/GridListTile'
-import GridListTileBar from '@material-ui/core/GridListTileBar'
-import ListSubheader from '@material-ui/core/ListSubheader'
-import IconButton from '@material-ui/core/IconButton'
-import InfoIcon from '@material-ui/icons/Info'
-import StarBorder from '@material-ui/icons/StarBorder'
-import MobileStepper from '@material-ui/core/MobileStepper'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
-import SwipeableViews from 'react-swipeable-views'
-import SvgUpload from '@material-ui/icons/CloudUpload'
-import SvgAddImage from '@material-ui/icons/AddAPhoto'
-import SvgDelete from '@material-ui/icons/Delete'
-import { grey } from '@material-ui/core/colors'
-import { withStyles } from '@material-ui/core/styles'
-import Dialog from '@material-ui/core/Dialog'
-import Slide from '@material-ui/core/Slide'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import AddPhotoIcon from '@material-ui/icons/AddPhotoAlternate'
-import TextField from '@material-ui/core/TextField'
-import withMobileDialog from '@material-ui/core/withMobileDialog/withMobileDialog'
-import CloseIcon from '@material-ui/icons/Close'
-import LockIcon from '@material-ui/icons/VpnLock'
-import CircularProgress from '@material-ui/core/CircularProgress'
-
 // - Import actions
-import * as imageGalleryActions from 'store/actions/imageGalleryActions'
-import * as globalActions from 'store/actions/globalActions'
-
 // - Import app components
-import Img from 'components/img'
-import UserPermissionComponent from 'components/userPermission'
-
 // - Import API
-import FileAPI from 'api/FileAPI'
-import { IAlbumDialogProps } from './IAlbumDialogProps'
-import { IAlbumDialogState } from './IAlbumDialogState'
-import { Image } from 'core/domain/imageGallery'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { albumDialogStyles } from 'components/albumDialog/albumDialogStyles'
-import StringAPI from 'api/StringAPI'
-import { Post } from 'core/domain/posts/post'
-import * as postActions from 'store/actions/postActions'
-import { PostType } from 'core/domain/posts/postType'
-import { UserPermissionType } from 'core/domain/common/userPermissionType'
-import { Photo } from 'core/domain/imageGallery/photo'
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { serverSelector } from 'store/reducers/server/serverSelector'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { User } from 'core/domain/users/user'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { Album } from 'core/domain/imageGallery/album'
-
 const tutorialSteps = [
   {
     label: '',
@@ -172,7 +155,6 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps, IAlbumDia
    */
   handleChange = (name: string) => (event: any) => {
     const { t } = this.props
-    const { albumNameError, descriptionError } = this.state
     const targetValue = event.target.value
     let error: any = null
     if (StringAPI.isEmpty(targetValue)) {
@@ -239,7 +221,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps, IAlbumDia
    * Save album
    */
   saveAlbum = () => {
-    const { progress, post, onClose, t, currentUser, currentAlbum } = this.props
+    const { progress, post, t, currentUser, currentAlbum } = this.props
     const { accessUserList, permission } = this.state
 
     const description = StringAPI.isEmpty(this.state.description) ? '' : this.state.description
@@ -463,7 +445,7 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps, IAlbumDia
    * Render Grid tile
    */
   gridTile = () => {
-    const { t, photos, classes } = this.props
+    const { classes } = this.props
     return (
       <div className={classes.gridTileRoot}>
         <GridList cellHeight={180} className={classes.gridList}>
@@ -626,6 +608,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(AlbumDialogComponent as any)
+const translateWrraper = withTranslation('translations')(AlbumDialogComponent as any)
 const componentWithStyles: any = withStyles(albumDialogStyles as any, { withTheme: true })(translateWrraper as any)
 export default connect(makeMapStateToProps, mapDispatchToProps)(componentWithStyles)

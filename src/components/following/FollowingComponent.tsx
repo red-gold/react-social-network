@@ -1,20 +1,16 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import UserBoxList from 'components/userBoxList';
+import { Circle } from 'core/domain/circles';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 
-import {Map} from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { IFollowingComponentProps } from './IFollowingComponentProps';
+import { IFollowingComponentState } from './IFollowingComponentState';
 
 // - Import app components
-import UserBoxList from 'components/userBoxList'
-
-import { Circle } from 'core/domain/circles'
-
 // - Import API
-import { IFollowingComponentProps } from './IFollowingComponentProps'
-import { IFollowingComponentState } from './IFollowingComponentState'
-
 // - Import actions
 
 /**
@@ -93,6 +89,6 @@ const mapStateToProps = (state: Map<string, any>,ownProps: IFollowingComponentPr
 }
 
   // - Connect component to redux store
-const translateWrraper = translate('translations')(FollowingComponent as any)
+const translateWrraper = withTranslation('translations')(FollowingComponent as any)
 
 export default connect(mapStateToProps,mapDispatchToProps)(translateWrraper)

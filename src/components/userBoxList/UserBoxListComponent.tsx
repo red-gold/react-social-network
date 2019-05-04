@@ -1,16 +1,13 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import {Map} from 'immutable'
+import UserBox from 'components/userBox';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import { IUserBoxListComponentProps } from './IUserBoxListComponentProps';
+import { IUserBoxListComponentState } from './IUserBoxListComponentState';
 
 // - Import app components
-import UserBox from 'components/userBox'
-
-import { IUserBoxListComponentProps } from './IUserBoxListComponentProps'
-import { IUserBoxListComponentState } from './IUserBoxListComponentState'
-import { UserTie } from 'core/domain/circles/userTie'
-
 // - Import API
 
 // - Import actions
@@ -64,9 +61,6 @@ export class UserBoxListComponent extends Component<IUserBoxListComponentProps,I
      */
   render () {
 
-    const styles = {
-
-    }
 
     return (
 

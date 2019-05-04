@@ -1,47 +1,27 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum';
+import FileAPI from 'api/FileAPI';
+import AlbumDialogComponent from 'components/albumDialog';
+import { ActiveTabType } from 'components/ProfileAlbum/activeTabType';
+import AlbumStreamComponent from 'containers/albumStream';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { withRouter } from 'react-router';
+import uuid from 'uuid';
 
-import { Map } from 'immutable'
-import config from 'src/config'
-import queryString from 'query-string'
-import { translate, Trans } from 'react-i18next'
-import uuid from 'uuid'
+import { connectProfileAlbum } from './connectProfileAlbum';
+import { IProfileAlbumProps } from './IProfileAlbumProps';
+import { IProfileAlbumState } from './IProfileAlbumState';
+import { profileAlbumStyles } from './profileAlbumStyles';
 
 // - Material-UI
-import withStyles from '@material-ui/core/styles/withStyles'
-import Dialog from '@material-ui/core/Dialog'
-import Button from '@material-ui/core/Button'
-import RaisedButton from '@material-ui/core/Button'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import Paper from '@material-ui/core/Paper'
-import PhotoAlbumIcon from '@material-ui/icons/PhotoAlbum'
-import AddPhotoIcon from '@material-ui/icons/AddPhotoAlternate'
-
 // - Import app components
-import StreamComponent from 'containers/stream'
-import UserActivity from 'components/userActivity'
-import ImgCover from 'components/imgCover'
-
 // - Import actions
-import * as postActions from 'src/store/actions/postActions'
-import * as userActions from 'src/store/actions/userActions'
-import * as globalActions from 'src/store/actions/globalActions'
-import { IProfileAlbumProps } from './IProfileAlbumProps'
-import { IProfileAlbumState } from './IProfileAlbumState'
-import { User } from 'core/domain/users'
-import { profileAlbumStyles } from './profileAlbumStyles'
-import { connectProfileAlbum } from './connectProfileAlbum'
-import { withRouter } from 'react-router'
-import classNames from 'classnames'
-import { Typography } from '@material-ui/core'
-import { ActiveTabType } from 'components/ProfileAlbum/activeTabType'
-import FileAPI from 'api/FileAPI'
-import AlbumDialogComponent from 'components/albumDialog'
-import AlbumStreamComponent from 'containers/albumStream'
-
 /**
  * Create component class
  */
@@ -149,7 +129,7 @@ export class ProfileAlbumComponent extends Component<IProfileAlbumProps, IProfil
    */
   render() {
 
-    const { t, classes, albumDialogOpen, openAlbum, progress, posts, theme, isOwner, hasMoreAlbum, userId } = this.props
+    const { t, classes, albumDialogOpen, progress, posts, isOwner, hasMoreAlbum, userId } = this.props
     const { activeTab } = this.state
     const albumOpen = (albumDialogOpen !== undefined) ? albumDialogOpen : false
     return (
@@ -206,6 +186,6 @@ export class ProfileAlbumComponent extends Component<IProfileAlbumProps, IProfil
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ProfileAlbumComponent as any)
+const translateWrraper = withTranslation('translations')(ProfileAlbumComponent as any)
 
 export default withRouter<any>(connectProfileAlbum(withStyles(profileAlbumStyles as any, {withTheme: true})(translateWrraper as any) as any))

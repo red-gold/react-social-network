@@ -1,13 +1,12 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { IReadMoreProps } from 'components/readMore/IReadMoreProps'
-import { IReadMoreState } from 'components/readMore/IReadMoreState'
-import classNames from 'classnames'
-import withStyles from '@material-ui/core/styles/withStyles'
-import { readMoreStyles } from './readMoreStyles'
+import Collapse from '@material-ui/core/Collapse';
+import withStyles from '@material-ui/core/styles/withStyles';
+import StringAPI from 'api/StringAPI';
+import classNames from 'classnames';
+import { IReadMoreProps } from 'components/readMore/IReadMoreProps';
+import { IReadMoreState } from 'components/readMore/IReadMoreState';
+import React, { Component } from 'react';
 
-import Collapse from '@material-ui/core/Collapse'
-import StringAPI from 'api/StringAPI'
+import { readMoreStyles } from './readMoreStyles';
 
 class ReadMoreComponent extends Component<IReadMoreProps, IReadMoreState> {
 
@@ -39,8 +38,6 @@ class ReadMoreComponent extends Component<IReadMoreProps, IReadMoreState> {
   render() {
     const {
       children,
-      more,
-      less,
       lines,
       classes,
       body
@@ -48,7 +45,6 @@ class ReadMoreComponent extends Component<IReadMoreProps, IReadMoreState> {
 
     const {
       expanded,
-      truncated
     } = this.state
 
     const readMoreElem = (

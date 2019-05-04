@@ -1,17 +1,16 @@
-import { take, fork, select, put, call, cancelled, all,takeEvery, takeLatest } from 'redux-saga/effects'
-import * as chatActions from 'store/actions/chatActions'
-import * as globalActions from 'store/actions/globalActions'
-import {ChatActionType} from 'constants/chatActionType'
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { IChatService } from 'core/services/chat'
-import { provider } from 'socialEngine'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import {Map} from 'immutable'
-import { eventChannel, Channel } from 'redux-saga'
-import { Message } from 'core/domain/chat/message'
-import { ChatRoom } from 'core/domain/chat/chatRoom'
-import { ChatRoomType } from 'core/domain/chat/ChatRoomType'
-import { chatSelector } from 'store/reducers/chat/chatSelector'
+import { ChatActionType } from 'constants/chatActionType';
+import { ChatRoom } from 'core/domain/chat/chatRoom';
+import { ChatRoomType } from 'core/domain/chat/ChatRoomType';
+import { IChatService } from 'core/services/chat';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { Map } from 'immutable';
+import { Channel, eventChannel } from 'redux-saga';
+import { all, call, cancelled, fork, put, select, take, takeLatest } from 'redux-saga/effects';
+import { provider } from 'socialEngine';
+import * as chatActions from 'store/actions/chatActions';
+import * as globalActions from 'store/actions/globalActions';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { chatSelector } from 'store/reducers/chat/chatSelector';
 
 /**
  * Get service providers
@@ -91,25 +90,25 @@ function* dbCreateChatMessage(action: { type: ChatActionType, payload: any }) {
 /**
  * Create chat room
  */
-function* dbCreateChatRoom(chatRoom: ChatRoom) {
-    try {
-      yield call(chatService.createChatRoom, chatRoom )
-    } catch (error) {
-      yield put(globalActions.showMessage('chatSaga/dbCreateChatRoom : ' + error.message))
-    }
-}
+// function* dbCreateChatRoom(chatRoom: ChatRoom) {
+//     try {
+//       yield call(chatService.createChatRoom, chatRoom )
+//     } catch (error) {
+//       yield put(globalActions.showMessage('chatSaga/dbCreateChatRoom : ' + error.message))
+//     }
+// }
 
 /**
  * Get peer chatroom
  */
-function* dbGetPeerChatRoom(firstUserId: string, secondUserId: string) {
-    try {
-        yield call(chatService.getPeerChatRoom, firstUserId, secondUserId )
-    } catch (error) {
-      yield put(globalActions.showMessage('chatSaga/dbGetPeerChatRoom : ' + error.message))
+// function* dbGetPeerChatRoom(firstUserId: string, secondUserId: string) {
+//     try {
+//         yield call(chatService.getPeerChatRoom, firstUserId, secondUserId )
+//     } catch (error) {
+//       yield put(globalActions.showMessage('chatSaga/dbGetPeerChatRoom : ' + error.message))
 
-    }
-}
+//     }
+// }
 
 /**
  * Set chat room  language

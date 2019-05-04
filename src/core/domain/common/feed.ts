@@ -1,6 +1,6 @@
-import { BaseDomain } from 'core/domain/common'
-import { FeedType } from './feedType'
-import { User } from 'core/domain/users'
+import { User } from 'core/domain/users';
+
+import { FeedType } from './feedType';
 
 export class Feed {
 

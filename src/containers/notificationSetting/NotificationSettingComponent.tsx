@@ -1,47 +1,33 @@
 // - Import external components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import config from 'src/config'
+import Button from '@material-ui/core/Button';
+import CardActions from '@material-ui/core/CardActions';
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import Switch from '@material-ui/core/Switch';
+import Typography from '@material-ui/core/Typography';
+import { notificationSettingStyles } from 'containers/notificationSetting/notificationSettingStyles';
+import { UserSettingType } from 'core/services/users/userSettingType';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import * as userSettingActions from 'src/store/actions/userSettingActions';
 
-import classNames from 'classnames'
-import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'connected-react-router'
-import { Map } from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { INotificationSettingProps } from './INotificationSettingProps';
+import { INotificationSettingState } from './INotificationSettingState';
 
 /**
  * Material-UI
  */
-import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
-import RaisedButton from '@material-ui/core/Button'
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Grid from '@material-ui/core/Grid'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListSubheader from '@material-ui/core/ListSubheader'
-import CardActions from '@material-ui/core/CardActions'
-import Switch from '@material-ui/core/Switch'
-import WifiIcon from '@material-ui/icons/Wifi'
-import BluetoothIcon from '@material-ui/icons/Bluetooth'
-
 // - Components
-import Footer from 'layouts/footer'
-
 // - Import actions
-import * as authorizeActions from 'src/store/actions/authorizeActions'
-import * as userSettingActions from 'src/store/actions/userSettingActions'
-
-import { INotificationSettingProps } from './INotificationSettingProps'
-import { INotificationSettingState } from './INotificationSettingState'
-import { notificationSettingStyles } from 'containers/notificationSetting/notificationSettingStyles'
-import { UserSettingType } from 'core/services/users/userSettingType'
-
 /**
  * Create component class
  */
@@ -179,5 +165,5 @@ const mapStateToProps = (state: Map<string, any>, ownProps: INotificationSetting
 }
 
 // - Connect component to redux storea
-const translateWrraper = translate('translations')(NotificationSettingComponent as any)
+const translateWrraper = withTranslation('translations')(NotificationSettingComponent as any)
 export default withRouter<any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(notificationSettingStyles as any)(translateWrraper as any)))

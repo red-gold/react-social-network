@@ -1,4 +1,5 @@
-import { Map, fromJS, List } from 'immutable'
+import { List, Map } from 'immutable';
+
 /**
  * Global state
  *

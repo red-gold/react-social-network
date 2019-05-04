@@ -1,23 +1,19 @@
+import { NotificationActionType } from 'constants/notificationActionType';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import moment from 'moment/moment';
+import { SocialError } from 'src/core/domain/common';
+import { Notification } from 'src/core/domain/notifications';
+import { INotificationService } from 'src/core/services/notifications';
+import { SocialProviderTypes } from 'src/core/socialProviderTypes';
+import { provider } from 'src/socialEngine';
+import * as globalActions from 'store/actions/globalActions';
+import { authorizeSelector } from 'store/reducers/authorize';
+
 
 // - Import domain
-import { Notification } from 'src/core/domain/notifications'
-import { SocialError } from 'src/core/domain/common'
-import { Map, fromJS } from 'immutable'
-import moment from 'moment/moment'
-
 // - Import action types
-import { NotificationActionType } from 'constants/notificationActionType'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as userActions from 'store/actions/userActions'
-
-import { INotificationService } from 'src/core/services/notifications'
-import { SocialProviderTypes } from 'src/core/socialProviderTypes'
-import { provider } from 'src/socialEngine'
-import { authorizeSelector } from 'store/reducers/authorize'
-import { User } from 'core/domain/users'
-
 /**
  * Get service providers
  */

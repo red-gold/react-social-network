@@ -1,30 +1,18 @@
-import { connect } from 'react-redux'
-import { postSelector } from 'store/reducers/posts'
+import StringAPI from 'api/StringAPI';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import { globalActions, postActions } from 'src/store/actions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector';
+import { postSelector } from 'store/reducers/posts';
+import { serverSelector } from 'store/reducers/server/serverSelector';
 
-import { authorizeSelector } from 'store/reducers/authorize/authorizeSelector'
-import { Map } from 'immutable'
-import { IStreamComponentProps } from './IStreamComponentProps'
+import { IStreamComponentProps } from './IStreamComponentProps';
 
 // - Import actions
-import {
-  authorizeActions,
-  imageGalleryActions,
-  postActions,
-  commentActions,
-  voteActions,
-  userActions,
-  globalActions,
-  circleActions,
-  notifyActions,
-  chatActions
-} from 'src/store/actions'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { User } from 'core/domain/users'
-import { serverSelector } from 'store/reducers/server/serverSelector'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { Component } from 'react'
-
 /**
  * Map dispatch to props
  */

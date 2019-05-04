@@ -1,9 +1,10 @@
 // - Import react components
-import firebase, { firebaseAuth, db } from 'data/firestoreClient'
-import { SocialError } from 'core/domain/common'
-import { Graph } from 'core/domain/graphs'
-import { IGraphService } from './IGraphService'
-import { injectable } from 'inversify'
+import { SocialError } from 'core/domain/common';
+import { Graph } from 'core/domain/graphs';
+import firebase, { db } from 'data/firestoreClient';
+import { injectable } from 'inversify';
+
+import { IGraphService } from './IGraphService';
 
 /**
  * Firbase graph service
@@ -39,11 +40,11 @@ export class GraphService implements IGraphService {
   public updateGraph: (graph: Graph, collection: string)
   => Promise<string> = (graph, collection) => {
     return new Promise<string>((resolve,reject) => {
-      const graphData = this.getGraphs(collection, graph.leftNode, graph.edgeType, graph.rightNode)
+      this.getGraphs(collection, graph.leftNode, graph.edgeType, graph.rightNode)
       .then((result) => {
         graph.nodeId = result[0].nodeId
-        let graphRef = db.collection(`graphs:${collection}`).doc(result[0].nodeId)
-        .set({...graph}).then((result) => {
+         db.collection(`graphs:${collection}`).doc(result[0].nodeId)
+        .set({...graph}).then(() => {
           resolve()
         })
       }).catch((error: any) => {
@@ -57,7 +58,7 @@ export class GraphService implements IGraphService {
      */
   public getGraphs: (collection: string, leftNode?: string | null, edgeType?: string, rightNode?: string | null)
     => Promise<Graph[]> = (collection, leftNode, edgeType, rightNode) => {
-      return new Promise<Graph[]>((resolve,reject) => {
+      return new Promise<Graph[]>((resolve) => {
 
         this.getGraphsQuery(collection,leftNode,edgeType,rightNode).then((result) => {
           let parsedData: Graph[] = []

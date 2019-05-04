@@ -1,13 +1,11 @@
 // - Import action types
-import { UserActionType } from 'constants/userActionType'
-import Immutable, { Map, fromJS } from 'immutable'
+import { UserActionType } from 'constants/userActionType';
+import { Map } from 'immutable';
+
+import { IUserAction } from './IUserAction';
+import { UserState } from './UserState';
 
 // - Import domain
-import { User } from 'src/core/domain/users'
-
-import { UserState } from './UserState'
-import { IUserAction } from './IUserAction'
-
 const addUserSearch = (state: Map<string, any>, action: any) => {
   const { payload, meta } = action
   if (meta && meta.overwrite) {

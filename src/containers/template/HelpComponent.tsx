@@ -1,29 +1,19 @@
 // - Import react components
-import React, { Component } from 'react'
-import { translate, Trans } from 'react-i18next'
+import withStyles from '@material-ui/core/styles/withStyles';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { withRouter } from 'react-router-dom';
+
+import { connectHelp } from './connectHelp';
+import { helpStyles } from './helpStyles';
+import { IHelpProps } from './IHelpProps';
+import { IHelpState } from './IHelpState';
 
 // - Material UI
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import withStyles from '@material-ui/core/styles/withStyles'
-
 // - Import app components
-import UserBoxList from 'components/userBoxList'
-import LoadMoreProgressComponent from 'layouts/loadMoreProgress'
-
 // - Import API
 
 // - Import actions
-import * as userActions from 'store/actions/userActions'
-import { IHelpProps } from './IHelpProps'
-import { IHelpState } from './IHelpState'
-import { UserTie } from 'core/domain/circles/userTie'
-import { connectHelp } from './connectHelp'
-import SearchComponent from '../search'
-import classNames from 'classnames'
-import { helpStyles } from './helpStyles'
-import { withRouter } from 'react-router-dom'
-
 /**
  * Create component class
  */
@@ -52,7 +42,6 @@ export class HelpComponent extends Component<IHelpProps, IHelpState> {
    * 
    */
   render() {
-    const { t, classes } = this.props
     return (
       <div></div>
     )
@@ -60,6 +49,6 @@ export class HelpComponent extends Component<IHelpProps, IHelpState> {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(HelpComponent as any)
+const translateWrraper = withTranslation('translations')(HelpComponent as any)
 
 export default withRouter<any>(connectHelp(withStyles(helpStyles as any)(translateWrraper as any) as any))

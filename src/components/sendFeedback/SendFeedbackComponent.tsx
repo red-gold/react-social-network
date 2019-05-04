@@ -1,42 +1,34 @@
 // - Import react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import classNames from 'classnames'
-import {Map} from 'immutable'
-import config from 'src/config'
-import { translate, Trans } from 'react-i18next'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
+import SvgClose from '@material-ui/icons/Clear';
+import StringAPI from 'api/StringAPI';
+import classNames from 'classnames';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { Feed } from 'core/domain/common';
+import { FeedType } from 'core/domain/common/feedType';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { globalActions } from 'store/actions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+import { userSelector } from 'store/reducers/users/userSelector';
+
+import { ISendFeedbackComponentProps } from './ISendFeedbackComponentProps';
+import { ISendFeedbackComponentState } from './ISendFeedbackComponentState';
 
 // - Material UI
-import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
-import IconButton from '@material-ui/core/IconButton'
-import SvgHappy from '@material-ui/icons/TagFaces'
-import SvgSad from '@material-ui/icons/Face'
-import SvgClose from '@material-ui/icons/Clear'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Tooltip from '@material-ui/core/Tooltip'
-
-import { withStyles } from '@material-ui/core/styles'
-
 // - Import app components
 
 // - Import API
 
 // - Import actions
-import { globalActions } from 'store/actions'
-
-import { Feed } from 'core/domain/common'
-import { ISendFeedbackComponentProps } from './ISendFeedbackComponentProps'
-import { ISendFeedbackComponentState } from './ISendFeedbackComponentState'
-import { FeedType } from 'core/domain/common/feedType'
-import { ServerRequestModel } from 'models/server'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { User } from 'core/domain/users'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { userSelector } from 'store/reducers/users/userSelector'
-
 const styles = (theme: any) => ({
   fullPageXs: {
     [theme.breakpoints.down('xs')]: {
@@ -92,8 +84,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
   }
 
   mainForm = () => {
-    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequestType, t } = this.props
-    const { feedText } = this.state
+    const { t } = this.props
     return (
       <div className='main-box'>
         <TextField
@@ -170,8 +161,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
   }
 
   getFeedbackForm = () => {
-    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequestType } = this.props
-    const { feedText } = this.state
+    const { sendFeedbackRequestType } = this.props
 
     if (sendFeedbackRequestType) {
       switch (sendFeedbackRequestType) {
@@ -197,8 +187,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
    * 
    */
   render () {
-    const { sendFeedbackStatus, hideFeedback, sendFeed, sendFeedbackRequestType, classes } = this.props
-    const { feedText } = this.state
+    const { hideFeedback, classes } = this.props
 
     return (
       <div className={classNames('sendFeedback__content', 'animate__up',classes.fullPageXs)}>
@@ -223,7 +212,7 @@ export class SendFeedbackComponent extends Component<ISendFeedbackComponentProps
 /**
  * Map dispatch to props
  */
-const mapDispatchToProps = (dispatch: Function, ownProps: ISendFeedbackComponentProps) => {
+const mapDispatchToProps = (dispatch: Function) => {
   return {
     sendFeed: (feed: Feed) => (dispatch(globalActions.dbSendFeed(feed))),
     hideFeedback: () => dispatch(globalActions.hideSendFeedback())
@@ -233,9 +222,8 @@ const mapDispatchToProps = (dispatch: Function, ownProps: ISendFeedbackComponent
 /**
  * Map state to props
  */
-const mapStateToProps = (state: Map<string, any>, ownProps: ISendFeedbackComponentProps) => {
+const mapStateToProps = (state: Map<string, any>) => {
 
-  const request = state.getIn(['server', 'request'])
   const uid = state.getIn(['authorize', 'uid'])
   const requestId = StringAPI.createServerRequestId(ServerRequestType.CommonSendFeedback, uid)
   const currentUser: User =  { ...userSelector.getUserProfileById(state, {userId: uid}).toJS(), userId: uid } as User
@@ -251,6 +239,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISendFeedbackCompone
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(SendFeedbackComponent as any)
+const translateWrraper = withTranslation('translations')(SendFeedbackComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles as any, {withTheme: true})(translateWrraper as any)) as any)

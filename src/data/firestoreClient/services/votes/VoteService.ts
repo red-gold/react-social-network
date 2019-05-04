@@ -1,11 +1,9 @@
 // - Import react components
-import { firebaseAuth, db } from 'data/firestoreClient'
-
-import { SocialError } from 'core/domain/common'
-import { Vote } from 'core/domain/votes'
-import { IVoteService } from 'core/services/votes'
-import { injectable } from 'inversify'
-import { Post } from 'core/domain/posts/post'
+import { SocialError } from 'core/domain/common';
+import { Vote } from 'core/domain/votes';
+import { IVoteService } from 'core/services/votes';
+import { db } from 'data/firestoreClient';
+import { injectable } from 'inversify';
 
 /**
  * Firbase vote service

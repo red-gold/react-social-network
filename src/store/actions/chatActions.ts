@@ -1,10 +1,8 @@
-import {Map} from 'immutable'
+import { ChatActionType } from 'constants/chatActionType';
+import { Message } from 'core/domain/chat/message';
+import { Map } from 'immutable';
 
 // - Import action types
-import { ChatActionType } from 'constants/chatActionType'
-import { Message } from 'core/domain/chat/message'
-import { ChatRoom } from 'core/domain/chat/chatRoom'
-
 // - Import domain
 
 // - Import actions

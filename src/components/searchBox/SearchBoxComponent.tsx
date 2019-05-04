@@ -1,48 +1,28 @@
 // - Import react components
-import React, { Component } from 'react'
-import { push } from 'connected-react-router'
-import { NavLink } from 'react-router-dom'
-import { connect } from 'react-redux'
-import classNames from 'classnames'
-import { Map } from 'immutable'
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import { withStyles } from '@material-ui/core/styles';
+import GroupIcon from '@material-ui/icons/Group';
+import SearchIcon from '@material-ui/icons/Search';
+import StringAPI from 'api/StringAPI';
+import classNames from 'classnames';
+import { push } from 'connected-react-router';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 
-import config from 'src/config'
-import queryString from 'query-string'
-import { translate, Trans } from 'react-i18next'
+import { ISearchBoxProps } from './ISearchBoxProps';
+import { ISearchBoxState } from './ISearchBoxState';
+import { searchBoxStyles } from './searchBoxStyles';
 
 // - Material UI
-import Paper from '@material-ui/core/Paper'
-import Hidden from '@material-ui/core/Hidden'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import Grow from '@material-ui/core/Grow'
-import FormHelperText from '@material-ui/core/FormHelperText'
-import FormControl from '@material-ui/core/FormControl'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/core/styles'
-import SearchIcon from '@material-ui/icons/Search'
-import GroupIcon from '@material-ui/icons/Group'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 // - Import components
-import UserAvatarComponent from 'components/userAvatar'
-import Notify from 'components/notify'
-import RecentChatComponent from 'components/recentChat'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as authorizeActions from 'store/actions/authorizeActions'
-
-import { ISearchBoxProps } from './ISearchBoxProps'
-import { ISearchBoxState } from './ISearchBoxState'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { searchBoxStyles } from './searchBoxStyles'
-import StringAPI from 'api/StringAPI'
-
 // - Create HomeHeader component class
 export class SearchBoxComponent extends Component<ISearchBoxProps, ISearchBoxState> {
 
@@ -147,7 +127,7 @@ export class SearchBoxComponent extends Component<ISearchBoxProps, ISearchBoxSta
 
   // Render app DOM component
   render() {
-    const { classes, t, theme } = this.props
+    const { classes, t } = this.props
     const { searchText, listDisplayed } = this.state
 
     const searchList = (
@@ -224,6 +204,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISearchBoxProps) => 
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(SearchBoxComponent as any)
+const translateWrraper = withTranslation('translations')(SearchBoxComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(searchBoxStyles as any, { withTheme: true })(translateWrraper as any) as any)

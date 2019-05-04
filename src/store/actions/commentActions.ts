@@ -1,35 +1,19 @@
 // - Import react components
-import moment from 'moment/moment'
-import _ from 'lodash'
-import {Map} from 'immutable'
+import { CommentActionType } from 'constants/commentActionType';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import moment from 'moment/moment';
+import { Comment } from 'src/core/domain/comments';
+import { SocialError } from 'src/core/domain/common';
+import { ICommentService } from 'src/core/services/comments';
+import { SocialProviderTypes } from 'src/core/socialProviderTypes';
+import { provider } from 'src/socialEngine';
+import * as globalActions from 'store/actions/globalActions';
+import { userSelector } from 'store/reducers/users/userSelector';
 
 // - Import domain
-import { Comment } from 'src/core/domain/comments'
-import { Post } from 'src/core/domain/posts'
-import { SocialError } from 'src/core/domain/common'
-
 // - Import action types
-import { CommentActionType } from 'constants/commentActionType'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as notifyActions from 'store/actions/notifyActions'
-import * as postActions from 'store/actions/postActions'
-import * as serverActions from 'store/actions/serverActions'
-
-import { ICommentService } from 'src/core/services/comments'
-import { SocialProviderTypes } from 'src/core/socialProviderTypes'
-import { provider } from 'src/socialEngine'
-import StringAPI from 'src/api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { ServerRequestModel } from 'src/models/server'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import CommentAPI from 'src/api/CommentAPI'
-import { UserSettingType } from 'core/services/users/userSettingType'
-import { NotificationType } from 'core/domain/notifications/notificationType'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { User } from 'core/domain/users'
-
 /**
  * Get service providers
  */

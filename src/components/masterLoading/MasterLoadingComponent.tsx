@@ -1,18 +1,15 @@
 // - Import react components
-import React, { Component } from 'react'
-import { translate, Trans } from 'react-i18next'
+import { Typography, withStyles } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import red from '@material-ui/core/colors/red';
+import Grid from '@material-ui/core/Grid/Grid';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Dialog from '@material-ui/core/Dialog'
-import red from '@material-ui/core/colors/red'
-import { IMasterLoadingComponentProps } from './IMasterLoadingComponentProps'
-import { IMasterLoadingComponentState } from './IMasterLoadingComponentState'
-import Grid from '@material-ui/core/Grid/Grid'
-import { Typography, withStyles } from '@material-ui/core'
-import { connect } from 'react-redux'
-
-import config from 'src/config'
-import { masterLoadingStyles } from './masterLoadingStyles'
+import { IMasterLoadingComponentProps } from './IMasterLoadingComponentProps';
+import { IMasterLoadingComponentState } from './IMasterLoadingComponentState';
+import { masterLoadingStyles } from './masterLoadingStyles';
 
 // - Import app components
 
@@ -119,7 +116,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IMasterLoadingCompon
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(MasterLoadingComponent as any)
+const translateWrraper = withTranslation('translations')(MasterLoadingComponent as any)
 
 const stylesWrappedComponent = withStyles(masterLoadingStyles, {withTheme: true})(translateWrraper as any) as any
 export default connect(mapStateToProps, mapDispatchToProps)(stylesWrappedComponent)

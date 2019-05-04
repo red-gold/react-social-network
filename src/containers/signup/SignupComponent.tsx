@@ -1,38 +1,32 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import {Map} from 'immutable'
-import { push } from 'connected-react-router'
-import { NavLink, withRouter } from 'react-router-dom'
-import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
-import RaisedButton from '@material-ui/core/Button'
-import Button from '@material-ui/core/Button'
-import { withStyles } from '@material-ui/core/styles'
-import config from 'src/config'
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Divider from '@material-ui/core/Divider';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import { push } from 'connected-react-router';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { NavLink, withRouter } from 'react-router-dom';
+import StringAPI from 'src/api/StringAPI';
+import RecaptchaComponent from 'src/components/recaptcha';
+import { ServerRequestType } from 'src/constants/serverRequestType';
+import { UserRegisterModel } from 'src/models/users/userRegisterModel';
+import * as authorizeActions from 'src/store/actions/authorizeActions';
+import * as globalActions from 'src/store/actions/globalActions';
+import { ServerRequestStatusType } from 'src/store/actions/serverRequestStatusType';
 
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import { translate, Trans } from 'react-i18next'
+import { ISignupComponentProps } from './ISignupComponentProps';
+import { ISignupComponentState } from './ISignupComponentState';
+import { signupStyles } from './signupStyles';
 
 // - Components
 
 // - Import actions
-import * as authorizeActions from 'src/store/actions/authorizeActions'
-import * as globalActions from 'src/store/actions/globalActions'
-
 // - Import app API
-import StringAPI from 'src/api/StringAPI'
-
-import { ISignupComponentProps } from './ISignupComponentProps'
-import { ISignupComponentState } from './ISignupComponentState'
-import { UserRegisterModel } from 'src/models/users/userRegisterModel'
-import CircularProgress from '@material-ui/core/CircularProgress'
-import { ServerRequestStatusType } from 'src/store/actions/serverRequestStatusType'
-import { ServerRequestType } from 'src/constants/serverRequestType'
-import { signupStyles } from './signupStyles'
-import RecaptchaComponent from 'src/components/recaptcha';
-
 // - Create Signup component class
 export class SignupComponent extends Component<ISignupComponentProps, ISignupComponentState> {
 
@@ -314,6 +308,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISignupComponentProp
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(SignupComponent as any)
+const translateWrraper = withTranslation('translations')(SignupComponent as any)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(signupStyles as any)(translateWrraper as any) as any) as any)

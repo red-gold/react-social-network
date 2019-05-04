@@ -1,49 +1,21 @@
 // - Import react components
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
-import classNames from 'classnames'
-import PropTypes from 'prop-types'
-import { translate, Trans } from 'react-i18next'
+import { grey } from '@material-ui/core/colors';
+import withStyles from '@material-ui/core/styles/withStyles';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { withRouter } from 'react-router-dom';
+import PostStreamComponent from 'src/containers/postStream';
+
+import { connectStream } from './connectStream';
+import { IStreamComponentProps } from './IStreamComponentProps';
+import { IStreamComponentState } from './IStreamComponentState';
+import { streamStyles } from './streamStyles';
 
 // - Material-UI
-import Button from '@material-ui/core/Button'
-import withStyles from '@material-ui/core/styles/withStyles'
-import { grey, teal } from '@material-ui/core/colors'
-import SvgCamera from '@material-ui/icons/PhotoCamera'
-import Paper from '@material-ui/core/Paper'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-
-import { Map, List as ImuList } from 'immutable'
-
 // - Import app components
-import PostComponent from 'src/components/post'
-import PostWriteComponent from 'src/components/postWrite'
-import UserAvatarComponent from 'src/components/userAvatar'
-import PostStreamComponent from 'src/containers/postStream'
-import LoadMoreProgressComponent from 'src/layouts/loadMoreProgress'
-
 // - Import API
-import * as PostAPI from 'src/api/PostAPI'
-
 // - Import actions
-import * as globalActions from 'src/store/actions/globalActions'
-
-import { IStreamComponentProps } from './IStreamComponentProps'
-import { IStreamComponentState } from './IStreamComponentState'
-import { Post } from 'src/core/domain/posts'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import StringAPI from 'api/StringAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import { streamStyles } from './streamStyles'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { connectStream } from './connectStream'
-
 // - Create StreamComponent component class
 export class StreamComponent extends Component<IStreamComponentProps, IStreamComponentState> {
 
@@ -92,7 +64,7 @@ export class StreamComponent extends Component<IStreamComponentProps, IStreamCom
   /**
    * Load posts
    */
-  loadPosts(entryPage: number) {
+  loadPosts() {
     const {loadStream, page, increasePage} = this.props
     if (loadStream && page !== undefined && increasePage) {
       loadStream!(page)
@@ -105,7 +77,7 @@ export class StreamComponent extends Component<IStreamComponentProps, IStreamCom
    */
   render() {
 
-    const { hasMorePosts, t, classes, posts, loadStream , requestId, currentUser} = this.props
+    const { hasMorePosts, posts, requestId, currentUser} = this.props
 
     return (
       <div className='stream-root'>
@@ -116,6 +88,6 @@ export class StreamComponent extends Component<IStreamComponentProps, IStreamCom
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(StreamComponent as any)
+const translateWrraper = withTranslation('translations')(StreamComponent as any)
 
 export default withRouter<any>(connectStream(withStyles(streamStyles)(translateWrraper as any) as any))

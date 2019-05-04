@@ -1,44 +1,31 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Typography from '@material-ui/core/Typography';
+import InfoIcon from '@material-ui/icons/Announcement';
+import StringAPI from 'api/StringAPI';
+import { Map } from 'immutable';
+import FacebookPage from 'layouts/facebookPage';
+import InstagramIcon from 'layouts/instagramIcon';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import InstagramLogin from 'react-instagram-login';
+import { connect } from 'react-redux';
+import { Timeline } from 'react-twitter-widgets';
+import config from 'src/config';
+import * as globalActions from 'src/store/actions/globalActions';
+import { authorizeSelector } from 'store/reducers/authorize';
+import { postSelector } from 'store/reducers/posts';
 
-import { Map } from 'immutable'
-import config from 'src/config'
-import { Timeline } from 'react-twitter-widgets'
-import InstagramLogin from 'react-instagram-login'
-import { translate, Trans } from 'react-i18next'
+import PostStreamComponent from '../postStream';
+import { externalSocialStyles } from './externalSocialStyles';
+import { IExternalSocialProps } from './IExternalSocialProps';
+import { IExternalSocialState } from './IExternalSocialState';
 
 // - Material-UI
-import withStyles from '@material-ui/core/styles/withStyles'
-import Dialog from '@material-ui/core/Dialog'
-import Button from '@material-ui/core/Button'
-import InfoIcon from '@material-ui/icons/Announcement'
-import RaisedButton from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import {
-  CSSTransition,
-  TransitionGroup,
-} from 'react-transition-group'
-
 // - Import app components
-import StreamComponent from 'containers/stream'
-import UserActivity from 'components/userActivity'
-import FacebookPage from 'layouts/facebookPage'
-import InstagramIcon from 'layouts/instagramIcon'
-
 // - Import actions
-import * as globalActions from 'src/store/actions/globalActions'
-import { IExternalSocialProps } from './IExternalSocialProps'
-import { IExternalSocialState } from './IExternalSocialState'
-import { externalSocialStyles } from './externalSocialStyles'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { authorizeSelector } from 'store/reducers/authorize'
-import StringAPI from 'api/StringAPI'
-import { postSelector } from 'store/reducers/posts'
-import PostStreamComponent from '../postStream'
-
 /**
  * Create component class
  */
@@ -197,7 +184,7 @@ export class ExternalSocialComponent extends Component<IExternalSocialProps, IEx
    */
   render() {
 
-    const { t, classes, social, currentUser, instagramPosts } = this.props
+    const {classes } = this.props
     return (
       <div className={classes.root}>
 
@@ -232,6 +219,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IExternalSocialProps
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ExternalSocialComponent as any)
+const translateWrraper = withTranslation('translations')(ExternalSocialComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(externalSocialStyles as any)(translateWrraper as any))

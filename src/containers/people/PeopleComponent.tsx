@@ -1,32 +1,27 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import PropTypes from 'prop-types'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import { grey, cyan } from '@material-ui/core/colors'
-import { push } from 'connected-react-router'
-import AppBar from '@material-ui/core/AppBar'
-import Typography from '@material-ui/core/Typography'
+import AppBar from '@material-ui/core/AppBar';
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Typography from '@material-ui/core/Typography';
+import { push } from 'connected-react-router';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import FindPeople from 'src/components/findPeople';
+import Followers from 'src/components/followers';
+import Following from 'src/components/following';
+import YourCircles from 'src/components/yourCircles';
+import * as globalActions from 'src/store/actions/globalActions';
 
-import {Map} from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { IPeopleComponentProps } from './IPeopleComponentProps';
+import { IPeopleComponentState } from './IPeopleComponentState';
 
 // - Import app components
-import FindPeople from 'src/components/findPeople'
-import Following from 'src/components/following'
-import Followers from 'src/components/followers'
-import YourCircles from 'src/components/yourCircles'
-
 // - Import API
 
 // - Import actions
-import * as circleActions from 'src/store/actions/circleActions'
-import * as globalActions from 'src/store/actions/globalActions'
-import { IPeopleComponentProps } from './IPeopleComponentProps'
-import { IPeopleComponentState } from './IPeopleComponentState'
-
 const TabContainer = (props: any) => {
   return (
     <Typography component='div' style={{ padding: 8 * 3 }}>
@@ -64,7 +59,7 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
    * Hadle on tab change
    */
   handleChangeTab = (event: any, value: any) => {
-    const {circlesLoaded, goTo, setHeaderTitle, t} = this.props
+    const { goTo, setHeaderTitle, t} = this.props
     this.setState({ tabIndex: value })
     switch (value) {
       case 0:
@@ -128,7 +123,7 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
       }
     }
 
-    const {circlesLoaded, goTo, setHeaderTitle, t} = this.props
+    const {circlesLoaded, t} = this.props
     const {tabIndex} = this.state
     return (
       <div style={styles.people}>
@@ -157,7 +152,6 @@ export class PeopleComponent extends Component<IPeopleComponentProps,IPeopleComp
    * Get tab index by navigation name
    */
   private getTabIndexByNav: (navName: string) => number = (navName: string) => {
-    let tabIndex = 0
     switch (navName) {
       case 'circles':
         return 1
@@ -195,6 +189,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IPeopleComponentProp
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(PeopleComponent as any)
+const translateWrraper = withTranslation('translations')(PeopleComponent as any)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(translateWrraper as any) as any)

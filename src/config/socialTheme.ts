@@ -1,11 +1,6 @@
-import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme'
-import purple from '@material-ui/core/colors/purple'
-import lightGreen from '@material-ui/core/colors/lightGreen'
-import pink from '@material-ui/core/colors/pink'
-import deepPurple from '@material-ui/core/colors/deepPurple'
-import amber from '@material-ui/core/colors/amber'
-import deepOrange from '@material-ui/core/colors/deepOrange'
-import orange from '@material-ui/core/colors/orange'
+import deepOrange from '@material-ui/core/colors/deepOrange';
+import orange from '@material-ui/core/colors/orange';
+import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 
 export const socialTheme: ThemeOptions = {
 	typography: {

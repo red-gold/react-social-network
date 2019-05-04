@@ -1,35 +1,25 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import config from 'src/config'
-import {Map} from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import Button from '@material-ui/core/Button';
+import EditProfile from 'components/editProfile';
+import ImgCover from 'components/imgCover';
+import UserAvatar from 'components/userAvatar';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import EventListener from 'react-event-listener';
+import { withTranslation } from 'react-i18next';
+import { Background, Parallax } from 'react-parallax';
+import { connect } from 'react-redux';
+import config from 'src/config';
+import * as userActions from 'store/actions/userActions';
+
+import { IProfileHeaderComponentProps } from './IProfileHeaderComponentProps';
+import { IProfileHeaderComponentState } from './IProfileHeaderComponentState';
 
 // - Material UI
-import { grey } from '@material-ui/core/colors'
-import IconButton from '@material-ui/core/IconButton'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import MenuList from '@material-ui/core/MenuList'
-import MenuItem from '@material-ui/core/MenuItem'
-import Menu from '@material-ui/core/Menu'
-import Button from '@material-ui/core/Button'
-import RaisedButton from '@material-ui/core/Button'
-import EventListener, { withOptions } from 'react-event-listener'
-import { Parallax, Background } from 'react-parallax'
-
 // - Import app components
-import ImgCover from 'components/imgCover'
-import EditProfile from 'components/editProfile'
-import UserAvatar from 'components/userAvatar'
-
 // - Import API
 
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as userActions from 'store/actions/userActions'
-import { IProfileHeaderComponentProps } from './IProfileHeaderComponentProps'
-import { IProfileHeaderComponentState } from './IProfileHeaderComponentState'
-
 /**
  * Create component class
  */
@@ -123,20 +113,6 @@ export class ProfileHeaderComponent extends Component<IProfileHeaderComponentPro
       }
     }
 
-    const iconButtonElement = (
-            <IconButton style={this.state.isSmall ? styles.iconButtonSmall : styles.iconButton}>
-                <MoreVertIcon style={{...(this.state.isSmall ? styles.iconButtonSmall : styles.iconButton), color: grey[400]}} viewBox='10 0 24 24' />
-            </IconButton>
-        )
-
-    const RightIconMenu = () => (
-      <div>
-           {iconButtonElement}
-                <MenuItem style={{ fontSize: '14px' }}>Reply</MenuItem>
-                <MenuItem style={{ fontSize: '14px' }}>Edit</MenuItem>
-                <MenuItem style={{ fontSize: '14px' }}>Delete</MenuItem>
-      </div>
-        )
 
     return (
 
@@ -207,6 +183,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IProfileHeaderCompon
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ProfileHeaderComponent as any)
+const translateWrraper = withTranslation('translations')(ProfileHeaderComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(translateWrraper as any)

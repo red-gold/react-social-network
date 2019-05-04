@@ -1,13 +1,11 @@
 // - Import react components
-import _ from 'lodash'
-import { Map } from 'immutable'
+import { ChatActionType } from 'constants/chatActionType';
+import { Map } from 'immutable';
+
+import { IChatAction } from './IChatAction';
 
 // - Import action types
-import { ChatActionType } from 'constants/chatActionType'
-
 // Import domain
-
-import { IChatAction } from './IChatAction'
 
 const setCurrentChat = (state: any, payload: any) => {
   const {  chatRoom } = payload
@@ -20,7 +18,6 @@ const setCurrentChat = (state: any, payload: any) => {
  */
 export let chatReducer = (state = Map({chatOpen: false, recentChatOpen: false }), action: IChatAction) => {
   let { payload } = action
-  const request = (payload ? payload.request : {})
   switch (action.type) {
 
     case ChatActionType.ADD_CHAT_ROOM_MESSAGES:

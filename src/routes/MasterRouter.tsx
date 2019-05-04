@@ -1,20 +1,19 @@
 // - Import react components
-import PublicRoute from './PublicRoute'
-import PrivateRoute from './PrivateRoute'
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
-import Loadable from 'react-loadable'
+import MasterLoadingComponent from 'components/masterLoading/MasterLoadingComponent';
+import React, { Component } from 'react';
+import Loadable from 'react-loadable';
+import { connect } from 'react-redux';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import { RouteType } from 'routes/routeType';
 
-import { IRouterProps } from './IRouterProps'
-import MasterLoadingComponent from 'components/masterLoading/MasterLoadingComponent'
-import { RouteType } from 'routes/routeType'
+import { IRouterProps } from './IRouterProps';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 
 // - Async Components
 const AsyncHome: any = Loadable({
   loader: () => import('containers/home'),
-  loading: MasterLoadingComponent,
+  loading: MasterLoadingComponent
 })
 const AsyncSignup = Loadable({
   loader: () => import('containers/signupWrapper'),
@@ -100,7 +99,6 @@ const routes = [
  */
 export class MasterRouter extends Component<IRouterProps, any> {
   render() {
-    const { match } = this.props
     return (
       <Switch>
         {routes.map((route: RouteType, index) => {

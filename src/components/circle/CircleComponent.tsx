@@ -1,45 +1,41 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { push } from 'connected-react-router'
-import { Map, List as ImuList } from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import Popover from '@material-ui/core/Popover';
+import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import SvgClose from '@material-ui/icons/Close';
+import SvgGroup from '@material-ui/icons/GroupWork';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import UserAvatar from 'components/userAvatar';
+import { push } from 'connected-react-router';
+import { Circle } from 'core/domain/circles';
+import { List as ImuList, Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import * as circleActions from 'store/actions/circleActions';
+
+import { ICircleComponentProps } from './ICircleComponentProps';
+import { ICircleComponentState } from './ICircleComponentState';
 
 // - Material UI
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import SvgGroup from '@material-ui/icons/GroupWork'
-import IconButton from '@material-ui/core/IconButton'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-import TextField from '@material-ui/core/TextField'
-import MenuList from '@material-ui/core/MenuList'
-import MenuItem from '@material-ui/core/MenuItem'
-import Popover from '@material-ui/core/Popover'
-import { withStyles } from '@material-ui/core/styles'
-
-import Dialog from '@material-ui/core/Dialog'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import Divider from '@material-ui/core/Divider'
-import Button from '@material-ui/core/Button'
-import SvgClose from '@material-ui/icons/Close'
-import Collapse from '@material-ui/core/Collapse'
-
 // - Import app components
-import UserAvatar from 'components/userAvatar'
-
 // - Import API
 
 // - Import actions
-import * as circleActions from 'store/actions/circleActions'
-
-import { ICircleComponentProps } from './ICircleComponentProps'
-import { ICircleComponentState } from './ICircleComponentState'
-import { Circle, UserTie } from 'core/domain/circles'
-
 const styles = (theme: any) => ({
   root: {
     width: '100%',
@@ -341,7 +337,6 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
  * Map dispatch to props
  */
 const mapDispatchToProps = (dispatch: any, ownProps: ICircleComponentProps) => {
-  let { uid } = ownProps
   return {
     deleteCircle: (id: string) => dispatch(circleActions.dbDeleteCircle(id)),
     updateCircle: (circle: Circle) => dispatch(circleActions.dbUpdateCircle(circle)),
@@ -357,9 +352,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICircleComponentProps) => {
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: ICircleComponentProps) => {
   const userTies: Map<string, any> = state.getIn(['circle', 'userTies'])
-  const uid = state.getIn(['authorize', 'uid'])
-  const circles: Map<string, Map<string, any>> = state.getIn(['circle', 'circleList'], {})
-  const currentCircle: Map<string, any> = circles.get(ownProps.id, Map({}))
   const circleId = ownProps.circle.get('id')
   let usersOfCircle: Map<string, any> = Map({})
   userTies.forEach((userTie, userTieId) => {
@@ -378,6 +370,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ICircleComponentProp
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(CircleComponent as any)
+const translateWrraper = withTranslation('translations')(CircleComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)

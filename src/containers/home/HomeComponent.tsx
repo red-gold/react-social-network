@@ -1,45 +1,39 @@
 // - Import react components
-import { HomeRouter } from 'routes'
-import { Map } from 'immutable'
-import React, { Component } from 'react'
-import _ from 'lodash'
-import { Route, Switch, withRouter, Redirect, NavLink } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { push } from 'connected-react-router'
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import ChatComponent from 'components/chat';
+import { push } from 'connected-react-router';
+import { VerificationType } from 'core/domain/authorize/verificationType';
+import { Map } from 'immutable';
+import jwtDecode from 'jwt-decode';
+import React, { Component } from 'react';
+import CookieConsent from 'react-cookie-consent';
+import { withTranslation } from 'react-i18next';
+import IdleTimer from 'react-idle-timer';
+import { connect } from 'react-redux';
+import { NavLink, withRouter } from 'react-router-dom';
+import { HomeRouter } from 'routes';
+import HomeHeader from 'src/components/homeHeader';
+import config from 'src/config';
+import * as chatActions from 'store/actions/chatActions';
+import * as globalActions from 'store/actions/globalActions';
 
-import config from 'src/config'
-import jwtDecode from 'jwt-decode'
-import classNames from 'classnames'
-import IdleTimer from 'react-idle-timer'
-import CookieConsent, { Cookies } from 'react-cookie-consent'
-import { translate, Trans } from 'react-i18next'
-
-import { withStyles } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
-import MenuList from '@material-ui/core/MenuList'
-import MenuItem from '@material-ui/core/MenuItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import Divider from '@material-ui/core/Divider'
-import Hidden from '@material-ui/core/Hidden'
+import { homeStyles } from './homeStyles';
+import { IHomeComponentProps } from './IHomeComponentProps';
+import { IHomeComponentState } from './IHomeComponentState';
+import { menuItems } from './menuItems';
 
 // - Import app components
-import HomeHeader from 'src/components/homeHeader'
-
 // - Import API
 
 // - Import Actions
-import * as chatActions from 'store/actions/chatActions'
-import * as postActions from 'store/actions/postActions'
-import * as globalActions from 'store/actions/globalActions'
-
-import { IHomeComponentProps } from './IHomeComponentProps'
-import { IHomeComponentState } from './IHomeComponentState'
-import { VerificationType } from 'core/domain/authorize/verificationType'
-import { homeStyles } from './homeStyles'
-import ChatComponent from 'components/chat'
-import { menuItems } from './menuItems'
-
 // - Create Home component class
 export class HomeComponent extends Component<IHomeComponentProps, IHomeComponentState> {
 
@@ -73,7 +67,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
   }
 
   componentDidMount() {
-    const { global, clearData, loadData, authed, defaultDataEnable, goTo } = this.props
+    const { global, loadData, authed, goTo } = this.props
     let isVerified = false
     const token = localStorage.getItem('red-gold.scure.token')
     if (token) {
@@ -86,7 +80,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
       return
     }
       if (config.settings.verificationType === VerificationType.Email && !isVerified) {
-        goTo!('/emailVerification')
+        // goTo!('/emailVerification')
 
       } else if (config.settings.verificationType === VerificationType.Phone && !isVerified) {
         goTo!('/smsVerification')
@@ -121,7 +115,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
    */
   render() {
     const HR = HomeRouter
-    const { loaded, authed, loadDataStream, mergedPosts, hasMorePosts, showSendFeedback, t, classes, theme, isChatOpen } = this.props
+    const { loaded, authed, showSendFeedback, t, classes, theme, isChatOpen } = this.props
     const { drawerOpen } = this.state
 
     const drawer = (
@@ -146,7 +140,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
                   <ListItemText inset primary={item.label} />
                 </MenuItem>
               )
-            } else if (item.divider) {
+            } else {
               return <Divider key={`home-menu-divider${index}`} />
             }
 
@@ -264,7 +258,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IHomeComponentProps)
   const isChatOpen = state.getIn(['chat', 'chatOpen'])
   const uid = state.getIn(['authorize', 'uid'], {})
   const global = state.get('global', {})
-  const circles = state.getIn(['circle', 'circleList'], {})
 
   return {
     isChatOpen,
@@ -277,6 +270,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IHomeComponentProps)
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(HomeComponent as any)
+const translateWrraper = withTranslation('translations')(HomeComponent as any)
 
 export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyles as any, { withTheme: true })(translateWrraper as any) as any))

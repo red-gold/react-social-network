@@ -1,44 +1,21 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
+import { Typography } from '@material-ui/core';
+import withStyles from '@material-ui/core/styles/withStyles';
+import classNames from 'classnames';
+import queryString from 'query-string';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { withRouter } from 'react-router';
 
-import { Map } from 'immutable'
-import config from 'src/config'
-import queryString from 'query-string'
-import { translate, Trans } from 'react-i18next'
+import PostStreamComponent from '../postStream';
+import SearchComponent from '../search';
+import { connectSearchPost } from './connectSearchPost';
+import { ISearchPostProps } from './ISearchPostProps';
+import { ISearchPostState } from './ISearchPostState';
+import { searchPostStyles } from './searchPostStyles';
 
 // - Material-UI
-import withStyles from '@material-ui/core/styles/withStyles'
-import Dialog from '@material-ui/core/Dialog'
-import Button from '@material-ui/core/Button'
-import RaisedButton from '@material-ui/core/Button'
-
-// - Import app components
-import StreamComponent from 'containers/stream'
-import UserActivity from 'components/userActivity'
-import ImgCover from 'components/imgCover'
-
 // - Import actions
-import * as postActions from 'src/store/actions/postActions'
-import * as userActions from 'src/store/actions/userActions'
-import * as globalActions from 'src/store/actions/globalActions'
-import { ISearchPostProps } from './ISearchPostProps'
-import { ISearchPostState } from './ISearchPostState'
-import { User } from 'core/domain/users'
-import { searchPostStyles } from './searchPostStyles'
-import { userSelector } from 'store/reducers/users/userSelector'
-import PostStreamComponent from '../postStream'
-import { PostAPI } from 'api/PostAPI'
-import { ServerRequestType } from 'constants/serverRequestType'
-import StringAPI from 'api/StringAPI'
-import { postSelector } from 'store/reducers/posts'
-import SearchComponent from '../search'
-import { connectSearchPost } from './connectSearchPost'
-import { withRouter } from 'react-router'
-import classNames from 'classnames'
-import { Typography } from '@material-ui/core'
-
 /**
  * Create component class
  */
@@ -69,7 +46,7 @@ export class SearchPostComponent extends Component<ISearchPostProps, ISearchPost
 
   }
 
-  searchQuery(page: number) {
+  searchQuery() {
    const {location } = this.props
    this.executeSearch(location)
   }
@@ -82,14 +59,14 @@ export class SearchPostComponent extends Component<ISearchPostProps, ISearchPost
   }
 
   searchParam = () => {
-    const params: {q: string} = queryString.parse(location.search) as any
+    const params: {q: string} = queryString.parse(window.location.search) as any
     return params.q
   }
 
   componentDidMount() {
     const {history} = this.props
     const scope = this
-    this.unlisten = history.listen((location: any, action: any) => {
+    this.unlisten = history.listen((location: any) => {
       scope.currentPage = 0
       this.executeSearch(location)
     })
@@ -105,7 +82,7 @@ export class SearchPostComponent extends Component<ISearchPostProps, ISearchPost
    */
   render() {
 
-    const { t, classes, posts, hasMorePosts, requestId, search} = this.props
+    const { t, classes, posts, hasMorePosts, requestId} = this.props
 
     return (
 
@@ -129,6 +106,6 @@ export class SearchPostComponent extends Component<ISearchPostProps, ISearchPost
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(SearchPostComponent as any)
+const translateWrraper = withTranslation('translations')(SearchPostComponent as any)
 
 export default withRouter<any>(connectSearchPost(withStyles(searchPostStyles as any)(translateWrraper as any) as any))

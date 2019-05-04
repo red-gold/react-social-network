@@ -1,6 +1,4 @@
-import { User } from 'core/domain/users'
-import { Graph } from 'core/domain/graphs'
-import firebase from 'firebase'
+import { Graph } from 'core/domain/graphs';
 
 /**
  * Graph service interface

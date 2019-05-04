@@ -1,17 +1,14 @@
 // - Import react components
+import { UserTie } from 'core/domain/circles';
+import { SocialError } from 'core/domain/common';
+import { Graph } from 'core/domain/graphs';
+import { IUserTieService } from 'core/services/circles';
+import { List, Map } from 'immutable';
+import { inject, injectable } from 'inversify';
 
-import firebase, { firebaseAuth, db } from 'data/firestoreClient'
-import moment from 'moment/moment'
-import { Map, List } from 'immutable'
+import { FirestoreClientTypes } from '../../firestoreClientTypes';
+import { IGraphService } from '../graphs/IGraphService';
 
-import { SocialError } from 'core/domain/common'
-import { UserProvider, User } from 'core/domain/users'
-import { IUserTieService } from 'core/services/circles'
-import { inject, injectable } from 'inversify'
-import { FirestoreClientTypes } from '../../firestoreClientTypes'
-import { IGraphService } from '../graphs/IGraphService'
-import { Graph } from 'core/domain/graphs'
-import { UserTie } from 'core/domain/circles'
 
 /**
  * Firbase user service
@@ -116,7 +113,6 @@ export class UserTieService implements IUserTieService {
 
       let parsedData: Map<string, any> = Map({})
       result.forEach((node) => {
-        const leftUserInfo: UserTie = node.LeftMetadata
         const rightUserInfo: UserTie = node.rightMetadata
         const metadata: { creationDate: number, circleIds: string[] } = node.graphMetadata
         parsedData.set(rightUserInfo.userId!,
@@ -150,8 +146,6 @@ export class UserTieService implements IUserTieService {
 
       result.forEach((node) => {
         const leftUserInfo: UserTie = node.LeftMetadata
-        const rightUserInfo: UserTie = node.rightMetadata
-        const metada: { creationDate: number, circleIds: string[] } = node.graphMetadata
         parsedData.set(leftUserInfo.userId!,
           Map({
             ...leftUserInfo,

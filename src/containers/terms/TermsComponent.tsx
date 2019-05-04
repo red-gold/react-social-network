@@ -1,54 +1,42 @@
 // - Import external components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { NavLink, withRouter } from 'react-router-dom'
-import { push } from 'connected-react-router'
-import config from 'src/config'
+import AppBar from '@material-ui/core/AppBar';
+import Divider from '@material-ui/core/Divider';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import TermsIcon from '@material-ui/icons/Assignment';
+import SendIcon from '@material-ui/icons/Autorenew';
+import CookieIcon from '@material-ui/icons/Fingerprint';
+import PrivacyIcon from '@material-ui/icons/Https';
+import MenuIcon from '@material-ui/icons/Menu';
+import { push } from 'connected-react-router';
+import { Map } from 'immutable';
+import { localeDocs } from 'locales/localeDocs';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import ReactMarkdown from 'react-markdown';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import config from 'src/config';
+import { OAuthType } from 'src/core/domain/authorize';
+import * as authorizeActions from 'src/store/actions/authorizeActions';
 
-import ReactMarkdown from 'react-markdown'
-import {Map} from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { ITermsProps } from './ITermsProps';
+import { ITermsState } from './ITermsState';
+import { termsStyles } from './termsStyles';
+import { TermsType } from './termsType';
 
 // - Material-UI
-import classNames from 'classnames'
-import { withStyles } from '@material-ui/core/styles'
-import Drawer from '@material-ui/core/Drawer'
-import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import List from '@material-ui/core/List'
-import MenuItem from '@material-ui/core/MenuItem'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
-import Divider from '@material-ui/core/Divider'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import DraftsIcon from '@material-ui/icons/Drafts'
-import StarIcon from '@material-ui/icons/Star'
-import SendIcon from '@material-ui/icons/Autorenew'
-import CookieIcon from '@material-ui/icons/Fingerprint'
-import PrivacyIcon from '@material-ui/icons/Https'
-import TermsIcon from '@material-ui/icons/Assignment'
-import IconButton from '@material-ui/core/IconButton'
-import Hidden from '@material-ui/core/Hidden'
-import MenuIcon from '@material-ui/icons/Menu'
-
 // - Components
-import Footer from 'layouts/footer'
-
 // - Import actions
-import * as authorizeActions from 'src/store/actions/authorizeActions'
-import { ITermsProps } from './ITermsProps'
-import { ITermsState } from './ITermsState'
-import { OAuthType } from 'src/core/domain/authorize'
-import Grid from '@material-ui/core/Grid/Grid'
-import CommonAPI from 'api/CommonAPI'
-import Paper from '@material-ui/core/Paper'
-import { localeDocs } from 'locales/localeDocs'
-import { TermsType } from './termsType'
-import { termsStyles } from './termsStyles'
-
 // - Create Login component class
 export class TermsComponent extends Component<ITermsProps, ITermsState> {
 
@@ -211,6 +199,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ITermsProps) => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(TermsComponent as any)
+const translateWrraper = withTranslation('translations')(TermsComponent as any)
 
 export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(termsStyles as any, {withTheme: true})(translateWrraper as any) as any))

@@ -1,32 +1,25 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { push } from 'connected-react-router'
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import FollowDialogComponent from 'components/followDialog';
+import UserAvatar from 'components/userAvatar';
+import { push } from 'connected-react-router';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { userSelector } from 'store/reducers/users/userSelector';
 
-import classNames from 'classnames'
-import { Map, List as ImuList } from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { IUserBoxComponentProps } from './IUserBoxComponentProps';
+import { IUserBoxComponentState } from './IUserBoxComponentState';
 
 // - Material UI
-import Paper from '@material-ui/core/Paper'
-import { withStyles } from '@material-ui/core/styles'
-
 // - Import app components
-import UserAvatar from 'components/userAvatar'
-
 // - Import API
-import StringAPI from 'api/StringAPI'
-
 // - Import actions
-import * as circleActions from 'store/actions/circleActions'
-
-import { IUserBoxComponentProps } from './IUserBoxComponentProps'
-import { IUserBoxComponentState } from './IUserBoxComponentState'
-import { User } from 'core/domain/users'
-import { userSelector } from 'store/reducers/users/userSelector'
-import FollowDialogComponent from 'components/followDialog'
-
 const styles = (theme: any) => ({
   root: {
     width: '100%',
@@ -100,7 +93,6 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
    */
   constructor(props: IUserBoxComponentProps) {
     super(props)
-    const { userId } = this.props
     // Defaul state
     this.state = {
       /**
@@ -132,7 +124,6 @@ export class UserBoxComponent extends Component<IUserBoxComponentProps, IUserBox
     const {
       userId,
       classes,
-      t,
       user
     } = this.props
 
@@ -184,8 +175,6 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IUserBoxComponentProps
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: IUserBoxComponentProps) => {
 
-  const uid = state.getIn(['authorize', 'uid'])
-  const request = state.getIn(['server', 'request'])
 
   const userBox = userSelector.getUserProfileById(state, { userId: ownProps.userId }).toJS() as User
   return {
@@ -196,6 +185,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IUserBoxComponentPro
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(UserBoxComponent as any)
+const translateWrraper = withTranslation('translations')(UserBoxComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any))

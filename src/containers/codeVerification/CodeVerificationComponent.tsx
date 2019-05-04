@@ -10,7 +10,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
-import { translate, Trans } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 // - Components
 
@@ -80,7 +80,7 @@ export class CodeVerificationComponent extends Component<ICodeVerificationProps,
    */
   handleForm = () => {
     const { code } = this.state
-    const { verifyRegister, t } = this.props
+    const { verifyRegister } = this.props
     verifyRegister!(code)
   }
 
@@ -168,6 +168,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ICodeVerificationPro
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(CodeVerificationComponent as any)
+const translateWrraper = withTranslation('translations')(CodeVerificationComponent as any)
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(codeVerificationStyles as any)(translateWrraper as any) as any) as any)

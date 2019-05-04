@@ -1,48 +1,42 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import 'cropperjs/dist/cropper.css';
 
-import CircularProgress from '@material-ui/core/CircularProgress'
-import Cropper from 'react-cropper'
-import 'cropperjs/dist/cropper.css'
-import uuid from 'uuid'
-import { Map } from 'immutable'
-import config from 'src/config'
-import { translate, Trans } from 'react-i18next'
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { grey } from '@material-ui/core/colors';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import SvgRotateLeft from '@material-ui/icons/RotateLeft';
+import SvgRotateRight from '@material-ui/icons/RotateRight';
+import { SocialError } from 'core/domain/common';
+import { IImageGalleryService } from 'core/services';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { Map } from 'immutable';
+import { FileResult } from 'models/files';
+import React, { Component } from 'react';
+import Cropper from 'react-cropper';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { provider } from 'socialEngine';
+import config from 'src/config';
+import * as globalActions from 'store/actions/globalActions';
+import * as imageGalleryActions from 'store/actions/imageGalleryActions';
+import { authorizeSelector } from 'store/reducers/authorize';
+import uuid from 'uuid';
+
+import { IImageEditorComponentProps } from './IImageEditorComponentProps';
+import { IImageEditorComponentState } from './IImageEditorComponentState';
 
 // - Material UI
-import SvgRotateLeft from '@material-ui/icons/RotateLeft'
-import SvgRotateRight from '@material-ui/icons/RotateRight'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import { grey } from '@material-ui/core/colors'
-import TextField from '@material-ui/core/TextField'
-import { withStyles } from '@material-ui/core/styles'
-import IconButton from '@material-ui/core/IconButton'
-import Dialog from '@material-ui/core/Dialog'
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContentText from '@material-ui/core/DialogContentText'
-
 // - Import app components
 
 // - Import API
-import FileAPI from 'api/FileAPI'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as imageGalleryActions from 'store/actions/imageGalleryActions'
-
-import { IImageEditorComponentProps } from './IImageEditorComponentProps'
-import { IImageEditorComponentState } from './IImageEditorComponentState'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { IImageGalleryService } from 'core/services'
-import { provider } from 'socialEngine'
-import { FileResult } from 'models/files'
-import { SocialError } from 'core/domain/common'
-import { authorizeSelector } from 'store/reducers/authorize'
-
 const styles = (theme: any) => ({
   dialogTitle: {
     display: 'flex'
@@ -240,6 +234,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IImageEditorComponen
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ImageEditorComponent as any)
+const translateWrraper = withTranslation('translations')(ImageEditorComponent as any)
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any, {withTheme: true})(translateWrraper as any) as any)

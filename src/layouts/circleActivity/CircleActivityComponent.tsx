@@ -1,16 +1,14 @@
 // - Import react components
-import React, { Component } from 'react'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import React, { Component } from 'react';
+
+import { circleActivityStyles } from './circleActivityStyles';
+import { ICircleActivityComponentProps } from './ICircleActivityComponentProps';
+import { ICircleActivityComponentState } from './ICircleActivityComponentState';
 
 // - Material-UI
-import { withStyles } from '@material-ui/core/styles'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import Typography from '@material-ui/core/Typography'
-import {circleActivityStyles} from './circleActivityStyles'
-import CircularProgress from '@material-ui/core/CircularProgress'
-
-import { ICircleActivityComponentProps } from './ICircleActivityComponentProps'
-import { ICircleActivityComponentState } from './ICircleActivityComponentState'
-
 /**
  * Create component class
  */

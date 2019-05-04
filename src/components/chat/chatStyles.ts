@@ -1,4 +1,3 @@
-import config from 'src/config'
 export const chatStyles = (theme: any) => ({
     root: {
         position: 'fixed',

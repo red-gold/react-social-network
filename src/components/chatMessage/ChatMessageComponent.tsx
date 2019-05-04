@@ -1,32 +1,23 @@
 // - Import react components
-import React, { Component, RefObject } from 'react'
-import { connect } from 'react-redux'
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import classNames from 'classnames';
+import UserAvatar from 'components/userAvatar';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { emojify } from 'react-emojione';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 
-import { Map } from 'immutable'
-import debounce from 'lodash/debounce'
-import moment from 'moment/moment'
-import { emojify } from 'react-emojione'
-import { Picker, EmojiData } from 'emoji-mart'
-import classNames from 'classnames'
-import { translate, Trans } from 'react-i18next'
+import { chatMessageStyles } from './chatMessageStyles';
+import { IChatMessageProps } from './IChatMessageProps';
+import { IChatMessageState } from './IChatMessageState';
 
 // - Material-UI
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-
 // - Import app components
-import UserAvatar from 'components/userAvatar'
-
 // - Import API
 
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as chatActions from 'store/actions/chatActions'
-
-import { IChatMessageProps } from './IChatMessageProps'
-import { IChatMessageState } from './IChatMessageState'
-import { chatMessageStyles } from './chatMessageStyles'
-
 const emojiOptions = {
   style: {
     height: 15,
@@ -56,9 +47,8 @@ export class ChatMessageComponent extends Component<IChatMessageProps, IChatMess
    * Reneder component DOM
    */
   render() {
-    const { rtl, text, avatar, ownerName, t, classes, currentUser, loading } = this.props
+    const { rtl, text, avatar, ownerName, classes, currentUser, loading } = this.props
 
-    const { } = this.state
     const loadingElement = (
       <div className={classNames('simile-loading', classes.loading)}>
       <div className='leftEye'></div>
@@ -102,6 +92,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ChatMessageComponent as any)
+const translateWrraper = withTranslation('translations')(ChatMessageComponent as any)
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(chatMessageStyles as any)(translateWrraper as any) as any)

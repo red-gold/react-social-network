@@ -1,21 +1,19 @@
 // - Import image gallery action types
-import { GlobalActionType } from 'constants/globalActionType'
-import i18n from 'locales/i18n'
-import { Map } from 'immutable'
+import { GlobalActionType } from 'constants/globalActionType';
+import { ServerRequestType } from 'constants/serverRequestType';
+import { Map } from 'immutable';
+import i18n from 'locales/i18n';
+import { DialogType } from 'models/common/dialogType';
+import StringAPI from 'src/api/StringAPI';
+import { Feed, SocialError } from 'src/core/domain/common';
+import { ICommonService } from 'src/core/services/common/ICommonService';
+import { SocialProviderTypes } from 'src/core/socialProviderTypes';
+import { ServerRequestModel } from 'src/models/server';
+import { provider } from 'src/socialEngine';
+import * as serverActions from 'store/actions/serverActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 
 // - Import actions
-import * as serverActions from 'store/actions/serverActions'
-
-import { ICommonService } from 'src/core/services/common/ICommonService'
-import { provider } from 'src/socialEngine'
-import { SocialProviderTypes } from 'src/core/socialProviderTypes'
-import { Feed, SocialError } from 'src/core/domain/common'
-import { ServerRequestType } from 'constants/serverRequestType'
-import StringAPI from 'src/api/StringAPI'
-import { ServerRequestModel } from 'src/models/server'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { DialogType } from 'models/common/dialogType'
-
 /**
  * Get service providers
  */
@@ -51,7 +49,6 @@ export let dbSendFeed = (newFeed: Feed) => {
 // - Show notification of request
 export const showNotificationRequest = () => {
   return (dispatch: Function, getState: Function) => {
-    const state: Map<string, any> = getState()
     
     return dispatch(showMessage(i18n.t('common.sentRequestMessage')))
   }
@@ -60,7 +57,6 @@ export const showNotificationRequest = () => {
 // - Show notification of success
 export const showNotificationSuccess = () => {
   return (dispatch: Function, getState: Function) => {
-    const state: Map<string, any>  = getState()
     return dispatch(showMessage(i18n.t('common.successfulRequestMessage')))
   }
 }

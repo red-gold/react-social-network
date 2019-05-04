@@ -1,73 +1,50 @@
 // - Import react components
-import React, { Component, RefObject } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
-import debounce from 'lodash/debounce'
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Paper from '@material-ui/core/Paper';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import SvgFavorite from '@material-ui/icons/Favorite';
+import GroupAdd from '@material-ui/icons/GroupAdd';
+import MailIcon from '@material-ui/icons/Mail';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import PersonPinIcon from '@material-ui/icons/PersonPin';
+import SvgShare from '@material-ui/icons/Share';
+import StringAPI from 'api/StringAPI';
+import classNames from 'classnames';
+import AboutDialogComponent from 'components/aboutDialog';
+import BountiesDialog from 'components/bountiesDialog';
+import EditProfile from 'components/editProfile';
+import FollowDialogComponent from 'components/followDialog';
+import UserAvatar from 'components/userAvatar';
+import { Map } from 'immutable';
+import CircleActivity from 'layouts/circleActivity';
+import TimelineComponent from 'layouts/timeline';
+import debounce from 'lodash/debounce';
+import numbro from 'numbro';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import ReactResizeDetector from 'react-resize-detector';
+import config from 'src/config';
+import PictureDialogComponent from 'src/layouts/pictureDialog';
+import * as globalActions from 'store/actions/globalActions';
+import * as userActions from 'store/actions/userActions';
 
-import { Map } from 'immutable'
-import ReactResizeDetector from 'react-resize-detector'
-import numbro from 'numbro'
-import config from 'src/config'
-import { translate, Trans } from 'react-i18next'
+import { IUserActivityComponentProps } from './IUserActivityComponentProps';
+import { IUserActivityComponentState } from './IUserActivityComponentState';
+import { userActivityStyles } from './userActivityStyles';
 
 // - Material-UI
-import classNames from 'classnames'
-import { withStyles } from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardHeader from '@material-ui/core/CardHeader'
-import CardMedia from '@material-ui/core/CardMedia'
-import CardContent from '@material-ui/core/CardContent'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItem from '@material-ui/core/ListItem'
-import SvgShare from '@material-ui/icons/Share'
-import SvgFavorite from '@material-ui/icons/Favorite'
-import List from '@material-ui/core/List'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import Grid from '@material-ui/core/Grid'
-import Icon from '@material-ui/core/Icon'
-import Typography from '@material-ui/core/Typography'
-import Avatar from '@material-ui/core/Avatar'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
-import SvgStar from '@material-ui/icons/Star'
-import Flag from '@material-ui/icons/Flag'
-import Extension from '@material-ui/icons/Extension'
-import GroupAdd from '@material-ui/icons/GroupAdd'
-import PersonPinIcon from '@material-ui/icons/PersonPin'
-import MailIcon from '@material-ui/icons/Mail'
-import IconButton from '@material-ui/core/IconButton'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
-
 // - Import app components
-import { userActivityStyles } from './userActivityStyles'
-import ActivityProgress from 'layouts/activityProgress'
-import TimelineComponent from 'layouts/timeline'
-import CircleActivity from 'layouts/circleActivity'
-import BountiesDialog from 'components/bountiesDialog'
-import EditProfile from 'components/editProfile'
-import WebPage from 'layouts/webPage'
-import DiamondIcon from 'layouts/diamondIcon'
-import FacebookIcon from 'layouts/facebookIcon'
-import TwitterIcon from 'layouts/twitterIcon'
-
 // - Import API
 
 // - Import app components
-import UserAvatar from 'components/userAvatar'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as userActions from 'store/actions/userActions'
-
-import { IUserActivityComponentProps } from './IUserActivityComponentProps'
-import { IUserActivityComponentState } from './IUserActivityComponentState'
-import PictureDialogComponent from 'src/layouts/pictureDialog'
-import StringAPI from 'api/StringAPI'
-import FollowDialogComponent from 'components/followDialog'
-import AboutDialogComponent from 'components/aboutDialog'
-
 /**
  * Create component class
  */
@@ -264,7 +241,7 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
     render() {
 
         const { t, classes, profile, isCurrentUser, editProfileOpen, openEditor } = this.props
-        const { boxesStyle, parentHeight, privilegeOpen, storeOpen, storeRepOpen, pictureDialogURL, picutreDialogOpen, aboutOpen } = this.state
+        const { boxesStyle, parentHeight, privilegeOpen, pictureDialogURL, picutreDialogOpen, aboutOpen } = this.state
         return (
             <>
                 <ReactResizeDetector handleWidth onResize={this.handleResize} />
@@ -487,7 +464,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IUserActivityCompone
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(UserActivityComponent as any)
+const translateWrraper = withTranslation('translations')(UserActivityComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)
-    (withStyles(userActivityStyles as any)(translateWrraper as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(userActivityStyles as any)(translateWrraper as any) as any)

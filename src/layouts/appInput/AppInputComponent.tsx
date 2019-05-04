@@ -1,13 +1,9 @@
 // - Import react components
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { grey } from '@material-ui/core/colors'
-import SvgClose from '@material-ui/icons/Close'
-import Button from '@material-ui/core/Button'
-import Divider from '@material-ui/core/Divider'
-import { IAppInputComponentProps } from './IAppInputComponentProps'
-import { IAppInputComponentState } from './IAppInputComponentState'
-import TextField from '@material-ui/core/TextField/TextField'
+import TextField from '@material-ui/core/TextField/TextField';
+import React, { Component } from 'react';
+
+import { IAppInputComponentProps } from './IAppInputComponentProps';
+import { IAppInputComponentState } from './IAppInputComponentState';
 
 /**
  * Create component class

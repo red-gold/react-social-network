@@ -1,31 +1,24 @@
+import { AuthAPI } from 'api/AuthAPI';
+import { push } from 'connected-react-router';
+import { AuthorizeActionType } from 'constants/authorizeActionType';
+import { LoginUser, OAuthType } from 'core/domain/authorize';
+import { SocialError } from 'core/domain/common';
+import { IAuthorizeService } from 'core/services/authorize';
+import { SocialProviderTypes } from 'core/socialProviderTypes';
+import { Map } from 'immutable';
+import { UserRegisterModel } from 'models/users/userRegisterModel';
+import { SignupStepEnum } from 'src/models/authorize/signupStepEnum';
+import { provider } from 'src/socialEngine';
+import * as globalActions from 'store/actions/globalActions';
+import * as serverActions from 'store/actions/serverActions';
+import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
+
 
 // - Import react components
-import { push } from 'connected-react-router'
-import {Map} from 'immutable'
-
 // -Import domain
-import { User } from 'core/domain/users'
-import { SocialError } from 'core/domain/common'
-import { OAuthType, LoginUser } from 'core/domain/authorize'
-
-import { UserRegisterModel } from 'models/users/userRegisterModel'
-
 // - Import action types
-import { AuthorizeActionType } from 'constants/authorizeActionType'
-
 // - Import services
-import { IAuthorizeService } from 'core/services/authorize'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as serverActions from 'store/actions/serverActions'
-
-import { provider } from 'src/socialEngine'
-import { SocialProviderTypes } from 'core/socialProviderTypes'
-import { AuthAPI } from 'api/AuthAPI'
-import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType'
-import { SignupStepEnum } from 'src/models/authorize/signupStepEnum';
-
 /* _____________ CRUD State _____________ */
 
 /**

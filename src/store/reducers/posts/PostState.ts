@@ -1,5 +1,4 @@
-import { Post } from 'src/core/domain/posts'
-import { Map, fromJS, List } from 'immutable'
+import { Map } from 'immutable';
 
 /**
  * Post state

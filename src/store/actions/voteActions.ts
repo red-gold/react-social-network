@@ -1,27 +1,20 @@
-import moment from 'moment/moment'
-import {Map} from 'immutable'
+import { VoteActionType } from 'constants/voteActionType';
+import { User } from 'core/domain/users';
+import { Map } from 'immutable';
+import moment from 'moment/moment';
+import { Post } from 'src/core/domain/posts';
+import { Vote } from 'src/core/domain/votes';
+import { IVoteService } from 'src/core/services/votes';
+import { SocialProviderTypes } from 'src/core/socialProviderTypes';
+import { provider } from 'src/socialEngine';
+import * as globalActions from 'store/actions/globalActions';
+import * as postActions from 'store/actions/postActions';
+import * as userActions from 'store/actions/userActions';
+import { userSelector } from 'store/reducers/users/userSelector';
 
 // - Import action types
-import { VoteActionType } from 'constants/voteActionType'
-
 // - Import domain
-import { Vote } from 'src/core/domain/votes'
-
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as notifyActions from 'store/actions/notifyActions'
-import * as postActions from 'store/actions/postActions'
-
-import { IVoteService } from 'src/core/services/votes'
-import { Post } from 'src/core/domain/posts'
-import { SocialProviderTypes } from 'src/core/socialProviderTypes'
-import { provider } from 'src/socialEngine'
-import * as userActions from 'store/actions/userActions'
-import { UserSettingType } from 'core/services/users/userSettingType'
-import { NotificationType } from 'core/domain/notifications/notificationType'
-import { userSelector } from 'store/reducers/users/userSelector'
-import { User } from 'core/domain/users'
-
 /**
  * Get service providers
  */

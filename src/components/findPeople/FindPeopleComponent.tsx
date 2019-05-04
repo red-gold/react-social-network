@@ -1,26 +1,18 @@
 // - Import react components
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import Paper from '@material-ui/core/Paper'
-import InfiniteScroll from 'react-infinite-scroll-component'
+import UserBoxList from 'components/userBoxList';
+import LoadMoreProgressComponent from 'layouts/loadMoreProgress';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-import {Map} from 'immutable'
-import { translate, Trans } from 'react-i18next'
+import { connectFindPeople } from './connectFindPeople';
+import { IFindPeopleComponentProps } from './IFindPeopleComponentProps';
+import { IFindPeopleComponentState } from './IFindPeopleComponentState';
 
 // - Import app components
-import UserBoxList from 'components/userBoxList'
-import LoadMoreProgressComponent from 'layouts/loadMoreProgress'
-
 // - Import API
 
 // - Import actions
-import * as userActions from 'store/actions/userActions'
-import { IFindPeopleComponentProps } from './IFindPeopleComponentProps'
-import { IFindPeopleComponentState } from './IFindPeopleComponentState'
-import { UserTie } from 'core/domain/circles/userTie'
-import { connectFindPeople } from './connectFindPeople'
-
 /**
  * Create component class
  */
@@ -99,6 +91,6 @@ export class FindPeopleComponent extends Component<IFindPeopleComponentProps, IF
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(FindPeopleComponent as any)
+const translateWrraper = withTranslation('translations')(FindPeopleComponent as any)
 
 export default connectFindPeople(translateWrraper as any)

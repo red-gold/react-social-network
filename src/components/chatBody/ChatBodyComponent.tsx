@@ -1,28 +1,20 @@
 // - Import react components
-import React, { Component, RefObject } from 'react'
-import { connect } from 'react-redux'
+import { withStyles } from '@material-ui/core/styles';
+import ChatMessageComponent from 'components/chatMessage';
+import { Map } from 'immutable';
+import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
 
-import { Map } from 'immutable'
-import moment from 'moment/moment'
-import classNames from 'classnames'
-import { translate, Trans } from 'react-i18next'
+import { chatBodyStyles } from './chatBodyStyles';
+import { IChatBodyProps } from './IChatBodyProps';
+import { IChatBodyState } from './IChatBodyState';
 
 // - Material-UI
-import { withStyles } from '@material-ui/core/styles'
-
 // - Import app components
-import ChatMessageComponent from 'components/chatMessage'
-
 // - Import API
 
 // - Import actions
-import * as globalActions from 'store/actions/globalActions'
-import * as chatActions from 'store/actions/chatActions'
-
-import { IChatBodyProps } from './IChatBodyProps'
-import { IChatBodyState } from './IChatBodyState'
-import { chatBodyStyles } from './chatBodyStyles'
-
 /**
  * Create component class
  */
@@ -74,7 +66,7 @@ export class ChatBodyComponent extends Component<IChatBodyProps, IChatBodyState>
    */
   render() {
 
-    const { t, classes, chatMessages, currentUser } = this.props
+    const { classes, chatMessages, currentUser } = this.props
 
     return (
       <div className={classes.bodyMessageRoot} ref={this.messagesEnd}>
@@ -112,6 +104,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = translate('translations')(ChatBodyComponent as any)
+const translateWrraper = withTranslation('translations')(ChatBodyComponent as any)
 
 export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(chatBodyStyles as any)(translateWrraper as any) as any)

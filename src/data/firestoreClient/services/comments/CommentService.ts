@@ -1,12 +1,10 @@
 // - Import react components
-import { firebaseAuth, db } from 'data/firestoreClient'
-import _ from 'lodash'
-
-import { SocialError } from 'core/domain/common'
-import { ICommentService } from 'core/services/comments'
-import { Comment } from 'core/domain/comments'
-import { injectable } from 'inversify'
-import { postComments } from 'models/comments/commentTypes'
+import { Comment } from 'core/domain/comments';
+import { SocialError } from 'core/domain/common';
+import { ICommentService } from 'core/services/comments';
+import { db } from 'data/firestoreClient';
+import { injectable } from 'inversify';
+import { postComments } from 'models/comments/commentTypes';
 
 /**
  * Firbase comment service
