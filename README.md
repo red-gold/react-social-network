@@ -12,8 +12,7 @@
 [![Gitter](https://badges.gitter.im/react-social-network/Lobby.svg)](https://gitter.im/react-social-network/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.com/red-gold/react-social-network.svg?branch=v0.7.0)](https://travis-ci.com/red-gold/react-social-network)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/64661019b3314e60a5da55c5cf89ed4c)](https://www.codacy.com/app/red-gold/react-social-network?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=red-gold/react-social-network&amp;utm_campaign=Badge_Grade)
-[![Dependencies](https://img.shields.io/david/red-gold/react-social-network/v0.7.0.svg?style=flat-square)](https://david-dm.org/red-gold/react-social-network/v0.7.0)
-[![DevDependencies](https://img.shields.io/david/dev/red-gold/react-social-network/v0.7.0.svg?style=flat-square)](https://david-dm.org/red-gold/react-social-network/v0.7.0#info=devDependencies&view=list)
+[![dependencies Status](https://david-dm.org/red-gold/react-social-network/v0.7.0/status.svg)](https://david-dm.org/red-gold/react-social-network/v0.7.0)
 
 The React Social Network is an open source project relying on [React](https://facebook.github.io/react/docs/hello-world.html) a powerful javascript library for building the user interface. In this project, I tried to show some features of react/react components as a social network. 
 The structure of this project give the ability to developer to develop their project on their own idea and environment.
