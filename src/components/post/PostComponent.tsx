@@ -384,15 +384,15 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
       </div>
     )
 
-    const { 
-      ownerUserId, 
-      ownerDisplayName, 
-      creationDate, 
-      image, 
-      body, 
-      id, 
-      disableComments, 
-      commentCounter, 
+    const {
+      ownerUserId,
+      ownerDisplayName,
+      creationDate,
+      image,
+      body,
+      id,
+      disableComments,
+      commentCounter,
       disableSharing ,
     } = post.toJS() as any
     // Define variables
@@ -412,7 +412,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
 
         <CardContent className={classes.postBody}>
           <Linkify properties={{ target: '_blank', style: { color: 'blue' } }}>
-            {reactStringReplace(body, /#(\w+)/g, (match: string, i: string) => (
+            {reactStringReplace(body, /#(\w+)/g, (match: string, i: number) => (
               <NavLink
                 style={{ color: 'green' }}
                 key={match + i}
@@ -424,7 +424,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
                 }}
               >
                 #{match}
-  
+
               </NavLink>
 
             ))}
@@ -465,15 +465,15 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
 
         <CommentGroup open={this.state.openComments} comments={commentList} ownerPostUserId={ownerUserId!} onToggleRequest={this.handleOpenComments} isPostOwner={this.props.isPostOwner!} disableComments={disableComments!} postId={id} />
 
-        <ShareDialog 
-        onClose={this.handleCloseShare} 
-        shareOpen={this.state.shareOpen} 
-        onCopyLink={this.handleCopyLink} 
+        <ShareDialog
+        onClose={this.handleCloseShare}
+        shareOpen={this.state.shareOpen}
+        onCopyLink={this.handleCopyLink}
         openCopyLink={this.state.openCopyLink}
-        post={post} 
+        post={post}
 
         />
-       
+
         <PostWrite
           open={this.state.openPostWrite}
           onRequestClose={this.handleClosePostWrite}

@@ -9,6 +9,10 @@ import { rootReducer } from 'store/reducers'
 import { fromJS, Map } from 'immutable'
 import DevTools from './devTools'
 import { routerMiddleware, connectRouter } from 'connected-react-router/immutable'
+import { offline } from '@redux-offline/redux-offline'
+import defaultConfig from '@redux-offline/redux-offline/lib/defaults'
+// replacing redux-offline defaults with immutable* counterparts
+import { persist, persistAutoRehydrate, offlineStateLens } from 'redux-offline-immutable-config'
 
 // Create a history of your choosing (we're using a browser history in this case)
 export const history = createHistory()
@@ -31,8 +35,23 @@ let initialState = {
 const composeEnhancers = composeWithDevTools({
       // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
     })
+
+const persistOptions = {}
+const persistCallback = () => {
+  console.log('rehydration completed')
+}
+
+const offlineConfig = {
+  ...defaultConfig,
+  persist,
+  persistAutoRehydrate,
+  persistOptions,
+  persistCallback,
+  offlineStateLens
+}
+
 let store: Store<any> = createStore(rootReducer(history), fromJS(initialState), composeEnhancers(
-  applyMiddleware(logger,thunk, routerMiddleware(history), sagaMiddleware)
+  applyMiddleware(logger,thunk, routerMiddleware(history), sagaMiddleware), offline(offlineConfig)
 ))
 
 export default {store, runSaga: sagaMiddleware.run, close: () => store.dispatch(END), history}
