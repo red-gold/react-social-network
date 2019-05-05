@@ -2,13 +2,12 @@ import { LanguageType } from 'store/reducers/locale/langugeType'
 
 export const environment = {
   firebase: {
-      apiKey: 'AIzaSyDzFdZteXViq65uzFp4sAmesXk43uW_VfU',
-      authDomain: 'react-social-86ea9.firebaseapp.com',
-      databaseURL: 'https://react-social-86ea9.firebaseio.com',
-      projectId: 'react-social-86ea9',
-      storageBucket: 'react-social-86ea9.appspot.com',
-      messagingSenderId: '760013286552',
-      appId: '1:760013286552:web:4c9d52d1a2e0b824'
+    apiKey: 'AIzaSyAHOZ7rWGDODCwJMB3WIt63CAIa90qI-jg',
+    authDomain: 'test-4515a.firebaseapp.com',
+    databaseURL: 'https://test-4515a.firebaseio.com',
+    projectId: 'test-4515a',
+    storageBucket: 'test-4515a.appspot.com',
+    messagingSenderId: '964743099489'
   },
   settings: {
     enabledOAuthLogin: false,
