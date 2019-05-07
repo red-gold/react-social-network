@@ -377,9 +377,9 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
                 className={classes.textField}
                 fullWidth={true}
               /> : <div className={classNames('animate2-top10', classes.commentBody)}>{
-                
+
                 <Linkify properties={{ target: '_blank', style: { color: 'blue' } }}>
-                  {reactStringReplace(this.state.text, /#(\w+)/g, (match: string, i: string) => (
+                  {reactStringReplace(this.state.text, /#(\w+)/g, (match: string, i: number) => (
                     <NavLink
                       style={{ color: 'green' }}
                       key={match + i}
@@ -391,7 +391,7 @@ export class CommentComponent extends Component<ICommentComponentProps, IComment
                       }}
                     >
                       #{match}
-        
+
                     </NavLink>
 
                   ))}

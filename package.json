@@ -22,6 +22,7 @@
   "dependencies": {
     "@material-ui/core": "^3.6.1",
     "@material-ui/icons": "^3.0.1",
+    "@redux-offline/redux-offline": "^2.5.1",
     "@types/ramda": "^0.25.42",
     "@types/react-helmet": "^5.0.7",
     "@types/redux-devtools": "^3.0.44",
@@ -71,6 +72,8 @@
     "redux": "4.0.1",
     "redux-actions": "^2.6.4",
     "redux-immutable": "4.0.0",
+    "redux-offline": "^2.0.0",
+    "redux-offline-immutable-config": "^1.0.0",
     "redux-saga": "^0.16.2",
     "redux-thunk": "^2.3.0",
     "reflect-metadata": "^0.1.12",
