@@ -80,7 +80,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
       return
     }
       if (config.settings.verificationType === VerificationType.Email && !isVerified) {
-        // goTo!('/emailVerification')
+        goTo!('/emailVerification')
 
       } else if (config.settings.verificationType === VerificationType.Phone && !isVerified) {
         goTo!('/smsVerification')
