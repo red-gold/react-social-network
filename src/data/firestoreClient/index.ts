@@ -26,7 +26,7 @@ export let storageRef = firebase.storage().ref()
 
 // Initialize Cloud Firestore through Firebase
 const db = firebase.firestore()
-const settings = {timestampsInSnapshots: true}
+const settings = {}
 db.settings(settings)
 export {
   db
