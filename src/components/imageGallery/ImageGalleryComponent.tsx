@@ -2,6 +2,7 @@
 import Button from '@material-ui/core/Button';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import { withStyles } from '@material-ui/core/styles';
 import SvgAddImage from '@material-ui/icons/AddAPhoto';
@@ -14,10 +15,16 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import moment from 'moment/moment';
 import * as globalActions from 'store/actions/globalActions';
 import * as imageGalleryActions from 'store/actions/imageGalleryActions';
 import { userSelector } from 'store/reducers/users/userSelector';
+import { globalSelector } from 'store/reducers/global/globalSelector';
 import uuid from 'uuid';
+import { fromJS } from 'immutable';
+import { UserPermissionType } from 'core/domain/common/userPermissionType';
+import { Photo } from 'core/domain/imageGallery/photo';
+import config from 'src/config';
 
 import { IImageGalleryComponentProps } from './IImageGalleryComponentProps';
 import { IImageGalleryComponentState } from './IImageGalleryComponentState';
@@ -35,6 +42,8 @@ const styles = (theme: any) => ({
     }
   }
 })
+
+let isPhotoSelected: boolean
 
 /**
  * Create ImageGallery component class
@@ -99,6 +108,7 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
     this.handleSetImage = this.handleSetImage.bind(this)
     this.handleDeleteImage = this.handleDeleteImage.bind(this)
     this.imageList = this.imageList.bind(this)
+    isPhotoSelected = false
   }
 
   /**
@@ -107,13 +117,14 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
   handleSetImage = (event: any, URL: string) => {
     this.props.set!(URL)
     this.close()
+    isPhotoSelected = false
   }
 
   /**
    * Handle delete image
    */
   handleDeleteImage = (event: any, id: string, fileName: string) => {
-    
+
     this.props.deleteImage!(id,fileName)
   }
 
@@ -142,11 +153,39 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
    * Handle on change file upload
    */
   onFileChange = (event: any) => {
-
+    const { tempAddImageToList, tempAddImages, uid } = this.props
+    const file = event.target.files[0]
     const extension = FileAPI.getExtension(event.target.files[0].name)
     let fileName = (`${uuid()}.${extension}`)
     FileAPI.constraintImage(event.target.files[0], fileName)
+    isPhotoSelected = true
+    const parsedFiles: { file: any, fileName: string }[] = []
+    parsedFiles.push({ file: URL.createObjectURL(file), fileName })
+    this.setState({
+        selectedPhotos: parsedFiles
+      })
+    // const {fileURL} = (URL.createObjectURL(file)).toString
+    const fileId = (fileName as string).split('.')[0]
+    const newAvatar = new Photo(
+      fileId,
+      fileName,
+      '',
+      URL.createObjectURL(file),
+      URL.createObjectURL(file),
+      uid!,
+      moment.utc().valueOf(),
+      config.data.avatarFolderPath,
+      config.data.avatarFolderPath,
+      0,
+      0,
+      {},
+      UserPermissionType.Public,
+      []
+    )
 
+    const mapImage = Map({[fileId]: fromJS({...newAvatar})})
+    tempAddImageToList!(mapImage)
+    tempAddImages!(uid!, Map({[fileId]: true}))
   }
 
   /**
@@ -157,8 +196,14 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
   }
 
   imageList = () => {
+    const { progress } = this.props
     return this.props.images!.map((image , index) => {
-
+      let progressPercent = 100
+      let progressVisible = false
+      if (isPhotoSelected && index === 0) {
+        progressPercent = progress ? (progress.getIn([image!.get('fileName'), 'percent'], 0)) : 100
+        progressVisible = progress ? (progress.getIn([image!.get('fileName'), 'visible'], true)): false
+      }
       return (
       <GridListTile
         key={image!.get('id')!}
@@ -179,12 +224,16 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
           </div>
         </div>
         <GridListTileBar
-              title={<SvgDelete style={this.styles.deleteImage as any} onClick={evt => 
+              title={<SvgDelete style={this.styles.deleteImage as any} onClick={evt =>
                 this.handleDeleteImage(evt, image!.get('id'), image!.get('fileName'))} />}
               titlePosition='top'
               actionIcon={
                 <SvgAddImage style={this.styles.addImage as any} onClick={evt => this.handleSetImage(evt, image!.get('url'))} />}
               actionPosition='left'
+            />
+        <GridListTileBar
+            title={ progressVisible ? (<LinearProgress variant='determinate' value={progressPercent} color='secondary' />) : ''}
+            titlePosition='bottom'
             />
       </GridListTile>)
     })
@@ -234,8 +283,9 @@ export class ImageGalleryComponent extends Component<IImageGalleryComponentProps
 const mapDispatchToProps = (dispatch: any, ownProps: IImageGalleryComponentProps) => {
   return {
     deleteImage: (fileId: string, fileName: string) => dispatch(imageGalleryActions.dbDeleteImage(fileId, ownProps.folder, fileName)),
-    progressChange : (percent: number,status: boolean) => dispatch(globalActions.progressChange(percent, status))
-
+    progressChange: (percent: number,status: boolean) => dispatch(globalActions.progressChange(percent, status)),
+    tempAddImageToList: (mapImage: Map<string, any>) => dispatch(imageGalleryActions.addImageList(mapImage)),
+    tempAddImages: (uid: string, imageIds: Map<string, boolean>) =>  dispatch(imageGalleryActions.addAvatarImages(uid, imageIds))
   }
 }
 
@@ -244,10 +294,14 @@ const mapDispatchToProps = (dispatch: any, ownProps: IImageGalleryComponentProps
  */
 const mapStateToProps = (state: Map<string, any>) => {
   const uid = state.getIn(['authorize', 'uid'])
+  let getProgress = globalSelector.selectProgress()
+  const progress = getProgress(state)
   const currentUser = userSelector.getUserProfileById(state, {userId: uid}).toJS() as User
   return {
-    
-    avatar: currentUser ? currentUser.avatar : ''
+
+    avatar: currentUser ? currentUser.avatar : '',
+    progress,
+    uid
 
   }
 }
