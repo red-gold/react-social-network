@@ -127,19 +127,17 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
     this.handleOpenPostWrite = this.handleOpenPostWrite.bind(this)
     this.handleClosePostWrite = this.handleClosePostWrite.bind(this)
     this.handleOpenComments = this.handleOpenComments.bind(this)
+    this.rightIconMenu = this.rightIconMenu.bind(this)
   }
 
   /**
    * Toggle on show/hide comment
    */
   handleOpenComments = () => {
-    const { getPostComments, commentList, post } = this.props
+    const { getPostComments, post } = this.props
     const id = post.get('id')
     const ownerUserId = post.get('ownerUserId')
-    
-    if (commentList!.isEmpty()) {
       getPostComments!(ownerUserId!, id!)
-    }
     this.setState({
       openComments: !this.state.openComments
     })
@@ -230,7 +228,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
    * Handle vote on a post
    */
   handleVote = () => {
-    
+
     if (this.props.currentUserVote) {
       this.props.unvote!()
     } else {
@@ -284,69 +282,69 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
   }
 
   shouldComponentUpdate(nextProps: IPostComponentProps ,nextState: IPostComponentState) {
+
     let shouldUpdate = false
 
     if (!nextProps.post.equals(this.props.post)) {
       shouldUpdate = true
-    }
-
-    if (!nextProps.commentList!.equals(this.props.commentList!)) {
+    } else if ((nextProps.commentList!) !== (this.props.commentList!)) {
+      shouldUpdate = true
+    } else if (this.props.getPostComments !== nextProps.getPostComments) {
+      shouldUpdate = true
+    } else if (!R.equals(this.state, nextState)) {
       shouldUpdate = true
     }
-
-    if (this.props.getPostComments !== nextProps.getPostComments) {
-      shouldUpdate = true
-    }
-
-    if (!R.equals(this.state, nextState)) {
-      shouldUpdate = true
-    }
-
     return shouldUpdate
   }
 
   /**
+   * Right Image Icon
+   */
+rightIconMenu = () => {
+  const { post, t } = this.props
+  const { postMenuAnchorEl, isPostMenuOpen} = this.state
+  return (
+    <div>
+      <IconButton
+        onClick={this.openPostMenu.bind(this)}
+      >
+        <MoreVertIcon />
+      </IconButton>
+
+        <Menu
+          open={isPostMenuOpen!}
+          anchorEl={postMenuAnchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right'
+          }}
+          onClose={this.closePostMenu}>
+        {post.get('postTypeId') !== PostType.Album &&  <MenuItem onClick={this.handleOpenPostWrite} > {t!('post.edit')} </MenuItem>}
+          <MenuItem onClick={this.handleDelete} > {t!('post.delete')} </MenuItem>
+          <MenuItem
+            onClick={() => this.props.toggleDisableComments!(!post.get('disableComments'))} >
+            {post.get('disableComments') ? t!('post.enableComments') : t!('post.disableComments')}
+          </MenuItem>
+          <MenuItem
+            onClick={() => this.props.toggleSharingComments!(!post.get('disableSharing'))} >
+            {post.get('disableSharing') ? t!('post.enableSharing') : t!('post.disableSharing')}
+          </MenuItem>
+        </Menu>
+    </div>
+  )
+
+}
+  /**
    * Reneder component DOM
    */
   render() {
-    const { post, setHomeTitle, goTo, isPostOwner, commentList, classes, t } = this.props
-    const { postMenuAnchorEl, isPostMenuOpen, showVideo } = this.state
-    const rightIconMenu = (
-      <div>
-        <IconButton
-          onClick={this.openPostMenu.bind(this)}
-        >
-          <MoreVertIcon />
-        </IconButton>
-
-          <Menu
-            open={isPostMenuOpen!}
-            anchorEl={postMenuAnchorEl}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right'
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right'
-            }}
-            onClose={this.closePostMenu}>
-          {post.get('postTypeId') !== PostType.Album &&  <MenuItem onClick={this.handleOpenPostWrite} > {t!('post.edit')} </MenuItem>}
-            <MenuItem onClick={this.handleDelete} > {t!('post.delete')} </MenuItem>
-            <MenuItem
-              onClick={() => this.props.toggleDisableComments!(!post.get('disableComments'))} >
-              {post.get('disableComments') ? t!('post.enableComments') : t!('post.disableComments')}
-            </MenuItem>
-            <MenuItem
-              onClick={() => this.props.toggleSharingComments!(!post.get('disableSharing'))} >
-              {post.get('disableSharing') ? t!('post.enableSharing') : t!('post.disableSharing')}
-            </MenuItem>
-          </Menu>
-      </div>
-    )
-
+    const { post, setHomeTitle, goTo, isPostOwner, commentList, classes} = this.props
+    const { showVideo } = this.state
     const rawPost = post.toJS() as Post
-
     const {
       ownerUserId,
       ownerDisplayName,
@@ -371,10 +369,10 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
         <CardHeader
           title={<NavLink to={`/${ownerUserId}`}>{ownerDisplayName}</NavLink>}
           subheader={creationDate ? (version === config.dataFormat.postVersion
-             ? moment(creationDate).local().fromNow() 
+             ? moment(creationDate).local().fromNow()
              : moment(creationDate!).local().fromNow()) + ` | ${this.getPermissionLabel()}` : <LinearProgress color='primary' />}
           avatar={<NavLink to={`/${ownerUserId}`}><UserAvatar fullName={ownerDisplayName!} fileName={ownerAvatar!} size={36} /></NavLink>}
-          action={isPostOwner ? rightIconMenu : ''}
+          action={isPostOwner ? this.rightIconMenu() : ''}
         >
         </CardHeader>
         {((image && image !== '' && postTypeId === PostType.Photo)
@@ -406,7 +404,7 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
             </CardMedia>) : ''}
             {
               (album && album.photos  && (postTypeId === PostType.Album || postTypeId === PostType.PhotoGallery))
-              ? <PostAlbumComponent key={`post-album-grid-${id}`} 
+              ? <PostAlbumComponent key={`post-album-grid-${id}`}
                 currentAlbum={rawPost}
               images={[...album.photos].map((photo) => ({src: photo.url, url: photo.url, id: photo.fileId }))} />
               : ''
@@ -470,7 +468,6 @@ export class PostComponent extends Component<IPostComponentProps, IPostComponent
         </CardActions>
 
         <CommentGroup open={this.state.openComments} comments={commentList} ownerPostUserId={ownerUserId!} onToggleRequest={this.handleOpenComments} isPostOwner={this.props.isPostOwner!} disableComments={disableComments!} postId={id!} />
-
         <ShareDialog
           onClose={this.handleCloseShare}
           shareOpen={this.state.shareOpen}
