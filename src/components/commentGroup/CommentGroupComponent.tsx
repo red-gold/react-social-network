@@ -8,21 +8,17 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import StringAPI from 'api/StringAPI';
-import classNames from 'classnames';
 import CommentListComponent from 'components/commentList';
 import UserAvatar from 'components/userAvatar';
 import { ServerRequestType } from 'constants/serverRequestType';
 import { Comment } from 'core/domain/comments';
 import { User } from 'core/domain/users';
 import { Map } from 'immutable';
-import _ from 'lodash';
-import moment from 'moment/moment';
 import PropTypes from 'prop-types';
 import * as R from 'ramda';
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import * as commentActions from 'store/actions/commentActions';
 import { ServerRequestStatusType } from 'store/actions/serverRequestStatusType';
 import { userSelector } from 'store/reducers/users/userSelector';
@@ -163,9 +159,10 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
     }
 
     // Binding functions to `this`
-    this.commentList = this.commentList.bind(this)
     this.handlePostComment = this.handlePostComment.bind(this)
     this.clearCommentWrite = this.clearCommentWrite.bind(this)
+    this.commentWriteBox = this.commentWriteBox.bind(this)
+    this.loadCommentsList = this.loadCommentsList.bind(this)
   }
 
   /**
@@ -208,179 +205,103 @@ export class CommentGroupComponent extends Component<ICommentGroupComponentProps
 
   }
 
-  /**
-   * Get comments' DOM
-   * @return {DOM} list of comments' DOM
-   */
-  commentList = () => {
-    const {classes} = this.props
-    let comments = Map(this.props.commentSlides!).toJS()
-    if (comments) {
-      comments = _.fromPairs(_.toPairs(comments)
-        .sort((a: any, b: any) => parseInt(b[1].creationDate, 10) - parseInt(a[1].creationDate, 10)))
-      let parsedComments: Comment[] = []
-      Object.keys(comments).forEach((commentId) => {
-        parsedComments.push({
-          id: commentId,
-          ...comments![commentId]
-        })
-      })
-      if (parsedComments.length === 2) {
-        parsedComments.push(parsedComments[0])
-      } else if (parsedComments.length === 1) {
-        parsedComments.push(parsedComments[0])
-        parsedComments.push(parsedComments[0])
-      }
-      return parsedComments.map((comment, index) => {
-        const commentAvatar =  comment.userAvatar
-        const commentFullName = comment.userDisplayName
-
-        const commentBody = (
-          <div style={{ outline: 'none', flex: 'auto', flexGrow: 1 }}>
-              <div className={classNames('animate2-top10', classes.commentBody)} >
-              {comment.text}
-              </div>
-          </div>
-        )
-
-        const Author = () => (
-          <div>
-            <NavLink to={`/${comment.userId!}`}> <span className={classes.author}>{comment.userDisplayName}</span></NavLink><span style={{
-              fontWeight: 400,
-              fontSize: '8px'
-            }}>{moment(comment.creationDate!).local().fromNow()}</span>
-          </div>
-        )
-        return (
-        <Paper key={comment.id! + '-index:' + index} elevation={0} className='animate2-top10'>
-          <Card elevation={0}>
-            <CardHeader
-            classes={{content: classes.cardHeaderContent}}
-            className={classes.header}
-              title={<Author />}
-              avatar={<UserAvatar fullName={commentFullName!} fileName={commentAvatar!} size={24} />}
-              subheader={commentBody}
-            >
-            </CardHeader>
-
-          </Card>
-
-        </Paper>
-        )
-      })
-    }
-  }
-
   shouldComponentUpdate(nextProps: ICommentGroupComponentProps, nextState: ICommentGroupComponentState) {
+
     let shouldUpdate = false
-    
+
     if (!R.equals(this.state, nextState)) {
       shouldUpdate = true
-    }
-
-    if (nextProps.open !== this.props.open) {
+    } else if (nextProps.open !== this.props.open) {
+      shouldUpdate = true
+    } else if (nextProps.disableComments !== this.props.disableComments) {
+      shouldUpdate = true
+    } else if (nextProps.commentsRequestStatus !== this.props.commentsRequestStatus) {
+      shouldUpdate = true
+    } else if ((nextProps.comments!) !== (this.props.comments!)) {
       shouldUpdate = true
     }
-
-    if (nextProps.disableComments !== this.props.disableComments) {
-      shouldUpdate = true
-    }
-
-    if (nextProps.commentsRequestStatus !== this.props.commentsRequestStatus) {
-      shouldUpdate = true
-    }
-
-    if (!nextProps.commentSlides!.equals(this.props.commentSlides!)) {
-      shouldUpdate = true
-    }
-
-    if (!nextProps.comments!.equals(this.props.comments!)) {
-      shouldUpdate = true
-    }
-
     return shouldUpdate
   }
 
   /**
+   * Comment list box
+   */
+  commentWriteBox = () => {
+    const { classes, postId, fullName, avatar, t } = this.props
+    return (
+      <div>
+        <Divider />
+        <Paper key={postId! + '-commentwrite'} elevation={0} className='animate2-top10'>
+            <Card elevation={0}>
+              <CardHeader
+              className={classes.header}
+                avatar={<UserAvatar fullName={fullName!} fileName={avatar!} size={24} />}
+                subheader={<TextField
+                  autoFocus
+                  placeholder={t!('comment.addCommentPlaceholder')}
+                  multiline
+                  rowsMax='4'
+                  InputProps={{
+                    disableUnderline: true,
+                    autoFocus: true,
+                    fullWidth: true
+                  }}
+                  value={this.state.commentText}
+                  onChange={this.handleChange}
+                  className={classes.textField}
+                  fullWidth={true}
+                />}
+              >
+              </CardHeader>
+                  <CardActions className={classes.postButton} >
+            <Button color='primary' disabled={this.state.postDisable} onClick={this.handlePostComment}>
+          {t!('comment.postButton')}
+          </Button>
+                    </CardActions>
+            </Card>
+          </Paper>
+          </div>
+    )
+  }
+
+  /**
+   * Loading Comments listItem
+   *
+   */
+   loadCommentsList = () => {
+     const { postId, commentsRequestStatus, open} = this.props
+     const comments: Map<string, Comment> = this.props.comments || Map({})
+     const showComments = (comments! ? (
+     <Paper elevation={0} style={open ? { display: 'block', padding: '0px 0px' } : { display: 'none', padding: '12px 16px' }}>
+       <CommentListComponent comments={comments!} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments} postId={postId}/>
+     </Paper>) : '')
+     const loadComments = ((commentsRequestStatus === ServerRequestStatusType.Sent)  ?  <LinearProgress style={this.styles.progressbar} variant='indeterminate' /> : showComments)
+     return (
+       loadComments
+     )
+   }
+
+  /**
    * Reneder component DOM
-   * 
+   *
    */
   render () {
-    const { classes, postId, fullName, avatar, commentsRequestStatus, open, commentSlides, t } = this.props
-    const comments: Map<string, Comment> = this.props.comments || Map({})
-    /**
-     * Comment list box
-     */
-    const commentWriteBox = (
-    <div>
-      <Divider />
-      <Paper key={postId! + '-commentwrite'} elevation={0} className='animate2-top10'>
-          <Card elevation={0}>
-            <CardHeader
-            className={classes.header}
-              avatar={<UserAvatar fullName={fullName!} fileName={avatar!} size={24} />}
-              subheader={<TextField
-                autoFocus
-                placeholder={t!('comment.addCommentPlaceholder')}
-                multiline
-                rowsMax='4'
-                InputProps={{
-                  disableUnderline: true,
-                  autoFocus: true,
-                  fullWidth: true
-                }}
-                value={this.state.commentText}
-                onChange={this.handleChange}
-                className={classes.textField}
-                fullWidth={true}
-              />}
-            >
-            </CardHeader>
-                <CardActions className={classes.postButton} >
-          <Button color='primary' disabled={this.state.postDisable} onClick={this.handlePostComment}>
-        {t!('comment.postButton')}
-        </Button>
-                  </CardActions>
-          </Card>
-        </Paper>
-        </div>
-)
-
-    const showComments = ( !comments.isEmpty()
-    ? (
-    <Paper elevation={0} style={open ? { display: 'block', padding: '0px 0px' } : { display: 'none', padding: '12px 16px' }}>
-      <CommentListComponent comments={comments!} isPostOwner={this.props.isPostOwner} disableComments={this.props.disableComments} postId={postId}/>
-    </Paper>)
-    : '')
-    const loadComments = ((commentsRequestStatus === ServerRequestStatusType.Sent)  ?  <LinearProgress style={this.styles.progressbar} variant='indeterminate' /> : showComments)
+    const { postId, open} = this.props
     /**
      * Return Elements
      */
     return (
       <div key={postId + '-comments-group'}>
           <Divider />
-        <div style={commentSlides && !commentSlides.isEmpty() ? { display: 'block' } : { display: 'none' }}>
+        <div style={open ? { display: 'block' } : { display: 'none' }}>
           <Paper elevation={0} className='animate-top' style={!open ? { display: 'block' } : { display: 'none' }}>
-
             <div style={{ position: 'relative', height: '60px' }} >
               <Button style={this.styles.toggleShowList} fullWidth={true} onClick={this.props.onToggleRequest} > {' '}</Button>
-
-              <div className='comment__list-show'>
-                {this.commentList()}
-
               </div>
-            </div>
-          </Paper>
-
+            </Paper>
         </div>
-          {
-            open ? loadComments : ''
-          }
-        {
-          (!this.props.disableComments && open )
-            ? commentWriteBox
-            : ''
-        }
+        {open ? this.loadCommentsList() : ''}
+        {(!this.props.disableComments && open ) ? this.commentWriteBox() : ''}
       </div>
     )
   }
@@ -404,16 +325,16 @@ const mapDispatchToProps = (dispatch: any, ownProps: ICommentGroupComponentProps
  * Map state to props
  */
 const mapStateToProps = (state: Map<string, any>, ownProps: ICommentGroupComponentProps) => {
-  const { ownerPostUserId, postId } = ownProps
+  const { postId } = ownProps
   const uid = state.getIn(['authorize', 'uid'], 0)
   const requestId = StringAPI.createServerRequestId(ServerRequestType.CommentGetComments, postId)
   const commentsRequestStatus = state.getIn(['server', 'request', requestId])
-  const commentSlides = state.getIn(['post', 'entities', ownerPostUserId, postId, 'comments'], Map({}))
+  // const commentSlides = state.getIn(['post', 'entities', ownerPostUserId, postId, 'comments'], Map({}))
   const user = userSelector.getUserProfileById(state, {userId: uid}).toJS() as User
   return {
-    
+
     commentsRequestStatus : commentsRequestStatus ? commentsRequestStatus.status : ServerRequestStatusType.NoAction,
-    commentSlides,
+    // commentSlides,
     avatar: user.avatar || '',
     fullName: user.fullName || ''
 

@@ -20,6 +20,7 @@ import Notify from 'components/notify';
 import RecentChatComponent from 'components/recentChat';
 import SearchBoxComponent from 'components/searchBox';
 import UserAvatarComponent from 'components/userAvatar';
+import EditProfile from 'components/editProfile';
 import { push } from 'connected-react-router';
 import { User } from 'core/domain/users';
 import { Map } from 'immutable';
@@ -31,6 +32,7 @@ import { NavLink, withRouter } from 'react-router-dom';
 import config from 'src/config';
 import * as authorizeActions from 'store/actions/authorizeActions';
 import * as chatActions from 'store/actions/chatActions';
+import * as userActions from 'store/actions/userActions';
 import { userSelector } from 'store/reducers/users/userSelector';
 
 import { homeHeaderStyles } from './homeHeaderStyles';
@@ -89,7 +91,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
        */
       isSearchPage: false,
       /**
-       * The location of previous page before redirecting to the 
+       * The location of previous page before redirecting to the
        */
       previousLocation: '/'
     }
@@ -251,7 +253,7 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
 
   // Render app DOM component
   render() {
-    const { classes, t, theme, recentChatOpen } = this.props
+    const { classes, t, theme, recentChatOpen, myProfileAccountOpen } = this.props
     const { isSearchPage, previousLocation } = this.state
     const anchor = theme.direction === 'rtl' ? 'right' : 'left'
 
@@ -323,10 +325,15 @@ export class HomeHeaderComponent extends Component<IHomeHeaderComponentProps, IH
             horizontal: 'right'
           }}
           onClose={this.handleCloseAvatarMenu}>
-          <MenuItem style={{ backgroundColor: 'white', color: blue[500], fontSize: '14px' }} > {t!('header.myAccount')} </MenuItem>
+          <MenuItem style={{ backgroundColor: 'white', color: blue[500], fontSize: '14px' }} onClick={this.props.openEditor} > {t!('header.myAccount')} </MenuItem>
           <MenuItem style={{ fontSize: '14px' }} onClick={this.handleLogout.bind(this)} > {t!('header.logout')} </MenuItem>
 
         </Menu>
+        {myProfileAccountOpen ? (<EditProfile
+            avatar={this.props.avatar ? this.props.avatar : ''}
+            banner={this.props.banner ? this.props.banner : ''}
+            fullName={this.props.fullName ? this.props.fullName : ''}
+        />) : ''}
       </div>
     )
 
@@ -398,7 +405,8 @@ const mapDispatchToProps = (dispatch: Function, ownProps: IHomeHeaderComponentPr
     logout: () => dispatch(authorizeActions.dbLogout()),
     openRecentChat: () => dispatch(chatActions.openRecentChat()),
     closeRecentChat: () => dispatch(chatActions.closeRecentChat()),
-    goTo: (url: string) => dispatch(push(url))
+    goTo: (url: string) => dispatch(push(url)),
+    openEditor: () => dispatch(userActions.openEditProfile())
   }
 }
 
@@ -413,12 +421,13 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IHomeHeaderComponent
     : 0
   const user = selectUser(state, { userId: uid }).toJS() as User
   return {
-    
+
     avatar: user.avatar || '',
     fullName: user.fullName || '',
     title: state.getIn(['global', 'headerTitle'], ''),
     recentChatOpen: state.getIn(['chat', 'recentChatOpen'], false),
-    notifyCount
+    notifyCount,
+    myProfileAccountOpen: state.getIn(['user', 'openEditProfile'])
   }
 }
 

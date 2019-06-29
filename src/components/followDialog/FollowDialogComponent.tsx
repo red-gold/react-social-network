@@ -114,11 +114,12 @@ export class FollowDialogComponent extends Component<IFollowDialogProps, IFollow
 
     if (followRequest && followRequest.status === ServerRequestStatusType.Sent) {
       return
-    }
-    if (!isFollowed) {
+    } else if (isFollowed) {
+      this.onRequestOpenAddCircle()
+    } else if (followingCircle!) {
       followUser!(followingCircle!.get('id'), { avatar, userId, fullName })
     } else {
-      this.onRequestOpenAddCircle()
+      followUser!(userId, { avatar, userId, fullName })
     }
   }
 
@@ -141,8 +142,10 @@ export class FollowDialogComponent extends Component<IFollowDialogProps, IFollow
    * Handle request open for add circle box
    */
   onRequestOpenAddCircle = () => {
-    const { openSelectCircles, userId } = this.props
-    openSelectCircles!(userId)
+    const { openSelectCircles, userId, followingCircle } = this.props
+    if (followingCircle!){
+      openSelectCircles!(userId)
+    }
   }
 
   /**
@@ -239,7 +242,7 @@ export class FollowDialogComponent extends Component<IFollowDialogProps, IFollow
 
   /**
    * Reneder component DOM
-   * 
+   *
    */
   render() {
     const { disabledDoneCircles } = this.state
@@ -365,7 +368,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IFollowDialogProps) 
   const isSelecteCirclesOpen = state.getIn(['circle', 'openSelecteCircles', ownProps.userId], [])
   const userBox = userSelector.getUserProfileById(state, { userId: ownProps.userId }).toJS() as User
   return {
-    
+
     isSelecteCirclesOpen,
     isFollowed,
     selectedCircles,

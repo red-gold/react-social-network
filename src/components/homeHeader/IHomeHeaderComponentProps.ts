@@ -70,7 +70,7 @@ export interface IHomeHeaderComponentProps {
    * Window width
    */
   width?: any
-    
+
   /**
    * Theme
    */
@@ -95,4 +95,25 @@ export interface IHomeHeaderComponentProps {
    * Translate to locale string
    */
   t?: (state: any) => any
+
+  /**
+   * Whether edit profile is open
+   */
+  myProfileAccountOpen?: boolean
+
+  /**
+   * Open edit profile dialog
+   *
+   * @memberof IHomeHeaderComponentProps
+   */
+  openEditor?: () => void
+
+  /**
+   * Image cover address
+   *
+   * @type {string}
+   * @memberof IHomeHeaderComponentProps
+   */
+  banner?: string
+
 }

@@ -47,4 +47,20 @@ export interface IImageGalleryComponentProps {
    * Translate to locale string
    */
   t?: (state: any) => any
+
+  /**
+   * File progress state
+   */
+  progress?: Map<string, any>
+
+  /**
+   * Temperory adding images
+   */
+  tempAddImages?: (uid: string, imageIds: Map<string, boolean>) => any
+
+  /**
+   * Temperory adding images to list
+   */
+  tempAddImageToList?: (entities: Map<string, any>) => any,
+  uid?: string
 }
