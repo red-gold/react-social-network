@@ -285,7 +285,7 @@ export class SmsVerificationComponent extends Component<ISmsVerificationComponen
        isVerifyDisabled, loading, isCaptchaSuccess } = this.state
 
     return (
-      <Grid container spacing={24}>
+      <Grid container spacing={2}>
       <Grid item xs={12} className={classes.contain}>
 
         <div className='animate-bottom'>

@@ -20,4 +20,4 @@ export class LoadMoreProgressComponent extends Component<any,{}> {
   }
 }
 
-export default withTheme()(LoadMoreProgressComponent)
+export default withTheme(LoadMoreProgressComponent)

@@ -208,7 +208,6 @@ export class CircleComponent extends Component<ICircleComponentProps, ICircleCom
             button
             key={`${this.props.id}.${userId}`}
             style={this.styles.userListItem as any}
-            value={2}
             onClick={() => this.props.goTo!(`/${userId}`)}
           >
             <UserAvatar fullName={fullName!} fileName={avatar} />

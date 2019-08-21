@@ -183,7 +183,7 @@ export class EmailVerificationComponent extends Component<IEmailVerificationProp
        isVerifyDisabled, loading, isCaptchaSuccess } = this.state
 
     return (
-      <Grid container spacing={24}>
+      <Grid container spacing={2}>
       <Grid item xs={12} className={classes.contain}>
       <div style={{height: 60}}></div>
         <div className='animate-bottom'>

@@ -206,7 +206,7 @@ export class ResetPasswordComponent extends Component<IResetPasswordComponentPro
       isVerifyDisabled, loading, isCaptchaSuccess } = this.state
 
     return (
-      <Grid container spacing={24}>
+      <Grid container spacing={2}>
         <Grid item xs={12} className={classes.contain}>
 
           {/* <h1 className='g__app-name'>{config.settings.appName}</h1> */}

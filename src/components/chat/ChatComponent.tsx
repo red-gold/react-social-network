@@ -476,7 +476,7 @@ export class ChatComponent extends Component<IChatProps, IChatState> {
     )
     return (
       <Grid className={classNames(classes.fullPageXs, classes.root,
-        { [classes.oneColumn]: leftSideClose || rightSideDisabled }, { [classes.rootMinimized]: isMinimized }, { [classes.noDisplay]: !open })} container spacing={24} >
+        { [classes.oneColumn]: leftSideClose || rightSideDisabled }, { [classes.rootMinimized]: isMinimized }, { [classes.noDisplay]: !open })} container spacing={2} >
         <EventListener
           target='window'
           onResize={this.handleResize}

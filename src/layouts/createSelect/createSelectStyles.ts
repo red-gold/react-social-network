@@ -35,7 +35,7 @@ export const createSelectStyles = (theme: any) => ({
         padding: 0,
       },
       '.Select-noresults': {
-        padding: theme.spacing.unit * 2,
+        padding: theme.spacing(2),
       },
       '.Select-input': {
         display: 'inline-flex !important',

@@ -278,7 +278,7 @@ class VideoGalleryComponent extends Component<IVideoGalleryProps, IVideoGalleryS
           {preview}
         </Zoom>
         <div className={classNames(classes.previewActions, { [classes.noDisplay]: !isPreview })} >
-            <Button variant={'raised'} disabled={isSaveDisabled} color={'primary'} onClick={this.handleUploadVideo}> {t!('videGallery.saveButton')} </Button>
+            <Button disabled={isSaveDisabled} color={'primary'} onClick={this.handleUploadVideo}> {t!('videGallery.saveButton')} </Button>
             <Button onClick={this.togglePreview} > {t!('videGallery.backButton')} </Button>
           </div>
       </div>

@@ -161,7 +161,7 @@ export class NewPasswordComponent extends Component<INewPasswordComponentProps,I
       </div>
     )
     return (
-      <Grid container spacing={24}>
+      <Grid container spacing={2}>
         <Grid item xs={12} className={classes.contain}>
 
         {/* <h1 className='g__app-name'>{config.settings.appName}</h1> */}

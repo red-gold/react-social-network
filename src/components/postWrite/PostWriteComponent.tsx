@@ -751,7 +751,7 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
           onClose={this.handleCloseVideoGallery}
 
         >
-          <DialogActions classes={{ action: classes.galleryAction }} className={classes.galleryActions}>
+          <DialogActions className={classes.galleryActions}>
             <Typography variant={'h6'} component={'div'} className={classes.galleryDialogTitle}>
               <VideoGalleryIcon style={{ color: 'rgb(230, 35, 35)', margin: '0 10px', width: 24, height: 24 }} />
               {t!('post.videoGalleryLabel')}

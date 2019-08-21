@@ -127,7 +127,7 @@ export class RecentChatComponent extends Component<IRecentChatProps, IRecentChat
           indicatorColor='primary'
           textColor='primary'
           centered={true}
-          fullWidth
+          variant='fullWidth'
           classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
           onChange={this.handleChangeTab}
         >

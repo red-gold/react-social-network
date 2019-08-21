@@ -4,7 +4,7 @@ export const homeStyles = (theme: any) => ({
   root: {
     width: '100%',
     height: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     zIndex: 1,
     overflow: 'hidden',
   },
@@ -52,7 +52,7 @@ drawerPaperLarge: {
     width: '100%',
     flexGrow: 1,
     paddingTop: 15,
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

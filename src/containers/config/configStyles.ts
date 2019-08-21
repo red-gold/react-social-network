@@ -36,7 +36,7 @@ export const configStyles = (theme: any) => ({
   content: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
   },
   appBarTitle: {
     fontSize: 'x-large',

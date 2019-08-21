@@ -117,7 +117,7 @@ export class ExternalSocialComponent extends Component<IExternalSocialProps, IEx
           onFailure={this.responseInstagram}
         >
         
-          <Button component='span' color={'primary'} variant={'raised'}> 
+          <Button component='span' color={'primary'} > 
           {t!('externalSocial.instagramLoginButton')} 
           <InstagramIcon  className={classes.instagramIcon} viewBox='0 0 520 520'  />
           </Button>

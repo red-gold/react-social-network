@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
 import GridList from '@material-ui/core/GridList';
+import Fab from '@material-ui/core/Fab';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
@@ -507,10 +508,10 @@ export class AlbumDialogComponent extends Component<IAlbumDialogProps, IAlbumDia
               this.gridTile()
             }
             <div className={classes.information}>
-              <Button variant='extendedFab' aria-label='open-permission' onClick={this.handleTogglePermission} className={classes.button}>
+              <Fab onClick={this.handleTogglePermission} className={classes.button}>
                 <LockIcon />
                 {this.getPermissionLabel()}
-              </Button>
+              </Fab>
               <div style={{ height: 40 }}></div>
 
               <TextField

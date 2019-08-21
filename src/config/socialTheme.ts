@@ -4,7 +4,6 @@ import { ThemeOptions } from '@material-ui/core/styles/createMuiTheme';
 
 export const socialTheme: ThemeOptions = {
 	typography: {
-		useNextVariants: true,
 	  },
 	palette: {
 		primary: deepOrange,

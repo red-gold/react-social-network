@@ -26,7 +26,7 @@ export const aboutDialogStyles = (theme: any) => ({
     display: 'flex',
     alignItems: 'center',
     height: 50,
-    paddingLeft: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing(8),
     marginBottom: 20,
     backgroundColor: theme.palette.background.default,
   },

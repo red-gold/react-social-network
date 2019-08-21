@@ -23,7 +23,7 @@ export const profileAlbumStyles = (theme: any) => ({
     textTransform: 'initial',
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
-    marginRight: theme.spacing.unit * 4,
+    marginRight: theme.spacing(4),
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',

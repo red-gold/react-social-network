@@ -94,7 +94,7 @@ export class TimelineComponent extends Component<ITimelineComponentProps, ITimel
                         {data.map(item => {
                             return (
                                 <TableRow className={classes.row} key={item.id}>
-                                     <TableCell className={classes.cell} numeric>{item.isActive ? <DoneIcon className={classes.doneIcon}/> : null}</TableCell>
+                                     <TableCell className={classes.cell} align="right">{item.isActive ? <DoneIcon className={classes.doneIcon}/> : null}</TableCell>
                                     <TableCell className={classNames(classes.cell, { [classes.notactiveColor]: !item.isActive }, { [classes.activeColor]: item.isActive })}>{item.rep}</TableCell>
                                     <TableCell className={classNames(classes.cell, { [classes.notactiveColor]: !item.isActive }, { [classes.activeColor]: item.isActive })}>{item.status}</TableCell>
                                     <TableCell className={classNames(classes.cell, { [classes.notactiveColor]: !item.isActive }, { [classes.activeColor]: item.isActive })}>{item.info}</TableCell>

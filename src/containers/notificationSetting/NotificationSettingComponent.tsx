@@ -96,7 +96,7 @@ export class NotificationSettingComponent extends Component<INotificationSetting
     const {checked} = this.state
 
     return (
-      <Grid container spacing={24} className={classes.notification}>
+      <Grid container spacing={2} className={classes.notification}>
         <Grid item sm={12} xs={12} md={3} lg={4} xl={4} className={classes.headerCaption}>
           <Typography variant='h6' > {t!('config.notificationLabel')} </Typography>
 

@@ -14,7 +14,7 @@ export const recentChatStyles = (theme: any) => ({
     textTransform: 'initial',
     minWidth: 72,
     fontWeight: theme.typography.fontWeightRegular,
-    marginRight: theme.spacing.unit * 4,
+    marginRight: theme.spacing(4),
     fontFamily: [
       '-apple-system',
       'BlinkMacSystemFont',
@@ -41,7 +41,7 @@ export const recentChatStyles = (theme: any) => ({
   },
   tabSelected: {},
   typography: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
   },
   list: {
     maxHeight: 380,
