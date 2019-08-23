@@ -39,6 +39,7 @@ export class Circle extends BaseDomain {
    */
   public isSystem?: boolean
 
+  // eslint-disable-next-line 
   constructor() {
     super()
   }

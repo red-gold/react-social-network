@@ -53,5 +53,5 @@ export class CompanyComponent extends Component<ICompanyProps, ICompanyState> {
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(CompanyComponent as any)
-export default withRouter<any>(connectCompany(withStyles(companyStyles as any)(translateWrraper as any) as any))
+const translateWrapper = withTranslation('translations')(CompanyComponent as any)
+export default withRouter<any, any>(connectCompany(withStyles(companyStyles as any)(translateWrapper as any) as any))

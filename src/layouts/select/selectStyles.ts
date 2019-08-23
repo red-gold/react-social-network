@@ -6,7 +6,7 @@ export const selectStyles = (theme: any) => ({
       height: 250,
     },
     chip: {
-      margin: theme.spacing.unit / 4,
+      margin: theme.spacing(1) / 4,
     },
     // We had to use a lot of global selectors in order to style react-select.
     // We are waiting on https://github.com/JedWatson/react-select/issues/1679
@@ -74,7 +74,7 @@ export const selectStyles = (theme: any) => ({
         boxShadow: theme.shadows[2],
         position: 'absolute',
         left: 0,
-        top: `calc(100% + ${theme.spacing.unit}px)`,
+        top: `calc(100% + ${theme.spacing(1)}px)`,
         width: '100%',
         zIndex: 2,
         maxHeight: ITEM_HEIGHT * 4.5,

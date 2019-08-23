@@ -79,6 +79,6 @@ const mapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(LoginWrapperComponent as any)
-const styleWrapper = withStyles(loginWrapperStyles as any, { withTheme: true })(translateWrraper as any)
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(styleWrapper as any))
+const translateWrapper = withTranslation('translations')(LoginWrapperComponent as any)
+const styleWrapper = withStyles(loginWrapperStyles as any, { withTheme: true })(translateWrapper as any)
+export default withRouter<any, any>(connect(mapStateToProps, mapDispatchToProps)(styleWrapper as any))

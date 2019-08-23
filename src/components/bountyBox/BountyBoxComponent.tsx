@@ -91,6 +91,6 @@ const mapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(BountyBoxComponent as any)
+const translateWrapper = withTranslation('translations')(BountyBoxComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(bountyBoxStyles as any) (translateWrraper as any))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(bountyBoxStyles as any) (translateWrapper as any))

@@ -17,6 +17,7 @@ import { masterLoadingStyles } from './masterLoadingStyles';
 export class MasterLoadingComponent extends Component<IMasterLoadingComponentProps, IMasterLoadingComponentState> {
 
   // Constructor
+  // eslint-disable-next-line 
   constructor(props: IMasterLoadingComponentProps) {
     super(props)
     // Binding functions to `this`
@@ -116,7 +117,7 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IMasterLoadingCompon
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(MasterLoadingComponent as any)
+const translateWrapper = withTranslation('translations')(MasterLoadingComponent as any)
 
-const stylesWrappedComponent = withStyles(masterLoadingStyles, {withTheme: true})(translateWrraper as any) as any
+const stylesWrappedComponent = withStyles(masterLoadingStyles, {withTheme: true})(translateWrapper as any) as any
 export default connect(mapStateToProps, mapDispatchToProps)(stylesWrappedComponent)

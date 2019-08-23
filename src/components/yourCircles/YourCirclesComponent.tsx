@@ -101,6 +101,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IYourCirclesComponen
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(YourCirclesComponent as any)
+const translateWrapper = withTranslation('translations')(YourCirclesComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(translateWrraper as any)
+export default connect(mapStateToProps, mapDispatchToProps)(translateWrapper as any)

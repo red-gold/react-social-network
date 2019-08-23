@@ -158,6 +158,6 @@ const mapStateToProps = (state: any, ownProps: IImgCoverComponentProps) => {
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(ImgCoverComponent as any)
+const translateWrapper = withTranslation('translations')(ImgCoverComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(translateWrraper)
+export default connect(mapStateToProps, mapDispatchToProps)(translateWrapper)

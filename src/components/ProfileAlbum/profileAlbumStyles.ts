@@ -55,7 +55,7 @@ export const profileAlbumStyles = (theme: any) => ({
 
   },
   header: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     display: 'flex',
     justifyContent: 'flex-end'
   },

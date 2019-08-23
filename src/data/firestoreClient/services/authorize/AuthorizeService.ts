@@ -22,6 +22,7 @@ import { AuthKeywordsEnum } from 'src/models/authorize/authKeywordsEnum';
 export class AuthorizeService implements IAuthorizeService {
   
   @inject(SocialProviderTypes.Httpervice) private _httpService: IHttpService
+  // eslint-disable-next-line 
   constructor(
   ) {
   }

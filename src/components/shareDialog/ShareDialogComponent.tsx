@@ -200,6 +200,6 @@ const mapStateToProps = (state: any, ownProps: IShareDialogComponentProps) => {
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(ShareDialogComponent as any)
+const translateWrapper = withTranslation('translations')(ShareDialogComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrapper as any) as any)

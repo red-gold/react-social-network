@@ -44,7 +44,7 @@ const styles = (theme: any) => ({
 
   },
   wrapper: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     position: 'relative',
   },
   buttonProgress: {
@@ -408,6 +408,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISmsVerificationComp
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(SmsVerificationComponent as any)
+const translateWrapper = withTranslation('translations')(SmsVerificationComponent as any)
 
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any))
+export default withRouter<any, any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrapper as any) as any))

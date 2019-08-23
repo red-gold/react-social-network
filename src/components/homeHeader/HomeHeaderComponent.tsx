@@ -432,7 +432,8 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IHomeHeaderComponent
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(HomeHeaderComponent as any)
-const withStylesComponent = withStyles(homeHeaderStyles, { withTheme: true })(translateWrraper)
+const translateWrapper = withTranslation('translations')(HomeHeaderComponent as any)
+const withStylesComponent = withStyles(homeHeaderStyles, { withTheme: true })(translateWrapper)
 const connectedComponent = connect(mapStateToProps, mapDispatchToProps)(withStylesComponent)
-export default withRouter<any>(withWidth()(connectedComponent) as any)
+const routerWrapper = withRouter<any, any>(withWidth()(connectedComponent) as any) as any
+export default routerWrapper as typeof HomeHeaderComponent

@@ -87,6 +87,6 @@ const mapStateToProps = () => {
   }
 }
 
-const translateWrraper = withTranslation('translations')(FooterComponent as any)
+const translateWrapper = withTranslation('translations')(FooterComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(footerStyles as any)(translateWrraper as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(footerStyles as any)(translateWrapper as any) as any)

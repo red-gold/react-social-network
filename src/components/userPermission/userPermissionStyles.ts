@@ -19,7 +19,7 @@ export const userPermissionStyles = (theme: any) => ({
         margin: theme.spacing(3),
       },
       group: {
-        margin: `${theme.spacing.unit}px 0`,
+        margin: `${theme.spacing(1)}px 0`,
       },
       dialogContent: {
         padding: 0

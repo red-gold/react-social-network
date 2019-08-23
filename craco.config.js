@@ -1,5 +1,5 @@
 const path = require("path");
-const logWebpackConfigPlugin = require('./craco-plugin-log-webpack-config')
+const logWebpackConfigPlugin = require('./hack/craco-plugin-log-webpack-config')
 module.exports = function (args) {
   return {
     eslint: {

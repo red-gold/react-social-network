@@ -492,6 +492,6 @@ rightIconMenu = () => {
   }
 }
 
-const translateWrraper = withTranslation('translations')(PostComponent as any)
+const translateWrapper = withTranslation('translations')(PostComponent as any)
 
-export default connectPost(withStyles(postStyles as any)(translateWrraper as any) as any)
+export default connectPost(withStyles(postStyles as any)(translateWrapper as any) as any)

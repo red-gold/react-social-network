@@ -131,6 +131,6 @@ const mapStateToProps = (state: any, ownProps: IEmailVerificationComponentProps)
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(EmailVerificationComponent as any)
+const translateWrapper = withTranslation('translations')(EmailVerificationComponent as any)
 
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any) as any))
+export default withRouter<any, any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles as any)(translateWrapper as any) as any))

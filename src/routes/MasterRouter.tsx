@@ -117,4 +117,4 @@ export class MasterRouter extends Component<IRouterProps, any> {
     )
   }
 }
-export default withRouter<any>(connect(null, null)(MasterRouter as any))
+export default withRouter<any, any>(connect(null, null)(MasterRouter as any))

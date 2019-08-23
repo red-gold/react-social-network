@@ -128,7 +128,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
                   <ListItemIcon>
                     {item.icon!}
                   </ListItemIcon>
-                  <ListItemText key={`home-menu-${index}`} inset primary={item.label} />
+                  <ListItemText key={`home-menu-${index}`} primary={item.label} />
                 </MenuItem>
               </NavLink>)
             } else if (item.onClick) {
@@ -137,7 +137,7 @@ export class HomeComponent extends Component<IHomeComponentProps, IHomeComponent
                   <ListItemIcon>
                     {item.icon!}
                   </ListItemIcon>
-                  <ListItemText inset primary={item.label} />
+                  <ListItemText primary={item.label} />
                 </MenuItem>
               )
             } else {
@@ -270,6 +270,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IHomeComponentProps)
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(HomeComponent as any)
+const translateWrapper = withTranslation('translations')(HomeComponent as any)
 
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyles as any, { withTheme: true })(translateWrraper as any) as any))
+export default withRouter<any, any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(homeStyles as any, { withTheme: true })(translateWrapper as any) as any))

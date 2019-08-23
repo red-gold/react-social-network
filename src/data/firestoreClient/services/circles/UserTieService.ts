@@ -17,8 +17,10 @@ import { IGraphService } from '../graphs/IGraphService';
 export class UserTieService implements IUserTieService {
 
   @inject(FirestoreClientTypes.GraphService) private _graphService: IGraphService
+  // eslint-disable-next-line 
   constructor(
   ) {
+
   }
 
   /**

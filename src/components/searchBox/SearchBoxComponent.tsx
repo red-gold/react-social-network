@@ -204,6 +204,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISearchBoxProps) => 
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(SearchBoxComponent as any)
+const translateWrapper = withTranslation('translations')(SearchBoxComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(searchBoxStyles as any, { withTheme: true })(translateWrraper as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(searchBoxStyles as any, { withTheme: true })(translateWrapper as any) as any)

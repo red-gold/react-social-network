@@ -54,7 +54,7 @@ export const postImageUploadStyles = (theme: any) => ({
       marginLeft: -12,
     },
     wrapper: {
-      margin: theme.spacing.unit,
+      margin: theme.spacing(1),
       position: 'relative',
     }
   })

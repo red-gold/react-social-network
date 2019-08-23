@@ -104,6 +104,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(ChatBodyComponent as any)
+const translateWrapper = withTranslation('translations')(ChatBodyComponent as any)
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(chatBodyStyles as any)(translateWrraper as any) as any)
+export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(chatBodyStyles as any)(translateWrapper as any) as any)

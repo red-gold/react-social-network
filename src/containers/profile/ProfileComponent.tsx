@@ -137,6 +137,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IProfileComponentPro
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(ProfileComponent as any)
+const translateWrapper = withTranslation('translations')(ProfileComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(profileStyles as any)(translateWrraper as any))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(profileStyles as any)(translateWrapper as any))

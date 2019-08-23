@@ -89,6 +89,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(SignupWrapperComponent as any)
+const translateWrapper = withTranslation('translations')(SignupWrapperComponent as any)
 
-export default withRouter<any>(connect(makeMapStateToProps, mapDispatchToProps)(withStyles(signupWrapperStyles as any, { withTheme: true })(translateWrraper as any) as any))
+export default withRouter<any, any>(connect(makeMapStateToProps, mapDispatchToProps)(withStyles(signupWrapperStyles as any, { withTheme: true })(translateWrapper as any) as any))

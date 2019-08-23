@@ -314,6 +314,6 @@ const mapStateToProps = (state: Map<string, any>) => {
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(VideoGalleryComponent as any)
+const translateWrapper = withTranslation('translations')(VideoGalleryComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(videoGalleryStyles as any)(translateWrraper as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(videoGalleryStyles as any)(translateWrapper as any) as any)

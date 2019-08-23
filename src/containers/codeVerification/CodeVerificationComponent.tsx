@@ -168,6 +168,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ICodeVerificationPro
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(CodeVerificationComponent as any)
+const translateWrapper = withTranslation('translations')(CodeVerificationComponent as any)
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(codeVerificationStyles as any)(translateWrraper as any) as any) as any)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(codeVerificationStyles as any)(translateWrapper as any) as any) as any)

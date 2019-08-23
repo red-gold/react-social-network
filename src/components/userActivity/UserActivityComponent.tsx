@@ -380,14 +380,14 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
                     </div>
 
                     <div className={classes.card} style={boxesStyle ? boxesStyle[3] : {}}>
-                        <Paper className={classes.paperContainer}>
+                        <Paper className={classNames(classes.paperContainer, classes.disableComponent)} >
                             <Typography variant='h6'
                                 className={classes.title}>
                                 {t!('userActivity.privilegesTitle')}
                             </Typography>
                             <div className={classes.content}>
                                 <Typography variant='caption'>
-                                    {t!('userActivity.currentPrivilegeCaption')} : {t!('privilege.normal')}
+                                    {/* {t!('userActivity.currentPrivilegeCaption')} : {t!('privilege.normal')} */}
                                 </Typography>
                                 <Typography
                                     variant='caption'>
@@ -397,7 +397,8 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
                                     value={20}
                                     percent={'20%'}
                                     title={t!('userActivity.goal', { rep: 100 })}
-                                    guideline={t!('privilege.approvedUser')}
+                                    // guideline={t!('privilege.approvedUser')}
+                                    guideline={t!(' ')}
                                 />
                             </div>
 
@@ -407,7 +408,7 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
                     </div>
 
                     <div className={classes.card} style={boxesStyle ? boxesStyle[4] : {}}>
-                        <Paper className={classes.paperContainer}>
+                        <Paper className={classNames(classes.paperContainer, classes.disableComponent)}>
                             <Typography variant='h6'
                                 className={classes.title}>
                                 {t!('userActivity.bountiesTitle')}
@@ -421,7 +422,8 @@ export class UserActivityComponent extends Component<IUserActivityComponentProps
                                     value={20}
                                     percent={'10/50'}
                                     title={t!('userActivity.bountyCommingSoon')}
-                                    guideline={t!('userActivity.bountyFrom', { company: config.settings.companyName })}
+                                    // guideline={t!('userActivity.bountyFrom', { company: config.settings.companyName })}
+                                    guideline={t!(' ', { company: config.settings.companyName })}
                                 />
                             </div>
                         </Paper>
@@ -464,6 +466,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IUserActivityCompone
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(UserActivityComponent as any)
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(userActivityStyles as any)(translateWrraper as any) as any)
+const translateWrapper = withTranslation('translations')(UserActivityComponent as any)
+const connectWrapper = connect(mapStateToProps, mapDispatchToProps)(withStyles(userActivityStyles as any)(translateWrapper as any) as any) as any
+export default connectWrapper as typeof UserActivityComponent

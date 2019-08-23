@@ -186,6 +186,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IBountiesDialogCompo
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(BountiesDialogComponent as any)
-
-export default withRouter<any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(bountiesDialogStyles as any)(translateWrraper as any))) as typeof BountiesDialogComponent
+const translateWrapper = withTranslation('translations')(BountiesDialogComponent as any)
+const routerWrapper = withRouter<any, any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(bountiesDialogStyles as any)(translateWrapper as any))) as any
+export default routerWrapper as typeof BountiesDialogComponent

@@ -183,6 +183,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IProfileHeaderCompon
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(ProfileHeaderComponent as any)
+const translateWrapper = withTranslation('translations')(ProfileHeaderComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(translateWrraper as any)
+export default connect(mapStateToProps, mapDispatchToProps)(translateWrapper as any)

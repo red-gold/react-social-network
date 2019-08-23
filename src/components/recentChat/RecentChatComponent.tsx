@@ -175,6 +175,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IRecentChatProps) =>
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(RecentChatComponent as any)
+const translateWrapper = withTranslation('translations')(RecentChatComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(recentChatStyles as any)(translateWrraper as any))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(recentChatStyles as any)(translateWrapper as any))

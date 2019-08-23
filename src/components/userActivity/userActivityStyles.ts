@@ -123,5 +123,9 @@ export const userActivityStyles = (theme: any) => ({
     twitterIconRoot: {
         width: 35,
         height: 35
+    },
+    disableComponent: {
+        opacity:'0.2',  
+        'pointer-events': 'none'
     }
 })

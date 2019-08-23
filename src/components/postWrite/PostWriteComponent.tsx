@@ -776,6 +776,6 @@ export class PostWriteComponent extends Component<IPostWriteComponentProps, IPos
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(PostWriteComponent as any)
+const translateWrapper = withTranslation('translations')(PostWriteComponent as any)
 
-export default connectPostWrite(withStyles(postWriteStyles)(translateWrraper as any) as any)
+export default connectPostWrite(withStyles(postWriteStyles)(translateWrapper as any) as any)

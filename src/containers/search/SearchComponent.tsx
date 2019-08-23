@@ -170,6 +170,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: ISearchProps) => {
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(SearchComponent as any)
+const translateWrapper = withTranslation('translations')(SearchComponent as any)
 
-export default withRouter<any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(searchStyles)(translateWrraper as any)))
+export default withRouter<any, any>(connect(mapStateToProps, mapDispatchToProps)(withStyles(searchStyles)(translateWrapper as any)))

@@ -169,6 +169,6 @@ const makeMapStateToProps = () => {
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(UserPermissionComponent as any)
+const translateWrapper = withTranslation('translations')(UserPermissionComponent as any)
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(userPermissionStyles as any)(translateWrraper as any) as any)
+export default connect(makeMapStateToProps, mapDispatchToProps)(withStyles(userPermissionStyles as any)(translateWrapper as any) as any)

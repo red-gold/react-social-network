@@ -53,6 +53,6 @@ export class HelpComponent extends Component<IFunProps, IFunState> {
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(HelpComponent as any)
+const translateWrapper = withTranslation('translations')(HelpComponent as any)
 
-export default withRouter<any>(connectFun(withStyles(funStyles as any)(translateWrraper as any) as any))
+export default withRouter<any, any>(connectFun(withStyles(funStyles as any)(translateWrapper as any) as any))

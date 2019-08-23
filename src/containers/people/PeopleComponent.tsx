@@ -189,6 +189,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IPeopleComponentProp
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(PeopleComponent as any)
+const translateWrapper = withTranslation('translations')(PeopleComponent as any)
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(translateWrraper as any) as any)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(translateWrapper as any) as any)

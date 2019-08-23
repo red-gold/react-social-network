@@ -252,6 +252,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IChatRoomSettingProp
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(ChatRoomSettingComponent as any)
+const translateWrapper = withTranslation('translations')(ChatRoomSettingComponent as any)
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(chatRoomSettingStyles as any)(translateWrraper as any) as any)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(chatRoomSettingStyles as any)(translateWrapper as any) as any)

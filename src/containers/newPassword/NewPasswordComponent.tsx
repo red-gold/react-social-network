@@ -237,6 +237,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: INewPasswordComponen
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(NewPasswordComponent as any)
+const translateWrapper = withTranslation('translations')(NewPasswordComponent as any)
 
-export default withRouter<any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(styles as any)(translateWrraper as any))) 
+export default withRouter<any, any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(styles as any)(translateWrapper as any))) 

@@ -247,6 +247,6 @@ const mapStateToProps = (state: Map<string, any>, ownProps: IAlbumStreamProps) =
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(AlbumStreamComponent as any)
+const translateWrapper = withTranslation('translations')(AlbumStreamComponent as any)
 
-export default withRouter<any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(albumStreamStyles as any)(translateWrraper as any)))
+export default withRouter<any, any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(albumStreamStyles as any)(translateWrapper as any)))

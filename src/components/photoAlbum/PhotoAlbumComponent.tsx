@@ -87,6 +87,6 @@ export class PhotoAlbumComponent extends Component<IPhotoAlbumProps, IPhotoAlbum
 }
 
 // - Connect component to redux store
-const translateWrraper = withTranslation('translations')(PhotoAlbumComponent as any)
+const translateWrapper = withTranslation('translations')(PhotoAlbumComponent as any)
 
-export default withRouter(connectPhotoAlbum(withStyles(photoAlbumStyles as any)(translateWrraper) as any) as any)
+export default withRouter(connectPhotoAlbum(withStyles(photoAlbumStyles as any)(translateWrapper) as any) as any)

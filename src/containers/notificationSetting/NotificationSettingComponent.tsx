@@ -165,5 +165,5 @@ const mapStateToProps = (state: Map<string, any>, ownProps: INotificationSetting
 }
 
 // - Connect component to redux storea
-const translateWrraper = withTranslation('translations')(NotificationSettingComponent as any)
-export default withRouter<any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(notificationSettingStyles as any)(translateWrraper as any)))
+const translateWrapper = withTranslation('translations')(NotificationSettingComponent as any)
+export default withRouter<any, any>(connect<any>(mapStateToProps as any, mapDispatchToProps)(withStyles(notificationSettingStyles as any)(translateWrapper as any)))
