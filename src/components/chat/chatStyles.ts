@@ -232,5 +232,8 @@ export const chatStyles = (theme: any) => ({
         maxHeight: 310,
         overflowY: 'auto'
     
+    },
+    userAvatar: {
+        marginRight: 10
     }
 })

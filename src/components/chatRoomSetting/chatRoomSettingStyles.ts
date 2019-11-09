@@ -37,8 +37,8 @@ export const chatRoomSettingStyles = (theme: any) => ({
   },
   backIcon: {
     color: 'white',
-    width: 30,
-    height: 30
+    // width: 30,
+    // height: 30
   },
   settingItem: {
     padding: 10

@@ -117,7 +117,7 @@ export class UserTieService implements IUserTieService {
       result.forEach((node) => {
         const rightUserInfo: UserTie = node.rightMetadata
         const metadata: { creationDate: number, circleIds: string[] } = node.graphMetadata
-        parsedData.set(rightUserInfo.userId!,
+        parsedData = parsedData.set(rightUserInfo.userId!,
           Map({
             ...rightUserInfo,
             circleIdList: metadata ? List(Object.keys(metadata.circleIds)) : List([])
@@ -148,7 +148,7 @@ export class UserTieService implements IUserTieService {
 
       result.forEach((node) => {
         const leftUserInfo: UserTie = node.LeftMetadata
-        parsedData.set(leftUserInfo.userId!,
+        parsedData = parsedData.set(leftUserInfo.userId!,
           Map({
             ...leftUserInfo,
             circleIdList: List([])

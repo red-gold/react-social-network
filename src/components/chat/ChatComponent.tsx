@@ -288,7 +288,7 @@ export class ChatComponent extends Component<IChatProps, IChatState> {
         parsedDOM.push(
           <ListItem onClick={() => this.setCurrentChat(followerId)} key={`chat-component-contact-user-${followerId}`} button
             className={classNames(classes.userItem, { [classes.activeUserItem]: receiverUser!.userId === followerId })}>
-            <UserAvatar fullName={follower!.get('fullName', '')} size={30} fileName={follower!.get('avatar', '')} />
+            <UserAvatar className={classes.userAvatar} fullName={follower!.get('fullName', '')} size={30} fileName={follower!.get('avatar', '')} />
             <ListItemText classes={{ primary: classes.primaryText, secondary: classes.secondaryText }} primary={follower!.get('fullName', '')} secondary={''} />
           </ListItem>
 
@@ -373,7 +373,7 @@ export class ChatComponent extends Component<IChatProps, IChatState> {
       <Grid item sm={6} md={6} lg={6} xl={6}
         className={classNames(classes.leftSideChatRoot, { [classes.noDisplay]: leftSideClose })}>
         <ListItem classes={{container: classes.currentUserItem}} className={classNames(classes.userItem)}>
-            <UserAvatar fullName={currentUser!.fullName} size={30} fileName={currentUser!.avatar} />
+            <UserAvatar className={classes.userAvatar} fullName={currentUser!.fullName} size={30} fileName={currentUser!.avatar} />
             <ListItemText classes={{ primary: classes.primaryText, secondary: classes.secondaryText }} primary={currentUser!.fullName} secondary={currentUser!.tagLine} />
             <ListItemSecondaryAction>
               <IconButton
@@ -536,7 +536,7 @@ const makeMapStateToProps = () => {
   const selectCurrentUser = authorizeSelector.selectCurrentUser()
   const mapStateToProps = (state: Map<string, any>, ownProps: IChatProps) => {
     const receiverUser: User = selectCurrentReceiver(state, {}).toJS() as User
-    const followers = state.getIn(['circle', 'userTieds'], Map({}))
+    const followers = state.getIn(['user', 'entities'], Map({}))
     return {
       
       receiverUser,
