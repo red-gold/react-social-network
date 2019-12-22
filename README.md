@@ -1,13 +1,7 @@
 <!-- Logo -->
-<p align="center">
-  <a href="https://github.com/red-gold/react-social-network">
-    <img height="128" width="128" src="https://raw.githubusercontent.com/red-gold/react-social-network/next/docs/app/logo.png">
-  </a>
-</p>
-<!-- Name -->
-<h1 align="center">
-  <a href="https://github.com/red-gold/react-social-network">React Social Network </a>:rocket:<span style="font-variant-caps: petite-caps;font-size: 30px;font-weight: 400;"> Version NEXT! </span>:rocket:
-</h1>
+
+## ⚠️ We no longer develop this project. Follow new version in [Telar Scoail](https://telar.press).
+
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e87fdd68894b4e66b8db7108b3571cf6)](https://app.codacy.com/app/red-gold/react-social-network?utm_source=github.com&utm_medium=referral&utm_content=red-gold/react-social-network&utm_campaign=Badge_Grade_Dashboard)
 [![Gitter](https://badges.gitter.im/react-social-network/Lobby.svg)](https://gitter.im/react-social-network/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
