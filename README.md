@@ -1,6 +1,6 @@
 <!-- Logo -->
 
-## ⚠️ We no longer develop this project. Follow new version in [Telar Scoail](https://telar.press).
+## ⚠️ We no longer develop this repository. Follow new version in [Telar Press](https://telar.press).
 
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e87fdd68894b4e66b8db7108b3571cf6)](https://app.codacy.com/app/red-gold/react-social-network?utm_source=github.com&utm_medium=referral&utm_content=red-gold/react-social-network&utm_campaign=Badge_Grade_Dashboard)
