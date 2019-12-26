@@ -1,8 +1,12 @@
 <!-- Logo -->
 
-## ⚠️ We no longer develop this repository. Follow new version in [Telar Press](https://telar.press).
-
-
+# ⚠️ We no longer develop this repository. Follow new version in [Telar Social](https://telar.press). Telar Social Network composed by:
+ - [Telar Social User Interface](https://github.com/red-gold/ts-ui) using ReactJS.
+ - **Telar Social running on Kubernetes** (public cloud, private cloud or on-premise)
+    - [Telar Web](https://github.com/red-gold/telar-web) designed for handling authentication, notifications, realtime actions, file storage and admin services. 
+    - [Telar Social Serverless](ttps://github.com/red-gold/ts-serverless) handling posts, comments, votes, social community and media services.
+## [Easy steps to install your own Telar Social Media on Cloud](https://medium.com/red-gold/easy-steps-from-openfaas-to-your-own-telar-social-media-on-cloud-b0608a03d92b) in free tier.
+<hr/>
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e87fdd68894b4e66b8db7108b3571cf6)](https://app.codacy.com/app/red-gold/react-social-network?utm_source=github.com&utm_medium=referral&utm_content=red-gold/react-social-network&utm_campaign=Badge_Grade_Dashboard)
 [![Gitter](https://badges.gitter.im/react-social-network/Lobby.svg)](https://gitter.im/react-social-network/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 <br/>
