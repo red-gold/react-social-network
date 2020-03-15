@@ -21,6 +21,13 @@ The structure of this project give the ability to developer to develop their pro
   </a>
 </p>
 
+
+## Support with buying a coffee ☕️☕️☕️
+Our top backers [Become a backer](https://www.patreon.com/qolzam)
+
+## Sponsors 🥉🥈🥇
+Our top sponsors [Become a sponsor](https://www.patreon.com/qolzam)
+
 ## 🌟New Upgrade :
 React Social Network is [moving on](https://github.com/red-gold/react-social-network/issues/48) [redux-saga](https://redux-saga.js.org/) however we keep [redux-thunk](https://github.com/gaearon/redux-thunk) version of **React Social Network** in branch name `v0.5`. Any contribution would be greatly appreciated by :heart:.
  
