@@ -1,6 +1,6 @@
 <!-- Logo -->
 
-# ⚠️ We no longer develop this repository. Follow new version in [Telar Social](https://telar.press). Telar Social Network composed by:
+# ⚠️ We no longer develop this repository. Follow new version in [Telar Social](https://telar.dev). Telar Social Network composed by:
  - [Telar Social User Interface](https://github.com/red-gold/ts-ui) using ReactJS.
  - **Telar Social running on Kubernetes** (public cloud, private cloud or on-premise)
     - [Telar Web](https://github.com/red-gold/telar-web) designed for handling authentication, notifications, realtime actions, file storage and admin services. 
