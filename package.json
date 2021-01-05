@@ -31,7 +31,7 @@
     "@types/redux-immutable": "^4.0.0",
     "amazon-cognito-identity-js": "^3.0.4",
     "aws-sdk": "^2.370.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "classnames": "^2.2.6",
     "connected-react-router": "6.3.2",
     "copy-to-clipboard": "^3.0.8",
